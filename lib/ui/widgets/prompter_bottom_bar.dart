@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
+import 'package:tiefprompt/providers/settings_provider.dart';
 
 class PrompterBottomBar extends ConsumerWidget {
   const PrompterBottomBar({
@@ -22,19 +23,36 @@ class PrompterBottomBar extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              icon: const Icon(Icons.remove, color: Colors.white),
+              icon: Icon(Icons.flip, color: ThemeData().colorScheme.onPrimary),
+              onPressed: () =>
+                  ref.read(settingsProvider.notifier).toggleMirroredX(),
+            ),
+            RotatedBox(
+                quarterTurns: 1,
+                child: IconButton(
+                  icon: Icon(Icons.flip,
+                      color: ThemeData().colorScheme.onPrimary),
+                  onPressed: () =>
+                      ref.read(settingsProvider.notifier).toggleMirroredY(),
+                )),
+            VerticalDivider(
+              width: 30,
+            ),
+            IconButton(
+              icon:
+                  Icon(Icons.remove, color: ThemeData().colorScheme.onPrimary),
               onPressed: () =>
                   ref.read(prompterProvider.notifier).decreaseSpeed(0.1),
             ),
             IconButton(
               icon: Icon(
                   prompterState.isPlaying ? Icons.pause : Icons.play_arrow,
-                  color: Colors.white),
+                  color: ThemeData().colorScheme.onPrimary),
               onPressed: () =>
                   ref.read(prompterProvider.notifier).togglePlayPause(),
             ),
             IconButton(
-              icon: const Icon(Icons.add, color: Colors.white),
+              icon: Icon(Icons.add, color: ThemeData().colorScheme.onPrimary),
               onPressed: () =>
                   ref.read(prompterProvider.notifier).increaseSpeed(0.1),
             ),

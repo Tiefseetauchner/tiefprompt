@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'dart:async';
 
+import 'package:tiefprompt/providers/settings_provider.dart';
+
 class ScrollableText extends ConsumerStatefulWidget {
   final String text;
   final TextStyle? style;
@@ -19,10 +21,10 @@ class _ScrollableTextState extends ConsumerState<ScrollableText> {
 
   void _startScrolling(double speed) {
     _scrollTimer?.cancel();
-    _scrollTimer = Timer.periodic(Duration(milliseconds: 50), (timer) {
+    _scrollTimer = Timer.periodic(Duration(milliseconds: 5), (timer) {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(
-          _scrollController.offset + speed,
+          _scrollController.offset + speed / 10,
         );
       }
     });
@@ -38,6 +40,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText> {
       initialScrollOffset: MediaQuery.of(context).size.height / 2,
     );
 
+    final settings = ref.watch(settingsProvider);
     final prompter = ref.watch(prompterProvider);
 
     if (prompter.isPlaying) {
@@ -46,16 +49,23 @@ class _ScrollableTextState extends ConsumerState<ScrollableText> {
       _stopScrolling();
     }
 
-    return SingleChildScrollView(
-      controller: _scrollController,
-      padding: EdgeInsets.fromLTRB(
-        0,
-        MediaQuery.of(context).size.height,
-        0,
-        MediaQuery.of(context).size.height,
-      ),
-      child: Text(widget.text, style: widget.style),
-    );
+    return switch (settings) {
+      AsyncData(:final value) => SingleChildScrollView(
+          controller: _scrollController,
+          padding: EdgeInsets.fromLTRB(
+            0,
+            MediaQuery.of(context).size.height,
+            0,
+            MediaQuery.of(context).size.height,
+          ),
+          child: Transform.flip(
+              flipX: value.mirroredX,
+              flipY: value.mirroredY,
+              child: Text(widget.text, style: widget.style)),
+        ),
+      AsyncError(:final error) => Text(error.toString()),
+      _ => const CircularProgressIndicator(),
+    };
   }
 
   @override
