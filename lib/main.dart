@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'ui/screens/home_screen.dart';
 import 'ui/screens/prompter_screen.dart';
 
@@ -32,6 +33,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/teleprompter',
       builder: (context, state) => const PrompterScreen(),
+    ),
+    GoRoute(
+      path: '/open_file',
+      builder: (context, state) => const OpenFileScreen(),
     ),
   ],
 );

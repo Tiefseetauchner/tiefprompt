@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'dart:async';
@@ -15,31 +16,41 @@ class ScrollableText extends ConsumerStatefulWidget {
   ConsumerState<ScrollableText> createState() => _ScrollableTextState();
 }
 
-class _ScrollableTextState extends ConsumerState<ScrollableText> {
+class _ScrollableTextState extends ConsumerState<ScrollableText>
+    with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
-  Timer? _scrollTimer;
+  Ticker? _ticker;
+  double _scrollSpeed = 0.0;
 
   void _startScrolling(double speed) {
-    _scrollTimer?.cancel();
-    _scrollTimer = Timer.periodic(Duration(milliseconds: 5), (timer) {
+    _stopScrolling();
+    _scrollSpeed = speed; // Adjusted speed factor
+    _ticker?.start();
+  }
+
+  void _stopScrolling() {
+    _ticker?.stop();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _ticker = createTicker((Duration elapsed) {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(
-          _scrollController.offset + speed / 10,
+          (_scrollController.offset + _scrollSpeed).clamp(
+            0.0,
+            _scrollController.position.maxScrollExtent,
+          ),
         );
       }
     });
   }
 
-  void _stopScrolling() {
-    _scrollTimer?.cancel();
-  }
-
   @override
   Widget build(BuildContext context) {
-    _scrollController = ScrollController(
-      initialScrollOffset: MediaQuery.of(context).size.height / 2,
-    );
-
+    final mediaHeight = MediaQuery.of(context).size.height;
     final settings = ref.watch(settingsProvider);
     final prompter = ref.watch(prompterProvider);
 
@@ -50,19 +61,14 @@ class _ScrollableTextState extends ConsumerState<ScrollableText> {
     }
 
     return switch (settings) {
-      AsyncData(:final value) => SingleChildScrollView(
-          controller: _scrollController,
-          padding: EdgeInsets.fromLTRB(
-            0,
-            MediaQuery.of(context).size.height,
-            0,
-            MediaQuery.of(context).size.height,
-          ),
-          child: Transform.flip(
-              flipX: value.mirroredX,
-              flipY: value.mirroredY,
-              child: Text(widget.text, style: widget.style)),
-        ),
+      AsyncData(:final value) => Transform.flip(
+          flipX: value.mirroredX,
+          flipY: value.mirroredY,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            padding: EdgeInsets.symmetric(vertical: mediaHeight),
+            child: Text(widget.text, style: widget.style),
+          )),
       AsyncError(:final error) => Text(error.toString()),
       _ => const CircularProgressIndicator(),
     };
@@ -70,7 +76,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText> {
 
   @override
   void dispose() {
-    _scrollTimer?.cancel();
+    _stopScrolling();
     _scrollController.dispose();
     super.dispose();
   }

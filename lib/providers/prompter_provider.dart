@@ -19,6 +19,10 @@ class Prompter extends _$Prompter {
     return PrompterState();
   }
 
+  void setSpeed(double speed) {
+    state = state.copyWith(speed: speed);
+  }
+
   void increaseSpeed(double amount) {
     state = state.copyWith(speed: state.speed + amount);
   }
