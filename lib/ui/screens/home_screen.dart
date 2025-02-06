@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiefprompt/models/script.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -9,7 +8,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final script = Script();
+    final script = ref.watch(scriptProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Teleprompter')),
@@ -24,14 +23,15 @@ class HomeScreen extends ConsumerWidget {
                   hintText: 'Enter script text',
                 ),
                 maxLines: 5,
-                controller: TextEditingController(text: script.text),
+                controller: TextEditingController(text: script.text)
+                  ..selection =
+                      TextSelection.collapsed(offset: script.text.length),
                 onChanged: (value) {
-                  script.text = value;
+                  ref.read(scriptProvider.notifier).setText(value);
                 }),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                ref.read(scriptProvider.notifier).state = script;
                 context.push('/teleprompter');
               },
               child: const Text('Start Teleprompter'),

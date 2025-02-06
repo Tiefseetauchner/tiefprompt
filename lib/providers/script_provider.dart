@@ -1,4 +1,22 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiefprompt/models/script.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final scriptProvider = StateProvider<Script?>((ref) => null);
+part 'script_provider.freezed.dart';
+part 'script_provider.g.dart';
+
+@freezed
+class ScriptState with _$ScriptState {
+  factory ScriptState({
+    required String text,
+  }) = _ScriptState;
+}
+
+@riverpod
+class Script extends _$Script {
+  @override
+  ScriptState build() => ScriptState(text: "");
+
+  void setText(String text) {
+    state = state.copyWith(text: text);
+  }
+}

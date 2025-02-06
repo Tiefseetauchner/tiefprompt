@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/script_provider.dart';
+import 'package:tiefprompt/providers/prompter_provider.dart';
+import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
+import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
+import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
+import 'package:tiefprompt/providers/script_provider.dart';
+
+final controlsVisibleProvider = StateProvider<bool>((ref) => true);
 
 class PrompterScreen extends ConsumerWidget {
   const PrompterScreen({super.key});
@@ -8,32 +14,25 @@ class PrompterScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final script = ref.watch(scriptProvider);
+    final controlsVisible = ref.watch(controlsVisibleProvider);
 
-    if (script == null) {
-      return const Scaffold(
-        body: Center(child: Text('No script provided.')),
-      );
-    }
+    ref.invalidate(prompterProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Script name goes here'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
+        body: Stack(fit: StackFit.expand, children: [
+      GestureDetector(
+        onTap: () {
+          ref.read(controlsVisibleProvider.notifier).state = !controlsVisible;
+        },
+        child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ScrollableText(
+              text: script.text,
+              style: const TextStyle(fontSize: 80),
+            )),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Text(
-            script.text,
-            style: const TextStyle(fontSize: 24),
-          ),
-        ),
-      ),
-    );
+      if (controlsVisible) PrompterTopBar(),
+      if (controlsVisible) PrompterBottomBar(),
+    ]));
   }
 }
