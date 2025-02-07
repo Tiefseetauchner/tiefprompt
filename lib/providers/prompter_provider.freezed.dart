@@ -17,6 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PrompterState {
   double get speed => throw _privateConstructorUsedError;
+  bool get mirroredX => throw _privateConstructorUsedError;
+  bool get mirroredY => throw _privateConstructorUsedError;
+  double get fontSize => throw _privateConstructorUsedError;
+  double get lineHeight => throw _privateConstructorUsedError;
   bool get isPlaying => throw _privateConstructorUsedError;
 
   /// Create a copy of PrompterState
@@ -32,7 +36,13 @@ abstract class $PrompterStateCopyWith<$Res> {
           PrompterState value, $Res Function(PrompterState) then) =
       _$PrompterStateCopyWithImpl<$Res, PrompterState>;
   @useResult
-  $Res call({double speed, bool isPlaying});
+  $Res call(
+      {double speed,
+      bool mirroredX,
+      bool mirroredY,
+      double fontSize,
+      double lineHeight,
+      bool isPlaying});
 }
 
 /// @nodoc
@@ -51,12 +61,32 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
   @override
   $Res call({
     Object? speed = null,
+    Object? mirroredX = null,
+    Object? mirroredY = null,
+    Object? fontSize = null,
+    Object? lineHeight = null,
     Object? isPlaying = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
           ? _value.speed
           : speed // ignore: cast_nullable_to_non_nullable
+              as double,
+      mirroredX: null == mirroredX
+          ? _value.mirroredX
+          : mirroredX // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mirroredY: null == mirroredY
+          ? _value.mirroredY
+          : mirroredY // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fontSize: null == fontSize
+          ? _value.fontSize
+          : fontSize // ignore: cast_nullable_to_non_nullable
+              as double,
+      lineHeight: null == lineHeight
+          ? _value.lineHeight
+          : lineHeight // ignore: cast_nullable_to_non_nullable
               as double,
       isPlaying: null == isPlaying
           ? _value.isPlaying
@@ -74,7 +104,13 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
       __$$PrompterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double speed, bool isPlaying});
+  $Res call(
+      {double speed,
+      bool mirroredX,
+      bool mirroredY,
+      double fontSize,
+      double lineHeight,
+      bool isPlaying});
 }
 
 /// @nodoc
@@ -91,12 +127,32 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? speed = null,
+    Object? mirroredX = null,
+    Object? mirroredY = null,
+    Object? fontSize = null,
+    Object? lineHeight = null,
     Object? isPlaying = null,
   }) {
     return _then(_$PrompterStateImpl(
       speed: null == speed
           ? _value.speed
           : speed // ignore: cast_nullable_to_non_nullable
+              as double,
+      mirroredX: null == mirroredX
+          ? _value.mirroredX
+          : mirroredX // ignore: cast_nullable_to_non_nullable
+              as bool,
+      mirroredY: null == mirroredY
+          ? _value.mirroredY
+          : mirroredY // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fontSize: null == fontSize
+          ? _value.fontSize
+          : fontSize // ignore: cast_nullable_to_non_nullable
+              as double,
+      lineHeight: null == lineHeight
+          ? _value.lineHeight
+          : lineHeight // ignore: cast_nullable_to_non_nullable
               as double,
       isPlaying: null == isPlaying
           ? _value.isPlaying
@@ -109,18 +165,36 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PrompterStateImpl implements _PrompterState {
-  _$PrompterStateImpl({this.speed = 2.0, this.isPlaying = false});
+  _$PrompterStateImpl(
+      {this.speed = 1.0,
+      this.mirroredX = false,
+      this.mirroredY = false,
+      this.fontSize = 48,
+      this.lineHeight = 1,
+      this.isPlaying = false});
 
   @override
   @JsonKey()
   final double speed;
   @override
   @JsonKey()
+  final bool mirroredX;
+  @override
+  @JsonKey()
+  final bool mirroredY;
+  @override
+  @JsonKey()
+  final double fontSize;
+  @override
+  @JsonKey()
+  final double lineHeight;
+  @override
+  @JsonKey()
   final bool isPlaying;
 
   @override
   String toString() {
-    return 'PrompterState(speed: $speed, isPlaying: $isPlaying)';
+    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, lineHeight: $lineHeight, isPlaying: $isPlaying)';
   }
 
   @override
@@ -129,12 +203,21 @@ class _$PrompterStateImpl implements _PrompterState {
         (other.runtimeType == runtimeType &&
             other is _$PrompterStateImpl &&
             (identical(other.speed, speed) || other.speed == speed) &&
+            (identical(other.mirroredX, mirroredX) ||
+                other.mirroredX == mirroredX) &&
+            (identical(other.mirroredY, mirroredY) ||
+                other.mirroredY == mirroredY) &&
+            (identical(other.fontSize, fontSize) ||
+                other.fontSize == fontSize) &&
+            (identical(other.lineHeight, lineHeight) ||
+                other.lineHeight == lineHeight) &&
             (identical(other.isPlaying, isPlaying) ||
                 other.isPlaying == isPlaying));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, speed, isPlaying);
+  int get hashCode => Object.hash(runtimeType, speed, mirroredX, mirroredY,
+      fontSize, lineHeight, isPlaying);
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -146,11 +229,24 @@ class _$PrompterStateImpl implements _PrompterState {
 }
 
 abstract class _PrompterState implements PrompterState {
-  factory _PrompterState({final double speed, final bool isPlaying}) =
-      _$PrompterStateImpl;
+  factory _PrompterState(
+      {final double speed,
+      final bool mirroredX,
+      final bool mirroredY,
+      final double fontSize,
+      final double lineHeight,
+      final bool isPlaying}) = _$PrompterStateImpl;
 
   @override
   double get speed;
+  @override
+  bool get mirroredX;
+  @override
+  bool get mirroredY;
+  @override
+  double get fontSize;
+  @override
+  double get lineHeight;
   @override
   bool get isPlaying;
 

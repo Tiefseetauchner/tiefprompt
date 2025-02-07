@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
-import 'dart:async';
-
-import 'package:tiefprompt/providers/settings_provider.dart';
 
 class ScrollableText extends ConsumerStatefulWidget {
   final String text;
@@ -21,6 +18,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   late ScrollController _scrollController;
   Ticker? _ticker;
   double _scrollSpeed = 0.0;
+  Function? _onReachedEnd;
 
   void _startScrolling(double speed) {
     _stopScrolling();
@@ -35,15 +33,17 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
+
     _ticker = createTicker((Duration elapsed) {
       if (_scrollController.hasClients) {
-        _scrollController.jumpTo(
-          (_scrollController.offset + _scrollSpeed).clamp(
-            0.0,
-            _scrollController.position.maxScrollExtent,
-          ),
-        );
+        if (_scrollController.offset + _scrollSpeed >=
+            _scrollController.position.maxScrollExtent) {
+          _onReachedEnd?.call();
+          return;
+        }
+
+        _scrollController.animateTo(_scrollController.offset + _scrollSpeed,
+            duration: Duration(milliseconds: 3), curve: Curves.linear);
       }
     });
   }
@@ -51,27 +51,33 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   @override
   Widget build(BuildContext context) {
     final mediaHeight = MediaQuery.of(context).size.height;
-    final settings = ref.watch(settingsProvider);
+
+    _scrollController = ScrollController();
+
     final prompter = ref.watch(prompterProvider);
+
+    _onReachedEnd = () {
+      ref.read(prompterProvider.notifier).togglePlayPause();
+    };
 
     if (prompter.isPlaying) {
       _startScrolling(prompter.speed);
     } else {
       _stopScrolling();
     }
-
-    return switch (settings) {
-      AsyncData(:final value) => Transform.flip(
-          flipX: value.mirroredX,
-          flipY: value.mirroredY,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            padding: EdgeInsets.symmetric(vertical: mediaHeight),
-            child: Text(widget.text, style: widget.style),
-          )),
-      AsyncError(:final error) => Text(error.toString()),
-      _ => const CircularProgressIndicator(),
-    };
+    return Transform.flip(
+        flipX: prompter.mirroredX,
+        flipY: prompter.mirroredY,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          padding: EdgeInsets.fromLTRB(0, mediaHeight, 0, 0),
+          child: Column(children: [
+            Text(widget.text, style: widget.style),
+            SizedBox(
+                height: mediaHeight,
+                child: Center(child: Text("The End", style: widget.style))),
+          ]),
+        ));
   }
 
   @override

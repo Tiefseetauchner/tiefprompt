@@ -17,7 +17,7 @@ class TeleprompterApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Teleprompter',
       // TODO: Customize Theme
-      theme: ThemeData.dark(),
+      //theme: ThemeData.dark(),
       routerConfig: _router,
     );
   }

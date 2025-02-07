@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
-import 'package:tiefprompt/providers/settings_provider.dart';
 
 class PrompterBottomBar extends ConsumerWidget {
   const PrompterBottomBar({
@@ -17,44 +16,61 @@ class PrompterBottomBar extends ConsumerWidget {
       left: 0,
       right: 0,
       child: Container(
-        color: Colors.black.withAlpha(100),
+        color: Theme.of(context).colorScheme.onSecondary.withAlpha(120),
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              icon: Icon(Icons.flip, color: ThemeData().colorScheme.onPrimary),
+              icon: Icon(Icons.flip,
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () =>
-                  ref.read(settingsProvider.notifier).toggleMirroredX(),
+                  ref.read(prompterProvider.notifier).toggleMirroredX(),
             ),
             RotatedBox(
                 quarterTurns: 1,
                 child: IconButton(
                   icon: Icon(Icons.flip,
-                      color: ThemeData().colorScheme.onPrimary),
+                      color: Theme.of(context).colorScheme.onPrimary),
                   onPressed: () =>
-                      ref.read(settingsProvider.notifier).toggleMirroredY(),
+                      ref.read(prompterProvider.notifier).toggleMirroredY(),
                 )),
             VerticalDivider(
               width: 30,
             ),
             IconButton(
-              icon:
-                  Icon(Icons.remove, color: ThemeData().colorScheme.onPrimary),
+              icon: Icon(Icons.remove,
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () =>
                   ref.read(prompterProvider.notifier).decreaseSpeed(0.1),
             ),
             IconButton(
               icon: Icon(
                   prompterState.isPlaying ? Icons.pause : Icons.play_arrow,
-                  color: ThemeData().colorScheme.onPrimary),
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () =>
                   ref.read(prompterProvider.notifier).togglePlayPause(),
             ),
             IconButton(
-              icon: Icon(Icons.add, color: ThemeData().colorScheme.onPrimary),
+              icon: Icon(Icons.add,
+                  color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () =>
                   ref.read(prompterProvider.notifier).increaseSpeed(0.1),
+            ),
+            VerticalDivider(
+              width: 30,
+            ),
+            IconButton(
+              icon: Icon(Icons.text_decrease,
+                  color: Theme.of(context).colorScheme.onPrimary),
+              onPressed: () =>
+                  ref.read(prompterProvider.notifier).decreaseFontSize(1.2),
+            ),
+            IconButton(
+              icon: Icon(Icons.text_increase,
+                  color: Theme.of(context).colorScheme.onPrimary),
+              onPressed: () =>
+                  ref.read(prompterProvider.notifier).increaseFontSize(1.2),
             ),
           ],
         ),

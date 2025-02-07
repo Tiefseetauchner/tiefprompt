@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiefprompt/core/theme.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
@@ -17,26 +18,34 @@ class PrompterScreen extends ConsumerWidget {
     final script = ref.watch(scriptProvider);
     final controlsVisible = ref.watch(controlsVisibleProvider);
     final settings = ref.watch(settingsProvider);
+    final prompter = ref.watch(prompterProvider);
 
-    settings.whenData((settingsState) {
-      ref.read(prompterProvider.notifier).setSpeed(settingsState.scrollSpeed);
-    });
+    if (!ref.exists(prompterProvider)) {
+      settings.whenData((settingsState) {
+        ref.read(prompterProvider.notifier).applySettings(settingsState);
+      });
+    }
 
-    return Scaffold(
-        body: Stack(fit: StackFit.expand, children: [
-      GestureDetector(
-        onTap: () {
-          ref.read(controlsVisibleProvider.notifier).state = !controlsVisible;
-        },
-        child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ScrollableText(
-              text: script.text,
-              style: const TextStyle(fontSize: 80),
-            )),
-      ),
-      if (controlsVisible) PrompterTopBar(),
-      if (controlsVisible) PrompterBottomBar(),
-    ]));
+    return Theme(
+        data: prompterBlackTheme,
+        child: Scaffold(
+            body: Stack(fit: StackFit.expand, children: [
+          GestureDetector(
+            onTap: () {
+              ref.read(controlsVisibleProvider.notifier).state =
+                  !controlsVisible;
+            },
+            child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ScrollableText(
+                  text: script.text,
+                  style: TextStyle(
+                      fontSize: prompter.fontSize,
+                      color: Theme.of(context).colorScheme.onPrimary),
+                )),
+          ),
+          if (controlsVisible) PrompterTopBar(),
+          if (controlsVisible) PrompterBottomBar(),
+        ])));
   }
 }
