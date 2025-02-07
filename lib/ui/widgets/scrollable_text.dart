@@ -96,6 +96,8 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   void dispose() {
     _stopScrolling();
     _scrollController.dispose();
+    _ticker?.dispose();
+    _ticker = null;
     super.dispose();
   }
 }
