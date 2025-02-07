@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
+
+final _userScrollingProvider = StateProvider<bool>((ref) => false);
 
 class ScrollableText extends ConsumerStatefulWidget {
   final String text;
@@ -35,7 +38,9 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     super.initState();
 
     _ticker = createTicker((Duration elapsed) {
-      if (_scrollController.hasClients) {
+      final isUserScrolling = ref.watch(_userScrollingProvider);
+
+      if (_scrollController.hasClients && !isUserScrolling) {
         if (_scrollController.offset + _scrollSpeed >=
             _scrollController.position.maxScrollExtent) {
           _onReachedEnd?.call();
@@ -52,7 +57,14 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   Widget build(BuildContext context) {
     final mediaHeight = MediaQuery.of(context).size.height;
 
-    _scrollController = ScrollController();
+    _scrollController = ScrollController(initialScrollOffset: mediaHeight / 2);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _scrollController.position.isScrollingNotifier.addListener(() {
+        ref.read(_userScrollingProvider.notifier).state =
+            _scrollController.position.isScrollingNotifier.value;
+      });
+    });
 
     final prompter = ref.watch(prompterProvider);
 
