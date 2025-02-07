@@ -52,7 +52,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   Widget build(BuildContext context) {
     final mediaHeight = MediaQuery.of(context).size.height;
 
-    _scrollController = ScrollController();
+    _scrollController = ScrollController(initialScrollOffset: mediaHeight);
 
     final prompter = ref.watch(prompterProvider);
 
