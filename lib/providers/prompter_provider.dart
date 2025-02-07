@@ -61,6 +61,6 @@ class Prompter extends _$Prompter {
   }
 
   void decreaseFontSize(double amount) {
-    state = state.copyWith(fontSize: state.fontSize * amount);
+    state = state.copyWith(fontSize: state.fontSize / amount);
   }
 }
