@@ -2,7 +2,7 @@ name: Build
 
 on:
   pull_request:
-  push:
+  push: main
 
 jobs:
   build-android:
