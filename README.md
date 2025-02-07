@@ -1,16 +1,31 @@
-# tiefprompt
+# TiefPrompt
 
-A new Flutter project.
+An extraordinarily simple cross-platform teleprompter.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter application.
+Load a script from a file or paste it into the input box.
 
-A few resources to get you started if this is your first Flutter project:
+Press play to start the teleprompter. Press pause to stop it. Press + to make it faster, - to make it slower. There's also a button to flip it vertically and one to flip it horizontally. Font size can also be adjusted.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Build
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Run it with `flutter run`.
+
+Make packages with `flutter build apk`.
+
+You know how to use flutter.
+
+## License
+
+MIT. Look at [LICENSE](LICENSE) for details.
+
+## Contributing
+
+Be nice please?
+
+## Coffee
+
+I need more coffee. Please.
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/tiefseetauchner)
