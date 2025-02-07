@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/theme.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -10,15 +11,22 @@ import 'package:tiefprompt/providers/script_provider.dart';
 
 final controlsVisibleProvider = StateProvider<bool>((ref) => true);
 
-class PrompterScreen extends ConsumerWidget {
+class PrompterScreen extends ConsumerStatefulWidget {
   const PrompterScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _PrompterScreenState();
+}
+
+class _PrompterScreenState extends ConsumerState<PrompterScreen> {
+  @override
+  Widget build(BuildContext context) {
     final script = ref.watch(scriptProvider);
     final controlsVisible = ref.watch(controlsVisibleProvider);
     final settings = ref.watch(settingsProvider);
     final prompter = ref.watch(prompterProvider);
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
     if (!ref.exists(prompterProvider)) {
       settings.whenData((settingsState) {
@@ -47,5 +55,12 @@ class PrompterScreen extends ConsumerWidget {
           if (controlsVisible) PrompterTopBar(),
           if (controlsVisible) PrompterBottomBar(),
         ])));
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    super.dispose();
   }
 }
