@@ -29,6 +29,11 @@ class SettingsService {
     );
   }
 
+  Future<bool> resetSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    return await prefs.clear();
+  }
+
   Future<void> setScrollSpeed(int speed) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_speedKey, speed);
@@ -51,6 +56,16 @@ class Settings extends _$Settings {
   @override
   Future<SettingsState> build() async {
     return await _settingsService.loadSettings();
+  }
+
+  Future<void> resetSettings() async {
+    final success = await _settingsService.resetSettings();
+
+    if (!success) {
+      state = AsyncValue.error("Could not reset settings.", StackTrace.current);
+    } else {
+      state = AsyncValue.data(await _settingsService.loadSettings());
+    }
   }
 
   Future<void> setScrollSpeed(int speed) async {

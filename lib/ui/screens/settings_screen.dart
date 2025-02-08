@@ -32,14 +32,24 @@ class SettingsScreen extends ConsumerWidget {
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setMirroredY(updatedValue)),
+              ListTile(
+                title: Text("Reset settings"),
+                onTap: () {
+                  ref.read(settingsProvider.notifier).resetSettings();
+                },
+              )
             ],
           ),
         ),
-      AsyncError(:final error) => Center(
-          child: Text(error.toString()),
-        ),
       _ => Center(
-          child: Text("An Error occured"),
+          child: Column(children: [
+            Text(
+                "An error occurred loading the settings. Do you want to reset them?"),
+            ElevatedButton(
+                onPressed: () =>
+                    ref.read(settingsProvider.notifier).resetSettings(),
+                child: Text("Reset Settings"))
+          ]),
         )
     };
   }
