@@ -42,7 +42,7 @@ class PrompterBottomBar extends ConsumerWidget {
               icon: Icon(Icons.remove,
                   color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () =>
-                  ref.read(prompterProvider.notifier).decreaseSpeed(0.1),
+                  ref.read(prompterProvider.notifier).decreaseSpeed(1),
             ),
             IconButton(
               icon: Icon(
@@ -55,7 +55,7 @@ class PrompterBottomBar extends ConsumerWidget {
               icon: Icon(Icons.add,
                   color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () =>
-                  ref.read(prompterProvider.notifier).increaseSpeed(0.1),
+                  ref.read(prompterProvider.notifier).increaseSpeed(1),
             ),
             VerticalDivider(
               width: 30,

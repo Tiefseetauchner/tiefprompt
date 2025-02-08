@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsState {
-  double get scrollSpeed => throw _privateConstructorUsedError;
+  int get scrollSpeed => throw _privateConstructorUsedError;
   bool get mirroredX => throw _privateConstructorUsedError;
   bool get mirroredY => throw _privateConstructorUsedError;
 
@@ -33,7 +33,7 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({double scrollSpeed, bool mirroredX, bool mirroredY});
+  $Res call({int scrollSpeed, bool mirroredX, bool mirroredY});
 }
 
 /// @nodoc
@@ -59,7 +59,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
       scrollSpeed: null == scrollSpeed
           ? _value.scrollSpeed
           : scrollSpeed // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,7 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double scrollSpeed, bool mirroredX, bool mirroredY});
+  $Res call({int scrollSpeed, bool mirroredX, bool mirroredY});
 }
 
 /// @nodoc
@@ -104,7 +104,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
       scrollSpeed: null == scrollSpeed
           ? _value.scrollSpeed
           : scrollSpeed // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -126,7 +126,7 @@ class _$SettingsStateImpl implements _SettingsState {
       required this.mirroredY});
 
   @override
-  final double scrollSpeed;
+  final int scrollSpeed;
   @override
   final bool mirroredX;
   @override
@@ -165,12 +165,12 @@ class _$SettingsStateImpl implements _SettingsState {
 
 abstract class _SettingsState implements SettingsState {
   factory _SettingsState(
-      {required final double scrollSpeed,
+      {required final int scrollSpeed,
       required final bool mirroredX,
       required final bool mirroredY}) = _$SettingsStateImpl;
 
   @override
-  double get scrollSpeed;
+  int get scrollSpeed;
   @override
   bool get mirroredX;
   @override

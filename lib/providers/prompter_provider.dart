@@ -8,10 +8,10 @@ part 'prompter_provider.g.dart';
 @freezed
 class PrompterState with _$PrompterState {
   factory PrompterState({
-    @Default(0.35) double speed,
+    @Default(3) int speed,
     @Default(false) bool mirroredX,
     @Default(false) bool mirroredY,
-    @Default(48) double fontSize,
+    @Default(48.0) double fontSize,
     @Default(false) bool isPlaying,
   }) = _PrompterState;
 }
@@ -32,15 +32,15 @@ class Prompter extends _$Prompter {
     );
   }
 
-  void setSpeed(double speed) {
+  void setSpeed(int speed) {
     state = state.copyWith(speed: speed);
   }
 
-  void increaseSpeed(double amount) {
+  void increaseSpeed(int amount) {
     state = state.copyWith(speed: state.speed + amount);
   }
 
-  void decreaseSpeed(double amount) {
+  void decreaseSpeed(int amount) {
     state = state.copyWith(speed: state.speed - amount);
   }
 

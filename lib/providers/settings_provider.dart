@@ -8,7 +8,7 @@ part 'settings_provider.freezed.dart';
 @freezed
 class SettingsState with _$SettingsState {
   factory SettingsState({
-    required double scrollSpeed,
+    required int scrollSpeed,
     required bool mirroredX,
     required bool mirroredY,
   }) = _SettingsState;
@@ -21,28 +21,27 @@ class SettingsService {
 
   Future<SettingsState> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
+
     return SettingsState(
-      scrollSpeed: prefs.getDouble(_speedKey) ?? 1.0,
+      scrollSpeed: prefs.getInt(_speedKey) ?? 1,
       mirroredX: prefs.getBool(_mirroredXKey) ?? false,
       mirroredY: prefs.getBool(_mirroredYKey) ?? false,
     );
   }
 
-  Future<void> setScrollSpeed(double speed) async {
+  Future<void> setScrollSpeed(int speed) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_speedKey, speed);
+    await prefs.setInt(_speedKey, speed);
   }
 
-  Future<void> toggleMirroredX() async {
+  Future<void> setMirroredX(bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    final currentValue = prefs.getBool(_mirroredXKey) ?? false;
-    await prefs.setBool(_mirroredXKey, !currentValue);
+    await prefs.setBool(_mirroredXKey, value);
   }
 
-  Future<void> toggleMirroredY() async {
+  Future<void> setMirroredY(bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    final currentValue = prefs.getBool(_mirroredYKey) ?? false;
-    await prefs.setBool(_mirroredYKey, !currentValue);
+    await prefs.setBool(_mirroredYKey, value);
   }
 }
 
@@ -54,23 +53,18 @@ class Settings extends _$Settings {
     return await _settingsService.loadSettings();
   }
 
-  Future<void> setScrollSpeed(double speed) async {
-    state = AsyncValue.loading();
+  Future<void> setScrollSpeed(int speed) async {
     await _settingsService.setScrollSpeed(speed);
     state = AsyncValue.data(state.value!.copyWith(scrollSpeed: speed));
   }
 
-  Future<void> toggleMirroredX() async {
-    state = AsyncValue.loading();
-    await _settingsService.toggleMirroredX();
-    state = AsyncValue.data(
-        state.value!.copyWith(mirroredX: !state.value!.mirroredX));
+  Future<void> setMirroredX(bool value) async {
+    await _settingsService.setMirroredX(value);
+    state = AsyncValue.data(state.value!.copyWith(mirroredX: value));
   }
 
-  Future<void> toggleMirroredY() async {
-    state = AsyncValue.loading();
-    await _settingsService.toggleMirroredY();
-    state = AsyncValue.data(
-        state.value!.copyWith(mirroredY: !state.value!.mirroredY));
+  Future<void> setMirroredY(bool value) async {
+    await _settingsService.setMirroredY(value);
+    state = AsyncValue.data(state.value!.copyWith(mirroredY: value));
   }
 }

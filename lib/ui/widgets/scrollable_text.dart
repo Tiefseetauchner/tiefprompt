@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -20,10 +19,10 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   Ticker? _ticker;
-  double _scrollSpeed = 0.0;
+  int _scrollSpeed = 0;
   Function? _onReachedEnd;
 
-  void _startScrolling(double speed) {
+  void _startScrolling(int speed) {
     _stopScrolling();
     _scrollSpeed = speed; // Adjusted speed factor
     _ticker?.start();
