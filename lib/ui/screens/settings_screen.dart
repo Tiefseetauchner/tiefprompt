@@ -15,11 +15,15 @@ class SettingsScreen extends ConsumerWidget {
           body: ListView(
             children: [
               NumberAppSetting(
-                  value: value.scrollSpeed,
-                  displayText: "Default Scroll Speed",
-                  onValueChanged: (updatedValue) => ref
-                      .read(settingsProvider.notifier)
-                      .setScrollSpeed(updatedValue)),
+                value: value.scrollSpeed + 0.0,
+                displayText: "Default Scroll Speed",
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setScrollSpeed(updatedValue.floor()),
+                min: 1,
+                max: 20,
+                stepSize: 1,
+              ),
               BooleanAppSetting(
                   value: value.mirroredX,
                   displayText: "Default Flip X",
@@ -72,6 +76,7 @@ class BooleanAppSetting extends StatelessWidget {
     return ListTile(
       title: Text(displayText),
       trailing: Switch(value: value, onChanged: onValueChanged),
+      onTap: () => onValueChanged(!value),
     );
   }
 }
@@ -82,31 +87,69 @@ class NumberAppSetting extends StatelessWidget {
     required this.value,
     required this.displayText,
     required this.onValueChanged,
+    required this.min,
+    required this.max,
+    required this.stepSize,
   });
 
-  final int value;
+  final double value;
   final String displayText;
-  final Function(int) onValueChanged;
+  final Function(double) onValueChanged;
+  final double min;
+  final double max;
+  final double stepSize;
+
+  void _showDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        double tempValue = value.clamp(min, max);
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(displayText, style: TextStyle(fontSize: 18)),
+                  Slider(
+                    value: tempValue,
+                    min: min,
+                    max: max,
+                    divisions: ((max - min) / stepSize).floor(),
+                    label: tempValue.toString(),
+                    onChanged: (value) {
+                      setSheetState(() {
+                        // ???
+                        tempValue = value;
+                      });
+                    },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      onValueChanged(tempValue);
+                      Navigator.pop(context);
+                    },
+                    child: Text("Save"),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(displayText),
-      trailing: SizedBox(
-        width: MediaQuery.of(context).textScaler.scale(60),
-        child: TextField(
-          controller: TextEditingController(text: value.toString()),
-          textAlign: TextAlign.center,
-          keyboardType: TextInputType.number,
-          onChanged: (value) {
-            final valueInt = int.tryParse(value);
-
-            if (valueInt != null) {
-              onValueChanged(valueInt);
-            }
-          },
-        ),
-      ),
+      trailing: Icon(Icons.chevron_right),
+      subtitle: Text(value.toString()),
+      onTap: () {
+        _showDialog(context);
+      },
     );
   }
 }
