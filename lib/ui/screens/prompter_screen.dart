@@ -23,17 +23,20 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
   Widget build(BuildContext context) {
     final script = ref.watch(scriptProvider);
     final controlsVisible = ref.watch(controlsVisibleProvider);
-    final settings = ref.watch(settingsProvider);
-    PrompterState prompter;
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
-    if (!ref.exists(prompterProvider)) {
-      settings.whenData((settingsState) {
-        ref.read(prompterProvider.notifier).applySettings(settingsState);
+    ref.listen(settingsProvider, (previous, next) {
+      next.whenData((settings) {
+        ref.read(prompterProvider.notifier).applySettings(settings);
       });
-    }
-    prompter = ref.watch(prompterProvider);
+    });
+
+    final prompter = ref.watch(prompterProvider);
 
     return Theme(
         data: prompterBlackTheme,

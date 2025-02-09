@@ -11,6 +11,7 @@ class SettingsState with _$SettingsState {
     required int scrollSpeed,
     required bool mirroredX,
     required bool mirroredY,
+    required double fontSize,
   }) = _SettingsState;
 }
 
@@ -18,6 +19,7 @@ class SettingsService {
   static const _speedKey = 'scroll_speed';
   static const _mirroredXKey = 'mirror_text_x';
   static const _mirroredYKey = 'mirror_text_y';
+  static const _fontSizeKey = 'font_size';
 
   Future<SettingsState> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
@@ -26,6 +28,7 @@ class SettingsService {
       scrollSpeed: prefs.getInt(_speedKey) ?? 1,
       mirroredX: prefs.getBool(_mirroredXKey) ?? false,
       mirroredY: prefs.getBool(_mirroredYKey) ?? false,
+      fontSize: prefs.getDouble(_fontSizeKey) ?? 42.0,
     );
   }
 
@@ -47,6 +50,11 @@ class SettingsService {
   Future<void> setMirroredY(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_mirroredYKey, value);
+  }
+
+  Future<void> setFontSize(double fontSize) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_fontSizeKey, fontSize);
   }
 }
 
@@ -81,5 +89,10 @@ class Settings extends _$Settings {
   Future<void> setMirroredY(bool value) async {
     await _settingsService.setMirroredY(value);
     state = AsyncValue.data(state.value!.copyWith(mirroredY: value));
+  }
+
+  Future<void> setFontSize(double fontSize) async {
+    await _settingsService.setFontSize(fontSize);
+    state = AsyncValue.data(state.value!.copyWith(fontSize: fontSize));
   }
 }

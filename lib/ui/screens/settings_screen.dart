@@ -24,6 +24,15 @@ class SettingsScreen extends ConsumerWidget {
                 max: 20,
                 stepSize: 1,
               ),
+              NumberAppSetting(
+                value: value.fontSize,
+                displayText: "Default Font Size",
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setFontSize(updatedValue),
+                min: 10,
+                max: 160,
+              ),
               BooleanAppSetting(
                   value: value.mirroredX,
                   displayText: "Default Flip X",
@@ -89,7 +98,7 @@ class NumberAppSetting extends StatelessWidget {
     required this.onValueChanged,
     required this.min,
     required this.max,
-    required this.stepSize,
+    this.stepSize,
   });
 
   final double value;
@@ -97,7 +106,7 @@ class NumberAppSetting extends StatelessWidget {
   final Function(double) onValueChanged;
   final double min;
   final double max;
-  final double stepSize;
+  final double? stepSize;
 
   void _showDialog(BuildContext context) {
     showModalBottomSheet(
@@ -112,15 +121,18 @@ class NumberAppSetting extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(displayText, style: TextStyle(fontSize: 18)),
+                  Text(tempValue.toStringAsFixed(1),
+                      style: TextStyle(fontSize: 12)),
                   Slider(
                     value: tempValue,
                     min: min,
                     max: max,
-                    divisions: ((max - min) / stepSize).floor(),
-                    label: tempValue.toString(),
+                    divisions: stepSize == null
+                        ? null
+                        : ((max - min) / stepSize!).floor(),
+                    label: tempValue.toStringAsFixed(1),
                     onChanged: (value) {
                       setSheetState(() {
-                        // ???
                         tempValue = value;
                       });
                     },
@@ -146,7 +158,7 @@ class NumberAppSetting extends StatelessWidget {
     return ListTile(
       title: Text(displayText),
       trailing: Icon(Icons.chevron_right),
-      subtitle: Text(value.toString()),
+      subtitle: Text(value.toStringAsFixed(1)),
       onTap: () {
         _showDialog(context);
       },

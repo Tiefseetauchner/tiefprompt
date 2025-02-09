@@ -39,7 +39,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     _ticker = createTicker((Duration elapsed) {
       final isUserScrolling = ref.watch(_userScrollingProvider);
 
-      final calculatedScrollSpeed = _scrollSpeed / 10;
+      final calculatedScrollSpeed = _scrollSpeed;
 
       if (_scrollController.hasClients && !isUserScrolling) {
         if (_scrollController.offset + calculatedScrollSpeed >=
@@ -50,7 +50,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
 
         _scrollController.animateTo(
             _scrollController.offset + calculatedScrollSpeed,
-            duration: Duration(milliseconds: 3),
+            duration: Duration(milliseconds: 30),
             curve: Curves.linear);
       }
     });

@@ -26,7 +26,7 @@ class Prompter extends _$Prompter {
   void applySettings(SettingsState settings) {
     state = state.copyWith(
       speed: settings.scrollSpeed,
-      //fontSize: settings.fontSize,
+      fontSize: settings.fontSize,
       mirroredX: settings.mirroredX,
       mirroredY: settings.mirroredY,
     );

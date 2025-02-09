@@ -19,6 +19,7 @@ mixin _$SettingsState {
   int get scrollSpeed => throw _privateConstructorUsedError;
   bool get mirroredX => throw _privateConstructorUsedError;
   bool get mirroredY => throw _privateConstructorUsedError;
+  double get fontSize => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +34,7 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({int scrollSpeed, bool mirroredX, bool mirroredY});
+  $Res call({int scrollSpeed, bool mirroredX, bool mirroredY, double fontSize});
 }
 
 /// @nodoc
@@ -54,6 +55,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? scrollSpeed = null,
     Object? mirroredX = null,
     Object? mirroredY = null,
+    Object? fontSize = null,
   }) {
     return _then(_value.copyWith(
       scrollSpeed: null == scrollSpeed
@@ -68,6 +70,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.mirroredY
           : mirroredY // ignore: cast_nullable_to_non_nullable
               as bool,
+      fontSize: null == fontSize
+          ? _value.fontSize
+          : fontSize // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -80,7 +86,7 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int scrollSpeed, bool mirroredX, bool mirroredY});
+  $Res call({int scrollSpeed, bool mirroredX, bool mirroredY, double fontSize});
 }
 
 /// @nodoc
@@ -99,6 +105,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? scrollSpeed = null,
     Object? mirroredX = null,
     Object? mirroredY = null,
+    Object? fontSize = null,
   }) {
     return _then(_$SettingsStateImpl(
       scrollSpeed: null == scrollSpeed
@@ -113,6 +120,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.mirroredY
           : mirroredY // ignore: cast_nullable_to_non_nullable
               as bool,
+      fontSize: null == fontSize
+          ? _value.fontSize
+          : fontSize // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -123,7 +134,8 @@ class _$SettingsStateImpl implements _SettingsState {
   _$SettingsStateImpl(
       {required this.scrollSpeed,
       required this.mirroredX,
-      required this.mirroredY});
+      required this.mirroredY,
+      required this.fontSize});
 
   @override
   final int scrollSpeed;
@@ -131,10 +143,12 @@ class _$SettingsStateImpl implements _SettingsState {
   final bool mirroredX;
   @override
   final bool mirroredY;
+  @override
+  final double fontSize;
 
   @override
   String toString() {
-    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY)';
+    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize)';
   }
 
   @override
@@ -147,12 +161,14 @@ class _$SettingsStateImpl implements _SettingsState {
             (identical(other.mirroredX, mirroredX) ||
                 other.mirroredX == mirroredX) &&
             (identical(other.mirroredY, mirroredY) ||
-                other.mirroredY == mirroredY));
+                other.mirroredY == mirroredY) &&
+            (identical(other.fontSize, fontSize) ||
+                other.fontSize == fontSize));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, scrollSpeed, mirroredX, mirroredY);
+      Object.hash(runtimeType, scrollSpeed, mirroredX, mirroredY, fontSize);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -167,7 +183,8 @@ abstract class _SettingsState implements SettingsState {
   factory _SettingsState(
       {required final int scrollSpeed,
       required final bool mirroredX,
-      required final bool mirroredY}) = _$SettingsStateImpl;
+      required final bool mirroredY,
+      required final double fontSize}) = _$SettingsStateImpl;
 
   @override
   int get scrollSpeed;
@@ -175,6 +192,8 @@ abstract class _SettingsState implements SettingsState {
   bool get mirroredX;
   @override
   bool get mirroredY;
+  @override
+  double get fontSize;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
