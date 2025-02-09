@@ -24,7 +24,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     final script = ref.watch(scriptProvider);
     final controlsVisible = ref.watch(controlsVisibleProvider);
     final settings = ref.watch(settingsProvider);
-    final prompter = ref.watch(prompterProvider);
+    PrompterState prompter;
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
@@ -33,6 +33,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
         ref.read(prompterProvider.notifier).applySettings(settingsState);
       });
     }
+    prompter = ref.watch(prompterProvider);
 
     return Theme(
         data: prompterBlackTheme,

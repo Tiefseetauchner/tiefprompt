@@ -72,6 +72,7 @@ class PrompterBottomBar extends ConsumerWidget {
               onPressed: () =>
                   ref.read(prompterProvider.notifier).increaseFontSize(1.2),
             ),
+            Text(prompterState.speed.toString()),
           ],
         ),
       ),

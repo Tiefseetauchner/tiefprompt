@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
+import 'package:tiefprompt/providers/settings_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final script = ref.watch(scriptProvider);
+    final settings = ref.watch(settingsProvider);
 
     return Scaffold(
         appBar: AppBar(title: const Text('Teleprompter')),
