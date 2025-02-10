@@ -54,6 +54,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                   style: TextStyle(
                       fontSize: prompter.fontSize,
                       color: Theme.of(context).colorScheme.onPrimary),
+                  sideMargin: (MediaQuery.of(context).size.width / 2) *
+                      (prompter.sideMargin / 100),
                 )),
           ),
           if (controlsVisible) PrompterTopBar(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -20,8 +21,8 @@ class SettingsScreen extends ConsumerWidget {
                 onValueChanged: (updatedValue) => ref
                     .read(settingsProvider.notifier)
                     .setScrollSpeed(updatedValue.floor()),
-                min: 1,
-                max: 20,
+                min: kPrompterMinSpeed + 0.0,
+                max: kPrompterMaxSpeed + 0.0,
                 stepSize: 1,
               ),
               NumberAppSetting(
@@ -30,8 +31,8 @@ class SettingsScreen extends ConsumerWidget {
                 onValueChanged: (updatedValue) => ref
                     .read(settingsProvider.notifier)
                     .setFontSize(updatedValue),
-                min: 10,
-                max: 160,
+                min: kPrompterMinFontSize,
+                max: kPrompterMaxFontSize,
               ),
               BooleanAppSetting(
                   value: value.mirroredX,
@@ -45,6 +46,15 @@ class SettingsScreen extends ConsumerWidget {
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setMirroredY(updatedValue)),
+              NumberAppSetting(
+                value: value.sideMargin,
+                displayText: "Side Margin",
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setSideMargin(updatedValue),
+                min: kPrompterMinSideMargin,
+                max: kPrompterMaxSideMargin,
+              ),
               ListTile(
                 title: Text("Reset settings"),
                 onTap: () {

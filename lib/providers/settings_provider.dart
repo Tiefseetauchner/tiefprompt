@@ -1,18 +1,20 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tiefprompt/providers/prompter_provider.dart';
 
 part 'settings_provider.g.dart';
 part 'settings_provider.freezed.dart';
 
 @freezed
 class SettingsState with _$SettingsState {
-  factory SettingsState({
-    required int scrollSpeed,
-    required bool mirroredX,
-    required bool mirroredY,
-    required double fontSize,
-  }) = _SettingsState;
+  factory SettingsState(
+      {required int scrollSpeed,
+      required bool mirroredX,
+      required bool mirroredY,
+      required double fontSize,
+      required double sideMargin}) = _SettingsState;
 }
 
 class SettingsService {
@@ -20,6 +22,7 @@ class SettingsService {
   static const _mirroredXKey = 'mirror_text_x';
   static const _mirroredYKey = 'mirror_text_y';
   static const _fontSizeKey = 'font_size';
+  static const _sideMarginKey = 'side_margin';
 
   Future<SettingsState> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
@@ -29,6 +32,7 @@ class SettingsService {
       mirroredX: prefs.getBool(_mirroredXKey) ?? false,
       mirroredY: prefs.getBool(_mirroredYKey) ?? false,
       fontSize: prefs.getDouble(_fontSizeKey) ?? 42.0,
+      sideMargin: prefs.getDouble(_sideMarginKey) ?? 0.0,
     );
   }
 
@@ -55,6 +59,18 @@ class SettingsService {
   Future<void> setFontSize(double fontSize) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeKey, fontSize);
+  }
+
+  Future<void> setSideMargin(double sideMargin) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_sideMarginKey, sideMargin);
+  }
+
+  Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
+    await setScrollSpeed(prompterState.speed);
+    await setMirroredX(prompterState.mirroredX);
+    await setMirroredY(prompterState.mirroredY);
+    await setFontSize(prompterState.fontSize);
   }
 }
 
@@ -94,5 +110,15 @@ class Settings extends _$Settings {
   Future<void> setFontSize(double fontSize) async {
     await _settingsService.setFontSize(fontSize);
     state = AsyncValue.data(state.value!.copyWith(fontSize: fontSize));
+  }
+
+  Future<void> setSideMargin(double sideMargin) async {
+    await _settingsService.setSideMargin(sideMargin);
+    state = AsyncValue.data(state.value!.copyWith(sideMargin: sideMargin));
+  }
+
+  Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
+    await _settingsService.applySettingsFromPrompter(prompterState);
+    state = AsyncValue.data(await _settingsService.loadSettings());
   }
 }

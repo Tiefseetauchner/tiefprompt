@@ -31,23 +31,28 @@ class HomeScreen extends ConsumerWidget {
                         ref.read(scriptProvider.notifier).setText(value);
                       }),
                   const SizedBox(height: 16),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            ref.invalidate(prompterProvider);
-                            context.push('/teleprompter');
-                          },
-                          child: const Text('Start Teleprompter'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.push('/open_file');
-                          },
-                          child: const Text('Select Script from Device'),
-                        ),
-                      ]),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 16,
+                    runSpacing: 16,
+                    direction: Axis.horizontal,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          ref.invalidate(prompterProvider);
+                          context.push('/teleprompter');
+                        },
+                        child: const Text('Start Teleprompter'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.push('/open_file');
+                        },
+                        child: const Text('Select Script from Device'),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

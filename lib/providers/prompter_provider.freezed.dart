@@ -21,6 +21,7 @@ mixin _$PrompterState {
   bool get mirroredY => throw _privateConstructorUsedError;
   double get fontSize => throw _privateConstructorUsedError;
   bool get isPlaying => throw _privateConstructorUsedError;
+  double get sideMargin => throw _privateConstructorUsedError;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +41,8 @@ abstract class $PrompterStateCopyWith<$Res> {
       bool mirroredX,
       bool mirroredY,
       double fontSize,
-      bool isPlaying});
+      bool isPlaying,
+      double sideMargin});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
     Object? mirroredY = null,
     Object? fontSize = null,
     Object? isPlaying = null,
+    Object? sideMargin = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -85,6 +88,10 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
           ? _value.isPlaying
           : isPlaying // ignore: cast_nullable_to_non_nullable
               as bool,
+      sideMargin: null == sideMargin
+          ? _value.sideMargin
+          : sideMargin // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
       bool mirroredX,
       bool mirroredY,
       double fontSize,
-      bool isPlaying});
+      bool isPlaying,
+      double sideMargin});
 }
 
 /// @nodoc
@@ -123,6 +131,7 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
     Object? mirroredY = null,
     Object? fontSize = null,
     Object? isPlaying = null,
+    Object? sideMargin = null,
   }) {
     return _then(_$PrompterStateImpl(
       speed: null == speed
@@ -145,6 +154,10 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
           ? _value.isPlaying
           : isPlaying // ignore: cast_nullable_to_non_nullable
               as bool,
+      sideMargin: null == sideMargin
+          ? _value.sideMargin
+          : sideMargin // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$PrompterStateImpl implements _PrompterState {
       this.mirroredX = false,
       this.mirroredY = false,
       this.fontSize = 48.0,
-      this.isPlaying = false});
+      this.isPlaying = false,
+      this.sideMargin = 0});
 
   @override
   @JsonKey()
@@ -174,10 +188,13 @@ class _$PrompterStateImpl implements _PrompterState {
   @override
   @JsonKey()
   final bool isPlaying;
+  @override
+  @JsonKey()
+  final double sideMargin;
 
   @override
   String toString() {
-    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying)';
+    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin)';
   }
 
   @override
@@ -193,12 +210,14 @@ class _$PrompterStateImpl implements _PrompterState {
             (identical(other.fontSize, fontSize) ||
                 other.fontSize == fontSize) &&
             (identical(other.isPlaying, isPlaying) ||
-                other.isPlaying == isPlaying));
+                other.isPlaying == isPlaying) &&
+            (identical(other.sideMargin, sideMargin) ||
+                other.sideMargin == sideMargin));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, speed, mirroredX, mirroredY, fontSize, isPlaying);
+  int get hashCode => Object.hash(runtimeType, speed, mirroredX, mirroredY,
+      fontSize, isPlaying, sideMargin);
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -215,7 +234,8 @@ abstract class _PrompterState implements PrompterState {
       final bool mirroredX,
       final bool mirroredY,
       final double fontSize,
-      final bool isPlaying}) = _$PrompterStateImpl;
+      final bool isPlaying,
+      final double sideMargin}) = _$PrompterStateImpl;
 
   @override
   int get speed;
@@ -227,6 +247,8 @@ abstract class _PrompterState implements PrompterState {
   double get fontSize;
   @override
   bool get isPlaying;
+  @override
+  double get sideMargin;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.

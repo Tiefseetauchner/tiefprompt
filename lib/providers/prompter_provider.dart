@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 part 'prompter_provider.freezed.dart';
@@ -13,6 +14,7 @@ class PrompterState with _$PrompterState {
     @Default(false) bool mirroredY,
     @Default(48.0) double fontSize,
     @Default(false) bool isPlaying,
+    @Default(0) double sideMargin,
   }) = _PrompterState;
 }
 
@@ -29,6 +31,7 @@ class Prompter extends _$Prompter {
       fontSize: settings.fontSize,
       mirroredX: settings.mirroredX,
       mirroredY: settings.mirroredY,
+      sideMargin: settings.sideMargin,
     );
   }
 
@@ -37,10 +40,18 @@ class Prompter extends _$Prompter {
   }
 
   void increaseSpeed(int amount) {
+    if (state.speed + amount > kPrompterMaxSpeed) {
+      return;
+    }
+
     state = state.copyWith(speed: state.speed + amount);
   }
 
   void decreaseSpeed(int amount) {
+    if (state.speed - amount < kPrompterMinSpeed) {
+      return;
+    }
+
     state = state.copyWith(speed: state.speed - amount);
   }
 
@@ -57,10 +68,18 @@ class Prompter extends _$Prompter {
   }
 
   void increaseFontSize(double amount) {
-    state = state.copyWith(fontSize: state.fontSize * amount);
+    if (state.fontSize + amount > kPrompterMaxFontSize) {
+      return;
+    }
+
+    state = state.copyWith(fontSize: state.fontSize + amount);
   }
 
   void decreaseFontSize(double amount) {
-    state = state.copyWith(fontSize: state.fontSize / amount);
+    if (state.fontSize - amount < kPrompterMinFontSize) {
+      return;
+    }
+
+    state = state.copyWith(fontSize: state.fontSize - amount);
   }
 }

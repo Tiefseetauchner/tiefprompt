@@ -8,8 +8,10 @@ final _userScrollingProvider = StateProvider<bool>((ref) => false);
 class ScrollableText extends ConsumerStatefulWidget {
   final String text;
   final TextStyle? style;
+  final double sideMargin;
 
-  const ScrollableText({super.key, required this.text, this.style});
+  const ScrollableText(
+      {super.key, required this.text, this.style, required this.sideMargin});
 
   @override
   ConsumerState<ScrollableText> createState() => _ScrollableTextState();
@@ -50,7 +52,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
 
         _scrollController.animateTo(
             _scrollController.offset + calculatedScrollSpeed,
-            duration: Duration(milliseconds: 30),
+            duration: Duration(milliseconds: 100),
             curve: Curves.linear);
       }
     });
@@ -85,7 +87,8 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
         flipY: prompter.mirroredY,
         child: SingleChildScrollView(
           controller: _scrollController,
-          padding: EdgeInsets.fromLTRB(0, mediaHeight, 0, 0),
+          padding: EdgeInsets.fromLTRB(
+              widget.sideMargin, mediaHeight, widget.sideMargin, 0),
           child: Column(children: [
             Text(widget.text, style: widget.style),
             SizedBox(

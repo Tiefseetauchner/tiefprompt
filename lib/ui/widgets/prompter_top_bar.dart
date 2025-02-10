@@ -13,19 +13,24 @@ class PrompterTopBar extends StatelessWidget {
       right: 0,
       child: Container(
         color: Theme.of(context).colorScheme.onSecondary.withAlpha(120),
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          spacing: 12,
           children: [
-            Text(
-              'Script name goes here',
-              style: TextStyle(
-                  fontSize: 20, color: Theme.of(context).colorScheme.onPrimary),
-            ),
             IconButton(
               icon: Icon(Icons.close,
                   color: Theme.of(context).colorScheme.onPrimary),
               onPressed: () => Navigator.of(context).pop(),
+            ),
+            Expanded(
+              child: Text(
+                'Script name goes here',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.onPrimary),
+              ),
             ),
           ],
         ),
