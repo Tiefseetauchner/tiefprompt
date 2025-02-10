@@ -65,6 +65,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
     super.dispose();
