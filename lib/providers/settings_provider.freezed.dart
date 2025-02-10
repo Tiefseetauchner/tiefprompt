@@ -16,9 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsState {
-  double get scrollSpeed => throw _privateConstructorUsedError;
+  int get scrollSpeed => throw _privateConstructorUsedError;
   bool get mirroredX => throw _privateConstructorUsedError;
   bool get mirroredY => throw _privateConstructorUsedError;
+  double get fontSize => throw _privateConstructorUsedError;
+  double get sideMargin => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +35,12 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({double scrollSpeed, bool mirroredX, bool mirroredY});
+  $Res call(
+      {int scrollSpeed,
+      bool mirroredX,
+      bool mirroredY,
+      double fontSize,
+      double sideMargin});
 }
 
 /// @nodoc
@@ -54,12 +61,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? scrollSpeed = null,
     Object? mirroredX = null,
     Object? mirroredY = null,
+    Object? fontSize = null,
+    Object? sideMargin = null,
   }) {
     return _then(_value.copyWith(
       scrollSpeed: null == scrollSpeed
           ? _value.scrollSpeed
           : scrollSpeed // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -68,6 +77,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.mirroredY
           : mirroredY // ignore: cast_nullable_to_non_nullable
               as bool,
+      fontSize: null == fontSize
+          ? _value.fontSize
+          : fontSize // ignore: cast_nullable_to_non_nullable
+              as double,
+      sideMargin: null == sideMargin
+          ? _value.sideMargin
+          : sideMargin // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -80,7 +97,12 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double scrollSpeed, bool mirroredX, bool mirroredY});
+  $Res call(
+      {int scrollSpeed,
+      bool mirroredX,
+      bool mirroredY,
+      double fontSize,
+      double sideMargin});
 }
 
 /// @nodoc
@@ -99,12 +121,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? scrollSpeed = null,
     Object? mirroredX = null,
     Object? mirroredY = null,
+    Object? fontSize = null,
+    Object? sideMargin = null,
   }) {
     return _then(_$SettingsStateImpl(
       scrollSpeed: null == scrollSpeed
           ? _value.scrollSpeed
           : scrollSpeed // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -113,6 +137,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.mirroredY
           : mirroredY // ignore: cast_nullable_to_non_nullable
               as bool,
+      fontSize: null == fontSize
+          ? _value.fontSize
+          : fontSize // ignore: cast_nullable_to_non_nullable
+              as double,
+      sideMargin: null == sideMargin
+          ? _value.sideMargin
+          : sideMargin // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -123,18 +155,24 @@ class _$SettingsStateImpl implements _SettingsState {
   _$SettingsStateImpl(
       {required this.scrollSpeed,
       required this.mirroredX,
-      required this.mirroredY});
+      required this.mirroredY,
+      required this.fontSize,
+      required this.sideMargin});
 
   @override
-  final double scrollSpeed;
+  final int scrollSpeed;
   @override
   final bool mirroredX;
   @override
   final bool mirroredY;
+  @override
+  final double fontSize;
+  @override
+  final double sideMargin;
 
   @override
   String toString() {
-    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY)';
+    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin)';
   }
 
   @override
@@ -147,12 +185,16 @@ class _$SettingsStateImpl implements _SettingsState {
             (identical(other.mirroredX, mirroredX) ||
                 other.mirroredX == mirroredX) &&
             (identical(other.mirroredY, mirroredY) ||
-                other.mirroredY == mirroredY));
+                other.mirroredY == mirroredY) &&
+            (identical(other.fontSize, fontSize) ||
+                other.fontSize == fontSize) &&
+            (identical(other.sideMargin, sideMargin) ||
+                other.sideMargin == sideMargin));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, scrollSpeed, mirroredX, mirroredY);
+  int get hashCode => Object.hash(
+      runtimeType, scrollSpeed, mirroredX, mirroredY, fontSize, sideMargin);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -165,16 +207,22 @@ class _$SettingsStateImpl implements _SettingsState {
 
 abstract class _SettingsState implements SettingsState {
   factory _SettingsState(
-      {required final double scrollSpeed,
+      {required final int scrollSpeed,
       required final bool mirroredX,
-      required final bool mirroredY}) = _$SettingsStateImpl;
+      required final bool mirroredY,
+      required final double fontSize,
+      required final double sideMargin}) = _$SettingsStateImpl;
 
   @override
-  double get scrollSpeed;
+  int get scrollSpeed;
   @override
   bool get mirroredX;
   @override
   bool get mirroredY;
+  @override
+  double get fontSize;
+  @override
+  double get sideMargin;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

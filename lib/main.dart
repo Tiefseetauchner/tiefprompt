@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
-import 'ui/screens/home_screen.dart';
-import 'ui/screens/prompter_screen.dart';
+import 'package:tiefprompt/ui/screens/prompter_screen.dart';
+import 'package:tiefprompt/ui/screens/settings_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: TeleprompterApp()));
@@ -37,6 +38,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/open_file',
       builder: (context, state) => const OpenFileScreen(),
+    ),
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => const SettingsScreen(),
     ),
   ],
 );

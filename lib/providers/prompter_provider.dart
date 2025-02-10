@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 part 'prompter_provider.freezed.dart';
@@ -8,11 +9,12 @@ part 'prompter_provider.g.dart';
 @freezed
 class PrompterState with _$PrompterState {
   factory PrompterState({
-    @Default(0.35) double speed,
+    @Default(3) int speed,
     @Default(false) bool mirroredX,
     @Default(false) bool mirroredY,
-    @Default(48) double fontSize,
+    @Default(48.0) double fontSize,
     @Default(false) bool isPlaying,
+    @Default(0) double sideMargin,
   }) = _PrompterState;
 }
 
@@ -26,21 +28,30 @@ class Prompter extends _$Prompter {
   void applySettings(SettingsState settings) {
     state = state.copyWith(
       speed: settings.scrollSpeed,
-      //fontSize: settings.fontSize,
+      fontSize: settings.fontSize,
       mirroredX: settings.mirroredX,
       mirroredY: settings.mirroredY,
+      sideMargin: settings.sideMargin,
     );
   }
 
-  void setSpeed(double speed) {
+  void setSpeed(int speed) {
     state = state.copyWith(speed: speed);
   }
 
-  void increaseSpeed(double amount) {
+  void increaseSpeed(int amount) {
+    if (state.speed + amount > kPrompterMaxSpeed) {
+      return;
+    }
+
     state = state.copyWith(speed: state.speed + amount);
   }
 
-  void decreaseSpeed(double amount) {
+  void decreaseSpeed(int amount) {
+    if (state.speed - amount < kPrompterMinSpeed) {
+      return;
+    }
+
     state = state.copyWith(speed: state.speed - amount);
   }
 
@@ -57,10 +68,18 @@ class Prompter extends _$Prompter {
   }
 
   void increaseFontSize(double amount) {
-    state = state.copyWith(fontSize: state.fontSize * amount);
+    if (state.fontSize + amount > kPrompterMaxFontSize) {
+      return;
+    }
+
+    state = state.copyWith(fontSize: state.fontSize + amount);
   }
 
   void decreaseFontSize(double amount) {
-    state = state.copyWith(fontSize: state.fontSize / amount);
+    if (state.fontSize - amount < kPrompterMinFontSize) {
+      return;
+    }
+
+    state = state.copyWith(fontSize: state.fontSize - amount);
   }
 }

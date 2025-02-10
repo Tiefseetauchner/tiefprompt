@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -9,8 +8,10 @@ final _userScrollingProvider = StateProvider<bool>((ref) => false);
 class ScrollableText extends ConsumerStatefulWidget {
   final String text;
   final TextStyle? style;
+  final double sideMargin;
 
-  const ScrollableText({super.key, required this.text, this.style});
+  const ScrollableText(
+      {super.key, required this.text, this.style, required this.sideMargin});
 
   @override
   ConsumerState<ScrollableText> createState() => _ScrollableTextState();
@@ -20,10 +21,10 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   Ticker? _ticker;
-  double _scrollSpeed = 0.0;
+  int _scrollSpeed = 0;
   Function? _onReachedEnd;
 
-  void _startScrolling(double speed) {
+  void _startScrolling(int speed) {
     _stopScrolling();
     _scrollSpeed = speed; // Adjusted speed factor
     _ticker?.start();
@@ -40,15 +41,19 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     _ticker = createTicker((Duration elapsed) {
       final isUserScrolling = ref.watch(_userScrollingProvider);
 
+      final calculatedScrollSpeed = _scrollSpeed;
+
       if (_scrollController.hasClients && !isUserScrolling) {
-        if (_scrollController.offset + _scrollSpeed >=
+        if (_scrollController.offset + calculatedScrollSpeed >=
             _scrollController.position.maxScrollExtent) {
           _onReachedEnd?.call();
           return;
         }
 
-        _scrollController.animateTo(_scrollController.offset + _scrollSpeed,
-            duration: Duration(milliseconds: 3), curve: Curves.linear);
+        _scrollController.animateTo(
+            _scrollController.offset + calculatedScrollSpeed,
+            duration: Duration(milliseconds: 100),
+            curve: Curves.linear);
       }
     });
   }
@@ -82,7 +87,8 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
         flipY: prompter.mirroredY,
         child: SingleChildScrollView(
           controller: _scrollController,
-          padding: EdgeInsets.fromLTRB(0, mediaHeight, 0, 0),
+          padding: EdgeInsets.fromLTRB(
+              widget.sideMargin, mediaHeight, widget.sideMargin, 0),
           child: Column(children: [
             Text(widget.text, style: widget.style),
             SizedBox(
