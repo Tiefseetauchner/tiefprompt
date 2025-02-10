@@ -65,7 +65,7 @@ class PrompterBottomBar extends ConsumerWidget {
             icon: Icon(Icons.remove,
                 color: Theme.of(context).colorScheme.onPrimary),
             onPressed: () =>
-                ref.read(prompterProvider.notifier).decreaseSpeed(1),
+                ref.read(prompterProvider.notifier).decreaseSpeed(.1),
           ),
           IconButton(
             icon: Icon(prompterState.isPlaying ? Icons.pause : Icons.play_arrow,
@@ -77,7 +77,7 @@ class PrompterBottomBar extends ConsumerWidget {
             icon:
                 Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
             onPressed: () =>
-                ref.read(prompterProvider.notifier).increaseSpeed(1),
+                ref.read(prompterProvider.notifier).increaseSpeed(.1),
           ),
           VerticalDivider(
             width: 15,
@@ -150,7 +150,7 @@ class PrompterBottomBar extends ConsumerWidget {
               child: Column(
                 children: [
                   Text(
-                    "${prompterState.speed}x",
+                    "${prompterState.speed.toStringAsFixed(1)}x",
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),

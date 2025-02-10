@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PrompterState {
-  int get speed => throw _privateConstructorUsedError;
+  double get speed => throw _privateConstructorUsedError;
   bool get mirroredX => throw _privateConstructorUsedError;
   bool get mirroredY => throw _privateConstructorUsedError;
   double get fontSize => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $PrompterStateCopyWith<$Res> {
       _$PrompterStateCopyWithImpl<$Res, PrompterState>;
   @useResult
   $Res call(
-      {int speed,
+      {double speed,
       bool mirroredX,
       bool mirroredY,
       double fontSize,
@@ -71,7 +71,7 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
       speed: null == speed
           ? _value.speed
           : speed // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -105,7 +105,7 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int speed,
+      {double speed,
       bool mirroredX,
       bool mirroredY,
       double fontSize,
@@ -137,7 +137,7 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
       speed: null == speed
           ? _value.speed
           : speed // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -166,16 +166,16 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
 
 class _$PrompterStateImpl implements _PrompterState {
   _$PrompterStateImpl(
-      {this.speed = 3,
+      {this.speed = 1.0,
       this.mirroredX = false,
       this.mirroredY = false,
       this.fontSize = 48.0,
       this.isPlaying = false,
-      this.sideMargin = 0});
+      this.sideMargin = 0.0});
 
   @override
   @JsonKey()
-  final int speed;
+  final double speed;
   @override
   @JsonKey()
   final bool mirroredX;
@@ -230,7 +230,7 @@ class _$PrompterStateImpl implements _PrompterState {
 
 abstract class _PrompterState implements PrompterState {
   factory _PrompterState(
-      {final int speed,
+      {final double speed,
       final bool mirroredX,
       final bool mirroredY,
       final double fontSize,
@@ -238,7 +238,7 @@ abstract class _PrompterState implements PrompterState {
       final double sideMargin}) = _$PrompterStateImpl;
 
   @override
-  int get speed;
+  double get speed;
   @override
   bool get mirroredX;
   @override

@@ -1,4 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +9,7 @@ part 'settings_provider.freezed.dart';
 @freezed
 class SettingsState with _$SettingsState {
   factory SettingsState(
-      {required int scrollSpeed,
+      {required double scrollSpeed,
       required bool mirroredX,
       required bool mirroredY,
       required double fontSize,
@@ -28,7 +27,7 @@ class SettingsService {
     final prefs = await SharedPreferences.getInstance();
 
     return SettingsState(
-      scrollSpeed: prefs.getInt(_speedKey) ?? 1,
+      scrollSpeed: prefs.getDouble(_speedKey) ?? 1.0,
       mirroredX: prefs.getBool(_mirroredXKey) ?? false,
       mirroredY: prefs.getBool(_mirroredYKey) ?? false,
       fontSize: prefs.getDouble(_fontSizeKey) ?? 42.0,
@@ -41,9 +40,9 @@ class SettingsService {
     return await prefs.clear();
   }
 
-  Future<void> setScrollSpeed(int speed) async {
+  Future<void> setScrollSpeed(double speed) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_speedKey, speed);
+    await prefs.setDouble(_speedKey, speed);
   }
 
   Future<void> setMirroredX(bool value) async {
@@ -92,7 +91,7 @@ class Settings extends _$Settings {
     }
   }
 
-  Future<void> setScrollSpeed(int speed) async {
+  Future<void> setScrollSpeed(double speed) async {
     await _settingsService.setScrollSpeed(speed);
     state = AsyncValue.data(state.value!.copyWith(scrollSpeed: speed));
   }

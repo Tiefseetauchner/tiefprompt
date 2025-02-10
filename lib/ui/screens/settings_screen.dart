@@ -16,14 +16,15 @@ class SettingsScreen extends ConsumerWidget {
           body: ListView(
             children: [
               NumberAppSetting(
-                value: value.scrollSpeed + 0.0,
+                value: value.scrollSpeed,
                 displayText: "Default Scroll Speed",
                 onValueChanged: (updatedValue) => ref
                     .read(settingsProvider.notifier)
-                    .setScrollSpeed(updatedValue.floor()),
-                min: kPrompterMinSpeed + 0.0,
-                max: kPrompterMaxSpeed + 0.0,
-                stepSize: 1,
+                    .setScrollSpeed(updatedValue),
+                min: kPrompterMinSpeed,
+                max: kPrompterMaxSpeed,
+                stepSize: .1,
+                unit: "lines/sec",
               ),
               NumberAppSetting(
                 value: value.fontSize,
@@ -33,6 +34,7 @@ class SettingsScreen extends ConsumerWidget {
                     .setFontSize(updatedValue),
                 min: kPrompterMinFontSize,
                 max: kPrompterMaxFontSize,
+                unit: "px",
               ),
               BooleanAppSetting(
                   value: value.mirroredX,
@@ -47,14 +49,14 @@ class SettingsScreen extends ConsumerWidget {
                       .read(settingsProvider.notifier)
                       .setMirroredY(updatedValue)),
               NumberAppSetting(
-                value: value.sideMargin,
-                displayText: "Side Margin",
-                onValueChanged: (updatedValue) => ref
-                    .read(settingsProvider.notifier)
-                    .setSideMargin(updatedValue),
-                min: kPrompterMinSideMargin,
-                max: kPrompterMaxSideMargin,
-              ),
+                  value: value.sideMargin,
+                  displayText: "Side Margin",
+                  onValueChanged: (updatedValue) => ref
+                      .read(settingsProvider.notifier)
+                      .setSideMargin(updatedValue),
+                  min: kPrompterMinSideMargin,
+                  max: kPrompterMaxSideMargin,
+                  unit: "%"),
               ListTile(
                 title: Text("Reset settings"),
                 onTap: () {
@@ -109,6 +111,7 @@ class NumberAppSetting extends StatelessWidget {
     required this.min,
     required this.max,
     this.stepSize,
+    this.unit,
   });
 
   final double value;
@@ -117,6 +120,7 @@ class NumberAppSetting extends StatelessWidget {
   final double min;
   final double max;
   final double? stepSize;
+  final String? unit;
 
   void _showDialog(BuildContext context) {
     showModalBottomSheet(
@@ -131,7 +135,7 @@ class NumberAppSetting extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(displayText, style: TextStyle(fontSize: 18)),
-                  Text(tempValue.toStringAsFixed(1),
+                  Text(tempValue.toStringAsFixed(1) + (unit ?? ""),
                       style: TextStyle(fontSize: 12)),
                   Slider(
                     value: tempValue,
