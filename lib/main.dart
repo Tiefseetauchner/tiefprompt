@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
@@ -15,11 +16,13 @@ class TeleprompterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Teleprompter',
-      // TODO: Customize Theme
-      //theme: ThemeData.dark(),
-      routerConfig: _router,
+    return SafeArea(
+      child: MaterialApp.router(
+        title: 'Teleprompter',
+        // TODO: Customize Theme
+        //theme: ThemeData.dark(),
+        routerConfig: _router,
+      ),
     );
   }
 }
