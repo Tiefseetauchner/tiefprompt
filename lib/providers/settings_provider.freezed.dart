@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsState {
-  int get scrollSpeed => throw _privateConstructorUsedError;
+  double get scrollSpeed => throw _privateConstructorUsedError;
   bool get mirroredX => throw _privateConstructorUsedError;
   bool get mirroredY => throw _privateConstructorUsedError;
   double get fontSize => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $SettingsStateCopyWith<$Res> {
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
   $Res call(
-      {int scrollSpeed,
+      {double scrollSpeed,
       bool mirroredX,
       bool mirroredY,
       double fontSize,
@@ -68,7 +68,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
       scrollSpeed: null == scrollSpeed
           ? _value.scrollSpeed
           : scrollSpeed // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -98,7 +98,7 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int scrollSpeed,
+      {double scrollSpeed,
       bool mirroredX,
       bool mirroredY,
       double fontSize,
@@ -128,7 +128,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
       scrollSpeed: null == scrollSpeed
           ? _value.scrollSpeed
           : scrollSpeed // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       mirroredX: null == mirroredX
           ? _value.mirroredX
           : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -160,7 +160,7 @@ class _$SettingsStateImpl implements _SettingsState {
       required this.sideMargin});
 
   @override
-  final int scrollSpeed;
+  final double scrollSpeed;
   @override
   final bool mirroredX;
   @override
@@ -207,14 +207,14 @@ class _$SettingsStateImpl implements _SettingsState {
 
 abstract class _SettingsState implements SettingsState {
   factory _SettingsState(
-      {required final int scrollSpeed,
+      {required final double scrollSpeed,
       required final bool mirroredX,
       required final bool mirroredY,
       required final double fontSize,
       required final double sideMargin}) = _$SettingsStateImpl;
 
   @override
-  int get scrollSpeed;
+  double get scrollSpeed;
   @override
   bool get mirroredX;
   @override

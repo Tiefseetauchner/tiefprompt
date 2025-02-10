@@ -21,12 +21,12 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   Ticker? _ticker;
-  int _scrollSpeed = 0;
+  double _scrollSpeed = 0;
   Function? _onReachedEnd;
 
-  void _startScrolling(int speed) {
+  void _startScrolling(double speed) {
     _stopScrolling();
-    _scrollSpeed = speed; // Adjusted speed factor
+    _scrollSpeed = speed;
     _ticker?.start();
   }
 
@@ -39,23 +39,28 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     super.initState();
 
     _ticker = createTicker((Duration elapsed) {
-      final isUserScrolling = ref.watch(_userScrollingProvider);
-
-      final calculatedScrollSpeed = _scrollSpeed;
-
-      if (_scrollController.hasClients && !isUserScrolling) {
-        if (_scrollController.offset + calculatedScrollSpeed >=
-            _scrollController.position.maxScrollExtent) {
-          _onReachedEnd?.call();
-          return;
-        }
-
-        _scrollController.animateTo(
-            _scrollController.offset + calculatedScrollSpeed,
-            duration: Duration(milliseconds: 100),
-            curve: Curves.linear);
-      }
+      _tick();
     });
+  }
+
+  void _tick() {
+    final isUserScrolling = ref.watch(_userScrollingProvider);
+
+    final calculatedScrollOffset =
+        (_scrollSpeed * (widget.style?.fontSize ?? 48)) / 10;
+
+    if (_scrollController.hasClients && !isUserScrolling) {
+      if (_scrollController.position.pixels + calculatedScrollOffset >=
+          _scrollController.position.maxScrollExtent) {
+        _onReachedEnd?.call();
+        return;
+      }
+
+      _scrollController.animateTo(
+          _scrollController.position.pixels + calculatedScrollOffset,
+          duration: Duration(milliseconds: 100),
+          curve: Curves.linear);
+    }
   }
 
   @override

@@ -1,5 +1,5 @@
-const int kPrompterMinSpeed = 1;
-const int kPrompterMaxSpeed = 40;
+const double kPrompterMinSpeed = 0.1;
+const double kPrompterMaxSpeed = 20.0;
 
 const double kPrompterMinFontSize = 12.0;
 const double kPrompterMaxFontSize = 420.0;
