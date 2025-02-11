@@ -12,8 +12,9 @@ class HomeScreen extends ConsumerWidget {
     final script = ref.watch(scriptProvider);
 
     return Scaffold(
-        appBar: AppBar(title: const Text('Teleprompter')),
-        body: Stack(
+      appBar: AppBar(title: const Text('Teleprompter')),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -25,7 +26,8 @@ class HomeScreen extends ConsumerWidget {
                         border: OutlineInputBorder(),
                         hintText: 'Enter script text',
                       ),
-                      maxLines: 5,
+                      maxLines:
+                          (MediaQuery.of(context).size.height / 70).floor(),
                       controller: TextEditingController(text: script.text),
                       onChanged: (value) {
                         ref.read(scriptProvider.notifier).setText(value);
@@ -56,22 +58,23 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 16.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.settings),
-                            onPressed: () => context.push("/settings"),
-                          ),
-                        ])))
+            Container(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 12.0, horizontal: 16.0),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () => context.push("/settings"),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.code),
+                    onPressed: () => context.push("/settings"),
+                  ),
+                ])),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
