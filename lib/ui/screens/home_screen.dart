@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -69,12 +70,19 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   IconButton(
                     icon: Icon(Icons.code),
-                    onPressed: () => context.push("/settings"),
+                    onPressed: () => _launchUrl(),
                   ),
                 ])),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    final Uri url = Uri.parse('https://github.com/tiefseetauchner/tiefprompt');
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
