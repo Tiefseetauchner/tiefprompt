@@ -5,12 +5,32 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final script = ref.watch(scriptProvider);
+    _controller.text = script.text;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Teleprompter')),
@@ -23,16 +43,17 @@ class HomeScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter script text',
-                      ),
-                      maxLines:
-                          (MediaQuery.of(context).size.height / 70).floor(),
-                      controller: TextEditingController(text: script.text),
-                      onChanged: (value) {
-                        ref.read(scriptProvider.notifier).setText(value);
-                      }),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter script text',
+                    ),
+                    maxLines: (MediaQuery.of(context).size.height / 70).floor(),
+                    controller: _controller,
+                    onChanged: (value) {
+                      // Update script text when user changes screen
+                      ref.read(scriptProvider.notifier).setText(value);
+                    },
+                  ),
                   const SizedBox(height: 16),
                   Wrap(
                     alignment: WrapAlignment.center,
@@ -60,10 +81,11 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             Container(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 12.0, horizontal: 16.0),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   IconButton(
                     icon: Icon(Icons.settings),
                     onPressed: () => context.push("/settings"),
@@ -72,7 +94,9 @@ class HomeScreen extends ConsumerWidget {
                     icon: Icon(Icons.code),
                     onPressed: () => _launchUrl(),
                   ),
-                ])),
+                ],
+              ),
+            ),
           ],
         ),
       ),
