@@ -26,7 +26,7 @@ class PrompterBottomBar extends ConsumerWidget {
                 .applySettingsFromPrompter(prompterState),
           ),
           VerticalDivider(
-            width: 50,
+            width: 15,
           ),
         ],
       ),
@@ -111,7 +111,7 @@ class PrompterBottomBar extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           VerticalDivider(
-            width: 50,
+            width: 15,
           ),
           IconButton(
             icon: Icon(Icons.settings,
@@ -135,15 +135,21 @@ class PrompterBottomBar extends ConsumerWidget {
       left: 0,
       right: 0,
       child: Container(
-        color: Theme.of(context).colorScheme.onSecondary.withAlpha(120),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.onSecondary.withAlpha(120),
+        ),
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         child: Stack(
           children: [
-            OverflowBar(
-              alignment: MainAxisAlignment.center,
-              overflowAlignment: OverflowBarAlignment.center,
-              spacing: 12,
-              children: _getWidgetButtons(context, ref, prompterState),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: _getWidgetButtons(context, ref, prompterState),
+              ),
             ),
             Positioned(
               right: 0,
