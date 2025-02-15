@@ -1,14 +1,37 @@
+import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
-import 'package:tiefprompt/services/database_service.dart';
+
+class ScriptDisplayData {
+  final String title;
+  final DateTime createdAt;
+
+  ScriptDisplayData({
+    required this.title,
+    required this.createdAt,
+  });
+}
 
 class ScriptService {
-  Future<ScriptState> loadScript() async {
-    await DatabaseService.init();
+  final databaseManagers = AppDatabase().managers;
 
-    final scriptText = "";
+  Future<List<ScriptDisplayData>> getScripts() async {
+    return await databaseManagers.scriptModel.asyncMap(map).get();
+  }
+
+  Future<ScriptDisplayData> map(ScriptModelData script) async {
+    return ScriptDisplayData(
+      title: script.title,
+      createdAt: script.createdAt ?? DateTime.now(),
+    );
+  }
+
+  Future<ScriptState> loadScript(int scriptId) async {
+    final script = await databaseManagers.scriptModel
+        .filter((s) => s.id(scriptId))
+        .getSingle();
 
     return ScriptState(
-      text: scriptText,
+      text: script.scriptText,
     );
   }
 }
