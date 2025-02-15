@@ -36,6 +36,7 @@ class OpenFileScreen extends ConsumerWidget {
                       final fileContent = await File(file.path!).readAsString();
 
                       ref.read(scriptProvider.notifier).setText(fileContent);
+                      ref.read(scriptProvider.notifier).setTitle(file.name);
                       context.pop();
                     }
                   },
