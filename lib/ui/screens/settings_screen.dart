@@ -141,41 +141,37 @@ class _NumberAppSettingState extends State<NumberAppSetting> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setSheetState) {
-            return Padding(
-              padding: EdgeInsets.fromLTRB(
-                16.0,
-                16.0,
-                16.0,
-                MediaQuery.of(context).viewInsets.bottom + 16.0,
+        return Padding(
+          padding: EdgeInsets.fromLTRB(
+            16.0,
+            16.0,
+            16.0,
+            MediaQuery.of(context).viewInsets.bottom + 16.0,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(widget.displayText, style: TextStyle(fontSize: 18)),
+              Text(
+                  widget.value.toStringAsFixed(1) +
+                      (widget.unit == null ? "" : " ${widget.unit!}"),
+                  style: TextStyle(fontSize: 12)),
+              DecimalPicker(
+                min: widget.min,
+                max: widget.max,
+                stepSize: widget.stepSize,
+                initialValue: widget.value,
+                onChanged: (value) => setState(() => selectedValue = value),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(widget.displayText, style: TextStyle(fontSize: 18)),
-                  Text(
-                      widget.value.toStringAsFixed(1) +
-                          (widget.unit == null ? "" : " ${widget.unit!}"),
-                      style: TextStyle(fontSize: 12)),
-                  DecimalPicker(
-                    min: widget.min,
-                    max: widget.max,
-                    stepSize: widget.stepSize,
-                    initialValue: widget.value,
-                    onChanged: (value) => setState(() => selectedValue = value),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      widget.onValueChanged(selectedValue);
-                      Navigator.pop(context);
-                    },
-                    child: Text("Save"),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: () {
+                  widget.onValueChanged(selectedValue);
+                  Navigator.pop(context);
+                },
+                child: Text("Save"),
               ),
-            );
-          },
+            ],
+          ),
         );
       },
     );

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
+import 'package:tiefprompt/services/script_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -74,6 +75,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           context.push('/open_file');
                         },
                         child: const Text('Select Script from Device'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (dialogContext) {
+                                return Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    16.0,
+                                    16.0,
+                                    16.0,
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        16.0,
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Save Script'),
+                                      TextField(
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: 'Enter script name',
+                                        ),
+                                        onChanged: (value) => ref
+                                            .read(scriptProvider.notifier)
+                                            .setTitle(value),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          ScriptService()
+                                              .save(ref.watch(scriptProvider));
+                                          dialogContext.pop();
+                                        },
+                                        child: const Text('Save'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: const Text('Save Script'),
                       ),
                     ],
                   ),

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ScriptState {
   String get text => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
 
   /// Create a copy of ScriptState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +32,7 @@ abstract class $ScriptStateCopyWith<$Res> {
           ScriptState value, $Res Function(ScriptState) then) =
       _$ScriptStateCopyWithImpl<$Res, ScriptState>;
   @useResult
-  $Res call({String text});
+  $Res call({String text, String title});
 }
 
 /// @nodoc
@@ -50,11 +51,16 @@ class _$ScriptStateCopyWithImpl<$Res, $Val extends ScriptState>
   @override
   $Res call({
     Object? text = null,
+    Object? title = null,
   }) {
     return _then(_value.copyWith(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -68,7 +74,7 @@ abstract class _$$ScriptStateImplCopyWith<$Res>
       __$$ScriptStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String text});
+  $Res call({String text, String title});
 }
 
 /// @nodoc
@@ -85,11 +91,16 @@ class __$$ScriptStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? text = null,
+    Object? title = null,
   }) {
     return _then(_$ScriptStateImpl(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -98,14 +109,16 @@ class __$$ScriptStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ScriptStateImpl implements _ScriptState {
-  _$ScriptStateImpl({required this.text});
+  _$ScriptStateImpl({required this.text, required this.title});
 
   @override
   final String text;
+  @override
+  final String title;
 
   @override
   String toString() {
-    return 'ScriptState(text: $text)';
+    return 'ScriptState(text: $text, title: $title)';
   }
 
   @override
@@ -113,11 +126,12 @@ class _$ScriptStateImpl implements _ScriptState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ScriptStateImpl &&
-            (identical(other.text, text) || other.text == text));
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.title, title) || other.title == title));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, text);
+  int get hashCode => Object.hash(runtimeType, text, title);
 
   /// Create a copy of ScriptState
   /// with the given fields replaced by the non-null parameter values.
@@ -129,10 +143,14 @@ class _$ScriptStateImpl implements _ScriptState {
 }
 
 abstract class _ScriptState implements ScriptState {
-  factory _ScriptState({required final String text}) = _$ScriptStateImpl;
+  factory _ScriptState(
+      {required final String text,
+      required final String title}) = _$ScriptStateImpl;
 
   @override
   String get text;
+  @override
+  String get title;
 
   /// Create a copy of ScriptState
   /// with the given fields replaced by the non-null parameter values.
