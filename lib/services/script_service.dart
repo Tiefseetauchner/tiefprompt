@@ -1,34 +1,46 @@
+import 'package:drift/drift.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 
 class ScriptDisplayData {
   final String title;
   final DateTime createdAt;
+  final int id;
 
   ScriptDisplayData({
+    required this.id,
     required this.title,
     required this.createdAt,
   });
 }
 
 class ScriptService {
-  final databaseManagers = AppDatabase().managers;
+  final _databaseManagers = AppDatabase().managers;
+
+  Future<int> getScriptCount() async =>
+      await _databaseManagers.scriptModel.count();
 
   Future<List<ScriptDisplayData>> getScripts() async =>
-      await databaseManagers.scriptModel.asyncMap(mapToDisplay).get();
+      await _databaseManagers.scriptModel.asyncMap(_mapToDisplay).get();
 
-  Future<ScriptDisplayData> mapToDisplay(ScriptModelData script) async =>
+  Future<ScriptDisplayData> _mapToDisplay(ScriptModelData script) async =>
       ScriptDisplayData(
+        id: script.id,
         title: script.title,
         createdAt: script.createdAt ?? DateTime.now(),
       );
 
-  Future<ScriptState> loadScript(int scriptId) async =>
-      await databaseManagers.scriptModel
+  Future<String> loadScript(int scriptId) async =>
+      await _databaseManagers.scriptModel
           .filter((s) => s.id(scriptId))
-          .asyncMap(mapToState)
+          .asyncMap(_mapToText)
           .getSingle();
 
-  Future<ScriptState> mapToState(ScriptModelData script) async =>
-      ScriptState(text: script.scriptText);
+  Future<String> _mapToText(ScriptModelData script) async => script.scriptText;
+
+  Future<void> save(ScriptState script) async =>
+      await _databaseManagers.scriptModel.create((s) => s(
+          scriptText: script.text,
+          title: script.title,
+          createdAt: Value(DateTime.now())));
 }

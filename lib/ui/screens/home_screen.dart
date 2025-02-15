@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
+import 'package:tiefprompt/services/script_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -53,6 +54,35 @@ class HomeScreen extends ConsumerWidget {
                           context.push('/open_file');
                         },
                         child: const Text('Select Script from Device'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          showAdaptiveDialog(
+                              context: context,
+                              builder: (dialogContext) {
+                                return Column(children: [
+                                  Text('Save Script'),
+                                  TextField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Enter script name',
+                                    ),
+                                    onChanged: (value) => ref
+                                        .read(scriptProvider.notifier)
+                                        .setTitle(value),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      ScriptService()
+                                          .save(ref.watch(scriptProvider));
+                                      dialogContext.pop();
+                                    },
+                                    child: const Text('Save'),
+                                  ),
+                                ]);
+                              });
+                        },
+                        child: const Text('Save Script'),
                       ),
                     ],
                   ),
