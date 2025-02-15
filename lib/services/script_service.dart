@@ -19,8 +19,8 @@ class ScriptService {
   Future<int> getScriptCount() async =>
       await _databaseManagers.scriptModel.count();
 
-  Future<List<ScriptDisplayData>> getScripts() async =>
-      await _databaseManagers.scriptModel.asyncMap(_mapToDisplay).get();
+  Future<Stream<List<ScriptDisplayData>>> getScripts() async =>
+      await _databaseManagers.scriptModel.asyncMap(_mapToDisplay).watch();
 
   Future<ScriptDisplayData> _mapToDisplay(ScriptModelData script) async =>
       ScriptDisplayData(
@@ -42,4 +42,9 @@ class ScriptService {
           scriptText: script.text,
           title: script.title,
           createdAt: DateTime.now()));
+
+  Future<void> deleteScript(int scriptId) async =>
+      await _databaseManagers.scriptModel
+          .filter((s) => s.id(scriptId))
+          .delete();
 }
