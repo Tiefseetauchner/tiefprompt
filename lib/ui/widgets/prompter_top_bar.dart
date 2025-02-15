@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiefprompt/providers/script_provider.dart';
 
-class PrompterTopBar extends StatelessWidget {
+class PrompterTopBar extends ConsumerWidget {
   const PrompterTopBar({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final script = ref.watch(scriptProvider);
+
     return Positioned(
       top: 0,
       left: 0,
@@ -25,7 +29,7 @@ class PrompterTopBar extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                'Script name goes here',
+                script.title,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 20,
