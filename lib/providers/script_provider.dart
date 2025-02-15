@@ -15,7 +15,7 @@ class ScriptState with _$ScriptState {
 @riverpod
 class Script extends _$Script {
   @override
-  ScriptState build() => ScriptState(text: "", title: "");
+  ScriptState build() => ScriptState(text: "", title: "Unnamed Script");
 
   void setText(String text) {
     state = state.copyWith(text: text);
