@@ -1,4 +1,3 @@
-import 'package:drift/drift.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 
@@ -27,7 +26,7 @@ class ScriptService {
       ScriptDisplayData(
         id: script.id,
         title: script.title,
-        createdAt: script.createdAt ?? DateTime.now(),
+        createdAt: script.createdAt,
       );
 
   Future<String> loadScript(int scriptId) async =>
@@ -42,5 +41,5 @@ class ScriptService {
       await _databaseManagers.scriptModel.create((s) => s(
           scriptText: script.text,
           title: script.title,
-          createdAt: Value(DateTime.now())));
+          createdAt: DateTime.now()));
 }

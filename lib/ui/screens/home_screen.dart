@@ -78,29 +78,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          showAdaptiveDialog(
+                          showModalBottomSheet(
                               context: context,
                               builder: (dialogContext) {
-                                return Column(children: [
-                                  Text('Save Script'),
-                                  TextField(
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: 'Enter script name',
-                                    ),
-                                    onChanged: (value) => ref
-                                        .read(scriptProvider.notifier)
-                                        .setTitle(value),
+                                return Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    16.0,
+                                    16.0,
+                                    16.0,
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        16.0,
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      ScriptService()
-                                          .save(ref.watch(scriptProvider));
-                                      dialogContext.pop();
-                                    },
-                                    child: const Text('Save'),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('Save Script'),
+                                      TextField(
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: 'Enter script name',
+                                        ),
+                                        onChanged: (value) => ref
+                                            .read(scriptProvider.notifier)
+                                            .setTitle(value),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          ScriptService()
+                                              .save(ref.watch(scriptProvider));
+                                          dialogContext.pop();
+                                        },
+                                        child: const Text('Save'),
+                                      ),
+                                    ],
                                   ),
-                                ]);
+                                );
                               });
                         },
                         child: const Text('Save Script'),

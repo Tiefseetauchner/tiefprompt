@@ -22,22 +22,19 @@ class $ScriptModelTable extends ScriptModel
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 32),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _scriptTextMeta =
       const VerificationMeta('scriptText');
   @override
   late final GeneratedColumn<String> scriptText = GeneratedColumn<String>(
-      'body', aliasedName, false,
+      'script_text', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, title, scriptText, createdAt];
   @override
@@ -59,15 +56,19 @@ class $ScriptModelTable extends ScriptModel
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (data.containsKey('body')) {
-      context.handle(_scriptTextMeta,
-          scriptText.isAcceptableOrUnknown(data['body']!, _scriptTextMeta));
+    if (data.containsKey('script_text')) {
+      context.handle(
+          _scriptTextMeta,
+          scriptText.isAcceptableOrUnknown(
+              data['script_text']!, _scriptTextMeta));
     } else if (isInserting) {
       context.missing(_scriptTextMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
     }
     return context;
   }
@@ -83,9 +84,9 @@ class $ScriptModelTable extends ScriptModel
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       scriptText: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}body'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}script_text'])!,
       createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
     );
   }
 
@@ -99,21 +100,19 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
   final int id;
   final String title;
   final String scriptText;
-  final DateTime? createdAt;
+  final DateTime createdAt;
   const ScriptModelData(
       {required this.id,
       required this.title,
       required this.scriptText,
-      this.createdAt});
+      required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
-    map['body'] = Variable<String>(scriptText);
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<DateTime>(createdAt);
-    }
+    map['script_text'] = Variable<String>(scriptText);
+    map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
 
@@ -122,9 +121,7 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
       id: Value(id),
       title: Value(title),
       scriptText: Value(scriptText),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
+      createdAt: Value(createdAt),
     );
   }
 
@@ -135,7 +132,7 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       scriptText: serializer.fromJson<String>(json['scriptText']),
-      createdAt: serializer.fromJson<DateTime?>(json['createdAt']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
   @override
@@ -145,20 +142,17 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'scriptText': serializer.toJson<String>(scriptText),
-      'createdAt': serializer.toJson<DateTime?>(createdAt),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
 
   ScriptModelData copyWith(
-          {int? id,
-          String? title,
-          String? scriptText,
-          Value<DateTime?> createdAt = const Value.absent()}) =>
+          {int? id, String? title, String? scriptText, DateTime? createdAt}) =>
       ScriptModelData(
         id: id ?? this.id,
         title: title ?? this.title,
         scriptText: scriptText ?? this.scriptText,
-        createdAt: createdAt.present ? createdAt.value : this.createdAt,
+        createdAt: createdAt ?? this.createdAt,
       );
   ScriptModelData copyWithCompanion(ScriptModelCompanion data) {
     return ScriptModelData(
@@ -197,7 +191,7 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> scriptText;
-  final Value<DateTime?> createdAt;
+  final Value<DateTime> createdAt;
   const ScriptModelCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -208,9 +202,10 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
     this.id = const Value.absent(),
     required String title,
     required String scriptText,
-    this.createdAt = const Value.absent(),
+    required DateTime createdAt,
   })  : title = Value(title),
-        scriptText = Value(scriptText);
+        scriptText = Value(scriptText),
+        createdAt = Value(createdAt);
   static Insertable<ScriptModelData> custom({
     Expression<int>? id,
     Expression<String>? title,
@@ -220,7 +215,7 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
-      if (scriptText != null) 'body': scriptText,
+      if (scriptText != null) 'script_text': scriptText,
       if (createdAt != null) 'created_at': createdAt,
     });
   }
@@ -229,7 +224,7 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
       {Value<int>? id,
       Value<String>? title,
       Value<String>? scriptText,
-      Value<DateTime?>? createdAt}) {
+      Value<DateTime>? createdAt}) {
     return ScriptModelCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -248,7 +243,7 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
       map['title'] = Variable<String>(title.value);
     }
     if (scriptText.present) {
-      map['body'] = Variable<String>(scriptText.value);
+      map['script_text'] = Variable<String>(scriptText.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -284,14 +279,14 @@ typedef $$ScriptModelTableCreateCompanionBuilder = ScriptModelCompanion
   Value<int> id,
   required String title,
   required String scriptText,
-  Value<DateTime?> createdAt,
+  required DateTime createdAt,
 });
 typedef $$ScriptModelTableUpdateCompanionBuilder = ScriptModelCompanion
     Function({
   Value<int> id,
   Value<String> title,
   Value<String> scriptText,
-  Value<DateTime?> createdAt,
+  Value<DateTime> createdAt,
 });
 
 class $$ScriptModelTableFilterComposer
@@ -389,7 +384,7 @@ class $$ScriptModelTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             Value<String> title = const Value.absent(),
             Value<String> scriptText = const Value.absent(),
-            Value<DateTime?> createdAt = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
           }) =>
               ScriptModelCompanion(
             id: id,
@@ -401,7 +396,7 @@ class $$ScriptModelTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             required String title,
             required String scriptText,
-            Value<DateTime?> createdAt = const Value.absent(),
+            required DateTime createdAt,
           }) =>
               ScriptModelCompanion.insert(
             id: id,
