@@ -8,6 +8,7 @@ import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
 import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 final controlsVisibleProvider = StateProvider<bool>((ref) => true);
 
@@ -37,6 +38,12 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     });
 
     final prompter = ref.watch(prompterProvider);
+
+    if (prompter.isPlaying) {
+      WakelockPlus.enable();
+    } else {
+      WakelockPlus.disable();
+    }
 
     return Theme(
         data: prompterBlackTheme,
