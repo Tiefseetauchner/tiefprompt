@@ -14,24 +14,21 @@ class ScriptDisplayData {
 class ScriptService {
   final databaseManagers = AppDatabase().managers;
 
-  Future<List<ScriptDisplayData>> getScripts() async {
-    return await databaseManagers.scriptModel.asyncMap(map).get();
-  }
+  Future<List<ScriptDisplayData>> getScripts() async =>
+      await databaseManagers.scriptModel.asyncMap(mapToDisplay).get();
 
-  Future<ScriptDisplayData> map(ScriptModelData script) async {
-    return ScriptDisplayData(
-      title: script.title,
-      createdAt: script.createdAt ?? DateTime.now(),
-    );
-  }
+  Future<ScriptDisplayData> mapToDisplay(ScriptModelData script) async =>
+      ScriptDisplayData(
+        title: script.title,
+        createdAt: script.createdAt ?? DateTime.now(),
+      );
 
-  Future<ScriptState> loadScript(int scriptId) async {
-    final script = await databaseManagers.scriptModel
-        .filter((s) => s.id(scriptId))
-        .getSingle();
+  Future<ScriptState> loadScript(int scriptId) async =>
+      await databaseManagers.scriptModel
+          .filter((s) => s.id(scriptId))
+          .asyncMap(mapToState)
+          .getSingle();
 
-    return ScriptState(
-      text: script.scriptText,
-    );
-  }
+  Future<ScriptState> mapToState(ScriptModelData script) async =>
+      ScriptState(text: script.scriptText);
 }
