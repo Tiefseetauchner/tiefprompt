@@ -13,7 +13,8 @@ class SettingsState with _$SettingsState {
       required bool mirroredX,
       required bool mirroredY,
       required double fontSize,
-      required double sideMargin}) = _SettingsState;
+      required double sideMargin,
+      required String fontFamily}) = _SettingsState;
 }
 
 @riverpod
@@ -62,5 +63,10 @@ class Settings extends _$Settings {
   Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
     await _settingsService.applySettingsFromPrompter(prompterState);
     state = AsyncValue.data(await _settingsService.loadSettings());
+  }
+
+  Future<void> setFontFamily(String fontFamily) async {
+    await _settingsService.setFontFamily(fontFamily);
+    state = AsyncValue.data(state.value!.copyWith(fontFamily: fontFamily));
   }
 }

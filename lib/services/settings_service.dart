@@ -8,6 +8,7 @@ class SettingsService {
   static const _mirroredYKey = 'mirror_text_y';
   static const _fontSizeKey = 'font_size';
   static const _sideMarginKey = 'side_margin';
+  static const _fontFamilyKey = 'side_margin';
 
   Future<SettingsState> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
@@ -18,6 +19,7 @@ class SettingsService {
       mirroredY: prefs.getBool(_mirroredYKey) ?? false,
       fontSize: prefs.getDouble(_fontSizeKey) ?? 42.0,
       sideMargin: prefs.getDouble(_sideMarginKey) ?? 0.0,
+      fontFamily: prefs.getString(_fontFamilyKey) ?? 'Roboto',
     );
   }
 
@@ -51,10 +53,17 @@ class SettingsService {
     await prefs.setDouble(_sideMarginKey, sideMargin);
   }
 
+  Future<void> setFontFamily(String fontFamily) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_fontFamilyKey, fontFamily);
+  }
+
   Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
     await setScrollSpeed(prompterState.speed);
     await setMirroredX(prompterState.mirroredX);
     await setMirroredY(prompterState.mirroredY);
     await setFontSize(prompterState.fontSize);
+    await setSideMargin(prompterState.sideMargin);
+    await setFontFamily(prompterState.fontFamily);
   }
 }
