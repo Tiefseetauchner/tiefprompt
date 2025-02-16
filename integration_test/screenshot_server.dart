@@ -1,8 +1,8 @@
 import 'dart:io';
 
 void main() async {
-  final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 7384);
-  print('Screenshot server running on http://localhost:7384');
+  final server = await HttpServer.bind(InternetAddress.anyIPv4, 3824);
+  print('Screenshot server running on http://0.0.0.0:3824');
 
   await for (HttpRequest request in server) {
     print('Request: ${request.method} ${request.uri}');

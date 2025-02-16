@@ -1,16 +1,17 @@
 import 'dart:io';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
+import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
 
 import 'mock_app.dart';
+import 'mock_script_service.dart';
 
 Future<void> main() async {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ Future<void> main() async {
     if (Platform.isAndroid) {
       await binding.convertFlutterSurfaceToImage();
       platformName =
-          "android${MediaQuery.of(tester.element(find.byType(HomeScreen))).devicePixelRatio}";
+          "android${MediaQuery.of(tester.element(find.byType(MaterialApp))).devicePixelRatio}";
     } else if (Platform.isLinux) {
       platformName = "linux";
     } else if (Platform.isMacOS) {
@@ -51,6 +52,21 @@ Future<void> main() async {
     await generateScreenshot(
       tester,
       screenName: "home_screen",
+      caseName: "default",
+    );
+  });
+
+  testWidgets("Take screenshot of load script screen",
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const MockApp(
+      scriptServiceOverride: MockScriptService(),
+      child: OpenFileScreen(),
+    ));
+    await tester.pumpAndSettle();
+
+    await generateScreenshot(
+      tester,
+      screenName: "load_script",
       caseName: "default",
     );
   });
@@ -120,16 +136,16 @@ Future<void> main() async {
     );
   });
 
-  tearDown(() async {
-    for (var screenshot in screenshots) {
-      final client = HttpClient();
-      final request = await client.post(
-          "localhost", 7384, "screenshots/${screenshot.$1}.png")
-        ..headers.contentType = ContentType.parse("image/png")
-        ..headers.contentLength = screenshot.$2.length
-        ..write(screenshot.$2);
+  tearDownAll(() async {
+    final serverIp = const String.fromEnvironment("SERVER_IP");
 
-      final response = await request.close();
+    for (var screenshot in screenshots) {
+      var request = await HttpClient()
+          .post(serverIp, 3824, "screenshots/${screenshot.$1}.png")
+        ..contentLength = screenshot.$2.length
+        ..add(screenshot.$2);
+
+      var response = await request.close();
 
       if (response.statusCode != 200) {
         throw Exception("Failed to upload screenshot: ${response.statusCode}");
