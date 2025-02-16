@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
@@ -136,7 +137,6 @@ class PrompterBottomBar extends ConsumerWidget {
 
     return Stack(
       children: [
-        if (fontSettingsVisible) Positioned(child: _FontSettingsDialog()),
         Positioned(
           bottom: 0,
           left: 0,
@@ -180,6 +180,7 @@ class PrompterBottomBar extends ConsumerWidget {
             ),
           ),
         ),
+        if (fontSettingsVisible) _FontSettingsDialog(),
       ],
     );
   }
@@ -190,56 +191,54 @@ class _FontSettingsDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prompter = ref.watch(prompterProvider);
 
-    return SimpleDialog(
-      title: Text("Font Settings", style: TextStyle(fontSize: 18)),
-      alignment: Alignment(1, 0),
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Text("F: ${prompter.fontSize.toStringAsFixed(1)}"),
-                  IconButton(
-                    icon: Icon(Icons.text_increase,
-                        color: Theme.of(context).colorScheme.primary),
-                    onPressed: () => ref
-                        .read(prompterProvider.notifier)
-                        .increaseFontSize(20),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.text_decrease,
-                        color: Theme.of(context).colorScheme.primary),
-                    onPressed: () => ref
-                        .read(prompterProvider.notifier)
-                        .decreaseFontSize(20),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                      items: [
-                        DropdownMenuItem(
-                          value: "Roboto",
-                          child: Text("Roboto"),
-                        ),
-                        DropdownMenuItem(
-                          value: "OpenDyslexic",
-                          child: Text("OpenDyslexic"),
-                        ),
-                      ],
-                      onChanged: (value) => ref
+    return Theme(
+      data: ThemeData.dark(),
+      child: SimpleDialog(
+        title: Text("Font Settings", style: TextStyle(fontSize: 18)),
+        alignment: Alignment(1, 0),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text("F: ${prompter.fontSize.toStringAsFixed(1)}"),
+                    IconButton(
+                      icon: Icon(Icons.text_increase),
+                      onPressed: () => ref
                           .read(prompterProvider.notifier)
-                          .setFontFamily(value ?? 'Roboto')),
-                ],
-              ),
-            ],
+                          .increaseFontSize(20),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.text_decrease),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .decreaseFontSize(20),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    DropdownButton(
+                        value: prompter.fontFamily,
+                        items: kAvailableFonts
+                            .map((font) => DropdownMenuItem(
+                                  value: font,
+                                  child: Text(font),
+                                ))
+                            .toList(),
+                        onChanged: (value) => ref
+                            .read(prompterProvider.notifier)
+                            .setFontFamily(value ?? 'Roboto')),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

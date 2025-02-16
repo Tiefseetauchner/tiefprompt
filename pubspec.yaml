@@ -30,9 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^2.6.1
   shared_preferences: ^2.5.1
@@ -103,7 +100,33 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-VariableFont_wdth,wght.ttf
+        - asset: fonts/Roboto-Italic-VariableFont_wdth,wght.ttf
+          style: italic
+    - family: RobotoMono
+      fonts:
+        - asset: fonts/RobotoMono-VariableFont_wght.ttf
+        - asset: fonts/RobotoMono-Italic-VariableFont_wght.ttf
+          style: italic
+    - family: RobotoSlab
+      fonts:
+        - asset: fonts/RobotoSlab-VariableFont_wght.ttf
+    - family: OpenDyslexic
+      fonts:
+        - asset: fonts/OpenDyslexic-Regular.otf
+        - asset: fonts/OpenDyslexic-Bold.otf
+          weight: 700
+        - asset: fonts/OpenDyslexic-Bold-Italic.otf
+          weight: 700
+          style: italic
+        - asset: fonts/OpenDyslexic-Italic.otf
+          style: italic
+  assets:
+    - assets/licenses/
+        
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

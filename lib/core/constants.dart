@@ -6,3 +6,12 @@ const double kPrompterMaxFontSize = 420.0;
 
 const double kPrompterMinSideMargin = 0.0;
 const double kPrompterMaxSideMargin = 99.0;
+
+const List<String> kAvailableFonts = [
+  'Roboto',
+  'RobotoMono',
+  'RobotoSlab',
+  'OpenDyslexic',
+];
+
+const String kApplicationVersion = '0.4.0';

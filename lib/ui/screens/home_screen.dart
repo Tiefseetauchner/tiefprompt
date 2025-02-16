@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
@@ -33,8 +36,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final script = ref.watch(scriptProvider);
     _controller.text = script.text;
 
+    LicenseRegistry.addLicense(() async* {
+      final openDyslexicLicense = await rootBundle
+          .loadString('assets/licenses/openDyslexicLicense.txt');
+      yield LicenseEntryWithLineBreaks(['OpenDyslexic'], openDyslexicLicense);
+      final robotoLicense =
+          await rootBundle.loadString('assets/licenses/robotoLicense.txt');
+      yield LicenseEntryWithLineBreaks(['roboto'], robotoLicense);
+      final robotoMonoLicense =
+          await rootBundle.loadString('assets/licenses/robotoMonoLicense.txt');
+      yield LicenseEntryWithLineBreaks(['roboto mono'], robotoMonoLicense);
+      final robotoSlabLicense =
+          await rootBundle.loadString('assets/licenses/robotoSlabLicense.txt');
+      yield LicenseEntryWithLineBreaks(['roboto slab'], robotoSlabLicense);
+    });
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Teleprompter')),
+      appBar: AppBar(title: const Text('TiefPrompt')),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -134,7 +152,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   IconButton(
                     icon: Icon(Icons.code),
-                    onPressed: () => _launchUrl(),
+                    onPressed: () => _launchUrl(
+                        "https://github.com/tiefseetauchner/tiefprompt"),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.info),
+                    onPressed: () => showAboutDialog(
+                      context: context,
+                      applicationName: 'TiefPrompt',
+                      applicationLegalese:
+                          'Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.',
+                      applicationVersion: kApplicationVersion,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 8,
+                            children: [
+                              Text(
+                                  "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy."),
+                              ElevatedButton(
+                                  onPressed: () => _launchUrl(
+                                      "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4"),
+                                  child: Text("Privacy Policy")),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -145,8 +191,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Future<void> _launchUrl() async {
-    final Uri url = Uri.parse('https://github.com/tiefseetauchner/tiefprompt');
+  Future<void> _launchUrl(String uri) async {
+    final Uri url = Uri.parse(uri);
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
