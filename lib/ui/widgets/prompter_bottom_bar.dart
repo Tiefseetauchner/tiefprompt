@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+
+final fontSettingsVisibleProvider = StateProvider<bool>((ref) => false);
 
 class PrompterBottomBar extends ConsumerWidget {
   const PrompterBottomBar({
@@ -11,6 +14,8 @@ class PrompterBottomBar extends ConsumerWidget {
 
   List<Widget> _getWidgetButtons(
       BuildContext context, WidgetRef ref, PrompterState prompterState) {
+    final fontSettingsVisible = ref.watch(fontSettingsVisibleProvider);
+
     return [
       Row(
         mainAxisSize: MainAxisSize.min,
@@ -90,17 +95,16 @@ class PrompterBottomBar extends ConsumerWidget {
           VerticalDivider(
             width: 15,
           ),
-          IconButton(
-            icon: Icon(Icons.text_decrease,
-                color: Theme.of(context).colorScheme.onPrimary),
-            onPressed: () =>
-                ref.read(prompterProvider.notifier).decreaseFontSize(20),
-          ),
-          IconButton(
-            icon: Icon(Icons.text_increase,
-                color: Theme.of(context).colorScheme.onPrimary),
-            onPressed: () =>
-                ref.read(prompterProvider.notifier).increaseFontSize(20),
+          Stack(
+            children: [
+              IconButton(
+                icon: Icon(Icons.text_format,
+                    color: Theme.of(context).colorScheme.onPrimary),
+                onPressed: () => ref
+                    .read(fontSettingsVisibleProvider.notifier)
+                    .state = !fontSettingsVisible,
+              ),
+            ],
           ),
           VerticalDivider(
             width: 15,
@@ -129,47 +133,139 @@ class PrompterBottomBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prompterState = ref.watch(prompterProvider);
+    final fontSettingsVisible = ref.watch(fontSettingsVisibleProvider);
 
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onSecondary.withAlpha(120),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: _getWidgetButtons(context, ref, prompterState),
-              ),
+    return Stack(
+      children: [
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onSecondary.withAlpha(120),
             ),
-            Positioned(
-              right: 0,
-              child: Column(
-                children: [
-                  Text(
-                    "${prompterState.speed.toStringAsFixed(1)}x",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary),
+            padding:
+                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: _getWidgetButtons(context, ref, prompterState),
                   ),
-                  Text(
-                    "F: ${prompterState.fontSize.toStringAsFixed(1)}",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary),
+                ),
+                Positioned(
+                  right: 0,
+                  child: Column(
+                    children: [
+                      Text(
+                        "${prompterState.speed.toStringAsFixed(1)}x",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      Text(
+                        "F: ${prompterState.fontSize.toStringAsFixed(1)}",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
+        if (fontSettingsVisible) _FontSettingsDialog(),
+      ],
+    );
+  }
+}
+
+class _FontSettingsDialog extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prompter = ref.watch(prompterProvider);
+
+    return Theme(
+      data: ThemeData.dark(),
+      child: SimpleDialog(
+        title: Text("Font Settings", style: TextStyle(fontSize: 18)),
+        alignment: Alignment(1, 0),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text("F: ${prompter.fontSize.toStringAsFixed(1)}"),
+                    IconButton(
+                      icon: Icon(Icons.text_increase),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .increaseFontSize(20),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.text_decrease),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .decreaseFontSize(20),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.format_align_left),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.left),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.format_align_center),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.center),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.format_align_right),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.right),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.format_align_justify),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.justify),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    DropdownButton(
+                        value: prompter.fontFamily,
+                        items: kAvailableFonts
+                            .map((font) => DropdownMenuItem(
+                                  value: font,
+                                  child: Text(font),
+                                ))
+                            .toList(),
+                        onChanged: (value) => ref
+                            .read(prompterProvider.notifier)
+                            .setFontFamily(value ?? 'Roboto')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

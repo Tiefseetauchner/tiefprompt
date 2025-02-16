@@ -6,7 +6,7 @@ part of 'settings_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$settingsHash() => r'313b60b747c1603d3cb680e2188405fde42b6082';
+String _$settingsHash() => r'3196c8eb77da5e693d0c6953206c81326f7562f2';
 
 /// See also [Settings].
 @ProviderFor(Settings)

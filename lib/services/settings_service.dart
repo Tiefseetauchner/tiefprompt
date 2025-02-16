@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -8,6 +10,8 @@ class SettingsService {
   static const _mirroredYKey = 'mirror_text_y';
   static const _fontSizeKey = 'font_size';
   static const _sideMarginKey = 'side_margin';
+  static const _fontFamilyKey = 'font_family';
+  static const _alignmentKey = 'alignment';
 
   Future<SettingsState> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
@@ -18,7 +22,26 @@ class SettingsService {
       mirroredY: prefs.getBool(_mirroredYKey) ?? false,
       fontSize: prefs.getDouble(_fontSizeKey) ?? 42.0,
       sideMargin: prefs.getDouble(_sideMarginKey) ?? 0.0,
+      fontFamily: prefs.getString(_fontFamilyKey) ?? 'Roboto',
+      alignment: _getAlignment(
+        prefs.getString(_alignmentKey) ?? 'left',
+      ),
     );
+  }
+
+  TextAlign _getAlignment(String alignment) {
+    switch (alignment) {
+      case 'TextAlign.left':
+        return TextAlign.left;
+      case 'TextAlign.center':
+        return TextAlign.center;
+      case 'TextAlign.right':
+        return TextAlign.right;
+      case 'TextAlign.justify':
+        return TextAlign.justify;
+      default:
+        return TextAlign.left;
+    }
   }
 
   Future<bool> resetSettings() async {
@@ -51,10 +74,23 @@ class SettingsService {
     await prefs.setDouble(_sideMarginKey, sideMargin);
   }
 
+  Future<void> setFontFamily(String fontFamily) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_fontFamilyKey, fontFamily);
+  }
+
+  Future<void> setAlignment(TextAlign alignment) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_alignmentKey, alignment.toString());
+  }
+
   Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
     await setScrollSpeed(prompterState.speed);
     await setMirroredX(prompterState.mirroredX);
     await setMirroredY(prompterState.mirroredY);
     await setFontSize(prompterState.fontSize);
+    await setSideMargin(prompterState.sideMargin);
+    await setFontFamily(prompterState.fontFamily);
+    await setAlignment(prompterState.alignment);
   }
 }

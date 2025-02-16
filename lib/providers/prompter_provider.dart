@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -15,6 +16,8 @@ class PrompterState with _$PrompterState {
     @Default(48.0) double fontSize,
     @Default(false) bool isPlaying,
     @Default(0.0) double sideMargin,
+    @Default('Roboto') String fontFamily,
+    @Default(TextAlign.left) TextAlign alignment,
   }) = _PrompterState;
 }
 
@@ -32,6 +35,8 @@ class Prompter extends _$Prompter {
       mirroredX: settings.mirroredX,
       mirroredY: settings.mirroredY,
       sideMargin: settings.sideMargin,
+      fontFamily: settings.fontFamily,
+      alignment: settings.alignment,
     );
   }
 
@@ -81,5 +86,13 @@ class Prompter extends _$Prompter {
     }
 
     state = state.copyWith(fontSize: state.fontSize - amount);
+  }
+
+  void setFontFamily(String fontFamily) {
+    state = state.copyWith(fontFamily: fontFamily);
+  }
+
+  void setAlignment(TextAlign alignment) {
+    state = state.copyWith(alignment: alignment);
   }
 }

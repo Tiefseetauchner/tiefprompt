@@ -60,6 +60,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                   text: script.text,
                   style: TextStyle(
                       fontSize: prompter.fontSize,
+                      fontFamily: prompter.fontFamily,
                       color: Theme.of(context).colorScheme.onPrimary),
                   sideMargin: (MediaQuery.of(context).size.width / 2) *
                       (prompter.sideMargin / 100),
@@ -75,6 +76,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     SystemChrome.setPreferredOrientations([]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
+    WakelockPlus.disable();
     super.dispose();
   }
 }

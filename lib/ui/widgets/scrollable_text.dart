@@ -95,7 +95,11 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
           padding: EdgeInsets.fromLTRB(
               widget.sideMargin, mediaHeight, widget.sideMargin, 0),
           child: Column(children: [
-            Text(widget.text, style: widget.style),
+            Text(
+              widget.text,
+              style: widget.style,
+              textAlign: prompter.alignment,
+            ),
             SizedBox(
                 height: mediaHeight,
                 child: Center(child: Text("The End", style: widget.style))),
