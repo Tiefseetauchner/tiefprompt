@@ -119,9 +119,10 @@ Future<void> main() async {
     );
   });
 
-  tearDown(() {
+  tearDown(() async {
     for (var element in screenshots) {
-      File("./screenshots/${element.$1}.png").writeAsBytesSync(element.$2);
+      (await File("./screenshots/${element.$1}.png").create(recursive: true))
+          .writeAsBytesSync(element.$2);
     }
   });
 }
