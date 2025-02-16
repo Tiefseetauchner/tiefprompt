@@ -32,7 +32,7 @@ run_tests() {
   sleep 5
 
   echo -e "${BLUE}Starting Flutter app for testing...${NC}"
-  flutter test test/screenshot_automation/screenshot_automation_test.dart
+  flutter test test/screenshot_automation/screenshot_automation_test.dart -d "$1"
 }
 
 stop_emulator() {
