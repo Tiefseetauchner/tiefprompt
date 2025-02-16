@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -120,9 +121,19 @@ Future<void> main() async {
   });
 
   tearDown(() async {
-    for (var element in screenshots) {
-      (await File("./screenshots/${element.$1}.png").create(recursive: true))
-          .writeAsBytesSync(element.$2);
+    for (var screenshot in screenshots) {
+      final client = HttpClient();
+      final request = await client.post(
+          "localhost", 7384, "screenshots/${screenshot.$1}.png")
+        ..headers.contentType = ContentType.parse("image/png")
+        ..headers.contentLength = screenshot.$2.length
+        ..write(screenshot.$2);
+
+      final response = await request.close();
+
+      if (response.statusCode != 200) {
+        throw Exception("Failed to upload screenshot: ${response.statusCode}");
+      }
     }
   });
 }
