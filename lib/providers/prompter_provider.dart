@@ -15,6 +15,7 @@ class PrompterState with _$PrompterState {
     @Default(48.0) double fontSize,
     @Default(false) bool isPlaying,
     @Default(0.0) double sideMargin,
+    @Default('Roboto') String fontFamily,
   }) = _PrompterState;
 }
 
@@ -32,6 +33,7 @@ class Prompter extends _$Prompter {
       mirroredX: settings.mirroredX,
       mirroredY: settings.mirroredY,
       sideMargin: settings.sideMargin,
+      fontFamily: settings.fontFamily,
     );
   }
 
@@ -81,5 +83,9 @@ class Prompter extends _$Prompter {
     }
 
     state = state.copyWith(fontSize: state.fontSize - amount);
+  }
+
+  void setFontFamily(String fontFamily) {
+    state = state.copyWith(fontFamily: fontFamily);
   }
 }
