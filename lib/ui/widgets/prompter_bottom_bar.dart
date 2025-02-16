@@ -221,6 +221,34 @@ class _FontSettingsDialog extends ConsumerWidget {
                 ),
                 Row(
                   children: [
+                    IconButton(
+                      icon: Icon(Icons.format_align_left),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.left),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.format_align_center),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.center),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.format_align_right),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.right),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.format_align_justify),
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .setAlignment(TextAlign.justify),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
                     DropdownButton(
                         value: prompter.fontFamily,
                         items: kAvailableFonts

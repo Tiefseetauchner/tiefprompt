@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -14,7 +15,8 @@ class SettingsState with _$SettingsState {
       required bool mirroredY,
       required double fontSize,
       required double sideMargin,
-      required String fontFamily}) = _SettingsState;
+      required String fontFamily,
+      required TextAlign alignment}) = _SettingsState;
 }
 
 @riverpod
@@ -23,6 +25,11 @@ class Settings extends _$Settings {
   @override
   Future<SettingsState> build() async {
     return await _settingsService.loadSettings();
+  }
+
+  Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
+    await _settingsService.applySettingsFromPrompter(prompterState);
+    state = AsyncValue.data(await _settingsService.loadSettings());
   }
 
   Future<void> resetSettings() async {
@@ -60,13 +67,13 @@ class Settings extends _$Settings {
     state = AsyncValue.data(state.value!.copyWith(sideMargin: sideMargin));
   }
 
-  Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
-    await _settingsService.applySettingsFromPrompter(prompterState);
-    state = AsyncValue.data(await _settingsService.loadSettings());
-  }
-
   Future<void> setFontFamily(String fontFamily) async {
     await _settingsService.setFontFamily(fontFamily);
     state = AsyncValue.data(state.value!.copyWith(fontFamily: fontFamily));
+  }
+
+  Future<void> setAlignment(TextAlign alignment) async {
+    await _settingsService.setAlignment(alignment);
+    state = AsyncValue.data(state.value!.copyWith(alignment: alignment));
   }
 }

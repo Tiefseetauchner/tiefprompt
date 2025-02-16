@@ -23,6 +23,7 @@ mixin _$PrompterState {
   bool get isPlaying => throw _privateConstructorUsedError;
   double get sideMargin => throw _privateConstructorUsedError;
   String get fontFamily => throw _privateConstructorUsedError;
+  TextAlign get alignment => throw _privateConstructorUsedError;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +45,8 @@ abstract class $PrompterStateCopyWith<$Res> {
       double fontSize,
       bool isPlaying,
       double sideMargin,
-      String fontFamily});
+      String fontFamily,
+      TextAlign alignment});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
     Object? isPlaying = null,
     Object? sideMargin = null,
     Object? fontFamily = null,
+    Object? alignment = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -99,6 +102,10 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
           ? _value.fontFamily
           : fontFamily // ignore: cast_nullable_to_non_nullable
               as String,
+      alignment: null == alignment
+          ? _value.alignment
+          : alignment // ignore: cast_nullable_to_non_nullable
+              as TextAlign,
     ) as $Val);
   }
 }
@@ -118,7 +125,8 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
       double fontSize,
       bool isPlaying,
       double sideMargin,
-      String fontFamily});
+      String fontFamily,
+      TextAlign alignment});
 }
 
 /// @nodoc
@@ -141,6 +149,7 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
     Object? isPlaying = null,
     Object? sideMargin = null,
     Object? fontFamily = null,
+    Object? alignment = null,
   }) {
     return _then(_$PrompterStateImpl(
       speed: null == speed
@@ -171,6 +180,10 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
           ? _value.fontFamily
           : fontFamily // ignore: cast_nullable_to_non_nullable
               as String,
+      alignment: null == alignment
+          ? _value.alignment
+          : alignment // ignore: cast_nullable_to_non_nullable
+              as TextAlign,
     ));
   }
 }
@@ -185,7 +198,8 @@ class _$PrompterStateImpl implements _PrompterState {
       this.fontSize = 48.0,
       this.isPlaying = false,
       this.sideMargin = 0.0,
-      this.fontFamily = 'Roboto'});
+      this.fontFamily = 'Roboto',
+      this.alignment = TextAlign.left});
 
   @override
   @JsonKey()
@@ -208,10 +222,13 @@ class _$PrompterStateImpl implements _PrompterState {
   @override
   @JsonKey()
   final String fontFamily;
+  @override
+  @JsonKey()
+  final TextAlign alignment;
 
   @override
   String toString() {
-    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily)';
+    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment)';
   }
 
   @override
@@ -231,12 +248,14 @@ class _$PrompterStateImpl implements _PrompterState {
             (identical(other.sideMargin, sideMargin) ||
                 other.sideMargin == sideMargin) &&
             (identical(other.fontFamily, fontFamily) ||
-                other.fontFamily == fontFamily));
+                other.fontFamily == fontFamily) &&
+            (identical(other.alignment, alignment) ||
+                other.alignment == alignment));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, speed, mirroredX, mirroredY,
-      fontSize, isPlaying, sideMargin, fontFamily);
+      fontSize, isPlaying, sideMargin, fontFamily, alignment);
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -255,7 +274,8 @@ abstract class _PrompterState implements PrompterState {
       final double fontSize,
       final bool isPlaying,
       final double sideMargin,
-      final String fontFamily}) = _$PrompterStateImpl;
+      final String fontFamily,
+      final TextAlign alignment}) = _$PrompterStateImpl;
 
   @override
   double get speed;
@@ -271,6 +291,8 @@ abstract class _PrompterState implements PrompterState {
   double get sideMargin;
   @override
   String get fontFamily;
+  @override
+  TextAlign get alignment;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.

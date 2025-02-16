@@ -22,6 +22,7 @@ mixin _$SettingsState {
   double get fontSize => throw _privateConstructorUsedError;
   double get sideMargin => throw _privateConstructorUsedError;
   String get fontFamily => throw _privateConstructorUsedError;
+  TextAlign get alignment => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -42,7 +43,8 @@ abstract class $SettingsStateCopyWith<$Res> {
       bool mirroredY,
       double fontSize,
       double sideMargin,
-      String fontFamily});
+      String fontFamily,
+      TextAlign alignment});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? fontSize = null,
     Object? sideMargin = null,
     Object? fontFamily = null,
+    Object? alignment = null,
   }) {
     return _then(_value.copyWith(
       scrollSpeed: null == scrollSpeed
@@ -92,6 +95,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.fontFamily
           : fontFamily // ignore: cast_nullable_to_non_nullable
               as String,
+      alignment: null == alignment
+          ? _value.alignment
+          : alignment // ignore: cast_nullable_to_non_nullable
+              as TextAlign,
     ) as $Val);
   }
 }
@@ -110,7 +117,8 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       bool mirroredY,
       double fontSize,
       double sideMargin,
-      String fontFamily});
+      String fontFamily,
+      TextAlign alignment});
 }
 
 /// @nodoc
@@ -132,6 +140,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? fontSize = null,
     Object? sideMargin = null,
     Object? fontFamily = null,
+    Object? alignment = null,
   }) {
     return _then(_$SettingsStateImpl(
       scrollSpeed: null == scrollSpeed
@@ -158,6 +167,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.fontFamily
           : fontFamily // ignore: cast_nullable_to_non_nullable
               as String,
+      alignment: null == alignment
+          ? _value.alignment
+          : alignment // ignore: cast_nullable_to_non_nullable
+              as TextAlign,
     ));
   }
 }
@@ -171,7 +184,8 @@ class _$SettingsStateImpl implements _SettingsState {
       required this.mirroredY,
       required this.fontSize,
       required this.sideMargin,
-      required this.fontFamily});
+      required this.fontFamily,
+      required this.alignment});
 
   @override
   final double scrollSpeed;
@@ -185,10 +199,12 @@ class _$SettingsStateImpl implements _SettingsState {
   final double sideMargin;
   @override
   final String fontFamily;
+  @override
+  final TextAlign alignment;
 
   @override
   String toString() {
-    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily)';
+    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment)';
   }
 
   @override
@@ -207,12 +223,14 @@ class _$SettingsStateImpl implements _SettingsState {
             (identical(other.sideMargin, sideMargin) ||
                 other.sideMargin == sideMargin) &&
             (identical(other.fontFamily, fontFamily) ||
-                other.fontFamily == fontFamily));
+                other.fontFamily == fontFamily) &&
+            (identical(other.alignment, alignment) ||
+                other.alignment == alignment));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, scrollSpeed, mirroredX,
-      mirroredY, fontSize, sideMargin, fontFamily);
+      mirroredY, fontSize, sideMargin, fontFamily, alignment);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -230,7 +248,8 @@ abstract class _SettingsState implements SettingsState {
       required final bool mirroredY,
       required final double fontSize,
       required final double sideMargin,
-      required final String fontFamily}) = _$SettingsStateImpl;
+      required final String fontFamily,
+      required final TextAlign alignment}) = _$SettingsStateImpl;
 
   @override
   double get scrollSpeed;
@@ -244,6 +263,8 @@ abstract class _SettingsState implements SettingsState {
   double get sideMargin;
   @override
   String get fontFamily;
+  @override
+  TextAlign get alignment;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

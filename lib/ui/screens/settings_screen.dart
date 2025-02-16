@@ -37,6 +37,25 @@ class SettingsScreen extends ConsumerWidget {
                 max: kPrompterMaxFontSize,
                 unit: "px",
               ),
+              DropdownAppSetting<TextAlign>(
+                  value: value.alignment,
+                  displayText: "Text Alignment",
+                  onValueChanged: (updatedValue) => ref
+                      .read(settingsProvider.notifier)
+                      .setAlignment(updatedValue),
+                  values: [
+                    ("Left", TextAlign.left),
+                    ("Center", TextAlign.center),
+                    ("Right", TextAlign.right),
+                    ("Justified", TextAlign.justify),
+                  ]),
+              DropdownAppSetting<String>(
+                  value: value.fontFamily,
+                  displayText: "Font Family",
+                  onValueChanged: (updatedValue) => ref
+                      .read(settingsProvider.notifier)
+                      .setFontFamily(updatedValue),
+                  values: kAvailableFonts.map((e) => (e, e)).toList()),
               BooleanAppSetting(
                   value: value.mirroredX,
                   displayText: "Default Flip X",
@@ -78,6 +97,42 @@ class SettingsScreen extends ConsumerWidget {
           ]),
         )
     };
+  }
+}
+
+class DropdownAppSetting<T> extends StatelessWidget {
+  final T value;
+  final String displayText;
+  final Function(T) onValueChanged;
+  final List<(String, T)> values;
+
+  const DropdownAppSetting({
+    super.key,
+    required this.value,
+    required this.displayText,
+    required this.onValueChanged,
+    required this.values,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(displayText),
+      trailing: DropdownButton<T>(
+        value: value,
+        items: values.map((value) {
+          return DropdownMenuItem<T>(
+            value: value.$2,
+            child: Text(value.$1),
+          );
+        }).toList(),
+        onChanged: (newValue) {
+          if (newValue != null) {
+            onValueChanged(newValue);
+          }
+        },
+      ),
+    );
   }
 }
 
