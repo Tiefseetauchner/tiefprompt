@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/di_injection.dart';
 import 'package:tiefprompt/services/script_service.dart';
+import 'package:tiefprompt/services/settings_service.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
@@ -19,7 +20,10 @@ class TeleprompterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-      overrides: [scriptServiceProvider.overrideWithValue(ScriptService())],
+      overrides: [
+        scriptServiceProvider.overrideWithValue(ScriptService()),
+        settingsServiceProvider.overrideWithValue(SettingsService())
+      ],
       child: SafeArea(
         child: MaterialApp.router(
           title: 'Teleprompter',

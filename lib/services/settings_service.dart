@@ -4,7 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
-class SettingsService {
+abstract class ISettingsService {
+  Future<SettingsState> loadSettings();
+  Future<bool> resetSettings();
+  Future<void> setScrollSpeed(double speed);
+  Future<void> setMirroredX(bool value);
+  Future<void> setMirroredY(bool value);
+  Future<void> setFontSize(double fontSize);
+  Future<void> setSideMargin(double sideMargin);
+  Future<void> setFontFamily(String fontFamily);
+  Future<void> setAlignment(TextAlign alignment);
+  Future<void> applySettingsFromPrompter(PrompterState prompterState);
+}
+
+class SettingsService implements ISettingsService {
   static const _speedKey = 'scroll_speed';
   static const _mirroredXKey = 'mirror_text_x';
   static const _mirroredYKey = 'mirror_text_y';
@@ -13,6 +26,7 @@ class SettingsService {
   static const _fontFamilyKey = 'font_family';
   static const _alignmentKey = 'alignment';
 
+  @override
   Future<SettingsState> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -44,46 +58,55 @@ class SettingsService {
     }
   }
 
+  @override
   Future<bool> resetSettings() async {
     final prefs = await SharedPreferences.getInstance();
     return await prefs.clear();
   }
 
+  @override
   Future<void> setScrollSpeed(double speed) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_speedKey, speed);
   }
 
+  @override
   Future<void> setMirroredX(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_mirroredXKey, value);
   }
 
+  @override
   Future<void> setMirroredY(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_mirroredYKey, value);
   }
 
+  @override
   Future<void> setFontSize(double fontSize) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeKey, fontSize);
   }
 
+  @override
   Future<void> setSideMargin(double sideMargin) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_sideMarginKey, sideMargin);
   }
 
+  @override
   Future<void> setFontFamily(String fontFamily) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_fontFamilyKey, fontFamily);
   }
 
+  @override
   Future<void> setAlignment(TextAlign alignment) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_alignmentKey, alignment.toString());
   }
 
+  @override
   Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
     await setScrollSpeed(prompterState.speed);
     await setMirroredX(prompterState.mirroredX);
