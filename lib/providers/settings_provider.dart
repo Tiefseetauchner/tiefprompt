@@ -9,14 +9,17 @@ part 'settings_provider.freezed.dart';
 
 @freezed
 class SettingsState with _$SettingsState {
-  factory SettingsState(
-      {required double scrollSpeed,
-      required bool mirroredX,
-      required bool mirroredY,
-      required double fontSize,
-      required double sideMargin,
-      required String fontFamily,
-      required TextAlign alignment}) = _SettingsState;
+  factory SettingsState({
+    required double scrollSpeed,
+    required bool mirroredX,
+    required bool mirroredY,
+    required double fontSize,
+    required double sideMargin,
+    required String fontFamily,
+    required TextAlign alignment,
+    required bool displayReadingIndicatorBoxes,
+    required double readingIndicatorBoxesHeight,
+  }) = _SettingsState;
 }
 
 @riverpod
@@ -55,6 +58,18 @@ class Settings extends _$Settings {
   Future<void> setMirroredY(bool value) async {
     await _settingsService.setMirroredY(value);
     state = AsyncValue.data(state.value!.copyWith(mirroredY: value));
+  }
+
+  Future<void> setDisplayReadingIndicatorBoxes(bool value) async {
+    await _settingsService.setDisplayReadingIndicatorBoxes(value);
+    state = AsyncValue.data(
+        state.value!.copyWith(displayReadingIndicatorBoxes: value));
+  }
+
+  Future<void> setReadingIndicatorBoxesHeight(double height) async {
+    await _settingsService.setReadingIndicatorBoxesHeight(height);
+    state = AsyncValue.data(
+        state.value!.copyWith(readingIndicatorBoxesHeight: height));
   }
 
   Future<void> setFontSize(double fontSize) async {

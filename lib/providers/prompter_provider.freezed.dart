@@ -24,6 +24,8 @@ mixin _$PrompterState {
   double get sideMargin => throw _privateConstructorUsedError;
   String get fontFamily => throw _privateConstructorUsedError;
   TextAlign get alignment => throw _privateConstructorUsedError;
+  bool get displayReadingIndicatorBoxes => throw _privateConstructorUsedError;
+  double get readingIndicatorBoxesHeight => throw _privateConstructorUsedError;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +48,9 @@ abstract class $PrompterStateCopyWith<$Res> {
       bool isPlaying,
       double sideMargin,
       String fontFamily,
-      TextAlign alignment});
+      TextAlign alignment,
+      bool displayReadingIndicatorBoxes,
+      double readingIndicatorBoxesHeight});
 }
 
 /// @nodoc
@@ -72,6 +76,8 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
     Object? sideMargin = null,
     Object? fontFamily = null,
     Object? alignment = null,
+    Object? displayReadingIndicatorBoxes = null,
+    Object? readingIndicatorBoxesHeight = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -106,6 +112,14 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
           ? _value.alignment
           : alignment // ignore: cast_nullable_to_non_nullable
               as TextAlign,
+      displayReadingIndicatorBoxes: null == displayReadingIndicatorBoxes
+          ? _value.displayReadingIndicatorBoxes
+          : displayReadingIndicatorBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      readingIndicatorBoxesHeight: null == readingIndicatorBoxesHeight
+          ? _value.readingIndicatorBoxesHeight
+          : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -126,7 +140,9 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
       bool isPlaying,
       double sideMargin,
       String fontFamily,
-      TextAlign alignment});
+      TextAlign alignment,
+      bool displayReadingIndicatorBoxes,
+      double readingIndicatorBoxesHeight});
 }
 
 /// @nodoc
@@ -150,6 +166,8 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
     Object? sideMargin = null,
     Object? fontFamily = null,
     Object? alignment = null,
+    Object? displayReadingIndicatorBoxes = null,
+    Object? readingIndicatorBoxesHeight = null,
   }) {
     return _then(_$PrompterStateImpl(
       speed: null == speed
@@ -184,6 +202,14 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
           ? _value.alignment
           : alignment // ignore: cast_nullable_to_non_nullable
               as TextAlign,
+      displayReadingIndicatorBoxes: null == displayReadingIndicatorBoxes
+          ? _value.displayReadingIndicatorBoxes
+          : displayReadingIndicatorBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      readingIndicatorBoxesHeight: null == readingIndicatorBoxesHeight
+          ? _value.readingIndicatorBoxesHeight
+          : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -199,7 +225,9 @@ class _$PrompterStateImpl implements _PrompterState {
       this.isPlaying = false,
       this.sideMargin = 0.0,
       this.fontFamily = 'Roboto',
-      this.alignment = TextAlign.left});
+      this.alignment = TextAlign.left,
+      this.displayReadingIndicatorBoxes = false,
+      this.readingIndicatorBoxesHeight = 25.0});
 
   @override
   @JsonKey()
@@ -225,10 +253,16 @@ class _$PrompterStateImpl implements _PrompterState {
   @override
   @JsonKey()
   final TextAlign alignment;
+  @override
+  @JsonKey()
+  final bool displayReadingIndicatorBoxes;
+  @override
+  @JsonKey()
+  final double readingIndicatorBoxesHeight;
 
   @override
   String toString() {
-    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment)';
+    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight)';
   }
 
   @override
@@ -250,12 +284,30 @@ class _$PrompterStateImpl implements _PrompterState {
             (identical(other.fontFamily, fontFamily) ||
                 other.fontFamily == fontFamily) &&
             (identical(other.alignment, alignment) ||
-                other.alignment == alignment));
+                other.alignment == alignment) &&
+            (identical(other.displayReadingIndicatorBoxes,
+                    displayReadingIndicatorBoxes) ||
+                other.displayReadingIndicatorBoxes ==
+                    displayReadingIndicatorBoxes) &&
+            (identical(other.readingIndicatorBoxesHeight,
+                    readingIndicatorBoxesHeight) ||
+                other.readingIndicatorBoxesHeight ==
+                    readingIndicatorBoxesHeight));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, speed, mirroredX, mirroredY,
-      fontSize, isPlaying, sideMargin, fontFamily, alignment);
+  int get hashCode => Object.hash(
+      runtimeType,
+      speed,
+      mirroredX,
+      mirroredY,
+      fontSize,
+      isPlaying,
+      sideMargin,
+      fontFamily,
+      alignment,
+      displayReadingIndicatorBoxes,
+      readingIndicatorBoxesHeight);
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -275,7 +327,9 @@ abstract class _PrompterState implements PrompterState {
       final bool isPlaying,
       final double sideMargin,
       final String fontFamily,
-      final TextAlign alignment}) = _$PrompterStateImpl;
+      final TextAlign alignment,
+      final bool displayReadingIndicatorBoxes,
+      final double readingIndicatorBoxesHeight}) = _$PrompterStateImpl;
 
   @override
   double get speed;
@@ -293,6 +347,10 @@ abstract class _PrompterState implements PrompterState {
   String get fontFamily;
   @override
   TextAlign get alignment;
+  @override
+  bool get displayReadingIndicatorBoxes;
+  @override
+  double get readingIndicatorBoxesHeight;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.

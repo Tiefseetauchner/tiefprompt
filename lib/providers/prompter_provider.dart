@@ -18,6 +18,8 @@ class PrompterState with _$PrompterState {
     @Default(0.0) double sideMargin,
     @Default('Roboto') String fontFamily,
     @Default(TextAlign.left) TextAlign alignment,
+    @Default(false) bool displayReadingIndicatorBoxes,
+    @Default(25.0) double readingIndicatorBoxesHeight,
   }) = _PrompterState;
 }
 
@@ -37,6 +39,8 @@ class Prompter extends _$Prompter {
       sideMargin: settings.sideMargin,
       fontFamily: settings.fontFamily,
       alignment: settings.alignment,
+      displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
+      readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
     );
   }
 
@@ -70,6 +74,15 @@ class Prompter extends _$Prompter {
 
   void toggleMirroredY() {
     state = state.copyWith(mirroredY: !state.mirroredY);
+  }
+
+  void toggleDisplayReadingIndicatorBoxes() {
+    state = state.copyWith(
+        displayReadingIndicatorBoxes: !state.displayReadingIndicatorBoxes);
+  }
+
+  void setReadingIndicatorBoxHeight(double height) {
+    state = state.copyWith(readingIndicatorBoxesHeight: height);
   }
 
   void increaseFontSize(double amount) {

@@ -12,6 +12,10 @@ class SettingsService {
   static const _sideMarginKey = 'side_margin';
   static const _fontFamilyKey = 'font_family';
   static const _alignmentKey = 'alignment';
+  static const _displayReadingIndicatorBoxesKey =
+      'display_reading_indicator_boxes';
+  static const _readingIndicatorBoxesHeightKey =
+      'reading_indicator_boxes_height';
 
   Future<SettingsState> loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
@@ -26,6 +30,14 @@ class SettingsService {
       alignment: _getAlignment(
         prefs.getString(_alignmentKey) ?? 'left',
       ),
+      displayReadingIndicatorBoxes: prefs.getBool(
+            _displayReadingIndicatorBoxesKey,
+          ) ??
+          false,
+      readingIndicatorBoxesHeight: prefs.getDouble(
+            _readingIndicatorBoxesHeightKey,
+          ) ??
+          25,
     );
   }
 
@@ -64,6 +76,16 @@ class SettingsService {
     await prefs.setBool(_mirroredYKey, value);
   }
 
+  Future<void> setDisplayReadingIndicatorBoxes(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_displayReadingIndicatorBoxesKey, value);
+  }
+
+  Future<void> setReadingIndicatorBoxesHeight(double height) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_readingIndicatorBoxesHeightKey, height);
+  }
+
   Future<void> setFontSize(double fontSize) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeKey, fontSize);
@@ -92,5 +114,9 @@ class SettingsService {
     await setSideMargin(prompterState.sideMargin);
     await setFontFamily(prompterState.fontFamily);
     await setAlignment(prompterState.alignment);
+    await setDisplayReadingIndicatorBoxes(
+        prompterState.displayReadingIndicatorBoxes);
+    await setReadingIndicatorBoxesHeight(
+        prompterState.readingIndicatorBoxesHeight);
   }
 }

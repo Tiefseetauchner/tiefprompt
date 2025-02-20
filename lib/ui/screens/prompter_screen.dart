@@ -7,6 +7,7 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
+import 'package:tiefprompt/ui/widgets/reading_indicator.dart';
 import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -141,18 +142,20 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                       !controlsVisible;
                 },
                 child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ScrollableText(
-                      controller: _scrollableTextController,
-                      text: script.text,
-                      style: TextStyle(
-                          fontSize: prompter.fontSize,
-                          fontFamily: prompter.fontFamily,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      sideMargin: (MediaQuery.of(context).size.width / 2) *
-                          (prompter.sideMargin / 100),
-                    )),
+                  padding: const EdgeInsets.all(16.0),
+                  child: ScrollableText(
+                    controller: _scrollableTextController,
+                    text: script.text,
+                    style: TextStyle(
+                        fontSize: prompter.fontSize,
+                        fontFamily: prompter.fontFamily,
+                        color: Theme.of(context).colorScheme.onPrimary),
+                    sideMargin: (MediaQuery.of(context).size.width / 2) *
+                        (prompter.sideMargin / 100),
+                  ),
+                ),
               ),
+              ReadingIndicator(),
               if (controlsVisible) PrompterTopBar(),
               if (controlsVisible) PrompterBottomBar(),
             ],
