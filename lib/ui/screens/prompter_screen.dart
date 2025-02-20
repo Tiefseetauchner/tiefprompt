@@ -169,6 +169,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
         overlays: SystemUiOverlay.values);
     WakelockPlus.disable();
     _focusNode.dispose();
+    _scrollableTextController.dispose();
     super.dispose();
   }
 }
