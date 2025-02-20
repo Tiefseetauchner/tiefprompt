@@ -85,6 +85,10 @@ class Prompter extends _$Prompter {
     state = state.copyWith(readingIndicatorBoxesHeight: height);
   }
 
+  void setSideMargin(double sideMargin) {
+    state = state.copyWith(sideMargin: sideMargin);
+  }
+
   void increaseFontSize(double amount) {
     if (state.fontSize + amount > kPrompterMaxFontSize) {
       return;

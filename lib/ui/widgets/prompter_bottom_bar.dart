@@ -317,6 +317,15 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                     ),
                   ],
                 ),
+                Slider(
+                  value: prompter.sideMargin,
+                  min: 0,
+                  max: 100,
+                  divisions: 100,
+                  label: prompter.sideMargin.toStringAsFixed(2),
+                  onChanged: (value) =>
+                      ref.read(prompterProvider.notifier).setSideMargin(value),
+                ),
               ],
             ),
           ),
