@@ -5,13 +5,35 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 
 final _userScrollingProvider = StateProvider<bool>((ref) => false);
 
+class ScrollableTextController {
+  final ScrollController scrollController;
+
+  ScrollableTextController({double initialScrollOffset = 0.0})
+      : scrollController =
+            ScrollController(initialScrollOffset: initialScrollOffset);
+
+  void jumpRelative(double offset) {
+    scrollController.jumpTo(scrollController.offset + offset);
+  }
+
+  void dispose() {
+    scrollController.dispose();
+  }
+}
+
 class ScrollableText extends ConsumerStatefulWidget {
+  final ScrollableTextController controller;
   final String text;
   final TextStyle? style;
   final double sideMargin;
 
-  const ScrollableText(
-      {super.key, required this.text, this.style, required this.sideMargin});
+  const ScrollableText({
+    super.key,
+    required this.text,
+    this.style,
+    required this.sideMargin,
+    required this.controller,
+  });
 
   @override
   ConsumerState<ScrollableText> createState() => _ScrollableTextState();
@@ -19,7 +41,6 @@ class ScrollableText extends ConsumerStatefulWidget {
 
 class _ScrollableTextState extends ConsumerState<ScrollableText>
     with SingleTickerProviderStateMixin {
-  late ScrollController _scrollController;
   Ticker? _ticker;
   double _scrollSpeed = 0;
   Function? _onReachedEnd;
@@ -49,15 +70,17 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     final calculatedScrollOffset =
         (_scrollSpeed * (widget.style?.fontSize ?? 48)) / 10;
 
-    if (_scrollController.hasClients && !isUserScrolling) {
-      if (_scrollController.position.pixels + calculatedScrollOffset >=
-          _scrollController.position.maxScrollExtent) {
+    if (widget.controller.scrollController.hasClients && !isUserScrolling) {
+      if (widget.controller.scrollController.position.pixels +
+              calculatedScrollOffset >=
+          widget.controller.scrollController.position.maxScrollExtent) {
         _onReachedEnd?.call();
         return;
       }
 
-      _scrollController.animateTo(
-          _scrollController.position.pixels + calculatedScrollOffset,
+      widget.controller.scrollController.animateTo(
+          widget.controller.scrollController.position.pixels +
+              calculatedScrollOffset,
           duration: Duration(milliseconds: 100),
           curve: Curves.linear);
     }
@@ -67,12 +90,11 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   Widget build(BuildContext context) {
     final mediaHeight = MediaQuery.of(context).size.height;
 
-    _scrollController = ScrollController(initialScrollOffset: mediaHeight / 2);
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _scrollController.position.isScrollingNotifier.addListener(() {
-        ref.read(_userScrollingProvider.notifier).state =
-            _scrollController.position.isScrollingNotifier.value;
+      widget.controller.scrollController.position.isScrollingNotifier
+          .addListener(() {
+        ref.read(_userScrollingProvider.notifier).state = widget
+            .controller.scrollController.position.isScrollingNotifier.value;
       });
     });
 
@@ -91,7 +113,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
         flipX: prompter.mirroredX,
         flipY: prompter.mirroredY,
         child: SingleChildScrollView(
-          controller: _scrollController,
+          controller: widget.controller.scrollController,
           padding: EdgeInsets.fromLTRB(
               widget.sideMargin, mediaHeight, widget.sideMargin, 0),
           child: Column(children: [
@@ -110,7 +132,6 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   @override
   void dispose() {
     _stopScrolling();
-    _scrollController.dispose();
     _ticker?.dispose();
     _ticker = null;
     super.dispose();
