@@ -20,7 +20,7 @@ class ScriptService {
       await _databaseManagers.scriptModel.count();
 
   Future<Stream<List<ScriptDisplayData>>> getScripts() async =>
-      await _databaseManagers.scriptModel.asyncMap(_mapToDisplay).watch();
+      _databaseManagers.scriptModel.asyncMap(_mapToDisplay).watch();
 
   Future<ScriptDisplayData> _mapToDisplay(ScriptModelData script) async =>
       ScriptDisplayData(
