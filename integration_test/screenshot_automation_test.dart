@@ -77,6 +77,7 @@ Future<void> main() async {
     await tester.pumpAndSettle();
 
     final container = getProviderContainer(tester);
+    clearPrompterState(tester, container);
     setPrompterText(tester, container);
     setPrompterFont(tester, container, "Roboto");
 
@@ -93,6 +94,7 @@ Future<void> main() async {
     await tester.pumpAndSettle();
 
     final container = getProviderContainer(tester);
+    clearPrompterState(tester, container);
     setPrompterText(tester, container);
     setPrompterFont(tester, container, "RobotoMono");
 
@@ -109,6 +111,7 @@ Future<void> main() async {
     await tester.pumpAndSettle();
 
     final container = getProviderContainer(tester);
+    clearPrompterState(tester, container);
     setPrompterText(tester, container);
     setPrompterFont(tester, container, "RobotoSlab");
 
@@ -169,7 +172,7 @@ void clearPrompterState(WidgetTester tester, ProviderContainer container) {
       fontFamily: "Roboto",
       alignment: TextAlign.left,
       displayReadingIndicatorBoxes: true,
-      readingIndicatorBoxesHeight: 40));
+      readingIndicatorBoxesHeight: 70));
 }
 
 void setPrompterText(WidgetTester tester, ProviderContainer container) {
