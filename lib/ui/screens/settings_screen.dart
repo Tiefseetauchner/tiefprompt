@@ -68,6 +68,23 @@ class SettingsScreen extends ConsumerWidget {
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setMirroredY(updatedValue)),
+              BooleanAppSetting(
+                  value: value.displayReadingIndicatorBoxes,
+                  displayText: "Display Reading Indicator Boxes",
+                  onValueChanged: (updatedValue) => ref
+                      .read(settingsProvider.notifier)
+                      .setDisplayReadingIndicatorBoxes(updatedValue)),
+              NumberAppSetting(
+                value: value.readingIndicatorBoxesHeight,
+                displayText: "Height of Reading Indicator Boxes",
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setReadingIndicatorBoxesHeight(updatedValue),
+                min: 0,
+                max: 100,
+                stepSize: 5,
+                unit: "%",
+              ),
               NumberAppSetting(
                   value: value.sideMargin,
                   displayText: "Side Margin",
@@ -237,7 +254,7 @@ class _NumberAppSettingState extends State<NumberAppSetting> {
     return ListTile(
       title: Text(widget.displayText),
       trailing: Icon(Icons.chevron_right),
-      subtitle: Text(widget.value.toStringAsFixed(1)),
+      subtitle: Text("${widget.value.toStringAsFixed(1)} ${widget.unit}"),
       onTap: () {
         _showDialog(context);
       },

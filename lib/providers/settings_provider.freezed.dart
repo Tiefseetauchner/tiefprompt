@@ -23,6 +23,8 @@ mixin _$SettingsState {
   double get sideMargin => throw _privateConstructorUsedError;
   String get fontFamily => throw _privateConstructorUsedError;
   TextAlign get alignment => throw _privateConstructorUsedError;
+  bool get displayReadingIndicatorBoxes => throw _privateConstructorUsedError;
+  double get readingIndicatorBoxesHeight => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +46,9 @@ abstract class $SettingsStateCopyWith<$Res> {
       double fontSize,
       double sideMargin,
       String fontFamily,
-      TextAlign alignment});
+      TextAlign alignment,
+      bool displayReadingIndicatorBoxes,
+      double readingIndicatorBoxesHeight});
 }
 
 /// @nodoc
@@ -69,6 +73,8 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? sideMargin = null,
     Object? fontFamily = null,
     Object? alignment = null,
+    Object? displayReadingIndicatorBoxes = null,
+    Object? readingIndicatorBoxesHeight = null,
   }) {
     return _then(_value.copyWith(
       scrollSpeed: null == scrollSpeed
@@ -99,6 +105,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.alignment
           : alignment // ignore: cast_nullable_to_non_nullable
               as TextAlign,
+      displayReadingIndicatorBoxes: null == displayReadingIndicatorBoxes
+          ? _value.displayReadingIndicatorBoxes
+          : displayReadingIndicatorBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      readingIndicatorBoxesHeight: null == readingIndicatorBoxesHeight
+          ? _value.readingIndicatorBoxesHeight
+          : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -118,7 +132,9 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       double fontSize,
       double sideMargin,
       String fontFamily,
-      TextAlign alignment});
+      TextAlign alignment,
+      bool displayReadingIndicatorBoxes,
+      double readingIndicatorBoxesHeight});
 }
 
 /// @nodoc
@@ -141,6 +157,8 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? sideMargin = null,
     Object? fontFamily = null,
     Object? alignment = null,
+    Object? displayReadingIndicatorBoxes = null,
+    Object? readingIndicatorBoxesHeight = null,
   }) {
     return _then(_$SettingsStateImpl(
       scrollSpeed: null == scrollSpeed
@@ -171,6 +189,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.alignment
           : alignment // ignore: cast_nullable_to_non_nullable
               as TextAlign,
+      displayReadingIndicatorBoxes: null == displayReadingIndicatorBoxes
+          ? _value.displayReadingIndicatorBoxes
+          : displayReadingIndicatorBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      readingIndicatorBoxesHeight: null == readingIndicatorBoxesHeight
+          ? _value.readingIndicatorBoxesHeight
+          : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -185,7 +211,9 @@ class _$SettingsStateImpl implements _SettingsState {
       required this.fontSize,
       required this.sideMargin,
       required this.fontFamily,
-      required this.alignment});
+      required this.alignment,
+      required this.displayReadingIndicatorBoxes,
+      required this.readingIndicatorBoxesHeight});
 
   @override
   final double scrollSpeed;
@@ -201,10 +229,14 @@ class _$SettingsStateImpl implements _SettingsState {
   final String fontFamily;
   @override
   final TextAlign alignment;
+  @override
+  final bool displayReadingIndicatorBoxes;
+  @override
+  final double readingIndicatorBoxesHeight;
 
   @override
   String toString() {
-    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment)';
+    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight)';
   }
 
   @override
@@ -225,12 +257,29 @@ class _$SettingsStateImpl implements _SettingsState {
             (identical(other.fontFamily, fontFamily) ||
                 other.fontFamily == fontFamily) &&
             (identical(other.alignment, alignment) ||
-                other.alignment == alignment));
+                other.alignment == alignment) &&
+            (identical(other.displayReadingIndicatorBoxes,
+                    displayReadingIndicatorBoxes) ||
+                other.displayReadingIndicatorBoxes ==
+                    displayReadingIndicatorBoxes) &&
+            (identical(other.readingIndicatorBoxesHeight,
+                    readingIndicatorBoxesHeight) ||
+                other.readingIndicatorBoxesHeight ==
+                    readingIndicatorBoxesHeight));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, scrollSpeed, mirroredX,
-      mirroredY, fontSize, sideMargin, fontFamily, alignment);
+  int get hashCode => Object.hash(
+      runtimeType,
+      scrollSpeed,
+      mirroredX,
+      mirroredY,
+      fontSize,
+      sideMargin,
+      fontFamily,
+      alignment,
+      displayReadingIndicatorBoxes,
+      readingIndicatorBoxesHeight);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -249,7 +298,9 @@ abstract class _SettingsState implements SettingsState {
       required final double fontSize,
       required final double sideMargin,
       required final String fontFamily,
-      required final TextAlign alignment}) = _$SettingsStateImpl;
+      required final TextAlign alignment,
+      required final bool displayReadingIndicatorBoxes,
+      required final double readingIndicatorBoxesHeight}) = _$SettingsStateImpl;
 
   @override
   double get scrollSpeed;
@@ -265,6 +316,10 @@ abstract class _SettingsState implements SettingsState {
   String get fontFamily;
   @override
   TextAlign get alignment;
+  @override
+  bool get displayReadingIndicatorBoxes;
+  @override
+  double get readingIndicatorBoxesHeight;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
