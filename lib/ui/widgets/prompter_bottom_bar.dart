@@ -6,6 +6,7 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 final fontSettingsVisibleProvider = StateProvider<bool>((ref) => false);
+final displaySettingsVisibleProvider = StateProvider<bool>((ref) => false);
 
 class PrompterBottomBar extends ConsumerWidget {
   const PrompterBottomBar({
@@ -15,6 +16,7 @@ class PrompterBottomBar extends ConsumerWidget {
   List<Widget> _getWidgetButtons(
       BuildContext context, WidgetRef ref, PrompterState prompterState) {
     final fontSettingsVisible = ref.watch(fontSettingsVisibleProvider);
+    final displaySettingsVisible = ref.watch(displaySettingsVisibleProvider);
 
     return [
       Row(
@@ -42,19 +44,12 @@ class PrompterBottomBar extends ConsumerWidget {
             width: 15,
           ),
           IconButton(
-            icon: Icon(Icons.flip,
+            icon: Icon(Icons.display_settings,
                 color: Theme.of(context).colorScheme.onPrimary),
-            onPressed: () =>
-                ref.read(prompterProvider.notifier).toggleMirroredX(),
+            onPressed: () => ref
+                .read(displaySettingsVisibleProvider.notifier)
+                .state = !displaySettingsVisible,
           ),
-          RotatedBox(
-              quarterTurns: 1,
-              child: IconButton(
-                icon: Icon(Icons.flip,
-                    color: Theme.of(context).colorScheme.onPrimary),
-                onPressed: () =>
-                    ref.read(prompterProvider.notifier).toggleMirroredY(),
-              )),
           VerticalDivider(
             width: 15,
           ),
@@ -95,16 +90,12 @@ class PrompterBottomBar extends ConsumerWidget {
           VerticalDivider(
             width: 15,
           ),
-          Stack(
-            children: [
-              IconButton(
-                icon: Icon(Icons.text_format,
-                    color: Theme.of(context).colorScheme.onPrimary),
-                onPressed: () => ref
-                    .read(fontSettingsVisibleProvider.notifier)
-                    .state = !fontSettingsVisible,
-              ),
-            ],
+          IconButton(
+            icon: Icon(Icons.text_format,
+                color: Theme.of(context).colorScheme.onPrimary),
+            onPressed: () => ref
+                .read(fontSettingsVisibleProvider.notifier)
+                .state = !fontSettingsVisible,
           ),
           VerticalDivider(
             width: 15,
@@ -134,6 +125,7 @@ class PrompterBottomBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prompterState = ref.watch(prompterProvider);
     final fontSettingsVisible = ref.watch(fontSettingsVisibleProvider);
+    final displaySettingsVisible = ref.watch(displaySettingsVisibleProvider);
 
     return Stack(
       children: [
@@ -181,6 +173,7 @@ class PrompterBottomBar extends ConsumerWidget {
           ),
         ),
         if (fontSettingsVisible) _FontSettingsDialog(),
+        if (displaySettingsVisible) _DisplaySettingsDialog(),
       ],
     );
   }
@@ -262,6 +255,86 @@ class _FontSettingsDialog extends ConsumerWidget {
                             .setFontFamily(value ?? 'Roboto')),
                   ],
                 ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DisplaySettingsDialog extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prompter = ref.watch(prompterProvider);
+
+    return Theme(
+      data: ThemeData.dark(),
+      child: SimpleDialog(
+        title: Text("Display Settings", style: TextStyle(fontSize: 18)),
+        alignment: Alignment(-1, 0),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.flip),
+                      isSelected: prompter.mirroredX,
+                      onPressed: () =>
+                          ref.read(prompterProvider.notifier).toggleMirroredX(),
+                    ),
+                    IconButton(
+                      isSelected: prompter.mirroredY,
+                      icon:
+                          RotatedBox(quarterTurns: 1, child: Icon(Icons.flip)),
+                      onPressed: () =>
+                          ref.read(prompterProvider.notifier).toggleMirroredY(),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    // Configure Reading Indicators
+                    IconButton(
+                      icon: Icon(Icons.indeterminate_check_box_outlined),
+                      isSelected: prompter.displayReadingIndicatorBoxes,
+                      onPressed: () => ref
+                          .read(prompterProvider.notifier)
+                          .toggleDisplayReadingIndicatorBoxes(),
+                    ),
+                    Slider(
+                      value: prompter.readingIndicatorBoxesHeight,
+                      min: 0.0,
+                      max: 100.0,
+                      divisions: 20,
+                      label: prompter.readingIndicatorBoxesHeight
+                          .toStringAsFixed(2),
+                      onChanged: (value) => ref
+                          .read(prompterProvider.notifier)
+                          .setReadingIndicatorBoxHeight(value),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Side Margin"),
+                    Slider(
+                      value: prompter.sideMargin,
+                      min: 0,
+                      max: 100,
+                      divisions: 100,
+                      label: prompter.sideMargin.toStringAsFixed(2),
+                      onChanged: (value) => ref
+                          .read(prompterProvider.notifier)
+                          .setSideMargin(value),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

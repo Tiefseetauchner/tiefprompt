@@ -167,7 +167,9 @@ void clearPrompterState(WidgetTester tester, ProviderContainer container) {
       fontSize: 30,
       sideMargin: 10,
       fontFamily: "Roboto",
-      alignment: TextAlign.left));
+      alignment: TextAlign.left,
+      displayReadingIndicatorBoxes: true,
+      readingIndicatorBoxesHeight: 40));
 }
 
 void setPrompterText(WidgetTester tester, ProviderContainer container) {

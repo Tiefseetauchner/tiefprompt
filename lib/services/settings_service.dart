@@ -10,10 +10,12 @@ abstract class ISettingsService {
   Future<void> setScrollSpeed(double speed);
   Future<void> setMirroredX(bool value);
   Future<void> setMirroredY(bool value);
+  Future<void> setDisplayReadingIndicatorBoxes(bool value);
   Future<void> setFontSize(double fontSize);
   Future<void> setSideMargin(double sideMargin);
   Future<void> setFontFamily(String fontFamily);
   Future<void> setAlignment(TextAlign alignment);
+  Future<void> setReadingIndicatorBoxesHeight(double height);
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
 
@@ -25,6 +27,10 @@ class SettingsService implements ISettingsService {
   static const _sideMarginKey = 'side_margin';
   static const _fontFamilyKey = 'font_family';
   static const _alignmentKey = 'alignment';
+  static const _displayReadingIndicatorBoxesKey =
+      'display_reading_indicator_boxes';
+  static const _readingIndicatorBoxesHeightKey =
+      'reading_indicator_boxes_height';
 
   @override
   Future<SettingsState> loadSettings() async {
@@ -40,6 +46,14 @@ class SettingsService implements ISettingsService {
       alignment: _getAlignment(
         prefs.getString(_alignmentKey) ?? 'left',
       ),
+      displayReadingIndicatorBoxes: prefs.getBool(
+            _displayReadingIndicatorBoxesKey,
+          ) ??
+          false,
+      readingIndicatorBoxesHeight: prefs.getDouble(
+            _readingIndicatorBoxesHeightKey,
+          ) ??
+          25,
     );
   }
 
@@ -83,6 +97,18 @@ class SettingsService implements ISettingsService {
   }
 
   @override
+  Future<void> setDisplayReadingIndicatorBoxes(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_displayReadingIndicatorBoxesKey, value);
+  }
+
+  @override
+  Future<void> setReadingIndicatorBoxesHeight(double height) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_readingIndicatorBoxesHeightKey, height);
+  }
+
+  @override
   Future<void> setFontSize(double fontSize) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeKey, fontSize);
@@ -115,5 +141,9 @@ class SettingsService implements ISettingsService {
     await setSideMargin(prompterState.sideMargin);
     await setFontFamily(prompterState.fontFamily);
     await setAlignment(prompterState.alignment);
+    await setDisplayReadingIndicatorBoxes(
+        prompterState.displayReadingIndicatorBoxes);
+    await setReadingIndicatorBoxesHeight(
+        prompterState.readingIndicatorBoxesHeight);
   }
 }
