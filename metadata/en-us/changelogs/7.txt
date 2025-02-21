@@ -1,0 +1,1 @@
+Added reading indicators and keyboard control. Additionally, screenshots for appstores can now be created automatically.

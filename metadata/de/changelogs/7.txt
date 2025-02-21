@@ -1,0 +1,1 @@
+In dieser Version wurden Lesehilfen sowie Tastatursteuerung implementiert. Außerdem werden screenshots für Publikation nicht mehr manuell erstellt.

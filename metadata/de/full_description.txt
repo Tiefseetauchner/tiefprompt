@@ -1,0 +1,9 @@
+Tiefprompt ist eine simple und leicht anpassbare Teleprompter Applikation für Präsentationen, Videoaufnahmen und Reden. Tiefprompt enthält viele essentielle Features zum Anpassen des Leseflusses und zum Steuern der Wiedergabe.
+
+Zum Beispiel:
+* Tastatursteuerung: Kontrolliere die Wiedergabe mit einer Tastatur.
+* Lesehilfen: Konfigurierbare indikatoren um beim Lesefluss zu helfen.
+* Anpassbare Schriftarten: Einfach die Schriftart ändern.
+* Scriptverwaltung: Scripts können leicht gespeichert und verwaltet werden.
+
+Diese Applikation versucht möglichst einfach und effizient zu sein, und unnötige Ablenkungen zu minimieren.
