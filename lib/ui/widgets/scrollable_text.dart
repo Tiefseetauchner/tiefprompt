@@ -12,6 +12,10 @@ class ScrollableTextController {
       : scrollController =
             ScrollController(initialScrollOffset: initialScrollOffset);
 
+  void jumpTo(double offset) {
+    scrollController.jumpTo(offset);
+  }
+
   void jumpRelative(double offset) {
     scrollController.jumpTo(scrollController.offset + offset);
   }

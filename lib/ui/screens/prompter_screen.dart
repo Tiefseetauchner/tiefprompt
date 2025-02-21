@@ -30,6 +30,10 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     super.initState();
     _scrollableTextController = ScrollableTextController();
     WakelockPlus.enable();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        _scrollableTextController
+            .jumpTo(MediaQuery.of(context).size.height / 2));
   }
 
   @override
@@ -65,30 +69,25 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               ref.read(prompterProvider.notifier).togglePlayPause();
               break;
             case PhysicalKeyboardKey.arrowUp:
-              _scrollableTextController.scrollController.jumpTo(
-                  _scrollableTextController.scrollController.offset - 75);
+              _scrollableTextController.jumpRelative(-75);
               break;
             case PhysicalKeyboardKey.arrowDown:
-              _scrollableTextController.scrollController.jumpTo(
-                  _scrollableTextController.scrollController.offset + 75);
+              _scrollableTextController.jumpRelative(75);
               break;
             case PhysicalKeyboardKey.pageUp:
-              _scrollableTextController.scrollController.jumpTo(
-                  _scrollableTextController.scrollController.offset -
-                      MediaQuery.of(context).size.height);
+              _scrollableTextController
+                  .jumpRelative(-MediaQuery.of(context).size.height);
               break;
             case PhysicalKeyboardKey.pageDown:
-              _scrollableTextController.scrollController.jumpTo(
-                  _scrollableTextController.scrollController.offset +
-                      MediaQuery.of(context).size.height);
+              _scrollableTextController
+                  .jumpRelative(MediaQuery.of(context).size.height);
               break;
             case PhysicalKeyboardKey.home:
-              _scrollableTextController.scrollController.jumpTo(0);
+              _scrollableTextController.jumpTo(0);
               break;
             case PhysicalKeyboardKey.end:
-              _scrollableTextController.scrollController.jumpTo(
-                  _scrollableTextController
-                      .scrollController.position.maxScrollExtent);
+              _scrollableTextController.jumpTo(_scrollableTextController
+                  .scrollController.position.maxScrollExtent);
               break;
             case PhysicalKeyboardKey.tab:
               ref.read(controlsVisibleProvider.notifier).state =
