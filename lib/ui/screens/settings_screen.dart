@@ -254,7 +254,7 @@ class _NumberAppSettingState extends State<NumberAppSetting> {
     return ListTile(
       title: Text(widget.displayText),
       trailing: Icon(Icons.chevron_right),
-      subtitle: Text(widget.value.toStringAsFixed(1)),
+      subtitle: Text("${widget.value.toStringAsFixed(1)} ${widget.unit}"),
       onTap: () {
         _showDialog(context);
       },

@@ -284,10 +284,12 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                   children: [
                     IconButton(
                       icon: Icon(Icons.flip),
+                      isSelected: prompter.mirroredX,
                       onPressed: () =>
                           ref.read(prompterProvider.notifier).toggleMirroredX(),
                     ),
                     IconButton(
+                      isSelected: prompter.mirroredY,
                       icon:
                           RotatedBox(quarterTurns: 1, child: Icon(Icons.flip)),
                       onPressed: () =>
@@ -300,6 +302,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                     // Configure Reading Indicators
                     IconButton(
                       icon: Icon(Icons.indeterminate_check_box_outlined),
+                      isSelected: prompter.displayReadingIndicatorBoxes,
                       onPressed: () => ref
                           .read(prompterProvider.notifier)
                           .toggleDisplayReadingIndicatorBoxes(),
