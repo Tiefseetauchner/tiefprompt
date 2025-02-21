@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/providers/di_injection.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/services/settings_service.dart';
 
@@ -24,9 +25,11 @@ class SettingsState with _$SettingsState {
 
 @riverpod
 class Settings extends _$Settings {
-  final _settingsService = SettingsService();
+  late final ISettingsService _settingsService;
+
   @override
   Future<SettingsState> build() async {
+    _settingsService = ref.read(settingsServiceProvider);
     return await _settingsService.loadSettings();
   }
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/providers/di_injection.dart';
+import 'package:tiefprompt/services/script_service.dart';
+import 'package:tiefprompt/services/settings_service.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
@@ -8,7 +11,7 @@ import 'package:tiefprompt/ui/screens/settings_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: TeleprompterApp()));
+  runApp(TeleprompterApp());
 }
 
 class TeleprompterApp extends StatelessWidget {
@@ -16,12 +19,18 @@ class TeleprompterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: MaterialApp.router(
-        title: 'Teleprompter',
-        // TODO: Customize Theme
-        //theme: ThemeData.dark(),
-        routerConfig: _router,
+    return ProviderScope(
+      overrides: [
+        scriptServiceProvider.overrideWithValue(ScriptService()),
+        settingsServiceProvider.overrideWithValue(SettingsService())
+      ],
+      child: SafeArea(
+        child: MaterialApp.router(
+          title: 'Teleprompter',
+          // TODO: Customize Theme
+          //theme: ThemeData.dark(),
+          routerConfig: _router,
+        ),
       ),
     );
   }

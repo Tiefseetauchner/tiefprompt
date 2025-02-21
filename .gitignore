@@ -46,3 +46,6 @@ app.*.map.json
 
 # Packaged artifacts
 /package/
+/screenshots/
+
+nohup.out
