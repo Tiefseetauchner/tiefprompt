@@ -1,6 +1,9 @@
 #!/bin/bash
 
+KEY_STORE="/mnt/veracrypt1"
 PACKAGE_DIR=$(dirname "$0")/../package/
+DOCKER_IMAGE="tiefprompt-build"
+CONTAINER_NAME="tiefprompt_build_container"
 
 # Define colors
 GREEN="\e[32m"
@@ -9,38 +12,29 @@ YELLOW="\e[33m"
 CYAN="\e[36m"
 RESET="\e[0m"
 
+# Ensure package directory exists
 echo -e "${CYAN}Creating package directory: $PACKAGE_DIR${RESET}"
 mkdir -p "$PACKAGE_DIR"
 rm -rf "$PACKAGE_DIR"/*
 
-echo -e "${YELLOW}Building AAB (Android App Bundle)...${RESET}"
-flutter build appbundle --release
+# Build the Docker container if it doesn't exist
+#if ! docker image inspect $DOCKER_IMAGE >/dev/null 2>&1; then
+  echo -e "${YELLOW}Building Docker image...${RESET}"
+  docker build -t $DOCKER_IMAGE -f tools/Dockerfile .
+#fi
+
+# Run the build script inside Docker
+echo -e "${YELLOW}Starting build in Docker container...${RESET}"
+docker run --rm \
+  -v "$(pwd):/app" \
+  -v "$PACKAGE_DIR:/app/package" \
+  -v "$KEY_STORE:/keys" \
+  --name $CONTAINER_NAME \
+  $DOCKER_IMAGE
+
 if [ $? -eq 0 ]; then
-  echo -e "${GREEN}AAB build successful. Copying to package directory...${RESET}"
-  cp build/app/outputs/bundle/release/app-release.aab "$PACKAGE_DIR"
+  echo -e "${GREEN}Build completed successfully. Packages available in: $PACKAGE_DIR${RESET}"
 else
-  echo -e "${RED}AAB build failed.${RESET}"
+  echo -e "${RED}Build failed.${RESET}"
   exit 1
 fi
-
-echo -e "${YELLOW}Building APK...${RESET}"
-flutter build apk --release
-if [ $? -eq 0 ]; then
-  echo -e "${GREEN}APK build successful. Copying to package directory...${RESET}"
-  cp build/app/outputs/apk/release/app-release.apk "$PACKAGE_DIR"
-else
-  echo -e "${RED}APK build failed.${RESET}"
-  exit 1
-fi
-
-echo -e "${YELLOW}Building Linux application...${RESET}"
-flutter build linux --release
-if [ $? -eq 0 ]; then
-  echo -e "${GREEN}Linux build successful. Creating package archive...${RESET}"
-  tar -czvf "$PACKAGE_DIR/tiefprompt_linux.tar.gz" build/linux/x64/release/bundle
-else
-  echo -e "${RED}Linux build failed.${RESET}"
-  exit 1
-fi
-
-echo -e "${GREEN}All builds completed successfully. Packages are available in: $PACKAGE_DIR${RESET}"
