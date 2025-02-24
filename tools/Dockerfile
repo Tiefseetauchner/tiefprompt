@@ -15,9 +15,7 @@ RUN useradd -m flutteruser && mkdir -p /home/flutteruser
 USER flutteruser
 WORKDIR /home/flutteruser
 
-RUN git clone https://github.com/flutter/flutter.git -b stable
-
-ENV PATH="/home/flutteruser/flutter/bin:$PATH"
+ENV PATH="/app/.flutter/bin:$PATH"
 
 RUN mkdir -p /home/flutteruser/android-sdk
 ENV ANDROID_HOME="/home/flutteruser/android-sdk"
@@ -38,7 +36,5 @@ RUN yes | /home/flutteruser/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=
         "cmake;3.31.5"
 
 USER flutteruser
-RUN flutter config --no-analytics && \
-    flutter doctor
 WORKDIR /app
 CMD ["bash", "/app/tools/build.sh"]

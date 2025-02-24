@@ -13,6 +13,8 @@ RESET="\e[0m"
 echo -e "${CYAN}Building Flutter applications inside container...${RESET}"
 
 # Ensure Flutter dependencies are up-to-date
+flutter --disable-analytics
+flutter config --no-cli-animations
 flutter clean
 flutter pub get
 

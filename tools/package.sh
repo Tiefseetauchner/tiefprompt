@@ -1,9 +1,11 @@
 #!/bin/bash
 
 KEY_STORE="/mnt/veracrypt1"
-PACKAGE_DIR=$(dirname "$0")/../package/
+REPO_DIR=$(dirname "$0")/..
+PACKAGE_DIR=$REPO_DIR/package/
 DOCKER_IMAGE="tiefprompt-build"
 CONTAINER_NAME="tiefprompt_build_container"
+FLUTTER_VERSION=$(sed -n -E 's/^  revision:\ "(.*)"/\1/p' .metadata)
 
 # Define colors
 GREEN="\e[32m"
@@ -25,8 +27,11 @@ rm -rf "$PACKAGE_DIR"/*
 
 # Run the build script inside Docker
 echo -e "${YELLOW}Starting build in Docker container...${RESET}"
+
+git -C .flutter/ checkout -f $FLUTTER_VERSION
+
 docker run --rm \
-  -v "$(pwd):/app" \
+  -v "$REPO_DIR:/app" \
   -v "$PACKAGE_DIR:/app/package" \
   -v "$KEY_STORE:/keys" \
   --name $CONTAINER_NAME \
