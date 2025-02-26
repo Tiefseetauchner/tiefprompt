@@ -14,4 +14,4 @@ const List<String> kAvailableFonts = [
   'OpenDyslexic',
 ];
 
-const String kApplicationVersion = '0.6.3';
+const String kApplicationVersion = '0.6.4';
