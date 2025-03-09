@@ -158,7 +158,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               ReadingIndicator(),
               if (controlsVisible) PrompterTopBar(),
               if (controlsVisible) PrompterBottomBar(),
-              if (prompter.displayCountdown)
+              if (prompter.displayCountdown && prompter.countdownDuration > 0)
                 CountdownTimer(
                   duration: prompter.countdownDuration.toInt(),
                 )

@@ -44,33 +44,35 @@ class _CountdownTimerState extends State<CountdownTimer> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          SizedBox(
-            width: 200,
-            height: 200,
-            child: Stack(
-              children: [
-                CircularProgressIndicator(
+          Stack(
+            children: [
+              Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey[200],
+                ),
+              ),
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: CircularProgressIndicator(
                   value: progress,
                   strokeWidth: 16,
                   backgroundColor: Colors.grey[300],
                   valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                 ),
-              ],
-            ),
-          ),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            transitionBuilder: (child, animation) {
-              return ScaleTransition(scale: animation, child: child);
-            },
-            child: Text(
-              '$remainingTime',
-              key: ValueKey<int>(remainingTime),
-              style: const TextStyle(
-                fontSize: 100,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
               ),
+            ],
+          ),
+          Text(
+            '$remainingTime',
+            key: ValueKey<int>(remainingTime),
+            style: const TextStyle(
+              fontSize: 100,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
           ),
         ],
