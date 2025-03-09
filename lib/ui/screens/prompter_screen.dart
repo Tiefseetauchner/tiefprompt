@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/theme.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
 import 'package:tiefprompt/ui/widgets/reading_indicator.dart';
@@ -157,6 +158,10 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               ReadingIndicator(),
               if (controlsVisible) PrompterTopBar(),
               if (controlsVisible) PrompterBottomBar(),
+              if (prompter.displayCountdown)
+                CountdownTimer(
+                  duration: prompter.countdownDuration.toInt(),
+                )
             ],
           ),
         ),

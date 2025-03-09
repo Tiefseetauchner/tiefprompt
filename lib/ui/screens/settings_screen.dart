@@ -94,6 +94,16 @@ class SettingsScreen extends ConsumerWidget {
                   min: kPrompterMinSideMargin,
                   max: kPrompterMaxSideMargin,
                   unit: "%"),
+              NumberAppSetting(
+                  value: value.countdownDuration,
+                  displayText: "Countdown Timer",
+                  onValueChanged: (updatedValue) => ref
+                      .read(settingsProvider.notifier)
+                      .setCountdownDuration(updatedValue),
+                  min: 0,
+                  max: 60,
+                  stepSize: 1,
+                  unit: "sec"),
               ListTile(
                 title: Text("Reset settings"),
                 onTap: () {

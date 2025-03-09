@@ -25,6 +25,7 @@ mixin _$SettingsState {
   TextAlign get alignment => throw _privateConstructorUsedError;
   bool get displayReadingIndicatorBoxes => throw _privateConstructorUsedError;
   double get readingIndicatorBoxesHeight => throw _privateConstructorUsedError;
+  double get countdownDuration => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -48,7 +49,8 @@ abstract class $SettingsStateCopyWith<$Res> {
       String fontFamily,
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
-      double readingIndicatorBoxesHeight});
+      double readingIndicatorBoxesHeight,
+      double countdownDuration});
 }
 
 /// @nodoc
@@ -75,6 +77,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? countdownDuration = null,
   }) {
     return _then(_value.copyWith(
       scrollSpeed: null == scrollSpeed
@@ -113,6 +116,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      countdownDuration: null == countdownDuration
+          ? _value.countdownDuration
+          : countdownDuration // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -134,7 +141,8 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       String fontFamily,
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
-      double readingIndicatorBoxesHeight});
+      double readingIndicatorBoxesHeight,
+      double countdownDuration});
 }
 
 /// @nodoc
@@ -159,6 +167,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? countdownDuration = null,
   }) {
     return _then(_$SettingsStateImpl(
       scrollSpeed: null == scrollSpeed
@@ -197,6 +206,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      countdownDuration: null == countdownDuration
+          ? _value.countdownDuration
+          : countdownDuration // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -213,7 +226,8 @@ class _$SettingsStateImpl implements _SettingsState {
       required this.fontFamily,
       required this.alignment,
       required this.displayReadingIndicatorBoxes,
-      required this.readingIndicatorBoxesHeight});
+      required this.readingIndicatorBoxesHeight,
+      required this.countdownDuration});
 
   @override
   final double scrollSpeed;
@@ -233,10 +247,12 @@ class _$SettingsStateImpl implements _SettingsState {
   final bool displayReadingIndicatorBoxes;
   @override
   final double readingIndicatorBoxesHeight;
+  @override
+  final double countdownDuration;
 
   @override
   String toString() {
-    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight)';
+    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, countdownDuration: $countdownDuration)';
   }
 
   @override
@@ -265,7 +281,9 @@ class _$SettingsStateImpl implements _SettingsState {
             (identical(other.readingIndicatorBoxesHeight,
                     readingIndicatorBoxesHeight) ||
                 other.readingIndicatorBoxesHeight ==
-                    readingIndicatorBoxesHeight));
+                    readingIndicatorBoxesHeight) &&
+            (identical(other.countdownDuration, countdownDuration) ||
+                other.countdownDuration == countdownDuration));
   }
 
   @override
@@ -279,7 +297,8 @@ class _$SettingsStateImpl implements _SettingsState {
       fontFamily,
       alignment,
       displayReadingIndicatorBoxes,
-      readingIndicatorBoxesHeight);
+      readingIndicatorBoxesHeight,
+      countdownDuration);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -300,7 +319,8 @@ abstract class _SettingsState implements SettingsState {
       required final String fontFamily,
       required final TextAlign alignment,
       required final bool displayReadingIndicatorBoxes,
-      required final double readingIndicatorBoxesHeight}) = _$SettingsStateImpl;
+      required final double readingIndicatorBoxesHeight,
+      required final double countdownDuration}) = _$SettingsStateImpl;
 
   @override
   double get scrollSpeed;
@@ -320,6 +340,8 @@ abstract class _SettingsState implements SettingsState {
   bool get displayReadingIndicatorBoxes;
   @override
   double get readingIndicatorBoxesHeight;
+  @override
+  double get countdownDuration;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

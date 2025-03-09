@@ -6,7 +6,7 @@ part of 'prompter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$prompterHash() => r'763baeaa473cc31c65625faeac1dfae9cbadc4f6';
+String _$prompterHash() => r'14ae67f35b88a51f7b80351f525955b9f1731aae';
 
 /// See also [Prompter].
 @ProviderFor(Prompter)

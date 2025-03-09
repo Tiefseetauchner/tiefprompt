@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -20,11 +22,15 @@ class PrompterState with _$PrompterState {
     @Default(TextAlign.left) TextAlign alignment,
     @Default(false) bool displayReadingIndicatorBoxes,
     @Default(25.0) double readingIndicatorBoxesHeight,
+    @Default(5.0) double countdownDuration,
+    @Default(false) bool displayCountdown,
   }) = _PrompterState;
 }
 
 @riverpod
 class Prompter extends _$Prompter {
+  Timer? _playPauseTimer;
+
   @override
   PrompterState build() {
     return PrompterState();
@@ -41,6 +47,7 @@ class Prompter extends _$Prompter {
       alignment: settings.alignment,
       displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
       readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
+      countdownDuration: settings.countdownDuration,
     );
   }
 
@@ -65,7 +72,19 @@ class Prompter extends _$Prompter {
   }
 
   void togglePlayPause() {
-    state = state.copyWith(isPlaying: !state.isPlaying);
+    if (state.isPlaying || _playPauseTimer != null) {
+      _playPauseTimer?.cancel();
+      _playPauseTimer = null;
+      state = state.copyWith(displayCountdown: false, isPlaying: false);
+    } else {
+      state = state.copyWith(displayCountdown: true);
+      _playPauseTimer?.cancel();
+      _playPauseTimer =
+          Timer(Duration(seconds: state.countdownDuration.toInt()), () {
+        state = state.copyWith(isPlaying: true, displayCountdown: false);
+        _playPauseTimer = null;
+      });
+    }
   }
 
   void toggleMirroredX() {
@@ -111,5 +130,9 @@ class Prompter extends _$Prompter {
 
   void setAlignment(TextAlign alignment) {
     state = state.copyWith(alignment: alignment);
+  }
+
+  void setCountdownDuration(double duration) {
+    state = state.copyWith(countdownDuration: duration);
   }
 }

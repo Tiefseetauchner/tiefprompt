@@ -26,6 +26,8 @@ mixin _$PrompterState {
   TextAlign get alignment => throw _privateConstructorUsedError;
   bool get displayReadingIndicatorBoxes => throw _privateConstructorUsedError;
   double get readingIndicatorBoxesHeight => throw _privateConstructorUsedError;
+  double get countdownDuration => throw _privateConstructorUsedError;
+  bool get displayCountdown => throw _privateConstructorUsedError;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -50,7 +52,9 @@ abstract class $PrompterStateCopyWith<$Res> {
       String fontFamily,
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
-      double readingIndicatorBoxesHeight});
+      double readingIndicatorBoxesHeight,
+      double countdownDuration,
+      bool displayCountdown});
 }
 
 /// @nodoc
@@ -78,6 +82,8 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? countdownDuration = null,
+    Object? displayCountdown = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -120,6 +126,14 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      countdownDuration: null == countdownDuration
+          ? _value.countdownDuration
+          : countdownDuration // ignore: cast_nullable_to_non_nullable
+              as double,
+      displayCountdown: null == displayCountdown
+          ? _value.displayCountdown
+          : displayCountdown // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -142,7 +156,9 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
       String fontFamily,
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
-      double readingIndicatorBoxesHeight});
+      double readingIndicatorBoxesHeight,
+      double countdownDuration,
+      bool displayCountdown});
 }
 
 /// @nodoc
@@ -168,6 +184,8 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? countdownDuration = null,
+    Object? displayCountdown = null,
   }) {
     return _then(_$PrompterStateImpl(
       speed: null == speed
@@ -210,6 +228,14 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      countdownDuration: null == countdownDuration
+          ? _value.countdownDuration
+          : countdownDuration // ignore: cast_nullable_to_non_nullable
+              as double,
+      displayCountdown: null == displayCountdown
+          ? _value.displayCountdown
+          : displayCountdown // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -227,7 +253,9 @@ class _$PrompterStateImpl implements _PrompterState {
       this.fontFamily = 'Roboto',
       this.alignment = TextAlign.left,
       this.displayReadingIndicatorBoxes = false,
-      this.readingIndicatorBoxesHeight = 25.0});
+      this.readingIndicatorBoxesHeight = 25.0,
+      this.countdownDuration = 5.0,
+      this.displayCountdown = false});
 
   @override
   @JsonKey()
@@ -259,10 +287,16 @@ class _$PrompterStateImpl implements _PrompterState {
   @override
   @JsonKey()
   final double readingIndicatorBoxesHeight;
+  @override
+  @JsonKey()
+  final double countdownDuration;
+  @override
+  @JsonKey()
+  final bool displayCountdown;
 
   @override
   String toString() {
-    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight)';
+    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown)';
   }
 
   @override
@@ -292,7 +326,11 @@ class _$PrompterStateImpl implements _PrompterState {
             (identical(other.readingIndicatorBoxesHeight,
                     readingIndicatorBoxesHeight) ||
                 other.readingIndicatorBoxesHeight ==
-                    readingIndicatorBoxesHeight));
+                    readingIndicatorBoxesHeight) &&
+            (identical(other.countdownDuration, countdownDuration) ||
+                other.countdownDuration == countdownDuration) &&
+            (identical(other.displayCountdown, displayCountdown) ||
+                other.displayCountdown == displayCountdown));
   }
 
   @override
@@ -307,7 +345,9 @@ class _$PrompterStateImpl implements _PrompterState {
       fontFamily,
       alignment,
       displayReadingIndicatorBoxes,
-      readingIndicatorBoxesHeight);
+      readingIndicatorBoxesHeight,
+      countdownDuration,
+      displayCountdown);
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -329,7 +369,9 @@ abstract class _PrompterState implements PrompterState {
       final String fontFamily,
       final TextAlign alignment,
       final bool displayReadingIndicatorBoxes,
-      final double readingIndicatorBoxesHeight}) = _$PrompterStateImpl;
+      final double readingIndicatorBoxesHeight,
+      final double countdownDuration,
+      final bool displayCountdown}) = _$PrompterStateImpl;
 
   @override
   double get speed;
@@ -351,6 +393,10 @@ abstract class _PrompterState implements PrompterState {
   bool get displayReadingIndicatorBoxes;
   @override
   double get readingIndicatorBoxesHeight;
+  @override
+  double get countdownDuration;
+  @override
+  bool get displayCountdown;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
