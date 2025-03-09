@@ -20,6 +20,7 @@ class SettingsState with _$SettingsState {
     required TextAlign alignment,
     required bool displayReadingIndicatorBoxes,
     required double readingIndicatorBoxesHeight,
+    required double countdownDuration,
   }) = _SettingsState;
 }
 
@@ -93,5 +94,10 @@ class Settings extends _$Settings {
   Future<void> setAlignment(TextAlign alignment) async {
     await _settingsService.setAlignment(alignment);
     state = AsyncValue.data(state.value!.copyWith(alignment: alignment));
+  }
+
+  Future<void> setCountdownDuration(double duration) async {
+    await _settingsService.setCountdownDuration(duration);
+    state = AsyncValue.data(state.value!.copyWith(countdownDuration: duration));
   }
 }

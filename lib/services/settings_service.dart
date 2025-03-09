@@ -16,6 +16,7 @@ abstract class ISettingsService {
   Future<void> setFontFamily(String fontFamily);
   Future<void> setAlignment(TextAlign alignment);
   Future<void> setReadingIndicatorBoxesHeight(double height);
+  Future<void> setCountdownDuration(double duration);
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
 
@@ -31,6 +32,7 @@ class SettingsService implements ISettingsService {
       'display_reading_indicator_boxes';
   static const _readingIndicatorBoxesHeightKey =
       'reading_indicator_boxes_height';
+  static const _countdownDurationKey = 'countdown_duration';
 
   @override
   Future<SettingsState> loadSettings() async {
@@ -54,6 +56,10 @@ class SettingsService implements ISettingsService {
             _readingIndicatorBoxesHeightKey,
           ) ??
           25,
+      countdownDuration: prefs.getDouble(
+            _countdownDurationKey,
+          ) ??
+          5,
     );
   }
 
@@ -133,6 +139,12 @@ class SettingsService implements ISettingsService {
   }
 
   @override
+  Future<void> setCountdownDuration(double duration) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_countdownDurationKey, duration);
+  }
+
+  @override
   Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
     await setScrollSpeed(prompterState.speed);
     await setMirroredX(prompterState.mirroredX);
@@ -145,5 +157,6 @@ class SettingsService implements ISettingsService {
         prompterState.displayReadingIndicatorBoxes);
     await setReadingIndicatorBoxesHeight(
         prompterState.readingIndicatorBoxesHeight);
+    await setCountdownDuration(prompterState.countdownDuration);
   }
 }

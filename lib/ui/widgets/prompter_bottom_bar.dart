@@ -334,7 +334,22 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           .setSideMargin(value),
                     ),
                   ],
-                )
+                ),
+                Row(
+                  children: [
+                    Text("Countdown"),
+                    Slider(
+                      value: prompter.countdownDuration,
+                      min: 0,
+                      max: 60,
+                      divisions: 60,
+                      label: prompter.countdownDuration.toStringAsFixed(0),
+                      onChanged: (value) => ref
+                          .read(prompterProvider.notifier)
+                          .setCountdownDuration(value),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
