@@ -1,0 +1,1 @@
+In dieser Version wurde ein Countdown Timer eingebaut, sowie Tastatursteuerung verbessert.
