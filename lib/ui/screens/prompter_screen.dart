@@ -66,6 +66,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
       onKeyEvent: (keyEvent) {
         if (keyEvent is KeyDownEvent) {
           switch (keyEvent.physicalKey) {
+            case PhysicalKeyboardKey.enter:
             case PhysicalKeyboardKey.space:
               ref.read(prompterProvider.notifier).togglePlayPause();
               break;
