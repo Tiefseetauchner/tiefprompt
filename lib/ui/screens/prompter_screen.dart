@@ -65,36 +65,39 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     return KeyboardListener(
       onKeyEvent: (keyEvent) {
         if (keyEvent is KeyDownEvent) {
-          switch (keyEvent.physicalKey) {
-            case PhysicalKeyboardKey.enter:
-            case PhysicalKeyboardKey.space:
+          switch (keyEvent.logicalKey) {
+            case LogicalKeyboardKey.enter:
+            case LogicalKeyboardKey.space:
               ref.read(prompterProvider.notifier).togglePlayPause();
               break;
-            case PhysicalKeyboardKey.arrowUp:
+            case LogicalKeyboardKey.arrowUp:
               _scrollableTextController.jumpRelative(-75);
               break;
-            case PhysicalKeyboardKey.arrowDown:
+            case LogicalKeyboardKey.arrowDown:
               _scrollableTextController.jumpRelative(75);
               break;
-            case PhysicalKeyboardKey.pageUp:
+            case LogicalKeyboardKey.pageUp:
               _scrollableTextController
                   .jumpRelative(-MediaQuery.of(context).size.height);
               break;
-            case PhysicalKeyboardKey.pageDown:
+            case LogicalKeyboardKey.pageDown:
               _scrollableTextController
                   .jumpRelative(MediaQuery.of(context).size.height);
               break;
-            case PhysicalKeyboardKey.home:
+            case LogicalKeyboardKey.home:
               _scrollableTextController.jumpTo(0);
               break;
-            case PhysicalKeyboardKey.end:
+            case LogicalKeyboardKey.end:
               _scrollableTextController.jumpTo(_scrollableTextController
                   .scrollController.position.maxScrollExtent);
               break;
-            case PhysicalKeyboardKey.tab:
+            case LogicalKeyboardKey.tab:
               ref.read(controlsVisibleProvider.notifier).state =
                   !controlsVisible;
               break;
+          }
+
+          switch (keyEvent.physicalKey) {
             case PhysicalKeyboardKey.equal:
             case PhysicalKeyboardKey.numpadAdd:
               if (HardwareKeyboard.instance.isControlPressed) {
