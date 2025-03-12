@@ -1,5 +1,7 @@
 # TiefPrompt
 
+[![](https://dcbadge.limes.pink/api/server/https://discord.gg/EG3zU9cTFx)](https://discord.gg/EG3zU9cTFx)
+
 An extraordinarily simple cross-platform teleprompter.
 
 ## Usage
