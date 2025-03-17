@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,12 +14,13 @@ class SettingsScreen extends ConsumerWidget {
 
     return switch (settings) {
       AsyncData(:final value) => Scaffold(
-          appBar: AppBar(title: Text("Settings")),
+          appBar: AppBar(title: Text(context.tr("SettingsScreen.title"))),
           body: ListView(
             children: [
               NumberAppSetting(
                 value: value.scrollSpeed,
-                displayText: "Default Scroll Speed",
+                displayText: context
+                    .tr("SettingsScreen.NumberAppSetting_DefaultScrollSpeed"),
                 onValueChanged: (updatedValue) => ref
                     .read(settingsProvider.notifier)
                     .setScrollSpeed(updatedValue),

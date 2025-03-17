@@ -1,0 +1,26 @@
+{
+  "title": "TiefPrompt 提词器",
+  "copyright":"Lena Tauchner 享有软件的著作权，\nTaoEngine 参与了软件的中文翻译\n\n软件分发协议：MIT License",
+  "AboutDialog":{
+    "Text_PrivacyText": "隐私政策：\n本软件承诺不会向第三方平台传输您的所有数据，不会收集您的个人信息，并且不会分析您的内容个性化喜好\n您在使用本软件前须仔细阅读隐私政策并经过同意才能使用\n详细的隐私政策及变动信息请参考作者的官方网站",
+    "ElevatedButton_Privacy": "查看隐私政策"
+  },
+  "HomeScreen": {
+    "TextField_hintText": "输入提词文本",
+    "ElevatedButton_Start": "我要读稿了",
+    "ElevatedButton_Select": "选择保存过的提词",
+    "ElevatedButton_Save": "保存本次提词",
+    "IconButton_Settings": "提词器设置",
+    "IconButton_SourceCode": "进作者的Github看看",
+    "IconButton_About": "关于此软件",
+    "BottomSheet": {
+      "Text_Title": "保存提词",
+      "TextField_hintText": "起一个好记的提词名称",
+      "ElevatedButton_Save": "保存"
+    }
+  },
+  "SettingsScreen": {
+    "title":"设置",
+    "NumberAppSetting_DefaultScrollSpeed": "默认滚动速度"
+  }
+}

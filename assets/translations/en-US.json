@@ -1,0 +1,26 @@
+{
+  "title": "TiefPrompt",
+  "copyright":"Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.",
+  "AboutDialog":{
+    "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
+    "ElevatedButton_Privacy": "Privacy Policy"
+  },
+  "HomeScreen": {
+    "TextField_hintText": "Enter script text",
+    "ElevatedButton_Start": "Start Teleprompter",
+    "ElevatedButton_Select": "Select Script from Device",
+    "ElevatedButton_Save": "Save Script",
+    "IconButton_Settings": "Settings",
+    "IconButton_SourceCode": "View source code",
+    "IconButton_About": "About",
+    "BottomSheet": {
+      "Text_Title": "Save Script",
+      "TextField_hintText": "Enter script name",
+      "ElevatedButton_Save": "Save"
+    }
+  },
+  "SettingsScreen": {
+    "title":"Settings",
+    "NumberAppSetting_DefaultScrollSpeed": "Default Scroll Speed"
+  }
+}
