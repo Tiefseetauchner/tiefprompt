@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,7 +16,7 @@ class ScriptState with _$ScriptState {
 @riverpod
 class Script extends _$Script {
   @override
-  ScriptState build() => ScriptState(text: "", title: "Unnamed Script");
+  ScriptState build() => ScriptState(text: "", title: "empty_title".tr());
 
   void setText(String text) {
     state = state.copyWith(text: text);

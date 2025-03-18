@@ -1,12 +1,13 @@
 {
   "title": "TiefPrompt 提词器",
-  "copyright":"Lena Tauchner 享有软件的著作权，\nTaoEngine 参与了软件的中文翻译\n\n软件分发协议：MIT License",
-  "AboutDialog":{
+  "empty_title": "新的稿子",
+  "copyright": "Lena Tauchner 享有软件的著作权，\nTaoEngine 参与了软件的中文翻译\n\n软件分发协议：MIT License",
+  "AboutDialog": {
     "Text_PrivacyText": "隐私政策：\n本软件承诺不会向第三方平台传输您的所有数据，不会收集您的个人信息，并且不会分析您的内容个性化喜好\n您在使用本软件前须仔细阅读隐私政策并经过同意才能使用\n详细的隐私政策及变动信息请参考作者的官方网站",
     "ElevatedButton_Privacy": "查看隐私政策"
   },
   "HomeScreen": {
-    "TextField_hintText": "输入提词文本",
+    "TextField_hintText": "输入需要提词的稿子",
     "ElevatedButton_Start": "我要读稿了",
     "ElevatedButton_Select": "选择保存过的提词",
     "ElevatedButton_Save": "保存本次提词",
@@ -20,7 +21,68 @@
     }
   },
   "SettingsScreen": {
-    "title":"设置",
-    "NumberAppSetting_DefaultScrollSpeed": "默认滚动速度"
+    "title": "提词器设置",
+    "NumberAppSetting": {
+      "Value": "输入一个数",
+      "ElevatedButton_Save": "保存设置"
+    },
+    "DropdownAppSetting_DefaultLanguage": "默认语言",
+    "NumberAppSetting_DefaultScrollSpeed": "默认滚动速度",
+    "NumberAppSetting_DefaultScrollSpeed_Unit": "行每秒",
+    "NumberAppSetting_DefaultFontSize": "默认字体大小",
+    "NumberAppSetting_DefaultFontSize_Unit": "点",
+    "DropdownAppSetting_DefaultTextAlignment": "默认文字排版",
+    "DropdownAppSetting_DefaultTextAlignment_Unit": {
+      "Left": "靠左对齐",
+      "Center": "居中",
+      "Right": "靠右对齐",
+      "Justified": "两端并齐"
+    },
+    "DropdownAppSetting_DefaultFontFamily": "默认字体",
+    "BooleanAppSetting_DefaultFlipX": "默认镜像X轴 - 搭配分光镜使用",
+    "BooleanAppSetting_DefaultFlipY": "默认镜像Y轴 - 搭配分光镜使用",
+    "BooleanAppSetting_ReadingIndicatorBoxes": "显示助读区",
+    "NumberAppSetting_ReadingIndicatorBoxes": "助读区的默认高度比值",
+    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "百分比 - 按屏幕高度",
+    "NumberAppSetting_SideMargin": "文字与屏幕边缘的默认宽度比值",
+    "NumberAppSetting_SideMargin_Unit": "百分比 - 按屏幕宽度",
+    "NumberAppSetting_CountdownTimer": "提词器启动倒计时的默认时间",
+    "NumberAppSetting_CountdownTimer_Unit": "秒",
+    "ListTile_Reset": "重置所有设置"
+  },
+  "PrompterScreen": {
+    "speed": "{} 倍速",
+    "fontsize": "{} 点字体",
+    "IconButton_Save": "保存本次提词的有关设置",
+    "IconButton_DisplaySettings": "调整提词器",
+    "IconButton_DecreaseSpeed": "放慢滚动速度",
+    "IconButton_TogglePlayPause": "启停提词器",
+    "IconButton_IncreaseSpeed": "提高滚动速度",
+    "IconButton_TextFormat": "调整字体",
+    "IconButton_Settings": "提词器设置",
+    "SimpleDialog_TextFormat": {
+      "title": "调整字体",
+      "fontsize": "{} 点字体",
+      "IconButton_TextIncrease": "放大字体",
+      "IconButton_TextDecrease": "缩小字体",
+      "IconButton_Left": "靠左对齐",
+      "IconButton_Center": "居中",
+      "IconButton_Right": "靠右对齐",
+      "IconButton_Justified": "两端并齐"
+    },
+    "SimpleDialog_DisplaySettings": {
+      "title": "调整提词器",
+      "IconButton_FlipX": "镜像X轴",
+      "IconButton_FlipY": "镜像Y轴",
+      "IconButton_ReadingIndicatorBoxes": "显示助读区",
+      "Slider_SideMargin": "与边缘的宽度",
+      "Slider_Countdown": "提词器倒计时"
+    }
+  },
+  "OpenFileScreen": {
+    "title":"选择提词",
+    "if_empty":"空空如也，要不存一点？",
+    "ElevatedButton_Select": "打开本机的txt文件作为提词",
+    "ListTile_Delete": "删除（谨慎点）"
   }
 }
