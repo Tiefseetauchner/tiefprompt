@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ScriptState {
   String get text => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
 
   /// Create a copy of ScriptState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +32,7 @@ abstract class $ScriptStateCopyWith<$Res> {
           ScriptState value, $Res Function(ScriptState) then) =
       _$ScriptStateCopyWithImpl<$Res, ScriptState>;
   @useResult
-  $Res call({String text, String title});
+  $Res call({String text, String? title});
 }
 
 /// @nodoc
@@ -51,17 +51,17 @@ class _$ScriptStateCopyWithImpl<$Res, $Val extends ScriptState>
   @override
   $Res call({
     Object? text = null,
-    Object? title = null,
+    Object? title = freezed,
   }) {
     return _then(_value.copyWith(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -74,7 +74,7 @@ abstract class _$$ScriptStateImplCopyWith<$Res>
       __$$ScriptStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String text, String title});
+  $Res call({String text, String? title});
 }
 
 /// @nodoc
@@ -91,17 +91,17 @@ class __$$ScriptStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? text = null,
-    Object? title = null,
+    Object? title = freezed,
   }) {
     return _then(_$ScriptStateImpl(
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -114,7 +114,7 @@ class _$ScriptStateImpl implements _ScriptState {
   @override
   final String text;
   @override
-  final String title;
+  final String? title;
 
   @override
   String toString() {
@@ -145,12 +145,12 @@ class _$ScriptStateImpl implements _ScriptState {
 abstract class _ScriptState implements ScriptState {
   factory _ScriptState(
       {required final String text,
-      required final String title}) = _$ScriptStateImpl;
+      required final String? title}) = _$ScriptStateImpl;
 
   @override
   String get text;
   @override
-  String get title;
+  String? get title;
 
   /// Create a copy of ScriptState
   /// with the given fields replaced by the non-null parameter values.

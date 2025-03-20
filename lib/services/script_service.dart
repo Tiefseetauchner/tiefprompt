@@ -52,7 +52,7 @@ class ScriptService implements IScriptService {
   Future<void> save(ScriptState script) async =>
       await _databaseManagers.scriptModel.create((s) => s(
           scriptText: script.text,
-          title: script.title,
+          title: script.title ?? "Untitled",
           createdAt: DateTime.now()));
 
   @override
