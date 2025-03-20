@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,99 +14,145 @@ class SettingsScreen extends ConsumerWidget {
 
     return switch (settings) {
       AsyncData(:final value) => Scaffold(
-          appBar: AppBar(title: Text("Settings")),
+          appBar: AppBar(title: Text(context.tr("SettingsScreen.title"))),
           body: ListView(
             children: [
+              DropdownAppSetting<Locale>(
+                  value: context.locale,
+                  displayText: context
+                      .tr("SettingsScreen.DropdownAppSetting_DefaultLanguage"),
+                  onValueChanged: (updatedValue) {
+                    context.setLocale(updatedValue);
+                  },
+                  values: [
+                    ("English", Locale("en", "US")),
+                    ("简体中文", Locale("zh", "CN")),
+                  ]),
               NumberAppSetting(
                 value: value.scrollSpeed,
-                displayText: "Default Scroll Speed",
+                displayText: context
+                    .tr("SettingsScreen.NumberAppSetting_DefaultScrollSpeed"),
                 onValueChanged: (updatedValue) => ref
                     .read(settingsProvider.notifier)
                     .setScrollSpeed(updatedValue),
                 min: kPrompterMinSpeed,
                 max: kPrompterMaxSpeed,
                 stepSize: .1,
-                unit: "lines/sec",
+                unit: context.tr(
+                    "SettingsScreen.NumberAppSetting_DefaultScrollSpeed_Unit"),
               ),
               NumberAppSetting(
                 value: value.fontSize,
-                displayText: "Default Font Size",
+                displayText: context
+                    .tr("SettingsScreen.NumberAppSetting_DefaultFontSize"),
                 onValueChanged: (updatedValue) => ref
                     .read(settingsProvider.notifier)
                     .setFontSize(updatedValue),
                 min: kPrompterMinFontSize,
                 max: kPrompterMaxFontSize,
-                unit: "px",
+                unit: context
+                    .tr("SettingsScreen.NumberAppSetting_DefaultFontSize_Unit"),
               ),
               DropdownAppSetting<TextAlign>(
                   value: value.alignment,
-                  displayText: "Text Alignment",
+                  displayText: context.tr(
+                      "SettingsScreen.DropdownAppSetting_DefaultTextAlignment"),
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setAlignment(updatedValue),
                   values: [
-                    ("Left", TextAlign.left),
-                    ("Center", TextAlign.center),
-                    ("Right", TextAlign.right),
-                    ("Justified", TextAlign.justify),
+                    (
+                      context.tr(
+                          "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Left"),
+                      TextAlign.left
+                    ),
+                    (
+                      context.tr(
+                          "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Center"),
+                      TextAlign.center
+                    ),
+                    (
+                      context.tr(
+                          "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Right"),
+                      TextAlign.right
+                    ),
+                    (
+                      context.tr(
+                          "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Justified"),
+                      TextAlign.justify
+                    ),
                   ]),
               DropdownAppSetting<String>(
                   value: value.fontFamily,
-                  displayText: "Font Family",
+                  displayText: context.tr(
+                      "SettingsScreen.DropdownAppSetting_DefaultFontFamily"),
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setFontFamily(updatedValue),
                   values: kAvailableFonts.map((e) => (e, e)).toList()),
               BooleanAppSetting(
                   value: value.mirroredX,
-                  displayText: "Default Flip X",
+                  displayText: context
+                      .tr("SettingsScreen.BooleanAppSetting_DefaultFlipX"),
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setMirroredX(updatedValue)),
               BooleanAppSetting(
                   value: value.mirroredY,
-                  displayText: "Default Flip Y",
+                  displayText: context
+                      .tr("SettingsScreen.BooleanAppSetting_DefaultFlipY"),
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setMirroredY(updatedValue)),
               BooleanAppSetting(
                   value: value.displayReadingIndicatorBoxes,
-                  displayText: "Display Reading Indicator Boxes",
+                  displayText: context.tr(
+                      "SettingsScreen.BooleanAppSetting_ReadingIndicatorBoxes"),
                   onValueChanged: (updatedValue) => ref
                       .read(settingsProvider.notifier)
                       .setDisplayReadingIndicatorBoxes(updatedValue)),
               NumberAppSetting(
                 value: value.readingIndicatorBoxesHeight,
-                displayText: "Height of Reading Indicator Boxes",
+                displayText: context.tr(
+                    "SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes"),
                 onValueChanged: (updatedValue) => ref
                     .read(settingsProvider.notifier)
                     .setReadingIndicatorBoxesHeight(updatedValue),
                 min: 0,
                 max: 100,
                 stepSize: 5,
-                unit: "%",
+                unit: context.tr(
+                    "SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes_Unit"),
               ),
               NumberAppSetting(
-                  value: value.sideMargin,
-                  displayText: "Side Margin",
-                  onValueChanged: (updatedValue) => ref
-                      .read(settingsProvider.notifier)
-                      .setSideMargin(updatedValue),
-                  min: kPrompterMinSideMargin,
-                  max: kPrompterMaxSideMargin,
-                  unit: "%"),
+                value: value.sideMargin,
+                displayText:
+                    context.tr("SettingsScreen.NumberAppSetting_SideMargin"),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setSideMargin(updatedValue),
+                min: kPrompterMinSideMargin,
+                max: kPrompterMaxSideMargin,
+                unit: context
+                    .tr("SettingsScreen.NumberAppSetting_SideMargin_Unit"),
+              ),
               NumberAppSetting(
-                  value: value.countdownDuration,
-                  displayText: "Countdown Timer",
-                  onValueChanged: (updatedValue) => ref
-                      .read(settingsProvider.notifier)
-                      .setCountdownDuration(updatedValue),
-                  min: 0,
-                  max: 60,
-                  stepSize: 1,
-                  unit: "sec"),
+                value: value.countdownDuration,
+                displayText: context
+                    .tr("SettingsScreen.NumberAppSetting_CountdownTimer"),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setCountdownDuration(updatedValue),
+                min: 0,
+                max: 60,
+                stepSize: 1,
+                unit: context
+                    .tr("SettingsScreen.NumberAppSetting_CountdownTimer_Unit"),
+              ),
               ListTile(
-                title: Text("Reset settings"),
+                title: Text(
+                  context.tr("SettingsScreen.ListTile_Reset"),
+                ),
                 onTap: () {
                   ref.read(settingsProvider.notifier).resetSettings();
                 },
@@ -250,7 +297,10 @@ class _NumberAppSettingState extends State<NumberAppSetting> {
                   widget.onValueChanged(selectedValue);
                   Navigator.pop(context);
                 },
-                child: Text("Save"),
+                child: Text(
+                  context.tr(
+                      "SettingsScreen.NumberAppSetting.ElevatedButton_Save"),
+                ),
               ),
             ],
           ),
@@ -333,7 +383,9 @@ class _DecimalPickerState extends State<DecimalPicker> {
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$'))
           ],
           onSubmitted: onTextChanged,
-          decoration: const InputDecoration(labelText: 'Enter Value'),
+          decoration: InputDecoration(
+            labelText: context.tr("SettingsScreen.NumberAppSetting.Value"),
+          ),
         ),
         Slider(
           value: value,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,7 +53,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('TiefPrompt')),
+      appBar: AppBar(title: Text(context.tr("title"))),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -62,9 +63,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextField(
-                    decoration: const InputDecoration(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Enter script text',
+                      hintText: context.tr("HomeScreen.TextField_hintText"),
                     ),
                     maxLines: (MediaQuery.of(context).size.height / 70).floor(),
                     controller: _controller,
@@ -86,54 +88,68 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ref.invalidate(prompterProvider);
                           context.push('/teleprompter');
                         },
-                        child: const Text('Start Teleprompter'),
+                        child: Text(
+                          context.tr("HomeScreen.ElevatedButton_Start"),
+                        ),
                       ),
                       ElevatedButton(
                         onPressed: () {
                           context.push('/open_file');
                         },
-                        child: const Text('Select Script from Device'),
+                        child: Text(
+                          context.tr("HomeScreen.ElevatedButton_Select"),
+                        ),
                       ),
                       ElevatedButton(
                         onPressed: () {
                           showModalBottomSheet(
-                              context: context,
-                              builder: (dialogContext) {
-                                return Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                    16.0,
-                                    16.0,
-                                    16.0,
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        16.0,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('Save Script'),
-                                      TextField(
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: 'Enter script name',
-                                        ),
-                                        onChanged: (value) => ref
-                                            .read(scriptProvider.notifier)
-                                            .setTitle(value),
+                            context: context,
+                            builder: (dialogContext) {
+                              return Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  16.0,
+                                  16.0,
+                                  16.0,
+                                  MediaQuery.of(context).viewInsets.bottom +
+                                      16.0,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      context.tr(
+                                          "HomeScreen.BottomSheet.Text_Title"),
+                                    ),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: context.tr(
+                                            "HomeScreen.BottomSheet.TextField_hintText"),
                                       ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          ScriptService()
-                                              .save(ref.watch(scriptProvider));
-                                          dialogContext.pop();
-                                        },
-                                        child: const Text('Save'),
+                                      onChanged: (value) => ref
+                                          .read(scriptProvider.notifier)
+                                          .setTitle(value),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        ScriptService()
+                                            .save(ref.watch(scriptProvider));
+                                        dialogContext.pop();
+                                      },
+                                      child: Text(
+                                        context.tr(
+                                            "HomeScreen.BottomSheet.ElevatedButton_Save"),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              });
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
                         },
-                        child: const Text('Save Script'),
+                        child: Text(
+                          context.tr('HomeScreen.ElevatedButton_Save'),
+                        ),
                       ),
                     ],
                   ),
@@ -149,19 +165,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   IconButton(
                     icon: Icon(Icons.settings),
                     onPressed: () => context.push("/settings"),
+                    tooltip: context.tr("HomeScreen.IconButton_Settings"),
                   ),
                   IconButton(
                     icon: Icon(Icons.code),
                     onPressed: () => _launchUrl(
                         "https://github.com/tiefseetauchner/tiefprompt"),
+                    tooltip: context.tr("HomeScreen.IconButton_SourceCode"),
                   ),
                   IconButton(
                     icon: Icon(Icons.info),
+                    tooltip: context.tr("HomeScreen.IconButton_About"),
                     onPressed: () => showAboutDialog(
                       context: context,
-                      applicationName: 'TiefPrompt',
+                      applicationName: context.tr("title"),
                       applicationLegalese:
-                          'Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.',
+                          "${context.tr("copyright")}\n${context.tr("credits")}",
                       applicationVersion: kApplicationVersion,
                       children: [
                         Padding(
@@ -170,12 +189,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             spacing: 8,
                             children: [
-                              Text(
-                                  "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy."),
+                              Text(context.tr("AboutDialog.Text_PrivacyText")),
                               ElevatedButton(
-                                  onPressed: () => _launchUrl(
-                                      "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4"),
-                                  child: Text("Privacy Policy")),
+                                onPressed: () => _launchUrl(
+                                    "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4"),
+                                child: Text(
+                                  context
+                                      .tr("AboutDialog.ElevatedButton_Privacy"),
+                                ),
+                              ),
                             ],
                           ),
                         ),

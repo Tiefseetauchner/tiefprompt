@@ -1,0 +1,89 @@
+{
+  "title": "TiefPrompt",
+  "empty_title": "Unnamed Script",
+  "copyright": "Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.\n",
+  "credits": "Thanks to the following contributors for providing translations for the software.\n Chinese: @TaoEngine",
+  "AboutDialog": {
+    "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
+    "ElevatedButton_Privacy": "Privacy Policy"
+  },
+  "HomeScreen": {
+    "TextField_hintText": "Enter script text",
+    "ElevatedButton_Start": "Start Teleprompter",
+    "ElevatedButton_Select": "Select Script from Device",
+    "ElevatedButton_Save": "Save Script",
+    "IconButton_Settings": "Settings",
+    "IconButton_SourceCode": "View source code",
+    "IconButton_About": "About",
+    "BottomSheet": {
+      "Text_Title": "Save Script",
+      "TextField_hintText": "Enter script name",
+      "ElevatedButton_Save": "Save"
+    }
+  },
+  "SettingsScreen": {
+    "title": "Settings",
+    "NumberAppSetting": {
+      "Value": "Enter Value",
+      "ElevatedButton_Save": "Save"
+    },
+    "DropdownAppSetting_DefaultLanguage": "Default Language",
+    "NumberAppSetting_DefaultScrollSpeed": "Default Scroll Speed",
+    "NumberAppSetting_DefaultScrollSpeed_Unit": "lines/sec",
+    "NumberAppSetting_DefaultFontSize": "Default Font Size",
+    "NumberAppSetting_DefaultFontSize_Unit": "px",
+    "DropdownAppSetting_DefaultTextAlignment": "Text Alignment",
+    "DropdownAppSetting_DefaultTextAlignment_Unit": {
+      "Left": "Left",
+      "Center": "Center",
+      "Right": "Right",
+      "Justified": "Justified"
+    },
+    "DropdownAppSetting_DefaultFontFamily": "Font Family",
+    "BooleanAppSetting_DefaultFlipX": "Default Flip X",
+    "BooleanAppSetting_DefaultFlipY": "Default Flip Y",
+    "BooleanAppSetting_ReadingIndicatorBoxes": "Display Reading Indicator Boxes",
+    "NumberAppSetting_ReadingIndicatorBoxes": "Height of Reading Indicator Boxes",
+    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+    "NumberAppSetting_SideMargin": "Side Margin",
+    "NumberAppSetting_SideMargin_Unit": "%",
+    "NumberAppSetting_CountdownTimer": "Countdown Timer",
+    "NumberAppSetting_CountdownTimer_Unit": "sec",
+    "ListTile_Reset": "Reset settings"
+  },
+  "PrompterScreen": {
+    "speed": "{}x",
+    "fontsize": "F: {}",
+    "IconButton_Save": "Save Script",
+    "IconButton_DisplaySettings": "Display Settings",
+    "IconButton_DecreaseSpeed": "Decrease Speed",
+    "IconButton_TogglePlayPause": "Toggle Play & Pause",
+    "IconButton_IncreaseSpeed": "Increase Speed",
+    "IconButton_TextFormat": "Font Settings",
+    "IconButton_Settings": "Settings",
+    "SimpleDialog_TextFormat": {
+      "title": "Font Settings",
+      "fontsize": "F: {}",
+      "IconButton_TextIncrease": "Text Increase",
+      "IconButton_TextDecrease": "Text Decrease",
+      "IconButton_Left": "Align Left",
+      "IconButton_Center": "Align Center",
+      "IconButton_Right": "Align Right",
+      "IconButton_Justified": "Align Justified"
+    },
+    "SimpleDialog_DisplaySettings": {
+      "title": "Display Settings",
+      "IconButton_FlipX": "Flip X Axis",
+      "IconButton_FlipY": "Flip Y Axis",
+      "IconButton_ReadingIndicatorBoxes": "Show Reading Indicator Boxes",
+      "Slider_SideMargin": "Side Margin",
+      "Slider_Countdown": "Countdown"
+    }
+  },
+  "OpenFileScreen": {
+    "title": "Select Script",
+    "if_empty": "No scripts saved. Save your scripts to view them here.",
+    "ElevatedButton_Select": "Select script from device",
+    "ListTile_Delete": "Delete (Be careful)"
+  }
+}

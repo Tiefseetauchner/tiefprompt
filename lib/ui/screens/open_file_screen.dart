@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +20,7 @@ class OpenFileScreen extends ConsumerWidget {
       builder: (buildContext, streamSnapshot) => StreamBuilder(
         stream: streamSnapshot.data,
         builder: (context, snapshot) => Scaffold(
-          appBar: AppBar(title: const Text('Select Script')),
+          appBar: AppBar(title: Text(context.tr("OpenFileScreen.title"))),
           body: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +44,9 @@ class OpenFileScreen extends ConsumerWidget {
                         context.pop();
                       }
                     },
-                    child: Text('Select Script'),
+                    child: Text(
+                      context.tr("OpenFileScreen.ElevatedButton_Select"),
+                    ),
                   ),
                 ),
               ],
@@ -53,7 +56,7 @@ class OpenFileScreen extends ConsumerWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
                 child: Text(
-                  "No scripts saved. Save your scripts to view them here.",
+                  context.tr("OpenFileScreen.if_empty"),
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -80,6 +83,7 @@ class OpenFileScreen extends ConsumerWidget {
                         context.pop();
                       },
                       trailing: IconButton(
+                          tooltip: context.tr("OpenFileScreen.ListTile_Delete"),
                           onPressed: () {
                             scriptService.deleteScript(script.id);
                           },

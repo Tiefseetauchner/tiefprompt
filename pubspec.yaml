@@ -43,6 +43,7 @@ dependencies:
   drift: ^2.25.0
   drift_flutter: ^0.2.4
   wakelock_plus: ^1.2.10
+  easy_localization: ^3.0.7+1
 
 dev_dependencies:
   integration_test:
@@ -125,6 +126,7 @@ flutter:
           style: italic
   assets:
     - assets/licenses/
+    - assets/translations/
         
   #   - family: Schyler
   #     fonts:

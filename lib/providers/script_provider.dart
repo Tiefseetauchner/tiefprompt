@@ -8,14 +8,14 @@ part 'script_provider.g.dart';
 class ScriptState with _$ScriptState {
   factory ScriptState({
     required String text,
-    required String title,
+    required String? title,
   }) = _ScriptState;
 }
 
 @riverpod
 class Script extends _$Script {
   @override
-  ScriptState build() => ScriptState(text: "", title: "Unnamed Script");
+  ScriptState build() => ScriptState(text: "", title: null);
 
   void setText(String text) {
     state = state.copyWith(text: text);

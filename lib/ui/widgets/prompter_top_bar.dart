@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
@@ -29,7 +30,7 @@ class PrompterTopBar extends ConsumerWidget {
             ),
             Expanded(
               child: Text(
-                script.title,
+                script.title ?? context.tr("empty_title"),
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 20,
