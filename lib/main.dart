@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/di_injection.dart';
@@ -13,13 +12,6 @@ import 'package:tiefprompt/ui/screens/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.transparent,
-      statusBarColor: Colors.transparent,
-    ),
-  );
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   await EasyLocalization.ensureInitialized();
 
   runApp(
@@ -48,7 +40,6 @@ class TeleprompterApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Teleprompter',
 
-        // 加入语言设置
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
