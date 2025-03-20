@@ -1,7 +1,8 @@
 {
   "title": "TiefPrompt",
   "empty_title": "Unnamed Script",
-  "copyright": "Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.",
+  "copyright": "Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.\n",
+  "credits": "Thanks to the following contributors for providing translations for the software.\n Chinese: @TaoEngine",
   "AboutDialog": {
     "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
     "ElevatedButton_Privacy": "Privacy Policy"
@@ -78,11 +79,11 @@
       "Slider_SideMargin": "Side Margin",
       "Slider_Countdown": "Countdown"
     }
-  }, 
+  },
   "OpenFileScreen": {
-    "title":"Select Script",
-    "if_empty":"Select script from device",
-    "ElevatedButton_Select": "No scripts saved. Save your scripts to view them here.",
-    "ListTile_Delete": "Delete (Be carefully)"
+    "title": "Select Script",
+    "if_empty": "No scripts saved. Save your scripts to view them here.",
+    "ElevatedButton_Select": "Select script from device",
+    "ListTile_Delete": "Delete (Be careful)"
   }
 }

@@ -179,7 +179,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onPressed: () => showAboutDialog(
                       context: context,
                       applicationName: context.tr("title"),
-                      applicationLegalese: context.tr("copyright"),
+                      applicationLegalese:
+                          "${context.tr("copyright")}\n${context.tr("credits")}",
                       applicationVersion: kApplicationVersion,
                       children: [
                         Padding(

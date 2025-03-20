@@ -1,7 +1,8 @@
 {
   "title": "TiefPrompt 提词器",
   "empty_title": "新的稿子",
-  "copyright": "Lena Tauchner 享有软件的著作权，\nTaoEngine 参与了软件的中文翻译\n\n软件分发协议：MIT License",
+  "copyright": "Lena Tauchner 享有软件的著作权\n\n软件分发协议：MIT License\n",
+  "credits": "感谢以下贡献者提供软件的翻译\n中文翻译： @TaoEngine",
   "AboutDialog": {
     "Text_PrivacyText": "隐私政策：\n本软件承诺不会向第三方平台传输您的所有数据，不会收集您的个人信息，并且不会分析您的内容个性化喜好\n您在使用本软件前须仔细阅读隐私政策并经过同意才能使用\n详细的隐私政策及变动信息请参考作者的官方网站",
     "ElevatedButton_Privacy": "查看隐私政策"
