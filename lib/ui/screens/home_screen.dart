@@ -19,6 +19,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late TextEditingController _controller;
+  ProviderSubscription? _scriptListener;
 
   @override
   void initState() {
@@ -27,16 +28,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _scriptListener?.close();
+    _scriptListener = ref.listenManual(
+      scriptProvider,
+      (previous, next) {
+        if (previous?.text != next.text &&
+            _controller.text != next.text &&
+            !_controller.value.composing.isValid) {
+          final selection = TextSelection.collapsed(offset: next.text.length);
+          _controller.value = TextEditingValue(
+            text: next.text,
+            selection: selection,
+          );
+        }
+      },
+    );
+  }
+
+  @override
   void dispose() {
+    _scriptListener?.close();
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final script = ref.watch(scriptProvider);
-    _controller.text = script.text;
-
     LicenseRegistry.addLicense(() async* {
       final openDyslexicLicense = await rootBundle
           .loadString('assets/licenses/openDyslexicLicense.txt');
@@ -71,7 +91,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     maxLines: (MediaQuery.of(context).size.height / 70).floor(),
                     controller: _controller,
                     onChanged: (value) {
-                      // Update script text when user changes screen
                       ref.read(scriptProvider.notifier).setText(value);
                     },
                   ),
