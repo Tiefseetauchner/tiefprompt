@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/di_injection.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/services/settings_service.dart';
@@ -23,14 +24,17 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: [
-        Locale("en", "US"),
-        Locale("zh", "CN"),
+    ProviderScope(
+      overrides: [
+        scriptServiceProvider.overrideWithValue(ScriptService()),
+        settingsServiceProvider.overrideWithValue(SettingsService())
       ],
-      path: 'assets/translations',
-      fallbackLocale: Locale('en', 'US'),
-      child: TeleprompterApp(),
+      child: EasyLocalization(
+        supportedLocales: kSupportedLocales.map((l10n) => l10n.$2).toList(),
+        path: 'assets/translations',
+        fallbackLocale: Locale('en', 'US'),
+        child: TeleprompterApp(),
+      ),
     ),
   );
 }
@@ -40,22 +44,16 @@ class TeleprompterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      overrides: [
-        scriptServiceProvider.overrideWithValue(ScriptService()),
-        settingsServiceProvider.overrideWithValue(SettingsService())
-      ],
-      child: MaterialApp.router(
-        title: 'Teleprompter',
+    return MaterialApp.router(
+      title: 'Teleprompter',
 
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
 
-        // TODO: Customize Theme
-        //theme: ThemeData.dark(),
-        routerConfig: _router,
-      ),
+      // TODO: Customize Theme
+      //theme: ThemeData.dark(),
+      routerConfig: _router,
     );
   }
 }

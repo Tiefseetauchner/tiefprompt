@@ -24,10 +24,7 @@ class SettingsScreen extends ConsumerWidget {
                   onValueChanged: (updatedValue) {
                     context.setLocale(updatedValue);
                   },
-                  values: [
-                    ("English", Locale("en", "US")),
-                    ("简体中文", Locale("zh", "CN")),
-                  ]),
+                  values: kSupportedLocales),
               NumberAppSetting(
                 value: value.scrollSpeed,
                 displayText: context

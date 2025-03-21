@@ -32,6 +32,9 @@ You know how to use flutter.
 We use hosted weblate (at this time at least) to translate the application.
 Feel free to help out! [Join the project](https://hosted.weblate.org/projects/tiefprompt)!
 
+When adding a new language, don't forget to add it to the lib/core/constants.dart kSupportedLocales
+list.
+
 ## License
 
 MIT. Look at [LICENSE](LICENSE) for details.

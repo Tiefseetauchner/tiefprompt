@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 const double kPrompterMinSpeed = 0.1;
 const double kPrompterMaxSpeed = 20.0;
 
@@ -15,3 +17,9 @@ const List<String> kAvailableFonts = [
 ];
 
 const String kApplicationVersion = '0.7.0';
+
+const kSupportedLocales = [
+  ("English", Locale("en", "US")),
+  ("简体中文", Locale("zh", "CN")),
+  ("Deutsch", Locale("de", "DE")),
+];
