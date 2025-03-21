@@ -23,19 +23,12 @@ Future<void> main() async {
   for (var locale in kSupportedLocales) {
     Future<void> generateScreenshot(WidgetTester tester,
         {String? screenName, String? caseName}) async {
-      // await tester.runAsync(() async {
-      //   await Future.delayed(
-      //       Duration(milliseconds: 500)); // Ensure localization is initialized
-      //   EasyLocalization.of(tester.firstElement(find.byType(MaterialApp)))!
-      //       .setLocale(locale.$2);
-      // });
-
       String platformName = '';
 
       if (Platform.isAndroid) {
         await binding.convertFlutterSurfaceToImage();
         platformName =
-            "android${MediaQuery.of(tester.element(find.byType(MaterialApp))).devicePixelRatio}";
+            "android${MediaQuery.of(tester.element(find.byType(MaterialApp))).devicePixelRatio.toStringAsFixed(1)}";
       } else if (Platform.isLinux) {
         platformName = "linux";
       } else if (Platform.isMacOS) {
@@ -50,7 +43,7 @@ Future<void> main() async {
       await tester.pumpAndSettle();
 
       screenshots.add((
-        "${locale.$2.languageCode}-${locale.$2.countryCode}_$screenName${screenName == null ? "" : "_"}$caseName${caseName == null ? "" : "_"}$platformName",
+        "${locale.$2.languageCode}-${locale.$2.countryCode}/$platformName/$screenName${screenName == null ? "" : "_"}$caseName${caseName == null ? "" : "_"}",
         await binding.takeScreenshot("screenshot")
       ));
     }

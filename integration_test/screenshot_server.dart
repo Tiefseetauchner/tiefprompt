@@ -15,8 +15,11 @@ void main() async {
         ..close();
     } else if (request.method == 'POST' &&
         request.uri.path.startsWith('/screenshots/')) {
-      final fileName = request.uri.pathSegments.last;
-      final file = File('screenshots/$fileName');
+      final pathSegmentCount = request.uri.pathSegments.length;
+      final fileName = request.uri.pathSegments[pathSegmentCount - 1];
+      final platform = request.uri.pathSegments[pathSegmentCount - 2];
+      final locale = request.uri.pathSegments[pathSegmentCount - 3];
+      final file = File('screenshots/$locale/$platform/$fileName');
 
       await file.create(recursive: true);
       await file.writeAsBytes(await request
