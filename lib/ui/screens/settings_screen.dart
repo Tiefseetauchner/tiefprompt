@@ -266,8 +266,10 @@ class _NumberAppSettingState extends State<NumberAppSetting> {
   void _showDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
-        return Padding(
+        return SafeArea(
+            child: Padding(
           padding: EdgeInsets.fromLTRB(
             16.0,
             16.0,
@@ -301,7 +303,7 @@ class _NumberAppSettingState extends State<NumberAppSetting> {
               ),
             ],
           ),
-        );
+        ));
       },
     );
   }

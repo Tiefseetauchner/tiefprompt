@@ -104,8 +104,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
+                            isScrollControlled: true,
                             builder: (dialogContext) {
-                              return Padding(
+                              return SafeArea(
+                                  child: Padding(
                                 padding: EdgeInsets.fromLTRB(
                                   16.0,
                                   16.0,
@@ -143,7 +145,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                   ],
                                 ),
-                              );
+                              ));
                             },
                           );
                         },
