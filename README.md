@@ -1,6 +1,7 @@
 # TiefPrompt
 
 [![](https://dcbadge.limes.pink/api/server/https://discord.gg/EG3zU9cTFx)](https://discord.gg/EG3zU9cTFx)
+[![Weblate project translated](https://img.shields.io/weblate/progress/tiefprompt?style=for-the-badge)](https://hosted.weblate.org/projects/tiefprompt)
 
 An extraordinarily simple cross-platform teleprompter.
 
@@ -25,6 +26,11 @@ Run it with `flutter run`.
 Make packages with `flutter build apk`.
 
 You know how to use flutter.
+
+## Translations
+
+We use hosted weblate (at this time at least) to translate the application.
+Feel free to help out! [Join the project](https://hosted.weblate.org/projects/tiefprompt)!
 
 ## License
 
