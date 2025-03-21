@@ -1,0 +1,89 @@
+{
+    "title": "",
+    "empty_title": "",
+    "copyright": "",
+    "credits": "",
+    "AboutDialog": {
+        "Text_PrivacyText": "",
+        "ElevatedButton_Privacy": ""
+    },
+    "HomeScreen": {
+        "TextField_hintText": "",
+        "ElevatedButton_Start": "",
+        "ElevatedButton_Select": "",
+        "ElevatedButton_Save": "",
+        "IconButton_Settings": "",
+        "IconButton_SourceCode": "",
+        "IconButton_About": "",
+        "BottomSheet": {
+            "Text_Title": "",
+            "TextField_hintText": "",
+            "ElevatedButton_Save": ""
+        }
+    },
+    "SettingsScreen": {
+        "title": "",
+        "NumberAppSetting": {
+            "Value": "",
+            "ElevatedButton_Save": ""
+        },
+        "DropdownAppSetting_DefaultLanguage": "",
+        "NumberAppSetting_DefaultScrollSpeed": "",
+        "NumberAppSetting_DefaultScrollSpeed_Unit": "",
+        "NumberAppSetting_DefaultFontSize": "",
+        "NumberAppSetting_DefaultFontSize_Unit": "",
+        "DropdownAppSetting_DefaultTextAlignment": "",
+        "DropdownAppSetting_DefaultTextAlignment_Unit": {
+            "Left": "",
+            "Center": "",
+            "Right": "",
+            "Justified": ""
+        },
+        "DropdownAppSetting_DefaultFontFamily": "",
+        "BooleanAppSetting_DefaultFlipX": "",
+        "BooleanAppSetting_DefaultFlipY": "",
+        "BooleanAppSetting_ReadingIndicatorBoxes": "",
+        "NumberAppSetting_ReadingIndicatorBoxes": "",
+        "NumberAppSetting_ReadingIndicatorBoxes_Unit": "",
+        "NumberAppSetting_SideMargin": "",
+        "NumberAppSetting_SideMargin_Unit": "",
+        "NumberAppSetting_CountdownTimer": "",
+        "NumberAppSetting_CountdownTimer_Unit": "",
+        "ListTile_Reset": ""
+    },
+    "PrompterScreen": {
+        "speed": "",
+        "fontsize": "",
+        "IconButton_Save": "",
+        "IconButton_DisplaySettings": "",
+        "IconButton_DecreaseSpeed": "",
+        "IconButton_TogglePlayPause": "",
+        "IconButton_IncreaseSpeed": "",
+        "IconButton_TextFormat": "",
+        "IconButton_Settings": "",
+        "SimpleDialog_TextFormat": {
+            "title": "",
+            "fontsize": "",
+            "IconButton_TextIncrease": "",
+            "IconButton_TextDecrease": "",
+            "IconButton_Left": "",
+            "IconButton_Center": "",
+            "IconButton_Right": "",
+            "IconButton_Justified": ""
+        },
+        "SimpleDialog_DisplaySettings": {
+            "title": "",
+            "IconButton_FlipX": "",
+            "IconButton_FlipY": "",
+            "IconButton_ReadingIndicatorBoxes": "",
+            "Slider_SideMargin": "",
+            "Slider_Countdown": ""
+        }
+    },
+    "OpenFileScreen": {
+        "title": "",
+        "if_empty": "",
+        "ElevatedButton_Select": "",
+        "ListTile_Delete": ""
+    }
+}
