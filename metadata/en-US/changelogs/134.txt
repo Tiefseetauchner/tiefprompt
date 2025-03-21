@@ -1,0 +1,1 @@
+This version adds Chinese as well as German translations, and improves holepunch compatibility.

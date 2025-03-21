@@ -1,0 +1,1 @@
+Diese Version fügt Deutsche und Chinesische Übersetzungen hinzu und verbessert Kompatibilität mit Holepunch Kameras.
