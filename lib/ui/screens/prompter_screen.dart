@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiefprompt/core/theme.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
-import 'package:tiefprompt/ui/widgets/reading_indicator.dart';
+import 'package:tiefprompt/ui/widgets/vertical_margin.dart';
 import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -134,40 +133,46 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
       },
       focusNode: _focusNode,
       autofocus: true,
-      child: Theme(
-        data: prompterBlackTheme,
-        child: Scaffold(
-          body: Stack(
-            fit: StackFit.expand,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  ref.read(controlsVisibleProvider.notifier).state =
-                      !controlsVisible;
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ScrollableText(
-                    controller: _scrollableTextController,
-                    text: script.text,
-                    style: TextStyle(
-                        fontSize: prompter.fontSize,
-                        fontFamily: prompter.fontFamily,
-                        color: Theme.of(context).colorScheme.onPrimary),
-                    sideMargin: (MediaQuery.of(context).size.width / 2) *
-                        (prompter.sideMargin / 100),
-                  ),
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            GestureDetector(
+              onTap: () {
+                ref.read(controlsVisibleProvider.notifier).state =
+                    !controlsVisible;
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ScrollableText(
+                  controller: _scrollableTextController,
+                  text: script.text,
+                  style: TextStyle(
+                      fontSize: prompter.fontSize,
+                      fontFamily: prompter.fontFamily,
+                      color: Theme.of(context).colorScheme.onSurface),
+                  sideMargin: (MediaQuery.of(context).size.width / 2) *
+                      (prompter.sideMargin / 100),
                 ),
               ),
-              ReadingIndicator(),
-              if (controlsVisible) PrompterTopBar(),
-              if (controlsVisible) PrompterBottomBar(),
-              if (prompter.displayCountdown && prompter.countdownDuration > 0)
-                CountdownTimer(
-                  duration: prompter.countdownDuration.toInt(),
-                )
-            ],
-          ),
+            ),
+            if (prompter.displayVerticalMarginBoxes)
+              VerticalMargin(
+                heightRatio: prompter.verticalMarginBoxesHeight,
+                color: Theme.of(context).canvasColor,
+              ),
+            if (prompter.displayReadingIndicatorBoxes)
+              VerticalMargin(
+                heightRatio: prompter.readingIndicatorBoxesHeight,
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(60),
+              ),
+            if (controlsVisible) PrompterTopBar(),
+            if (controlsVisible) PrompterBottomBar(),
+            if (prompter.displayCountdown && prompter.countdownDuration > 0)
+              CountdownTimer(
+                duration: prompter.countdownDuration.toInt(),
+              )
+          ],
         ),
       ),
     );

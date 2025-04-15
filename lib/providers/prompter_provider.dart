@@ -22,6 +22,8 @@ class PrompterState with _$PrompterState {
     @Default(TextAlign.left) TextAlign alignment,
     @Default(false) bool displayReadingIndicatorBoxes,
     @Default(25.0) double readingIndicatorBoxesHeight,
+    @Default(false) bool displayVerticalMarginBoxes,
+    @Default(25.0) double verticalMarginBoxesHeight,
     @Default(5.0) double countdownDuration,
     @Default(false) bool displayCountdown,
   }) = _PrompterState;
@@ -47,6 +49,8 @@ class Prompter extends _$Prompter {
       alignment: settings.alignment,
       displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
       readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
+      displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
+      verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
       countdownDuration: settings.countdownDuration,
     );
   }
@@ -102,6 +106,15 @@ class Prompter extends _$Prompter {
 
   void setReadingIndicatorBoxHeight(double height) {
     state = state.copyWith(readingIndicatorBoxesHeight: height);
+  }
+
+  void toggleDisplayVerticalMarginBoxes() {
+    state = state.copyWith(
+        displayVerticalMarginBoxes: !state.displayVerticalMarginBoxes);
+  }
+
+  void setVerticalMarginBoxHeight(double height) {
+    state = state.copyWith(verticalMarginBoxesHeight: height);
   }
 
   void setSideMargin(double sideMargin) {
