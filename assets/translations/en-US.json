@@ -79,6 +79,7 @@
       "IconButton_FlipX": "Flip X Axis",
       "IconButton_FlipY": "Flip Y Axis",
       "IconButton_ReadingIndicatorBoxes": "Show Reading Indicator Boxes",
+      "IconButton_VerticalMarginBoxes": "Enable Vertical Margins",
       "Slider_SideMargin": "Side Margin",
       "Slider_Countdown": "Countdown"
     }
