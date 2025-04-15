@@ -1,22 +1,164 @@
-name: Build
+name: Flutter Release
 
 on:
   push:
+    tags:
+      - 'v*'
     branches:
-      - release
+      - main
 
 jobs:
-  build-android:
-    name: Build for Android
-    runs-on: ubuntu-latest
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: '17'
-    - uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-    - run: flutter pub get
-    - run: flutter build apk --release
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: /app
+
+      - name: Enable Flutter from submodule
+        run: |
+          cd /app
+          export PATH="$PWD/.flutter/bin:$PATH"
+          echo "PATH=$PATH" >> $GITHUB_ENV
+
+      - name: Decode Keystore
+        if: runner.os == 'Linux'
+        run: |
+          mkdir -p ~/.android
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > ~/.android/release.keystore
+
+      - name: Create key.properties
+        if: runner.os == 'Linux'
+        run: |
+          cat <<EOF > /app/android/key.properties
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=/home/runner/.android/release.keystore
+          EOF
+
+      - name: Install dependencies
+        run: cd /app && flutter pub get
+
+      - name: Build APKs (Android)
+        if: runner.os == 'Linux'
+        run: cd /app && flutter build apk --release --split-per-abi
+
+      - name: Build App Bundle (Android)
+        if: runner.os == 'Linux'
+        run: cd /app && flutter build appbundle --release
+
+      - name: Build Linux App
+        if: runner.os == 'Linux'
+        run: cd /app && flutter build linux
+
+      - name: Build macOS App
+        if: runner.os == 'macOS'
+        run: cd /app && flutter build macos
+
+      - name: Build Windows App
+        if: runner.os == 'Windows'
+        run: cd /app && flutter build windows
+
+      - name: Package Artifacts
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/artifacts
+          cd /app
+          if [ -d build/app/outputs/flutter-apk ]; then
+            cp build/app/outputs/flutter-apk/*.apk $GITHUB_WORKSPACE/artifacts/
+          fi
+          if [ -d build/app/outputs/bundle/release ]; then
+            cp build/app/outputs/bundle/release/app-release.aab $GITHUB_WORKSPACE/artifacts/
+          fi
+          if [ -d build/linux/ ]; then
+            cp -r build/linux $GITHUB_WORKSPACE/artifacts/linux
+          fi
+          if [ -d build/macos/Build/Products/Release ]; then
+            cp -r build/macos/Build/Products/Release $GITHUB_WORKSPACE/artifacts/macos
+          fi
+          if [ -d build/windows/runner/Release ]; then
+            cp -r build/windows/runner/Release $GITHUB_WORKSPACE/artifacts/windows
+          fi
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-${{ runner.os }}
+          path: artifacts/*
+
+  fetch-and-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          name: .*
+          name_is_regexp: true
+          path: artifacts/
+
+      - name: Determine Pre-release Status
+        id: prerelease_check
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          if [[ "$TAG_NAME" =~ ^v0\. || "$TAG_NAME" =~ - ]]; then
+            echo "prerelease=true" >> $GITHUB_ENV
+          else
+            echo "prerelease=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body: "Auto-generated Flutter release."
+          draft: true
+          prerelease: ${{ env.prerelease }}
+          generate_release_notes: true
+          files: artifacts/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
+
+  nightly-release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        id: download-artifact-nightly
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          name: .*
+          name_is_regexp: true
+          path: artifacts/
+
+      - name: Update Nightly GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: nightly
+          name: Nightly
+          body: "Latest build from main branch."
+          prerelease: true
+          draft: false
+          generate_release_notes: false
+          files: artifacts/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
