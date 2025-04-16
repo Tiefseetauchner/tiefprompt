@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout repository
@@ -38,9 +38,6 @@ jobs:
           keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
           storeFile=/home/runner/work/tiefprompt/tiefprompt/release.keystore
           EOF
-
-      - name: Mark Flutter channel as custom
-        run: echo '[user-branch]' > app/.flutter/bin/internal/channel
 
       - name: Install dependencies
         run: |
@@ -70,11 +67,6 @@ jobs:
           ./.flutter/bin/flutter build linux
         working-directory: app
 
-      - name: Build macOS App
-        if: runner.os == 'macOS'
-        run: ./.flutter/bin/flutter build macos
-        working-directory: app
-
       - name: Build Windows App
         if: runner.os == 'Windows'
         run: ./.flutter/bin/flutter build windows
@@ -99,12 +91,6 @@ jobs:
           if [ -d app/build/linux ]; then
             cp -r app/build/linux artifacts/linux
           fi
-
-      - name: Package macOS Artifacts
-        if: runner.os == 'macOS'
-        run: |
-          mkdir -p artifacts
-          cp -r app/build/macos/Build/Products/Release/Tiefprompt.app artifacts/macos
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
