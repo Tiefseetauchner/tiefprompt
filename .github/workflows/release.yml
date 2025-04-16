@@ -76,7 +76,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           mkdir artifacts
-          cp -recurse app/build/windows/x64/runner/Release/ artifacts/windows
+          Compress-Archive app/build/windows/x64/runner/Release artifacts/windows.zip
 
       - name: Package Linux Artifacts
         if: runner.os == 'Linux'
@@ -89,7 +89,7 @@ jobs:
             cp app/build/app/outputs/bundle/release/app-release.aab artifacts/
           fi
           if [ -d app/build/linux ]; then
-            cp -r app/build/linux artifacts/linux
+            zip -r artifacts/linux.zip app/build/linux/x64/release/bundle/
           fi
 
       - name: Upload Artifacts
@@ -163,6 +163,6 @@ jobs:
           prerelease: true
           draft: false
           generate_release_notes: false
-          files: artifacts/**/*
+          files: artifacts/*
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
