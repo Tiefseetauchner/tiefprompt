@@ -121,6 +121,26 @@ class SettingsScreen extends ConsumerWidget {
                 unit: context.tr(
                     "SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes_Unit"),
               ),
+              BooleanAppSetting(
+                  value: value.displayVerticalMarginBoxes,
+                  displayText: context.tr(
+                      "SettingsScreen.BooleanAppSetting_VerticalMarginBoxes"),
+                  onValueChanged: (updatedValue) => ref
+                      .read(settingsProvider.notifier)
+                      .setDisplayVerticalMarginBoxes(updatedValue)),
+              NumberAppSetting(
+                value: value.verticalMarginBoxesHeight,
+                displayText: context
+                    .tr("SettingsScreen.NumberAppSetting_VerticalMarginBoxes"),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setVerticalMarginBoxesHeight(updatedValue),
+                min: 0,
+                max: 100,
+                stepSize: 5,
+                unit: context.tr(
+                    "SettingsScreen.NumberAppSetting_VerticalMarginBoxes_Unit"),
+              ),
               NumberAppSetting(
                 value: value.sideMargin,
                 displayText:

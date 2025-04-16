@@ -187,6 +187,8 @@ void clearPrompterState(WidgetTester tester, ProviderContainer container) {
       alignment: TextAlign.left,
       displayReadingIndicatorBoxes: true,
       readingIndicatorBoxesHeight: 70,
+      displayVerticalMarginBoxes: true,
+      verticalMarginBoxesHeight: 20,
       countdownDuration: 0));
 }
 

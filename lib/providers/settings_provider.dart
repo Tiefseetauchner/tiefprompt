@@ -20,6 +20,8 @@ class SettingsState with _$SettingsState {
     required TextAlign alignment,
     required bool displayReadingIndicatorBoxes,
     required double readingIndicatorBoxesHeight,
+    required bool displayVerticalMarginBoxes,
+    required double verticalMarginBoxesHeight,
     required double countdownDuration,
   }) = _SettingsState;
 }
@@ -74,6 +76,18 @@ class Settings extends _$Settings {
     await _settingsService.setReadingIndicatorBoxesHeight(height);
     state = AsyncValue.data(
         state.value!.copyWith(readingIndicatorBoxesHeight: height));
+  }
+
+  Future<void> setDisplayVerticalMarginBoxes(bool value) async {
+    await _settingsService.setDisplayVerticalMarginBoxes(value);
+    state = AsyncValue.data(
+        state.value!.copyWith(displayVerticalMarginBoxes: value));
+  }
+
+  Future<void> setVerticalMarginBoxesHeight(double height) async {
+    await _settingsService.setVerticalMarginBoxesHeight(height);
+    state = AsyncValue.data(
+        state.value!.copyWith(verticalMarginBoxesHeight: height));
   }
 
   Future<void> setFontSize(double fontSize) async {

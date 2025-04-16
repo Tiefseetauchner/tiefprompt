@@ -16,8 +16,6 @@ const List<String> kAvailableFonts = [
   'OpenDyslexic',
 ];
 
-const String kApplicationVersion = '0.8.0';
-
 const kSupportedLocales = [
   ("English", Locale("en", "US")),
   ("简体中文", Locale("zh", "CN")),

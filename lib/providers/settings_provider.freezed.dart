@@ -25,6 +25,8 @@ mixin _$SettingsState {
   TextAlign get alignment => throw _privateConstructorUsedError;
   bool get displayReadingIndicatorBoxes => throw _privateConstructorUsedError;
   double get readingIndicatorBoxesHeight => throw _privateConstructorUsedError;
+  bool get displayVerticalMarginBoxes => throw _privateConstructorUsedError;
+  double get verticalMarginBoxesHeight => throw _privateConstructorUsedError;
   double get countdownDuration => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
@@ -50,6 +52,8 @@ abstract class $SettingsStateCopyWith<$Res> {
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
       double readingIndicatorBoxesHeight,
+      bool displayVerticalMarginBoxes,
+      double verticalMarginBoxesHeight,
       double countdownDuration});
 }
 
@@ -77,6 +81,8 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? displayVerticalMarginBoxes = null,
+    Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
   }) {
     return _then(_value.copyWith(
@@ -116,6 +122,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      displayVerticalMarginBoxes: null == displayVerticalMarginBoxes
+          ? _value.displayVerticalMarginBoxes
+          : displayVerticalMarginBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesHeight: null == verticalMarginBoxesHeight
+          ? _value.verticalMarginBoxesHeight
+          : verticalMarginBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
       countdownDuration: null == countdownDuration
           ? _value.countdownDuration
           : countdownDuration // ignore: cast_nullable_to_non_nullable
@@ -142,6 +156,8 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
       double readingIndicatorBoxesHeight,
+      bool displayVerticalMarginBoxes,
+      double verticalMarginBoxesHeight,
       double countdownDuration});
 }
 
@@ -167,6 +183,8 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? displayVerticalMarginBoxes = null,
+    Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
   }) {
     return _then(_$SettingsStateImpl(
@@ -206,6 +224,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      displayVerticalMarginBoxes: null == displayVerticalMarginBoxes
+          ? _value.displayVerticalMarginBoxes
+          : displayVerticalMarginBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesHeight: null == verticalMarginBoxesHeight
+          ? _value.verticalMarginBoxesHeight
+          : verticalMarginBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
       countdownDuration: null == countdownDuration
           ? _value.countdownDuration
           : countdownDuration // ignore: cast_nullable_to_non_nullable
@@ -227,6 +253,8 @@ class _$SettingsStateImpl implements _SettingsState {
       required this.alignment,
       required this.displayReadingIndicatorBoxes,
       required this.readingIndicatorBoxesHeight,
+      required this.displayVerticalMarginBoxes,
+      required this.verticalMarginBoxesHeight,
       required this.countdownDuration});
 
   @override
@@ -248,11 +276,15 @@ class _$SettingsStateImpl implements _SettingsState {
   @override
   final double readingIndicatorBoxesHeight;
   @override
+  final bool displayVerticalMarginBoxes;
+  @override
+  final double verticalMarginBoxesHeight;
+  @override
   final double countdownDuration;
 
   @override
   String toString() {
-    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, countdownDuration: $countdownDuration)';
+    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration)';
   }
 
   @override
@@ -282,6 +314,13 @@ class _$SettingsStateImpl implements _SettingsState {
                     readingIndicatorBoxesHeight) ||
                 other.readingIndicatorBoxesHeight ==
                     readingIndicatorBoxesHeight) &&
+            (identical(other.displayVerticalMarginBoxes,
+                    displayVerticalMarginBoxes) ||
+                other.displayVerticalMarginBoxes ==
+                    displayVerticalMarginBoxes) &&
+            (identical(other.verticalMarginBoxesHeight,
+                    verticalMarginBoxesHeight) ||
+                other.verticalMarginBoxesHeight == verticalMarginBoxesHeight) &&
             (identical(other.countdownDuration, countdownDuration) ||
                 other.countdownDuration == countdownDuration));
   }
@@ -298,6 +337,8 @@ class _$SettingsStateImpl implements _SettingsState {
       alignment,
       displayReadingIndicatorBoxes,
       readingIndicatorBoxesHeight,
+      displayVerticalMarginBoxes,
+      verticalMarginBoxesHeight,
       countdownDuration);
 
   /// Create a copy of SettingsState
@@ -320,6 +361,8 @@ abstract class _SettingsState implements SettingsState {
       required final TextAlign alignment,
       required final bool displayReadingIndicatorBoxes,
       required final double readingIndicatorBoxesHeight,
+      required final bool displayVerticalMarginBoxes,
+      required final double verticalMarginBoxesHeight,
       required final double countdownDuration}) = _$SettingsStateImpl;
 
   @override
@@ -340,6 +383,10 @@ abstract class _SettingsState implements SettingsState {
   bool get displayReadingIndicatorBoxes;
   @override
   double get readingIndicatorBoxesHeight;
+  @override
+  bool get displayVerticalMarginBoxes;
+  @override
+  double get verticalMarginBoxesHeight;
   @override
   double get countdownDuration;
 

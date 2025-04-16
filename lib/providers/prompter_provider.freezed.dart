@@ -26,6 +26,8 @@ mixin _$PrompterState {
   TextAlign get alignment => throw _privateConstructorUsedError;
   bool get displayReadingIndicatorBoxes => throw _privateConstructorUsedError;
   double get readingIndicatorBoxesHeight => throw _privateConstructorUsedError;
+  bool get displayVerticalMarginBoxes => throw _privateConstructorUsedError;
+  double get verticalMarginBoxesHeight => throw _privateConstructorUsedError;
   double get countdownDuration => throw _privateConstructorUsedError;
   bool get displayCountdown => throw _privateConstructorUsedError;
 
@@ -53,6 +55,8 @@ abstract class $PrompterStateCopyWith<$Res> {
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
       double readingIndicatorBoxesHeight,
+      bool displayVerticalMarginBoxes,
+      double verticalMarginBoxesHeight,
       double countdownDuration,
       bool displayCountdown});
 }
@@ -82,6 +86,8 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? displayVerticalMarginBoxes = null,
+    Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
     Object? displayCountdown = null,
   }) {
@@ -126,6 +132,14 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      displayVerticalMarginBoxes: null == displayVerticalMarginBoxes
+          ? _value.displayVerticalMarginBoxes
+          : displayVerticalMarginBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesHeight: null == verticalMarginBoxesHeight
+          ? _value.verticalMarginBoxesHeight
+          : verticalMarginBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
       countdownDuration: null == countdownDuration
           ? _value.countdownDuration
           : countdownDuration // ignore: cast_nullable_to_non_nullable
@@ -157,6 +171,8 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
       TextAlign alignment,
       bool displayReadingIndicatorBoxes,
       double readingIndicatorBoxesHeight,
+      bool displayVerticalMarginBoxes,
+      double verticalMarginBoxesHeight,
       double countdownDuration,
       bool displayCountdown});
 }
@@ -184,6 +200,8 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
     Object? alignment = null,
     Object? displayReadingIndicatorBoxes = null,
     Object? readingIndicatorBoxesHeight = null,
+    Object? displayVerticalMarginBoxes = null,
+    Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
     Object? displayCountdown = null,
   }) {
@@ -228,6 +246,14 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
           ? _value.readingIndicatorBoxesHeight
           : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
               as double,
+      displayVerticalMarginBoxes: null == displayVerticalMarginBoxes
+          ? _value.displayVerticalMarginBoxes
+          : displayVerticalMarginBoxes // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesHeight: null == verticalMarginBoxesHeight
+          ? _value.verticalMarginBoxesHeight
+          : verticalMarginBoxesHeight // ignore: cast_nullable_to_non_nullable
+              as double,
       countdownDuration: null == countdownDuration
           ? _value.countdownDuration
           : countdownDuration // ignore: cast_nullable_to_non_nullable
@@ -254,6 +280,8 @@ class _$PrompterStateImpl implements _PrompterState {
       this.alignment = TextAlign.left,
       this.displayReadingIndicatorBoxes = false,
       this.readingIndicatorBoxesHeight = 25.0,
+      this.displayVerticalMarginBoxes = false,
+      this.verticalMarginBoxesHeight = 25.0,
       this.countdownDuration = 5.0,
       this.displayCountdown = false});
 
@@ -289,6 +317,12 @@ class _$PrompterStateImpl implements _PrompterState {
   final double readingIndicatorBoxesHeight;
   @override
   @JsonKey()
+  final bool displayVerticalMarginBoxes;
+  @override
+  @JsonKey()
+  final double verticalMarginBoxesHeight;
+  @override
+  @JsonKey()
   final double countdownDuration;
   @override
   @JsonKey()
@@ -296,7 +330,7 @@ class _$PrompterStateImpl implements _PrompterState {
 
   @override
   String toString() {
-    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown)';
+    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown)';
   }
 
   @override
@@ -327,6 +361,13 @@ class _$PrompterStateImpl implements _PrompterState {
                     readingIndicatorBoxesHeight) ||
                 other.readingIndicatorBoxesHeight ==
                     readingIndicatorBoxesHeight) &&
+            (identical(other.displayVerticalMarginBoxes,
+                    displayVerticalMarginBoxes) ||
+                other.displayVerticalMarginBoxes ==
+                    displayVerticalMarginBoxes) &&
+            (identical(other.verticalMarginBoxesHeight,
+                    verticalMarginBoxesHeight) ||
+                other.verticalMarginBoxesHeight == verticalMarginBoxesHeight) &&
             (identical(other.countdownDuration, countdownDuration) ||
                 other.countdownDuration == countdownDuration) &&
             (identical(other.displayCountdown, displayCountdown) ||
@@ -346,6 +387,8 @@ class _$PrompterStateImpl implements _PrompterState {
       alignment,
       displayReadingIndicatorBoxes,
       readingIndicatorBoxesHeight,
+      displayVerticalMarginBoxes,
+      verticalMarginBoxesHeight,
       countdownDuration,
       displayCountdown);
 
@@ -370,6 +413,8 @@ abstract class _PrompterState implements PrompterState {
       final TextAlign alignment,
       final bool displayReadingIndicatorBoxes,
       final double readingIndicatorBoxesHeight,
+      final bool displayVerticalMarginBoxes,
+      final double verticalMarginBoxesHeight,
       final double countdownDuration,
       final bool displayCountdown}) = _$PrompterStateImpl;
 
@@ -393,6 +438,10 @@ abstract class _PrompterState implements PrompterState {
   bool get displayReadingIndicatorBoxes;
   @override
   double get readingIndicatorBoxesHeight;
+  @override
+  bool get displayVerticalMarginBoxes;
+  @override
+  double get verticalMarginBoxesHeight;
   @override
   double get countdownDuration;
   @override
