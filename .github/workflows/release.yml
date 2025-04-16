@@ -2,8 +2,6 @@ name: Flutter Release
 
 on:
   push:
-    tags:
-      - "v*"
     branches:
       - main
 
@@ -97,46 +95,6 @@ jobs:
         with:
           name: tiefprompt-${{ runner.os }}
           path: artifacts/*
-
-  fetch-and-release:
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Download artifact
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v9
-        with:
-          name: .*
-          name_is_regexp: true
-          path: artifacts/
-
-      - name: Determine Pre-release Status
-        id: prerelease_check
-        run: |
-          TAG_NAME="${{ github.ref_name }}"
-          if [[ "$TAG_NAME" =~ ^v0\. || "$TAG_NAME" =~ - ]]; then
-            echo "prerelease=true" >> $GITHUB_ENV
-          else
-            echo "prerelease=false" >> $GITHUB_ENV
-          fi
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          body: "Auto-generated Flutter release."
-          draft: true
-          prerelease: ${{ env.prerelease }}
-          generate_release_notes: true
-          files: artifacts/**/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
 
   nightly-release:
     if: github.ref == 'refs/heads/main'
