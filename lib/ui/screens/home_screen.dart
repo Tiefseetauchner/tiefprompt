@@ -85,11 +85,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextField(
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: context.tr("HomeScreen.TextField_hintText"),
                     ),
+                    // textInputAction: TextInputAction.newline,
                     maxLines: (MediaQuery.of(context).size.height / 70).floor(),
                     controller: _controller,
                     onChanged: (value) {
