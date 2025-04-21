@@ -45,6 +45,9 @@
     "BooleanAppSetting_ReadingIndicatorBoxes": "Display Reading Indicator Boxes",
     "NumberAppSetting_ReadingIndicatorBoxes": "Height of Reading Indicator Boxes",
     "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+    "BooleanAppSetting_VerticalMarginBoxes": "Enable Vertical Margins",
+    "NumberAppSetting_VerticalMarginBoxes": "Height of Vertical Margin",
+    "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
     "NumberAppSetting_SideMargin": "Side Margin",
     "NumberAppSetting_SideMargin_Unit": "%",
     "NumberAppSetting_CountdownTimer": "Countdown Timer",
@@ -76,6 +79,7 @@
       "IconButton_FlipX": "Flip X Axis",
       "IconButton_FlipY": "Flip Y Axis",
       "IconButton_ReadingIndicatorBoxes": "Show Reading Indicator Boxes",
+      "IconButton_VerticalMarginBoxes": "Enable Vertical Margins",
       "Slider_SideMargin": "Side Margin",
       "Slider_Countdown": "Countdown"
     }

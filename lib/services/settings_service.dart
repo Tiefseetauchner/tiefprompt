@@ -7,16 +7,20 @@ import 'package:tiefprompt/providers/settings_provider.dart';
 abstract class ISettingsService {
   Future<SettingsState> loadSettings();
   Future<bool> resetSettings();
+
   Future<void> setScrollSpeed(double speed);
   Future<void> setMirroredX(bool value);
   Future<void> setMirroredY(bool value);
-  Future<void> setDisplayReadingIndicatorBoxes(bool value);
   Future<void> setFontSize(double fontSize);
   Future<void> setSideMargin(double sideMargin);
   Future<void> setFontFamily(String fontFamily);
   Future<void> setAlignment(TextAlign alignment);
+  Future<void> setDisplayReadingIndicatorBoxes(bool value);
   Future<void> setReadingIndicatorBoxesHeight(double height);
+  Future<void> setDisplayVerticalMarginBoxes(bool value);
+  Future<void> setVerticalMarginBoxesHeight(double height);
   Future<void> setCountdownDuration(double duration);
+
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
 
@@ -32,6 +36,8 @@ class SettingsService implements ISettingsService {
       'display_reading_indicator_boxes';
   static const _readingIndicatorBoxesHeightKey =
       'reading_indicator_boxes_height';
+  static const _displayVerticalMarginBoxesKey = 'display_vertical_margin_boxes';
+  static const _verticalMarginBoxesHeightKey = 'vertical_margin_boxes_height';
   static const _countdownDurationKey = 'countdown_duration';
 
   @override
@@ -54,6 +60,14 @@ class SettingsService implements ISettingsService {
           false,
       readingIndicatorBoxesHeight: prefs.getDouble(
             _readingIndicatorBoxesHeightKey,
+          ) ??
+          25,
+      displayVerticalMarginBoxes: prefs.getBool(
+            _displayVerticalMarginBoxesKey,
+          ) ??
+          false,
+      verticalMarginBoxesHeight: prefs.getDouble(
+            _verticalMarginBoxesHeightKey,
           ) ??
           25,
       countdownDuration: prefs.getDouble(
@@ -115,6 +129,18 @@ class SettingsService implements ISettingsService {
   }
 
   @override
+  Future<void> setDisplayVerticalMarginBoxes(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_displayVerticalMarginBoxesKey, value);
+  }
+
+  @override
+  Future<void> setVerticalMarginBoxesHeight(double height) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_verticalMarginBoxesHeightKey, height);
+  }
+
+  @override
   Future<void> setFontSize(double fontSize) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeKey, fontSize);
@@ -157,6 +183,9 @@ class SettingsService implements ISettingsService {
         prompterState.displayReadingIndicatorBoxes);
     await setReadingIndicatorBoxesHeight(
         prompterState.readingIndicatorBoxesHeight);
+    await setDisplayVerticalMarginBoxes(
+        prompterState.displayVerticalMarginBoxes);
+    await setVerticalMarginBoxesHeight(prompterState.verticalMarginBoxesHeight);
     await setCountdownDuration(prompterState.countdownDuration);
   }
 }

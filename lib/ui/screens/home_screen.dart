@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiefprompt/core/constants.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
@@ -72,6 +72,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       yield LicenseEntryWithLineBreaks(['roboto slab'], robotoSlabLicense);
     });
 
+    Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
+
     return Scaffold(
       appBar: AppBar(title: Text(context.tr("title"))),
       body: SingleChildScrollView(
@@ -83,11 +85,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextField(
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: context.tr("HomeScreen.TextField_hintText"),
                     ),
+                    // textInputAction: TextInputAction.newline,
                     maxLines: (MediaQuery.of(context).size.height / 70).floor(),
                     controller: _controller,
                     onChanged: (value) {
@@ -194,35 +197,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         "https://github.com/tiefseetauchner/tiefprompt"),
                     tooltip: context.tr("HomeScreen.IconButton_SourceCode"),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.info),
-                    tooltip: context.tr("HomeScreen.IconButton_About"),
-                    onPressed: () => showAboutDialog(
-                      context: context,
-                      applicationName: context.tr("title"),
-                      applicationLegalese:
-                          "${context.tr("copyright")}\n${context.tr("credits")}",
-                      applicationVersion: kApplicationVersion,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 8,
-                            children: [
-                              Text(context.tr("AboutDialog.Text_PrivacyText")),
-                              ElevatedButton(
-                                onPressed: () => _launchUrl(
-                                    "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4"),
-                                child: Text(
-                                  context
-                                      .tr("AboutDialog.ElevatedButton_Privacy"),
+                  FutureBuilder(
+                    future: packageInfo,
+                    builder: (buildContext, packageInfo) => IconButton(
+                      icon: Icon(Icons.info),
+                      tooltip: context.tr("HomeScreen.IconButton_About"),
+                      onPressed: () => showAboutDialog(
+                        context: context,
+                        applicationName: context.tr("title"),
+                        applicationLegalese:
+                            "${context.tr("copyright")}\n${context.tr("credits")}",
+                        applicationVersion:
+                            "${packageInfo.data?.version} (Build ${packageInfo.data?.buildNumber})",
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: 8,
+                              children: [
+                                Text(
+                                    context.tr("AboutDialog.Text_PrivacyText")),
+                                ElevatedButton(
+                                  onPressed: () => _launchUrl(
+                                      "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4"),
+                                  child: Text(
+                                    context.tr(
+                                        "AboutDialog.ElevatedButton_Privacy"),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],

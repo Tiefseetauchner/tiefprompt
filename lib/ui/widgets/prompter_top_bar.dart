@@ -17,7 +17,7 @@ class PrompterTopBar extends ConsumerWidget {
       left: 0,
       right: 0,
       child: Container(
-        color: Theme.of(context).colorScheme.onSecondary.withAlpha(120),
+        color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -25,7 +25,7 @@ class PrompterTopBar extends ConsumerWidget {
           children: [
             IconButton(
               icon: Icon(Icons.close,
-                  color: Theme.of(context).colorScheme.onPrimary),
+                  color: Theme.of(context).colorScheme.onSurface),
               onPressed: () => Navigator.of(context).pop(),
             ),
             Expanded(
@@ -34,7 +34,7 @@ class PrompterTopBar extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 20,
-                    color: Theme.of(context).colorScheme.onPrimary),
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
             ),
           ],

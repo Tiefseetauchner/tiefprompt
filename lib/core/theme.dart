@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-final prompterBlackTheme = ThemeData.light().copyWith(
-  canvasColor: Colors.black,
+final prompterBlackTheme = ThemeData(
+  brightness: Brightness.dark,
   scaffoldBackgroundColor: Colors.black,
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    primary: Colors.black,
-    onPrimary: Colors.white,
-  ),
+  canvasColor: Colors.black,
+  primaryColor: Colors.white,
+);
+
+final prompterWhiteTheme = ThemeData(
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: Colors.white,
+  canvasColor: Colors.white,
+  primaryColor: Colors.black,
 );
