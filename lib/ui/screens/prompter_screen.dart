@@ -160,6 +160,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               VerticalMargin(
                 heightRatio: prompter.verticalMarginBoxesHeight,
                 color: Theme.of(context).canvasColor,
+                fade: true,
+                fadeLength: 0.1,
               ),
             if (prompter.displayReadingIndicatorBoxes)
               VerticalMargin(
