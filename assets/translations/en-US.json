@@ -48,7 +48,7 @@
     "BooleanAppSetting_VerticalMarginBoxes": "Enable Vertical Margins",
     "NumberAppSetting_VerticalMarginBoxes": "Height of Vertical Margin",
     "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
-    "NumberAppSetting_VerticalMarginBoxes_FadeEnabled": "Enable Fade for Vertical Margin",
+    "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "Enable Fade for Vertical Margin",
     "NumberAppSetting_VerticalMarginBoxes_FadeLength": "Fade Length",
     "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "%",
     "NumberAppSetting_SideMargin": "Side Margin",
