@@ -72,9 +72,18 @@ class TeleprompterApp extends ConsumerWidget {
         builder: (context, state) => const OpenFileScreen(),
       ),
       GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
-      ),
+          path: '/settings',
+          builder: (context, state) => const SettingsScreen(),
+          routes: [
+            GoRoute(
+              path: 'display',
+              builder: (context, state) => const DisplaySettingsScreen(),
+            ),
+            GoRoute(
+              path: 'text',
+              builder: (context, state) => const TextSettingsScreen(),
+            ),
+          ]),
     ],
   );
 }

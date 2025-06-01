@@ -23,6 +23,8 @@ class SettingsState with _$SettingsState {
     required bool displayVerticalMarginBoxes,
     required double verticalMarginBoxesHeight,
     required double countdownDuration,
+    required bool verticalMarginBoxesFadeEnabled,
+    required double verticalMarginBoxesFadeLength,
   }) = _SettingsState;
 }
 
@@ -113,5 +115,17 @@ class Settings extends _$Settings {
   Future<void> setCountdownDuration(double duration) async {
     await _settingsService.setCountdownDuration(duration);
     state = AsyncValue.data(state.value!.copyWith(countdownDuration: duration));
+  }
+
+  Future<void> setVerticalMarginBoxesFadeEnabled(bool value) async {
+    await _settingsService.setVerticalMarginBoxesFadeEnabled(value);
+    state = AsyncValue.data(
+        state.value!.copyWith(verticalMarginBoxesFadeEnabled: value));
+  }
+
+  Future<void> setVerticalMarginBoxesFadeLength(double length) async {
+    await _settingsService.setVerticalMarginBoxesFadeLength(length);
+    state = AsyncValue.data(
+        state.value!.copyWith(verticalMarginBoxesFadeLength: length));
   }
 }

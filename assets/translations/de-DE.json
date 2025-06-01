@@ -49,6 +49,8 @@
         "NumberAppSetting_SideMargin_Unit": "%",
         "NumberAppSetting_CountdownTimer": "Countdown-Timer",
         "NumberAppSetting_CountdownTimer_Unit": "Sekunden",
+        "SettingsScreen.DisplaySettings": "Anzeigeeinstellungen",
+        "SettingsScreen.TextSettings": "Schrifteinstellungen",
         "ListTile_Reset": "Einstellungen Zurücksetzen"
     },
     "PrompterScreen": {
@@ -76,6 +78,8 @@
             "IconButton_FlipX": "Um X spiegeln",
             "IconButton_FlipY": "Um Y spiegeln",
             "IconButton_ReadingIndicatorBoxes": "Lesehilfen anzeigen",
+            "IconButton_VerticalMarginBoxes": "Vertikalen Abstand anzeigen",
+            "IconButton_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",
             "Slider_SideMargin": "Seitenabstand",
             "Slider_Countdown": "Countdown"
         }

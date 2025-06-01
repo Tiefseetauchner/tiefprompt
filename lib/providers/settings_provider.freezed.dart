@@ -28,6 +28,9 @@ mixin _$SettingsState {
   bool get displayVerticalMarginBoxes => throw _privateConstructorUsedError;
   double get verticalMarginBoxesHeight => throw _privateConstructorUsedError;
   double get countdownDuration => throw _privateConstructorUsedError;
+  bool get verticalMarginBoxesFadeEnabled => throw _privateConstructorUsedError;
+  double get verticalMarginBoxesFadeLength =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -54,7 +57,9 @@ abstract class $SettingsStateCopyWith<$Res> {
       double readingIndicatorBoxesHeight,
       bool displayVerticalMarginBoxes,
       double verticalMarginBoxesHeight,
-      double countdownDuration});
+      double countdownDuration,
+      bool verticalMarginBoxesFadeEnabled,
+      double verticalMarginBoxesFadeLength});
 }
 
 /// @nodoc
@@ -84,6 +89,8 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     Object? displayVerticalMarginBoxes = null,
     Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
+    Object? verticalMarginBoxesFadeEnabled = null,
+    Object? verticalMarginBoxesFadeLength = null,
   }) {
     return _then(_value.copyWith(
       scrollSpeed: null == scrollSpeed
@@ -134,6 +141,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.countdownDuration
           : countdownDuration // ignore: cast_nullable_to_non_nullable
               as double,
+      verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled
+          ? _value.verticalMarginBoxesFadeEnabled
+          : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength
+          ? _value.verticalMarginBoxesFadeLength
+          : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -158,7 +173,9 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       double readingIndicatorBoxesHeight,
       bool displayVerticalMarginBoxes,
       double verticalMarginBoxesHeight,
-      double countdownDuration});
+      double countdownDuration,
+      bool verticalMarginBoxesFadeEnabled,
+      double verticalMarginBoxesFadeLength});
 }
 
 /// @nodoc
@@ -186,6 +203,8 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
     Object? displayVerticalMarginBoxes = null,
     Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
+    Object? verticalMarginBoxesFadeEnabled = null,
+    Object? verticalMarginBoxesFadeLength = null,
   }) {
     return _then(_$SettingsStateImpl(
       scrollSpeed: null == scrollSpeed
@@ -236,6 +255,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.countdownDuration
           : countdownDuration // ignore: cast_nullable_to_non_nullable
               as double,
+      verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled
+          ? _value.verticalMarginBoxesFadeEnabled
+          : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength
+          ? _value.verticalMarginBoxesFadeLength
+          : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -255,7 +282,9 @@ class _$SettingsStateImpl implements _SettingsState {
       required this.readingIndicatorBoxesHeight,
       required this.displayVerticalMarginBoxes,
       required this.verticalMarginBoxesHeight,
-      required this.countdownDuration});
+      required this.countdownDuration,
+      required this.verticalMarginBoxesFadeEnabled,
+      required this.verticalMarginBoxesFadeLength});
 
   @override
   final double scrollSpeed;
@@ -281,10 +310,14 @@ class _$SettingsStateImpl implements _SettingsState {
   final double verticalMarginBoxesHeight;
   @override
   final double countdownDuration;
+  @override
+  final bool verticalMarginBoxesFadeEnabled;
+  @override
+  final double verticalMarginBoxesFadeLength;
 
   @override
   String toString() {
-    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration)';
+    return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength)';
   }
 
   @override
@@ -314,15 +347,20 @@ class _$SettingsStateImpl implements _SettingsState {
                     readingIndicatorBoxesHeight) ||
                 other.readingIndicatorBoxesHeight ==
                     readingIndicatorBoxesHeight) &&
-            (identical(other.displayVerticalMarginBoxes,
-                    displayVerticalMarginBoxes) ||
+            (identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) ||
                 other.displayVerticalMarginBoxes ==
                     displayVerticalMarginBoxes) &&
-            (identical(other.verticalMarginBoxesHeight,
-                    verticalMarginBoxesHeight) ||
+            (identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) ||
                 other.verticalMarginBoxesHeight == verticalMarginBoxesHeight) &&
             (identical(other.countdownDuration, countdownDuration) ||
-                other.countdownDuration == countdownDuration));
+                other.countdownDuration == countdownDuration) &&
+            (identical(other.verticalMarginBoxesFadeEnabled,
+                    verticalMarginBoxesFadeEnabled) ||
+                other.verticalMarginBoxesFadeEnabled ==
+                    verticalMarginBoxesFadeEnabled) &&
+            (identical(other.verticalMarginBoxesFadeLength,
+                    verticalMarginBoxesFadeLength) ||
+                other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength));
   }
 
   @override
@@ -339,7 +377,9 @@ class _$SettingsStateImpl implements _SettingsState {
       readingIndicatorBoxesHeight,
       displayVerticalMarginBoxes,
       verticalMarginBoxesHeight,
-      countdownDuration);
+      countdownDuration,
+      verticalMarginBoxesFadeEnabled,
+      verticalMarginBoxesFadeLength);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -352,18 +392,21 @@ class _$SettingsStateImpl implements _SettingsState {
 
 abstract class _SettingsState implements SettingsState {
   factory _SettingsState(
-      {required final double scrollSpeed,
-      required final bool mirroredX,
-      required final bool mirroredY,
-      required final double fontSize,
-      required final double sideMargin,
-      required final String fontFamily,
-      required final TextAlign alignment,
-      required final bool displayReadingIndicatorBoxes,
-      required final double readingIndicatorBoxesHeight,
-      required final bool displayVerticalMarginBoxes,
-      required final double verticalMarginBoxesHeight,
-      required final double countdownDuration}) = _$SettingsStateImpl;
+          {required final double scrollSpeed,
+          required final bool mirroredX,
+          required final bool mirroredY,
+          required final double fontSize,
+          required final double sideMargin,
+          required final String fontFamily,
+          required final TextAlign alignment,
+          required final bool displayReadingIndicatorBoxes,
+          required final double readingIndicatorBoxesHeight,
+          required final bool displayVerticalMarginBoxes,
+          required final double verticalMarginBoxesHeight,
+          required final double countdownDuration,
+          required final bool verticalMarginBoxesFadeEnabled,
+          required final double verticalMarginBoxesFadeLength}) =
+      _$SettingsStateImpl;
 
   @override
   double get scrollSpeed;
@@ -389,6 +432,10 @@ abstract class _SettingsState implements SettingsState {
   double get verticalMarginBoxesHeight;
   @override
   double get countdownDuration;
+  @override
+  bool get verticalMarginBoxesFadeEnabled;
+  @override
+  double get verticalMarginBoxesFadeLength;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

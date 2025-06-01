@@ -20,6 +20,8 @@ abstract class ISettingsService {
   Future<void> setDisplayVerticalMarginBoxes(bool value);
   Future<void> setVerticalMarginBoxesHeight(double height);
   Future<void> setCountdownDuration(double duration);
+  Future<void> setVerticalMarginBoxesFadeEnabled(bool value);
+  Future<void> setVerticalMarginBoxesFadeLength(double length);
 
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
@@ -39,6 +41,8 @@ class SettingsService implements ISettingsService {
   static const _displayVerticalMarginBoxesKey = 'display_vertical_margin_boxes';
   static const _verticalMarginBoxesHeightKey = 'vertical_margin_boxes_height';
   static const _countdownDurationKey = 'countdown_duration';
+  static const _verticalMarginBoxesFadeEnabledKey = 'fade_enabled';
+  static const _verticalMarginBoxesFadeLengthKey = 'fade_length';
 
   @override
   Future<SettingsState> loadSettings() async {
@@ -74,6 +78,10 @@ class SettingsService implements ISettingsService {
             _countdownDurationKey,
           ) ??
           5,
+      verticalMarginBoxesFadeEnabled:
+          prefs.getBool(_verticalMarginBoxesFadeEnabledKey) ?? false,
+      verticalMarginBoxesFadeLength:
+          prefs.getDouble(_verticalMarginBoxesFadeLengthKey) ?? 0.0,
     );
   }
 
@@ -171,6 +179,18 @@ class SettingsService implements ISettingsService {
   }
 
   @override
+  Future<void> setVerticalMarginBoxesFadeEnabled(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_verticalMarginBoxesFadeEnabledKey, value);
+  }
+
+  @override
+  Future<void> setVerticalMarginBoxesFadeLength(double length) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_verticalMarginBoxesFadeLengthKey, length);
+  }
+
+  @override
   Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
     await setScrollSpeed(prompterState.speed);
     await setMirroredX(prompterState.mirroredX);
@@ -187,5 +207,9 @@ class SettingsService implements ISettingsService {
         prompterState.displayVerticalMarginBoxes);
     await setVerticalMarginBoxesHeight(prompterState.verticalMarginBoxesHeight);
     await setCountdownDuration(prompterState.countdownDuration);
+    await setVerticalMarginBoxesFadeEnabled(
+        prompterState.verticalMarginBoxesFadeEnabled);
+    await setVerticalMarginBoxesFadeLength(
+        prompterState.verticalMarginBoxesFadeLength);
   }
 }

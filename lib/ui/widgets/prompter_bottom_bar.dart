@@ -386,6 +386,30 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                     ),
                     Row(
                       children: [
+                        IconButton(
+                          icon: Icon(Icons.gradient),
+                          tooltip: context.tr(
+                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FadeEnabled"),
+                          isSelected: prompter.verticalMarginBoxesFadeEnabled,
+                          onPressed: () => ref
+                              .read(prompterProvider.notifier)
+                              .toggleVerticalMarginBoxesFadeEnabled(),
+                        ),
+                        Slider(
+                          value: prompter.verticalMarginBoxesFadeLength,
+                          min: 0.0,
+                          max: 100,
+                          divisions: 20,
+                          label: prompter.verticalMarginBoxesFadeLength
+                              .toStringAsFixed(2),
+                          onChanged: (value) => ref
+                              .read(prompterProvider.notifier)
+                              .setVerticalMarginBoxesFadeLength(value),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         Text(
                           context.tr(
                               "PrompterScreen.SimpleDialog_DisplaySettings.Slider_SideMargin"),

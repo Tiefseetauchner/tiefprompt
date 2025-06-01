@@ -26,6 +26,8 @@ class PrompterState with _$PrompterState {
     @Default(25.0) double verticalMarginBoxesHeight,
     @Default(5.0) double countdownDuration,
     @Default(false) bool displayCountdown,
+    @Default(false) bool verticalMarginBoxesFadeEnabled,
+    @Default(0.0) double verticalMarginBoxesFadeLength,
   }) = _PrompterState;
 }
 
@@ -147,5 +149,14 @@ class Prompter extends _$Prompter {
 
   void setCountdownDuration(double duration) {
     state = state.copyWith(countdownDuration: duration);
+  }
+
+  void toggleVerticalMarginBoxesFadeEnabled() {
+    state = state.copyWith(
+        verticalMarginBoxesFadeEnabled: !state.verticalMarginBoxesFadeEnabled);
+  }
+
+  void setVerticalMarginBoxesFadeLength(double fadeLength) {
+    state = state.copyWith(verticalMarginBoxesFadeLength: fadeLength);
   }
 }
