@@ -43,9 +43,9 @@ class Prompter extends _$Prompter {
   void applySettings(SettingsState settings) {
     state = state.copyWith(
       speed: settings.scrollSpeed,
-      fontSize: settings.fontSize,
       mirroredX: settings.mirroredX,
       mirroredY: settings.mirroredY,
+      fontSize: settings.fontSize,
       sideMargin: settings.sideMargin,
       fontFamily: settings.fontFamily,
       alignment: settings.alignment,
@@ -54,6 +54,8 @@ class Prompter extends _$Prompter {
       displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
       verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
       countdownDuration: settings.countdownDuration,
+      verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
+      verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
     );
   }
 
