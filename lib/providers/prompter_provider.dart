@@ -26,6 +26,8 @@ class PrompterState with _$PrompterState {
     @Default(25.0) double verticalMarginBoxesHeight,
     @Default(5.0) double countdownDuration,
     @Default(false) bool displayCountdown,
+    @Default(false) bool verticalMarginBoxesFadeEnabled,
+    @Default(0.0) double verticalMarginBoxesFadeLength,
   }) = _PrompterState;
 }
 
@@ -41,9 +43,9 @@ class Prompter extends _$Prompter {
   void applySettings(SettingsState settings) {
     state = state.copyWith(
       speed: settings.scrollSpeed,
-      fontSize: settings.fontSize,
       mirroredX: settings.mirroredX,
       mirroredY: settings.mirroredY,
+      fontSize: settings.fontSize,
       sideMargin: settings.sideMargin,
       fontFamily: settings.fontFamily,
       alignment: settings.alignment,
@@ -52,6 +54,8 @@ class Prompter extends _$Prompter {
       displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
       verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
       countdownDuration: settings.countdownDuration,
+      verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
+      verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
     );
   }
 
@@ -147,5 +151,14 @@ class Prompter extends _$Prompter {
 
   void setCountdownDuration(double duration) {
     state = state.copyWith(countdownDuration: duration);
+  }
+
+  void toggleVerticalMarginBoxesFadeEnabled() {
+    state = state.copyWith(
+        verticalMarginBoxesFadeEnabled: !state.verticalMarginBoxesFadeEnabled);
+  }
+
+  void setVerticalMarginBoxesFadeLength(double fadeLength) {
+    state = state.copyWith(verticalMarginBoxesFadeLength: fadeLength);
   }
 }

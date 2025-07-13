@@ -14,7 +14,6 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "io.github.tiefseetauchner.tiefprompt"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

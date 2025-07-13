@@ -30,6 +30,9 @@ mixin _$PrompterState {
   double get verticalMarginBoxesHeight => throw _privateConstructorUsedError;
   double get countdownDuration => throw _privateConstructorUsedError;
   bool get displayCountdown => throw _privateConstructorUsedError;
+  bool get verticalMarginBoxesFadeEnabled => throw _privateConstructorUsedError;
+  double get verticalMarginBoxesFadeLength =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -58,7 +61,9 @@ abstract class $PrompterStateCopyWith<$Res> {
       bool displayVerticalMarginBoxes,
       double verticalMarginBoxesHeight,
       double countdownDuration,
-      bool displayCountdown});
+      bool displayCountdown,
+      bool verticalMarginBoxesFadeEnabled,
+      double verticalMarginBoxesFadeLength});
 }
 
 /// @nodoc
@@ -90,6 +95,8 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
     Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
     Object? displayCountdown = null,
+    Object? verticalMarginBoxesFadeEnabled = null,
+    Object? verticalMarginBoxesFadeLength = null,
   }) {
     return _then(_value.copyWith(
       speed: null == speed
@@ -148,6 +155,14 @@ class _$PrompterStateCopyWithImpl<$Res, $Val extends PrompterState>
           ? _value.displayCountdown
           : displayCountdown // ignore: cast_nullable_to_non_nullable
               as bool,
+      verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled
+          ? _value.verticalMarginBoxesFadeEnabled
+          : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength
+          ? _value.verticalMarginBoxesFadeLength
+          : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -174,7 +189,9 @@ abstract class _$$PrompterStateImplCopyWith<$Res>
       bool displayVerticalMarginBoxes,
       double verticalMarginBoxesHeight,
       double countdownDuration,
-      bool displayCountdown});
+      bool displayCountdown,
+      bool verticalMarginBoxesFadeEnabled,
+      double verticalMarginBoxesFadeLength});
 }
 
 /// @nodoc
@@ -204,6 +221,8 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
     Object? verticalMarginBoxesHeight = null,
     Object? countdownDuration = null,
     Object? displayCountdown = null,
+    Object? verticalMarginBoxesFadeEnabled = null,
+    Object? verticalMarginBoxesFadeLength = null,
   }) {
     return _then(_$PrompterStateImpl(
       speed: null == speed
@@ -262,6 +281,14 @@ class __$$PrompterStateImplCopyWithImpl<$Res>
           ? _value.displayCountdown
           : displayCountdown // ignore: cast_nullable_to_non_nullable
               as bool,
+      verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled
+          ? _value.verticalMarginBoxesFadeEnabled
+          : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+      verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength
+          ? _value.verticalMarginBoxesFadeLength
+          : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -283,7 +310,9 @@ class _$PrompterStateImpl implements _PrompterState {
       this.displayVerticalMarginBoxes = false,
       this.verticalMarginBoxesHeight = 25.0,
       this.countdownDuration = 5.0,
-      this.displayCountdown = false});
+      this.displayCountdown = false,
+      this.verticalMarginBoxesFadeEnabled = false,
+      this.verticalMarginBoxesFadeLength = 0.0});
 
   @override
   @JsonKey()
@@ -327,10 +356,16 @@ class _$PrompterStateImpl implements _PrompterState {
   @override
   @JsonKey()
   final bool displayCountdown;
+  @override
+  @JsonKey()
+  final bool verticalMarginBoxesFadeEnabled;
+  @override
+  @JsonKey()
+  final double verticalMarginBoxesFadeLength;
 
   @override
   String toString() {
-    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown)';
+    return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength)';
   }
 
   @override
@@ -357,21 +392,26 @@ class _$PrompterStateImpl implements _PrompterState {
                     displayReadingIndicatorBoxes) ||
                 other.displayReadingIndicatorBoxes ==
                     displayReadingIndicatorBoxes) &&
-            (identical(other.readingIndicatorBoxesHeight,
-                    readingIndicatorBoxesHeight) ||
+            (identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) ||
                 other.readingIndicatorBoxesHeight ==
                     readingIndicatorBoxesHeight) &&
-            (identical(other.displayVerticalMarginBoxes,
-                    displayVerticalMarginBoxes) ||
+            (identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) ||
                 other.displayVerticalMarginBoxes ==
                     displayVerticalMarginBoxes) &&
-            (identical(other.verticalMarginBoxesHeight,
-                    verticalMarginBoxesHeight) ||
+            (identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) ||
                 other.verticalMarginBoxesHeight == verticalMarginBoxesHeight) &&
             (identical(other.countdownDuration, countdownDuration) ||
                 other.countdownDuration == countdownDuration) &&
             (identical(other.displayCountdown, displayCountdown) ||
-                other.displayCountdown == displayCountdown));
+                other.displayCountdown == displayCountdown) &&
+            (identical(other.verticalMarginBoxesFadeEnabled,
+                    verticalMarginBoxesFadeEnabled) ||
+                other.verticalMarginBoxesFadeEnabled ==
+                    verticalMarginBoxesFadeEnabled) &&
+            (identical(other.verticalMarginBoxesFadeLength,
+                    verticalMarginBoxesFadeLength) ||
+                other.verticalMarginBoxesFadeLength ==
+                    verticalMarginBoxesFadeLength));
   }
 
   @override
@@ -390,7 +430,9 @@ class _$PrompterStateImpl implements _PrompterState {
       displayVerticalMarginBoxes,
       verticalMarginBoxesHeight,
       countdownDuration,
-      displayCountdown);
+      displayCountdown,
+      verticalMarginBoxesFadeEnabled,
+      verticalMarginBoxesFadeLength);
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.
@@ -416,7 +458,9 @@ abstract class _PrompterState implements PrompterState {
       final bool displayVerticalMarginBoxes,
       final double verticalMarginBoxesHeight,
       final double countdownDuration,
-      final bool displayCountdown}) = _$PrompterStateImpl;
+      final bool displayCountdown,
+      final bool verticalMarginBoxesFadeEnabled,
+      final double verticalMarginBoxesFadeLength}) = _$PrompterStateImpl;
 
   @override
   double get speed;
@@ -446,6 +490,10 @@ abstract class _PrompterState implements PrompterState {
   double get countdownDuration;
   @override
   bool get displayCountdown;
+  @override
+  bool get verticalMarginBoxesFadeEnabled;
+  @override
+  double get verticalMarginBoxesFadeLength;
 
   /// Create a copy of PrompterState
   /// with the given fields replaced by the non-null parameter values.

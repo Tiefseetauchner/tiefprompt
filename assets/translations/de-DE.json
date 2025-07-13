@@ -1,89 +1,99 @@
 {
-    "title": "TiefPrompt",
-    "empty_title": "Unbenanntes Script",
-    "copyright": "Copyright © 2025 Lena Tauchner\nAlle Rechte vorenthalten.\n\nDieses Projekt ist unter der MIT License lizensiert. Siehe die LICENSE Datei für Details.\n",
-    "credits": "Besonderen Dank für das Übersetzen der Anwendung geht an die folgenden Mitwirkenden:\n- Chinesisch: @TaoEngine",
-    "AboutDialog": {
-        "Text_PrivacyText": "Diese Applikation sammelt keine personenbezogenen Daten. Es werden, soweit mir bewusst, keine Daten mit Drittherstellern geteilt. Mehr darüber in der Privacy Policy.",
-        "ElevatedButton_Privacy": "Datenschutzrichtlinie"
-    },
-    "HomeScreen": {
-        "TextField_hintText": "Script Text eingeben",
-        "ElevatedButton_Start": "Teleprompter starten",
-        "ElevatedButton_Select": "Script von dem Gerät auswählen",
-        "ElevatedButton_Save": "Script speichern",
-        "IconButton_Settings": "Einstellungen",
-        "IconButton_SourceCode": "Quellcode anzeigen",
-        "IconButton_About": "Über die Applikation",
-        "BottomSheet": {
-            "Text_Title": "Script speichern",
-            "TextField_hintText": "Script Namen eingeben",
-            "ElevatedButton_Save": "Speichern"
-        }
-    },
-    "SettingsScreen": {
-        "title": "Einstellungen",
-        "NumberAppSetting": {
-            "Value": "Wert eingeben",
-            "ElevatedButton_Save": "Speichern"
-        },
-        "DropdownAppSetting_DefaultLanguage": "Standardsprache",
-        "NumberAppSetting_DefaultScrollSpeed": "Standard Beweggeschwindigkeit",
-        "NumberAppSetting_DefaultScrollSpeed_Unit": "Zeilen/Sekunde",
-        "NumberAppSetting_DefaultFontSize": "Standard Schriftgröße",
-        "NumberAppSetting_DefaultFontSize_Unit": "px",
-        "DropdownAppSetting_DefaultTextAlignment": "Schriftausrichtung",
-        "DropdownAppSetting_DefaultTextAlignment_Unit": {
-            "Left": "Links",
-            "Center": "Mittig",
-            "Right": "Rechts",
-            "Justified": "Blocksatz"
-        },
-        "DropdownAppSetting_DefaultFontFamily": "Schriftart",
-        "BooleanAppSetting_DefaultFlipX": "Um X spiegeln",
-        "BooleanAppSetting_DefaultFlipY": "Um Y spiegeln",
-        "BooleanAppSetting_ReadingIndicatorBoxes": "Lesehilfen aktivieren",
-        "NumberAppSetting_ReadingIndicatorBoxes": "Höhe der Lesehilfen",
-        "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
-        "NumberAppSetting_SideMargin": "Seitenabstand",
-        "NumberAppSetting_SideMargin_Unit": "%",
-        "NumberAppSetting_CountdownTimer": "Countdown-Timer",
-        "NumberAppSetting_CountdownTimer_Unit": "Sekunden",
-        "ListTile_Reset": "Einstellungen Zurücksetzen"
-    },
-    "PrompterScreen": {
-        "speed": "{}x",
-        "fontsize": "F: {}",
-        "IconButton_Save": "Script Speichern",
-        "IconButton_DisplaySettings": "Anzeigeeinstellungen",
-        "IconButton_DecreaseSpeed": "Verlangsamen",
-        "IconButton_TogglePlayPause": "Wiedergabe und Pause umschalten",
-        "IconButton_IncreaseSpeed": "Verschnellern",
-        "IconButton_TextFormat": "Schrifteinstellungen",
-        "IconButton_Settings": "Einstellungen",
-        "SimpleDialog_TextFormat": {
-            "title": "Schrifteinstellungen",
-            "fontsize": "F: {}",
-            "IconButton_TextIncrease": "Schrift vergrößern",
-            "IconButton_TextDecrease": "Schrift verkleinern",
-            "IconButton_Left": "Linksbündig",
-            "IconButton_Center": "Zentriert",
-            "IconButton_Right": "Rechtsbündig",
-            "IconButton_Justified": "Blocksatz"
-        },
-        "SimpleDialog_DisplaySettings": {
-            "title": "Anzeigeeinstellungen",
-            "IconButton_FlipX": "Um X spiegeln",
-            "IconButton_FlipY": "Um Y spiegeln",
-            "IconButton_ReadingIndicatorBoxes": "Lesehilfen anzeigen",
-            "Slider_SideMargin": "Seitenabstand",
-            "Slider_Countdown": "Countdown"
-        }
-    },
-    "OpenFileScreen": {
-        "title": "Script Auswählen",
-        "if_empty": "Kein Script gespeichert. Speichere deine Scripten, um sie hier anzuzeigen.",
-        "ElevatedButton_Select": "Script von dem Gerät auswählen",
-        "ListTile_Delete": "Löschen (Für immer)"
+  "title": "TiefPrompt",
+  "empty_title": "Unbenanntes Script",
+  "copyright": "Copyright © 2025 Lena Tauchner\nAlle Rechte vorenthalten.\n\nDieses Projekt ist unter der MIT License lizensiert. Siehe die LICENSE Datei für Details.\n",
+  "credits": "Besonderen Dank für das Übersetzen der Anwendung geht an die folgenden Mitwirkenden:\n- Chinesisch: @TaoEngine",
+  "AboutDialog": {
+    "Text_PrivacyText": "Diese Applikation sammelt keine personenbezogenen Daten. Es werden, soweit mir bewusst, keine Daten mit Drittherstellern geteilt. Mehr darüber in der Privacy Policy.",
+    "ElevatedButton_Privacy": "Datenschutzrichtlinie"
+  },
+  "HomeScreen": {
+    "TextField_hintText": "Script Text eingeben",
+    "ElevatedButton_Start": "Teleprompter starten",
+    "ElevatedButton_Select": "Script von dem Gerät auswählen",
+    "ElevatedButton_Save": "Script speichern",
+    "IconButton_Settings": "Einstellungen",
+    "IconButton_SourceCode": "Quellcode anzeigen",
+    "IconButton_About": "Über die Applikation",
+    "BottomSheet": {
+      "Text_Title": "Script speichern",
+      "TextField_hintText": "Script Namen eingeben",
+      "ElevatedButton_Save": "Speichern"
     }
+  },
+  "SettingsScreen": {
+    "title": "Einstellungen",
+    "NumberAppSetting": {
+      "Value": "Wert eingeben",
+      "ElevatedButton_Save": "Speichern"
+    },
+    "DropdownAppSetting_DefaultLanguage": "Standardsprache",
+    "NumberAppSetting_DefaultScrollSpeed": "Standard Beweggeschwindigkeit",
+    "NumberAppSetting_DefaultScrollSpeed_Unit": "Zeilen/Sekunde",
+    "NumberAppSetting_DefaultFontSize": "Standard Schriftgröße",
+    "NumberAppSetting_DefaultFontSize_Unit": "px",
+    "DropdownAppSetting_DefaultTextAlignment": "Schriftausrichtung",
+    "DropdownAppSetting_DefaultTextAlignment_Unit": {
+      "Left": "Links",
+      "Center": "Mittig",
+      "Right": "Rechts",
+      "Justified": "Blocksatz"
+    },
+    "DropdownAppSetting_DefaultFontFamily": "Schriftart",
+    "BooleanAppSetting_DefaultFlipX": "Um X spiegeln",
+    "BooleanAppSetting_DefaultFlipY": "Um Y spiegeln",
+    "BooleanAppSetting_ReadingIndicatorBoxes": "Lesehilfen aktivieren",
+    "NumberAppSetting_ReadingIndicatorBoxes": "Höhe der Lesehilfen",
+    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+    "BooleanAppSetting_VerticalMarginBoxes": "Vertikalen Abstand aktivieren",
+    "NumberAppSetting_VerticalMarginBoxes": "Höhe des vertikalen Abstands",
+    "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
+    "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",
+    "NumberAppSetting_VerticalMarginBoxes_FadeLength": "Verlauflänge",
+    "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "%",
+    "NumberAppSetting_SideMargin": "Seitenabstand",
+    "NumberAppSetting_SideMargin_Unit": "%",
+    "NumberAppSetting_CountdownTimer": "Countdown-Timer",
+    "NumberAppSetting_CountdownTimer_Unit": "Sekunden",
+    "SettingsScreen.DisplaySettings": "Anzeigeeinstellungen",
+    "SettingsScreen.TextSettings": "Schrifteinstellungen",
+    "ListTile_Reset": "Einstellungen Zurücksetzen"
+  },
+  "PrompterScreen": {
+    "speed": "{}x",
+    "fontsize": "F: {}",
+    "IconButton_Save": "Prompter Einstellungen Speichern",
+    "IconButton_DisplaySettings": "Anzeigeeinstellungen",
+    "IconButton_DecreaseSpeed": "Verlangsamen",
+    "IconButton_TogglePlayPause": "Wiedergabe und Pause umschalten",
+    "IconButton_IncreaseSpeed": "Verschnellern",
+    "IconButton_TextFormat": "Schrifteinstellungen",
+    "IconButton_Settings": "Einstellungen",
+    "SimpleDialog_TextFormat": {
+      "title": "Schrifteinstellungen",
+      "fontsize": "F: {}",
+      "IconButton_TextIncrease": "Schrift vergrößern",
+      "IconButton_TextDecrease": "Schrift verkleinern",
+      "IconButton_Left": "Linksbündig",
+      "IconButton_Center": "Zentriert",
+      "IconButton_Right": "Rechtsbündig",
+      "IconButton_Justified": "Blocksatz"
+    },
+    "SimpleDialog_DisplaySettings": {
+      "title": "Anzeigeeinstellungen",
+      "IconButton_FlipX": "Um X spiegeln",
+      "IconButton_FlipY": "Um Y spiegeln",
+      "IconButton_ReadingIndicatorBoxes": "Lesehilfen anzeigen",
+      "IconButton_VerticalMarginBoxes": "Vertikalen Abstand anzeigen",
+      "IconButton_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",
+      "Slider_SideMargin": "Seitenabstand",
+      "Slider_Countdown": "Countdown"
+    }
+  },
+  "OpenFileScreen": {
+    "title": "Script Auswählen",
+    "if_empty": "Kein Script gespeichert. Speichere deine Scripten, um sie hier anzuzeigen.",
+    "ElevatedButton_Select": "Script von dem Gerät auswählen",
+    "ListTile_Delete": "Löschen (Für immer)"
+  }
 }

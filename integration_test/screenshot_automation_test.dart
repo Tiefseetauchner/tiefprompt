@@ -189,7 +189,9 @@ void clearPrompterState(WidgetTester tester, ProviderContainer container) {
       readingIndicatorBoxesHeight: 70,
       displayVerticalMarginBoxes: true,
       verticalMarginBoxesHeight: 20,
-      countdownDuration: 0));
+      countdownDuration: 0,
+      verticalMarginBoxesFadeEnabled: true,
+      verticalMarginBoxesFadeLength: 0.3));
 }
 
 void setPrompterText(WidgetTester tester, ProviderContainer container) {
