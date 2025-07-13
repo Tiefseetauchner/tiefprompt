@@ -62,7 +62,7 @@
   "PrompterScreen": {
     "speed": "{}x",
     "fontsize": "F: {}",
-    "IconButton_Save": "Save Script",
+    "IconButton_Save": "Save Prompter Settings",
     "IconButton_DisplaySettings": "Display Settings",
     "IconButton_DecreaseSpeed": "Decrease Speed",
     "IconButton_TogglePlayPause": "Toggle Play & Pause",
