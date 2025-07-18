@@ -28,6 +28,7 @@
       "ElevatedButton_Save": "Speichern"
     },
     "DropdownAppSetting_DefaultLanguage": "Standardsprache",
+    "DropdownAppSetting_Theme": "Applikationsfarbe",
     "NumberAppSetting_DefaultScrollSpeed": "Standard Beweggeschwindigkeit",
     "NumberAppSetting_DefaultScrollSpeed_Unit": "Zeilen/Sekunde",
     "NumberAppSetting_DefaultFontSize": "Standard Schriftgröße",

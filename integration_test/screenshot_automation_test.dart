@@ -7,7 +7,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
-import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/services/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';

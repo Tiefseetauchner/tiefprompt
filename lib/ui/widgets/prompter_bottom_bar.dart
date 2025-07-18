@@ -10,12 +10,13 @@ final fontSettingsVisibleProvider = StateProvider<bool>((ref) => false);
 final displaySettingsVisibleProvider = StateProvider<bool>((ref) => false);
 
 class PrompterBottomBar extends ConsumerWidget {
-  const PrompterBottomBar({
-    super.key,
-  });
+  const PrompterBottomBar({super.key});
 
   List<Widget> _getWidgetButtons(
-      BuildContext context, WidgetRef ref, PrompterState prompterState) {
+    BuildContext context,
+    WidgetRef ref,
+    PrompterState prompterState,
+  ) {
     final fontSettingsVisible = ref.watch(fontSettingsVisibleProvider);
     final displaySettingsVisible = ref.watch(displaySettingsVisibleProvider);
 
@@ -23,107 +24,101 @@ class PrompterBottomBar extends ConsumerWidget {
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          VerticalDivider(
-            width: 50,
-          ),
+          VerticalDivider(width: 50),
           IconButton(
-            icon: Icon(Icons.save,
-                color: Theme.of(context).colorScheme.onSurface),
+            icon: Icon(
+              Icons.save,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             tooltip: context.tr("PrompterScreen.IconButton_Save"),
             onPressed: () => ref
                 .read(settingsProvider.notifier)
                 .applySettingsFromPrompter(prompterState),
           ),
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
         ],
       ),
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
           IconButton(
-            icon: Icon(Icons.display_settings,
-                color: Theme.of(context).colorScheme.onSurface),
+            icon: Icon(
+              Icons.display_settings,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             tooltip: context.tr("PrompterScreen.IconButton_DisplaySettings"),
-            onPressed: () => ref
-                .read(displaySettingsVisibleProvider.notifier)
-                .state = !displaySettingsVisible,
+            onPressed: () =>
+                ref.read(displaySettingsVisibleProvider.notifier).state =
+                    !displaySettingsVisible,
           ),
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
         ],
       ),
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
           IconButton(
-            icon: Icon(Icons.remove,
-                color: Theme.of(context).colorScheme.onSurface),
+            icon: Icon(
+              Icons.remove,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             tooltip: context.tr("PrompterScreen.IconButton_DecreaseSpeed"),
             onPressed: () =>
                 ref.read(prompterProvider.notifier).decreaseSpeed(.1),
           ),
           IconButton(
-            icon: Icon(prompterState.isPlaying ? Icons.pause : Icons.play_arrow,
-                color: Theme.of(context).colorScheme.onSurface),
+            icon: Icon(
+              prompterState.isPlaying ? Icons.pause : Icons.play_arrow,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             tooltip: context.tr("PrompterScreen.IconButton_TogglePlayPause"),
             onPressed: () =>
                 ref.read(prompterProvider.notifier).togglePlayPause(),
           ),
           IconButton(
-            icon:
-                Icon(Icons.add, color: Theme.of(context).colorScheme.onSurface),
+            icon: Icon(
+              Icons.add,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             tooltip: context.tr("PrompterScreen.IconButton_IncreaseSpeed"),
             onPressed: () =>
                 ref.read(prompterProvider.notifier).increaseSpeed(.1),
           ),
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
         ],
       ),
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
           IconButton(
-            icon: Icon(Icons.text_format,
-                color: Theme.of(context).colorScheme.onSurface),
+            icon: Icon(
+              Icons.text_format,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             tooltip: context.tr("PrompterScreen.IconButton_TextFormat"),
-            onPressed: () => ref
-                .read(fontSettingsVisibleProvider.notifier)
-                .state = !fontSettingsVisible,
+            onPressed: () =>
+                ref.read(fontSettingsVisibleProvider.notifier).state =
+                    !fontSettingsVisible,
           ),
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
         ],
       ),
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          VerticalDivider(
-            width: 15,
-          ),
+          VerticalDivider(width: 15),
           IconButton(
-            icon: Icon(Icons.settings,
-                color: Theme.of(context).colorScheme.onSurface),
+            icon: Icon(
+              Icons.settings,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             tooltip: context.tr("PrompterScreen.IconButton_Settings"),
             onPressed: () => context.push("/settings"),
           ),
-          VerticalDivider(
-            width: 50,
-          ),
+          VerticalDivider(width: 50),
         ],
       ),
     ];
@@ -145,8 +140,10 @@ class PrompterBottomBar extends ConsumerWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
             ),
-            padding:
-                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 12.0,
+              horizontal: 16.0,
+            ),
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -164,16 +161,22 @@ class PrompterBottomBar extends ConsumerWidget {
                   child: Column(
                     children: [
                       Text(
-                        context.tr("PrompterScreen.speed",
-                            args: [prompterState.speed.toStringAsFixed(1)]),
+                        context.tr(
+                          "PrompterScreen.speed",
+                          args: [prompterState.speed.toStringAsFixed(1)],
+                        ),
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface),
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                       Text(
-                        context.tr("PrompterScreen.fontsize",
-                            args: [prompterState.fontSize.toStringAsFixed(1)]),
+                        context.tr(
+                          "PrompterScreen.fontsize",
+                          args: [prompterState.fontSize.toStringAsFixed(1)],
+                        ),
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface),
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ],
                   ),
@@ -197,8 +200,10 @@ class _FontSettingsDialog extends ConsumerWidget {
     return Theme(
       data: ThemeData.dark(),
       child: SimpleDialog(
-        title: Text(context.tr("PrompterScreen.SimpleDialog_TextFormat.title"),
-            style: TextStyle(fontSize: 18)),
+        title: Text(
+          context.tr("PrompterScreen.SimpleDialog_TextFormat.title"),
+          style: TextStyle(fontSize: 18),
+        ),
         alignment: Alignment(1, 0),
         children: [
           Padding(
@@ -210,13 +215,15 @@ class _FontSettingsDialog extends ConsumerWidget {
                   children: [
                     Text(
                       context.tr(
-                          "PrompterScreen.SimpleDialog_TextFormat.fontsize",
-                          args: [prompter.fontSize.toStringAsFixed(1)]),
+                        "PrompterScreen.SimpleDialog_TextFormat.fontsize",
+                        args: [prompter.fontSize.toStringAsFixed(1)],
+                      ),
                     ),
                     IconButton(
                       icon: Icon(Icons.text_increase),
                       tooltip: context.tr(
-                          "PrompterScreen.SimpleDialog_TextFormat.IconButton_TextIncrease"),
+                        "PrompterScreen.SimpleDialog_TextFormat.IconButton_TextIncrease",
+                      ),
                       onPressed: () => ref
                           .read(prompterProvider.notifier)
                           .increaseFontSize(20),
@@ -224,7 +231,8 @@ class _FontSettingsDialog extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.text_decrease),
                       tooltip: context.tr(
-                          "PrompterScreen.SimpleDialog_TextFormat.IconButton_TextDecrease"),
+                        "PrompterScreen.SimpleDialog_TextFormat.IconButton_TextDecrease",
+                      ),
                       onPressed: () => ref
                           .read(prompterProvider.notifier)
                           .decreaseFontSize(20),
@@ -236,7 +244,8 @@ class _FontSettingsDialog extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.format_align_left),
                       tooltip: context.tr(
-                          "PrompterScreen.SimpleDialog_TextFormat.IconButton_Left"),
+                        "PrompterScreen.SimpleDialog_TextFormat.IconButton_Left",
+                      ),
                       onPressed: () => ref
                           .read(prompterProvider.notifier)
                           .setAlignment(TextAlign.left),
@@ -244,7 +253,8 @@ class _FontSettingsDialog extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.format_align_center),
                       tooltip: context.tr(
-                          "PrompterScreen.SimpleDialog_TextFormat.IconButton_Center"),
+                        "PrompterScreen.SimpleDialog_TextFormat.IconButton_Center",
+                      ),
                       onPressed: () => ref
                           .read(prompterProvider.notifier)
                           .setAlignment(TextAlign.center),
@@ -252,7 +262,8 @@ class _FontSettingsDialog extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.format_align_right),
                       tooltip: context.tr(
-                          "PrompterScreen.SimpleDialog_TextFormat.IconButton_Right"),
+                        "PrompterScreen.SimpleDialog_TextFormat.IconButton_Right",
+                      ),
                       onPressed: () => ref
                           .read(prompterProvider.notifier)
                           .setAlignment(TextAlign.right),
@@ -260,7 +271,8 @@ class _FontSettingsDialog extends ConsumerWidget {
                     IconButton(
                       icon: Icon(Icons.format_align_justify),
                       tooltip: context.tr(
-                          "PrompterScreen.SimpleDialog_TextFormat.IconButton_Justified"),
+                        "PrompterScreen.SimpleDialog_TextFormat.IconButton_Justified",
+                      ),
                       onPressed: () => ref
                           .read(prompterProvider.notifier)
                           .setAlignment(TextAlign.justify),
@@ -272,10 +284,12 @@ class _FontSettingsDialog extends ConsumerWidget {
                     DropdownButton(
                       value: prompter.fontFamily,
                       items: kAvailableFonts
-                          .map((font) => DropdownMenuItem(
-                                value: font,
-                                child: Text(font),
-                              ))
+                          .map(
+                            (font) => DropdownMenuItem(
+                              value: font,
+                              child: Text(font),
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) => ref
                           .read(prompterProvider.notifier)
@@ -301,8 +315,9 @@ class _DisplaySettingsDialog extends ConsumerWidget {
       data: ThemeData.dark(),
       child: SimpleDialog(
         title: Text(
-            context.tr("PrompterScreen.SimpleDialog_DisplaySettings.title"),
-            style: TextStyle(fontSize: 18)),
+          context.tr("PrompterScreen.SimpleDialog_DisplaySettings.title"),
+          style: TextStyle(fontSize: 18),
+        ),
         alignment: Alignment(-1, 0),
         children: [
           Padding(
@@ -319,7 +334,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           icon: Icon(Icons.flip),
                           isSelected: prompter.mirroredX,
                           tooltip: context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FlipX"),
+                            "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FlipX",
+                          ),
                           onPressed: () => ref
                               .read(prompterProvider.notifier)
                               .toggleMirroredX(),
@@ -327,9 +343,12 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                         IconButton(
                           isSelected: prompter.mirroredY,
                           icon: RotatedBox(
-                              quarterTurns: 1, child: Icon(Icons.flip)),
+                            quarterTurns: 1,
+                            child: Icon(Icons.flip),
+                          ),
                           tooltip: context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FlipY"),
+                            "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FlipY",
+                          ),
                           onPressed: () => ref
                               .read(prompterProvider.notifier)
                               .toggleMirroredY(),
@@ -342,7 +361,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           icon: Icon(Icons.indeterminate_check_box_outlined),
                           isSelected: prompter.displayReadingIndicatorBoxes,
                           tooltip: context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_ReadingIndicatorBoxes"),
+                            "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_ReadingIndicatorBoxes",
+                          ),
                           onPressed: () => ref
                               .read(prompterProvider.notifier)
                               .toggleDisplayReadingIndicatorBoxes(),
@@ -366,7 +386,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           icon: Icon(Icons.margin),
                           isSelected: prompter.displayVerticalMarginBoxes,
                           tooltip: context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_VerticalMarginBoxes"),
+                            "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_VerticalMarginBoxes",
+                          ),
                           onPressed: () => ref
                               .read(prompterProvider.notifier)
                               .toggleDisplayVerticalMarginBoxes(),
@@ -390,7 +411,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           IconButton(
                             icon: Icon(Icons.gradient),
                             tooltip: context.tr(
-                                "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FadeEnabled"),
+                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FadeEnabled",
+                            ),
                             isSelected: prompter.verticalMarginBoxesFadeEnabled,
                             onPressed: () => ref
                                 .read(prompterProvider.notifier)
@@ -413,7 +435,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                       children: [
                         Text(
                           context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.Slider_SideMargin"),
+                            "PrompterScreen.SimpleDialog_DisplaySettings.Slider_SideMargin",
+                          ),
                         ),
                         Slider(
                           value: prompter.sideMargin,
@@ -431,7 +454,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                       children: [
                         Text(
                           context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.Slider_Countdown"),
+                            "PrompterScreen.SimpleDialog_DisplaySettings.Slider_Countdown",
+                          ),
                         ),
                         Slider(
                           value: prompter.countdownDuration,

@@ -12,29 +12,47 @@ class $ScriptModelTable extends ScriptModel
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _scriptTextMeta =
-      const VerificationMeta('scriptText');
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _scriptTextMeta = const VerificationMeta(
+    'scriptText',
+  );
   @override
   late final GeneratedColumn<String> scriptText = GeneratedColumn<String>(
-      'script_text', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'script_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [id, title, scriptText, createdAt];
   @override
@@ -43,8 +61,10 @@ class $ScriptModelTable extends ScriptModel
   String get actualTableName => $name;
   static const String $name = 'script_model';
   @override
-  VerificationContext validateIntegrity(Insertable<ScriptModelData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<ScriptModelData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -52,21 +72,25 @@ class $ScriptModelTable extends ScriptModel
     }
     if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('script_text')) {
       context.handle(
-          _scriptTextMeta,
-          scriptText.isAcceptableOrUnknown(
-              data['script_text']!, _scriptTextMeta));
+        _scriptTextMeta,
+        scriptText.isAcceptableOrUnknown(data['script_text']!, _scriptTextMeta),
+      );
     } else if (isInserting) {
       context.missing(_scriptTextMeta);
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
@@ -79,14 +103,22 @@ class $ScriptModelTable extends ScriptModel
   ScriptModelData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ScriptModelData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      scriptText: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}script_text'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      scriptText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}script_text'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
     );
   }
 
@@ -101,11 +133,12 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
   final String title;
   final String scriptText;
   final DateTime createdAt;
-  const ScriptModelData(
-      {required this.id,
-      required this.title,
-      required this.scriptText,
-      required this.createdAt});
+  const ScriptModelData({
+    required this.id,
+    required this.title,
+    required this.scriptText,
+    required this.createdAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -125,8 +158,10 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
     );
   }
 
-  factory ScriptModelData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory ScriptModelData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ScriptModelData(
       id: serializer.fromJson<int>(json['id']),
@@ -146,20 +181,24 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
     };
   }
 
-  ScriptModelData copyWith(
-          {int? id, String? title, String? scriptText, DateTime? createdAt}) =>
-      ScriptModelData(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        scriptText: scriptText ?? this.scriptText,
-        createdAt: createdAt ?? this.createdAt,
-      );
+  ScriptModelData copyWith({
+    int? id,
+    String? title,
+    String? scriptText,
+    DateTime? createdAt,
+  }) => ScriptModelData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    scriptText: scriptText ?? this.scriptText,
+    createdAt: createdAt ?? this.createdAt,
+  );
   ScriptModelData copyWithCompanion(ScriptModelCompanion data) {
     return ScriptModelData(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
-      scriptText:
-          data.scriptText.present ? data.scriptText.value : this.scriptText,
+      scriptText: data.scriptText.present
+          ? data.scriptText.value
+          : this.scriptText,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -203,9 +242,9 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
     required String title,
     required String scriptText,
     required DateTime createdAt,
-  })  : title = Value(title),
-        scriptText = Value(scriptText),
-        createdAt = Value(createdAt);
+  }) : title = Value(title),
+       scriptText = Value(scriptText),
+       createdAt = Value(createdAt);
   static Insertable<ScriptModelData> custom({
     Expression<int>? id,
     Expression<String>? title,
@@ -220,11 +259,12 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
     });
   }
 
-  ScriptModelCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? title,
-      Value<String>? scriptText,
-      Value<DateTime>? createdAt}) {
+  ScriptModelCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<String>? scriptText,
+    Value<DateTime>? createdAt,
+  }) {
     return ScriptModelCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -274,20 +314,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [scriptModel];
 }
 
-typedef $$ScriptModelTableCreateCompanionBuilder = ScriptModelCompanion
-    Function({
-  Value<int> id,
-  required String title,
-  required String scriptText,
-  required DateTime createdAt,
-});
-typedef $$ScriptModelTableUpdateCompanionBuilder = ScriptModelCompanion
-    Function({
-  Value<int> id,
-  Value<String> title,
-  Value<String> scriptText,
-  Value<DateTime> createdAt,
-});
+typedef $$ScriptModelTableCreateCompanionBuilder =
+    ScriptModelCompanion Function({
+      Value<int> id,
+      required String title,
+      required String scriptText,
+      required DateTime createdAt,
+    });
+typedef $$ScriptModelTableUpdateCompanionBuilder =
+    ScriptModelCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<String> scriptText,
+      Value<DateTime> createdAt,
+    });
 
 class $$ScriptModelTableFilterComposer
     extends Composer<_$AppDatabase, $ScriptModelTable> {
@@ -299,16 +339,24 @@ class $$ScriptModelTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get scriptText => $composableBuilder(
-      column: $table.scriptText, builder: (column) => ColumnFilters(column));
+    column: $table.scriptText,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$ScriptModelTableOrderingComposer
@@ -321,16 +369,24 @@ class $$ScriptModelTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get scriptText => $composableBuilder(
-      column: $table.scriptText, builder: (column) => ColumnOrderings(column));
+    column: $table.scriptText,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ScriptModelTableAnnotationComposer
@@ -349,29 +405,35 @@ class $$ScriptModelTableAnnotationComposer
       $composableBuilder(column: $table.title, builder: (column) => column);
 
   GeneratedColumn<String> get scriptText => $composableBuilder(
-      column: $table.scriptText, builder: (column) => column);
+    column: $table.scriptText,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 }
 
-class $$ScriptModelTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $ScriptModelTable,
-    ScriptModelData,
-    $$ScriptModelTableFilterComposer,
-    $$ScriptModelTableOrderingComposer,
-    $$ScriptModelTableAnnotationComposer,
-    $$ScriptModelTableCreateCompanionBuilder,
-    $$ScriptModelTableUpdateCompanionBuilder,
-    (
-      ScriptModelData,
-      BaseReferences<_$AppDatabase, $ScriptModelTable, ScriptModelData>
-    ),
-    ScriptModelData,
-    PrefetchHooks Function()> {
+class $$ScriptModelTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ScriptModelTable,
+          ScriptModelData,
+          $$ScriptModelTableFilterComposer,
+          $$ScriptModelTableOrderingComposer,
+          $$ScriptModelTableAnnotationComposer,
+          $$ScriptModelTableCreateCompanionBuilder,
+          $$ScriptModelTableUpdateCompanionBuilder,
+          (
+            ScriptModelData,
+            BaseReferences<_$AppDatabase, $ScriptModelTable, ScriptModelData>,
+          ),
+          ScriptModelData,
+          PrefetchHooks Function()
+        > {
   $$ScriptModelTableTableManager(_$AppDatabase db, $ScriptModelTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -380,52 +442,55 @@ class $$ScriptModelTableTableManager extends RootTableManager<
               $$ScriptModelTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$ScriptModelTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<String> scriptText = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-          }) =>
-              ScriptModelCompanion(
-            id: id,
-            title: title,
-            scriptText: scriptText,
-            createdAt: createdAt,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String title,
-            required String scriptText,
-            required DateTime createdAt,
-          }) =>
-              ScriptModelCompanion.insert(
-            id: id,
-            title: title,
-            scriptText: scriptText,
-            createdAt: createdAt,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> scriptText = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ScriptModelCompanion(
+                id: id,
+                title: title,
+                scriptText: scriptText,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String title,
+                required String scriptText,
+                required DateTime createdAt,
+              }) => ScriptModelCompanion.insert(
+                id: id,
+                title: title,
+                scriptText: scriptText,
+                createdAt: createdAt,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$ScriptModelTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $ScriptModelTable,
-    ScriptModelData,
-    $$ScriptModelTableFilterComposer,
-    $$ScriptModelTableOrderingComposer,
-    $$ScriptModelTableAnnotationComposer,
-    $$ScriptModelTableCreateCompanionBuilder,
-    $$ScriptModelTableUpdateCompanionBuilder,
-    (
+typedef $$ScriptModelTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ScriptModelTable,
       ScriptModelData,
-      BaseReferences<_$AppDatabase, $ScriptModelTable, ScriptModelData>
-    ),
-    ScriptModelData,
-    PrefetchHooks Function()>;
+      $$ScriptModelTableFilterComposer,
+      $$ScriptModelTableOrderingComposer,
+      $$ScriptModelTableAnnotationComposer,
+      $$ScriptModelTableCreateCompanionBuilder,
+      $$ScriptModelTableUpdateCompanionBuilder,
+      (
+        ScriptModelData,
+        BaseReferences<_$AppDatabase, $ScriptModelTable, ScriptModelData>,
+      ),
+      ScriptModelData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

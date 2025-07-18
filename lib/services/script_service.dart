@@ -1,5 +1,8 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
+
+part 'script_service.g.dart';
 
 abstract class IScriptService {
   Future<int> getScriptCount();
@@ -21,8 +24,12 @@ class ScriptDisplayData {
   });
 }
 
-class ScriptService implements IScriptService {
+@riverpod
+class ScriptService extends _$ScriptService implements IScriptService {
   final _databaseManagers = AppDatabase().managers;
+
+  @override
+  Future<void> build() async {}
 
   @override
   Future<int> getScriptCount() async =>
@@ -40,24 +47,27 @@ class ScriptService implements IScriptService {
       );
 
   @override
-  Future<String> loadScript(int scriptId) async =>
-      await _databaseManagers.scriptModel
-          .filter((s) => s.id(scriptId))
-          .asyncMap(_mapToText)
-          .getSingle();
+  Future<String> loadScript(int scriptId) async => await _databaseManagers
+      .scriptModel
+      .filter((s) => s.id(scriptId))
+      .asyncMap(_mapToText)
+      .getSingle();
 
   Future<String> _mapToText(ScriptModelData script) async => script.scriptText;
 
   @override
   Future<void> save(ScriptState script) async =>
-      await _databaseManagers.scriptModel.create((s) => s(
+      await _databaseManagers.scriptModel.create(
+        (s) => s(
           scriptText: script.text,
           title: script.title ?? "Untitled",
-          createdAt: DateTime.now()));
+          createdAt: DateTime.now(),
+        ),
+      );
 
   @override
-  Future<void> deleteScript(int scriptId) async =>
-      await _databaseManagers.scriptModel
-          .filter((s) => s.id(scriptId))
-          .delete();
+  Future<void> deleteScript(int scriptId) async => await _databaseManagers
+      .scriptModel
+      .filter((s) => s.id(scriptId))
+      .delete();
 }

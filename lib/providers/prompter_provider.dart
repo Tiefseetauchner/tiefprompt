@@ -10,7 +10,7 @@ part 'prompter_provider.freezed.dart';
 part 'prompter_provider.g.dart';
 
 @freezed
-class PrompterState with _$PrompterState {
+abstract class PrompterState with _$PrompterState {
   factory PrompterState({
     @Default(1.0) double speed,
     @Default(false) bool mirroredX,
@@ -40,6 +40,7 @@ class Prompter extends _$Prompter {
     return PrompterState();
   }
 
+  // IMPROVE: Get rid of this somehow this is just awful duplication. DRY!
   void applySettings(SettingsState settings) {
     state = state.copyWith(
       speed: settings.scrollSpeed,
@@ -87,11 +88,13 @@ class Prompter extends _$Prompter {
     } else {
       state = state.copyWith(displayCountdown: true);
       _playPauseTimer?.cancel();
-      _playPauseTimer =
-          Timer(Duration(seconds: state.countdownDuration.toInt()), () {
-        state = state.copyWith(isPlaying: true, displayCountdown: false);
-        _playPauseTimer = null;
-      });
+      _playPauseTimer = Timer(
+        Duration(seconds: state.countdownDuration.toInt()),
+        () {
+          state = state.copyWith(isPlaying: true, displayCountdown: false);
+          _playPauseTimer = null;
+        },
+      );
     }
   }
 
@@ -105,7 +108,8 @@ class Prompter extends _$Prompter {
 
   void toggleDisplayReadingIndicatorBoxes() {
     state = state.copyWith(
-        displayReadingIndicatorBoxes: !state.displayReadingIndicatorBoxes);
+      displayReadingIndicatorBoxes: !state.displayReadingIndicatorBoxes,
+    );
   }
 
   void setReadingIndicatorBoxHeight(double height) {
@@ -114,7 +118,8 @@ class Prompter extends _$Prompter {
 
   void toggleDisplayVerticalMarginBoxes() {
     state = state.copyWith(
-        displayVerticalMarginBoxes: !state.displayVerticalMarginBoxes);
+      displayVerticalMarginBoxes: !state.displayVerticalMarginBoxes,
+    );
   }
 
   void setVerticalMarginBoxHeight(double height) {
@@ -155,7 +160,8 @@ class Prompter extends _$Prompter {
 
   void toggleVerticalMarginBoxesFadeEnabled() {
     state = state.copyWith(
-        verticalMarginBoxesFadeEnabled: !state.verticalMarginBoxesFadeEnabled);
+      verticalMarginBoxesFadeEnabled: !state.verticalMarginBoxesFadeEnabled,
+    );
   }
 
   void setVerticalMarginBoxesFadeLength(double fadeLength) {

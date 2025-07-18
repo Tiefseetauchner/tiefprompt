@@ -28,6 +28,7 @@
       "ElevatedButton_Save": "Save"
     },
     "DropdownAppSetting_DefaultLanguage": "Default Language",
+    "DropdownAppSetting_Theme": "App Theme",
     "NumberAppSetting_DefaultScrollSpeed": "Default Scroll Speed",
     "NumberAppSetting_DefaultScrollSpeed_Unit": "lines/sec",
     "NumberAppSetting_DefaultFontSize": "Default Font Size",
