@@ -8,6 +8,8 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 part 'settings_provider.freezed.dart';
 part 'settings_provider.g.dart';
 
+const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
+
 @freezed
 abstract class SettingsState with _$SettingsState {
   factory SettingsState({
@@ -26,6 +28,9 @@ abstract class SettingsState with _$SettingsState {
     @Default(50.0) double verticalMarginBoxesFadeLength,
     @Default(0.0) double countdownDuration,
     @Default(ThemeMode.system) ThemeMode themeMode,
+    @Default(_defaultAppPrimaryColor) Color appPrimaryColor,
+    @Default(Colors.black) Color prompterBackgroundColor,
+    @Default(Colors.white) Color prompterTextColor,
   }) = _SettingsState;
 }
 
@@ -47,6 +52,9 @@ abstract class ISettings {
   Future<void> setVerticalMarginBoxesFadeEnabled(bool value);
   Future<void> setVerticalMarginBoxesFadeLength(double length);
   Future<void> setThemeMode(ThemeMode themeMode);
+  Future<void> setAppPrimaryColor(Color color);
+  Future<void> setPrompterBackgroundColor(Color color);
+  Future<void> setPrompterTextColor(Color color);
 
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
@@ -70,6 +78,9 @@ class Settings extends _$Settings implements ISettings {
   static const _verticalMarginBoxesFadeEnabledKey = 'fade_enabled';
   static const _verticalMarginBoxesFadeLengthKey = 'fade_length';
   static const _themeModeKey = 'theme_mode';
+  static const _appPrimaryColorKey = 'app_primary_color';
+  static const _prompterBackgroundColorKey = 'prompter_background_color';
+  static const _prompterTextColorKey = 'prompter_text_color';
 
   late final SharedPreferences _prefs;
 
@@ -98,6 +109,16 @@ class Settings extends _$Settings implements ISettings {
           _prefs.getDouble(_verticalMarginBoxesFadeLengthKey) ?? 50.0,
       countdownDuration: _prefs.getDouble(_countdownDurationKey) ?? 0.0,
       themeMode: _getThemeMode(_prefs.getString(_themeModeKey)),
+      appPrimaryColor: Color(
+        _prefs.getInt(_appPrimaryColorKey) ??
+            _defaultAppPrimaryColor.toARGB32(),
+      ),
+      prompterBackgroundColor: Color(
+        _prefs.getInt(_appPrimaryColorKey) ?? Colors.black.toARGB32(),
+      ),
+      prompterTextColor: Color(
+        _prefs.getInt(_appPrimaryColorKey) ?? Colors.white.toARGB32(),
+      ),
     );
   }
 
@@ -235,6 +256,27 @@ class Settings extends _$Settings implements ISettings {
     await _prefs.setString(_themeModeKey, themeMode.name);
 
     state = state.whenData((s) => s.copyWith(themeMode: themeMode));
+  }
+
+  @override
+  Future<void> setAppPrimaryColor(Color color) async {
+    await _prefs.setInt(_appPrimaryColorKey, color.toARGB32());
+
+    state = state.whenData((s) => s.copyWith(appPrimaryColor: color));
+  }
+
+  @override
+  Future<void> setPrompterBackgroundColor(Color color) async {
+    await _prefs.setInt(_prompterBackgroundColorKey, color.toARGB32());
+
+    state = state.whenData((s) => s.copyWith(prompterBackgroundColor: color));
+  }
+
+  @override
+  Future<void> setPrompterTextColor(Color color) async {
+    await _prefs.setInt(_prompterTextColorKey, color.toARGB32());
+
+    state = state.whenData((s) => s.copyWith(prompterTextColor: color));
   }
 
   @override

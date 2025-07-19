@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,19 +13,23 @@ part 'router_provider.g.dart';
 @Riverpod(dependencies: [Themes])
 class TiefPromptRouter extends _$TiefPromptRouter {
   @override
-  Future<GoRouter> build() async {
-    final prompterTheme = await ref.watch(
-      themesProvider.selectAsync((t) => t.prompterTheme),
-    );
-
+  GoRouter build() {
     return GoRouter(
       initialLocation: '/',
       routes: [
         GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
         GoRoute(
           path: '/teleprompter',
-          builder: (context, state) =>
-              Theme(data: prompterTheme, child: const PrompterScreen()),
+          builder: (context, state) {
+            final theme = ref
+                .read(themesProvider)
+                .whenOrNull(data: (d) => d.prompterTheme);
+
+            return Theme(
+              data: theme ?? ThemeData.dark(),
+              child: const PrompterScreen(),
+            );
+          },
         ),
         GoRoute(
           path: '/open_file',

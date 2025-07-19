@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/providers/theme_provider.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
@@ -31,11 +32,13 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _scrollableTextController = ScrollableTextController();
     WakelockPlus.enable();
 
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _scrollableTextController.jumpTo(
-        MediaQuery.of(context).size.height / 2,
-      ),
-    );
+    if (WidgetsBinding.instance.framesEnabled) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _scrollableTextController.jumpTo(
+          MediaQuery.of(context).size.height / 2,
+        ),
+      );
+    }
 
     ref.read(settingsProvider).whenData((data) {
       ref.read(prompterProvider.notifier).applySettings(data);

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -227,6 +228,33 @@ class DisplaySettingsScreen extends ConsumerWidget {
               unit: context.tr(
                 "SettingsScreen.NumberAppSetting_CountdownTimer_Unit",
               ),
+            ),
+            ColorAppSetting(
+              value: value.appPrimaryColor,
+              displayText: context.tr(
+                "SettingsScreen.ColorAppSetting_AppPrimaryColor",
+              ),
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setAppPrimaryColor(updatedValue),
+            ),
+            ColorAppSetting(
+              value: value.prompterBackgroundColor,
+              displayText: context.tr(
+                "SettingsScreen.ColorAppSetting_PrompterBackgroundColor",
+              ),
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setPrompterBackgroundColor(updatedValue),
+            ),
+            ColorAppSetting(
+              value: value.prompterTextColor,
+              displayText: context.tr(
+                "SettingsScreen.ColorAppSetting_PrompterTextColor",
+              ),
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setPrompterTextColor(updatedValue),
             ),
           ],
         ),
@@ -584,6 +612,88 @@ class _DecimalPickerState extends State<DecimalPicker> {
           onChanged: updateValue,
         ),
       ],
+    );
+  }
+}
+
+class ColorAppSetting extends StatefulWidget {
+  const ColorAppSetting({
+    super.key,
+    required this.value,
+    required this.displayText,
+    required this.onValueChanged,
+  });
+
+  final Color value;
+  final String displayText;
+  final Function(Color) onValueChanged;
+
+  @override
+  State<ColorAppSetting> createState() => _ColorAppSettingState();
+}
+
+class _ColorAppSettingState extends State<ColorAppSetting> {
+  Color selectedValue = Colors.black;
+
+  @override
+  void initState() {
+    selectedValue = widget.value;
+
+    super.initState();
+  }
+
+  void _showDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              16.0,
+              16.0,
+              16.0,
+              MediaQuery.of(context).viewInsets.bottom + 16.0,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(widget.displayText, style: TextStyle(fontSize: 18)),
+                SingleChildScrollView(
+                  child: ColorPicker(
+                    enableAlpha: false,
+                    hexInputBar: true,
+                    pickerColor: selectedValue,
+                    onColorChanged: (c) => selectedValue = c,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    widget.onValueChanged(selectedValue);
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    context.tr(
+                      "SettingsScreen.NumberAppSetting.ElevatedButton_Save",
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(widget.displayText),
+      trailing: Icon(Icons.chevron_right),
+      onTap: () {
+        _showDialog(context);
+      },
     );
   }
 }

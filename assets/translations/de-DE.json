@@ -56,9 +56,10 @@
     "NumberAppSetting_SideMargin_Unit": "%",
     "NumberAppSetting_CountdownTimer": "Countdown-Timer",
     "NumberAppSetting_CountdownTimer_Unit": "Sekunden",
-    "SettingsScreen.DisplaySettings": "Anzeigeeinstellungen",
-    "SettingsScreen.TextSettings": "Schrifteinstellungen",
-    "ListTile_Reset": "Einstellungen Zurücksetzen"
+    "ColorAppSetting_AppPrimaryColor": "Applikationsprimärfarbe",
+    "DisplaySettings": "Anzeigeeinstellungen",
+    "TextSettings": "Schrifteinstellungen",
+    "ListTile_Reset": "Reset settings"
   },
   "PrompterScreen": {
     "speed": "{}x",

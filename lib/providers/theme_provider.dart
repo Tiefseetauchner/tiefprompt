@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -20,27 +19,28 @@ abstract class ThemesState with _$ThemesState {
 class Themes extends _$Themes {
   @override
   Future<ThemesState> build() async {
-    // final settingsService = await ref.watch(settingsProvider.future);
+    final appPrimaryColor = await ref.watch(
+      settingsProvider.selectAsync((s) => s.appPrimaryColor),
+    );
+    final prompterBackgroundColor = await ref.watch(
+      settingsProvider.selectAsync((s) => s.prompterBackgroundColor),
+    );
+    final prompterTextColor = await ref.watch(
+      settingsProvider.selectAsync((s) => s.prompterTextColor),
+    );
 
-    // TODO: Colors
     return ThemesState(
-      // return ThemeData.from(colorScheme: ColorScheme.dark(primary: Color(0)));
       darkTheme: ThemeData.from(
-        colorScheme: ColorScheme.dark(
-          primary: Color.fromARGB(255, 77, 103, 214),
-        ),
+        colorScheme: ColorScheme.dark(primary: appPrimaryColor),
       ),
-      // return ThemeData.from(colorScheme: ColorScheme.light(primary: Color(0)));
       lightTheme: ThemeData.from(
-        colorScheme: ColorScheme.light(
-          primary: Color.fromARGB(255, 77, 103, 214),
-        ),
+        colorScheme: ColorScheme.light(primary: appPrimaryColor),
       ),
       prompterTheme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.black,
-        canvasColor: Colors.black,
-        primaryColor: Colors.white,
+        scaffoldBackgroundColor: prompterBackgroundColor,
+        canvasColor: prompterBackgroundColor,
+        primaryColor: prompterTextColor,
       ),
     );
   }

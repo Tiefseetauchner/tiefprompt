@@ -56,6 +56,7 @@
     "NumberAppSetting_SideMargin_Unit": "%",
     "NumberAppSetting_CountdownTimer": "Countdown Timer",
     "NumberAppSetting_CountdownTimer_Unit": "sec",
+    "ColorAppSetting_AppPrimaryColor": "Primary Application Color",
     "DisplaySettings": "Display Settings",
     "TextSettings": "Text Settings",
     "ListTile_Reset": "Reset settings"

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/router_provider.dart';
@@ -49,12 +48,7 @@ class TeleprompterApp extends ConsumerWidget {
       themesProvider.select((t) => t.whenData((d) => d.darkTheme)),
     );
     final combiningProvider = ref.watch(
-      combinedAsyncDataProvider.call([
-        themeMode,
-        lightTheme,
-        darkTheme,
-        router,
-      ]),
+      combinedAsyncDataProvider.call([themeMode, lightTheme, darkTheme]),
     );
 
     return switch (combiningProvider) {
@@ -63,7 +57,7 @@ class TeleprompterApp extends ConsumerWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        routerConfig: value.states[3] as GoRouter,
+        routerConfig: router,
         theme: value.states[1] as ThemeData,
         darkTheme: value.states[2] as ThemeData,
         themeMode: value.states[0] as ThemeMode,
