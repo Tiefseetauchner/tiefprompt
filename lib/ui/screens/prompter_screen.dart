@@ -112,17 +112,17 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
             case PhysicalKeyboardKey.equal:
             case PhysicalKeyboardKey.numpadAdd:
               if (HardwareKeyboard.instance.isControlPressed) {
-                ref.read(prompterProvider.notifier).increaseFontSize(10);
+                ref.read(prompterProvider.notifier).increaseFontSize(1);
               } else {
-                ref.read(prompterProvider.notifier).increaseSpeed(1);
+                ref.read(prompterProvider.notifier).increaseSpeed(.1);
               }
               break;
             case PhysicalKeyboardKey.minus:
             case PhysicalKeyboardKey.numpadSubtract:
               if (HardwareKeyboard.instance.isControlPressed) {
-                ref.read(prompterProvider.notifier).decreaseFontSize(10);
+                ref.read(prompterProvider.notifier).decreaseFontSize(1);
               } else {
-                ref.read(prompterProvider.notifier).decreaseSpeed(1);
+                ref.read(prompterProvider.notifier).decreaseSpeed(.1);
               }
               break;
             case PhysicalKeyboardKey.period:
