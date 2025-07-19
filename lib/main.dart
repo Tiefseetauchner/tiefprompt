@@ -5,12 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
+import 'package:tiefprompt/providers/router_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
-import 'package:tiefprompt/ui/screens/home_screen.dart';
-import 'package:tiefprompt/ui/screens/open_file_screen.dart';
-import 'package:tiefprompt/ui/screens/prompter_screen.dart';
-import 'package:tiefprompt/ui/screens/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,10 +38,23 @@ class TeleprompterApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(settingsProvider);
-    final themes = ref.watch(themesProvider);
+    final themeMode = ref.watch(
+      settingsProvider.select((s) => s.whenData((d) => d.themeMode)),
+    );
+    final router = ref.watch(tiefPromptRouterProvider);
+    final lightTheme = ref.watch(
+      themesProvider.select((t) => t.whenData((d) => d.lightTheme)),
+    );
+    final darkTheme = ref.watch(
+      themesProvider.select((t) => t.whenData((d) => d.darkTheme)),
+    );
     final combiningProvider = ref.watch(
-      combinedAsyncDataProvider.call([settings, themes]),
+      combinedAsyncDataProvider.call([
+        themeMode,
+        lightTheme,
+        darkTheme,
+        router,
+      ]),
     );
 
     return switch (combiningProvider) {
@@ -53,40 +63,10 @@ class TeleprompterApp extends ConsumerWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        routerConfig: GoRouter(
-          initialLocation: '/',
-          routes: [
-            GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
-            GoRoute(
-              path: '/teleprompter',
-              builder: (context, state) => Theme(
-                data: (value.states[1] as ThemesState).prompterTheme,
-                child: const PrompterScreen(),
-              ),
-            ),
-            GoRoute(
-              path: '/open_file',
-              builder: (context, state) => const OpenFileScreen(),
-            ),
-            GoRoute(
-              path: '/settings',
-              builder: (context, state) => const SettingsScreen(),
-              routes: [
-                GoRoute(
-                  path: 'display',
-                  builder: (context, state) => const DisplaySettingsScreen(),
-                ),
-                GoRoute(
-                  path: 'text',
-                  builder: (context, state) => const TextSettingsScreen(),
-                ),
-              ],
-            ),
-          ],
-        ),
-        theme: (value.states[1] as ThemesState).lightTheme,
-        darkTheme: (value.states[1] as ThemesState).darkTheme,
-        themeMode: (value.states[0] as SettingsState).themeMode,
+        routerConfig: value.states[3] as GoRouter,
+        theme: value.states[1] as ThemeData,
+        darkTheme: value.states[2] as ThemeData,
+        themeMode: value.states[0] as ThemeMode,
       ),
       _ => Directionality(
         textDirection: TextDirection.ltr,

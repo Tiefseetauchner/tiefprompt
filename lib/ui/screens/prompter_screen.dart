@@ -36,6 +36,10 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
         MediaQuery.of(context).size.height / 2,
       ),
     );
+
+    ref.read(settingsProvider).whenData((data) {
+      ref.read(prompterProvider.notifier).applySettings(data);
+    });
   }
 
   @override

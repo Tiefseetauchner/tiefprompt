@@ -20,7 +20,7 @@ abstract class ThemesState with _$ThemesState {
 class Themes extends _$Themes {
   @override
   Future<ThemesState> build() async {
-    final settingsService = await ref.watch(settingsProvider.future);
+    // final settingsService = await ref.watch(settingsProvider.future);
 
     // TODO: Colors
     return ThemesState(

@@ -73,6 +73,34 @@ class Settings extends _$Settings implements ISettings {
 
   late final SharedPreferences _prefs;
 
+  @override
+  Future<SettingsState> build() async {
+    _prefs = await SharedPreferences.getInstance();
+    return SettingsState().copyWith(
+      scrollSpeed: _prefs.getDouble(_speedKey) ?? 1.0,
+      mirroredX: _prefs.getBool(_mirroredXKey) ?? false,
+      mirroredY: _prefs.getBool(_mirroredYKey) ?? false,
+      fontSize: _prefs.getDouble(_fontSizeKey) ?? 42.0,
+      sideMargin: _prefs.getDouble(_sideMarginKey) ?? 0.0,
+      fontFamily: _prefs.getString(_fontFamilyKey) ?? 'Roboto',
+      alignment: _getAlignment(_prefs.getString(_alignmentKey)),
+      displayReadingIndicatorBoxes:
+          _prefs.getBool(_displayReadingIndicatorBoxesKey) ?? false,
+      readingIndicatorBoxesHeight:
+          _prefs.getDouble(_readingIndicatorBoxesHeightKey) ?? 60.0,
+      displayVerticalMarginBoxes:
+          _prefs.getBool(_displayVerticalMarginBoxesKey) ?? false,
+      verticalMarginBoxesHeight:
+          _prefs.getDouble(_verticalMarginBoxesHeightKey) ?? 35.0,
+      verticalMarginBoxesFadeEnabled:
+          _prefs.getBool(_verticalMarginBoxesFadeEnabledKey) ?? false,
+      verticalMarginBoxesFadeLength:
+          _prefs.getDouble(_verticalMarginBoxesFadeLengthKey) ?? 50.0,
+      countdownDuration: _prefs.getDouble(_countdownDurationKey) ?? 0.0,
+      themeMode: _getThemeMode(_prefs.getString(_themeModeKey)),
+    );
+  }
+
   TextAlign _getAlignment(String? alignment) {
     return TextAlign.values
             .where((element) => element.name == alignment)
@@ -88,183 +116,125 @@ class Settings extends _$Settings implements ISettings {
   }
 
   @override
-  Future<SettingsState> build() async {
-    _prefs = await SharedPreferences.getInstance();
-    return SettingsState().copyWith(
-      scrollSpeed: _prefs.getDouble(_speedKey) ?? 1.0,
-      mirroredX: _prefs.getBool(_mirroredXKey) ?? false,
-      mirroredY: _prefs.getBool(_mirroredYKey) ?? false,
-      fontSize: _prefs.getDouble(_fontSizeKey) ?? 42.0,
-      sideMargin: _prefs.getDouble(_sideMarginKey) ?? 0.0,
-      fontFamily: _prefs.getString(_fontFamilyKey) ?? 'Roboto',
-      alignment: _getAlignment(_alignmentKey),
-      displayReadingIndicatorBoxes:
-          _prefs.getBool(_displayReadingIndicatorBoxesKey) ?? false,
-      readingIndicatorBoxesHeight:
-          _prefs.getDouble(_readingIndicatorBoxesHeightKey) ?? 60.0,
-      displayVerticalMarginBoxes:
-          _prefs.getBool(_displayVerticalMarginBoxesKey) ?? false,
-      verticalMarginBoxesHeight:
-          _prefs.getDouble(_verticalMarginBoxesHeightKey) ?? 35.0,
-      verticalMarginBoxesFadeEnabled:
-          _prefs.getBool(_verticalMarginBoxesFadeEnabledKey) ?? false,
-      verticalMarginBoxesFadeLength:
-          _prefs.getDouble(_verticalMarginBoxesFadeLengthKey) ?? 50.0,
-      countdownDuration: _prefs.getDouble(_countdownDurationKey) ?? 0.0,
-      themeMode: _getThemeMode(_themeModeKey),
-    );
-  }
-
-  @override
   Future<bool> resetSettings() async {
-    final prefs = await SharedPreferences.getInstance();
-    return await prefs.clear();
+    return await _prefs.clear();
   }
 
   @override
   Future<void> setScrollSpeed(double speed) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_speedKey, speed);
+    await _prefs.setDouble(_speedKey, speed);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(scrollSpeed: speed)),
-    );
+    state = state.whenData((s) => s.copyWith(scrollSpeed: speed));
   }
 
   @override
   Future<void> setMirroredX(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_mirroredXKey, value);
+    await _prefs.setBool(_mirroredXKey, value);
 
-    state = state.copyWithPrevious(AsyncData(SettingsState(mirroredX: value)));
+    state = state.whenData((s) => s.copyWith(mirroredX: value));
   }
 
   @override
   Future<void> setMirroredY(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_mirroredYKey, value);
+    await _prefs.setBool(_mirroredYKey, value);
 
-    state = state.copyWithPrevious(AsyncData(SettingsState(mirroredY: value)));
+    state = state.whenData((s) => s.copyWith(mirroredY: value));
   }
 
   @override
   Future<void> setDisplayReadingIndicatorBoxes(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_displayReadingIndicatorBoxesKey, value);
+    await _prefs.setBool(_displayReadingIndicatorBoxesKey, value);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(displayReadingIndicatorBoxes: value)),
+    state = state.whenData(
+      (s) => s.copyWith(displayReadingIndicatorBoxes: value),
     );
   }
 
   @override
   Future<void> setReadingIndicatorBoxesHeight(double height) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_readingIndicatorBoxesHeightKey, height);
+    await _prefs.setDouble(_readingIndicatorBoxesHeightKey, height);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(readingIndicatorBoxesHeight: height)),
+    state = state.whenData(
+      (s) => s.copyWith(readingIndicatorBoxesHeight: height),
     );
   }
 
   @override
   Future<void> setDisplayVerticalMarginBoxes(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_displayVerticalMarginBoxesKey, value);
+    await _prefs.setBool(_displayVerticalMarginBoxesKey, value);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(displayVerticalMarginBoxes: value)),
+    state = state.whenData(
+      (s) => s.copyWith(displayVerticalMarginBoxes: value),
     );
   }
 
   @override
   Future<void> setVerticalMarginBoxesHeight(double height) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_verticalMarginBoxesHeightKey, height);
+    await _prefs.setDouble(_verticalMarginBoxesHeightKey, height);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(verticalMarginBoxesHeight: height)),
+    state = state.whenData(
+      (s) => s.copyWith(verticalMarginBoxesHeight: height),
     );
   }
 
   @override
   Future<void> setVerticalMarginBoxesFadeEnabled(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_verticalMarginBoxesFadeEnabledKey, value);
+    await _prefs.setBool(_verticalMarginBoxesFadeEnabledKey, value);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(verticalMarginBoxesFadeEnabled: value)),
+    state = state.whenData(
+      (s) => s.copyWith(verticalMarginBoxesFadeEnabled: value),
     );
   }
 
   @override
   Future<void> setVerticalMarginBoxesFadeLength(double length) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_verticalMarginBoxesFadeLengthKey, length);
+    await _prefs.setDouble(_verticalMarginBoxesFadeLengthKey, length);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(verticalMarginBoxesFadeLength: length)),
+    state = state.whenData(
+      (s) => s.copyWith(verticalMarginBoxesFadeLength: length),
     );
   }
 
   @override
   Future<void> setSideMargin(double sideMargin) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_sideMarginKey, sideMargin);
+    await _prefs.setDouble(_sideMarginKey, sideMargin);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(sideMargin: sideMargin)),
-    );
+    state = state.whenData((s) => s.copyWith(sideMargin: sideMargin));
   }
 
   @override
   Future<void> setFontFamily(String fontFamily) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_fontFamilyKey, fontFamily);
+    await _prefs.setString(_fontFamilyKey, fontFamily);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(fontFamily: fontFamily)),
-    );
+    state = state.whenData((s) => s.copyWith(fontFamily: fontFamily));
   }
 
   @override
   Future<void> setFontSize(double fontSize) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_fontSizeKey, fontSize);
+    await _prefs.setDouble(_fontSizeKey, fontSize);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(fontSize: fontSize)),
-    );
+    state = state.whenData((s) => s.copyWith(fontSize: fontSize));
   }
 
   @override
   Future<void> setAlignment(TextAlign alignment) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_alignmentKey, alignment.toString());
+    await _prefs.setString(_alignmentKey, alignment.toString());
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(alignment: alignment)),
-    );
+    state = state.whenData((s) => s.copyWith(alignment: alignment));
   }
 
   @override
   Future<void> setCountdownDuration(double duration) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_countdownDurationKey, duration);
+    await _prefs.setDouble(_countdownDurationKey, duration);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(countdownDuration: duration)),
-    );
+    state = state.whenData((s) => s.copyWith(countdownDuration: duration));
   }
 
   @override
   Future<void> setThemeMode(ThemeMode themeMode) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_themeModeKey, themeMode.name);
+    await _prefs.setString(_themeModeKey, themeMode.name);
 
-    state = state.copyWithPrevious(
-      AsyncData(SettingsState(themeMode: themeMode)),
-    );
+    state = state.whenData((s) => s.copyWith(themeMode: themeMode));
   }
 
   @override
