@@ -1,13 +1,8 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 
-abstract class IScriptService {
-  Future<int> getScriptCount();
-  Future<Stream<List<ScriptDisplayData>>> getScripts();
-  Future<String> loadScript(int scriptId);
-  Future<void> save(ScriptState script);
-  Future<void> deleteScript(int scriptId);
-}
+part 'script_service.g.dart';
 
 class ScriptDisplayData {
   final String title;
@@ -21,14 +16,16 @@ class ScriptDisplayData {
   });
 }
 
-class ScriptService implements IScriptService {
+@riverpod
+class ScriptService extends _$ScriptService {
   final _databaseManagers = AppDatabase().managers;
 
   @override
+  Future<void> build() async {}
+
   Future<int> getScriptCount() async =>
       await _databaseManagers.scriptModel.count();
 
-  @override
   Future<Stream<List<ScriptDisplayData>>> getScripts() async =>
       _databaseManagers.scriptModel.asyncMap(_mapToDisplay).watch();
 
@@ -39,25 +36,25 @@ class ScriptService implements IScriptService {
         createdAt: script.createdAt,
       );
 
-  @override
-  Future<String> loadScript(int scriptId) async =>
-      await _databaseManagers.scriptModel
-          .filter((s) => s.id(scriptId))
-          .asyncMap(_mapToText)
-          .getSingle();
+  Future<String> loadScript(int scriptId) async => await _databaseManagers
+      .scriptModel
+      .filter((s) => s.id(scriptId))
+      .asyncMap(_mapToText)
+      .getSingle();
 
   Future<String> _mapToText(ScriptModelData script) async => script.scriptText;
 
-  @override
   Future<void> save(ScriptState script) async =>
-      await _databaseManagers.scriptModel.create((s) => s(
+      await _databaseManagers.scriptModel.create(
+        (s) => s(
           scriptText: script.text,
           title: script.title ?? "Untitled",
-          createdAt: DateTime.now()));
+          createdAt: DateTime.now(),
+        ),
+      );
 
-  @override
-  Future<void> deleteScript(int scriptId) async =>
-      await _databaseManagers.scriptModel
-          .filter((s) => s.id(scriptId))
-          .delete();
+  Future<void> deleteScript(int scriptId) async => await _databaseManagers
+      .scriptModel
+      .filter((s) => s.id(scriptId))
+      .delete();
 }

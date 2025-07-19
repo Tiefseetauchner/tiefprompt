@@ -31,9 +31,17 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _scrollableTextController = ScrollableTextController();
     WakelockPlus.enable();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        _scrollableTextController
-            .jumpTo(MediaQuery.of(context).size.height / 2));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollableTextController.scrollController.hasClients) {
+        _scrollableTextController.jumpTo(
+          MediaQuery.of(context).size.height / 2,
+        );
+      }
+    });
+
+    ref.read(settingsProvider).whenData((data) {
+      ref.read(prompterProvider.notifier).applySettings(data);
+    });
   }
 
   @override
@@ -47,9 +55,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
-    ref.listen(settingsProvider, (previous, next) {
-      next.whenData((settings) {
-        ref.read(prompterProvider.notifier).applySettings(settings);
+    ref.listen(settingsProvider, (previous, next) async {
+      next.whenData((data) {
+        ref.read(prompterProvider.notifier).applySettings(data);
       });
     });
 
@@ -76,19 +84,25 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               _scrollableTextController.jumpRelative(75);
               break;
             case LogicalKeyboardKey.pageUp:
-              _scrollableTextController
-                  .jumpRelative(-MediaQuery.of(context).size.height);
+              _scrollableTextController.jumpRelative(
+                -MediaQuery.of(context).size.height,
+              );
               break;
             case LogicalKeyboardKey.pageDown:
-              _scrollableTextController
-                  .jumpRelative(MediaQuery.of(context).size.height);
+              _scrollableTextController.jumpRelative(
+                MediaQuery.of(context).size.height,
+              );
               break;
             case LogicalKeyboardKey.home:
               _scrollableTextController.jumpTo(0);
               break;
             case LogicalKeyboardKey.end:
-              _scrollableTextController.jumpTo(_scrollableTextController
-                  .scrollController.position.maxScrollExtent);
+              _scrollableTextController.jumpTo(
+                _scrollableTextController
+                    .scrollController
+                    .position
+                    .maxScrollExtent,
+              );
               break;
             case LogicalKeyboardKey.tab:
               ref.read(controlsVisibleProvider.notifier).state =
@@ -100,17 +114,17 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
             case PhysicalKeyboardKey.equal:
             case PhysicalKeyboardKey.numpadAdd:
               if (HardwareKeyboard.instance.isControlPressed) {
-                ref.read(prompterProvider.notifier).increaseFontSize(10);
+                ref.read(prompterProvider.notifier).increaseFontSize(1);
               } else {
-                ref.read(prompterProvider.notifier).increaseSpeed(1);
+                ref.read(prompterProvider.notifier).increaseSpeed(.1);
               }
               break;
             case PhysicalKeyboardKey.minus:
             case PhysicalKeyboardKey.numpadSubtract:
               if (HardwareKeyboard.instance.isControlPressed) {
-                ref.read(prompterProvider.notifier).decreaseFontSize(10);
+                ref.read(prompterProvider.notifier).decreaseFontSize(1);
               } else {
-                ref.read(prompterProvider.notifier).decreaseSpeed(1);
+                ref.read(prompterProvider.notifier).decreaseSpeed(.1);
               }
               break;
             case PhysicalKeyboardKey.period:
@@ -148,10 +162,12 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                   controller: _scrollableTextController,
                   text: script.text,
                   style: TextStyle(
-                      fontSize: prompter.fontSize,
-                      fontFamily: prompter.fontFamily,
-                      color: Theme.of(context).colorScheme.onSurface),
-                  sideMargin: (MediaQuery.of(context).size.width / 2) *
+                    fontSize: prompter.fontSize,
+                    fontFamily: prompter.fontFamily,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  sideMargin:
+                      (MediaQuery.of(context).size.width / 2) *
                       (prompter.sideMargin / 100),
                 ),
               ),
@@ -172,9 +188,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
             if (controlsVisible) PrompterTopBar(),
             if (controlsVisible) PrompterBottomBar(),
             if (prompter.displayCountdown && prompter.countdownDuration > 0)
-              CountdownTimer(
-                duration: prompter.countdownDuration.toInt(),
-              )
+              CountdownTimer(duration: prompter.countdownDuration.toInt()),
           ],
         ),
       ),
@@ -184,8 +198,10 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
   @override
   void dispose() {
     SystemChrome.setPreferredOrientations([]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
     WakelockPlus.disable();
     _focusNode.dispose();
     _scrollableTextController.dispose();

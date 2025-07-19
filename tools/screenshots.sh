@@ -22,7 +22,7 @@ NC='\033[0m' # No Color
 start_http_server() {
   if [[ $(curl -s http://localhost:3824/health) != "true" ]]; then
     echo -e "${BLUE}Starting screenshot HTTP server for emulator: $CURRENT_EMULATOR${NC}"
-    EMULATOR_NAME="$CURRENT_EMULATOR" dart integration_test/screenshot_server.dart &
+    EMULATOR_NAME="$CURRENT_EMULATOR" .flutter/bin/dart integration_test/screenshot_server.dart &
     SERVER_PID=$!
   
     server_started=false
@@ -71,7 +71,7 @@ run_tests() {
   echo -e "${BLUE}SERVER_IP: $SERVER_IP${NC}"
 
   echo -e "${BLUE}Starting Flutter testing...${NC}"
-  flutter test integration_test/screenshot_automation_test.dart -d "emulator" --dart-define=SERVER_IP=$SERVER_IP
+  .flutter/bin/flutter test integration_test/screenshot_automation_test.dart -d "emulator" --dart-define=SERVER_IP=$SERVER_IP
 
   if [ $? -ne 0 ]; then
     echo -e "${RED}Flutter tests failed.${NC}"

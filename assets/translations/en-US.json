@@ -28,6 +28,7 @@
       "ElevatedButton_Save": "Save"
     },
     "DropdownAppSetting_DefaultLanguage": "Default Language",
+    "DropdownAppSetting_Theme": "App Theme",
     "NumberAppSetting_DefaultScrollSpeed": "Default Scroll Speed",
     "NumberAppSetting_DefaultScrollSpeed_Unit": "lines/sec",
     "NumberAppSetting_DefaultFontSize": "Default Font Size",
@@ -55,6 +56,9 @@
     "NumberAppSetting_SideMargin_Unit": "%",
     "NumberAppSetting_CountdownTimer": "Countdown Timer",
     "NumberAppSetting_CountdownTimer_Unit": "sec",
+    "ColorAppSetting_AppPrimaryColor": "Primary Application Color",
+    "ColorAppSetting_PrompterBackgroundColor": "Prompter Background Color",
+    "ColorAppSetting_PrompterTextColor": "Prompter Text Color",
     "DisplaySettings": "Display Settings",
     "TextSettings": "Text Settings",
     "ListTile_Reset": "Reset settings"

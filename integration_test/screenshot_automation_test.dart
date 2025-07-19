@@ -21,8 +21,11 @@ Future<void> main() async {
   final List<(String, List<int>)> screenshots = [];
 
   for (var locale in kSupportedLocales) {
-    Future<void> generateScreenshot(WidgetTester tester,
-        {String? screenName, String? caseName}) async {
+    Future<void> generateScreenshot(
+      WidgetTester tester, {
+      String? screenName,
+      String? caseName,
+    }) async {
       String platformName = '';
 
       if (Platform.isAndroid) {
@@ -37,14 +40,15 @@ Future<void> main() async {
         platformName = "windows";
       } else {
         throw UnsupportedError(
-            "Unsupported platform: ${Platform.operatingSystem}");
+          "Unsupported platform: ${Platform.operatingSystem}",
+        );
       }
 
       await tester.pumpAndSettle();
 
       screenshots.add((
         "${locale.$2.languageCode}-${locale.$2.countryCode}/$platformName/$screenName${screenName == null ? "" : "_"}$caseName${caseName == null ? "" : "_"}",
-        await binding.takeScreenshot("screenshot")
+        await binding.takeScreenshot("screenshot"),
       ));
     }
 
@@ -63,13 +67,39 @@ Future<void> main() async {
       );
     });
 
-    testWidgets("Take screenshot of load script screen",
-        (WidgetTester tester) async {
-      await tester.pumpWidget(MockApp(
-        scriptServiceOverride: MockScriptService(),
-        locale: locale.$2,
-        child: OpenFileScreen(),
-      ));
+    testWidgets("Take screenshot of home screen in dark mode", (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        MockApp(
+          locale: locale.$2,
+          theme: ThemeData.from(
+            colorScheme: ColorScheme.dark(
+              primary: Color.fromARGB(255, 77, 103, 214),
+            ),
+          ),
+          child: HomeScreen(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await generateScreenshot(
+        tester,
+        screenName: "home_screen",
+        caseName: "dark",
+      );
+    });
+
+    testWidgets("Take screenshot of load script screen", (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        MockApp(
+          scriptOverride: MockScriptService(),
+          locale: locale.$2,
+          child: OpenFileScreen(),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await generateScreenshot(
@@ -79,10 +109,22 @@ Future<void> main() async {
       );
     });
 
-    testWidgets("Take screenshot of teleprompter screen with Roboto font",
-        (WidgetTester tester) async {
-      await tester
-          .pumpWidget(MockApp(locale: locale.$2, child: PrompterScreen()));
+    testWidgets("Take screenshot of teleprompter screen with Roboto font", (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        MockApp(
+          locale: locale.$2,
+          theme: ThemeData.from(
+            colorScheme: ColorScheme.highContrastDark(
+              primary: Color.fromARGB(255, 77, 103, 214),
+              surface: Colors.black,
+              onSurface: Colors.white,
+            ),
+          ),
+          child: PrompterScreen(),
+        ),
+      );
       await tester.pumpAndSettle();
 
       final container = getProviderContainer(tester);
@@ -97,74 +139,56 @@ Future<void> main() async {
       );
     });
 
-    testWidgets("Take screenshot of teleprompter screen with RobotoMono font",
-        (WidgetTester tester) async {
-      await tester
-          .pumpWidget(MockApp(locale: locale.$2, child: PrompterScreen()));
-      await tester.pumpAndSettle();
+    testWidgets(
+      "Take screenshot of teleprompter screen with OpenDyslexic font",
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MockApp(
+            locale: locale.$2,
+            theme: ThemeData.from(
+              colorScheme: ColorScheme.highContrastDark(
+                primary: const Color.fromARGB(255, 77, 103, 214),
+                surface: const Color.fromARGB(255, 53, 0, 94),
+                onSurface: const Color.fromARGB(255, 17, 255, 0),
+              ),
+            ),
+            child: PrompterScreen(),
+          ),
+        );
+        await tester.pumpAndSettle();
 
-      final container = getProviderContainer(tester);
-      clearPrompterState(tester, container);
-      setPrompterText(tester, container);
-      setPrompterFont(tester, container, "RobotoMono");
+        final container = getProviderContainer(tester);
+        clearPrompterState(tester, container);
+        setPrompterText(tester, container);
+        setPrompterFont(tester, container, "OpenDyslexic");
 
-      await generateScreenshot(
-        tester,
-        screenName: "prompter_screen",
-        caseName: "robotoMono",
-      );
-    });
-
-    testWidgets("Take screenshot of teleprompter screen with RobotoSlab font",
-        (WidgetTester tester) async {
-      await tester
-          .pumpWidget(MockApp(locale: locale.$2, child: PrompterScreen()));
-      await tester.pumpAndSettle();
-
-      final container = getProviderContainer(tester);
-      clearPrompterState(tester, container);
-      setPrompterText(tester, container);
-      setPrompterFont(tester, container, "RobotoSlab");
-
-      await generateScreenshot(
-        tester,
-        screenName: "prompter_screen",
-        caseName: "robotoSlab",
-      );
-    });
-
-    testWidgets("Take screenshot of teleprompter screen with OpenDyslexic font",
-        (WidgetTester tester) async {
-      await tester
-          .pumpWidget(MockApp(locale: locale.$2, child: PrompterScreen()));
-      await tester.pumpAndSettle();
-
-      final container = getProviderContainer(tester);
-      clearPrompterState(tester, container);
-      setPrompterText(tester, container);
-      setPrompterFont(tester, container, "OpenDyslexic");
-
-      await generateScreenshot(
-        tester,
-        screenName: "prompter_screen",
-        caseName: "OpenDyslexic",
-      );
-    });
+        await generateScreenshot(
+          tester,
+          screenName: "prompter_screen",
+          caseName: "OpenDyslexic",
+        );
+      },
+    );
 
     tearDownAll(() async {
       final serverIp = const String.fromEnvironment("SERVER_IP");
 
       for (var screenshot in screenshots) {
-        var request = await HttpClient()
-            .post(serverIp, 3824, "screenshots/${screenshot.$1}.png")
-          ..contentLength = screenshot.$2.length
-          ..add(screenshot.$2);
+        var request =
+            await HttpClient().post(
+                serverIp,
+                3824,
+                "screenshots/${screenshot.$1}.png",
+              )
+              ..contentLength = screenshot.$2.length
+              ..add(screenshot.$2);
 
         var response = await request.close();
 
         if (response.statusCode != 200) {
           throw Exception(
-              "Failed to upload screenshot: ${response.statusCode}");
+            "Failed to upload screenshot: ${response.statusCode}",
+          );
         }
       }
     });
@@ -177,32 +201,44 @@ ProviderContainer getProviderContainer(WidgetTester tester) {
 }
 
 void clearPrompterState(WidgetTester tester, ProviderContainer container) {
-  container.read(prompterProvider.notifier).applySettings(SettingsState(
-      scrollSpeed: 1.6,
-      mirroredX: false,
-      mirroredY: false,
-      fontSize: 30,
-      sideMargin: 10,
-      fontFamily: "Roboto",
-      alignment: TextAlign.left,
-      displayReadingIndicatorBoxes: true,
-      readingIndicatorBoxesHeight: 70,
-      displayVerticalMarginBoxes: true,
-      verticalMarginBoxesHeight: 20,
-      countdownDuration: 0,
-      verticalMarginBoxesFadeEnabled: true,
-      verticalMarginBoxesFadeLength: 0.3));
+  container
+      .read(prompterProvider.notifier)
+      .applySettings(
+        SettingsState(
+          scrollSpeed: 1.6,
+          mirroredX: false,
+          mirroredY: false,
+          fontSize: 30,
+          sideMargin: 10,
+          fontFamily: "Roboto",
+          alignment: TextAlign.left,
+          displayReadingIndicatorBoxes: true,
+          readingIndicatorBoxesHeight: 70,
+          displayVerticalMarginBoxes: true,
+          verticalMarginBoxesHeight: 20,
+          countdownDuration: 0,
+          verticalMarginBoxesFadeEnabled: true,
+          verticalMarginBoxesFadeLength: 0.3,
+        ),
+      );
 }
 
 void setPrompterText(WidgetTester tester, ProviderContainer container) {
   container.read(prompterProvider.notifier).setFontFamily("Roboto Mono");
-  container.read(scriptProvider.notifier).setText("Hello, world!\n"
-      "The quick brown fox jumps over the lazy dog.\n"
-      "And once the quick brown fox finished jumping over the lazy dog, it went back to sleep in its little fox bed."
-      "But the lazy dog did not take kindly to the jumping of the quick brown fox, and booped the quick brown fox on the nose.");
+  container
+      .read(scriptProvider.notifier)
+      .setText(
+        "Hello, world!\n"
+        "The quick brown fox jumps over the lazy dog.\n"
+        "And once the quick brown fox finished jumping over the lazy dog, it went back to sleep in its little fox bed."
+        "But the lazy dog did not take kindly to the jumping of the quick brown fox, and booped the quick brown fox on the nose.",
+      );
 }
 
 void setPrompterFont(
-    WidgetTester tester, ProviderContainer container, String s) {
+  WidgetTester tester,
+  ProviderContainer container,
+  String s,
+) {
   container.read(prompterProvider.notifier).setFontFamily(s);
 }

@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
-import 'package:tiefprompt/core/theme.dart';
-import 'package:tiefprompt/providers/di_injection.dart';
-import 'package:tiefprompt/services/script_service.dart';
-import 'package:tiefprompt/services/settings_service.dart';
-import 'package:tiefprompt/ui/screens/home_screen.dart';
-import 'package:tiefprompt/ui/screens/open_file_screen.dart';
-import 'package:tiefprompt/ui/screens/prompter_screen.dart';
-import 'package:tiefprompt/ui/screens/settings_screen.dart';
+import 'package:tiefprompt/providers/combining_provider.dart';
+import 'package:tiefprompt/providers/router_provider.dart';
+import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +17,12 @@ void main() async {
     ),
   );
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  await EasyLocalization.ensureInitialized();
+  await el.EasyLocalization.ensureInitialized();
 
   runApp(
     ProviderScope(
-      overrides: [
-        scriptServiceProvider.overrideWithValue(ScriptService()),
-        settingsServiceProvider.overrideWithValue(SettingsService())
-      ],
-      child: EasyLocalization(
+      overrides: [],
+      child: el.EasyLocalization(
         supportedLocales: kSupportedLocales.map((l10n) => l10n.$2).toList(),
         path: 'assets/translations',
         fallbackLocale: Locale('en', 'US'),
@@ -41,49 +33,59 @@ void main() async {
 }
 
 class TeleprompterApp extends ConsumerWidget {
-  TeleprompterApp({super.key});
+  const TeleprompterApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-      title: 'Teleprompter',
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      routerConfig: _router,
+    final themeMode = ref.watch(
+      settingsProvider.select((s) => s.whenData((d) => d.themeMode)),
     );
-  }
+    final router = ref.watch(tiefPromptRouterProvider);
+    final lightTheme = ref.watch(
+      themesProvider.select((t) => t.whenData((d) => d.lightTheme)),
+    );
+    final darkTheme = ref.watch(
+      themesProvider.select((t) => t.whenData((d) => d.darkTheme)),
+    );
+    final combiningProvider = ref.watch(
+      combinedAsyncDataProvider.call([themeMode, lightTheme, darkTheme]),
+    );
 
-  final _router = GoRouter(
-    initialLocation: '/',
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(),
+    return switch (combiningProvider) {
+      AsyncData(:final value) => MaterialApp.router(
+        title: 'Teleprompter',
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        routerConfig: router,
+        theme: value.states[1] as ThemeData,
+        darkTheme: value.states[2] as ThemeData,
+        themeMode: value.states[0] as ThemeMode,
       ),
-      GoRoute(
-          path: '/teleprompter',
-          builder: (context, state) => Theme(
-                data: prompterBlackTheme,
-                child: const PrompterScreen(),
-              )),
-      GoRoute(
-        path: '/open_file',
-        builder: (context, state) => const OpenFileScreen(),
+      AsyncLoading() => MaterialApp.router(
+        title: 'Teleprompter',
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        routerConfig: router,
       ),
-      GoRoute(
-          path: '/settings',
-          builder: (context, state) => const SettingsScreen(),
-          routes: [
-            GoRoute(
-              path: 'display',
-              builder: (context, state) => const DisplaySettingsScreen(),
-            ),
-            GoRoute(
-              path: 'text',
-              builder: (context, state) => const TextSettingsScreen(),
-            ),
-          ]),
-    ],
-  );
+      _ => Directionality(
+        textDirection: TextDirection.ltr,
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                "An exceedingly scary error occurred loading the settings or maybe even the themes ( :c ). Do you want to reset them?",
+              ),
+              ElevatedButton(
+                onPressed: () =>
+                    ref.read(settingsProvider.notifier).resetSettings(),
+                child: Text("Reset Settings"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    };
+  }
 }

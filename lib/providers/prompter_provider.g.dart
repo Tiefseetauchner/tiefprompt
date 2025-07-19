@@ -6,19 +6,20 @@ part of 'prompter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$prompterHash() => r'a26450d8fd5e32bfed72928b58cee55bc92c3a91';
+String _$prompterHash() => r'75597ba71abf45a4ea29a411d89531479872aede';
 
 /// See also [Prompter].
 @ProviderFor(Prompter)
 final prompterProvider =
     AutoDisposeNotifierProvider<Prompter, PrompterState>.internal(
-  Prompter.new,
-  name: r'prompterProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$prompterHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      Prompter.new,
+      name: r'prompterProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$prompterHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$Prompter = AutoDisposeNotifier<PrompterState>;
 // ignore_for_file: type=lint

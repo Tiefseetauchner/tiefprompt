@@ -5,11 +5,9 @@ part 'script_provider.freezed.dart';
 part 'script_provider.g.dart';
 
 @freezed
-class ScriptState with _$ScriptState {
-  factory ScriptState({
-    required String text,
-    required String? title,
-  }) = _ScriptState;
+abstract class ScriptState with _$ScriptState {
+  factory ScriptState({required String text, required String? title}) =
+      _ScriptState;
 }
 
 @riverpod
