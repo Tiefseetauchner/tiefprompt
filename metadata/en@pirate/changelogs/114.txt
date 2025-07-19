@@ -1,0 +1,1 @@
+We’ve added readin’ beacons and helm control via the keyboard! What’s more, ye can now conjure appstore screenshots automagically - no manual labor nor swabbin’ required.
