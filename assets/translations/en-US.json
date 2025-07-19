@@ -57,6 +57,8 @@
     "NumberAppSetting_CountdownTimer": "Countdown Timer",
     "NumberAppSetting_CountdownTimer_Unit": "sec",
     "ColorAppSetting_AppPrimaryColor": "Primary Application Color",
+    "ColorAppSetting_PrompterBackgroundColor": "Prompter Background Color",
+    "ColorAppSetting_PrompterTextColor": "Prompter Text Color",
     "DisplaySettings": "Display Settings",
     "TextSettings": "Text Settings",
     "ListTile_Reset": "Reset settings"

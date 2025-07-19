@@ -2,19 +2,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
-import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 
 class MockApp extends StatelessWidget {
   final Widget child;
-  final IScriptService? scriptServiceOverride;
+  final ScriptService? scriptOverride;
   final Locale locale;
+  final ThemeData? theme;
 
   const MockApp({
     super.key,
     required this.child,
     required this.locale,
-    this.scriptServiceOverride,
+    this.scriptOverride,
+    this.theme,
   });
 
   @override
@@ -23,8 +24,8 @@ class MockApp extends StatelessWidget {
 
     return ProviderScope(
       overrides: [
-        scriptProvider.overrideWith(
-          () => scriptServiceOverride ?? ScriptService(),
+        scriptServiceProvider.overrideWith(
+          () => scriptOverride ?? ScriptService(),
         ),
       ],
       child: EasyLocalization(
@@ -40,6 +41,13 @@ class MockApp extends StatelessWidget {
             locale: locale,
             localizationsDelegates: context.localizationDelegates,
             home: child,
+            theme:
+                theme ??
+                ThemeData.from(
+                  colorScheme: ColorScheme.light(
+                    primary: Color.fromARGB(255, 77, 103, 214),
+                  ),
+                ),
           ),
         ),
       ),

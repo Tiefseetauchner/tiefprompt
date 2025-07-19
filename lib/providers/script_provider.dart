@@ -6,10 +6,8 @@ part 'script_provider.g.dart';
 
 @freezed
 abstract class ScriptState with _$ScriptState {
-  factory ScriptState({
-    required String text,
-    required String? title,
-  }) = _ScriptState;
+  factory ScriptState({required String text, required String? title}) =
+      _ScriptState;
 }
 
 @riverpod

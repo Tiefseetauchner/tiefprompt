@@ -31,13 +31,13 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _scrollableTextController = ScrollableTextController();
     WakelockPlus.enable();
 
-    if (_scrollableTextController.scrollController.hasClients) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _scrollableTextController.jumpTo(
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollableTextController.scrollController.hasClients) {
+        _scrollableTextController.jumpTo(
           MediaQuery.of(context).size.height / 2,
-        ),
-      );
-    }
+        );
+      }
+    });
 
     ref.read(settingsProvider).whenData((data) {
       ref.read(prompterProvider.notifier).applySettings(data);

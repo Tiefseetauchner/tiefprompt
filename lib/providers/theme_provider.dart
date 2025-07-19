@@ -42,10 +42,6 @@ class Themes extends _$Themes {
           surface: prompterBackgroundColor,
           onSurface: prompterTextColor,
         ),
-        // brightness: Brightness.dark,
-        // scaffoldBackgroundColor: prompterBackgroundColor,
-        // canvasColor: prompterBackgroundColor,
-        // primaryColor: appPrimaryColor,
       ),
     );
   }
