@@ -3,7 +3,7 @@ Tiefprompt ist eine simple und leicht anpassbare Teleprompter Applikation für P
 Zum Beispiel:
 * Tastatursteuerung: Kontrolliere die Wiedergabe mit einer Tastatur.
 * Lesehilfen: Konfigurierbare indikatoren um beim Lesefluss zu helfen.
-* Anpassbare Schriftarten: Einfach die Schriftart ändern.
+* Anpassbare Schriftarten: Einfach die Schriftart und -farbe ändern.
 * Scriptverwaltung: Scripts können leicht gespeichert und verwaltet werden.
 
 Diese Applikation versucht möglichst einfach und effizient zu sein, und unnötige Ablenkungen zu minimieren.
