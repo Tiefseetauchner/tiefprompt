@@ -15,7 +15,7 @@ abstract class ThemesState with _$ThemesState {
   }) = _ThemesState;
 }
 
-@Riverpod(dependencies: [Settings])
+@Riverpod(keepAlive: true, dependencies: [Settings])
 class Themes extends _$Themes {
   @override
   Future<ThemesState> build() async {
@@ -36,11 +36,16 @@ class Themes extends _$Themes {
       lightTheme: ThemeData.from(
         colorScheme: ColorScheme.light(primary: appPrimaryColor),
       ),
-      prompterTheme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: prompterBackgroundColor,
-        canvasColor: prompterBackgroundColor,
-        primaryColor: prompterTextColor,
+      prompterTheme: ThemeData.from(
+        colorScheme: ColorScheme.highContrastDark(
+          primary: appPrimaryColor,
+          surface: prompterBackgroundColor,
+          onSurface: prompterTextColor,
+        ),
+        // brightness: Brightness.dark,
+        // scaffoldBackgroundColor: prompterBackgroundColor,
+        // canvasColor: prompterBackgroundColor,
+        // primaryColor: appPrimaryColor,
       ),
     );
   }

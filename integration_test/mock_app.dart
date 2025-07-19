@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
-import 'package:tiefprompt/providers/di_injection.dart';
+import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 
 class MockApp extends StatelessWidget {
@@ -23,8 +23,9 @@ class MockApp extends StatelessWidget {
 
     return ProviderScope(
       overrides: [
-        scriptServiceProvider
-            .overrideWithValue(scriptServiceOverride ?? ScriptService())
+        scriptProvider.overrideWith(
+          () => scriptServiceOverride ?? ScriptService(),
+        ),
       ],
       child: EasyLocalization(
         saveLocale: false,

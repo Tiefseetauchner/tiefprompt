@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,7 +9,7 @@ import 'package:tiefprompt/ui/screens/settings_screen.dart';
 
 part 'router_provider.g.dart';
 
-@Riverpod(dependencies: [Themes])
+@Riverpod(keepAlive: true, dependencies: [Themes])
 class TiefPromptRouter extends _$TiefPromptRouter {
   @override
   GoRouter build() {

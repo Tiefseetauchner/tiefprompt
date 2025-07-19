@@ -31,7 +31,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _scrollableTextController = ScrollableTextController();
     WakelockPlus.enable();
 
-    if (WidgetsBinding.instance.framesEnabled) {
+    if (_scrollableTextController.scrollController.hasClients) {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => _scrollableTextController.jumpTo(
           MediaQuery.of(context).size.height / 2,

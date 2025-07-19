@@ -62,6 +62,13 @@ class TeleprompterApp extends ConsumerWidget {
         darkTheme: value.states[2] as ThemeData,
         themeMode: value.states[0] as ThemeMode,
       ),
+      AsyncLoading() => MaterialApp.router(
+        title: 'Teleprompter',
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        routerConfig: router,
+      ),
       _ => Directionality(
         textDirection: TextDirection.ltr,
         child: Center(

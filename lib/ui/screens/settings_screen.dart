@@ -659,13 +659,11 @@ class _ColorAppSettingState extends State<ColorAppSetting> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(widget.displayText, style: TextStyle(fontSize: 18)),
-                SingleChildScrollView(
-                  child: ColorPicker(
-                    enableAlpha: false,
-                    hexInputBar: true,
-                    pickerColor: selectedValue,
-                    onColorChanged: (c) => selectedValue = c,
-                  ),
+                ColorPicker(
+                  enableAlpha: false,
+                  hexInputBar: true,
+                  pickerColor: selectedValue,
+                  onColorChanged: (c) => selectedValue = c,
                 ),
                 ElevatedButton(
                   onPressed: () {

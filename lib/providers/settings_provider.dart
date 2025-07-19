@@ -59,7 +59,7 @@ abstract class ISettings {
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
 
-@Riverpod(dependencies: [])
+@Riverpod(keepAlive: true, dependencies: [])
 class Settings extends _$Settings implements ISettings {
   static const _speedKey = 'scroll_speed';
   static const _mirroredXKey = 'mirror_text_x';
@@ -114,10 +114,10 @@ class Settings extends _$Settings implements ISettings {
             _defaultAppPrimaryColor.toARGB32(),
       ),
       prompterBackgroundColor: Color(
-        _prefs.getInt(_appPrimaryColorKey) ?? Colors.black.toARGB32(),
+        _prefs.getInt(_prompterBackgroundColorKey) ?? Colors.black.toARGB32(),
       ),
       prompterTextColor: Color(
-        _prefs.getInt(_appPrimaryColorKey) ?? Colors.white.toARGB32(),
+        _prefs.getInt(_prompterTextColorKey) ?? Colors.white.toARGB32(),
       ),
     );
   }
