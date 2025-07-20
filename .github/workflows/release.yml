@@ -107,7 +107,7 @@ jobs:
 
     steps:
       - name: Set permissions
-        run: chmod 777 /app
+        run: ls -la /
 
       - name: Checkout repository
         uses: actions/checkout@v4
