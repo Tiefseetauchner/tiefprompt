@@ -29,6 +29,14 @@ class SettingsScreen extends ConsumerWidget {
               },
               values: kSupportedLocales,
             ),
+            LinkAppSetting(
+              displayText: context.tr("SettingsScreen.DisplaySettings"),
+              value: "display",
+            ),
+            LinkAppSetting(
+              displayText: context.tr("SettingsScreen.TextSettings"),
+              value: "text",
+            ),
             DropdownAppSetting<ThemeMode>(
               value: value.themeMode,
               displayText: context.tr(
@@ -46,18 +54,50 @@ class SettingsScreen extends ConsumerWidget {
                   )
                   .toList(),
             ),
-            LinkAppSetting(
-              displayText: context.tr("SettingsScreen.DisplaySettings"),
-              value: "display",
-            ),
-            LinkAppSetting(
-              displayText: context.tr("SettingsScreen.TextSettings"),
-              value: "text",
+            ColorAppSetting(
+              value: value.appPrimaryColor,
+              displayText: context.tr(
+                "SettingsScreen.ColorAppSetting_AppPrimaryColor",
+              ),
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setAppPrimaryColor(updatedValue),
             ),
             ListTile(
+              hoverColor: const Color.fromARGB(255, 255, 175, 169),
               title: Text(context.tr("SettingsScreen.ListTile_Reset")),
               onTap: () {
-                ref.read(settingsProvider.notifier).resetSettings();
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text(
+                      "You're about to reset all settings irreversably!",
+                    ),
+                    icon: Icon(
+                      Icons.warning_amber_rounded,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () => context.pop(),
+                        child: Text("Abort"),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.onError,
+                        ),
+                        onPressed: () {
+                          ref.read(settingsProvider.notifier).resetSettings();
+                          context.pop();
+                        },
+                        child: Text("Reset!"),
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
           ],
@@ -228,15 +268,6 @@ class DisplaySettingsScreen extends ConsumerWidget {
               unit: context.tr(
                 "SettingsScreen.NumberAppSetting_CountdownTimer_Unit",
               ),
-            ),
-            ColorAppSetting(
-              value: value.appPrimaryColor,
-              displayText: context.tr(
-                "SettingsScreen.ColorAppSetting_AppPrimaryColor",
-              ),
-              onValueChanged: (updatedValue) => ref
-                  .read(settingsProvider.notifier)
-                  .setAppPrimaryColor(updatedValue),
             ),
             ColorAppSetting(
               value: value.prompterBackgroundColor,
@@ -643,44 +674,28 @@ class _ColorAppSettingState extends State<ColorAppSetting> {
   }
 
   void _showDialog(BuildContext context) {
-    showModalBottomSheet(
+    showDialog(
       context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return SafeArea(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              16.0,
-              16.0,
-              16.0,
-              MediaQuery.of(context).viewInsets.bottom + 16.0,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(widget.displayText, style: TextStyle(fontSize: 18)),
-                ColorPicker(
-                  enableAlpha: false,
-                  hexInputBar: true,
-                  pickerColor: selectedValue,
-                  onColorChanged: (c) => selectedValue = c,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    widget.onValueChanged(selectedValue);
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    context.tr(
-                      "SettingsScreen.NumberAppSetting.ElevatedButton_Save",
-                    ),
-                  ),
-                ),
-              ],
+      builder: (context) => AlertDialog(
+        title: Text(widget.displayText, style: TextStyle(fontSize: 18)),
+        content: ColorPicker(
+          enableAlpha: false,
+          hexInputBar: true,
+          pickerColor: selectedValue,
+          onColorChanged: (c) => selectedValue = c,
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              widget.onValueChanged(selectedValue);
+              Navigator.pop(context);
+            },
+            child: Text(
+              context.tr("SettingsScreen.NumberAppSetting.ElevatedButton_Save"),
             ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 

@@ -138,6 +138,7 @@ class Settings extends _$Settings implements ISettings {
 
   @override
   Future<bool> resetSettings() async {
+    state = AsyncData(SettingsState());
     return await _prefs.clear();
   }
 
