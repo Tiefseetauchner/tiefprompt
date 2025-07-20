@@ -1,0 +1,6 @@
+Diese Version fügt mehr Anpassbarkeit des Programmes und a bissl Fehler Behebung.
+* Verbesserung von Dialogen und IME Eingaben
+* Hinzufügen von vertikalen Abständen (oben und unten) mit optionalem Verlauf
+* Schrift- und Hintergrundfarbe des Prompters kann nun angepasst werden
+* Dark-Mode und das Auswählen der Primärfarbe der App ist nun möglich
+* Erforsche die See mit TiefPrompt! Englisch (Piraten) ist nun unterstützt! Hoch den Anker, setzt die Segeln!
