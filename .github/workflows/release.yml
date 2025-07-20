@@ -98,57 +98,24 @@ jobs:
   build-android:
     name: Build for Android
     runs-on: ubuntu-latest
-    container: tiefseetauchner/tiefprompt-build:latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          path: .
-          submodules: recursive
-          fetch-depth: 0
-        working-directory: /app
+      - uses: actions/checkout@v4
 
-      - name: Decode Keystore
-        run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > /keys/release.keystore
+      - name: build
+        run: ./build.sh
 
-      - name: Create key.properties
-        run: |
-          cat <<EOF > /app/android/key.properties
-          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
-          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
-          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
-          storeFile=/keys/release.keystore
-          EOF
+      - name: package
+        run: ./package.sh
 
-      - name: Set environment
-        run: |
-          echo "package_path=artifacts" >> $GITHUB_ENV
-
-      - name: Prepare Build
-        run: |
-          .flutter/bin/flutter --disable-analytics
-          .flutter/bin/flutter config --no-cli-animations
-          .flutter/bin/flutter doctor
-          .flutter/bin/flutter clean
-          .flutter/bin/flutter pub get
-
-      - name: Build Appbundle
-        run: |
-          .flutter/bin/flutter build appbundle --release
-          cp build/app/outputs/bundle/release/app* "${{ env.package_path }}"
-
-      - name: Build APKs
-        run: |
-          .flutter/bin/flutter build apk --release --split-per-abi
-          cp build/app/outputs/bundle/release/app* "${{ env.package_path }}"
+      - name: copy packages
+        run: cp package/* artifacts/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: tiefprompt-${{ runner.os }}
-          path: ${{ env.package_path }}/*
+          path: artifacts/*
 
   nightly-release:
     if: github.ref == 'refs/heads/main'
