@@ -103,7 +103,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: app
           submodules: recursive
           fetch-depth: 0
 
