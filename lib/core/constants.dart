@@ -20,4 +20,14 @@ const kSupportedLocales = [
   ("English", Locale("en", "US")),
   ("简体中文", Locale("zh", "CN")),
   ("Deutsch", Locale("de", "DE")),
+  ("Pirate English", ExtendedLocale("en", "pirate")),
 ];
+
+class ExtendedLocale extends Locale {
+  const ExtendedLocale(super.languageCode, [super.countryCode]);
+
+  @override
+  String toString() {
+    return super.toString().split("_").join("@");
+  }
+}

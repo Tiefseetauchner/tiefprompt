@@ -70,9 +70,7 @@ class SettingsScreen extends ConsumerWidget {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text(
-                      "You're about to reset all settings irreversably!",
-                    ),
+                    title: Text(context.tr("SettingsScreen.Reset_Warning")),
                     icon: Icon(
                       Icons.warning_amber_rounded,
                       color: Theme.of(context).colorScheme.primary,
@@ -80,7 +78,7 @@ class SettingsScreen extends ConsumerWidget {
                     actions: [
                       ElevatedButton(
                         onPressed: () => context.pop(),
-                        child: Text("Abort"),
+                        child: Text(context.tr("SettingsScreen.Abort")),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -93,7 +91,7 @@ class SettingsScreen extends ConsumerWidget {
                           ref.read(settingsProvider.notifier).resetSettings();
                           context.pop();
                         },
-                        child: Text("Reset!"),
+                        child: Text(context.tr("SettingsScreen.Confirm")),
                       ),
                     ],
                   ),

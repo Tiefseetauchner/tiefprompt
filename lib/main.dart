@@ -26,6 +26,7 @@ void main() async {
         supportedLocales: kSupportedLocales.map((l10n) => l10n.$2).toList(),
         path: 'assets/translations',
         fallbackLocale: Locale('en', 'US'),
+        useFallbackTranslations: true,
         child: TeleprompterApp(),
       ),
     ),
