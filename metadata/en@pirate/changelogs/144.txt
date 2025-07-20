@@ -1,0 +1,6 @@
+Yer asked fer it, yer gettin' it! More customizability an' fixing the ship.
+* Yer modal dialogs shan't be hiding no more an' yer can type in mandarin now!
+* Addin' the ability to configure vertical margins (top an' bottom) with optional fadin'
+* Paint yer ship your colors! Back and foreground can be colored to yer wishes
+* More colors? Sail with stylish dark mode and custom primary colors
+* Sail the seas with tiefprompt! English (pirate) be now supported! 'oist yer anchor ta set to sea!
