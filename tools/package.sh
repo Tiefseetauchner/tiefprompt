@@ -1,7 +1,7 @@
 #!/bin/bash
 
-KEY_STORE="/run/media/veracrypt1/"
 REPO_DIR=$(dirname "$0")/..
+KEY_STORE=$REPO_DIR/keys/
 PACKAGE_DIR=$REPO_DIR/package/
 DOCKER_IMAGE="tiefseetauchner/tiefprompt-build:latest"
 CONTAINER_NAME="tiefprompt_build_container"

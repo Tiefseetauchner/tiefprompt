@@ -27,35 +27,10 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Decode Keystore
-        if: runner.os == 'Linux'
-        run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > /home/runner/work/tiefprompt/tiefprompt/release.keystore
-
-      - name: Create key.properties
-        if: runner.os == 'Linux'
-        run: |
-          cat <<EOF > app/android/key.properties
-          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
-          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
-          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
-          storeFile=/home/runner/work/tiefprompt/tiefprompt/release.keystore
-          EOF
-
       - name: Install dependencies
         run: |
           ./.flutter/bin/flutter doctor
           ./.flutter/bin/flutter pub get
-        working-directory: app
-
-      - name: Build APKs (Android)
-        if: runner.os == 'Linux'
-        run: ./.flutter/bin/flutter build apk --release --split-per-abi
-        working-directory: app
-
-      - name: Build App Bundle (Android)
-        if: runner.os == 'Linux'
-        run: ./.flutter/bin/flutter build appbundle --release
         working-directory: app
 
       - name: Build Linux App
@@ -105,6 +80,22 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keys/release.keystore
+
+      - name: Create key.properties
+        run: |
+          cat <<EOF > app/android/key.properties
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=/keys/release.keystore
+          EOF
+
+      - name: Repo Permissions
+        run: chmod 777 .
 
       - name: package
         run: ./tools/package.sh
