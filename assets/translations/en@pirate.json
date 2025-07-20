@@ -38,7 +38,7 @@
             "Left": "Port",
             "Center": "Ahead",
             "Right": "Starboard",
-            "Justified": ""
+            "Justified": "All over"
         },
         "DropdownAppSetting_DefaultFontFamily": "Yer Text Make",
         "BooleanAppSetting_DefaultFlipX": "Turn around",
