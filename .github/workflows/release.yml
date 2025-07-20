@@ -101,6 +101,57 @@ jobs:
           name: tiefprompt-${{ runner.os }}
           path: artifacts/*
 
+  build-android:
+    name: Build for Android
+    runs-on: ubuntu-latest
+    container:
+      image: tiefseetauchner/tiefprompt:tiefprompt-build
+      volumes:
+        - ${{ github.workspace }}:/app
+      options: >-
+        --workdir /app
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: .
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > /keys/release.keystore
+
+      - name: Create key.properties
+        run: |
+          cat <<EOF > /app/android/key.properties
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=/keys/release.keystore
+          EOF
+
+      - name: Set environment
+        run: |
+          echo "package_path=package" >> $GITHUB_ENV
+
+      - name: Run Build
+        run: |
+          flutter --disable-analytics
+          flutter config --no-cli-animations
+          flutter doctor
+          flutter clean
+          flutter pub get
+          flutter build appbundle --release
+          cp build/app/outputs/bundle/release/app* "${{ env.package_path }}"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tiefprompt-${{ runner.os }}
+          path: ${{ env.package_path }}/*
+
   nightly-release:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
