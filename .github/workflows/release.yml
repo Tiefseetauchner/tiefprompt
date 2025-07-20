@@ -88,7 +88,7 @@ jobs:
 
       - name: Create key.properties
         run: |
-          cat <<EOF > app/android/key.properties
+          cat <<EOF > android/key.properties
           storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
           keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
           keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
@@ -96,7 +96,7 @@ jobs:
           EOF
 
       - name: Repo Permissions
-        run: chmod 777 .
+        run: chmod -R 777 .
 
       - name: package
         run: ./tools/package.sh
