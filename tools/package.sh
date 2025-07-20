@@ -16,6 +16,7 @@ RESET="\e[0m"
 # Ensure package directory exists
 echo -e "${CYAN}Creating package directory: $PACKAGE_DIR${RESET}"
 mkdir -p "$PACKAGE_DIR"
+chmod 777 $PACKAGE_DIR
 rm -rf "$PACKAGE_DIR"/*
 
 # Build the Docker container if it doesn't exist
@@ -30,7 +31,7 @@ docker pull $DOCKER_IMAGE
 echo -e "${YELLOW}Starting build in Docker container...${RESET}"
 docker run --rm \
   -v "$REPO_DIR:/app" \
-  -v "$PACKAGE_DIR:/app/package" \
+  -v "$PACKAGE_DIR:/package" \
   -v "$KEY_STORE:/keys" \
   --name $CONTAINER_NAME \
   $DOCKER_IMAGE

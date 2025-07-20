@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BUILD_DIR="./package"
+BUILD_DIR="/package"
 
 # Define colors
 GREEN="\e[32m"
