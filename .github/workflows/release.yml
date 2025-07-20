@@ -106,6 +106,9 @@ jobs:
         --workdir /app
 
     steps:
+      - name: Set permissions
+        run: chmod 777 /app
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
