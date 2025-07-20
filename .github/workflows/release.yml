@@ -85,12 +85,6 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           mkdir -p artifacts
-          if [ -d app/build/app/outputs/flutter-apk ]; then
-            cp app/build/app/outputs/flutter-apk/*.apk artifacts/
-          fi
-          if [ -d app/build/app/outputs/bundle/release ]; then
-            cp app/build/app/outputs/bundle/release/app-release.aab artifacts/
-          fi
           if [ -d app/build/linux ]; then
             zip -r artifacts/linux.zip app/build/linux/x64/release/bundle/
           fi
@@ -105,7 +99,7 @@ jobs:
     name: Build for Android
     runs-on: ubuntu-latest
     container:
-      image: tiefseetauchner/tiefprompt:tiefprompt-build
+      image: tiefseetauchner/tiefprompt-build:latest
       volumes:
         - ${{ github.workspace }}:/app
       options: >-
@@ -133,16 +127,24 @@ jobs:
 
       - name: Set environment
         run: |
-          echo "package_path=package" >> $GITHUB_ENV
+          echo "package_path=artifacts" >> $GITHUB_ENV
 
-      - name: Run Build
+      - name: Prepare Build
         run: |
-          flutter --disable-analytics
-          flutter config --no-cli-animations
-          flutter doctor
-          flutter clean
-          flutter pub get
-          flutter build appbundle --release
+          .flutter/bin/flutter --disable-analytics
+          .flutter/bin/flutter config --no-cli-animations
+          .flutter/bin/flutter doctor
+          .flutter/bin/flutter clean
+          .flutter/bin/flutter pub get
+
+      - name: Build Appbundle
+        run: |
+          .flutter/bin/flutter build appbundle --release
+          cp build/app/outputs/bundle/release/app* "${{ env.package_path }}"
+
+      - name: Build APKs
+        run: |
+          .flutter/bin/flutter build apk --release --split-per-abi
           cp build/app/outputs/bundle/release/app* "${{ env.package_path }}"
 
       - name: Upload Artifacts
