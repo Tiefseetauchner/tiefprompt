@@ -100,13 +100,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: build
-        run: ./build.sh
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: app
+          submodules: recursive
+          fetch-depth: 0
 
       - name: package
-        run: ./package.sh
+        run: ./tools/package.sh
 
       - name: copy packages
         run: cp package/* artifacts/
