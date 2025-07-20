@@ -3,7 +3,7 @@
 KEY_STORE="/run/media/veracrypt1/"
 REPO_DIR=$(dirname "$0")/..
 PACKAGE_DIR=$REPO_DIR/package/
-DOCKER_IMAGE="tiefseetauchner/tiefprompt:tiefprompt-build"
+DOCKER_IMAGE="tiefseetauchner/tiefprompt-build:latest"
 CONTAINER_NAME="tiefprompt_build_container"
 
 # Define colors
