@@ -13,24 +13,20 @@ RESET="\e[0m"
 echo -e "${CYAN}Building Flutter applications inside container...${RESET}"
 
 # Ensure Flutter dependencies are up-to-date
-.flutter/bin/flutter --disable-analytics
-.flutter/bin/flutter config --no-cli-animations
-.flutter/bin/flutter clean
-.flutter/bin/flutter pub get
+flutter --disable-analytics
+flutter config --no-cli-animations
+flutter doctor
+flutter clean
+flutter pub get
 
 # Build AAB
 echo -e "${YELLOW}Building AAB (Android App Bundle)...${RESET}"
-.flutter/bin/flutter build appbundle --release
+flutter build appbundle --release
 cp build/app/outputs/bundle/release/app* "$BUILD_DIR"
 
 # Build APK
 echo -e "${YELLOW}Building APK...${RESET}"
-.flutter/bin/flutter build apk --release --split-per-abi
+flutter build apk --release --split-per-abi
 cp build/app/outputs/apk/release/app* "$BUILD_DIR"
-
-# Build Linux
-echo -e "${YELLOW}Building Linux application...${RESET}"
-.flutter/bin/flutter build linux --release
-tar -czvf "$BUILD_DIR/tiefprompt_linux.tar.gz" build/linux/x64/release/bundle
 
 echo -e "${GREEN}All builds completed successfully. Packages are available in: $BUILD_DIR${RESET}"

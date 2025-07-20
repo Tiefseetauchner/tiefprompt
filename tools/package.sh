@@ -3,7 +3,7 @@
 KEY_STORE="/run/media/veracrypt1/"
 REPO_DIR=$(dirname "$0")/..
 PACKAGE_DIR=$REPO_DIR/package/
-DOCKER_IMAGE="tiefprompt-build"
+DOCKER_IMAGE="tiefseetauchner/tiefprompt:tiefprompt-build"
 CONTAINER_NAME="tiefprompt_build_container"
 
 # Define colors
@@ -20,9 +20,11 @@ rm -rf "$PACKAGE_DIR"/*
 
 # Build the Docker container if it doesn't exist
 #if ! docker image inspect $DOCKER_IMAGE >/dev/null 2>&1; then
-  echo -e "${YELLOW}Building Docker image...${RESET}"
-  docker build -t $DOCKER_IMAGE -f tools/Dockerfile .
+#   echo -e "${YELLOW}Building Docker image...${RESET}"
+#   docker build -t $DOCKER_IMAGE -f tools/Dockerfile .
 #fi
+
+docker pull $DOCKER_IMAGE
 
 # Run the build script inside Docker
 echo -e "${YELLOW}Starting build in Docker container...${RESET}"

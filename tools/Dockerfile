@@ -11,6 +11,7 @@ RUN apt update && apt install -y \
     && apt clean
 
 RUN useradd -m flutteruser && mkdir -p /home/flutteruser
+RUN mkdir -p /app && chown flutteruser /app && chmod 744 /app
 
 USER flutteruser
 WORKDIR /home/flutteruser
@@ -37,4 +38,4 @@ RUN yes | /home/flutteruser/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=
 
 USER flutteruser
 WORKDIR /app
-CMD ["bash", "/app/tools/build.sh"]
+CMD ["bash", "-c", "./tools/build.sh"]
