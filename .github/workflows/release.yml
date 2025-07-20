@@ -103,7 +103,6 @@ jobs:
 
       - name: copy packages
         run: |
-          chmod -R 777 package
           cp package/* artifacts/
 
       - name: Upload Artifacts
