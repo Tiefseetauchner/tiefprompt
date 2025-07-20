@@ -12,6 +12,8 @@ RESET="\e[0m"
 
 echo -e "${CYAN}Building Flutter applications inside container...${RESET}"
 
+git config --global --add safe.directory /app/.flutter
+
 # Ensure Flutter dependencies are up-to-date
 flutter --disable-analytics
 flutter config --no-cli-animations
