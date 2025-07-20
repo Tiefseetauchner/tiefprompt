@@ -103,6 +103,7 @@ jobs:
 
       - name: copy packages
         run: |
+          mkdir -p artifacts/
           cp package/* artifacts/
 
       - name: Upload Artifacts
