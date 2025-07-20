@@ -104,9 +104,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: /app
+          path: .
           submodules: recursive
           fetch-depth: 0
+        working-directory: /app
 
       - name: Decode Keystore
         run: |
