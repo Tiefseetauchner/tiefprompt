@@ -98,12 +98,7 @@ jobs:
   build-android:
     name: Build for Android
     runs-on: ubuntu-latest
-    container:
-      image: tiefseetauchner/tiefprompt-build:latest
-      volumes:
-        - ${{ github.workspace }}:/app
-      options: >-
-        --workdir /app
+    container: tiefseetauchner/tiefprompt-build:latest
 
     steps:
       - name: Set permissions
