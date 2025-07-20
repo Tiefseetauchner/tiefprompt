@@ -32,10 +32,10 @@ RUN yes | /home/flutteruser/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=
         "platform-tools" \
         "platforms;android-34" \
         "platforms;android-35" \
-        "build-tools;35.0.1" \
+        "build-tools;35.0.0" \
         "cmdline-tools;latest" \
-        "ndk;26.3.11579264" \
-        "cmake;3.31.5"
+        "ndk;27.0.12077973" \
+        "cmake;3.22.1"
 
 USER flutteruser
 WORKDIR /app

@@ -102,7 +102,9 @@ jobs:
         run: ./tools/package.sh
 
       - name: copy packages
-        run: cp package/* artifacts/
+        run: |
+          chmod -R 777 package
+          cp package/* artifacts/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
