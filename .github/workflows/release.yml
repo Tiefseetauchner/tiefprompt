@@ -83,6 +83,7 @@ jobs:
 
       - name: Decode Keystore
         run: |
+          mkdir -p keys
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keys/release.keystore
 
       - name: Create key.properties
