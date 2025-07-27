@@ -1,36 +1,37 @@
 name: Build
 
 on:
-  pull_request:
   push:
     branches:
-      - main
+      - feature/*
+      - bugfix/*
 
 jobs:
-  build-android:
-    name: Build for Android
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: '17'
-    - uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-    - run: flutter pub get
-    - run: flutter build apk --debug
   build-linux:
     name: Build for Linux
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-    - run: |
-        sudo apt-get update -y
-        sudo apt-get install -y ninja-build libgtk-3-dev
-    - run: flutter pub get
-    - run: flutter build linux --debug
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - run: |
+          sudo apt-get update -y
+          sudo apt-get install -y\
+            clang cmake git \
+            ninja-build pkg-config \
+            libgtk-3-dev liblzma-dev \
+            libstdc++-12-dev
+      - run: .flutter/bin/flutter pub get
+      - run: .flutter/bin/flutter build linux --debug
+      - name: Package Linux Artifacts
+        run: |
+          mkdir -p artifacts
+          if [ -d build/linux ]; then
+            zip -r artifacts/linux.zip build/linux/x64/debug/bundle/
+          fi
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tiefprompt-linux
+          path: artifacts/*

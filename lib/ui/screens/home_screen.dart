@@ -32,20 +32,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.didChangeDependencies();
 
     _scriptListener?.close();
-    _scriptListener = ref.listenManual(
-      scriptProvider,
-      (previous, next) {
-        if (previous?.text != next.text &&
-            _controller.text != next.text &&
-            !_controller.value.composing.isValid) {
-          final selection = TextSelection.collapsed(offset: next.text.length);
-          _controller.value = TextEditingValue(
-            text: next.text,
-            selection: selection,
-          );
-        }
-      },
-    );
+    _scriptListener = ref.listenManual(scriptProvider, (previous, next) {
+      if (previous?.text != next.text &&
+          _controller.text != next.text &&
+          !_controller.value.composing.isValid) {
+        final selection = TextSelection.collapsed(offset: next.text.length);
+        _controller.value = TextEditingValue(
+          text: next.text,
+          selection: selection,
+        );
+      }
+    });
   }
 
   @override
@@ -58,17 +55,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     LicenseRegistry.addLicense(() async* {
-      final openDyslexicLicense = await rootBundle
-          .loadString('assets/licenses/openDyslexicLicense.txt');
+      final openDyslexicLicense = await rootBundle.loadString(
+        'assets/licenses/openDyslexicLicense.txt',
+      );
       yield LicenseEntryWithLineBreaks(['OpenDyslexic'], openDyslexicLicense);
-      final robotoLicense =
-          await rootBundle.loadString('assets/licenses/robotoLicense.txt');
+      final robotoLicense = await rootBundle.loadString(
+        'assets/licenses/robotoLicense.txt',
+      );
       yield LicenseEntryWithLineBreaks(['roboto'], robotoLicense);
-      final robotoMonoLicense =
-          await rootBundle.loadString('assets/licenses/robotoMonoLicense.txt');
+      final robotoMonoLicense = await rootBundle.loadString(
+        'assets/licenses/robotoMonoLicense.txt',
+      );
       yield LicenseEntryWithLineBreaks(['roboto mono'], robotoMonoLicense);
-      final robotoSlabLicense =
-          await rootBundle.loadString('assets/licenses/robotoSlabLicense.txt');
+      final robotoSlabLicense = await rootBundle.loadString(
+        'assets/licenses/robotoSlabLicense.txt',
+      );
       yield LicenseEntryWithLineBreaks(['roboto slab'], robotoSlabLicense);
     });
 
@@ -129,45 +130,50 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             isScrollControlled: true,
                             builder: (dialogContext) {
                               return SafeArea(
-                                  child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                  16.0,
-                                  16.0,
-                                  16.0,
-                                  MediaQuery.of(context).viewInsets.bottom +
-                                      16.0,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      context.tr(
-                                          "HomeScreen.BottomSheet.Text_Title"),
-                                    ),
-                                    TextField(
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        hintText: context.tr(
-                                            "HomeScreen.BottomSheet.TextField_hintText"),
-                                      ),
-                                      onChanged: (value) => ref
-                                          .read(scriptProvider.notifier)
-                                          .setTitle(value),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        ScriptService()
-                                            .save(ref.watch(scriptProvider));
-                                        dialogContext.pop();
-                                      },
-                                      child: Text(
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    16.0,
+                                    16.0,
+                                    16.0,
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        16.0,
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
                                         context.tr(
-                                            "HomeScreen.BottomSheet.ElevatedButton_Save"),
+                                          "HomeScreen.BottomSheet.Text_Title",
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: context.tr(
+                                            "HomeScreen.BottomSheet.TextField_hintText",
+                                          ),
+                                        ),
+                                        onChanged: (value) => ref
+                                            .read(scriptProvider.notifier)
+                                            .setTitle(value),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          ScriptService().save(
+                                            ref.watch(scriptProvider),
+                                          );
+                                          dialogContext.pop();
+                                        },
+                                        child: Text(
+                                          context.tr(
+                                            "HomeScreen.BottomSheet.ElevatedButton_Save",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ));
+                              );
                             },
                           );
                         },
@@ -181,8 +187,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 16.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -194,8 +202,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   IconButton(
                     icon: Icon(Icons.code),
                     onPressed: () => _launchUrl(
-                        "https://github.com/tiefseetauchner/tiefprompt"),
+                      "https://github.com/tiefseetauchner/tiefprompt",
+                    ),
                     tooltip: context.tr("HomeScreen.IconButton_SourceCode"),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.crisis_alert),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(),
+                    ),
+                    tooltip: context.tr("HomeScreen.IconButton_FullRelease"),
                   ),
                   FutureBuilder(
                     future: packageInfo,
@@ -217,13 +234,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               spacing: 8,
                               children: [
                                 Text(
-                                    context.tr("AboutDialog.Text_PrivacyText")),
+                                  context.tr("AboutDialog.Text_PrivacyText"),
+                                ),
                                 ElevatedButton(
                                   onPressed: () => _launchUrl(
-                                      "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4"),
+                                    "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4",
+                                  ),
                                   child: Text(
                                     context.tr(
-                                        "AboutDialog.ElevatedButton_Privacy"),
+                                      "AboutDialog.ElevatedButton_Privacy",
+                                    ),
                                   ),
                                 ),
                               ],
