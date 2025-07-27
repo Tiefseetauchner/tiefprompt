@@ -21,6 +21,19 @@
       "ElevatedButton_Save": "Save"
     }
   },
+  "HelpDialog": {
+    "Title": "Help getting TiefPrompt over the finish Line!",
+    "Text": {
+      "Intro": "Hey! I've been hard at work writing TiefPrompt, and with the support of some contributors got relatively far. But we need more help getting TiefPrompt to Version 1.0.\nThat's why I want to ask for your help.",
+      "Translation": "If you speak a language that isn't yet fully supported in TiefPrompt, please do contribute it! There might also be outdated translations, so please check our weblate for those.",
+      "JoinTesterGroup": "We need testers to get TiefPrompt on the Google Play Store. I hate asking for this, but if you could be so kind, join our tester group below and install TiefPrompt via the Play Store.\nThis way, we can get even more users, meaning even more bug reports and feature ideas, which means a better Tiefprompt for everyone.",
+      "Contribute": "If you still want to help: The code is open source and ripe for contribution! I would love you to help add features, clean up or fix bugs if you find them. That way we can expand TiefPrompt to be more sustainable and better now, and into the future.",
+      "Outro": "Thanks if you decided to assist me - it's mostly a one-man show right now, and I'd love to diversify my efforts.\nYou using the app means the world to me, so I truly appreciate you.\n\nLove, Lena"
+    },
+    "Weblate": "Translate TiefPrompt",
+    "TesterGrp": "Join the Tester Group",
+    "Github": "Contribute to the "
+  },
   "SettingsScreen": {
     "title": "Settings",
     "NumberAppSetting": {

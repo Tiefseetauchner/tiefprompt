@@ -210,7 +210,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     icon: Icon(Icons.crisis_alert),
                     onPressed: () => showDialog(
                       context: context,
-                      builder: (context) => AlertDialog(),
+                      builder: (context) => AlertDialog(
+                        actions: [],
+                        title: Text(context.tr("HelpDialog.Title")),
+                        content: SingleChildScrollView(
+                          child: Row(
+                            children: [
+                              Text(context.tr("HelpDialog.Text.Intro")),
+                              Text(context.tr("HelpDialog.Text.Translation")),
+                              ElevatedButton(
+                                onPressed: () => _launchUrl(
+                                  "https://hosted.weblate.org/projects/tiefprompt/",
+                                ),
+                                child: Text(context.tr("HelpDialog.Weblate")),
+                              ),
+                              Text(
+                                context.tr("HelpDialog.Text.JoinTesterGroup"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () => _launchUrl(
+                                  "https://groups.google.com/g/tiefprompt",
+                                ),
+                                child: Text(context.tr("HelpDialog.TesterGrp")),
+                              ),
+                              Text(context.tr("HelpDialog.Text.Contribute")),
+                              ElevatedButton(
+                                onPressed: () => _launchUrl(
+                                  "https://github.com/Tiefseetauchner/tiefprompt",
+                                ),
+                                child: Text(context.tr("HelpDialog.Github")),
+                              ),
+                              Text(context.tr("HelpDialog.Text.Outro")),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                     tooltip: context.tr("HomeScreen.IconButton_FullRelease"),
                   ),
