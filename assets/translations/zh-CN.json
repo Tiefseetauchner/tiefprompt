@@ -1,10 +1,10 @@
 {
     "title": "TiefPrompt 提词器",
     "empty_title": "新的稿子",
-    "copyright": "Lena Tauchner 享有软件的著作权\n\n软件分发协议：MIT License\n",
+    "copyright": "Lena Tauchner 享有软件的著作权\n\n软件分发协议：MIT License\n查看项目附带的LICENSE文档了解更多\n",
     "credits": "感谢以下贡献者提供软件的翻译\n中文翻译： @TaoEngine",
     "AboutDialog": {
-        "Text_PrivacyText": "隐私政策：\n本软件承诺不会向第三方平台传输您的所有数据，不会收集您的个人信息，并且不会分析您的内容个性化喜好\n您在使用本软件前须仔细阅读隐私政策并经过同意才能使用\n详细的隐私政策及变动信息请参考作者的官方网站",
+        "Text_PrivacyText": "隐私政策简要：\n本软件承诺不会向第三方平台传输您的所有数据，不会收集您的个人信息，并且不会分析您的内容个性化喜好；\n您在使用本软件前须仔细阅读隐私政策并经过同意才能使用；\n详细的隐私政策及变动信息请参考作者的官方网站。",
         "ElevatedButton_Privacy": "查看隐私政策"
     },
     "HomeScreen": {
@@ -43,13 +43,28 @@
         "BooleanAppSetting_DefaultFlipX": "默认镜像X轴 - 搭配分光镜使用",
         "BooleanAppSetting_DefaultFlipY": "默认镜像Y轴 - 搭配分光镜使用",
         "BooleanAppSetting_ReadingIndicatorBoxes": "显示助读区",
-        "NumberAppSetting_ReadingIndicatorBoxes": "助读区的默认高度比值",
+        "NumberAppSetting_ReadingIndicatorBoxes": "助读区的默认高度",
         "NumberAppSetting_ReadingIndicatorBoxes_Unit": "百分比 - 按屏幕高度",
         "NumberAppSetting_SideMargin": "文字与屏幕边缘的默认宽度比值",
         "NumberAppSetting_SideMargin_Unit": "百分比 - 按屏幕宽度",
         "NumberAppSetting_CountdownTimer": "提词器启动倒计时的默认时间",
         "NumberAppSetting_CountdownTimer_Unit": "秒",
-        "ListTile_Reset": "重置所有设置"
+        "ListTile_Reset": "重置所有设置",
+        "Reset_Warning": "你晓不晓得点完确认后所有设置将被重置！",
+        "DropdownAppSetting_Theme": "应用主题",
+        "NumberAppSetting_VerticalMarginBoxes_Unit": "百分比 - 按屏幕高度",
+        "ColorAppSetting_AppPrimaryColor": "应用主题色",
+        "ColorAppSetting_PrompterBackgroundColor": "提词器背景颜色",
+        "ColorAppSetting_PrompterTextColor": "提词器文本颜色",
+        "DisplaySettings": "调整提词器的显示",
+        "TextSettings": "调整提词器的文本",
+        "Abort": "点错了",
+        "Confirm": "是的我要这样做",
+        "BooleanAppSetting_VerticalMarginBoxes": "显示文字遮罩",
+        "NumberAppSetting_VerticalMarginBoxes": "文字遮罩的默认高度",
+        "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "为文字遮罩启用渐变",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength": "遮罩渐变的默认高度",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "百分比 - 按屏幕高度"
     },
     "PrompterScreen": {
         "speed": "{} 倍速",
@@ -76,13 +91,16 @@
             "IconButton_FlipY": "镜像Y轴",
             "IconButton_ReadingIndicatorBoxes": "显示助读区",
             "Slider_SideMargin": "与边缘的宽度",
-            "Slider_Countdown": "提词器倒计时"
-        }
+            "Slider_Countdown": "提词器倒计时",
+            "IconButton_VerticalMarginBoxes": "显示文字遮罩",
+            "IconButton_FadeEnabled": "为文字遮罩启用渐变"
+        },
+        "IconButton_Save": "保存提词器的设置"
     },
     "OpenFileScreen": {
         "title": "选择提词",
-        "if_empty": "空空如也，要不存一点？",
-        "ElevatedButton_Select": "打开本机的txt文件作为提词",
+        "if_empty": "空空如也，存点提词试试。",
+        "ElevatedButton_Select": "打开作为提词的文件",
         "ListTile_Delete": "删除（谨慎点）"
     }
 }
