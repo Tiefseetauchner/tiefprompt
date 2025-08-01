@@ -4,4 +4,29 @@
    <FileRef
       location = "group:Runner.xcodeproj">
    </FileRef>
+   <Group
+      location = "group:Pods 2"
+      name = "Pods 2">
+      <FileRef
+         location = "group:Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile.xcconfig">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>
