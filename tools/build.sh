@@ -165,10 +165,16 @@ for target in $TARGETS_LIST;
 do
   verbose_echo "${YELLOW}Processing Target $target...${RESET}"
 
+  if [ $RUN_DEBUG_BUILD ]; then
+    configuration=debug
+  else
+    configuration=release
+  fi
+
   case $target in
     linux)
       target_options=linux
-      target_results=build/linux/x64/release/bundle/
+      target_results=build/linux/x64/$configuration/bundle/
       should_compress=YES
       compress_path="linux.zip"
       ;;
@@ -178,19 +184,19 @@ do
       ;;
     androidaab)
       target_options=appbundle
-      target_results="build/app/outputs/bundle/release/app/*"
+      target_results=build/app/outputs/bundle/$configuration/*
       should_compress=
       compress_path=
       ;;
     androidapk)
-      target_options='apk --split-by-abi'
-      target_results="build/app/outputs/apk/release/app/*"
+      target_options='apk --split-per-abi'
+      target_results="build/app/outputs/apk/$configuration/app*"
       should_compress=
       compress_path=
       ;;
     macos)
       target_options=macos
-      target_results="build/macos/release/bundle/"
+      target_results="build/macos/$configuration/bundle/"
       should_compress=YES
       compress_path="${FULL_BUILD_PATH}/macos.zip"
       error_echo "MacOS is still WIP" 2
@@ -198,7 +204,7 @@ do
       ;;
     iosapp)
       target_options=ios
-      target_results="build/macos/release/bundle/"
+      target_results="build/macos/$configuration/bundle/"
       should_compress=YES
       compress_path="${FULL_BUILD_PATH}/iosapp.zip"
       error_echo "iOS App is still WIP" 2
@@ -206,7 +212,7 @@ do
       ;;
     iosipa)
       target_options=ipa
-      target_results="build/macos/release/bundle/"
+      target_results="build/macos/$configuration/bundle/"
       should_compress=
       compress_path=
       error_echo "iOS IPA is still WIP" 2
@@ -251,10 +257,12 @@ do
   verbose_echo "${CYAN}Packaging Build...${RESET}"
 
   if [ $should_compress ]; then
+    # We need to change dir so the zip has the right structure
     pushd $target_results > /dev/null
     verbose_echo "${CYAN}Compressing build in $target_results to $compress_path${RESET}"
     zip -r "$compress_path" * | more_verbose_echo_stdin "zip"
     zip_status=${PIPESTATUS[0]}
+    # And back again
     popd > /dev/null
     if [ ! $zip_status -eq 0 ]; then
       error_echo "zip exited with status code ${zip_status}." $zip_status
@@ -265,15 +273,13 @@ do
   fi
 
   verbose_echo "${CYAN}Copying $target_results to $BUILD_DIR${RESET}"
-  cp "$target_results" "$FULL_BUILD_PATH" | verbose_echo_stdin "cp"
+  cp $target_results "$FULL_BUILD_PATH" | verbose_echo_stdin "cp"
   cp_status=${PIPESTATUS[0]}
   if [ ! $cp_status -eq 0 ]; then
     error_echo "cp exited with status code ${cp_status}." $cp_status
     RESULT=$cp_status
   fi
 done
-
-set -e
 
 normal_echo "${GREEN}All builds completed successfully. Packages are available in: $BUILD_DIR${RESET}"
 

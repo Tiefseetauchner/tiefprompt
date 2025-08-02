@@ -5,6 +5,7 @@ KEY_STORE=$REPO_DIR/keys/
 PACKAGE_DIR=$REPO_DIR/package/
 DOCKER_IMAGE="tiefseetauchner/tiefprompt-build:latest"
 CONTAINER_NAME="tiefprompt_build_container"
+TARGETS="androidaab,androidapk"
 
 # Define colors
 GREEN="\e[32m"
@@ -16,23 +17,30 @@ RESET="\e[0m"
 # Ensure package directory exists
 echo -e "${CYAN}Creating package directory: $PACKAGE_DIR${RESET}"
 mkdir -p "$PACKAGE_DIR"
+mkdir -p "$PACKAGE_DIR/foss"
+mkdir -p "$PACKAGE_DIR/freemium"
 chmod 777 $PACKAGE_DIR
 rm -rf "$PACKAGE_DIR"/*
 
-# Build the Docker container if it doesn't exist
-#if ! docker image inspect $DOCKER_IMAGE >/dev/null 2>&1; then
-#   echo -e "${YELLOW}Building Docker image...${RESET}"
-#   docker build -t $DOCKER_IMAGE -f tools/Dockerfile .
-#fi
-
 docker pull $DOCKER_IMAGE
 
-# Run the build script inside Docker
-echo -e "${YELLOW}Starting build in Docker container...${RESET}"
+echo -e "${YELLOW}Starting build for foss in Docker container...${RESET}"
 docker run --rm \
   -v "$REPO_DIR:/app" \
-  -v "$PACKAGE_DIR:/package" \
+  -v "$PACKAGE_DIR/foss:/package" \
   -v "$KEY_STORE:/keys" \
+  -e TARGETS=$TARGETS\
+  -e FREEDOM=foss\
+  --name $CONTAINER_NAME \
+  $DOCKER_IMAGE
+
+echo -e "${YELLOW}Starting build for foss in Docker container...${RESET}"
+docker run --rm \
+  -v "$REPO_DIR:/app" \
+  -v "$PACKAGE_DIR/freemium:/package" \
+  -v "$KEY_STORE:/keys" \
+  -e TARGETS=$TARGETS\
+  -e FREEDOM=freemium\
   --name $CONTAINER_NAME \
   $DOCKER_IMAGE
 
