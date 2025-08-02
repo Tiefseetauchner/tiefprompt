@@ -71,10 +71,4 @@ android {
 
 flutter {
     source = "../.."
-    target 'lib/main_android_foss.dart'
-}
-
-productFlavors {
-    foss { dimension "app"; flutter.target "lib/android_foss_main.dart" }
-    gplay { dimension "app"; flutter.target "lib/android_freemium_main.dart" }
 }

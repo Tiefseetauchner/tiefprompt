@@ -495,7 +495,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = RJD48MM8G9;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = lib/ios_main.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TiefPrompt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -680,7 +679,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = RJD48MM8G9;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = lib/ios_main.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TiefPrompt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -705,7 +703,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = RJD48MM8G9;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = lib/ios_main.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TiefPrompt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
