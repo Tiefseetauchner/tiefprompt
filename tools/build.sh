@@ -143,7 +143,7 @@ normal_echo "${CYAN}Building Flutter applications...${RESET}"
 
 if [ ! $SKIP_FLUTTER_SETUP ]; then
   verbose_echo "${CYAN}Setting .flutter to be a safe git directory${RESET}"
-  git config --global --add safe.directory .flutter
+  git config --global --add safe.directory $(pwd)/.flutter
   verbose_echo "${CYAN}Disabling flutter analytics...${RESET}"
   .flutter/bin/flutter --disable-analytics | more_verbose_echo_stdin "flutter"
   verbose_echo "${CYAN}Disabling flutter cli animations...${RESET}"
@@ -196,27 +196,21 @@ do
       ;;
     macos)
       target_options=macos
-      target_results="build/macos/$configuration/bundle/"
+      target_results="build/macos/Build/Products/$configuration"
       should_compress=YES
-      compress_path="${FULL_BUILD_PATH}/macos.zip"
-      error_echo "MacOS is still WIP" 2
-      continue
+      compress_path="macos.zip"
       ;;
     iosapp)
       target_options=ios
-      target_results="build/macos/$configuration/bundle/"
+      target_results="build/ios/$configuration-iphoneos/*"
       should_compress=YES
-      compress_path="${FULL_BUILD_PATH}/iosapp.zip"
-      error_echo "iOS App is still WIP" 2
-      continue
+      compress_path="iosapp.zip"
       ;;
     iosipa)
       target_options=ipa
-      target_results="build/macos/$configuration/bundle/"
+      target_results="build/ios/ipa/*.ipa"
       should_compress=
       compress_path=
-      error_echo "iOS IPA is still WIP" 2
-      continue
       ;;
     *)
       error_echo "Target $target could not be identified. See -h for valid targets." 1
