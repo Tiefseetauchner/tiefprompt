@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +37,9 @@ Future<void> main() async {
         platformName = "linux";
       } else if (Platform.isMacOS) {
         platformName = "macos";
+      } else if (Platform.isIOS) {
+        final deviceInfo = await DeviceInfoPlugin().iosInfo;
+        platformName = "ios${deviceInfo.modelName}";
       } else if (Platform.isWindows) {
         platformName = "windows";
       } else {

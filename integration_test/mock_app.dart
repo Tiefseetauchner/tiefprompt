@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/services/script_service.dart';
@@ -21,6 +22,8 @@ class MockApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final supportedLocales = kSupportedLocales.map((l10n) => l10n.$2).toList();
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return ProviderScope(
       overrides: [
