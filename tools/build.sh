@@ -1,34 +1,280 @@
 #!/bin/bash
 set -e
 
-BUILD_DIR="/package"
-
-# Define colors
 GREEN="\e[32m"
 RED="\e[31m"
 YELLOW="\e[33m"
 CYAN="\e[36m"
 RESET="\e[0m"
 
-echo -e "${CYAN}Building Flutter applications inside container...${RESET}"
+info() {
+  echo -e "${GREEN}Build TiefPrompt packages.${RESET}"
 
-git config --global --add safe.directory /app/.flutter
+  usage
+}
 
-# Ensure Flutter dependencies are up-to-date
-flutter --disable-analytics
-flutter config --no-cli-animations
-flutter doctor
-flutter clean
-flutter pub get
+usage() {
+  echo -e "${YELLOW}usage: build.sh [options]${RESET}
 
-# Build AAB
-echo -e "${YELLOW}Building AAB (Android App Bundle)...${RESET}"
-flutter build appbundle --release
-cp build/app/outputs/bundle/release/app* "$BUILD_DIR"
+${GREEN}-t target   ${RESET}Comma seperated list of targets to build. Options:
+            linux,windows,androidaab,androidapk,macos,iosapp,iosipa
+            (i) Can be set via environment variable 'TARGETS'
+            ${RED}(!) Required${RESET}
+${GREEN}-f freedom  ${RESET}Freedom level to apply to Application. Options:
+            freemium,foss
+            (i) Can be set via environment variable 'FREEDOM'
+            ${RED}(!) Required${RESET}
+${GREEN}-b dir      ${RESET}Build directory to place packages in.
+            Default: /package
+            (i) Unix path - not interpreted relatively!
+            (i) Can be set via environment variable 'BUILD_DIR'
+${GREEN}-s          ${RESET}Skip Flutter preperation.
+${GREEN}-d          ${RESET}Run debug build.
+${GREEN}-c          ${RESET}Continue on fail.
+${GREEN}-q          ${RESET}Make script quiet.
+${GREEN}-v          ${RESET}Make script verbose.
+${GREEN}-V          ${RESET}Make script extremely verbose (careful here!).
+${GREEN}-h          ${RESET}Show this help."
+}
 
-# Build APK
-echo -e "${YELLOW}Building APK...${RESET}"
-flutter build apk --release --split-per-abi
-cp build/app/outputs/apk/release/app* "$BUILD_DIR"
+error_echo() {
+  echo -e "${RED}ERROR: $1$RESET"
+  if [ $CONTINUE_ON_FAIL ]; then
+    echo "${RED}Continuing...$RESET"
+  else
+    exit $2
+  fi
+}
 
-echo -e "${GREEN}All builds completed successfully. Packages are available in: $BUILD_DIR${RESET}"
+normal_echo() {
+  if [ ! $QUIET ]; then
+    echo -e $1
+  fi
+}
+
+normal_echo_stdin() {
+  program_name="$1"
+  while IFS= read -r line; do
+    normal_echo "$GREEN$program_name:$RESET $line"
+  done
+}
+
+verbose_echo() {
+  if [ $VERBOSE ] || [ $MORE_VERBOSE ]; then
+    echo -e $1
+  fi
+}
+
+verbose_echo_stdin() {
+  program_name="$1"
+  while IFS= read -r line; do
+    verbose_echo "$GREEN$program_name:$RESET $line"
+  done
+}
+
+more_verbose_echo() {
+  if [ $MORE_VERBOSE ]; then
+    echo -e $1
+  fi
+}
+
+more_verbose_echo_stdin() {
+  program_name="$1"
+  while IFS= read -r line; do
+    more_verbose_echo "$GREEN$program_name:$RESET $line"
+  done
+}
+
+BUILD_DIR="/package"
+unset -v QUIET
+unset -v VERBOSE
+unset -v MORE_VERBOSE
+
+while getopts "t:f:b:hvVcds" opt; do
+  case $opt in
+    t)
+      TARGETS=$OPTARG
+      ;;
+    f)
+      FREEDOM=$OPTARG
+      ;;
+    b)
+      BUILD_DIR=$OPTARG
+      ;;
+    q)
+      QUIET=YES
+      ;;
+    v)
+      VERBOSE=YES
+      ;;
+    V)
+      MORE_VERBOSE=YES
+      ;;
+    c)
+      CONTINUE_ON_FAIL=YES
+      ;;
+    d)
+      RUN_DEBUG_BUILD=YES
+      ;;
+    s)
+      SKIP_FLUTTER_SETUP=YES
+      ;;
+    h)
+      info
+      exit 0
+      ;;
+    \?)
+      echo "Use -h for help"
+      exit 1
+      ;;
+  esac
+done
+
+if [ ! $TARGETS ] || [ ! $FREEDOM ]; then
+  error_echo "-t (targets) and -f (freedom) must be set to run this script." 1
+  exit 1
+fi
+
+TARGETS_LIST=$(echo "$TARGETS" | tr ',' ' ')
+
+FULL_BUILD_PATH=$(dirname $0)/../$BUILD_DIR
+
+normal_echo "${CYAN}Building Flutter applications...${RESET}"
+
+if [ ! $SKIP_FLUTTER_SETUP ]; then
+  verbose_echo "${CYAN}Setting .flutter to be a safe git directory${RESET}"
+  git config --global --add safe.directory .flutter
+  verbose_echo "${CYAN}Disabling flutter analytics...${RESET}"
+  .flutter/bin/flutter --disable-analytics | more_verbose_echo_stdin "flutter"
+  verbose_echo "${CYAN}Disabling flutter cli animations...${RESET}"
+  .flutter/bin/flutter config --no-cli-animations | more_verbose_echo_stdin "flutter"
+  verbose_echo "${CYAN}Checking and preparing flutter...${RESET}"
+  .flutter/bin/flutter doctor | more_verbose_echo_stdin "flutter"
+  verbose_echo "${CYAN}Cleaning with flutter...${RESET}"
+  .flutter/bin/flutter clean | more_verbose_echo_stdin "flutter"
+  verbose_echo "${CYAN}Getting flutter packages...${RESET}"
+  .flutter/bin/flutter pub get | more_verbose_echo_stdin "flutter"
+fi
+
+RESULT=0
+if [ $CONTINUE_ON_FAIL ]; then
+  unset -e
+fi
+
+for target in $TARGETS_LIST;
+do
+  verbose_echo "${YELLOW}Processing Target $target...${RESET}"
+
+  case $target in
+    linux)
+      target_options=linux
+      target_results=build/linux/x64/release/bundle/
+      should_compress=YES
+      compress_path="linux.zip"
+      ;;
+    windows)
+      error_echo "Windows build is not supported on non-windows machines. Please use \`build.ps1\` on Windows for a windows build." 1
+      continue
+      ;;
+    androidaab)
+      target_options=appbundle
+      target_results="build/app/outputs/bundle/release/app/*"
+      should_compress=
+      compress_path=
+      ;;
+    androidapk)
+      target_options='apk --split-by-abi'
+      target_results="build/app/outputs/apk/release/app/*"
+      should_compress=
+      compress_path=
+      ;;
+    macos)
+      target_options=macos
+      target_results="build/macos/release/bundle/"
+      should_compress=YES
+      compress_path="${FULL_BUILD_PATH}/macos.zip"
+      error_echo "MacOS is still WIP" 2
+      continue
+      ;;
+    iosapp)
+      target_options=ios
+      target_results="build/macos/release/bundle/"
+      should_compress=YES
+      compress_path="${FULL_BUILD_PATH}/iosapp.zip"
+      error_echo "iOS App is still WIP" 2
+      continue
+      ;;
+    iosipa)
+      target_options=ipa
+      target_results="build/macos/release/bundle/"
+      should_compress=
+      compress_path=
+      error_echo "iOS IPA is still WIP" 2
+      continue
+      ;;
+    *)
+      error_echo "Target $target could not be identified. See -h for valid targets." 1
+      continue
+      ;;
+  esac
+
+  if [ $RUN_DEBUG_BUILD ]; then
+    target_options+=' --debug'
+  else
+    target_options+=' --release'
+  fi
+
+  case $FREEDOM in
+    freemium)
+      target_options+=' -t lib/main_freemium.dart'
+      ;;
+    foss)
+      target_options+=' -t lib/main_foss.dart'
+      ;;
+    *)
+      error_echo "Freedom option $FREEDOM could not be identified. See -h for valid freedom options." 1
+      continue
+      ;;
+  esac
+
+  more_verbose_echo "${CYAN}Building with target options: '$target_options'${RESET}"
+
+  normal_echo "${GREEN}Building for target $target and freedom $FREEDOM...${RESET}"
+  .flutter/bin/flutter build $target_options | verbose_echo_stdin "flutter"
+  flutter_status=${PIPESTATUS[0]}
+  if [ ! $flutter_status -eq 0 ]; then
+    error_echo "Flutter exited with status code ${flutter_status}." $flutter_status
+    RESULT=$flutter_status
+  fi
+
+  more_verbose_echo "${CYAN}Finished building for target $target${RESET}"
+  verbose_echo "${CYAN}Packaging Build...${RESET}"
+
+  if [ $should_compress ]; then
+    pushd $target_results > /dev/null
+    verbose_echo "${CYAN}Compressing build in $target_results to $compress_path${RESET}"
+    zip -r "$compress_path" * | more_verbose_echo_stdin "zip"
+    zip_status=${PIPESTATUS[0]}
+    popd > /dev/null
+    if [ ! $zip_status -eq 0 ]; then
+      error_echo "zip exited with status code ${zip_status}." $zip_status
+      RESULT=$zip_status
+    fi
+
+    target_results=$target_results/$compress_path
+  fi
+
+  verbose_echo "${CYAN}Copying $target_results to $BUILD_DIR${RESET}"
+  cp "$target_results" "$FULL_BUILD_PATH" | verbose_echo_stdin "cp"
+  cp_status=${PIPESTATUS[0]}
+  if [ ! $cp_status -eq 0 ]; then
+    error_echo "cp exited with status code ${cp_status}." $cp_status
+    RESULT=$cp_status
+  fi
+done
+
+set -e
+
+normal_echo "${GREEN}All builds completed successfully. Packages are available in: $BUILD_DIR${RESET}"
+
+exit $RESULT

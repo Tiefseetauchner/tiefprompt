@@ -3,10 +3,7 @@ import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
-import 'package:tiefprompt/providers/combining_provider.dart';
-import 'package:tiefprompt/providers/router_provider.dart';
-import 'package:tiefprompt/providers/settings_provider.dart';
-import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/teleprompter_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
