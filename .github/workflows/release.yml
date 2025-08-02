@@ -5,6 +5,7 @@ on:
     tags:
       - "v*"
     branches:
+      - feature/freemium
       - main
 
 permissions:
