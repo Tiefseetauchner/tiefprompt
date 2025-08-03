@@ -85,6 +85,23 @@ more_verbose_echo_stdin() {
   done
 }
 
+compress_directory() {
+  output="$1"
+  shift
+  inputs=("$@")
+
+  if command -v 7z &>/dev/null; then
+    7z a "$output" "${inputs[@]}" | more_verbose_echo_stdin "7z"
+    return ${PIPESTATUS[0]}
+  elif command -v zip &>/dev/null; then
+    zip -r "$output" "${inputs[@]}" | more_verbose_echo_stdin "zip"
+    return ${PIPESTATUS[0]}
+  else
+    error_echo "No suitable compression tool (7z or zip) found."
+    return 127
+  fi
+}
+
 BUILD_DIR="/package"
 unset -v QUIET
 unset -v VERBOSE
@@ -256,12 +273,12 @@ do
     # We need to change dir so the zip has the right structure
     pushd $target_results > /dev/null
     verbose_echo "${CYAN}Compressing build in $target_results to $compress_path${RESET}"
-    zip -r "$compress_path" * | more_verbose_echo_stdin "zip"
-    zip_status=${PIPESTATUS[0]}
+    compress_directory "$compress_path" *
+    zip_status=$?
     # And back again
     popd > /dev/null
     if [ ! $zip_status -eq 0 ]; then
-      error_echo "zip exited with status code ${zip_status}." $zip_status
+      error_echo "compression failed with exited with status code ${zip_status}." $zip_status
       RESULT=$zip_status
     fi
 
