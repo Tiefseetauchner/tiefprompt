@@ -1,12 +1,17 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tiefprompt/providers/disabled_features.dart';
+import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/providers/app_features.dart';
 
 part 'feature_provider.g.dart';
 
 @riverpod
 class Features extends _$Features {
   @override
-  DisabledFeatures build() {
-    return DisabledFeatures([]);
+  AppFeatures build() {
+    return AppFeatures([], FeatureKind.unverifiedBuild, null);
+  }
+
+  Future<void> bootstrap() {
+    throw UnimplementedError('bootstrap must be implemented in subclasses');
   }
 }

@@ -154,8 +154,6 @@ fi
 
 TARGETS_LIST=$(echo "$TARGETS" | tr ',' ' ')
 
-FULL_BUILD_PATH=$(dirname $0)/../$BUILD_DIR
-
 normal_echo "${CYAN}Building Flutter applications...${RESET}"
 
 if [ ! $SKIP_FLUTTER_SETUP ]; then
@@ -286,7 +284,8 @@ do
   fi
 
   verbose_echo "${CYAN}Copying $target_results to $BUILD_DIR${RESET}"
-  cp $target_results "$FULL_BUILD_PATH" | verbose_echo_stdin "cp"
+  mkdir -p "$BUILD_DIR/$FREEDOM" | verbose_echo_stdin "mkdir"
+  cp $target_results "$BUILD_DIR/$FREEDOM" | verbose_echo_stdin "cp"
   cp_status=${PIPESTATUS[0]}
   if [ ! $cp_status -eq 0 ]; then
     error_echo "cp exited with status code ${cp_status}." $cp_status

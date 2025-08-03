@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
+import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/router_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
@@ -19,20 +16,11 @@ class TeleprompterApp extends ConsumerStatefulWidget {
 }
 
 class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
-
   @override
   void initState() {
-    final purchaseUpdated = InAppPurchase.instance.purchaseStream;
-
-    _subscription = purchaseUpdated.listen(
-      (purchaseDetailsList) async {
-        (await SharedPreferences.getInstance()).setBool();
-      },
-      onDone: () {
-        _subscription.cancel();
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(featuresProvider.notifier).bootstrap();
+    });
 
     super.initState();
   }
@@ -89,12 +77,5 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         ),
       ),
     };
-  }
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-
-    super.dispose();
   }
 }

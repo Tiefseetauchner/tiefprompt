@@ -19,7 +19,10 @@
       "Text_Title": "'member speech",
       "TextField_hintText": "Giv'er a name",
       "ElevatedButton_Save": "'member"
-    }
+    },
+    "UnverifiedBuild": "Pirated Build",
+    "UnverifiedBuild_Explanation": "Yer build be pirated! Yer may have issues or bugs. Use at yer own risk. But yer can venture a verified version by usin' main_foss.dart as yer entry point!",
+    "Understood": "Aye!"
   },
   "SettingsScreen": {
     "title": "Settin's",
@@ -64,7 +67,8 @@
     "ListTile_Reset": "Scuttle ship",
     "Reset_Warning": "Yer 'bout'a scuttle all preferences!",
     "Abort": "Nay",
-    "Confirm": "Aye"
+    "Confirm": "Aye",
+    "ProFeatureDisabled": "Yer may needa pay up ter use this!"
   },
   "PrompterScreen": {
     "speed": "{} knots",

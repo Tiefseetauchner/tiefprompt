@@ -5,6 +5,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -20,6 +21,7 @@ class SettingsScreen extends ConsumerWidget {
         body: ListView(
           children: [
             DropdownAppSetting<Locale>(
+              feature: Feature.appLanguage,
               value: context.locale,
               displayText: context.tr(
                 "SettingsScreen.DropdownAppSetting_DefaultLanguage",
@@ -38,6 +40,7 @@ class SettingsScreen extends ConsumerWidget {
               value: "text",
             ),
             DropdownAppSetting<ThemeMode>(
+              feature: Feature.appTheme,
               value: value.themeMode,
               displayText: context.tr(
                 "SettingsScreen.DropdownAppSetting_Theme",
@@ -55,6 +58,7 @@ class SettingsScreen extends ConsumerWidget {
                   .toList(),
             ),
             ColorAppSetting(
+              feature: Feature.primaryAppColor,
               value: value.appPrimaryColor,
               displayText: context.tr(
                 "SettingsScreen.ColorAppSetting_AppPrimaryColor",
@@ -134,6 +138,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
         body: ListView(
           children: [
             NumberAppSetting(
+              feature: Feature.scrollSpeed,
               value: value.scrollSpeed,
               displayText: context.tr(
                 "SettingsScreen.NumberAppSetting_DefaultScrollSpeed",
@@ -149,6 +154,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
               ),
             ),
             BooleanAppSetting(
+              feature: Feature.flipX,
               value: value.mirroredX,
               displayText: context.tr(
                 "SettingsScreen.BooleanAppSetting_DefaultFlipX",
@@ -158,6 +164,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   .setMirroredX(updatedValue),
             ),
             BooleanAppSetting(
+              feature: Feature.flipY,
               value: value.mirroredY,
               displayText: context.tr(
                 "SettingsScreen.BooleanAppSetting_DefaultFlipY",
@@ -167,6 +174,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   .setMirroredY(updatedValue),
             ),
             BooleanAppSetting(
+              feature: Feature.readingIndicatorBoxes,
               value: value.displayReadingIndicatorBoxes,
               displayText: context.tr(
                 "SettingsScreen.BooleanAppSetting_ReadingIndicatorBoxes",
@@ -176,6 +184,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   .setDisplayReadingIndicatorBoxes(updatedValue),
             ),
             NumberAppSetting(
+              feature: Feature.readingIndicatorBoxes,
               value: value.readingIndicatorBoxesHeight,
               displayText: context.tr(
                 "SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes",
@@ -191,6 +200,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
               ),
             ),
             BooleanAppSetting(
+              feature: Feature.verticalMargins,
               value: value.displayVerticalMarginBoxes,
               displayText: context.tr(
                 "SettingsScreen.BooleanAppSetting_VerticalMarginBoxes",
@@ -200,6 +210,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   .setDisplayVerticalMarginBoxes(updatedValue),
             ),
             NumberAppSetting(
+              feature: Feature.verticalMargins,
               value: value.verticalMarginBoxesHeight,
               displayText: context.tr(
                 "SettingsScreen.NumberAppSetting_VerticalMarginBoxes",
@@ -215,6 +226,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
               ),
             ),
             BooleanAppSetting(
+              feature: Feature.verticalMarginFade,
               value: value.verticalMarginBoxesFadeEnabled,
               displayText: context.tr(
                 "SettingsScreen.BooleanAppSetting_VerticalMarginBoxes_FadeEnabled",
@@ -224,6 +236,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   .setVerticalMarginBoxesFadeEnabled(updatedValue),
             ),
             NumberAppSetting(
+              feature: Feature.verticalMarginFade,
               value: value.verticalMarginBoxesFadeLength,
               displayText: context.tr(
                 "SettingsScreen.NumberAppSetting_VerticalMarginBoxes_FadeLength",
@@ -239,6 +252,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
               ),
             ),
             NumberAppSetting(
+              feature: Feature.sideMargins,
               value: value.sideMargin,
               displayText: context.tr(
                 "SettingsScreen.NumberAppSetting_SideMargin",
@@ -253,6 +267,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
               ),
             ),
             NumberAppSetting(
+              feature: Feature.countdownTimer,
               value: value.countdownDuration,
               displayText: context.tr(
                 "SettingsScreen.NumberAppSetting_CountdownTimer",
@@ -268,6 +283,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
               ),
             ),
             ColorAppSetting(
+              feature: Feature.prompterBackgroundColor,
               value: value.prompterBackgroundColor,
               displayText: context.tr(
                 "SettingsScreen.ColorAppSetting_PrompterBackgroundColor",
@@ -277,6 +293,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   .setPrompterBackgroundColor(updatedValue),
             ),
             ColorAppSetting(
+              feature: Feature.prompterTextColor,
               value: value.prompterTextColor,
               displayText: context.tr(
                 "SettingsScreen.ColorAppSetting_PrompterTextColor",
@@ -319,6 +336,7 @@ class TextSettingsScreen extends ConsumerWidget {
         body: ListView(
           children: [
             NumberAppSetting(
+              feature: Feature.fontSize,
               value: value.fontSize,
               displayText: context.tr(
                 "SettingsScreen.NumberAppSetting_DefaultFontSize",
@@ -332,6 +350,7 @@ class TextSettingsScreen extends ConsumerWidget {
               ),
             ),
             DropdownAppSetting<TextAlign>(
+              feature: Feature.textAlignment,
               value: value.alignment,
               displayText: context.tr(
                 "SettingsScreen.DropdownAppSetting_DefaultTextAlignment",
@@ -367,6 +386,7 @@ class TextSettingsScreen extends ConsumerWidget {
               ],
             ),
             DropdownAppSetting<String>(
+              feature: Feature.fontFamily,
               value: value.fontFamily,
               displayText: context.tr(
                 "SettingsScreen.DropdownAppSetting_DefaultFontFamily",
@@ -397,22 +417,99 @@ class TextSettingsScreen extends ConsumerWidget {
   }
 }
 
-class DropdownAppSetting<T> extends StatelessWidget {
-  final T value;
+abstract class AppSetting extends ConsumerWidget {
+  final Feature feature;
   final String displayText;
+
+  const AppSetting({
+    super.key,
+    required this.feature,
+    required this.displayText,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!_isEnabled(ref)) {
+      return _buildIfDisabled(context, ref);
+    }
+
+    return buildSetting(context, ref);
+  }
+
+  bool _isEnabled(WidgetRef ref) {
+    return ref.watch(
+      featuresProvider.select((s) => s.features.contains(feature)),
+    );
+  }
+
+  // TODO: Show buy box when clicked
+  Widget _buildIfDisabled(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      title: Text(displayText),
+      subtitle: Text(context.tr("SettingsScreen.ProFeatureDisabled")),
+      enabled: false,
+    );
+  }
+
+  Widget buildSetting(BuildContext context, WidgetRef ref);
+}
+
+abstract class StatefulAppSetting extends ConsumerStatefulWidget {
+  final Feature feature;
+  final String displayText;
+
+  const StatefulAppSetting({
+    super.key,
+    required this.feature,
+    required this.displayText,
+  });
+}
+
+abstract class StatefulAppSettingState<T extends StatefulAppSetting>
+    extends ConsumerState<T> {
+  @override
+  Widget build(BuildContext context) {
+    if (!_isEnabled()) {
+      return _buildIfDisabled(context);
+    }
+
+    return buildSetting(context);
+  }
+
+  bool _isEnabled() {
+    return ref.watch(
+      featuresProvider.select((s) => s.features.contains(widget.feature)),
+    );
+  }
+
+  // TODO: Show buy box when clicked
+  Widget _buildIfDisabled(BuildContext context) {
+    return ListTile(
+      title: Text(widget.displayText),
+      subtitle: Text(context.tr("SettingsScreen.ProFeatureDisabled")),
+      enabled: false,
+    );
+  }
+
+  Widget buildSetting(BuildContext context);
+}
+
+class DropdownAppSetting<T> extends AppSetting {
+  final T value;
   final Function(T) onValueChanged;
   final List<(String, T)> values;
 
   const DropdownAppSetting({
     super.key,
+    required super.feature,
+    required super.displayText,
     required this.value,
-    required this.displayText,
     required this.onValueChanged,
     required this.values,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
       trailing: DropdownButton<T>(
@@ -430,20 +527,20 @@ class DropdownAppSetting<T> extends StatelessWidget {
   }
 }
 
-class BooleanAppSetting extends StatelessWidget {
+class BooleanAppSetting extends AppSetting {
+  final bool value;
+  final Function(bool) onValueChanged;
+
   const BooleanAppSetting({
     super.key,
+    required super.feature,
+    required super.displayText,
     required this.value,
-    required this.displayText,
     required this.onValueChanged,
   });
 
-  final bool value;
-  final String displayText;
-  final Function(bool) onValueChanged;
-
   @override
-  Widget build(BuildContext context) {
+  Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
       trailing: Switch(value: value, onChanged: onValueChanged),
@@ -452,18 +549,18 @@ class BooleanAppSetting extends StatelessWidget {
   }
 }
 
-class LinkAppSetting extends StatelessWidget {
+class LinkAppSetting extends ConsumerWidget {
   const LinkAppSetting({
     super.key,
     required this.displayText,
     required this.value,
   });
 
-  final String displayText;
   final String value;
+  final String displayText;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
       onTap: () => context.push("/settings/$value"),
@@ -471,11 +568,12 @@ class LinkAppSetting extends StatelessWidget {
   }
 }
 
-class NumberAppSetting extends StatefulWidget {
+class NumberAppSetting extends StatefulAppSetting {
   const NumberAppSetting({
     super.key,
+    required super.feature,
+    required super.displayText,
     required this.value,
-    required this.displayText,
     required this.onValueChanged,
     required this.min,
     required this.max,
@@ -484,7 +582,6 @@ class NumberAppSetting extends StatefulWidget {
   });
 
   final double value;
-  final String displayText;
   final Function(double) onValueChanged;
   final double min;
   final double max;
@@ -492,10 +589,11 @@ class NumberAppSetting extends StatefulWidget {
   final String? unit;
 
   @override
-  State<NumberAppSetting> createState() => _NumberAppSettingState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _NumberAppSettingState();
 }
 
-class _NumberAppSettingState extends State<NumberAppSetting> {
+class _NumberAppSettingState extends StatefulAppSettingState<NumberAppSetting> {
   double selectedValue = 0;
 
   @override
@@ -554,7 +652,7 @@ class _NumberAppSettingState extends State<NumberAppSetting> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildSetting(BuildContext context) {
     return ListTile(
       title: Text(widget.displayText),
       trailing: Icon(Icons.chevron_right),
@@ -645,23 +743,23 @@ class _DecimalPickerState extends State<DecimalPicker> {
   }
 }
 
-class ColorAppSetting extends StatefulWidget {
+class ColorAppSetting extends StatefulAppSetting {
   const ColorAppSetting({
     super.key,
+    required super.feature,
+    required super.displayText,
     required this.value,
-    required this.displayText,
     required this.onValueChanged,
   });
 
   final Color value;
-  final String displayText;
   final Function(Color) onValueChanged;
 
   @override
-  State<ColorAppSetting> createState() => _ColorAppSettingState();
+  ConsumerState<StatefulAppSetting> createState() => _ColorAppSettingState();
 }
 
-class _ColorAppSettingState extends State<ColorAppSetting> {
+class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
   Color selectedValue = Colors.black;
 
   @override
@@ -698,7 +796,7 @@ class _ColorAppSettingState extends State<ColorAppSetting> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildSetting(BuildContext context) {
     return ListTile(
       title: Text(widget.displayText),
       trailing: Icon(Icons.chevron_right),
