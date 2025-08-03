@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'settings_provider.dart';
+part of 'feature_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$settingsHash() => r'6d2bb2b6f04888dad3f380ff1e9690a5c2688baa';
+String _$featuresHash() => r'28e1ac317f40c111f1748d5fcd15843d088a7e3d';
 
-/// See also [Settings].
-@ProviderFor(Settings)
-final settingsProvider =
-    AsyncNotifierProvider<Settings, SettingsState>.internal(
-      Settings.new,
-      name: r'settingsProvider',
+/// See also [Features].
+@ProviderFor(Features)
+final featuresProvider =
+    AutoDisposeNotifierProvider<Features, DisabledFeatures>.internal(
+      Features.new,
+      name: r'featuresProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$settingsHash,
-      dependencies: const <ProviderOrFamily>[],
-      allTransitiveDependencies: const <ProviderOrFamily>{},
+          : _$featuresHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
     );
 
-typedef _$Settings = AsyncNotifier<SettingsState>;
+typedef _$Features = AutoDisposeNotifier<DisabledFeatures>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

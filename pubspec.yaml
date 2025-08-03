@@ -46,6 +46,7 @@ dependencies:
   easy_localization: ^3.0.7+1
   package_info_plus: ^8.3.0
   flutter_colorpicker: ^1.1.0
+  in_app_purchase: ^3.2.3
   
 
 dev_dependencies:

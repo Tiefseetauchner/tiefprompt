@@ -31,3 +31,5 @@ class ExtendedLocale extends Locale {
     return super.toString().split("_").join("@");
   }
 }
+
+enum Feature { verticalMargin, verticalMarginFade }
