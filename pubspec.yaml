@@ -63,6 +63,7 @@ dev_dependencies:
   riverpod_lint: ^2.6.4
   flutter_launcher_icons: ^0.14.3
   drift_dev: ^2.25.0
+  msix: 3.16.10
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -76,6 +77,13 @@ flutter_launcher_icons:
     generate: true
   linux:
     generate: true
+
+msix_config:
+  display_name: TiefPrompt
+  publisher_display_name: Tiefseetauchner
+  identity_name: io.github.tiefseetauchner.tiefprompt
+  msix_version: 1.0.0.0
+  logo_path: assets/images/icon_bg_round.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

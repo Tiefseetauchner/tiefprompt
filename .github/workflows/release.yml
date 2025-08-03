@@ -56,7 +56,7 @@ jobs:
 
       - name: Build Windows App
         run: |
-          ./tools/build.ps1 -Target both -Freedom foss -BuildDir ../artifacts/ -Verbose
+          ./tools/build.ps1 -Target exe -Freedom foss -BuildDir ../artifacts/
         working-directory: app
 
       - name: Upload Artifacts

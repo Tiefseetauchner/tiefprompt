@@ -4,6 +4,8 @@ param(
     [string]$Target = "both",
     [ValidateSet("foss","freemium")]
     [string]$Freedom = "foss",
+    [string]$CertificatePath,
+    [string]$CertificatePasswd,
     [switch]$SkipFlutterSetup,
     [switch]$ContinueOnFail,
     [string]$BuildDir = "package"
@@ -38,7 +40,6 @@ $flutterFlags   = @("build","windows","--release")
 if ($Freedom -eq "foss") { $flutterFlags += "-t"; $flutterFlags += "lib/main_foss.dart"}
 if ($Freedom -eq "freemium") { $flutterFlags += "-t"; $flutterFlags += "lib/main_freemium.dart"}
 
-$BuildDir = Resolve-Path $BuildDir
 New-Item -ItemType Directory -Path $BuildDir -Force | Out-Null
 
 if ($Target -in @("exe","both")) {
@@ -46,31 +47,39 @@ if ($Target -in @("exe","both")) {
         & .flutter/bin/flutter @flutterFlags
     }
 
-    $runnerDir = Join-Path $PSScriptRoot "build/windows/runner/Release"
+    $runnerDir = Join-Path $PSScriptRoot "../build/windows/x64/runner/Release"
     if (-not (Test-Path $runnerDir)) {
         throw "Runner directory `"$runnerDir`" not found!"
     }
     $exeDest = Join-Path $BuildDir $Freedom
+    $zipDir = Join-Path $runnerDir "windows.zip"
+    Compress-Archive $runnerDir $zipDir -Force
     Copy-Item $runnerDir -Recurse -Force -Destination $exeDest
     Write-Host "EXE copied to $exeDest"
 }
 
 if ($Target -in @("msix","both")) {
-    Run-Step "Building MSIX" {
-        if (-not (Get-Command msix -ErrorAction SilentlyContinue)) {
-            Write-Host "msix tool not found. Installing..."
-            & dart pub global activate msix | Out-Host
-            $env:PATH += ";.flutter\.pub-cache\bin"
-        }
-        & .flutter/bin/dart run msix:create | Out-Host
+    $msixFlags = @("--install-certificate","false")
+
+    if ($CertificatePath) {
+        $msixFlags += "-c"
+        $msixFlags += $CertificatePath
+    }
+    if ($CertificatePasswd) {
+        $msixFlags += "-p"
+        $msixFlags += $CertificatePasswd
     }
 
-    $msixFile = Get-ChildItem -Path (Join-Path $PSScriptRoot "build") -Filter *.msix -Recurse |
+    Run-Step "Building MSIX" {
+        & .flutter/bin/dart run msix:create --build-windows false $msixFlags | Out-Host
+    }
+
+    $msixFile = Get-ChildItem -Path (Join-Path $PSScriptRoot "../build/windows/x64/runner/Release") -Filter *.msix -Recurse |
                 Sort-Object LastWriteTime -Descending |
                 Select-Object -First 1
     if (-not $msixFile) { throw "MSIX file not found." }
 
-    $msixDest = Join-Path $BuildDir "msix"
+    $msixDest = Join-Path $BuildDir $Freedom
     New-Item -ItemType Directory -Force -Path $msixDest | Out-Null
     Copy-Item $msixFile.FullName -Destination $msixDest -Force
     Write-Host "MSIX copied to $msixDest"
