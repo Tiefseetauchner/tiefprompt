@@ -54,7 +54,7 @@ if ($Target -in @("exe","both")) {
     $exeDest = Join-Path $BuildDir $Freedom
     $zipDir = Join-Path $runnerDir "windows.zip"
     Compress-Archive $runnerDir $zipDir -Force
-    Copy-Item $runnerDir -Recurse -Force -Destination $exeDest
+    Copy-Item $zipDir -Force -Destination $exeDest
     Write-Host "EXE copied to $exeDest"
 }
 

@@ -174,13 +174,15 @@ do
   case $target in
     linux)
       target_options=linux
-      target_results=build/linux/x64/$configuration/bundle/
+      target_results=build/linux/x64/$configuration/bundle
       should_compress=YES
       compress_path="linux.zip"
       ;;
     windows)
-      error_echo "Windows build is not supported on non-windows machines. Please use \`build.ps1\` on Windows for a windows build." 1
-      continue
+      target_options=windows
+      target_results=build/windows/x64/runner/$configuration
+      should_compress=YES
+      compress_path="windows.zip"
       ;;
     androidaab)
       target_options=appbundle
@@ -202,7 +204,7 @@ do
       ;;
     iosapp)
       target_options=ios
-      target_results="build/ios/$configuration-iphoneos/*"
+      target_results="build/ios/$configuration-iphoneos"
       should_compress=YES
       compress_path="iosapp.zip"
       ;;

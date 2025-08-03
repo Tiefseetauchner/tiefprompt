@@ -55,8 +55,10 @@ jobs:
           fetch-depth: 0
 
       - name: Build Windows App
+        shell: bash
         run: |
-          ./tools/build.ps1 -Target exe -Freedom foss -BuildDir ../artifacts/
+          mkdir ../artifacts/
+          ./tools/build.sh -t windows -f foss -b ../artifacts/ -V
         working-directory: app
 
       - name: Upload Artifacts
