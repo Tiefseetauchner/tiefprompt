@@ -481,7 +481,6 @@ class FeatureDisabledAppSetting extends ConsumerWidget {
 
   const FeatureDisabledAppSetting({super.key, required this.displayText});
 
-  // TODO: Show buy box when clicked
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
