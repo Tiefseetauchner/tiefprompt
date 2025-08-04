@@ -29,6 +29,8 @@ class FeaturesFreemium extends Features {
     final resp = await _iap.queryProductDetails(_productIds);
     if (resp.error != null) {
       _initError = resp.error!.message;
+    } else if (resp.notFoundIDs.isNotEmpty) {
+      _initError = resp.error!.message;
     } else {
       _products.addEntries(resp.productDetails.map((p) => MapEntry(p.id, p)));
     }
@@ -77,7 +79,7 @@ class FeaturesFreemium extends Features {
   Future<void> buyPro() {
     final proProduct = _products[kProId];
 
-    if (proProduct != null) {
+    if (proProduct != null && !_owned.contains(kProId)) {
       _iap.buyNonConsumable(
         purchaseParam: PurchaseParam(productDetails: proProduct),
       );
