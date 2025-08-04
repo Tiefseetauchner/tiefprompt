@@ -47,8 +47,6 @@ dependencies:
   package_info_plus: ^8.3.0
   flutter_colorpicker: ^1.1.0
   in_app_purchase: ^3.2.3
-  fluttertoast: ^8.2.12
-  
 
 dev_dependencies:
   integration_test:

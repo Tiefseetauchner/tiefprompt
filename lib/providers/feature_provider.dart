@@ -11,7 +11,7 @@ class Features extends _$Features {
     return AppFeatures([], FeatureKind.unverifiedBuild);
   }
 
-  Future<void> bootstrap() {
+  Future<bool> bootstrap() {
     throw UnimplementedError('bootstrap must be implemented in subclasses');
   }
 

@@ -5,30 +5,13 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 class FeaturesFoss extends Features {
   @override
   AppFeatures build() {
-    return AppFeatures([
-      Feature.appLanguage,
-      Feature.appTheme,
-      Feature.primaryAppColor,
-      Feature.scrollSpeed,
-      Feature.flipX,
-      Feature.flipY,
-      Feature.readingIndicatorBoxes,
-      Feature.verticalMargins,
-      Feature.verticalMarginFade,
-      Feature.sideMargins,
-      Feature.countdownTimer,
-      Feature.prompterBackgroundColor,
-      Feature.prompterTextColor,
-      Feature.fontSize,
-      Feature.textAlignment,
-      Feature.fontFamily,
-    ], FeatureKind.fossVersion);
+    return AppFeatures(kAllFeatures, FeatureKind.fossVersion);
   }
 
   @override
-  Future<void> bootstrap() {
+  Future<bool> bootstrap() {
     // No bootstrap logic for foss builds
-    return Future.value();
+    return Future.value(true);
   }
 
   @override

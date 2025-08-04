@@ -430,7 +430,7 @@ abstract class AppSetting extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!_isEnabled(ref)) {
-      return _buildIfDisabled(context, ref);
+      return FeatureDisabledAppSetting(displayText: displayText);
     }
 
     return buildSetting(context, ref);
@@ -439,15 +439,6 @@ abstract class AppSetting extends ConsumerWidget {
   bool _isEnabled(WidgetRef ref) {
     return ref.watch(
       featuresProvider.select((s) => s.features.contains(feature)),
-    );
-  }
-
-  // TODO: Show buy box when clicked
-  Widget _buildIfDisabled(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(displayText),
-      subtitle: Text(context.tr("SettingsScreen.ProFeatureDisabled")),
-      enabled: false,
     );
   }
 
@@ -470,7 +461,7 @@ abstract class StatefulAppSettingState<T extends StatefulAppSetting>
   @override
   Widget build(BuildContext context) {
     if (!_isEnabled()) {
-      return _buildIfDisabled(context);
+      return FeatureDisabledAppSetting(displayText: widget.displayText);
     }
 
     return buildSetting(context);
@@ -482,16 +473,24 @@ abstract class StatefulAppSettingState<T extends StatefulAppSetting>
     );
   }
 
+  Widget buildSetting(BuildContext context);
+}
+
+class FeatureDisabledAppSetting extends ConsumerWidget {
+  final String displayText;
+
+  const FeatureDisabledAppSetting({super.key, required this.displayText});
+
   // TODO: Show buy box when clicked
-  Widget _buildIfDisabled(BuildContext context) {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      title: Text(widget.displayText),
+      tileColor: Colors.blueGrey.withAlpha(30),
+      title: Text(displayText),
       subtitle: Text(context.tr("SettingsScreen.ProFeatureDisabled")),
-      enabled: false,
+      onTap: () => {ref.read(featuresProvider.notifier).buyPro()},
     );
   }
-
-  Widget buildSetting(BuildContext context);
 }
 
 class DropdownAppSetting<T> extends AppSetting {

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/app_features.dart';
+import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 
 class FeaturesFreemium extends Features {
@@ -13,29 +13,48 @@ class FeaturesFreemium extends Features {
   final Set<String> _productIds = {kProId};
   final Map<String, ProductDetails> _products = {};
   final Set<String> _owned = {};
-  String? _initError;
 
   @override
-  Future<void> bootstrap() async {
+  Future<bool> bootstrap() async {
     _iap = InAppPurchase.instance;
+
+    try {
+      if (!await _iap.isAvailable()) {
+        ref.read(bannerMessageProvider.notifier).state =
+            "Failed to initialize payment model: InAppPurchase is not available";
+        return false;
+      }
+    } catch (e) {
+      ref.read(bannerMessageProvider.notifier).state =
+          "Failed to initialize payment model: $e";
+
+      return false;
+    }
+
     _sub = _iap.purchaseStream.listen(
       _onPurchaseUpdate,
       onDone: () => _sub.cancel(),
       onError: (error) {
-        _initError = error.toString();
+        ref.read(bannerMessageProvider.notifier).state =
+            "Failed to initialize payment model: $error";
       },
     );
 
     final resp = await _iap.queryProductDetails(_productIds);
     if (resp.error != null) {
-      _initError = resp.error!.message;
+      ref.read(bannerMessageProvider.notifier).state =
+          "Failed to initialize payment model: ${resp.error}";
+      return false;
     } else if (resp.notFoundIDs.isNotEmpty) {
-      _initError = resp.error!.message;
+      ref.read(bannerMessageProvider.notifier).state =
+          "Failed to initialize payment model: Ids were not found. ${resp.notFoundIDs.join(", ")}";
+      return false;
     } else {
       _products.addEntries(resp.productDetails.map((p) => MapEntry(p.id, p)));
     }
 
     await _iap.restorePurchases();
+    return true;
   }
 
   void _onPurchaseUpdate(List<PurchaseDetails> details) {
@@ -47,9 +66,9 @@ class FeaturesFreemium extends Features {
           if (p.pendingCompletePurchase) _iap.completePurchase(p);
           break;
         case PurchaseStatus.error:
-          Fluttertoast.showToast(
-            msg: "Failed to initialize payment model: ${p.error}",
-          );
+          ref.read(bannerMessageProvider.notifier).state =
+              "Failed to initialize payment model: ${p.error}";
+
           break;
         case PurchaseStatus.canceled:
         case PurchaseStatus.pending:
@@ -60,14 +79,6 @@ class FeaturesFreemium extends Features {
 
   @override
   AppFeatures build() {
-    if (_initError != null) {
-      Fluttertoast.showToast(
-        msg: "Failed to initialize payment model: $_initError",
-      );
-
-      return AppFeatures(kFreeFeatures, FeatureKind.unverifiedBuild);
-    }
-
     if (_owned.contains(kProId)) {
       return AppFeatures(kAllFeatures, FeatureKind.paidVersion);
     }
@@ -79,12 +90,18 @@ class FeaturesFreemium extends Features {
   Future<void> buyPro() {
     final proProduct = _products[kProId];
 
-    if (proProduct != null && !_owned.contains(kProId)) {
+    if (_owned.contains(kProId)) {
+      ref.read(bannerMessageProvider.notifier).state =
+          "Failed to initialize purchase: $kProId is already owned by this account";
+    }
+
+    if (proProduct != null) {
       _iap.buyNonConsumable(
         purchaseParam: PurchaseParam(productDetails: proProduct),
       );
     } else {
-      Fluttertoast.showToast(msg: "Could not perform transaction.");
+      ref.read(bannerMessageProvider.notifier).state =
+          "Failed to initialize purchase: $kProId could not be found";
     }
 
     return Future.value();

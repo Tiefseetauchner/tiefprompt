@@ -18,8 +18,12 @@ class TeleprompterApp extends ConsumerStatefulWidget {
 class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(featuresProvider.notifier).bootstrap();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final res = await ref.read(featuresProvider.notifier).bootstrap();
+
+      if (!res) {
+        ref.invalidate(featuresProvider);
+      }
     });
 
     super.initState();
