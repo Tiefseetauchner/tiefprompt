@@ -11,4 +11,4 @@ PRODUCT_NAME = tiefprompt
 PRODUCT_BUNDLE_IDENTIFIER = io.github.tiefseetauchner.tiefprompt
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2025 io.github.tiefseetauchner. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2025 Lena Tauchner. All rights reserved.
