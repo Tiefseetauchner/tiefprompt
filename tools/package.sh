@@ -17,10 +17,10 @@ RESET="\e[0m"
 # Ensure package directory exists
 echo -e "${CYAN}Creating package directory: $PACKAGE_DIR${RESET}"
 mkdir -p "$PACKAGE_DIR"
+rm -rf "$PACKAGE_DIR"/*
 mkdir -p "$PACKAGE_DIR/foss"
 mkdir -p "$PACKAGE_DIR/freemium"
-chmod 777 $PACKAGE_DIR
-rm -rf "$PACKAGE_DIR"/*
+chmod 777 -R $PACKAGE_DIR
 
 docker pull $DOCKER_IMAGE
 

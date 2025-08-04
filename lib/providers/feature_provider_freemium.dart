@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 
 class FeaturesFreemium extends Features {
-  late final _iap;
+  late final InAppPurchase _iap;
   late final StreamSubscription<List<PurchaseDetails>> _sub;
 
   final Set<String> _productIds = {kProId};
@@ -44,12 +45,9 @@ class FeaturesFreemium extends Features {
           if (p.pendingCompletePurchase) _iap.completePurchase(p);
           break;
         case PurchaseStatus.error:
-          // ignore: unnecessary_null_comparison - state can be null during initialization
-          if (state != null) {
-            state = state.copyWith(featureError: 'purchase error: ${p.error}');
-          } else {
-            _initError = 'purchase error: ${p.error}';
-          }
+          Fluttertoast.showToast(
+            msg: "Failed to initialize payment model: ${p.error}",
+          );
           break;
         case PurchaseStatus.canceled:
         case PurchaseStatus.pending:
@@ -61,17 +59,32 @@ class FeaturesFreemium extends Features {
   @override
   AppFeatures build() {
     if (_initError != null) {
-      return AppFeatures(
-        kFreeFeatures,
-        FeatureKind.unverifiedBuild,
-        _initError,
+      Fluttertoast.showToast(
+        msg: "Failed to initialize payment model: $_initError",
       );
+
+      return AppFeatures(kFreeFeatures, FeatureKind.unverifiedBuild);
     }
 
     if (_owned.contains(kProId)) {
-      return AppFeatures(kAllFeatures, FeatureKind.paidVersion, null);
+      return AppFeatures(kAllFeatures, FeatureKind.paidVersion);
     }
 
-    return AppFeatures(kFreeFeatures, FeatureKind.freeVersion, _initError);
+    return AppFeatures(kFreeFeatures, FeatureKind.freeVersion);
+  }
+
+  @override
+  Future<void> buyPro() {
+    final proProduct = _products[kProId];
+
+    if (proProduct != null) {
+      _iap.buyNonConsumable(
+        purchaseParam: PurchaseParam(productDetails: proProduct),
+      );
+    } else {
+      Fluttertoast.showToast(msg: "Could not perform transaction.");
+    }
+
+    return Future.value();
   }
 }

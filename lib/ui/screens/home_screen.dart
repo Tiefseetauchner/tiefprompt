@@ -319,7 +319,8 @@ class _BuildVersionNote extends ConsumerWidget {
                         ),
                         if (appFeatures.featureKind == FeatureKind.freeVersion)
                           ElevatedButton(
-                            onPressed: () {}, //=> featuresProvider.buyPro(),
+                            onPressed: () =>
+                                ref.watch(featuresProvider.notifier).buyPro(),
                             child: Text("Buy the Pro Version"),
                           ),
                         ElevatedButton(
