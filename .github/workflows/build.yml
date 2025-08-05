@@ -5,8 +5,8 @@ on:
 
 jobs:
   build-linux:
-    name: Regular Build for Linux
-    
+    name: Debug Build for ${{ matrix.target }} (${{ matrix.freedom }})
+
     runs-on: >-
       ${{ contains(matrix.target, 'windows') && 'windows-latest' ||
           startsWith(matrix.target, 'android') && 'ubuntu-latest' ||
@@ -26,7 +26,7 @@ jobs:
           submodules: recursive
           fetch-depth: 1
 
-      - name: Debug Build for ${{ matrix.target }} (${{ matrix.freedom }})
+      - name: Compile
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends \
