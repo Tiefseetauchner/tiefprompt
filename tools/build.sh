@@ -35,7 +35,11 @@ ${GREEN}-c          ${RESET}Continue on fail.
 ${GREEN}-q          ${RESET}Make script quiet.
 ${GREEN}-v          ${RESET}Make script verbose.
 ${GREEN}-V          ${RESET}Make script extremely verbose (careful here!).
-${GREEN}-k key      ${RESET}Signing identity for macOS packaging.
+${GREEN}-k key      ${RESET}Signing identity for macOS code signing.
+            (i) 3rd Party Mac Developer Application
+${GREEN}-K key      ${RESET}Signing identity for macOS installer signing.
+            (i) 3rd Party Mac Developer Installer
+${GREEN}-P          ${RESET}Provisioning Profile for app.
 ${GREEN}-h          ${RESET}Show this help.
 EOF
 }
@@ -60,6 +64,13 @@ normal_echo_stdin() {
   while IFS= read -r line; do
     normal_echo "$GREEN$program_name:$RESET $line"
   done
+}
+
+# This has to be seperated and piped to stderr.
+# > >(...) captures the stdout of 2> >(...) as well,
+# so the error log would get swallowed by the normal logging.
+normal_echo_stderr() {
+  normal_echo_stdin $@ >&2
 }
 
 verbose_echo() {
@@ -96,12 +107,12 @@ compress_directory() {
   if command -v 7z &>/dev/null; then
     7z a "$output" "${inputs[@]}" \
       > >(more_verbose_echo_stdin "7z") \
-      2> >(normal_echo_stdin "${RED}7z (error)${RESET}")
+      2> >(normal_echo_stderr "${RED}7z (error)")
     return $?
   elif command -v zip &>/dev/null; then
     zip -r "$output" "${inputs[@]}" \
       > >(more_verbose_echo_stdin "zip") \
-      2> >(normal_echo_stdin "${RED}zip (error)${RESET}")
+      2> >(normal_echo_stderr "${RED}zip (error)")
     return $?
   else
     error_echo "No suitable compression tool (7z or zip) found."
@@ -113,10 +124,10 @@ BUILD_DIR="/package"
 unset -v QUIET
 unset -v VERBOSE
 unset -v MORE_VERBOSE
-unset -v MACOS_SIGN_KEY
+unset -v MACOS_CODE_SIGN_KEY
 RESULT=0
 
-while getopts "t:f:b:k:hvVcdsq" opt; do
+while getopts "t:f:b:k:K:P:hvVcdsq" opt; do
   case $opt in
     t)
       TARGETS=$OPTARG
@@ -128,7 +139,13 @@ while getopts "t:f:b:k:hvVcdsq" opt; do
       BUILD_DIR=$OPTARG
       ;;
     k)
-      MACOS_SIGN_KEY=$OPTARG
+      MACOS_CODE_SIGN_KEY=$OPTARG
+      ;;
+    K)
+      MACOS_PACKAGE_SIGN_KEY=$OPTARG
+      ;;
+    P)
+      PROVISIONING_PROFILE=$OPTARG
       ;;
     q)
       QUIET=YES
@@ -173,32 +190,27 @@ if [ -z "$SKIP_FLUTTER_SETUP" ]; then
   verbose_echo "${CYAN}Setting .flutter to be a safe git directory${RESET}"
   git config --global --add safe.directory "$(pwd)/.flutter" \
     > >(verbose_echo_stdin "git") \
-    2> >(normal_echo_stdin "${RED}git (error)${RESET}")
-  git_status=$?
-  if [ ! $git_status -eq 0 ]; then
-    error_echo "git config failed with status code ${git_status}." $git_status
-    RESULT=$git_status
-  fi
+    2> >(normal_echo_stderr "${RED}git (error)")
   verbose_echo "${CYAN}Disabling flutter analytics...${RESET}"
   .flutter/bin/flutter --disable-analytics \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stdin "${RED}flutter (error)${RESET}")
+    2> >(normal_echo_stderr "${RED}flutter (error)")
   verbose_echo "${CYAN}Disabling flutter cli animations...${RESET}"
   .flutter/bin/flutter config --no-cli-animations \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stdin "${RED}flutter (error)${RESET}")
+    2> >(normal_echo_stderr "${RED}flutter (error)")
   verbose_echo "${CYAN}Checking and preparing flutter...${RESET}"
   .flutter/bin/flutter doctor \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stdin "${RED}flutter (error)${RESET}")
+    2> >(normal_echo_stderr "${RED}flutter (error)")
   verbose_echo "${CYAN}Cleaning with flutter...${RESET}"
   .flutter/bin/flutter clean \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stdin "${RED}flutter (error)${RESET}")
+    2> >(normal_echo_stderr "${RED}flutter (error)")
   verbose_echo "${CYAN}Getting flutter packages...${RESET}"
   .flutter/bin/flutter pub get \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stdin "${RED}flutter (error)${RESET}")
+    2> >(normal_echo_stderr "${RED}flutter (error)")
 fi
 if [ "$CONTINUE_ON_FAIL" ]; then
   unset -e
@@ -209,9 +221,9 @@ for freedom in $FREEDOM_LIST; do
     verbose_echo "${YELLOW}Processing Target $target for freedom $freedom...${RESET}"
 
     if [ "$RUN_DEBUG_BUILD" ]; then
-      configuration=debug
+      configuration=Debug
     else
-      configuration=release
+      configuration=Release
     fi
 
     msix_output=
@@ -250,7 +262,7 @@ for freedom in $FREEDOM_LIST; do
         ;;
       macospkg)
         target_options=macos
-        target_results="build/macos/Build/Products/$configuration"
+        target_results="build/macos/Build/Products/$configuration/"
         ;;
       iosapp)
         target_options=ios
@@ -292,7 +304,7 @@ for freedom in $FREEDOM_LIST; do
     normal_echo "${GREEN}Building for target $target and freedom $freedom...${RESET}"
     .flutter/bin/flutter build $target_options \
       > >(verbose_echo_stdin "flutter") \
-      2> >(normal_echo_stdin "${RED}flutter (error)${RESET}")
+      2> >(normal_echo_stderr "${RED}flutter (error)")
     flutter_status=$?
     if [ ! $flutter_status -eq 0 ]; then
       error_echo "Flutter exited with status code ${flutter_status}." $flutter_status
@@ -303,7 +315,7 @@ for freedom in $FREEDOM_LIST; do
       verbose_echo "${CYAN}Creating MSIX package...${RESET}"
       .flutter/bin/flutter pub run msix:create --install-certificate false  \
         > >(verbose_echo_stdin "msix") \
-        2> >(normal_echo_stdin "${RED}msix (error)${RESET}")
+        2> >(normal_echo_stderr "${RED}msix (error)")
       msix_status=$?
       if [ ! $msix_status -eq 0 ]; then
         error_echo "MSIX packaging failed with status code ${msix_status}." $msix_status
@@ -312,29 +324,58 @@ for freedom in $FREEDOM_LIST; do
     fi
 
     if [ "$target" = "macospkg" ]; then
-      pkg_name="macos.pkg"
-      if [ "$MACOS_SIGN_KEY" ]; then
-        verbose_echo "${CYAN}Signing macOS app...${RESET}"
-        runner_app_path=$(find $target_results -type file -iname "*.app")
-        codesign --force --deep -s "$MACOS_SIGN_KEY" "$runner_app_path" \
-          > >(verbose_echo_stdin "codesign") \
-          2> >(normal_echo_stdin "${RED}codesign (error)${RESET}")
+      app_name=$(find "$target_results" -name "*.app")
+      package_name=$(basename "$app_name" .app).pkg
+
+      if [ -z "$MACOS_PACKAGE_SIGN_KEY" ]; then
+        error_echo "-K must be set if building macOS packages to sign the pkg." 127
+        continue
+      fi
+
+      if [ "$PROVISIONING_PROFILE" ]; then
+        cp "$PROVISIONING_PROFILE" "$app_name/Contents/embedded.provisionprofile" \
+          > >(verbose_echo_stdin "cp provisionprofile") \
+          2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
+      fi
+
+      xattr -rc "$app_name"
+
+      if [ "$MACOS_CODE_SIGN_KEY" ]; then
+        verbose_echo "${CYAN}Signing macOS app and nested binaries...${RESET}"
+
+        while IFS= read -r bin; do
+          verbose_echo "Signing nested binary: $bin"
+          codesign --force --verify --verbose \
+            --sign "$MACOS_CODE_SIGN_KEY" "$bin" \
+            > >(verbose_echo_stdin "codesign (nested)") \
+            2> >(normal_echo_stderr "${RED}codesign (nested error)")
+        done < <(find "$app_name/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "*.so" -o -perm +111 \))
+
+        codesign --force --deep --verify --verbose \
+          --options runtime \
+          --entitlements macos/Runner/Release.entitlements \
+          --sign "$MACOS_CODE_SIGN_KEY" "$app_name" \
+          > >(verbose_echo_stdin "codesign (main)") \
+          2> >(normal_echo_stderr "${RED}codesign (main error)")
         codesign_status=$?
         if [ ! $codesign_status -eq 0 ]; then
           error_echo "codesign failed with status code ${codesign_status}." $codesign_status
           RESULT=$codesign_status
         fi
       fi
-      pkgbuild --install-location /Applications --component "$target_results/Runner.app" "$target_results/$pkg_name" \
-        > >(verbose_echo_stdin "pkgbuild") \
-        2> >(normal_echo_stdin "${RED}pkgbuild (error)${RESET}")
+
+      productbuild --sign "$MACOS_PACKAGE_SIGN_KEY" --component "$app_name" "/Applications" "$package_name" \
+        > >(verbose_echo_stdin "productbuild") \
+        2> >(normal_echo_stderr "${RED}productbuild (error)")
       pkg_status=$?
       if [ ! $pkg_status -eq 0 ]; then
         error_echo "macOS packaging failed with status code ${pkg_status}." $pkg_status
         RESULT=$pkg_status
       fi
-      target_results="$target_results/$pkg_name"
+
+      target_results="$package_name"
     fi
+
 
     more_verbose_echo "${CYAN}Finished building for target $target${RESET}"
     verbose_echo "${CYAN}Packaging Build...${RESET}"
@@ -358,10 +399,10 @@ for freedom in $FREEDOM_LIST; do
     verbose_echo "${CYAN}Copying $target_results to $BUILD_DIR${RESET}"
     mkdir -p "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "mkdir") \
-      2> >(normal_echo_stdin "${RED}mkdir (error)${RESET}")
+      2> >(normal_echo_stderr "${RED}mkdir (error)")
     cp $target_results "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "cp") \
-      2> >(normal_echo_stdin "${RED}cp (error)${RESET}")
+      2> >(normal_echo_stderr "${RED}cp (error)")
     cp_status=$?
     if [ ! $cp_status -eq 0 ]; then
       error_echo "cp exited with status code ${cp_status}." $cp_status
