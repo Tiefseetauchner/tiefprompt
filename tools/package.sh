@@ -24,23 +24,13 @@ chmod 777 -R $PACKAGE_DIR
 
 docker pull $DOCKER_IMAGE
 
-echo -e "${YELLOW}Starting build for foss in Docker container...${RESET}"
+echo -e "${YELLOW}Starting build in Docker container...${RESET}"
 docker run --rm \
   -v "$REPO_DIR:/app" \
-  -v "$PACKAGE_DIR/foss:/package" \
+  -v "$PACKAGE_DIR:/package" \
   -v "$KEY_STORE:/keys" \
   -e TARGETS=$TARGETS\
-  -e FREEDOM=foss\
-  --name $CONTAINER_NAME \
-  $DOCKER_IMAGE
-
-echo -e "${YELLOW}Starting build for foss in Docker container...${RESET}"
-docker run --rm \
-  -v "$REPO_DIR:/app" \
-  -v "$PACKAGE_DIR/freemium:/package" \
-  -v "$KEY_STORE:/keys" \
-  -e TARGETS=$TARGETS\
-  -e FREEDOM=freemium\
+  -e FREEDOM=foss,freemium\
   --name $CONTAINER_NAME \
   $DOCKER_IMAGE
 

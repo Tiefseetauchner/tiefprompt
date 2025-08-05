@@ -58,7 +58,7 @@ jobs:
         shell: bash
         run: |
           mkdir ../artifacts/
-          ./tools/build.sh -t windows -f foss -b ../artifacts/ -V
+          ./tools/build.sh -t windows,windowsmsix -f foss -b ../artifacts/ -V
         working-directory: app
 
       - name: Upload Artifacts
