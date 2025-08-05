@@ -221,9 +221,11 @@ for freedom in $FREEDOM_LIST; do
     verbose_echo "${YELLOW}Processing Target $target for freedom $freedom...${RESET}"
 
     if [ "$RUN_DEBUG_BUILD" ]; then
-      configuration=Debug
+      configuration_upper=Debug
+      configuration_lower=debug
     else
-      configuration=Release
+      configuration_upper=Release
+      configuration_lower=release
     fi
 
     msix_output=
@@ -232,41 +234,41 @@ for freedom in $FREEDOM_LIST; do
     case $target in
       linux)
         target_options=linux
-        target_results=build/linux/x64/$configuration/bundle
+        target_results=build/linux/x64/$configuration_lower/bundle
         should_compress=YES
         compress_path="linux.zip"
         ;;
       windows)
         target_options=windows
-        target_results=build/windows/x64/runner/$configuration
+        target_results=build/windows/x64/runner/$configuration_upper
         should_compress=YES
         compress_path="windows.zip"
         ;;
       windowsmsix)
         target_options=windows
-        target_results=build/windows/x64/runner/$configuration/*.msix
+        target_results=build/windows/x64/runner/$configuration_upper/*.msix
         ;;
       androidaab)
         target_options=appbundle
-        target_results=build/app/outputs/bundle/$configuration/*
+        target_results=build/app/outputs/bundle/$configuration_lower/*
         ;;
       androidapk)
         target_options='apk --split-per-abi'
-        target_results="build/app/outputs/apk/$configuration/app*"
+        target_results="build/app/outputs/apk/$configuration_lower/app*"
         ;;
       macos)
         target_options=macos
-        target_results="build/macos/Build/Products/$configuration"
+        target_results="build/macos/Build/Products/$configuration_upper"
         should_compress=YES
         compress_path="macos.zip"
         ;;
       macospkg)
         target_options=macos
-        target_results="build/macos/Build/Products/$configuration/"
+        target_results="build/macos/Build/Products/$configuration_upperß"
         ;;
       iosapp)
         target_options=ios
-        target_results="build/ios/$configuration-iphoneos"
+        target_results="build/ios/$configuration_upper-iphoneos"
         should_compress=YES
         compress_path="iosapp.zip"
         ;;
