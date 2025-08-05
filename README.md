@@ -21,11 +21,48 @@ Or download the latest APK from the [Releases Section](https://github.com/Tiefse
 
 ## Build
 
-Run it with `flutter run`.
+The `tools/build.sh` script is the easiest way to build the application.
 
-Make packages with `flutter build apk`.
+```bash
+Build TiefPrompt packages.
+usage: build.sh [options]
 
-You know how to use flutter.
+-t target   Comma seperated list of targets to build. Options:
+            linux,windows,androidaab,androidapk,macos,iosapp,iosipa
+            (i) Can be set via environment variable 'TARGETS'
+            (!) Required
+-f freedom  Freedom level to apply to Application. Options:
+            freemium,foss
+            (i) Can be set via environment variable 'FREEDOM'
+            (!) Required
+-b dir      Build directory to place packages in.
+            Default: /package
+            (i) Unix path - not interpreted relatively!
+            (i) Can be set via environment variable 'BUILD_DIR'
+-s          Skip Flutter preperation.
+-d          Run debug build.
+-c          Continue on fail.
+-q          Make script quiet.
+-v          Make script verbose.
+-V          Make script extremely verbose (careful here!).
+-h          Show this help.
+```
+
+For example, to build linux and android APKs, run `./tools/build.sh -t linux,androidapk -f foss`.
+
+Foss vs Freemium decides, which entrypoint is used. See the [Fossium](#fossium) section.
+
+You can still run the app using `.flutter/bin/flutter run`, which will launch the fallback main.dart.
+
+Note that, if you're building for windows, you will need a bash. I recommend the git bash, normally located under `C:\Program Files\Git\bin\bash.exe` to run `build.sh`.
+
+## Fossium
+
+This application is sadly not only an extreme time-, but also money sink for me. That's why I decided to make the application freemium when downloaded from the Apple App Store or Google Play.
+
+This does not, however, affect F-Droid or my uploaded builds - these remain free as in beer. That's why I split the application in a `main_foss.dart` and a `main_freemium.dart` entrypoint. The different versions can be built using the build script, or just with `.flutter/bin/flutter build [target] -t main_[freedom].dart`.
+
+However, if you want the foss version of the application to sideload on your iPhone, you will have to build it yourself. I'm sorry.
 
 ## Translations
 

@@ -4,11 +4,22 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    
     {
       "name": "tiefprompt",
       "request": "launch",
       "type": "dart"
+    },
+    {
+      "name": "tiefprompt freemium",
+      "request": "launch",
+      "type": "dart",
+      "args": ["-t", "lib/main_freemium.dart"]
+    },
+    {
+      "name": "tiefprompt foss",
+      "request": "launch",
+      "type": "dart",
+      "args": ["-t", "lib/main_foss.dart"]
     },
     {
       "name": "tiefprompt (profile mode)",

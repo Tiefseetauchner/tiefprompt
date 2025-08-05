@@ -19,7 +19,16 @@
       "Text_Title": "Save Script",
       "TextField_hintText": "Enter script name",
       "ElevatedButton_Save": "Save"
-    }
+    },
+    "UnverifiedBuild": "Unverified Build",
+    "UnverifiedBuild_Explanation": "This build is unverified. That means it may not be stable or could contain bugs. Use at your own risk. To build a verified version, please use the main_foss.dart file as your entry point.",
+    "FossVersion": "Free and Open Source",
+    "FossVersion_Explanation": "We are a free and open source project. This means that you can use this app for free - for ever. All features in this app are free to you and you may use them without any restrictions. However, this is a community project which took quite a lot of work. So if you like this app and would like to see it supported into the future, please consider donating. You can find current links at the Source Code Repository.",
+    "FreeVersion": "Free Version",
+    "FreeVersion_Explanation": "We are a free and open source project. Sadly, maintaining TiefPrompt takes a lot of time - and frankly, money. Between development, design, and the cost of distribution (hello, Apple Developer fees), it's become a bit of a time-and-money sink for me. To keep things sustainable, I've chosen a freemium model: the app is free to use, but some features are only available in the Pro version.\n\nIf you can't or don't want to pay, you're still totally welcome to use the app or build it yourself from source - no hard feelings.\n\nI wish it weren't necessary, but I hope you understand and still find real value in this app.",
+    "PaidVersion": "TiefPrompt Pro",
+    "PaidVersion_Explanation": "Thank you for purchasing TiefPrompt Pro! Your support means the world. You're not just unlocking extra features - you're helping this project stay alive, maintained, and hopefully even better with time. This app is a labour of love, and your contribution helps cover hosting, development, testing devices, and way too much coffee.\n\nSeriously, thank you for making this possible.",
+    "Understood": "Understood"
   },
   "SettingsScreen": {
     "title": "Settings",
@@ -64,7 +73,8 @@
     "ListTile_Reset": "Reset settings",
     "Reset_Warning": "You're about to reset all settings irreversably!",
     "Abort": "Abort",
-    "Confirm": "Confirm"
+    "Confirm": "Confirm",
+    "ProFeatureDisabled": "This function is only available in the pro version."
   },
   "PrompterScreen": {
     "speed": "{}x",

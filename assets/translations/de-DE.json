@@ -19,7 +19,10 @@
       "Text_Title": "Script speichern",
       "TextField_hintText": "Script Namen eingeben",
       "ElevatedButton_Save": "Speichern"
-    }
+    },
+    "UnverifiedBuild": "Unbestätigte Version",
+    "UnverifiedBuild_Explanation": "Diese Version ist unbestätigt. Das bedeutet, sie könnte instabil sein oder Fehler enthalten. Benutze sie auf eigenes Risiko. Um eine bestätigte Version zu erstellen, verwende bitte die main_foss.dart Datei als Einstiegspunkt.",
+    "Understood": "Verstanden"
   },
   "SettingsScreen": {
     "title": "Einstellungen",
@@ -64,7 +67,8 @@
     "ListTile_Reset": "Reset settings",
     "Reset_Warning": "Die Einstellungen werden hier komplett zurück gesetzt!",
     "Abort": "Abbrechen",
-    "Confirm": "Fortfahren"
+    "Confirm": "Fortfahren",
+    "ProFeatureDisabled": "Diese Funktion ist nur in der Pro-Version verfügbar."
   },
   "PrompterScreen": {
     "speed": "{}x",

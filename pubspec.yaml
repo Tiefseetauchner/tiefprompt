@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.9.1+15
+version: 0.10.0-ALPHA1004+16
 
 environment:
   sdk: ^3.8.1
@@ -46,6 +46,8 @@ dependencies:
   easy_localization: ^3.0.7+1
   package_info_plus: ^8.3.0
   flutter_colorpicker: ^1.1.0
+  in_app_purchase: ^3.2.3
+  in_app_purchase_android: ^0.4.0+2
 
 dev_dependencies:
   integration_test:
@@ -62,6 +64,7 @@ dev_dependencies:
   riverpod_lint: ^2.6.4
   flutter_launcher_icons: ^0.14.3
   drift_dev: ^2.25.0
+  msix: 3.16.10
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -75,6 +78,13 @@ flutter_launcher_icons:
     generate: true
   linux:
     generate: true
+
+msix_config:
+  display_name: TiefPrompt
+  publisher_display_name: Tiefseetauchner
+  identity_name: io.github.tiefseetauchner.tiefprompt
+  msix_version: 1.0.0.0
+  logo_path: assets/images/icon_bg_round.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

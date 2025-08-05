@@ -39,4 +39,4 @@ RUN yes | /home/flutteruser/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=
 
 USER flutteruser
 WORKDIR /app
-CMD ["bash", "-c", "./tools/build.sh"]
+CMD ["bash", "-c", "./tools/build.sh -V"]

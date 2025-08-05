@@ -6,6 +6,7 @@ import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
 import 'package:tiefprompt/ui/screens/settings_screen.dart';
+import 'package:tiefprompt/ui/widgets/banner_listener.dart';
 
 part 'router_provider.g.dart';
 
@@ -16,7 +17,11 @@ class TiefPromptRouter extends _$TiefPromptRouter {
     return GoRouter(
       initialLocation: '/',
       routes: [
-        GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
+        GoRoute(
+          path: '/',
+          builder: (context, state) =>
+              const BannerListener(child: HomeScreen()),
+        ),
         GoRoute(
           path: '/teleprompter',
           builder: (context, state) {
@@ -24,27 +29,33 @@ class TiefPromptRouter extends _$TiefPromptRouter {
                 .read(themesProvider)
                 .whenOrNull(data: (d) => d.prompterTheme);
 
-            return Theme(
-              data: theme ?? ThemeData.dark(),
-              child: const PrompterScreen(),
+            return BannerListener(
+              child: Theme(
+                data: theme ?? ThemeData.dark(),
+                child: const PrompterScreen(),
+              ),
             );
           },
         ),
         GoRoute(
           path: '/open_file',
-          builder: (context, state) => const OpenFileScreen(),
+          builder: (context, state) =>
+              const BannerListener(child: OpenFileScreen()),
         ),
         GoRoute(
           path: '/settings',
-          builder: (context, state) => const SettingsScreen(),
+          builder: (context, state) =>
+              const BannerListener(child: SettingsScreen()),
           routes: [
             GoRoute(
               path: 'display',
-              builder: (context, state) => const DisplaySettingsScreen(),
+              builder: (context, state) =>
+                  const BannerListener(child: DisplaySettingsScreen()),
             ),
             GoRoute(
               path: 'text',
-              builder: (context, state) => const TextSettingsScreen(),
+              builder: (context, state) =>
+                  const BannerListener(child: TextSettingsScreen()),
             ),
           ],
         ),
