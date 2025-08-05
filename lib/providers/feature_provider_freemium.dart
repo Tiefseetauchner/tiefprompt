@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
@@ -53,7 +55,14 @@ class FeaturesFreemium extends Features {
       _products.addEntries(resp.productDetails.map((p) => MapEntry(p.id, p)));
     }
 
-    await _iap.restorePurchases();
+    if (Platform.isAndroid) {
+      final resp = await InAppPurchase.instance
+          .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>()
+          .queryPastPurchases();
+      _onPurchaseUpdate(resp.pastPurchases);
+    } else {
+      await _iap.restorePurchases();
+    }
     return true;
   }
 
@@ -63,12 +72,12 @@ class FeaturesFreemium extends Features {
         case PurchaseStatus.purchased:
         case PurchaseStatus.restored:
           _owned.add(p.productID);
+          state = build();
           if (p.pendingCompletePurchase) _iap.completePurchase(p);
           break;
         case PurchaseStatus.error:
           ref.read(bannerMessageProvider.notifier).state =
               "Failed to initialize payment model: ${p.error}";
-
           break;
         case PurchaseStatus.canceled:
         case PurchaseStatus.pending:
@@ -87,18 +96,22 @@ class FeaturesFreemium extends Features {
   }
 
   @override
-  Future<void> buyPro() {
+  Future<void> buyPro() async {
     final proProduct = _products[kProId];
 
     if (_owned.contains(kProId)) {
       ref.read(bannerMessageProvider.notifier).state =
           "Failed to initialize purchase: $kProId is already owned by this account";
+      return;
     }
 
     if (proProduct != null) {
-      _iap.buyNonConsumable(
+      if (!await _iap.buyNonConsumable(
         purchaseParam: PurchaseParam(productDetails: proProduct),
-      );
+      )) {
+        ref.read(bannerMessageProvider.notifier).state =
+            "Failed to complete purchase.";
+      }
     } else {
       ref.read(bannerMessageProvider.notifier).state =
           "Failed to initialize purchase: $kProId could not be found";
