@@ -301,7 +301,7 @@ for freedom in $FREEDOM_LIST; do
 
     if [ "$target" = "windowsmsix" ]; then
       verbose_echo "${CYAN}Creating MSIX package...${RESET}"
-      .flutter/bin/flutter pub run msix:create \
+      .flutter/bin/flutter pub run msix:create --install-certificate false  \
         > >(verbose_echo_stdin "msix") \
         2> >(normal_echo_stdin "${RED}msix (error)${RESET}")
       msix_status=$?
