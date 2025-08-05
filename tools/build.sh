@@ -410,6 +410,17 @@ for freedom in $FREEDOM_LIST; do
       error_echo "cp exited with status code ${cp_status}." $cp_status
       RESULT=$cp_status
     fi
+
+    verbose_echo "${CYAN}Moving release files to $BUILD_DIR$RESET"
+    find "$BUILD_DIR/" -mindepth 1 -maxdepth 1 -type d | while read -r dir; do
+      dir_name=$(basename "$dir")
+      verbose_echo "${CYAN}Found directory $dir. Looking for files...${RESET}"
+      find "$dir" -maxdepth 1 -type f | while read -r file; do
+        verbose_echo "${CYAN}Found file $file. Moving to $BUILD_DIR/${dir_name}_${file_name}...${RESET}"
+        file_name=$(basename "$file")
+        mv "$file" "$BUILD_DIR/${dir_name}_${file_name}"
+      done
+    done
   done
 done
 
