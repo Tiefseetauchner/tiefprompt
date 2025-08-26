@@ -120,10 +120,6 @@ sign_macos() {
     return 127
   fi
 
-  if [ "$2" ]; then
-    runtimeOptions=("--option" "runtime")
-  fi
-
   app_name=$(get_first_app "$1")
   
   xattr -rc "$app_name"
@@ -138,9 +134,8 @@ sign_macos() {
       2> >(normal_echo_stderr "${RED}codesign (nested error)")
   done < <(find "$app_name/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "*.so" -o -perm -111 \))
 
-  codesign --force --deep --verify --verbose --timestamp \
+  codesign --force --verify --verbose --timestamp \
     --entitlements macos/Runner/Release.entitlements \
-    "${runtimeOptions[@]}" \
     --sign "$MACOS_CODE_SIGN_KEY" "$app_name" \
     > >(verbose_echo_stdin "codesign (main)") \
     2> >(normal_echo_stderr "${RED}codesign (main error)")
@@ -163,11 +158,13 @@ package_macos() {
     error_echo "-p must be set if building macOS packages to provide the provisioning profile." 127
     return 127
   fi
-  
+
+  more_verbose_echo "${CYAN}Copying Provisioning Profile${RESET}"
   cp "$MACOS_PROVISIONING_PROFILE" "$app_name/Contents/embedded.provisionprofile" \
     > >(verbose_echo_stdin "cp provisionprofile") \
     2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
 
+  more_verbose_echo "${CYAN}Running product build with sign key $MACOS_PACKAGE_SIGN_KEY, component $app_name and package $package_name.${RESET}"
   productbuild --sign "$MACOS_PACKAGE_SIGN_KEY" --component "$app_name" "/Applications" "$package_name" \
     > >(verbose_echo_stdin "productbuild") \
     2> >(normal_echo_stderr "${RED}productbuild (error)")
