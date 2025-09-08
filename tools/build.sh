@@ -607,10 +607,10 @@ for freedom in $FREEDOM_LIST; do
       app_path=$(get_first_app "$target_results")
       more_verbose_echo "${CYAN}Copying $app_path to new directory...${RESET}"
       app_dir="$target_results/app_dir"
-      mkdir -p app_dir \
+      mkdir -p "$app_dir" \
         > >(more_verbose_echo_stdin "mkdir") \
         2> >(normal_echo_stderr "${RED}mkdir (error)")
-      cp "$app_path" app_dir \
+      cp -r "$app_path" "$app_dir" \
         > >(more_verbose_echo_stdin "cp") \
         2> >(normal_echo_stderr "${RED}cp (error)")
       target_results=$app_dir
@@ -676,7 +676,7 @@ for freedom in $FREEDOM_LIST; do
       2> >(normal_echo_stderr "${RED}mkdir (error)")
     shopt -s nullglob
     files=( $target_results )
-    cp "${files[@]}" "$BUILD_DIR/$freedom" \
+    cp -r "${files[@]}" "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "cp") \
       2> >(normal_echo_stderr "${RED}cp (error)")
     shopt -u nullglob
