@@ -572,6 +572,7 @@
 				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FLUTTER_TARGET = lib/main_freemium.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TiefPrompt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -717,6 +718,7 @@
 				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FLUTTER_TARGET = lib/main_freemium.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TiefPrompt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -750,6 +752,7 @@
 				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FLUTTER_TARGET = lib/main_freemium.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TiefPrompt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";

@@ -10,12 +10,14 @@ class MockApp extends StatelessWidget {
   final ScriptService? scriptOverride;
   final Locale locale;
   final ThemeData? theme;
+  final List<Override> overrides;
 
   const MockApp({
     super.key,
     required this.child,
     required this.locale,
     this.scriptOverride,
+    this.overrides = const [],
     this.theme,
   });
 
@@ -30,6 +32,7 @@ class MockApp extends StatelessWidget {
         scriptServiceProvider.overrideWith(
           () => scriptOverride ?? ScriptService(),
         ),
+        ...overrides,
       ],
       child: EasyLocalization(
         saveLocale: false,

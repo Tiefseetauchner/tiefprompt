@@ -170,7 +170,7 @@ sign_macos() {
 
 package_macos() {
   app_name=$(get_first_app "$1")
-  package_name="${app_name%.app}.pkg"
+  base_name=$(dirname "$app_name")/$(basename "$app_name" .app)
 
   if [ -z "$MACOS_PACKAGE_SIGN_KEY" ]; then
     error_echo "-K must be set if building macOS packages to sign the pkg." 127
@@ -187,17 +187,24 @@ package_macos() {
     > >(verbose_echo_stdin "cp provisionprofile") \
     2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
 
-  more_verbose_echo "${CYAN}Running product build with sign key $MACOS_PACKAGE_SIGN_KEY, component $app_name and package $package_name.${RESET}"
-  productbuild --sign "$MACOS_PACKAGE_SIGN_KEY" --component "$app_name" "/Applications" "$package_name" \
-    > >(verbose_echo_stdin "productbuild") \
-    2> >(normal_echo_stderr "${RED}productbuild (error)")
-  pkg_status=$?
-  if [ ! $pkg_status -eq 0 ]; then
-    error_echo "macOS packaging failed with status code ${pkg_status}." $pkg_status
+  more_verbose_echo "${CYAN}Running pkgbuild with sign key $MACOS_PACKAGE_SIGN_KEY, component $app_name and package $base_name.pkg.${RESET}"
+  pkgbuild --sign "$MACOS_PACKAGE_SIGN_KEY" --component "$app_name" "$base_name.pkg" \
+    > >(verbose_echo_stdin "pkgbuild") \
+    2> >(normal_echo_stderr "${RED}pkgbuild (error)")
+  pkgbuild_status=$?
+  if [ ! $pkgbuild_status -eq 0 ]; then
+    error_echo "macOS packaging failed with status code ${pkgbuild_status}." $pkgbuild_status
     return 127
   fi
 
-  PACKAGE_MACOS_RESULT=$package_name
+  more_verbose_echo "${CYAN}Packaged $base_name.pkg${RESET}"
+  more_verbose_echo "${CYAN}Running productbuild with sign key $MACOS_PACKAGE_SIGN_KEY, product $app_name/Contents/Info.plist and package $base_name.pkg to ${base_name}_signed.pkg.${RESET}"
+
+  productbuild --sign "$MACOS_PACKAGE_SIGN_KEY" --product "$app_name/Contents/Info.plist" --package "$base_name.pkg" "/Applications" "${base_name}_signed.pkg" \
+    > >(verbose_echo_stdin "productbuild") \
+    2> >(normal_echo_stderr "${RED}productbuild (error)")
+
+  PACKAGE_MACOS_RESULT="${base_name}_signed.pkg"
 
   return 0
 }
