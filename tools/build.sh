@@ -127,18 +127,41 @@ sign_macos() {
   verbose_echo "${CYAN}Signing macOS app and nested binaries...${RESET}"
 
   while IFS= read -r bin; do
-    verbose_echo "Signing nested binary: $bin"
+    verbose_echo "${CYAN}Signing nested binary: $bin${RESET}"
     codesign --force --verify --verbose --timestamp \
       --sign "$MACOS_CODE_SIGN_KEY" "$bin" \
       > >(verbose_echo_stdin "codesign (nested)") \
       2> >(normal_echo_stderr "${RED}codesign (nested error)")
   done < <(find "$app_name/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "*.so" -o -perm -111 \))
 
+
+  main_exec="$app_name/Contents/MacOS/$(basename "$app_name" .app)"
+  if [ -f "$main_exec" ]; then
+    verbose_echo "${CYAN}Signing main executable: $main_exec with entitlements${RESET}"
+    codesign --force --verify --verbose --timestamp \
+      --entitlements macos/Runner/Release.entitlements \
+      --sign "$MACOS_CODE_SIGN_KEY" "$main_exec" \
+      > >(verbose_echo_stdin "codesign (main exec)") \
+      2> >(normal_echo_stderr "${RED}codesign (main exec error)")
+
+    # Verify entitlements after signing
+    verbose_echo "${CYAN}Verifying entitlements for $main_exec${RESET}"
+    entitlements_output=$(codesign -d --entitlements - "$main_exec" 2>/dev/null)
+    if echo "$entitlements_output" | grep -q "com.apple.security.app-sandbox"; then
+      verbose_echo "${GREEN}App Sandbox entitlement found in $main_exec${RESET}"
+      more_verbose_echo "${CYAN}Entitlements output:\n$entitlements_output${RESET}"
+    else
+      error_echo "App Sandbox entitlement NOT found in $main_exec. Entitlements output:\n$entitlements_output" 1
+    fi
+  else
+    error_echo "Main executable not found at $main_exec" 1
+  fi
+
+  # Sign the .app container (without entitlements)
   codesign --force --verify --verbose --timestamp \
-    --entitlements macos/Runner/Release.entitlements \
     --sign "$MACOS_CODE_SIGN_KEY" "$app_name" \
-    > >(verbose_echo_stdin "codesign (main)") \
-    2> >(normal_echo_stderr "${RED}codesign (main error)")
+    > >(verbose_echo_stdin "codesign (main app)") \
+    2> >(normal_echo_stderr "${RED}codesign (main app error)")
   codesign_status=$?
   if [ ! $codesign_status -eq 0 ]; then
     error_echo "codesign failed with status code ${codesign_status}." $codesign_status
@@ -175,53 +198,6 @@ package_macos() {
   fi
 
   PACKAGE_MACOS_RESULT=$package_name
-
-  return 0
-}
-
-notarize_macos_pkg() {
-  pkg_path="$1"
-
-  # Basic validation
-  if [ -z "$pkg_path" ]; then
-    error_echo "notarize_macos_pkg: package path missing." 127
-    return 127
-  fi
-  if [ ! -f "$pkg_path" ]; then
-    error_echo "notarize_macos_pkg: $pkg_path does not exist." 127
-    return 127
-  fi
-
-  # Determine credentials for xcrun notarytool
-  cred_args=()
-  if [ "$AC_API_KEY_ID" ] && [ "$AC_API_KEY_ISSUER" ] && [ "$AC_API_PRIVATE_KEY" ]; then
-    cred_args+=(--key "$AC_API_PRIVATE_KEY" --key-id "$AC_API_KEY_ID" --issuer "$AC_API_KEY_ISSUER")
-  elif [ "$APPLE_ID" ] && [ "$APPLE_ID_PASSWORD" ]; then
-    cred_args+=(--apple-id "$APPLE_ID" --password "$APPLE_ID_PASSWORD")
-  else
-    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${RESET}"
-    return 0
-  fi
-
-  verbose_echo "${CYAN}Submitting $pkg_path for notarization...${RESET}"
-  xcrun notarytool submit "$pkg_path" "${cred_args[@]}" --wait \
-    > >(verbose_echo_stdin "notarytool") \
-    2> >(normal_echo_stderr "${RED}notarytool (error)")
-  submit_status=$?
-  if [ ! $submit_status -eq 0 ]; then
-    error_echo "Notarization failed with status code ${submit_status}." $submit_status
-    return 127
-  fi
-
-  verbose_echo "${CYAN}Stapling notarization ticket...${RESET}"
-  xcrun stapler staple "$pkg_path" \
-    > >(verbose_echo_stdin "stapler") \
-    2> >(normal_echo_stderr "${RED}stapler (error)")
-  staple_status=$?
-  if [ ! $staple_status -eq 0 ]; then
-    error_echo "Stapling failed with status code ${staple_status}." $staple_status
-    return 127
-  fi
 
   return 0
 }
@@ -367,9 +343,6 @@ ${GREEN}-K key      ${RESET}Signing identity for macOS installer signing.
 ${GREEN}-p          ${RESET}Path to the Provisioning Profile for the macOS app.
             (i) Can be set via environment variable 'MACOS_PROVISIONING_PROFILE'
             ${RED}(!) Required if target=macospkg${RESET}
-${GREEN}-n          ${RESET}Enable macOS package notarization.
-            (i) Can be set via environment variable 'ENABLE_MACOS_NOTARIZATION'
-            ${RED}(!) Requires environment variables. Consult -E.${RESET}
 ${GREEN}-i key      ${RESET}Signing identity for iOS installer signing.
             (i) Apple Distribution
             (i) Can be set via environment variable 'IOS_CODE_SIGN_KEY'
@@ -391,18 +364,6 @@ ${YELLOW}BUILD_DIR                  ${RESET}-- -b
 ${YELLOW}MACOS_CODE_SIGN_KEY        ${RESET}-- -k
 ${YELLOW}MACOS_PACKAGE_SIGN_KEY     ${RESET}-- -K
 ${YELLOW}MACOS_PROVISIONING_PROFILE ${RESET}-- -p
-${YELLOW}ENABLE_MACOS_NOTARIZATION  ${RESET}-- -n
-    ${RED}(!) Requires environment variable 'AC_API_KEY_ID', 'AC_API_KEY_ISSUER' and 'AC_API_PRIVATE_KEY', or 'APPLE_ID' and 'APPLE_ID_PASSWORD' to be set!'${RESET}
-${YELLOW}AC_API_KEY_ID              ${RESET}-- ${RED}NO COMMAND LINE ARGUMENT${RESET}
-    Notarization API key ID of application.
-${YELLOW}AC_API_KEY_ISSUER          ${RESET}-- ${RED}NO COMMAND LINE ARGUMENT${RESET}
-    Notarization issuer ID for API keys.
-${YELLOW}AC_API_PRIVATE_KEY         ${RESET}-- ${RED}NO COMMAND LINE ARGUMENT${RESET}
-    Notarization private key p8 file name.
-${YELLOW}APPLE_ID                   ${RESET}-- ${RED}NO COMMAND LINE ARGUMENT${RESET}
-    Notarization Apple ID.
-${YELLOW}APPLE_ID_PASSWORD          ${RESET}-- ${RED}NO COMMAND LINE ARGUMENT${RESET}
-    Notarization app-specific password.
 ${YELLOW}IOS_CODE_SIGN_KEY          ${RESET}-- -i
 ${YELLOW}IOS_PROVISIONING_PROFILE   ${RESET}-- -P
 EOF
@@ -415,7 +376,7 @@ unset -v SKIP_FLUTTER_SETUP
 unset -v CONTINUE_ON_FAIL
 unset -v RUN_DEBUG_BUILD
 
-while getopts "t:f:b:k:K:p:i:P:nhEvVcdsq" opt; do
+while getopts "t:f:b:k:K:p:i:P:hEvVcdsq" opt; do
   case $opt in
     t)
       TARGETS=$OPTARG
@@ -452,9 +413,6 @@ while getopts "t:f:b:k:K:p:i:P:nhEvVcdsq" opt; do
       ;;
     c)
       CONTINUE_ON_FAIL=YES
-      ;;
-    n)
-      ENABLE_MACOS_NOTARIZATION=YES
       ;;
     d)
       RUN_DEBUG_BUILD=YES
@@ -629,13 +587,6 @@ for freedom in $FREEDOM_LIST; do
       fi
 
       target_results="$PACKAGE_MACOS_RESULT"
-
-      if [ "$ENABLE_MACOS_NOTARIZATION" ]; then
-        if ! notarize_macos_pkg "$target_results"; then
-          error_echo "Notarizing macOS Build failed" 1
-          continue
-        fi
-      fi
     fi
 
     if [ "$target" = "iosipa" ]; then
@@ -675,6 +626,7 @@ for freedom in $FREEDOM_LIST; do
       > >(verbose_echo_stdin "mkdir") \
       2> >(normal_echo_stderr "${RED}mkdir (error)")
     shopt -s nullglob
+    # shellcheck disable=SC2206
     files=( $target_results )
     cp -r "${files[@]}" "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "cp") \
