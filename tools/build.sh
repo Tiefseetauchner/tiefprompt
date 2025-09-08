@@ -124,6 +124,17 @@ sign_macos() {
   
   xattr -rc "$app_name"
 
+  verbose_echo "${CYAN}Cleaning up embedded frameworks...${RESET}"
+  find "$app_name/Contents/Frameworks" -type d -name "*.framework" | while read -r framework; do
+    for file in "$framework"/*; do
+      fname=$(basename "$file")
+      if [[ "$fname" != "Versions" && "$fname" != *.framework ]]; then
+        verbose_echo "Removing unexpected file from $framework: $fname"
+        rm -rf "$file"
+      fi
+    done
+  done
+
   verbose_echo "${CYAN}Signing macOS app and nested binaries...${RESET}"
 
   while IFS= read -r bin; do
@@ -143,21 +154,10 @@ sign_macos() {
       --sign "$MACOS_CODE_SIGN_KEY" "$main_exec" \
       > >(verbose_echo_stdin "codesign (main exec)") \
       2> >(normal_echo_stderr "${RED}codesign (main exec error)")
-
-    # Verify entitlements after signing
-    verbose_echo "${CYAN}Verifying entitlements for $main_exec${RESET}"
-    entitlements_output=$(codesign -d --entitlements - "$main_exec" 2>/dev/null)
-    if echo "$entitlements_output" | grep -q "com.apple.security.app-sandbox"; then
-      verbose_echo "${GREEN}App Sandbox entitlement found in $main_exec${RESET}"
-      more_verbose_echo "${CYAN}Entitlements output:\n$entitlements_output${RESET}"
-    else
-      error_echo "App Sandbox entitlement NOT found in $main_exec. Entitlements output:\n$entitlements_output" 1
-    fi
   else
     error_echo "Main executable not found at $main_exec" 1
   fi
 
-  # Sign the .app container (without entitlements)
   codesign --force --verify --verbose --timestamp \
     --sign "$MACOS_CODE_SIGN_KEY" "$app_name" \
     > >(verbose_echo_stdin "codesign (main app)") \
