@@ -180,10 +180,6 @@ package_macos() {
 }
 
 notarize_macos_pkg() {
-  if [ ! "$ENABLE_MACOS_NOTARIZATION" ]; then
-    return 0
-  fi
-
   pkg_path="$1"
 
   # Basic validation
@@ -634,10 +630,13 @@ for freedom in $FREEDOM_LIST; do
 
       target_results="$PACKAGE_MACOS_RESULT"
 
+  if [ "$ENABLE_MACOS_NOTARIZATION" ]; then
+    
       if ! notarize_macos_pkg "$target_results"; then
         error_echo "Notarizing macOS Build failed" 1
         continue
       fi
+  fi
     fi
 
     if [ "$target" = "iosipa" ]; then
@@ -676,7 +675,7 @@ for freedom in $FREEDOM_LIST; do
     mkdir -p "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "mkdir") \
       2> >(normal_echo_stderr "${RED}mkdir (error)")
-      shopt -s nullglob
+    shopt -s nullglob
     files=( $target_results )
     cp "${files[@]}" "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "cp") \
