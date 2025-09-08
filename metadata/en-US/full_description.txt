@@ -1,9 +1,7 @@
-Tiefprompt is designed to provide a simple and customizable scrolling text experience for presentations, video recording, and speeches. It includes essential features for adjusting the reading experience and controlling playback in a convenient way.
+TiefPrompt is an extraordinarily simple teleprompter app for creators, presenters, and professionals. 
 
-Features include but are not limited to:
-* Keyboard Control: Navigate and control playback using a keyboard.
-* Reading Indicators: Visual indicators to assist with tracking text while reading.
-* Customizable Fonts: Change the font style and color to suit personal preferences.
-* Save and Manage Scripts: Store custom scripts and delete them when no longer needed.
+Load your script from a file or paste it directly, then control playback with play, pause, speed adjustment, and orientation flip options.
 
-The app aims to be lightweight, efficient, and free of unnecessary distractions.
+TiefPrompt is open-source and available across platforms. Perfect for video recording, live presentations, and speech practice.
+
+Fully featured with adjustable fonts, custom colors, and keyboard shortcuts to all your likings. Take control of your teleprompter with the no-distraction interface.
