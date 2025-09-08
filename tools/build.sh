@@ -630,13 +630,12 @@ for freedom in $FREEDOM_LIST; do
 
       target_results="$PACKAGE_MACOS_RESULT"
 
-  if [ "$ENABLE_MACOS_NOTARIZATION" ]; then
-    
-      if ! notarize_macos_pkg "$target_results"; then
-        error_echo "Notarizing macOS Build failed" 1
-        continue
+      if [ "$ENABLE_MACOS_NOTARIZATION" ]; then
+        if ! notarize_macos_pkg "$target_results"; then
+          error_echo "Notarizing macOS Build failed" 1
+          continue
+        fi
       fi
-  fi
     fi
 
     if [ "$target" = "iosipa" ]; then
