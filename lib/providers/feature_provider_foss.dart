@@ -19,4 +19,10 @@ class FeaturesFoss extends Features {
     // No purchase logic for foss builds
     return Future.value();
   }
+
+  @override
+  Future<bool> restorePurchase() {
+    // No restore logic for foss builds
+    return Future.value(false);
+  }
 }

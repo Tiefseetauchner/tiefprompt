@@ -14,6 +14,7 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
+    final featureKind = ref.watch(featuresProvider).featureKind;
 
     return switch (settings) {
       AsyncData(:final value) => Scaffold(
@@ -67,6 +68,22 @@ class SettingsScreen extends ConsumerWidget {
                   .read(settingsProvider.notifier)
                   .setAppPrimaryColor(updatedValue),
             ),
+            if (featureKind == FeatureKind.freeVersion ||
+                featureKind == FeatureKind.paidVersion)
+              ListTile(
+                title: Text(context.tr("SettingsScreen.RestorePurchases")),
+                leading: Icon(Icons.restore),
+                onTap: () {
+                  ref.read(featuresProvider.notifier).restorePurchase();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        context.tr("SettingsScreen.RestorePurchases_Snackbar"),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ListTile(
               hoverColor: const Color.fromARGB(255, 255, 175, 169),
               title: Text(context.tr("SettingsScreen.ListTile_Reset")),

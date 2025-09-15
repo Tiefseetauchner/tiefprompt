@@ -119,4 +119,23 @@ class FeaturesFreemium extends Features {
 
     return Future.value();
   }
+
+  @override
+  Future<bool> restorePurchase() async {
+    try {
+      if (Platform.isAndroid) {
+        final resp = await InAppPurchase.instance
+            .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>()
+            .queryPastPurchases();
+        _onPurchaseUpdate(resp.pastPurchases);
+      } else {
+        await _iap.restorePurchases();
+      }
+      return true;
+    } catch (e) {
+      ref.read(bannerMessageProvider.notifier).state =
+          "Failed to restore purchases: $e";
+      return false;
+    }
+  }
 }

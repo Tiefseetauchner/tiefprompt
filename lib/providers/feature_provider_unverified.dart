@@ -19,4 +19,10 @@ class FeaturesUnverified extends Features {
     // No purchase logic for unverified builds
     return Future.value();
   }
+
+  @override
+  Future<bool> restorePurchase() {
+    // No restore logic for unverified builds
+    return Future.value(false);
+  }
 }
