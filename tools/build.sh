@@ -158,7 +158,7 @@ sign_macos() {
     error_echo "Main executable not found at $main_exec" 1
   fi
 
-  codesign --force --verify --verbose --timestamp \
+  codesign --force --verify --verbose --timestamp --options runtime --preserve-metadata=identifier,requirements,flags,runtime \
     --sign "$MACOS_CODE_SIGN_KEY" "$app_name" \
     > >(verbose_echo_stdin "codesign (main app)") \
     2> >(normal_echo_stderr "${RED}codesign (main app error)")
@@ -187,24 +187,15 @@ package_macos() {
     > >(verbose_echo_stdin "cp provisionprofile") \
     2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
 
-  more_verbose_echo "${CYAN}Running pkgbuild with sign key $MACOS_PACKAGE_SIGN_KEY, component $app_name and package $base_name.pkg.${RESET}"
-  pkgbuild --sign "$MACOS_PACKAGE_SIGN_KEY" --component "$app_name" "$base_name.pkg" \
-    > >(verbose_echo_stdin "pkgbuild") \
-    2> >(normal_echo_stderr "${RED}pkgbuild (error)")
-  pkgbuild_status=$?
-  if [ ! $pkgbuild_status -eq 0 ]; then
-    error_echo "macOS packaging failed with status code ${pkgbuild_status}." $pkgbuild_status
-    return 127
-  fi
-
-  more_verbose_echo "${CYAN}Packaged $base_name.pkg${RESET}"
-  more_verbose_echo "${CYAN}Running productbuild with sign key $MACOS_PACKAGE_SIGN_KEY, product $app_name/Contents/Info.plist and package $base_name.pkg to ${base_name}_signed.pkg.${RESET}"
-
-  productbuild --sign "$MACOS_PACKAGE_SIGN_KEY" --product "$app_name/Contents/Info.plist" --package "$base_name.pkg" "/Applications" "${base_name}_signed.pkg" \
-    > >(verbose_echo_stdin "productbuild") \
+  more_verbose_echo "${CYAN}Creating macOS pkg...${RESET}"
+  productbuild --component "$app_name" /Applications \
+    --sign "$MACOS_PACKAGE_SIGN_KEY" \
+    "${base_name}.pkg" \
+    > >(more_verbose_echo_stdin "productbuild") \
     2> >(normal_echo_stderr "${RED}productbuild (error)")
 
-  PACKAGE_MACOS_RESULT="${base_name}_signed.pkg"
+
+  PACKAGE_MACOS_RESULT="${base_name}.pkg"
 
   return 0
 }
@@ -557,9 +548,9 @@ for freedom in $FREEDOM_LIST; do
     target_results=$scratch_dir/$(basename "$target_results")
     more_verbose_echo "${CYAN}Scratch dir ready.${RESET}"
 
-    if [ "$target" = "macos" ] || [ "$target" = "macospkg" ]; then
-      sign_macos "$target_results"
-    fi
+    # if [ "$target" = "macos" ] || [ "$target" = "macospkg" ]; then
+    #   sign_macos "$target_results"
+    # fi
     
     if [ "$target" = "iosipa" ]; then
       sign_ios "$target_results"
