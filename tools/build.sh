@@ -182,10 +182,10 @@ package_macos() {
     return 127
   fi
 
-  more_verbose_echo "${CYAN}Copying Provisioning Profile${RESET}"
-  cp "$MACOS_PROVISIONING_PROFILE" "$app_name/Contents/embedded.provisionprofile" \
-    > >(verbose_echo_stdin "cp provisionprofile") \
-    2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
+  # more_verbose_echo "${CYAN}Copying Provisioning Profile${RESET}"
+  # cp "$MACOS_PROVISIONING_PROFILE" "$app_name/Contents/embedded.provisionprofile" \
+  #   > >(verbose_echo_stdin "cp provisionprofile") \
+  #   2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
 
   more_verbose_echo "${CYAN}Creating macOS pkg...${RESET}"
   productbuild --component "$app_name" /Applications \
