@@ -200,6 +200,25 @@ package_macos() {
   return 0
 }
 
+add_ios_swiftsupport() {
+  more_verbose_echo "${CYAN}Adding iOS SwiftSupport Folder${RESET}"
+
+  app_path=$(find "$1" -name "*.app" -maxdepth 1)
+
+  mkdir -p "$2/SwiftSupport" \
+    > >(more_verbose_echo_stdin "mkdir") \
+    2> >(normal_echo_stderr "${RED}mkdir (error)")
+  mkdir -p "$2/SwiftSupport/iphoneos" \
+    > >(more_verbose_echo_stdin "mkdir") \
+    2> >(normal_echo_stderr "${RED}mkdir (error)")
+  find "$app_path/Frameworks" -type f -name "*.dylib" | while read -r lib; do
+    cp "$lib" "$2/SwiftSupport/iphoneos"\
+      > >(more_verbose_echo_stdin "cp") \
+      2> >(normal_echo_stderr "${RED}cp (error)")
+  done
+}
+
+
 sign_ios() {
   if [ -z "$IOS_CODE_SIGN_KEY" ]; then
     error_echo "-i must be set to sign the .app." 127
@@ -242,6 +261,7 @@ package_ios_ipa() {
 
   ipa_name="$(basename "${app_path%.app}.ipa")"
   tmpdir=$build_dir/ipa_temp
+  add_ios_swiftsupport "$target_results" "$tmpdir/" 
   more_verbose_echo "${CYAN}Creating temp dir $tmpdir/Payload${RESET}"
   mkdir -p "$tmpdir" \
     > >(more_verbose_echo_stdin "mkdir") \
@@ -253,9 +273,9 @@ package_ios_ipa() {
   cp -R "$app_path" "$tmpdir/Payload/" \
     > >(more_verbose_echo_stdin "cp") \
     2> >(normal_echo_stderr "${RED}cp (error)")
-  more_verbose_echo "${CYAN}Zipping $tmpdir/Payload to $ipa_name${RESET}"
+  more_verbose_echo "${CYAN}Zipping $tmpdir/ to $ipa_name${RESET}"
   (cd "$tmpdir" && \
-    zip -r "$ipa_name" Payload \
+    zip -r "$ipa_name" . \
       > >(more_verbose_echo_stdin "zip") \
       2> >(normal_echo_stderr "${RED}zip (error)"))
   mv "$tmpdir/$ipa_name" "$build_dir/" \

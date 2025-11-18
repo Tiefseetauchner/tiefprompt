@@ -7,18 +7,27 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
+import 'package:tiefprompt/providers/in_app_purchase_provider.dart';
 
 class FeaturesFreemium extends Features {
-  late final InAppPurchase _iap;
-  late final StreamSubscription<List<PurchaseDetails>> _sub;
+  late final InAppPurchase _iap = InAppPurchase.instance;
+  StreamSubscription<List<PurchaseDetails>>? _sub;
 
   final Set<String> _productIds = {kProId};
-  final Map<String, ProductDetails> _products = {};
-  final Set<String> _owned = {};
 
   @override
   Future<bool> bootstrap() async {
-    _iap = InAppPurchase.instance;
+    _sub ??= _iap.purchaseStream.listen(
+      (details) => unawaited(_onPurchaseUpdate(details)),
+      onError: (error) {
+        ref.read(bannerMessageProvider.notifier).state =
+            "Failed to initialize payment model: $error";
+      },
+    );
+    ref.onDispose(() {
+      _sub?.cancel();
+      _sub = null;
+    });
 
     try {
       if (!await _iap.isAvailable()) {
@@ -33,47 +42,41 @@ class FeaturesFreemium extends Features {
       return false;
     }
 
-    _sub = _iap.purchaseStream.listen(
-      _onPurchaseUpdate,
-      onDone: () => _sub.cancel(),
-      onError: (error) {
-        ref.read(bannerMessageProvider.notifier).state =
-            "Failed to initialize payment model: $error";
-      },
-    );
-
     final resp = await _iap.queryProductDetails(_productIds);
     if (resp.error != null) {
       ref.read(bannerMessageProvider.notifier).state =
-          "Failed to initialize payment model: ${resp.error}";
+          "Failed to initialize payment model: failed to load product details: ${resp.error}";
       return false;
     } else if (resp.notFoundIDs.isNotEmpty) {
       ref.read(bannerMessageProvider.notifier).state =
           "Failed to initialize payment model: Ids were not found. ${resp.notFoundIDs.join(", ")}";
       return false;
     } else {
-      _products.addEntries(resp.productDetails.map((p) => MapEntry(p.id, p)));
+      ref
+          .read(inAppPurchaseDataProvider.notifier)
+          .setProducts(resp.productDetails);
     }
 
     if (Platform.isAndroid) {
       final resp = await InAppPurchase.instance
           .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>()
           .queryPastPurchases();
-      _onPurchaseUpdate(resp.pastPurchases);
+      await _onPurchaseUpdate(resp.pastPurchases);
     } else {
       await _iap.restorePurchases();
     }
+
     return true;
   }
 
-  void _onPurchaseUpdate(List<PurchaseDetails> details) {
+  Future<void> _onPurchaseUpdate(List<PurchaseDetails> details) async {
     for (final p in details) {
       switch (p.status) {
         case PurchaseStatus.purchased:
         case PurchaseStatus.restored:
-          _owned.add(p.productID);
+          if (p.pendingCompletePurchase) await _iap.completePurchase(p);
+          ref.read(inAppPurchaseDataProvider.notifier).addOwned(p.productID);
           state = build();
-          if (p.pendingCompletePurchase) _iap.completePurchase(p);
           break;
         case PurchaseStatus.error:
           ref.read(bannerMessageProvider.notifier).state =
@@ -88,7 +91,7 @@ class FeaturesFreemium extends Features {
 
   @override
   AppFeatures build() {
-    if (_owned.contains(kProId)) {
+    if (ref.read(inAppPurchaseDataProvider).owned.contains(kProId)) {
       return AppFeatures(kAllFeatures, FeatureKind.paidVersion);
     }
 
@@ -97,9 +100,13 @@ class FeaturesFreemium extends Features {
 
   @override
   Future<void> buyPro() async {
-    final proProduct = _products[kProId];
+    final proProduct = ref
+        .read(inAppPurchaseDataProvider)
+        .products
+        .where((p) => p.id == kProId)
+        .singleOrNull;
 
-    if (_owned.contains(kProId)) {
+    if (ref.read(inAppPurchaseDataProvider).owned.contains(kProId)) {
       ref.read(bannerMessageProvider.notifier).state =
           "Failed to initialize purchase: $kProId is already owned by this account";
       return;
@@ -127,7 +134,7 @@ class FeaturesFreemium extends Features {
         final resp = await InAppPurchase.instance
             .getPlatformAddition<InAppPurchaseAndroidPlatformAddition>()
             .queryPastPurchases();
-        _onPurchaseUpdate(resp.pastPurchases);
+        await _onPurchaseUpdate(resp.pastPurchases);
       } else {
         await _iap.restorePurchases();
       }

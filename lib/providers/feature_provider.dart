@@ -4,7 +4,7 @@ import 'package:tiefprompt/providers/app_features.dart';
 
 part 'feature_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class Features extends _$Features {
   @override
   AppFeatures build() {

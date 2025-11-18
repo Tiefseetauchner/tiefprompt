@@ -68,6 +68,8 @@
     "Reset_Warning": "Yer 'bout'a scuttle all preferences!",
     "Abort": "Nay",
     "Confirm": "Aye",
+    "RestorePurchases": "Regain control",
+    "RestorePurchases_Snackbar": "Control 's regained!",
     "ProFeatureDisabled": "Yer may needa pay up ter use this!"
   },
   "PrompterScreen": {
