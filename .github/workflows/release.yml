@@ -81,26 +81,34 @@ jobs:
       - name: Prep artifacts path
         shell: bash
         run: |
-          mkdir ../artifacts
+          mkdir artifacts/
 
       - name: Create temp keychain & import certificates
         shell: bash
         run: |
-          KEYCHAIN=build.keychain-db
-          security create-keychain -p "${{ secrets.KEYCHAIN_PASSWORD }}" "$KEYCHAIN"
+          export KEYCHAIN=build.keychain-db
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
           security set-keychain-settings -lut 21600 "$KEYCHAIN"
-          security unlock-keychain -p "${{ secrets.KEYCHAIN_PASSWORD }}" "$KEYCHAIN"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
           security list-keychains -d user -s "$KEYCHAIN"
           mkdir -p keys
-          echo "${{ secrets.MACOS_APPSTORE_APP_CERT_P12_BASE64 }}" | base64 -d > keys/appstore-app.p12
-          echo "${{ secrets.MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64 }}" | base64 -d > keys/appstore-installer.p12
-          security import keys/appstore-app.p12 -k "$KEYCHAIN" -P "${{ secrets.MACOS_APPSTORE_CERT_PASSWORD }}" -T /usr/bin/codesign
-          security import keys/appstore-installer.p12 -k "$KEYCHAIN" -P "${{ secrets.MACOS_APPSTORE_CERT_PASSWORD }}" -T /usr/bin/productbuild
-          echo "${{ secrets.MACOS_DEVID_APP_CERT_P12_BASE64 }}" | base64 -d > keys/devid-app.p12
-          echo "${{ secrets.MACOS_DEVID_INSTALLER_CERT_P12_BASE64 }}" | base64 -d > keys/devid-installer.p12
-          security import keys/devid-app.p12 -k "$KEYCHAIN" -P "${{ secrets.MACOS_DEVID_CERT_PASSWORD }}" -T /usr/bin/codesign
-          security import keys/devid-installer.p12 -k "$KEYCHAIN" -P "${{ secrets.MACOS_DEVID_CERT_PASSWORD }}" -T /usr/bin/productbuild
-          security set-key-partition-list -S apple-tool:,apple: -s -k "${{ secrets.KEYCHAIN_PASSWORD }}" "$KEYCHAIN"
+          echo "$MACOS_APPSTORE_APP_CERT_P12_BASE64" | base64 -d > keys/appstore-app.p12
+          echo "$MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64" | base64 -d > keys/appstore-installer.p12
+          security import keys/appstore-app.p12 -k "$KEYCHAIN" -P "$MACOS_APPSTORE_CERT_PASSWORD" -T /usr/bin/codesign
+          security import keys/appstore-installer.p12 -k "$KEYCHAIN" -P "$MACOS_APPSTORE_CERT_PASSWORD" -T /usr/bin/productbuild
+          echo "$MACOS_DEVID_APP_CERT_P12_BASE64" | base64 -d > keys/devid-app.p12
+          echo "$MACOS_DEVID_INSTALLER_CERT_P12_BASE64" | base64 -d > keys/devid-installer.p12
+          security import keys/devid-app.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/codesign
+          security import keys/devid-installer.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/productbuild
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+        env:
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          MACOS_APPSTORE_APP_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_APP_CERT_P12_BASE64 }}
+          MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64 }}
+          MACOS_APPSTORE_CERT_PASSWORD: ${{ secrets.MACOS_APPSTORE_CERT_PASSWORD }}
+          MACOS_DEVID_APP_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_APP_CERT_P12_BASE64 }}
+          MACOS_DEVID_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_INSTALLER_CERT_P12_BASE64 }}
+          MACOS_DEVID_CERT_PASSWORD: ${{ secrets.MACOS_DEVID_CERT_PASSWORD }}
         working-directory: app
 
       - name: Write provisioning profile
