@@ -74,6 +74,8 @@
     "Reset_Warning": "You're about to reset all settings irreversably!",
     "Abort": "Abort",
     "Confirm": "Confirm",
+    "RestorePurchases": "Restore Purchases",
+    "RestorePurchases_Snackbar": "Purchases were restored.",
     "ProFeatureDisabled": "This function is only available in the pro version."
   },
   "PrompterScreen": {

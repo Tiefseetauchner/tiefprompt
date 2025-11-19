@@ -4,7 +4,7 @@ import 'package:tiefprompt/providers/app_features.dart';
 
 part 'feature_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class Features extends _$Features {
   @override
   AppFeatures build() {
@@ -17,5 +17,11 @@ class Features extends _$Features {
 
   Future<void> buyPro() {
     throw UnimplementedError('buyPro must be implemented in subclasses');
+  }
+
+  Future<bool> restorePurchase() {
+    throw UnimplementedError(
+      'restorePurchase must be implemented in subclasses',
+    );
   }
 }

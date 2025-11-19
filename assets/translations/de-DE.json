@@ -68,6 +68,8 @@
     "Reset_Warning": "Die Einstellungen werden hier komplett zurück gesetzt!",
     "Abort": "Abbrechen",
     "Confirm": "Fortfahren",
+    "RestorePurchases": "Käufe wiederherstellen",
+    "RestorePurchases_Snackbar": "",
     "ProFeatureDisabled": "Diese Funktion ist nur in der Pro-Version verfügbar."
   },
   "PrompterScreen": {

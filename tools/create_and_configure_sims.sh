@@ -20,9 +20,9 @@ done
 
 # Desired devices
 DEVICES=(
-  "iPhone 15 Pro Max=iPhone-6-9"
-  "iPhone 14 Pro Max=iPhone-6-5"
-  "iPad Pro (12.9-inch) (6th generation)=iPad-13"
+  "iPhone 16 Pro Max=iPhone-6-9"
+  "iPhone 16 Pro=iPhone-6-5"
+  "iPad Pro 13-inch (M4)=iPad-13"
 )
 
 # iOS runtime (adjust as needed)

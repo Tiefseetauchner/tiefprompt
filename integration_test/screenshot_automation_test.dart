@@ -1,16 +1,20 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/providers/feature_provider.dart';
+import 'package:tiefprompt/providers/feature_provider_freemium.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
+import 'package:tiefprompt/ui/screens/settings_screen.dart';
 
 import 'mock_app.dart';
 import 'mock_script_service.dart';
@@ -36,6 +40,9 @@ Future<void> main() async {
         platformName = "linux";
       } else if (Platform.isMacOS) {
         platformName = "macos";
+      } else if (Platform.isIOS) {
+        final deviceInfo = await DeviceInfoPlugin().iosInfo;
+        platformName = "ios${deviceInfo.modelName}";
       } else if (Platform.isWindows) {
         platformName = "windows";
       } else {
@@ -89,6 +96,20 @@ Future<void> main() async {
         caseName: "dark",
       );
     });
+
+        testWidgets("Take screenshot of settings screen", (WidgetTester tester) async {
+      await tester.pumpWidget(MockApp(locale: locale.$2, overrides: [
+        featuresProvider.overrideWith(() => FeaturesFreemium()),
+      ], child: DisplaySettingsScreen()));
+      await tester.pumpAndSettle();
+
+      await generateScreenshot(
+        tester,
+        screenName: "settings_screen",
+        caseName: "default",
+      );
+    });
+
 
     testWidgets("Take screenshot of load script screen", (
       WidgetTester tester,
