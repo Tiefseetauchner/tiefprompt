@@ -1,9 +1,8 @@
 name: Build
 
 # NOTE: GHA does not seem to like this. Disabled for now.
-
-on:
-  pull_request
+# on:
+#   pull-request
 
 jobs:
   build-linux:
