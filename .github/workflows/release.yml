@@ -101,14 +101,14 @@ jobs:
           security import keys/devid-app.p12 -k "$KEYCHAIN" -P "${{ secrets.MACOS_DEVID_CERT_PASSWORD }}" -T /usr/bin/codesign
           security import keys/devid-installer.p12 -k "$KEYCHAIN" -P "${{ secrets.MACOS_DEVID_CERT_PASSWORD }}" -T /usr/bin/productbuild
           security set-key-partition-list -S apple-tool:,apple: -s -k "${{ secrets.KEYCHAIN_PASSWORD }}" "$KEYCHAIN"
-        workin-directory: app
+        working-directory: app
 
       - name: Write provisioning profile
         run: |
           mkdir -p keys
           echo "${{ secrets.MACOS_APPSTORE_PROVISIONPROFILE_BASE64 }}" | base64 -d > keys/TiefPrompt_Prod_Provisioning.provisionprofile
           echo "${{ secrets.IOS_APPSTORE_PROVISIONPROFILE_BASE64 }}" | base64 -d > keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision
-        workin-directory: app
+        working-directory: app
 
       - name: Build macOS and iOS App for App Store publishing
         shell: bash
@@ -125,7 +125,7 @@ jobs:
       - name: Write app api key
         run: |
           echo "${{ secrets.AC_API_PRIVATE_KEY }}" | base64 -d > keys/authkey.p8
-        workin-directory: app
+        working-directory: app
 
       - name: Publish to App Store
         shell: bash
