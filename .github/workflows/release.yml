@@ -83,6 +83,19 @@ jobs:
         run: |
           mkdir artifacts/
 
+      - name: Debug secrets
+        run: |
+          echo "MACOS_APPSTORE_APP_CERT_P12_BASE64 length: ${#MACOS_APPSTORE_APP_CERT_P12_BASE64}"
+          echo "MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64 length: ${#MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64}"
+          echo "MACOS_DEVID_APP_CERT_P12_BASE64 length: ${#MACOS_DEVID_APP_CERT_P12_BASE64}"
+          echo "MACOS_DEVID_INSTALLER_CERT_P12_BASE64 length: ${#MACOS_DEVID_INSTALLER_CERT_P12_BASE64}"
+        env:
+          MACOS_APPSTORE_APP_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_APP_CERT_P12_BASE64 }}
+          MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64 }}
+          MACOS_DEVID_APP_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_APP_CERT_P12_BASE64 }}
+          MACOS_DEVID_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_INSTALLER_CERT_P12_BASE64 }}
+
+
       - name: Create temp keychain & import certificates
         shell: bash
         run: |
