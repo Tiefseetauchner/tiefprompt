@@ -3,7 +3,7 @@ name: Build
 # NOTE: GHA does not seem to like this. Disabled for now.
 
 on:
-  # pull_request:
+  pull_request:
 
 jobs:
   build-linux:
