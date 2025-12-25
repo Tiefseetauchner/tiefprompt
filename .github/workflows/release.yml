@@ -66,108 +66,108 @@ jobs:
           name: tiefprompt-${{ runner.os }}
           path: artifacts/*
 
-  build-apple:
-    name: Build for macOS and iOS
-    runs-on: macos-latest
+  # build-apple:
+  #   name: Build for macOS and iOS
+  #   runs-on: macos-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          path: app
-          submodules: recursive
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+  #       with:
+  #         path: app
+  #         submodules: recursive
+  #         fetch-depth: 0
 
-      - name: Prep artifacts path
-        shell: bash
-        run: |
-          mkdir artifacts/
+  #     - name: Prep artifacts path
+  #       shell: bash
+  #       run: |
+  #         mkdir artifacts/
 
-      - name: Create temp keychain & import certificates
-        shell: bash
-        run: |
-          export KEYCHAIN=build.keychain-db
-          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
-          security set-keychain-settings -lut 21600 "$KEYCHAIN"
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
-          mkdir -p keys
-          echo "$MACOS_APPSTORE_APP_CERT_P12_BASE64" | base64 -d > keys/appstore-app.p12
-          echo "$MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64" | base64 -d > keys/appstore-installer.p12
-          security import keys/appstore-app.p12 -k "$KEYCHAIN" -P "$MACOS_APPSTORE_CERT_PASSWORD" -T /usr/bin/codesign
-          security import keys/appstore-installer.p12 -k "$KEYCHAIN" -P "$MACOS_APPSTORE_CERT_PASSWORD" -T /usr/bin/productbuild
-          echo "$MACOS_DEVID_APP_CERT_P12_BASE64" | base64 -d > keys/devid-app.p12
-          echo "$MACOS_DEVID_INSTALLER_CERT_P12_BASE64" | base64 -d > keys/devid-installer.p12
-          security import keys/devid-app.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/codesign
-          security import keys/devid-installer.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/productbuild
-          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
-        env:
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-          MACOS_APPSTORE_APP_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_APP_CERT_P12_BASE64 }}
-          MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64 }}
-          MACOS_APPSTORE_CERT_PASSWORD: ${{ secrets.MACOS_APPSTORE_CERT_PASSWORD }}
-          MACOS_DEVID_APP_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_APP_CERT_P12_BASE64 }}
-          MACOS_DEVID_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_INSTALLER_CERT_P12_BASE64 }}
-          MACOS_DEVID_CERT_PASSWORD: ${{ secrets.MACOS_DEVID_CERT_PASSWORD }}
-        working-directory: app
+  #     - name: Create temp keychain & import certificates
+  #       shell: bash
+  #       run: |
+  #         export KEYCHAIN=build.keychain-db
+  #         security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+  #         security set-keychain-settings -lut 21600 "$KEYCHAIN"
+  #         security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+  #         mkdir -p keys
+  #         echo "$MACOS_APPSTORE_APP_CERT_P12_BASE64" | base64 -d > keys/appstore-app.p12
+  #         echo "$MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64" | base64 -d > keys/appstore-installer.p12
+  #         security import keys/appstore-app.p12 -k "$KEYCHAIN" -P "$MACOS_APPSTORE_CERT_PASSWORD" -T /usr/bin/codesign
+  #         security import keys/appstore-installer.p12 -k "$KEYCHAIN" -P "$MACOS_APPSTORE_CERT_PASSWORD" -T /usr/bin/productbuild
+  #         echo "$MACOS_DEVID_APP_CERT_P12_BASE64" | base64 -d > keys/devid-app.p12
+  #         echo "$MACOS_DEVID_INSTALLER_CERT_P12_BASE64" | base64 -d > keys/devid-installer.p12
+  #         security import keys/devid-app.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/codesign
+  #         security import keys/devid-installer.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/productbuild
+  #         security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+  #       env:
+  #         KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+  #         MACOS_APPSTORE_APP_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_APP_CERT_P12_BASE64 }}
+  #         MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_INSTALLER_CERT_P12_BASE64 }}
+  #         MACOS_APPSTORE_CERT_PASSWORD: ${{ secrets.MACOS_APPSTORE_CERT_PASSWORD }}
+  #         MACOS_DEVID_APP_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_APP_CERT_P12_BASE64 }}
+  #         MACOS_DEVID_INSTALLER_CERT_P12_BASE64: ${{ secrets.MACOS_DEVID_INSTALLER_CERT_P12_BASE64 }}
+  #         MACOS_DEVID_CERT_PASSWORD: ${{ secrets.MACOS_DEVID_CERT_PASSWORD }}
+  #       working-directory: app
 
-      - name: Write provisioning profile
-        run: |
-          mkdir -p keys
-          echo "${{ secrets.MACOS_APPSTORE_PROVISIONPROFILE_BASE64 }}" | base64 -d > keys/TiefPrompt_Prod_Provisioning.provisionprofile
-          echo "${{ secrets.IOS_APPSTORE_PROVISIONPROFILE_BASE64 }}" | base64 -d > keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision
-        working-directory: app
+  #     - name: Write provisioning profile
+  #       run: |
+  #         mkdir -p keys
+  #         echo "${{ secrets.MACOS_APPSTORE_PROVISIONPROFILE_BASE64 }}" | base64 -d > keys/TiefPrompt_Prod_Provisioning.provisionprofile
+  #         echo "${{ secrets.IOS_APPSTORE_PROVISIONPROFILE_BASE64 }}" | base64 -d > keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision
+  #       working-directory: app
 
-      - name: Build macOS and iOS App for App Store publishing
-        shell: bash
-        run: |
-          mkdir -p package
-          export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
-          export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
-          export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
-          ./tools/build.sh -t macospkg,iosipa -f freemium -b ./package -V
-        working-directory: app
+  #     - name: Build macOS and iOS App for App Store publishing
+  #       shell: bash
+  #       run: |
+  #         mkdir -p package
+  #         export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
+  #         export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
+  #         export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
+  #         export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
+  #         export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
+  #         ./tools/build.sh -t macospkg,iosipa -f freemium -b ./package -V
+  #       working-directory: app
 
-      - name: Write app api key
-        run: |
-          echo "${{ secrets.AC_API_PRIVATE_KEY }}" | base64 -d > keys/authkey.p8
-        working-directory: app
+  #     - name: Write app api key
+  #       run: |
+  #         echo "${{ secrets.AC_API_PRIVATE_KEY }}" | base64 -d > keys/authkey.p8
+  #       working-directory: app
 
-      - name: Publish to App Store
-        shell: bash
-        run: |
-          export API_PRIVATE_KEYS_DIR=./app/keys
-          xcrun altool --validate-app \
-            -f package/freemium_tiefprompt.pkg \
-            -t macos \
-            --apiKey ${{ secrets.AC_API_KEY_ID }} \
-            --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
-          xcrun altool --upload-app \
-            -f package/freemium_tiefprompt.pkg \
-            -t macos \
-            --apiKey ${{ secrets.AC_API_KEY_ID }} \
-            --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
+  #     - name: Publish to App Store
+  #       shell: bash
+  #       run: |
+  #         export API_PRIVATE_KEYS_DIR=./app/keys
+  #         xcrun altool --validate-app \
+  #           -f package/freemium_tiefprompt.pkg \
+  #           -t macos \
+  #           --apiKey ${{ secrets.AC_API_KEY_ID }} \
+  #           --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
+  #         xcrun altool --upload-app \
+  #           -f package/freemium_tiefprompt.pkg \
+  #           -t macos \
+  #           --apiKey ${{ secrets.AC_API_KEY_ID }} \
+  #           --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
 
-      - name: Build iOS and notarized macOS App
-        shell: bash
-        run: |
-          export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
-          export AC_API_KEY_ISSUER="${{ secrets.API_KEY_ISSUER }}"
-          export AC_API_KEY_ID="${{ secrets.AC_API_KEY_ID }}"
-          export AC_API_PRIVATE_KEY="./keys/authkey.p8"
-          export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
-          export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
-          ./tools/build.sh -t macos,macospkg,iosipa -f foss -b ../artifacts -Vn
-        working-directory: app
+  #     - name: Build iOS and notarized macOS App
+  #       shell: bash
+  #       run: |
+  #         export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
+  #         export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
+  #         export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
+  #         export AC_API_KEY_ISSUER="${{ secrets.API_KEY_ISSUER }}"
+  #         export AC_API_KEY_ID="${{ secrets.AC_API_KEY_ID }}"
+  #         export AC_API_PRIVATE_KEY="./keys/authkey.p8"
+  #         export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
+  #         export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
+  #         ./tools/build.sh -t macos,macospkg,iosipa -f foss -b ../artifacts -Vn
+  #       working-directory: app
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: tiefprompt-${{ runner.os }}
-          path: artifacts/*
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: tiefprompt-${{ runner.os }}
+  #         path: artifacts/*
 
   build-android:
     name: Build for Android
@@ -214,7 +214,7 @@ jobs:
   nightly-release:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: [build-linux, build-windows, build-android, build-apple]
+    needs: [build-linux, build-windows, build-android]
 
     steps:
       - name: Checkout Repository
@@ -255,7 +255,7 @@ jobs:
   version-release:
     if: startswith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
-    needs: [build-linux, build-windows, build-android, build-apple]
+    needs: [build-linux, build-windows, build-android]
 
     steps:
       - name: Checkout Repository
