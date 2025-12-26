@@ -108,6 +108,7 @@ build_msix() {
   if [ ! $msix_status -eq 0 ]; then
     error_echo "MSIX packaging failed with status code ${msix_status}." $msix_status
   fi
+  target_results="build/windows/x64/runner/Release/*.msix"
 }
 
 get_first_app() {
@@ -554,10 +555,12 @@ for freedom in $FREEDOM_LIST; do
 
     more_verbose_echo "${CYAN}Building with target options: '${target_options[*]}'${RESET}"
 
-    flutter_status=$(build_flutter "$target" "$freedom" "${target_options[@]}")
-    if [ ! "$flutter_status" ]; then
-      error_echo "Flutter exited with status code ${flutter_status}." "$flutter_status"
-      continue
+    if [ ! "$target" = "windowsmsix" ]; then
+      flutter_status=$(build_flutter "$target" "$freedom" "${target_options[@]}")
+      if [ ! "$flutter_status" ]; then
+        error_echo "Flutter exited with status code ${flutter_status}." "$flutter_status"
+        continue
+      fi
     fi
 
     more_verbose_echo "${CYAN}Creating scratch dir...${RESET}"
@@ -594,8 +597,6 @@ for freedom in $FREEDOM_LIST; do
 
     if [ "$target" = "windowsmsix" ]; then
       build_msix
-
-      target_results="$target_results/*.msix"
     fi
 
     if [ "$target" = "macospkg" ]; then
