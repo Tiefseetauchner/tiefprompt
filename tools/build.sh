@@ -560,8 +560,9 @@ for freedom in $FREEDOM_LIST; do
     more_verbose_echo "${CYAN}Building with target options: '${target_options[*]}'${RESET}"
 
     if [ ! "$target" = "windowsmsix" ]; then
-      flutter_status=$(build_flutter "$target" "$freedom" "${target_options[@]}")
-      if [ ! "$flutter_status" ]; then
+      flutter_status=0
+      build_flutter "$target" "$freedom" "${target_options[@]}" || flutter_status=$?
+      if [ $flutter_status -ne 0 ]; then
         error_echo "Flutter exited with status code ${flutter_status}." "$flutter_status"
         continue
       fi
@@ -644,7 +645,7 @@ for freedom in $FREEDOM_LIST; do
       target_results=$target_results/$compress_path
     fi
 
-    if [ "$freedom" = "freemium" ] then
+    if [ "$freedom" = "freemium" ]; then
       disable_iap
     fi
 
