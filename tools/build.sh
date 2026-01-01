@@ -89,6 +89,14 @@ prepare_flutter() {
     2> >(normal_echo_stderr "${RED}flutter (error)")
 }
 
+enable_iap() {
+  sed -i.iap_disabled 's/#  in_app_purchase/  in_app_purchase/g' pubspec.yaml
+}
+
+disable_iap() {
+  mv pubspec.yaml.iap_disabled pubspec.yaml
+}
+
 build_flutter() {
   normal_echo "${GREEN}Building for target $1 and freedom $2...${RESET}"
   shift 2
@@ -182,11 +190,6 @@ package_macos() {
     error_echo "-p must be set if building macOS packages to provide the provisioning profile." 127
     return 127
   fi
-
-  # more_verbose_echo "${CYAN}Copying Provisioning Profile${RESET}"
-  # cp "$MACOS_PROVISIONING_PROFILE" "$app_name/Contents/embedded.provisionprofile" \
-  #   > >(verbose_echo_stdin "cp provisionprofile") \
-  #   2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
 
   more_verbose_echo "${CYAN}Creating macOS pkg...${RESET}"
   productbuild --component "$app_name" /Applications \
@@ -542,6 +545,7 @@ for freedom in $FREEDOM_LIST; do
 
     case $freedom in
       freemium)
+        enable_iap
         target_options+=(-t lib/main_freemium.dart)
         ;;
       foss)
@@ -638,6 +642,10 @@ for freedom in $FREEDOM_LIST; do
       fi
 
       target_results=$target_results/$compress_path
+    fi
+
+    if [ "$freedom" = "freemium" ] then
+      disable_iap
     fi
 
     verbose_echo "${CYAN}Copying $target_results to $BUILD_DIR${RESET}"
