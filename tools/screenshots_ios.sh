@@ -76,7 +76,17 @@ stop_simulators() {
   sleep 5
 }
 
+enable_iap() {
+  sed -i.iap_disabled 's/#  in_app_purchase/  in_app_purchase/g' pubspec.yaml
+}
+
+disable_iap() {
+  mv pubspec.yaml.iap_disabled pubspec.yaml
+}
+
 run_tests() {
+  enable_iap
+
   SERVER_IP=127.0.0.1
   echo -e "${BLUE}SERVER_IP: $SERVER_IP${NC}"
   echo -e "${BLUE}Starting Flutter testing...${NC}"
@@ -89,6 +99,8 @@ run_tests() {
     trap - SIGINT
     exit 1
   fi
+
+  disable_iap
 }
 
 get_simulator_udids

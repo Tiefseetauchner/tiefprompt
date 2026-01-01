@@ -5,6 +5,7 @@ exitfn () {
   stop_emulator
   echo -e "${RED}Killing screenshot HTTP server with PID: $SERVER_PID${NC}"
   kill $SERVER_PID
+  disable_iap
   exit
 }
 
