@@ -64,7 +64,17 @@ start_emulator() {
   echo -e "${GREEN}$emulator_name is ready.${NC}"
 }
 
+enable_iap() {
+  sed -i.iap_disabled 's/#  in_app_purchase/  in_app_purchase/g' pubspec.yaml
+}
+
+disable_iap() {
+  mv pubspec.yaml.iap_disabled pubspec.yaml
+}
+
 run_tests() {
+  enable_iap
+  
   #SERVER_IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | tail -n 1)
   SERVER_IP=10.0.2.2
 
@@ -80,6 +90,8 @@ run_tests() {
     trap SIGINT
     exit 1
   fi
+
+  disable_iap
 }
 
 stop_emulator() {
