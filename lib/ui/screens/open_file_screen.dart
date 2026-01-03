@@ -32,7 +32,7 @@ class OpenFileScreen extends ConsumerWidget {
                       onPressed: () async {
                         final result = await FilePicker.platform.pickFiles(
                           type: FileType.custom,
-                          allowedExtensions: ['txt'],
+                          allowedExtensions: ['txt', 'md'],
                         );
                         if (result != null) {
                           final file = result.files.first;
