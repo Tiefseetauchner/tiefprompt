@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 
 final _userScrollingProvider = StateProvider<bool>((ref) => false);
@@ -9,8 +10,9 @@ class ScrollableTextController {
   final ScrollController scrollController;
 
   ScrollableTextController({double initialScrollOffset = 0.0})
-      : scrollController =
-            ScrollController(initialScrollOffset: initialScrollOffset);
+    : scrollController = ScrollController(
+        initialScrollOffset: initialScrollOffset,
+      );
 
   void jumpTo(double offset) {
     scrollController.jumpTo(offset);
@@ -83,23 +85,29 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       }
 
       widget.controller.scrollController.animateTo(
-          widget.controller.scrollController.position.pixels +
-              calculatedScrollOffset,
-          duration: Duration(milliseconds: 100),
-          curve: Curves.linear);
+        widget.controller.scrollController.position.pixels +
+            calculatedScrollOffset,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.linear,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaHeight = MediaQuery.of(context).size.height;
+    final mediaWidth = MediaQuery.of(context).size.width;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       widget.controller.scrollController.position.isScrollingNotifier
           .addListener(() {
-        ref.read(_userScrollingProvider.notifier).state = widget
-            .controller.scrollController.position.isScrollingNotifier.value;
-      });
+            ref.read(_userScrollingProvider.notifier).state = widget
+                .controller
+                .scrollController
+                .position
+                .isScrollingNotifier
+                .value;
+          });
     });
 
     final prompter = ref.watch(prompterProvider);
@@ -114,23 +122,32 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       _stopScrolling();
     }
     return Transform.flip(
-        flipX: prompter.mirroredX,
-        flipY: prompter.mirroredY,
-        child: SingleChildScrollView(
-          controller: widget.controller.scrollController,
-          padding: EdgeInsets.fromLTRB(
-              widget.sideMargin, mediaHeight, widget.sideMargin, 0),
-          child: Column(children: [
-            Text(
+      flipX: prompter.mirroredX,
+      flipY: prompter.mirroredY,
+      child: SingleChildScrollView(
+        controller: widget.controller.scrollController,
+        padding: EdgeInsets.fromLTRB(
+          widget.sideMargin,
+          mediaHeight,
+          widget.sideMargin,
+          0,
+        ),
+        child: Column(
+          children: [
+            Markdown(
               widget.text,
-              style: widget.style,
               textAlign: prompter.alignment,
+              style: widget.style,
+              width: mediaWidth - widget.sideMargin * 2,
             ),
             SizedBox(
-                height: mediaHeight,
-                child: Center(child: Text("The End", style: widget.style))),
-          ]),
-        ));
+              height: mediaHeight,
+              child: Center(child: Text("The End", style: widget.style)),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
