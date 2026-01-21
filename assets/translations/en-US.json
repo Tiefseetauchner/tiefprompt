@@ -49,6 +49,7 @@
       "Right": "Right",
       "Justified": "Justified"
     },
+    "ElevatedButton_Save": "Save",
     "DropdownAppSetting_DefaultFontFamily": "Font Family",
     "BooleanAppSetting_DefaultFlipX": "Default Flip X",
     "BooleanAppSetting_DefaultFlipY": "Default Flip Y",
@@ -76,7 +77,31 @@
     "Confirm": "Confirm",
     "RestorePurchases": "Restore Purchases",
     "RestorePurchases_Snackbar": "Purchases were restored.",
-    "ProFeatureDisabled": "This function is only available in the pro version."
+    "ProFeatureDisabled": "This function is only available in the pro version.",
+    "KeybindingsSettings": {
+      "Title": "Keybindings Settings",
+      "ChangeBindings": "Change Bindings",
+      "AddBinding": "Add Binding",
+      "CaptureBindingTitle": "Press a key combination",
+      "CaptureBindingHint": "Hold Ctrl, Alt, Shift, or Meta and press a key.",
+      "ResetBindings": "Reset all bindings to defaults",
+      "playPause": "Play/Pause",
+      "scrollUpSmall": "Small Scroll Up",
+      "scrollDownSmall": "Small Scroll Down",
+      "scrollUp": "Scroll Up",
+      "scrollDown": "Scroll Down",
+      "pageUp": "Scroll Up One Page",
+      "pageDown": "Scroll Down One Page",
+      "jumpStart": "Jump To Top",
+      "jumpEnd": "Jump To Bottom",
+      "toggleControls": "Toggle Controls",
+      "speedUp": "Increase Speed",
+      "speedDown": "Decrease Speed",
+      "fontSizeUp": "Increase Font Size",
+      "fontSizeDown": "Decrease Font Size",
+      "openSettings": "Open Settings",
+      "saveSettingsFromPrompter": "Save Settings from Prompter"
+    }
   },
   "PrompterScreen": {
     "speed": "{}x",

@@ -5,7 +5,9 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
+import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -39,6 +41,12 @@ class SettingsScreen extends ConsumerWidget {
             LinkAppSetting(
               displayText: context.tr("SettingsScreen.TextSettings"),
               value: "text",
+            ),
+            LinkAppSetting(
+              displayText: context.tr(
+                "SettingsScreen.KeybindingsSettings.Title",
+              ),
+              value: "keybindings",
             ),
             DropdownAppSetting<ThemeMode>(
               feature: Feature.appTheme,
@@ -434,6 +442,59 @@ class TextSettingsScreen extends ConsumerWidget {
   }
 }
 
+class KeybindingsSettingsScreen extends ConsumerWidget {
+  const KeybindingsSettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final keybindings = ref.watch(keybindingsProvider);
+
+    return switch (keybindings) {
+      AsyncData(:final value) => Scaffold(
+        appBar: AppBar(
+          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
+        ),
+        body: ListView(
+          children: [
+            ...KeybindingAction.values.map((b) {
+              return KeybindingAppSetting(
+                feature: Feature.keybindings,
+                displayText: context.tr(
+                  "SettingsScreen.KeybindingsSettings.${b.name}",
+                ),
+                bindings: value.keybindings[b] ?? [],
+                bindingAction: b,
+              );
+            }),
+            ListTile(
+              title: Text(
+                context.tr("SettingsScreen.KeybindingsSettings.ResetBindings"),
+              ),
+              onTap: () {
+                ref.read(keybindingsProvider.notifier).resetToDefaults();
+              },
+            ),
+          ],
+        ),
+      ),
+      _ => Center(
+        child: Column(
+          children: [
+            Text(
+              "An error occurred loading the settings. Do you want to reset them?",
+            ),
+            ElevatedButton(
+              onPressed: () =>
+                  ref.read(settingsProvider.notifier).resetSettings(),
+              child: Text("Reset Settings"),
+            ),
+          ],
+        ),
+      ),
+    };
+  }
+}
+
 abstract class AppSetting extends ConsumerWidget {
   final Feature feature;
   final String displayText;
@@ -581,6 +642,202 @@ class LinkAppSetting extends ConsumerWidget {
       onTap: () => context.push("/settings/$value"),
     );
   }
+}
+
+class KeybindingAppSetting extends StatefulAppSetting {
+  const KeybindingAppSetting({
+    super.key,
+    required super.feature,
+    required super.displayText,
+    required this.bindings,
+    required this.bindingAction,
+  });
+
+  final List<Keybinding> bindings;
+  final KeybindingAction bindingAction;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _KeybindingAppSettingState();
+}
+
+class _KeybindingAppSettingState
+    extends StatefulAppSettingState<KeybindingAppSetting> {
+  @override
+  Widget buildSetting(BuildContext context) {
+    return ListTile(
+      title: Text(widget.displayText),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [_getBindingsDisplay(), Icon(Icons.chevron_right)],
+      ),
+      onTap: () => _showDialog(context),
+    );
+  }
+
+  void _showDialog(BuildContext context) {
+    final List<Keybinding> dialogBindings = List<Keybinding>.from(
+      widget.bindings,
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(
+            context.tr("SettingsScreen.KeybindingsSettings.ChangeBindings"),
+          ),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView(
+              children: [
+                ...dialogBindings.map(
+                  (b) => ListTile(
+                    title: Text(_getBindingDisplay(b)),
+                    trailing: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          dialogBindings.remove(b);
+                        });
+                        ref
+                            .read(keybindingsProvider.notifier)
+                            .setBinding(
+                              widget.bindingAction,
+                              List<Keybinding>.from(dialogBindings),
+                            );
+                      },
+                      icon: Icon(Icons.delete),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    context.tr("SettingsScreen.KeybindingsSettings.AddBinding"),
+                  ),
+                  onTap: () async {
+                    final newBinding = await _captureBinding(context);
+                    if (newBinding == null) {
+                      return;
+                    }
+                    if (dialogBindings.any(
+                      (existing) => _isSameBinding(existing, newBinding),
+                    )) {
+                      return;
+                    }
+                    setState(() {
+                      dialogBindings.add(newBinding);
+                    });
+                    ref
+                        .read(keybindingsProvider.notifier)
+                        .setBinding(
+                          widget.bindingAction,
+                          List<Keybinding>.from(dialogBindings),
+                        );
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(context.tr("SettingsScreen.ElevatedButton_Save")),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<Keybinding?> _captureBinding(BuildContext context) async {
+    final focusNode = FocusNode();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (focusNode.canRequestFocus) {
+        focusNode.requestFocus();
+      }
+    });
+
+    final binding = await showDialog<Keybinding>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("SettingsScreen.KeybindingsSettings.CaptureBindingTitle"),
+        ),
+        content: KeyboardListener(
+          focusNode: focusNode,
+          autofocus: true,
+          onKeyEvent: (keyEvent) {
+            if (keyEvent is! KeyDownEvent) {
+              return;
+            }
+            final key = keyEvent.logicalKey;
+            if (_isModifierKey(key)) {
+              return;
+            }
+
+            final hardwareKeyboard = HardwareKeyboard.instance;
+            final newBinding = Keybinding(
+              key.keyId,
+              ctrl: hardwareKeyboard.isControlPressed,
+              shift: hardwareKeyboard.isShiftPressed,
+              alt: hardwareKeyboard.isAltPressed,
+              meta: hardwareKeyboard.isMetaPressed,
+            );
+            Navigator.of(context).pop(newBinding);
+          },
+          child: Text(
+            context.tr("SettingsScreen.KeybindingsSettings.CaptureBindingHint"),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.tr("SettingsScreen.Abort")),
+          ),
+        ],
+      ),
+    );
+
+    focusNode.dispose();
+    return binding;
+  }
+
+  bool _isModifierKey(LogicalKeyboardKey key) {
+    return key == LogicalKeyboardKey.controlLeft ||
+        key == LogicalKeyboardKey.controlRight ||
+        key == LogicalKeyboardKey.shiftLeft ||
+        key == LogicalKeyboardKey.shiftRight ||
+        key == LogicalKeyboardKey.altLeft ||
+        key == LogicalKeyboardKey.altRight ||
+        key == LogicalKeyboardKey.altGraph ||
+        key == LogicalKeyboardKey.metaLeft ||
+        key == LogicalKeyboardKey.metaRight;
+  }
+
+  bool _isSameBinding(Keybinding a, Keybinding b) {
+    return a.keyId == b.keyId &&
+        a.ctrl == b.ctrl &&
+        a.shift == b.shift &&
+        a.alt == b.alt &&
+        a.meta == b.meta;
+  }
+
+  Widget _getBindingsDisplay() {
+    if (widget.bindings.isEmpty) {
+      return Text("No Binding", style: TextStyle(fontStyle: FontStyle.italic));
+    }
+
+    if (widget.bindings.length == 1) {
+      return Text(_getBindingDisplay(widget.bindings.first));
+    }
+
+    return Text("${_getBindingDisplay(widget.bindings.first)}, ...");
+  }
+
+  String _getBindingDisplay(Keybinding b) =>
+      "${b.ctrl ? "Ctrl + " : ""}${b.alt ? "Alt + " : ""}${b.shift ? "Shift + " : ""}${b.meta ? "Meta + " : ""}${LogicalKeyboardKey(b.keyId).keyLabel == " " ? "Space" : LogicalKeyboardKey(b.keyId).keyLabel}";
 }
 
 class NumberAppSetting extends StatefulAppSetting {

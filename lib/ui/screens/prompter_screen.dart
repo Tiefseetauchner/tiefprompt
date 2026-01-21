@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/models/keybinding.dart';
+import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
@@ -47,7 +49,6 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
   @override
   Widget build(BuildContext context) {
     final script = ref.watch(scriptProvider);
-    final controlsVisible = ref.watch(controlsVisibleProvider);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -72,77 +73,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     return KeyboardListener(
       onKeyEvent: (keyEvent) {
         if (keyEvent is KeyDownEvent) {
-          switch (keyEvent.logicalKey) {
-            case LogicalKeyboardKey.enter:
-            case LogicalKeyboardKey.space:
-              ref.read(prompterProvider.notifier).togglePlayPause();
-              break;
-            case LogicalKeyboardKey.arrowUp:
-              _scrollableTextController.jumpRelative(-75);
-              break;
-            case LogicalKeyboardKey.arrowDown:
-              _scrollableTextController.jumpRelative(75);
-              break;
-            case LogicalKeyboardKey.pageUp:
-              _scrollableTextController.jumpRelative(
-                -MediaQuery.of(context).size.height,
-              );
-              break;
-            case LogicalKeyboardKey.pageDown:
-              _scrollableTextController.jumpRelative(
-                MediaQuery.of(context).size.height,
-              );
-              break;
-            case LogicalKeyboardKey.home:
-              _scrollableTextController.jumpTo(0);
-              break;
-            case LogicalKeyboardKey.end:
-              _scrollableTextController.jumpTo(
-                _scrollableTextController
-                    .scrollController
-                    .position
-                    .maxScrollExtent,
-              );
-              break;
-            case LogicalKeyboardKey.tab:
-              ref.read(controlsVisibleProvider.notifier).state =
-                  !controlsVisible;
-              break;
-          }
-
-          switch (keyEvent.physicalKey) {
-            case PhysicalKeyboardKey.equal:
-            case PhysicalKeyboardKey.numpadAdd:
-              if (HardwareKeyboard.instance.isControlPressed) {
-                ref.read(prompterProvider.notifier).increaseFontSize(1);
-              } else {
-                ref.read(prompterProvider.notifier).increaseSpeed(.1);
-              }
-              break;
-            case PhysicalKeyboardKey.minus:
-            case PhysicalKeyboardKey.numpadSubtract:
-              if (HardwareKeyboard.instance.isControlPressed) {
-                ref.read(prompterProvider.notifier).decreaseFontSize(1);
-              } else {
-                ref.read(prompterProvider.notifier).decreaseSpeed(.1);
-              }
-              break;
-            case PhysicalKeyboardKey.period:
-              if (HardwareKeyboard.instance.isControlPressed) {
-                context.push('/settings');
-              }
-              break;
-          }
-
-          switch (keyEvent.character) {
-            case "s":
-              if (HardwareKeyboard.instance.isControlPressed) {
-                ref
-                    .read(settingsProvider.notifier)
-                    .applySettingsFromPrompter(prompter);
-              }
-              break;
-          }
+          _runEventAction(
+            ref.read(keybindingsProvider.notifier).actionForEvent(keyEvent),
+          );
         }
       },
       focusNode: _focusNode,
@@ -153,8 +86,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
           children: [
             GestureDetector(
               onTap: () {
-                ref.read(controlsVisibleProvider.notifier).state =
-                    !controlsVisible;
+                ref.read(controlsVisibleProvider.notifier).state = !ref.watch(
+                  controlsVisibleProvider,
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -185,8 +119,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                 heightRatio: prompter.readingIndicatorBoxesHeight,
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(60),
               ),
-            if (controlsVisible) PrompterTopBar(),
-            if (controlsVisible) PrompterBottomBar(),
+            if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
+            if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
             if (prompter.displayCountdown && prompter.countdownDuration > 0)
               CountdownTimer(duration: prompter.countdownDuration.toInt()),
           ],
@@ -206,5 +140,77 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _focusNode.dispose();
     _scrollableTextController.dispose();
     super.dispose();
+  }
+
+  Future<void> _runEventAction(
+    Future<List<KeybindingAction>> actionForEvent,
+  ) async {
+    if (!context.mounted) {
+      throw StateError("Context not available.");
+    }
+
+    for (final action in await actionForEvent) {
+      switch (action) {
+        case KeybindingAction.playPause:
+          ref.read(prompterProvider.notifier).togglePlayPause();
+          break;
+        case KeybindingAction.scrollUp:
+          _scrollableTextController.jumpRelative(-75);
+          break;
+        case KeybindingAction.scrollDown:
+          _scrollableTextController.jumpRelative(75);
+          break;
+        case KeybindingAction.scrollUpSmall:
+          _scrollableTextController.jumpRelative(-25);
+          break;
+        case KeybindingAction.scrollDownSmall:
+          _scrollableTextController.jumpRelative(25);
+        case KeybindingAction.pageUp:
+          _scrollableTextController.jumpRelative(
+            -MediaQuery.of(context).size.height,
+          );
+          break;
+        case KeybindingAction.pageDown:
+          _scrollableTextController.jumpRelative(
+            MediaQuery.of(context).size.height,
+          );
+          break;
+        case KeybindingAction.jumpStart:
+          _scrollableTextController.jumpTo(0);
+          break;
+        case KeybindingAction.jumpEnd:
+          _scrollableTextController.jumpTo(
+            _scrollableTextController.scrollController.position.maxScrollExtent,
+          );
+          break;
+        case KeybindingAction.toggleControls:
+          ref.read(controlsVisibleProvider.notifier).state = !ref.watch(
+            controlsVisibleProvider,
+          );
+          break;
+        case KeybindingAction.fontSizeUp:
+          ref.read(prompterProvider.notifier).increaseFontSize(1);
+          break;
+        case KeybindingAction.speedUp:
+          ref.read(prompterProvider.notifier).increaseSpeed(.1);
+          break;
+        case KeybindingAction.fontSizeDown:
+          ref.read(prompterProvider.notifier).decreaseFontSize(1);
+          break;
+        case KeybindingAction.speedDown:
+          ref.read(prompterProvider.notifier).decreaseSpeed(.1);
+          break;
+        case KeybindingAction.openSettings:
+          context.push('/settings');
+          break;
+        case KeybindingAction.saveSettingsFromPrompter:
+          if (HardwareKeyboard.instance.isControlPressed) {
+            ref
+                .read(settingsProvider.notifier)
+                .applySettingsFromPrompter(ref.read(prompterProvider));
+          }
+          break;
+      }
+    }
   }
 }
