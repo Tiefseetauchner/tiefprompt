@@ -26,6 +26,7 @@
   },
   "SettingsScreen": {
     "title": "Einstellungen",
+    "ElevatedButton_Save": "Speichern",
     "NumberAppSetting": {
       "Value": "Wert eingeben",
       "ElevatedButton_Save": "Speichern"
@@ -70,7 +71,31 @@
     "Confirm": "Fortfahren",
     "RestorePurchases": "Käufe wiederherstellen",
     "RestorePurchases_Snackbar": "",
-    "ProFeatureDisabled": "Diese Funktion ist nur in der Pro-Version verfügbar."
+    "ProFeatureDisabled": "Diese Funktion ist nur in der Pro-Version verfügbar.",
+    "KeybindingsSettings": {
+      "Title": "Tastaturkürzeleinstellungen",
+      "ChangeBindings": "Tastaturkürzel ändern",
+      "AddBinding": "Tastaturkürzel hinzufügen",
+      "CaptureBindingTitle": "Eine Tastenkombination drücken",
+      "CaptureBindingHint": "Halte Strg, Umschalt, Alt, und/oder Meta und drücke eine Taste",
+      "ResetBindings": "Alle Kürzel zurücksetzen",
+      "playPause": "Wiedergabe/Pause",
+      "scrollUpSmall": "Wenig hoch scrollen",
+      "scrollDownSmall": "Wenig runter scrollen",
+      "scrollUp": "Hoch scrollen",
+      "scrollDown": "Runter scrollen",
+      "pageUp": "Eine Seite nach oben",
+      "pageDown": "Eine Seite nach unten",
+      "jumpStart": "Nach Oben springen",
+      "jumpEnd": "Nach unten springen",
+      "toggleControls": "Einstellungsanzeige umschalten",
+      "speedUp": "Geschwindigkeit erhöhen",
+      "speedDown": "Geschwindigkeit verringern",
+      "fontSizeUp": "Schriftgröße erhöhen",
+      "fontSizeDown": "Schriftgröße verringern",
+      "openSettings": "Einstellungen öffnen",
+      "saveSettingsFromPrompter": "Einstellungen von Prompter speichern"
+    }
   },
   "PrompterScreen": {
     "speed": "{}x",

@@ -26,6 +26,7 @@
   },
   "SettingsScreen": {
     "title": "Settin's",
+    "ElevatedButton_Save": "'member",
     "NumberAppSetting": {
       "Value": "Mark a number",
       "ElevatedButton_Save": "'member"
@@ -70,7 +71,31 @@
     "Confirm": "Aye",
     "RestorePurchases": "Regain control",
     "RestorePurchases_Snackbar": "Control 's regained!",
-    "ProFeatureDisabled": "Yer may needa pay up ter use this!"
+    "ProFeatureDisabled": "Yer may needa pay up ter use this!",
+    "KeybindingsSettings": {
+      "Title": "Settin's for Controls",
+      "ChangeBindings": "Change Control Ropes",
+      "AddBinding": "Add Control Rope",
+      "CaptureBindingTitle": "Hit the'r buttons!",
+      "CaptureBindingHint": "Hold Ctrl, Alt, Shift, or Meta and hit a button.",
+      "ResetBindings": "Redo yer' control ropes",
+      "playPause": "Raise/Lower anchor",
+      "scrollUpSmall": "Tiny step up",
+      "scrollDownSmall": "Tiny step down",
+      "scrollUp": "Step up",
+      "scrollDown": "Step down",
+      "pageUp": "Up 'er page",
+      "pageDown": "Down 'er page",
+      "jumpStart": "To harbor",
+      "jumpEnd": "Out to deep sea",
+      "toggleControls": "Show em' Controls",
+      "speedUp": "Put down sails",
+      "speedDown": "Pull up sails",
+      "fontSizeUp": "Larger font",
+      "fontSizeDown": "Smaller font",
+      "openSettings": "Open Settings",
+      "saveSettingsFromPrompter": "Write 'em settings"
+    }
   },
   "PrompterScreen": {
     "speed": "{} knots",
