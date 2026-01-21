@@ -1,0 +1,4 @@
+Endlich! iOS und MacOS sind nun offiziell unterstützt. Außerdem gibt es einige andere neue Dinge:
+
+* Markdown --- Es ist großartig. Markdown ist nun offiziell unterstützt --- mit einer limitierten Ausprägung von Commonmark. Aber ein paar Sachen gehn super!
+* Man kann nun Keyboard-Shortcuts ändern! Das is supi, weil das heißt der Nutzer hat Kontrolle --- net eine komische Entwicklerin.

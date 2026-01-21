@@ -1,4 +1,5 @@
 This version adds more customizability and some bug fixes.
+
 * Fixing modal dialogs and IME input
 * Adding the ability to configure vertical margins (top and bottom) with optional fading
 * Allowing the changing of text and background color of the prompter

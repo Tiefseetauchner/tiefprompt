@@ -1,0 +1,4 @@
+Added (finally) iOS/MacOS support, as well as many features!
+
+* Markdown Support was added on a very basic basis. It is still limited, but functional. It's essentially a partial implementation of Commonmark.
+* Keybinding Options were added to allow changing the keybindings. This allows more customizability.
