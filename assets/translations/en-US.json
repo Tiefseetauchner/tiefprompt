@@ -82,6 +82,8 @@
       "Title": "Keybindings Settings",
       "ChangeBindings": "Change Bindings",
       "AddBinding": "Add Binding",
+      "CaptureBindingTitle": "Press a key combination",
+      "CaptureBindingHint": "Hold Ctrl, Alt, Shift, or Meta and press a key.",
       "ResetBindings": "Reset all bindings to defaults",
       "playPause": "Play/Pause",
       "scrollUpSmall": "Small Scroll Up",

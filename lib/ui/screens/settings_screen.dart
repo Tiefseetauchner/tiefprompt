@@ -683,8 +683,9 @@ class _KeybindingAppSettingState
   }
 
   void _showDialog(BuildContext context) {
-    final List<Keybinding> dialogBindings =
-        List<Keybinding>.from(widget.bindings);
+    final List<Keybinding> dialogBindings = List<Keybinding>.from(
+      widget.bindings,
+    );
 
     showDialog(
       context: context,
@@ -705,7 +706,9 @@ class _KeybindingAppSettingState
                         setState(() {
                           dialogBindings.remove(b);
                         });
-                        ref.read(keybindingsProvider.notifier).setBinding(
+                        ref
+                            .read(keybindingsProvider.notifier)
+                            .setBinding(
                               widget.bindingAction,
                               List<Keybinding>.from(dialogBindings),
                             );
@@ -718,13 +721,22 @@ class _KeybindingAppSettingState
                   title: Text(
                     context.tr("SettingsScreen.KeybindingsSettings.AddBinding"),
                   ),
-                  onTap: () {
+                  onTap: () async {
+                    final newBinding = await _captureBinding(context);
+                    if (newBinding == null) {
+                      return;
+                    }
+                    if (dialogBindings.any(
+                      (existing) => _isSameBinding(existing, newBinding),
+                    )) {
+                      return;
+                    }
                     setState(() {
-                      dialogBindings.add(
-                        Keybinding(LogicalKeyboardKey.cut.keyId),
-                      );
+                      dialogBindings.add(newBinding);
                     });
-                    ref.read(keybindingsProvider.notifier).setBinding(
+                    ref
+                        .read(keybindingsProvider.notifier)
+                        .setBinding(
                           widget.bindingAction,
                           List<Keybinding>.from(dialogBindings),
                         );
@@ -746,6 +758,79 @@ class _KeybindingAppSettingState
     );
   }
 
+  Future<Keybinding?> _captureBinding(BuildContext context) async {
+    final focusNode = FocusNode();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (focusNode.canRequestFocus) {
+        focusNode.requestFocus();
+      }
+    });
+
+    final binding = await showDialog<Keybinding>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("SettingsScreen.KeybindingsSettings.CaptureBindingTitle"),
+        ),
+        content: KeyboardListener(
+          focusNode: focusNode,
+          autofocus: true,
+          onKeyEvent: (keyEvent) {
+            if (keyEvent is! KeyDownEvent) {
+              return;
+            }
+            final key = keyEvent.logicalKey;
+            if (_isModifierKey(key)) {
+              return;
+            }
+
+            final hardwareKeyboard = HardwareKeyboard.instance;
+            final newBinding = Keybinding(
+              key.keyId,
+              ctrl: hardwareKeyboard.isControlPressed,
+              shift: hardwareKeyboard.isShiftPressed,
+              alt: hardwareKeyboard.isAltPressed,
+              meta: hardwareKeyboard.isMetaPressed,
+            );
+            Navigator.of(context).pop(newBinding);
+          },
+          child: Text(
+            context.tr("SettingsScreen.KeybindingsSettings.CaptureBindingHint"),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.tr("SettingsScreen.Abort")),
+          ),
+        ],
+      ),
+    );
+
+    focusNode.dispose();
+    return binding;
+  }
+
+  bool _isModifierKey(LogicalKeyboardKey key) {
+    return key == LogicalKeyboardKey.controlLeft ||
+        key == LogicalKeyboardKey.controlRight ||
+        key == LogicalKeyboardKey.shiftLeft ||
+        key == LogicalKeyboardKey.shiftRight ||
+        key == LogicalKeyboardKey.altLeft ||
+        key == LogicalKeyboardKey.altRight ||
+        key == LogicalKeyboardKey.altGraph ||
+        key == LogicalKeyboardKey.metaLeft ||
+        key == LogicalKeyboardKey.metaRight;
+  }
+
+  bool _isSameBinding(Keybinding a, Keybinding b) {
+    return a.keyId == b.keyId &&
+        a.ctrl == b.ctrl &&
+        a.shift == b.shift &&
+        a.alt == b.alt &&
+        a.meta == b.meta;
+  }
+
   Widget _getBindingsDisplay() {
     if (widget.bindings.isEmpty) {
       return Text("No Binding", style: TextStyle(fontStyle: FontStyle.italic));
@@ -759,7 +844,7 @@ class _KeybindingAppSettingState
   }
 
   String _getBindingDisplay(Keybinding b) =>
-      "${b.ctrl ? "Ctrl + " : ""}${b.alt ? "Alt + " : ""}${b.shift ? "Shift + " : ""}${b.meta ? "Meta + " : ""}${LogicalKeyboardKey(b.keyId).debugName}";
+      "${b.ctrl ? "Ctrl + " : ""}${b.alt ? "Alt + " : ""}${b.shift ? "Shift + " : ""}${b.meta ? "Meta + " : ""}${LogicalKeyboardKey(b.keyId).keyLabel}";
 }
 
 class NumberAppSetting extends StatefulAppSetting {
