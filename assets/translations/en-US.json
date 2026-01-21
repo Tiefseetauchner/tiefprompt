@@ -49,6 +49,7 @@
       "Right": "Right",
       "Justified": "Justified"
     },
+    "ElevatedButton_Save": "Save",
     "DropdownAppSetting_DefaultFontFamily": "Font Family",
     "BooleanAppSetting_DefaultFlipX": "Default Flip X",
     "BooleanAppSetting_DefaultFlipY": "Default Flip Y",
@@ -80,6 +81,7 @@
     "KeybindingsSettings": {
       "Title": "Keybindings Settings",
       "ChangeBindings": "Change Bindings",
+      "AddBinding": "Add Binding",
       "ResetBindings": "Reset all bindings to defaults",
       "playPause": "Play/Pause",
       "scrollUpSmall": "Small Scroll Up",

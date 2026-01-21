@@ -114,50 +114,40 @@ const kProId = "io.github.tiefseetauchner.tiefprompt.pro";
 
 final KeybindingMap kDefaultKeybindings = KeybindingMap({
   KeybindingAction.playPause: [
-    Keybinding(PhysicalKeyboardKey.enter.usbHidUsage),
-    Keybinding(PhysicalKeyboardKey.space.usbHidUsage),
+    Keybinding(LogicalKeyboardKey.enter.keyId),
+    Keybinding(LogicalKeyboardKey.space.keyId),
   ],
   KeybindingAction.scrollUpSmall: [
-    Keybinding(PhysicalKeyboardKey.arrowUp.usbHidUsage, shift: true),
+    Keybinding(LogicalKeyboardKey.arrowUp.keyId, shift: true),
   ],
   KeybindingAction.scrollDownSmall: [
-    Keybinding(PhysicalKeyboardKey.arrowDown.usbHidUsage, shift: true),
+    Keybinding(LogicalKeyboardKey.arrowDown.keyId, shift: true),
   ],
-  KeybindingAction.scrollUp: [
-    Keybinding(PhysicalKeyboardKey.arrowUp.usbHidUsage),
-  ],
-  KeybindingAction.scrollDown: [
-    Keybinding(PhysicalKeyboardKey.arrowDown.usbHidUsage),
-  ],
-  KeybindingAction.pageUp: [Keybinding(PhysicalKeyboardKey.pageUp.usbHidUsage)],
-  KeybindingAction.pageDown: [
-    Keybinding(PhysicalKeyboardKey.pageDown.usbHidUsage),
-  ],
-  KeybindingAction.jumpStart: [
-    Keybinding(PhysicalKeyboardKey.home.usbHidUsage),
-  ],
-  KeybindingAction.jumpEnd: [Keybinding(PhysicalKeyboardKey.end.usbHidUsage)],
-  KeybindingAction.toggleControls: [
-    Keybinding(PhysicalKeyboardKey.tab.usbHidUsage),
-  ],
+  KeybindingAction.scrollUp: [Keybinding(LogicalKeyboardKey.arrowUp.keyId)],
+  KeybindingAction.scrollDown: [Keybinding(LogicalKeyboardKey.arrowDown.keyId)],
+  KeybindingAction.pageUp: [Keybinding(LogicalKeyboardKey.pageUp.keyId)],
+  KeybindingAction.pageDown: [Keybinding(LogicalKeyboardKey.pageDown.keyId)],
+  KeybindingAction.jumpStart: [Keybinding(LogicalKeyboardKey.home.keyId)],
+  KeybindingAction.jumpEnd: [Keybinding(LogicalKeyboardKey.end.keyId)],
+  KeybindingAction.toggleControls: [Keybinding(LogicalKeyboardKey.tab.keyId)],
   KeybindingAction.speedUp: [
-    Keybinding(PhysicalKeyboardKey.equal.usbHidUsage),
-    Keybinding(PhysicalKeyboardKey.numpadAdd.usbHidUsage),
+    Keybinding(LogicalKeyboardKey.equal.keyId),
+    Keybinding(LogicalKeyboardKey.numpadAdd.keyId),
   ],
   KeybindingAction.speedDown: [
-    Keybinding(PhysicalKeyboardKey.minus.usbHidUsage),
-    Keybinding(PhysicalKeyboardKey.numpadSubtract.usbHidUsage),
+    Keybinding(LogicalKeyboardKey.minus.keyId),
+    Keybinding(LogicalKeyboardKey.numpadSubtract.keyId),
   ],
   KeybindingAction.fontSizeUp: [
-    Keybinding(PhysicalKeyboardKey.equal.usbHidUsage, ctrl: true),
-    Keybinding(PhysicalKeyboardKey.numpadAdd.usbHidUsage, ctrl: true),
+    Keybinding(LogicalKeyboardKey.equal.keyId, ctrl: true),
+    Keybinding(LogicalKeyboardKey.numpadAdd.keyId, ctrl: true),
   ],
   KeybindingAction.fontSizeDown: [
-    Keybinding(PhysicalKeyboardKey.minus.usbHidUsage, ctrl: true),
-    Keybinding(PhysicalKeyboardKey.numpadSubtract.usbHidUsage, ctrl: true),
+    Keybinding(LogicalKeyboardKey.minus.keyId, ctrl: true),
+    Keybinding(LogicalKeyboardKey.numpadSubtract.keyId, ctrl: true),
   ],
   KeybindingAction.openSettings: [
-    Keybinding(PhysicalKeyboardKey.comma.usbHidUsage, ctrl: true),
+    Keybinding(LogicalKeyboardKey.comma.keyId, ctrl: true),
   ],
   KeybindingAction.saveSettingsFromPrompter: [
     // NOTE: 115 is the KeyId for 's'.

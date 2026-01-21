@@ -19,13 +19,15 @@ class Keybindings extends _$Keybindings {
     if (keybindingsJson != null) {
       return KeybindingMap.fromJson(keybindingsJson);
     } else {
+      _prefs.setString(_keybindingKey, kDefaultKeybindings.toJson());
+
       return kDefaultKeybindings;
     }
   }
 
   Future<List<KeybindingAction>> actionForEvent(KeyEvent event) async {
     final keybindingMap = state.valueOrNull ?? await future;
-    final keyId = event.physicalKey.usbHidUsage;
+    final keyId = event.logicalKey.keyId;
     final hardwareKeyboard = HardwareKeyboard.instance;
     final ctrl = hardwareKeyboard.isControlPressed;
     final shift = hardwareKeyboard.isShiftPressed;
@@ -59,15 +61,28 @@ class Keybindings extends _$Keybindings {
     List<Keybinding> keybindings,
   ) async {
     state = state.whenData((s) {
-      s.keybindings[action] = keybindings;
+      final updatedBindings = <KeybindingAction, List<Keybinding>>{};
+      for (final entry in s.keybindings.entries) {
+        updatedBindings[entry.key] = entry.key == action
+            ? List<Keybinding>.from(keybindings)
+            : List<Keybinding>.from(entry.value);
+      }
+      if (!updatedBindings.containsKey(action)) {
+        updatedBindings[action] = List<Keybinding>.from(keybindings);
+      }
 
-      _prefs.setString(_keybindingKey, s.toJson());
+      final updated = KeybindingMap(updatedBindings);
+      _prefs.setString(_keybindingKey, updated.toJson());
 
-      return s;
+      return updated;
     });
   }
 
   Future<void> resetToDefaults() async {
-    state = state.whenData((_) => kDefaultKeybindings);
+    state = state.whenData((s) {
+      _prefs.setString(_keybindingKey, kDefaultKeybindings.toJson());
+
+      return kDefaultKeybindings;
+    });
   }
 }

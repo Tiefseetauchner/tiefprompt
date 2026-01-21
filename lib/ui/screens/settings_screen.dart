@@ -43,7 +43,9 @@ class SettingsScreen extends ConsumerWidget {
               value: "text",
             ),
             LinkAppSetting(
-              displayText: context.tr("SettingsScreen.Keybindings"),
+              displayText: context.tr(
+                "SettingsScreen.KeybindingsSettings.Title",
+              ),
               value: "keybindings",
             ),
             DropdownAppSetting<ThemeMode>(
@@ -454,16 +456,14 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
         ),
         body: ListView(
           children: [
-            ...value.keybindings.entries.map((b) {
+            ...KeybindingAction.values.map((b) {
               return KeybindingAppSetting(
                 feature: Feature.keybindings,
                 displayText: context.tr(
-                  "SettingsScreen.KeybindingsSettings.${b.key.name}",
+                  "SettingsScreen.KeybindingsSettings.${b.name}",
                 ),
-                bindings: b.value,
-                onValueChanged: (updatedValue) => ref
-                    .read(keybindingsProvider.notifier)
-                    .setBinding(b.key, updatedValue),
+                bindings: value.keybindings[b] ?? [],
+                bindingAction: b,
               );
             }),
             ListTile(
@@ -477,7 +477,6 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
                 ),
                 onPressed: () {
                   ref.read(keybindingsProvider.notifier).resetToDefaults();
-                  context.pop();
                 },
                 child: Text(context.tr("SettingsScreen.Confirm")),
               ),
@@ -658,11 +657,11 @@ class KeybindingAppSetting extends StatefulAppSetting {
     required super.feature,
     required super.displayText,
     required this.bindings,
-    required this.onValueChanged,
+    required this.bindingAction,
   });
 
   final List<Keybinding> bindings;
-  final Function(List<Keybinding>) onValueChanged;
+  final KeybindingAction bindingAction;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -671,15 +670,6 @@ class KeybindingAppSetting extends StatefulAppSetting {
 
 class _KeybindingAppSettingState
     extends StatefulAppSettingState<KeybindingAppSetting> {
-  List<Keybinding> selectedValue = [];
-
-  @override
-  void initState() {
-    selectedValue = widget.bindings;
-
-    super.initState();
-  }
-
   @override
   Widget buildSetting(BuildContext context) {
     return ListTile(
@@ -693,42 +683,65 @@ class _KeybindingAppSettingState
   }
 
   void _showDialog(BuildContext context) {
+    final List<Keybinding> dialogBindings =
+        List<Keybinding>.from(widget.bindings);
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          context.tr("SettingsScreen.KeybindingsSettings.ChangeBindings"),
-        ),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: ListView(
-            children: [
-              ...selectedValue.map(
-                (b) => ListTile(
-                  title: Text(_getBindingDisplay(b)),
-                  trailing: IconButton(
-                    onPressed: () => selectedValue.remove(b),
-                    icon: Icon(Icons.delete),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(
+            context.tr("SettingsScreen.KeybindingsSettings.ChangeBindings"),
+          ),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView(
+              children: [
+                ...dialogBindings.map(
+                  (b) => ListTile(
+                    title: Text(_getBindingDisplay(b)),
+                    trailing: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          dialogBindings.remove(b);
+                        });
+                        ref.read(keybindingsProvider.notifier).setBinding(
+                              widget.bindingAction,
+                              List<Keybinding>.from(dialogBindings),
+                            );
+                      },
+                      icon: Icon(Icons.delete),
+                    ),
                   ),
                 ),
-              ),
-              ListTile(
-                title: Text(
-                  context.tr("SettingsScreen.KeybindingsSettings.AddBinding"),
+                ListTile(
+                  title: Text(
+                    context.tr("SettingsScreen.KeybindingsSettings.AddBinding"),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      dialogBindings.add(
+                        Keybinding(LogicalKeyboardKey.cut.keyId),
+                      );
+                    });
+                    ref.read(keybindingsProvider.notifier).setBinding(
+                          widget.bindingAction,
+                          List<Keybinding>.from(dialogBindings),
+                        );
+                  },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(context.tr("SettingsScreen.ElevatedButton_Save")),
+            ),
+          ],
         ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              // widget.onValueChanged(selectedBindings);
-              Navigator.pop(context);
-            },
-            child: Text(context.tr("SettingsScreen.ElevatedButton_Save")),
-          ),
-        ],
       ),
     );
   }
@@ -746,7 +759,7 @@ class _KeybindingAppSettingState
   }
 
   String _getBindingDisplay(Keybinding b) =>
-      "${b.ctrl ? "Ctrl + " : ""}${b.alt ? "Alt + " : ""}${b.shift ? "Shift + " : ""}${b.meta ? "Meta + " : ""}${PhysicalKeyboardKey(b.keyId).debugName}";
+      "${b.ctrl ? "Ctrl + " : ""}${b.alt ? "Alt + " : ""}${b.shift ? "Shift + " : ""}${b.meta ? "Meta + " : ""}${LogicalKeyboardKey(b.keyId).debugName}";
 }
 
 class NumberAppSetting extends StatefulAppSetting {
