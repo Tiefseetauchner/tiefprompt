@@ -470,16 +470,9 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
               title: Text(
                 context.tr("SettingsScreen.KeybindingsSettings.ResetBindings"),
               ),
-              trailing: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.error,
-                  foregroundColor: Theme.of(context).colorScheme.onError,
-                ),
-                onPressed: () {
-                  ref.read(keybindingsProvider.notifier).resetToDefaults();
-                },
-                child: Text(context.tr("SettingsScreen.Confirm")),
-              ),
+              onTap: () {
+                ref.read(keybindingsProvider.notifier).resetToDefaults();
+              },
             ),
           ],
         ),
@@ -844,7 +837,7 @@ class _KeybindingAppSettingState
   }
 
   String _getBindingDisplay(Keybinding b) =>
-      "${b.ctrl ? "Ctrl + " : ""}${b.alt ? "Alt + " : ""}${b.shift ? "Shift + " : ""}${b.meta ? "Meta + " : ""}${LogicalKeyboardKey(b.keyId).keyLabel}";
+      "${b.ctrl ? "Ctrl + " : ""}${b.alt ? "Alt + " : ""}${b.shift ? "Shift + " : ""}${b.meta ? "Meta + " : ""}${LogicalKeyboardKey(b.keyId).keyLabel == " " ? "Space" : LogicalKeyboardKey(b.keyId).keyLabel}";
 }
 
 class NumberAppSetting extends StatefulAppSetting {
