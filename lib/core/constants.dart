@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
+import 'package:tiefprompt/models/keybinding.dart';
+
 const double kPrompterMinSpeed = 0.1;
 const double kPrompterMaxSpeed = 20.0;
 
@@ -49,6 +52,7 @@ enum Feature {
   fontSize,
   textAlignment,
   fontFamily,
+  keybindings,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -70,6 +74,7 @@ const kFeatureDescriptions = {
   Feature.fontSize: "font_size_description",
   Feature.textAlignment: "text_alignment_description",
   Feature.fontFamily: "font_family_description",
+  Feature.keybindings: "keybindings_description",
 };
 
 const kAllFeatures = [
@@ -89,6 +94,7 @@ const kAllFeatures = [
   Feature.fontSize,
   Feature.textAlignment,
   Feature.fontFamily,
+  Feature.keybindings,
 ];
 
 const kFreeFeatures = [
@@ -101,6 +107,60 @@ const kFreeFeatures = [
   Feature.sideMargins,
   Feature.fontSize,
   Feature.textAlignment,
+  Feature.keybindings,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";
+
+final KeybindingMap kDefaultKeybindings = KeybindingMap({
+  KeybindingAction.playPause: [
+    Keybinding(PhysicalKeyboardKey.enter.usbHidUsage),
+    Keybinding(PhysicalKeyboardKey.space.usbHidUsage),
+  ],
+  KeybindingAction.scrollUpSmall: [
+    Keybinding(PhysicalKeyboardKey.arrowUp.usbHidUsage, shift: true),
+  ],
+  KeybindingAction.scrollDownSmall: [
+    Keybinding(PhysicalKeyboardKey.arrowDown.usbHidUsage, shift: true),
+  ],
+  KeybindingAction.scrollUp: [
+    Keybinding(PhysicalKeyboardKey.arrowUp.usbHidUsage),
+  ],
+  KeybindingAction.scrollDown: [
+    Keybinding(PhysicalKeyboardKey.arrowDown.usbHidUsage),
+  ],
+  KeybindingAction.pageUp: [Keybinding(PhysicalKeyboardKey.pageUp.usbHidUsage)],
+  KeybindingAction.pageDown: [
+    Keybinding(PhysicalKeyboardKey.pageDown.usbHidUsage),
+  ],
+  KeybindingAction.jumpStart: [
+    Keybinding(PhysicalKeyboardKey.home.usbHidUsage),
+  ],
+  KeybindingAction.jumpEnd: [Keybinding(PhysicalKeyboardKey.end.usbHidUsage)],
+  KeybindingAction.toggleControls: [
+    Keybinding(PhysicalKeyboardKey.tab.usbHidUsage),
+  ],
+  KeybindingAction.speedUp: [
+    Keybinding(PhysicalKeyboardKey.equal.usbHidUsage),
+    Keybinding(PhysicalKeyboardKey.numpadAdd.usbHidUsage),
+  ],
+  KeybindingAction.speedDown: [
+    Keybinding(PhysicalKeyboardKey.minus.usbHidUsage),
+    Keybinding(PhysicalKeyboardKey.numpadSubtract.usbHidUsage),
+  ],
+  KeybindingAction.fontSizeUp: [
+    Keybinding(PhysicalKeyboardKey.equal.usbHidUsage, ctrl: true),
+    Keybinding(PhysicalKeyboardKey.numpadAdd.usbHidUsage, ctrl: true),
+  ],
+  KeybindingAction.fontSizeDown: [
+    Keybinding(PhysicalKeyboardKey.minus.usbHidUsage, ctrl: true),
+    Keybinding(PhysicalKeyboardKey.numpadSubtract.usbHidUsage, ctrl: true),
+  ],
+  KeybindingAction.openSettings: [
+    Keybinding(PhysicalKeyboardKey.comma.usbHidUsage, ctrl: true),
+  ],
+  KeybindingAction.saveSettingsFromPrompter: [
+    // NOTE: 115 is the KeyId for 's'.
+    Keybinding(115, ctrl: true),
+  ],
+});
