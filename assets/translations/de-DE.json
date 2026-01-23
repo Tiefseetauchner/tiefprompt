@@ -3,6 +3,7 @@
   "empty_title": "Unbenanntes Script",
   "copyright": "Copyright © 2025 Lena Tauchner\nAlle Rechte vorenthalten.\n\nDieses Projekt ist unter der MIT License lizensiert. Siehe die LICENSE Datei für Details.\n",
   "credits": "Besonderen Dank für das Übersetzen der Anwendung geht an die folgenden Mitwirkenden:\n- Chinesisch: @TaoEngine",
+  "ProFeatureDisabled": "Diese Funktion ist nur in der Pro-Version verfügbar.",
   "AboutDialog": {
     "Text_PrivacyText": "Diese Applikation sammelt keine personenbezogenen Daten. Es werden, soweit mir bewusst, keine Daten mit Drittherstellern geteilt. Mehr darüber in der Privacy Policy.",
     "ElevatedButton_Privacy": "Datenschutzrichtlinie"
@@ -71,7 +72,6 @@
     "Confirm": "Fortfahren",
     "RestorePurchases": "Käufe wiederherstellen",
     "RestorePurchases_Snackbar": "",
-    "ProFeatureDisabled": "Diese Funktion ist nur in der Pro-Version verfügbar.",
     "KeybindingsSettings": {
       "Title": "Tastaturkürzeleinstellungen",
       "ChangeBindings": "Tastaturkürzel ändern",
@@ -121,6 +121,7 @@
       "title": "Anzeigeeinstellungen",
       "IconButton_FlipX": "Um X spiegeln",
       "IconButton_FlipY": "Um Y spiegeln",
+      "IconButton_Markdown": "Markdown aktivieren",
       "IconButton_ReadingIndicatorBoxes": "Lesehilfen anzeigen",
       "IconButton_VerticalMarginBoxes": "Vertikalen Abstand anzeigen",
       "IconButton_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",

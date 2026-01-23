@@ -414,6 +414,23 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                                 .read(prompterProvider.notifier)
                                 .toggleMirroredY(),
                           ),
+                          _FeatureGatedIconButton(
+                            feature: Feature.markdown,
+                            displayText: context.tr(
+                              "SettingsScreen.BooleanAppSetting_Markdown",
+                            ),
+                            icon: Text(
+                              "M",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            isSelected: prompter.mirroredY,
+                            tooltip: context.tr(
+                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_Markdown",
+                            ),
+                            onPressed: () => ref
+                                .read(prompterProvider.notifier)
+                                .toggleMarkdownEnabled(),
+                          ),
                         ],
                       ),
                       _FeatureGate(

@@ -3,6 +3,7 @@
   "empty_title": "Stateless Script",
   "copyright": "Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.\n",
   "credits": "A hearty thanks t’ the fine crew who lent their tongues t’ translate this here software!\n* Chinese: @TaoEngine",
+  "ProFeatureDisabled": "Yer may needa pay up ter use this!",
   "AboutDialog": {
     "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
     "ElevatedButton_Privacy": "Privacy Policy"
@@ -71,7 +72,6 @@
     "Confirm": "Aye",
     "RestorePurchases": "Regain control",
     "RestorePurchases_Snackbar": "Control 's regained!",
-    "ProFeatureDisabled": "Yer may needa pay up ter use this!",
     "KeybindingsSettings": {
       "Title": "Settin's for Controls",
       "ChangeBindings": "Change Control Ropes",
