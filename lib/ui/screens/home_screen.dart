@@ -130,53 +130,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
-                            builder: (dialogContext) {
-                              return SafeArea(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                    16.0,
-                                    16.0,
-                                    16.0,
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        16.0,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        context.tr(
-                                          "HomeScreen.BottomSheet.Text_Title",
-                                        ),
-                                      ),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: context.tr(
-                                            "HomeScreen.BottomSheet.TextField_hintText",
-                                          ),
-                                        ),
-                                        onChanged: (value) => ref
-                                            .read(scriptProvider.notifier)
-                                            .setTitle(value),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          ScriptService().save(
-                                            ref.watch(scriptProvider),
-                                          );
-                                          dialogContext.pop();
-                                        },
-                                        child: Text(
-                                          context.tr(
-                                            "HomeScreen.BottomSheet.ElevatedButton_Save",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                            builder: (dialogContext) => SafeArea(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  16.0,
+                                  16.0,
+                                  16.0,
+                                  MediaQuery.of(context).viewInsets.bottom +
+                                      16.0,
                                 ),
-                              );
-                            },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      context.tr(
+                                        "HomeScreen.BottomSheet.Text_Title",
+                                      ),
+                                    ),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: context.tr(
+                                          "HomeScreen.BottomSheet.TextField_hintText",
+                                        ),
+                                      ),
+                                      onChanged: (value) => ref
+                                          .read(scriptProvider.notifier)
+                                          .setTitle(value),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        ScriptService().save(
+                                          ref.watch(scriptProvider),
+                                        );
+                                        dialogContext.pop();
+                                      },
+                                      child: Text(
+                                        context.tr(
+                                          "HomeScreen.BottomSheet.ElevatedButton_Save",
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           );
                         },
                         child: Text(

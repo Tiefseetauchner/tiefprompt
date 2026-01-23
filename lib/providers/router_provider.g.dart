@@ -6,7 +6,7 @@ part of 'router_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$tiefPromptRouterHash() => r'9b4fd867aaf8dae2fb0f7f4093884788f64b4d6b';
+String _$tiefPromptRouterHash() => r'2c3fec52a494378c855c97d0ddd95afee8cda7dd';
 
 /// See also [TiefPromptRouter].
 @ProviderFor(TiefPromptRouter)

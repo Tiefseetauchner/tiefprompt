@@ -57,6 +57,7 @@ enum Feature {
   keybindings,
   playPause,
   markdown,
+  settingsRestore,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -83,6 +84,7 @@ const kAllFeatures = [
   Feature.keybindings,
   Feature.playPause,
   Feature.markdown,
+  Feature.settingsRestore,
 ];
 
 const kFreeFeatures = [

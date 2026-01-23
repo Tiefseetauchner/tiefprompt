@@ -62,6 +62,11 @@ class TiefPromptRouter extends _$TiefPromptRouter {
               builder: (context, state) =>
                   const BannerListener(child: KeybindingsSettingsScreen()),
             ),
+            GoRoute(
+              path: 'settingsrestore',
+              builder: (context, state) =>
+                  const BannerListener(child: SettingsRestoreSetingsScreen()),
+            ),
           ],
         ),
       ],

@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/providers/settings_provider.dart';
+
+part 'settings_storage_service.g.dart';
+
+class SettingsDisplayData {
+  final String title;
+  final DateTime createdAt;
+  final int id;
+
+  SettingsDisplayData({
+    required this.id,
+    required this.title,
+    required this.createdAt,
+  });
+}
+
+@riverpod
+class SettingsStorageService extends _$SettingsStorageService {
+  final _databaseManagers = AppDatabase().managers;
+
+  @override
+  Future<void> build() async {}
+
+  Future<int> getSettingsCount() async =>
+      await _databaseManagers.settingsModel.count();
+
+  Future<Stream<List<SettingsDisplayData>>> getSettings() async =>
+      _databaseManagers.settingsModel.asyncMap(_mapToDisplay).watch();
+
+  SettingsDisplayData _mapToDisplay(SettingsModelData settings) =>
+      SettingsDisplayData(
+        id: settings.id,
+        title: settings.name,
+        createdAt: settings.createdAt,
+      );
+
+  Future<SettingsState> loadSettings(int settingsId) async =>
+      await _databaseManagers.settingsModel
+          .filter((s) => s.id(settingsId))
+          .asyncMap(_mapToState)
+          .getSingle();
+
+  SettingsState _mapToState(SettingsModelData settings) {
+    return SettingsState(
+      scrollSpeed: settings.scrollSpeed,
+      mirroredX: settings.mirroredX,
+      mirroredY: settings.mirroredY,
+      fontSize: settings.fontSize,
+      sideMargin: settings.sideMargin,
+      fontFamily: settings.fontFamily,
+      alignment: _getAlignment(settings.alignment),
+      displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
+      readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
+      displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
+      verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
+      verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
+      verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
+      countdownDuration: settings.countdownDuration,
+      themeMode: _getThemeMode(settings.themeMode),
+      appPrimaryColor: _getColor(settings.appPrimaryColor),
+      prompterBackgroundColor: _getColor(settings.prompterBackgroundColor),
+      prompterTextColor: _getColor(settings.prompterTextColor),
+      markdownEnabled: settings.markdownEnabled,
+    );
+  }
+
+  TextAlign _getAlignment(String? alignment) {
+    return TextAlign.values
+            .where((element) => element.name == alignment)
+            .singleOrNull ??
+        TextAlign.left;
+  }
+
+  ThemeMode _getThemeMode(String? themeMode) {
+    return ThemeMode.values
+            .where((element) => element.name == themeMode)
+            .singleOrNull ??
+        ThemeMode.system;
+  }
+
+  Color _getColor(int color) => Color(color);
+
+  Future<void> save(String name, SettingsState settings) async =>
+      await _databaseManagers.settingsModel.create(
+        (s) => s(
+          name: name,
+          scrollSpeed: settings.scrollSpeed,
+          mirroredX: settings.mirroredX,
+          mirroredY: settings.mirroredY,
+          fontSize: settings.fontSize,
+          sideMargin: settings.sideMargin,
+          fontFamily: settings.fontFamily,
+          alignment: settings.alignment.toString(),
+          displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
+          readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
+          displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
+          verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
+          verticalMarginBoxesFadeEnabled:
+              settings.verticalMarginBoxesFadeEnabled,
+          verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
+          countdownDuration: settings.countdownDuration,
+          themeMode: settings.themeMode.toString(),
+          appPrimaryColor: settings.appPrimaryColor.toARGB32(),
+          prompterBackgroundColor: settings.prompterBackgroundColor.toARGB32(),
+          prompterTextColor: settings.prompterTextColor.toARGB32(),
+          markdownEnabled: settings.markdownEnabled,
+          createdAt: DateTime.now(),
+        ),
+      );
+
+  Future<void> deleteSettings(int settingsId) async => await _databaseManagers
+      .settingsModel
+      .filter((s) => s.id(settingsId))
+      .delete();
+}

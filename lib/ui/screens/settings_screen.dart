@@ -9,6 +9,7 @@ import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/services/settings_storage_service.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -78,6 +79,11 @@ class SettingsScreen extends ConsumerWidget {
               onValueChanged: (updatedValue) => ref
                   .read(settingsProvider.notifier)
                   .setAppPrimaryColor(updatedValue),
+            ),
+            LinkAppSetting(
+              displayText: context.tr("SettingsScreen.SettingsRestore.Title"),
+              feature: Feature.settingsRestore,
+              value: "settingsrestore",
             ),
             if (featureKind == FeatureKind.freeVersion ||
                 featureKind == FeatureKind.paidVersion)
@@ -505,6 +511,125 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
         ),
       ),
     };
+  }
+}
+
+class SettingsRestoreSetingsScreen extends ConsumerWidget {
+  const SettingsRestoreSetingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(settingsProvider);
+
+    return switch (settings) {
+      AsyncData(:final value) => FutureBuilder(
+        future: ref
+            .watch(settingsStorageServiceProvider.notifier)
+            .getSettings(),
+        builder: (context, settingDisplayStream) => StreamBuilder(
+          stream: settingDisplayStream.data,
+          builder: (context, settingDisplays) => Scaffold(
+            appBar: AppBar(
+              title: Text(context.tr("SettingsScreen.SettingsRestore.Title")),
+            ),
+            body: ListView(
+              children: [
+                DialogAppSetting(
+                  feature: Feature.settingsRestore,
+                  displayText: context.tr(
+                    "SettingsScreen.SettingsRestore.Save",
+                  ),
+                  dialogContent: (context) => _SaveSettingsDialog(value: value),
+                ),
+                Divider(height: 30, thickness: 3),
+                ...settingDisplays.data?.map(
+                      (e) => ListTile(
+                        title: Text(e.title),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(e.createdAt.toString()),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () => _showDeletionConfirmDialog(
+                                context,
+                                ref,
+                                e.title,
+                                e.id,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () async => ref
+                            .watch(settingsProvider.notifier)
+                            .loadSettings(
+                              await ref
+                                  .read(settingsStorageServiceProvider.notifier)
+                                  .loadSettings(e.id),
+                            ),
+                      ),
+                    ) ??
+                    [],
+              ],
+            ),
+          ),
+        ),
+      ),
+      _ => Center(
+        child: Column(
+          children: [
+            Text(
+              "An error occurred loading the settings. Do you want to reset them?",
+            ),
+            ElevatedButton(
+              onPressed: () =>
+                  ref.read(settingsProvider.notifier).resetSettings(),
+              child: Text("Reset Settings"),
+            ),
+          ],
+        ),
+      ),
+    };
+  }
+
+  void _showDeletionConfirmDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String title,
+    int id,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: SingleChildScrollView(
+          child: Text(
+            context.tr(
+              "SettingsScreen.SettingsRestore.DeleteDialog.Content",
+              args: [title],
+            ),
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => context.pop(),
+            child: Text(
+              context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Cancel"),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              ref
+                  .watch(settingsStorageServiceProvider.notifier)
+                  .deleteSettings(id);
+              context.pop();
+            },
+            child: Text(
+              context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Confirm"),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -1088,6 +1213,101 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
       onTap: () {
         _showDialog(context);
       },
+    );
+  }
+}
+
+class DialogAppSetting extends AppSetting {
+  final Widget Function(BuildContext) dialogContent;
+
+  const DialogAppSetting({
+    super.key,
+    required super.feature,
+    required super.displayText,
+    required this.dialogContent,
+  });
+
+  @override
+  Widget buildSetting(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      title: Text(displayText),
+      onTap: () => _showDialog(context),
+    );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(context: context, builder: dialogContent);
+  }
+}
+
+class _SaveSettingsDialog extends ConsumerStatefulWidget {
+  final SettingsState value;
+
+  const _SaveSettingsDialog({required this.value});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SaveSettingsDialogState();
+}
+
+class _SaveSettingsDialogState extends ConsumerState<_SaveSettingsDialog> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        context.tr("SettingsScreen.SettingsRestore.SaveDialog.Title"),
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 10,
+          children: [
+            Text(
+              context.tr("SettingsScreen.SettingsRestore.SaveDialog.Content"),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: context.tr(
+                  "SettingsScreen.SettingsRestore.SaveDialog.HintText",
+                ),
+              ),
+              controller: _controller,
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: () => context.pop(),
+          child: Text(
+            context.tr("SettingsScreen.SettingsRestore.SaveDialog.Cancel"),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final settingsService = ref.watch(
+              settingsStorageServiceProvider.notifier,
+            );
+
+            ref.read(settingsProvider).whenData((data) {
+              settingsService.save(_controller.text, data);
+              context.pop();
+            });
+          },
+          child: Text(
+            context.tr("SettingsScreen.SettingsRestore.SaveDialog.Save"),
+          ),
+        ),
+      ],
     );
   }
 }

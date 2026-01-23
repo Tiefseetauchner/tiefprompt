@@ -57,6 +57,8 @@ abstract class ISettings {
   Future<void> setPrompterTextColor(Color color);
   Future<void> setMarkdownEnabled(bool enabled);
 
+  Future<void> loadSettings(SettingsState newState);
+
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
 
@@ -288,6 +290,11 @@ class Settings extends _$Settings implements ISettings {
     await _prefs.setBool(_markdownEnabledKey, enabled);
 
     state = state.whenData((s) => s.copyWith(markdownEnabled: enabled));
+  }
+
+  @override
+  Future<void> loadSettings(SettingsState newState) async {
+    state = state.whenData((s) => newState);
   }
 
   @override
