@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/models/database.dart';
@@ -93,7 +94,7 @@ class SettingsStorageService extends _$SettingsStorageService {
           fontSize: settings.fontSize,
           sideMargin: settings.sideMargin,
           fontFamily: settings.fontFamily,
-          alignment: settings.alignment.toString(),
+          alignment: settings.alignment.name,
           displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
           readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
           displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
@@ -102,7 +103,7 @@ class SettingsStorageService extends _$SettingsStorageService {
               settings.verticalMarginBoxesFadeEnabled,
           verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
           countdownDuration: settings.countdownDuration,
-          themeMode: settings.themeMode.toString(),
+          themeMode: settings.themeMode.name,
           appPrimaryColor: settings.appPrimaryColor.toARGB32(),
           prompterBackgroundColor: settings.prompterBackgroundColor.toARGB32(),
           prompterTextColor: settings.prompterTextColor.toARGB32(),

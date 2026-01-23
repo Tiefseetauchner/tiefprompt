@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -558,8 +561,19 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                 e.id,
                               ),
                             ),
+                            IconButton(
+                              icon: Icon(Icons.more_horiz),
+                              onPressed: () => _showOptionsDialog(
+                                context,
+                                ref,
+                                e.title,
+                                e.id,
+                              ),
+                            ),
                           ],
                         ),
+                        onLongPress: () =>
+                            _showOptionsDialog(context, ref, e.title, e.id),
                         onTap: () async => ref
                             .watch(settingsProvider.notifier)
                             .loadSettings(
@@ -592,6 +606,56 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
     };
   }
 
+  void _showOptionsDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String title,
+    int id,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("SettingsScreen.SettingsRestore.OptionsDialog.Title"),
+        ),
+        content: Column(
+          children: [
+            ListTile(
+              title: Text(
+                context.tr(
+                  "SettingsScreen.SettingsRestore.OptionsDialog.Export",
+                ),
+              ),
+              onTap: () async {
+                final exportedBytes = jsonEncode({
+                  'settings': SettingsState.toJson(
+                    await ref
+                        .read(settingsStorageServiceProvider.notifier)
+                        .loadSettings(id),
+                  ),
+                });
+                await FilePicker.platform.saveFile(
+                  dialogTitle: context.tr(
+                    "SettingsScreen.SettingsRestore.OptionsDialog.FilePickerTitle",
+                  ),
+                  allowedExtensions: ["json"],
+                  bytes: Uint8List.fromList(exportedBytes.runes.toList()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text(
+                context.tr(
+                  "SettingsScreen.SettingsRestore.OptionsDialog.Delete",
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _showDeletionConfirmDialog(
     BuildContext context,
     WidgetRef ref,
@@ -601,6 +665,9 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Title"),
+        ),
         content: SingleChildScrollView(
           child: Text(
             context.tr(

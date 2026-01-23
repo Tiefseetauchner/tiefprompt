@@ -32,6 +32,34 @@ abstract class SettingsState with _$SettingsState {
     @Default(Colors.white) Color prompterTextColor,
     @Default(false) bool markdownEnabled,
   }) = _SettingsState;
+
+  static Map<String, dynamic> toJson(Object? value) {
+    if (value is _SettingsState) {
+      return {
+        'scrollSpeed': value.scrollSpeed,
+        'mirroredX': value.mirroredX,
+        'mirroredY': value.mirroredY,
+        'fontSize': value.fontSize,
+        'sideMargin': value.sideMargin,
+        'fontFamily': value.fontFamily,
+        'alignment': value.alignment.name,
+        'displayReadingIndicatorBoxes': value.displayReadingIndicatorBoxes,
+        'readingIndicatorBoxesHeight': value.readingIndicatorBoxesHeight,
+        'displayVerticalMarginBoxes': value.displayVerticalMarginBoxes,
+        'verticalMarginBoxesHeight': value.verticalMarginBoxesHeight,
+        'verticalMarginBoxesFadeEnabled': value.verticalMarginBoxesFadeEnabled,
+        'verticalMarginBoxesFadeLength': value.verticalMarginBoxesFadeLength,
+        'countdownDuration': value.countdownDuration,
+        'themeMode': value.themeMode.name,
+        'appPrimaryColor': value.appPrimaryColor.toARGB32(),
+        'prompterBackgroundColor': value.prompterBackgroundColor.toARGB32(),
+        'prompterTextColor': value.prompterTextColor.toARGB32(),
+        'markdownEnabled': value.markdownEnabled,
+      };
+    } else {
+      throw UnsupportedError('Cannot convert to JSON: $value');
+    }
+  }
 }
 
 abstract class ISettings {

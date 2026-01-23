@@ -102,7 +102,25 @@
       "fontSizeDown": "Decrease Font Size",
       "openSettings": "Open Settings",
       "saveSettingsFromPrompter": "Save Settings from Prompter"
+    },
+    "SettingsRestore": {
+      "Title": "Save and Restore Settings",
+      "Save": "Save Current Settings",
+      "DeleteDialog": {
+        "Title": "Delete Settings Profile",
+        "Content": "You're about to permanently delete the stored settings {}!",
+        "Cancel": "Cancel",
+        "Confirm": "Confirm"
+      },
+      "SaveDialog": {
+        "Title": "Save Settings Profile",
+        "Content": "You may save these settings under a name specified by you.",
+        "HintText": "Enter profile name",
+        "Cancel": "Cancel",
+        "Save": "Save"
+      }
     }
+
   },
   "PrompterScreen": {
     "speed": "{}x",
