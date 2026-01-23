@@ -12,6 +12,8 @@ const double kPrompterMaxFontSize = 420.0;
 const double kPrompterMinSideMargin = 0.0;
 const double kPrompterMaxSideMargin = 99.0;
 
+const int kSettingsSchemaVersion = 1;
+
 const List<String> kAvailableFonts = [
   'Roboto',
   'RobotoMono',

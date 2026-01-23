@@ -5,7 +5,11 @@ import 'package:tiefprompt/providers/theme_provider.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
-import 'package:tiefprompt/ui/screens/settings_screen.dart';
+import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
+import 'package:tiefprompt/ui/screens/settings/keybindings_settings_screen.dart';
+import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
+import 'package:tiefprompt/ui/screens/settings/settings_screen.dart';
+import 'package:tiefprompt/ui/screens/settings/text_settings_screen.dart';
 import 'package:tiefprompt/ui/widgets/banner_listener.dart';
 
 part 'router_provider.g.dart';
