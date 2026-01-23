@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
+import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -152,65 +154,125 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     for (final action in await actionForEvent) {
       switch (action) {
         case KeybindingAction.playPause:
-          ref.read(prompterProvider.notifier).togglePlayPause();
+          _gatedKeybinding(
+            Feature.playPause,
+            () => ref.read(prompterProvider.notifier).togglePlayPause(),
+          );
           break;
         case KeybindingAction.scrollUp:
-          _scrollableTextController.jumpRelative(-75);
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpRelative(-75),
+          );
           break;
         case KeybindingAction.scrollDown:
-          _scrollableTextController.jumpRelative(75);
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpRelative(75),
+          );
           break;
         case KeybindingAction.scrollUpSmall:
-          _scrollableTextController.jumpRelative(-25);
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpRelative(-25),
+          );
           break;
         case KeybindingAction.scrollDownSmall:
-          _scrollableTextController.jumpRelative(25);
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpRelative(25),
+          );
+          break;
         case KeybindingAction.pageUp:
-          _scrollableTextController.jumpRelative(
-            -MediaQuery.of(context).size.height,
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpRelative(
+              -MediaQuery.of(context).size.height,
+            ),
           );
           break;
         case KeybindingAction.pageDown:
-          _scrollableTextController.jumpRelative(
-            MediaQuery.of(context).size.height,
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpRelative(
+              MediaQuery.of(context).size.height,
+            ),
           );
           break;
         case KeybindingAction.jumpStart:
-          _scrollableTextController.jumpTo(0);
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpTo(0),
+          );
           break;
         case KeybindingAction.jumpEnd:
-          _scrollableTextController.jumpTo(
-            _scrollableTextController.scrollController.position.maxScrollExtent,
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => _scrollableTextController.jumpTo(
+              _scrollableTextController
+                  .scrollController
+                  .position
+                  .maxScrollExtent,
+            ),
           );
           break;
         case KeybindingAction.toggleControls:
-          ref.read(controlsVisibleProvider.notifier).state = !ref.watch(
-            controlsVisibleProvider,
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => ref.read(controlsVisibleProvider.notifier).state = !ref.watch(
+              controlsVisibleProvider,
+            ),
           );
           break;
         case KeybindingAction.fontSizeUp:
-          ref.read(prompterProvider.notifier).increaseFontSize(1);
-          break;
-        case KeybindingAction.speedUp:
-          ref.read(prompterProvider.notifier).increaseSpeed(.1);
+          _gatedKeybinding(
+            Feature.fontSize,
+            () => ref.read(prompterProvider.notifier).increaseFontSize(1),
+          );
           break;
         case KeybindingAction.fontSizeDown:
-          ref.read(prompterProvider.notifier).decreaseFontSize(1);
+          _gatedKeybinding(
+            Feature.fontSize,
+            () => ref.read(prompterProvider.notifier).decreaseFontSize(1),
+          );
+          break;
+        case KeybindingAction.speedUp:
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => ref.read(prompterProvider.notifier).increaseSpeed(.1),
+          );
           break;
         case KeybindingAction.speedDown:
-          ref.read(prompterProvider.notifier).decreaseSpeed(.1);
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => ref.read(prompterProvider.notifier).decreaseSpeed(.1),
+          );
           break;
         case KeybindingAction.openSettings:
-          context.push('/settings');
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => context.push('/settings'),
+          );
           break;
         case KeybindingAction.saveSettingsFromPrompter:
-          if (HardwareKeyboard.instance.isControlPressed) {
-            ref
+          _gatedKeybinding(
+            Feature.keybindings,
+            () => ref
                 .read(settingsProvider.notifier)
-                .applySettingsFromPrompter(ref.read(prompterProvider));
-          }
+                .applySettingsFromPrompter(ref.read(prompterProvider)),
+          );
           break;
       }
+    }
+  }
+
+  void _gatedKeybinding(Feature feature, Function() action) {
+    final isEnabled = ref.watch(
+      featuresProvider.select((s) => s.features.contains(feature)),
+    );
+
+    if (isEnabled) {
+      action();
     }
   }
 }

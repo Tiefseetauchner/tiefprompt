@@ -47,8 +47,8 @@ dependencies:
   package_info_plus: ^9.0.0
   flutter_colorpicker: ^1.1.0
   tief_weave: ^0.1.3
-#  in_app_purchase: ^3.2.3
-#  in_app_purchase_android: ^0.4.0+7
+  # in_app_purchase: ^3.2.3
+  # in_app_purchase_android: ^0.4.0+7
 
 dev_dependencies:
   integration_test:

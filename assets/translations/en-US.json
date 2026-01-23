@@ -3,6 +3,7 @@
   "empty_title": "Unnamed Script",
   "copyright": "Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.\n",
   "credits": "Thanks to the following contributors for providing translations for the software.\n Chinese: @TaoEngine",
+  "ProFeatureDisabled": "This function is only available in the pro version.",
   "AboutDialog": {
     "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
     "ElevatedButton_Privacy": "Privacy Policy"
@@ -77,7 +78,6 @@
     "Confirm": "Confirm",
     "RestorePurchases": "Restore Purchases",
     "RestorePurchases_Snackbar": "Purchases were restored.",
-    "ProFeatureDisabled": "This function is only available in the pro version.",
     "KeybindingsSettings": {
       "Title": "Keybindings Settings",
       "ChangeBindings": "Change Bindings",

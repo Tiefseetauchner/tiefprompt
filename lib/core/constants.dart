@@ -39,6 +39,8 @@ enum Feature {
   appLanguage,
   appTheme,
   primaryAppColor,
+  textSettings,
+  displaySettings,
   scrollSpeed,
   flipX,
   flipY,
@@ -53,6 +55,7 @@ enum Feature {
   textAlignment,
   fontFamily,
   keybindings,
+  playPause,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -81,6 +84,8 @@ const kAllFeatures = [
   Feature.appLanguage,
   Feature.appTheme,
   Feature.primaryAppColor,
+  Feature.textSettings,
+  Feature.displaySettings,
   Feature.scrollSpeed,
   Feature.flipX,
   Feature.flipY,
@@ -95,11 +100,14 @@ const kAllFeatures = [
   Feature.textAlignment,
   Feature.fontFamily,
   Feature.keybindings,
+  Feature.playPause,
 ];
 
 const kFreeFeatures = [
   Feature.appLanguage,
   Feature.appTheme,
+  Feature.textSettings,
+  Feature.displaySettings,
   Feature.scrollSpeed,
   Feature.flipX,
   Feature.flipY,
@@ -107,7 +115,7 @@ const kFreeFeatures = [
   Feature.sideMargins,
   Feature.fontSize,
   Feature.textAlignment,
-  Feature.keybindings,
+  Feature.playPause,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";

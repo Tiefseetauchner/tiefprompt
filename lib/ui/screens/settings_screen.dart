@@ -36,16 +36,19 @@ class SettingsScreen extends ConsumerWidget {
             ),
             LinkAppSetting(
               displayText: context.tr("SettingsScreen.DisplaySettings"),
+              feature: Feature.displaySettings,
               value: "display",
             ),
             LinkAppSetting(
               displayText: context.tr("SettingsScreen.TextSettings"),
+              feature: Feature.textSettings,
               value: "text",
             ),
             LinkAppSetting(
               displayText: context.tr(
                 "SettingsScreen.KeybindingsSettings.Title",
               ),
+              feature: Feature.keybindings,
               value: "keybindings",
             ),
             DropdownAppSetting<ThemeMode>(
@@ -564,7 +567,7 @@ class FeatureDisabledAppSetting extends ConsumerWidget {
     return ListTile(
       tileColor: Colors.blueGrey.withAlpha(30),
       title: Text(displayText),
-      subtitle: Text(context.tr("SettingsScreen.ProFeatureDisabled")),
+      subtitle: Text(context.tr("ProFeatureDisabled")),
       onTap: () => {ref.read(featuresProvider.notifier).buyPro()},
     );
   }
@@ -625,18 +628,18 @@ class BooleanAppSetting extends AppSetting {
   }
 }
 
-class LinkAppSetting extends ConsumerWidget {
+class LinkAppSetting extends AppSetting {
   const LinkAppSetting({
     super.key,
-    required this.displayText,
+    required super.displayText,
+    required super.feature,
     required this.value,
   });
 
   final String value;
-  final String displayText;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
       onTap: () => context.push("/settings/$value"),
