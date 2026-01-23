@@ -30,6 +30,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(_defaultAppPrimaryColor) Color appPrimaryColor,
     @Default(Colors.black) Color prompterBackgroundColor,
     @Default(Colors.white) Color prompterTextColor,
+    @Default(false) bool markdownEnabled,
   }) = _SettingsState;
 }
 
@@ -54,6 +55,7 @@ abstract class ISettings {
   Future<void> setAppPrimaryColor(Color color);
   Future<void> setPrompterBackgroundColor(Color color);
   Future<void> setPrompterTextColor(Color color);
+  Future<void> setMarkdownEnabled(bool enabled);
 
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
@@ -80,6 +82,7 @@ class Settings extends _$Settings implements ISettings {
   static const _appPrimaryColorKey = 'app_primary_color';
   static const _prompterBackgroundColorKey = 'prompter_background_color';
   static const _prompterTextColorKey = 'prompter_text_color';
+  static const _markdownEnabledKey = 'markdown_enabled';
 
   late final SharedPreferences _prefs;
 
@@ -118,6 +121,7 @@ class Settings extends _$Settings implements ISettings {
       prompterTextColor: Color(
         _prefs.getInt(_prompterTextColorKey) ?? Colors.white.toARGB32(),
       ),
+      markdownEnabled: _prefs.getBool(_markdownEnabledKey) ?? false,
     );
   }
 
@@ -280,6 +284,13 @@ class Settings extends _$Settings implements ISettings {
   }
 
   @override
+  Future<void> setMarkdownEnabled(bool enabled) async {
+    await _prefs.setBool(_markdownEnabledKey, enabled);
+
+    state = state.whenData((s) => s.copyWith(markdownEnabled: enabled));
+  }
+
+  @override
   Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
     await setScrollSpeed(prompterState.speed);
     await setMirroredX(prompterState.mirroredX);
@@ -305,5 +316,6 @@ class Settings extends _$Settings implements ISettings {
     await setVerticalMarginBoxesFadeLength(
       prompterState.verticalMarginBoxesFadeLength,
     );
+    await setMarkdownEnabled(prompterState.markdownEnabled);
   }
 }

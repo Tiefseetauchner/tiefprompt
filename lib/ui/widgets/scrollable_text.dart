@@ -134,12 +134,19 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
         ),
         child: Column(
           children: [
-            Markdown(
-              widget.text,
-              textAlign: prompter.alignment,
-              style: widget.style,
-              width: mediaWidth - widget.sideMargin * 2,
-            ),
+            if (prompter.markdownEnabled)
+              Markdown(
+                widget.text,
+                textAlign: prompter.alignment,
+                style: widget.style,
+                width: mediaWidth - widget.sideMargin * 2,
+              )
+            else
+              Text(
+                widget.text,
+                style: widget.style,
+                textAlign: prompter.alignment,
+              ),
             SizedBox(
               height: mediaHeight,
               child: Center(child: Text("The End", style: widget.style)),

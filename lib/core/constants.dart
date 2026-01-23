@@ -56,29 +56,10 @@ enum Feature {
   fontFamily,
   keybindings,
   playPause,
+  markdown,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
-
-const kFeatureDescriptions = {
-  Feature.appLanguage: "app_language_description",
-  Feature.appTheme: "app_theme_description",
-  Feature.primaryAppColor: "primary_app_color_description",
-  Feature.scrollSpeed: "scroll_speed_description",
-  Feature.flipX: "flip_x_description",
-  Feature.flipY: "flip_y_description",
-  Feature.readingIndicatorBoxes: "reading_indicator_boxes_description",
-  Feature.verticalMargins: "vertical_margins_description",
-  Feature.verticalMarginFade: "vertical_margin_fade_description",
-  Feature.sideMargins: "side_margins_description",
-  Feature.countdownTimer: "countdown_timer_description",
-  Feature.prompterBackgroundColor: "prompter_background_color_description",
-  Feature.prompterTextColor: "prompter_text_color_description",
-  Feature.fontSize: "font_size_description",
-  Feature.textAlignment: "text_alignment_description",
-  Feature.fontFamily: "font_family_description",
-  Feature.keybindings: "keybindings_description",
-};
 
 const kAllFeatures = [
   Feature.appLanguage,
@@ -101,6 +82,7 @@ const kAllFeatures = [
   Feature.fontFamily,
   Feature.keybindings,
   Feature.playPause,
+  Feature.markdown,
 ];
 
 const kFreeFeatures = [

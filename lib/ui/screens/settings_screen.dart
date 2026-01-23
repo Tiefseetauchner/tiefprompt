@@ -424,6 +424,16 @@ class TextSettingsScreen extends ConsumerWidget {
                   .setFontFamily(updatedValue),
               values: kAvailableFonts.map((e) => (e, e)).toList(),
             ),
+            BooleanAppSetting(
+              feature: Feature.markdown,
+              displayText: context.tr(
+                "SettingsScreen.BooleanAppSetting_Markdown",
+              ),
+              value: value.markdownEnabled,
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setMarkdownEnabled(updatedValue),
+            ),
           ],
         ),
       ),
