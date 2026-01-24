@@ -13,7 +13,7 @@ import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
 
-final importedSettingsJsonProvider = StateProvider<dynamic>((ref) => {});
+final importedSettingsJsonProvider = StateProvider<dynamic>((ref) => null);
 
 class SettingsRestoreSetingsScreen extends ConsumerWidget {
   const SettingsRestoreSetingsScreen({super.key});
@@ -303,6 +303,13 @@ class _SaveSettingsDialogState extends ConsumerState<_SaveSettingsDialog> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _controller.dispose();
   }
 
   @override
