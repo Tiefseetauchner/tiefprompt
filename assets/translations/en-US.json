@@ -106,11 +106,25 @@
     "SettingsRestore": {
       "Title": "Save and Restore Settings",
       "Save": "Save Current Settings",
+      "Import": "Import Settings from File",
       "DeleteDialog": {
         "Title": "Delete Settings Profile",
         "Content": "You're about to permanently delete the stored settings {}!",
         "Cancel": "Cancel",
         "Confirm": "Confirm"
+      },
+      "OptionsDialog": {
+        "Title": "More Options",
+        "Export": "Export Settings Profile",
+        "FilePickerTitle": "Choose File to export Settings to",
+        "Delete": "Delete Settings Profile"
+      },
+      "ImportSettings": {
+        "Title": "Import Settings Profile",
+        "Content": "Please choose a file to import the settings profile from. Note that this will be added as a new profile and not override current settings.",
+        "Cancel": "Cancel",
+        "Import": "Choose File",
+        "InvalidVersion": "Invalid Schema Version provided. Please use a settings schema from this TiefPrompt version."
       },
       "SaveDialog": {
         "Title": "Save Settings Profile",

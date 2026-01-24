@@ -33,6 +33,46 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool markdownEnabled,
   }) = _SettingsState;
 
+  static SettingsState fromJson(Map<String, dynamic> jsonValues) {
+    return SettingsState(
+      scrollSpeed: jsonValues['scrollSpeed'],
+      mirroredX: jsonValues['mirroredX'],
+      mirroredY: jsonValues['mirroredY'],
+      fontSize: jsonValues['fontSize'],
+      sideMargin: jsonValues['sideMargin'],
+      fontFamily: jsonValues['fontFamily'],
+      alignment: _getAlignment(jsonValues['alignment']),
+      displayReadingIndicatorBoxes: jsonValues['displayReadingIndicatorBoxes'],
+      readingIndicatorBoxesHeight: jsonValues['readingIndicatorBoxesHeight'],
+      displayVerticalMarginBoxes: jsonValues['displayVerticalMarginBoxes'],
+      verticalMarginBoxesHeight: jsonValues['verticalMarginBoxesHeight'],
+      verticalMarginBoxesFadeEnabled:
+          jsonValues['verticalMarginBoxesFadeEnabled'],
+      verticalMarginBoxesFadeLength:
+          jsonValues['verticalMarginBoxesFadeLength'],
+      countdownDuration: jsonValues['countdownDuration'],
+      themeMode: _getThemeMode(jsonValues['themeMode']),
+      appPrimaryColor: Color(jsonValues['appPrimaryColor']),
+      prompterBackgroundColor: Color(jsonValues['prompterBackgroundColor']),
+      prompterTextColor: Color(jsonValues['prompterTextColor']),
+      markdownEnabled: jsonValues['markdownEnabled'],
+    );
+  }
+
+  static TextAlign _getAlignment(String? alignment) {
+    return TextAlign.values
+            .where((element) => element.name == alignment)
+            .singleOrNull ??
+        TextAlign.left;
+  }
+
+  static ThemeMode _getThemeMode(String? themeMode) {
+    return ThemeMode.values
+            .where((element) => element.name == themeMode)
+            .singleOrNull ??
+        ThemeMode.system;
+  }
+
   static Map<String, dynamic> toJson(Object? value) {
     if (value is _SettingsState) {
       return {
@@ -322,7 +362,54 @@ class Settings extends _$Settings implements ISettings {
 
   @override
   Future<void> loadSettings(SettingsState newState) async {
+    await _saveSettings(newState);
     state = state.whenData((s) => newState);
+  }
+
+  Future<void> _saveSettings(SettingsState state) async {
+    await _prefs.setDouble(_speedKey, state.scrollSpeed);
+    await _prefs.setBool(_mirroredXKey, state.mirroredX);
+    await _prefs.setBool(_mirroredYKey, state.mirroredY);
+    await _prefs.setDouble(_fontSizeKey, state.fontSize);
+    await _prefs.setDouble(_sideMarginKey, state.sideMargin);
+    await _prefs.setString(_fontFamilyKey, state.fontFamily);
+    await _prefs.setString(_alignmentKey, state.alignment.name);
+    await _prefs.setBool(
+      _displayReadingIndicatorBoxesKey,
+      state.displayReadingIndicatorBoxes,
+    );
+    await _prefs.setDouble(
+      _readingIndicatorBoxesHeightKey,
+      state.readingIndicatorBoxesHeight,
+    );
+    await _prefs.setBool(
+      _displayVerticalMarginBoxesKey,
+      state.displayVerticalMarginBoxes,
+    );
+    await _prefs.setDouble(
+      _verticalMarginBoxesHeightKey,
+      state.verticalMarginBoxesHeight,
+    );
+    await _prefs.setBool(
+      _verticalMarginBoxesFadeEnabledKey,
+      state.verticalMarginBoxesFadeEnabled,
+    );
+    await _prefs.setDouble(
+      _verticalMarginBoxesFadeLengthKey,
+      state.verticalMarginBoxesFadeLength,
+    );
+    await _prefs.setDouble(_countdownDurationKey, state.countdownDuration);
+    await _prefs.setString(_themeModeKey, state.themeMode.name);
+    await _prefs.setInt(_appPrimaryColorKey, state.appPrimaryColor.toARGB32());
+    await _prefs.setInt(
+      _prompterBackgroundColorKey,
+      state.prompterBackgroundColor.toARGB32(),
+    );
+    await _prefs.setInt(
+      _prompterTextColorKey,
+      state.prompterTextColor.toARGB32(),
+    );
+    await _prefs.setBool(_markdownEnabledKey, state.markdownEnabled);
   }
 
   @override

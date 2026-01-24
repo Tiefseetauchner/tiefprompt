@@ -593,25 +593,51 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
   }
 }
 
-class DialogAppSetting extends AppSetting {
-  final Widget Function(BuildContext) dialogContent;
+class DialogAppSetting<TValue> extends AppSetting {
+  final Widget dialogContent;
+  final TValue value;
+  final Function()? callback;
 
   const DialogAppSetting({
     super.key,
     required super.feature,
     required super.displayText,
     required this.dialogContent,
+    required this.value,
+    this.callback,
   });
 
   @override
   Widget buildSetting(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(displayText),
+    return _DialogCloseListener(
       onTap: () => _showDialog(context),
+      callback: callback,
+      child: ListTile(title: Text(displayText)),
     );
   }
 
-  void _showDialog(BuildContext context) {
-    showDialog(context: context, builder: dialogContent);
+  Future<void> _showDialog(BuildContext context) async {
+    await showDialog(context: context, builder: (_) => dialogContent);
+  }
+}
+
+class _DialogCloseListener extends StatelessWidget {
+  final Widget child;
+  final Future<void> Function()? onTap;
+  final VoidCallback? callback;
+
+  const _DialogCloseListener({required this.child, this.onTap, this.callback});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap == null
+          ? null
+          : () async {
+              await onTap!();
+              callback?.call();
+            },
+      child: child,
+    );
   }
 }

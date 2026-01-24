@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
@@ -7,9 +8,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
+
+final importedSettingsJsonProvider = StateProvider<dynamic>((ref) => {});
 
 class SettingsRestoreSetingsScreen extends ConsumerWidget {
   const SettingsRestoreSetingsScreen({super.key});
@@ -31,20 +35,42 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
             ),
             body: ListView(
               children: [
-                DialogAppSetting(
+                DialogAppSetting<SettingsState>(
                   feature: Feature.settingsRestore,
                   displayText: context.tr(
                     "SettingsScreen.SettingsRestore.Save",
                   ),
-                  dialogContent: (context) => _SaveSettingsDialog(value: value),
+                  dialogContent: _SaveSettingsDialog(value: value),
+                  value: value,
                 ),
-                DialogAppSetting(
+                DialogAppSetting<SettingsState>(
                   feature: Feature.settingsRestore,
                   displayText: context.tr(
                     "SettingsScreen.SettingsRestore.Import",
                   ),
-                  dialogContent: (context) =>
-                      _ImportSettingsDialog(value: value),
+                  value: value,
+                  dialogContent: _ImportSettingsDialog(value: value),
+                  callback: () async {
+                    final importedJson = ref.read(importedSettingsJsonProvider);
+                    if (importedJson == null) {
+                      return;
+                    }
+
+                    final name =
+                        importedJson['name'] as String? ??
+                        await _showNameDialog(context);
+
+                    final settings = SettingsState.fromJson(
+                      importedJson['settings'],
+                    );
+
+                    ref
+                        .read(settingsStorageServiceProvider.notifier)
+                        .save(name, settings);
+
+                    ref.read(importedSettingsJsonProvider.notifier).state =
+                        null;
+                  },
                 ),
                 Divider(height: 30, thickness: 3),
                 ...settingDisplays.data?.map(
@@ -129,7 +155,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
-                final exportedBytes = jsonEncode({
+                final exportedString = jsonEncode({
                   'schemaVersion': kSettingsSchemaVersion,
                   'settings': SettingsState.toJson(
                     await ref
@@ -143,7 +169,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                   ),
                   allowedExtensions: ["json"],
                   type: FileType.custom,
-                  bytes: Uint8List.fromList(exportedBytes.runes.toList()),
+                  bytes: Utf8Encoder().convert(exportedString),
                 );
                 context.pop();
               },
@@ -213,6 +239,48 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Future<String> _showNameDialog(BuildContext context) async {
+    TextEditingController controller = TextEditingController();
+
+    return await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (dialogContext) => SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            16.0,
+            16.0,
+            16.0,
+            MediaQuery.of(context).viewInsets.bottom + 16.0,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(context.tr("HomeScreen.BottomSheet.Text_Title")),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: context.tr(
+                    "HomeScreen.BottomSheet.TextField_hintText",
+                  ),
+                ),
+                controller: controller,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  dialogContext.pop(controller.text);
+                },
+                child: Text(
+                  context.tr("HomeScreen.BottomSheet.ElevatedButton_Save"),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -338,7 +406,25 @@ class _ImportSettingsDialogState extends ConsumerState<_ImportSettingsDialog> {
               allowedExtensions: ['json'],
             );
 
-            throw UnimplementedError();
+            if (resultFile != null) {
+              final file = resultFile.files.first;
+
+              final fileContent = await File(file.path!).readAsString();
+              final jsonContent = jsonDecode(fileContent);
+
+              if (jsonContent['schemaVersion'] != kSettingsSchemaVersion) {
+                ref.read(bannerMessageProvider.notifier).state = context.tr(
+                  "SettingsScreen.SettingsRestore.ImportSettings.InvalidVersion",
+                );
+                context.pop();
+                return;
+              }
+
+              ref.read(importedSettingsJsonProvider.notifier).state =
+                  jsonContent;
+
+              context.pop();
+            }
           },
           child: Text(
             context.tr("SettingsScreen.SettingsRestore.ImportSettings.Import"),
