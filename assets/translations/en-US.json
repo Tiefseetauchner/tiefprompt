@@ -107,6 +107,20 @@
       "Title": "Save and Restore Settings",
       "Save": "Save Current Settings",
       "Import": "Import Settings from File",
+      "LoadError": "There was a problem loading saved settings.",
+      "NameRequired": "Please enter a profile name.",
+      "SaveSuccess": "Settings profile saved.",
+      "ImportSuccess": "Settings profile imported.",
+      "ImportFailed": "Import failed. Please check the file and try again.",
+      "RestoreSuccess": "Settings restored.",
+      "RestoreFailed": "Restore failed.",
+      "ExportSuccess": "Settings profile exported.",
+      "ExportFailed": "Export failed.",
+      "DeleteSuccess": "Settings profile deleted.",
+      "NameSheet": {
+        "Title": "Name This Settings Profile",
+        "Content": "Give this imported profile a name."
+      },
       "DeleteDialog": {
         "Title": "Delete Settings Profile",
         "Content": "You're about to permanently delete the stored settings {}!",

@@ -6,6 +6,7 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/router_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/ui/widgets/banner_listener.dart';
 
 class TeleprompterApp extends ConsumerStatefulWidget {
   const TeleprompterApp({super.key});
@@ -52,6 +53,8 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         routerConfig: router,
+        builder: (context, child) =>
+            BannerListener(child: child ?? const SizedBox.shrink()),
         theme: value.states[1] as ThemeData,
         darkTheme: value.states[2] as ThemeData,
         themeMode: value.states[0] as ThemeMode,
@@ -62,6 +65,8 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         routerConfig: router,
+        builder: (context, child) =>
+            BannerListener(child: child ?? const SizedBox.shrink()),
       ),
       _ => Directionality(
         textDirection: TextDirection.ltr,

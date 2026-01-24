@@ -10,7 +10,6 @@ import 'package:tiefprompt/ui/screens/settings/keybindings_settings_screen.dart'
 import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/text_settings_screen.dart';
-import 'package:tiefprompt/ui/widgets/banner_listener.dart';
 
 part 'router_provider.g.dart';
 
@@ -23,8 +22,7 @@ class TiefPromptRouter extends _$TiefPromptRouter {
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) =>
-              const BannerListener(child: HomeScreen()),
+          builder: (context, state) => const HomeScreen(),
         ),
         GoRoute(
           path: '/teleprompter',
@@ -33,43 +31,36 @@ class TiefPromptRouter extends _$TiefPromptRouter {
                 .read(themesProvider)
                 .whenOrNull(data: (d) => d.prompterTheme);
 
-            return BannerListener(
-              child: Theme(
-                data: theme ?? ThemeData.dark(),
-                child: const PrompterScreen(),
-              ),
+            return Theme(
+              data: theme ?? ThemeData.dark(),
+              child: const PrompterScreen(),
             );
           },
         ),
         GoRoute(
           path: '/open_file',
-          builder: (context, state) =>
-              const BannerListener(child: OpenFileScreen()),
+          builder: (context, state) => const OpenFileScreen(),
         ),
         GoRoute(
           path: '/settings',
-          builder: (context, state) =>
-              const BannerListener(child: SettingsScreen()),
+          builder: (context, state) => const SettingsScreen(),
           routes: [
             GoRoute(
               path: 'display',
-              builder: (context, state) =>
-                  const BannerListener(child: DisplaySettingsScreen()),
+              builder: (context, state) => const DisplaySettingsScreen(),
             ),
             GoRoute(
               path: 'text',
-              builder: (context, state) =>
-                  const BannerListener(child: TextSettingsScreen()),
+              builder: (context, state) => const TextSettingsScreen(),
             ),
             GoRoute(
               path: 'keybindings',
-              builder: (context, state) =>
-                  const BannerListener(child: KeybindingsSettingsScreen()),
+              builder: (context, state) => const KeybindingsSettingsScreen(),
             ),
             GoRoute(
               path: 'settingsrestore',
               builder: (context, state) =>
-                  const BannerListener(child: SettingsRestoreSetingsScreen()),
+                  const SettingsRestoreSetingsScreen(),
             ),
           ],
         ),

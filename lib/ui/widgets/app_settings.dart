@@ -594,30 +594,39 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
 }
 
 class DialogAppSetting<TValue> extends AppSetting {
-  final Widget dialogContent;
+  final Widget? dialogContent;
   final TValue value;
   final Function()? callback;
+  final Future<void> Function(BuildContext context, WidgetRef ref)? onTap;
 
   const DialogAppSetting({
     super.key,
     required super.feature,
     required super.displayText,
-    required this.dialogContent,
+    this.dialogContent,
     required this.value,
     this.callback,
+    this.onTap,
   });
 
   @override
   Widget buildSetting(BuildContext context, WidgetRef ref) {
+    assert(
+      onTap != null || dialogContent != null,
+      'DialogAppSetting requires onTap or dialogContent.',
+    );
     return _DialogCloseListener(
-      onTap: () => _showDialog(context),
+      onTap: () => onTap == null ? _showDialog(context) : onTap!(context, ref),
       callback: callback,
       child: ListTile(title: Text(displayText)),
     );
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    await showDialog(context: context, builder: (_) => dialogContent);
+    if (dialogContent == null) {
+      return;
+    }
+    await showDialog(context: context, builder: (_) => dialogContent!);
   }
 }
 
