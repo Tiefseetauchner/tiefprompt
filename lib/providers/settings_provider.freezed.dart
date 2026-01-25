@@ -224,7 +224,7 @@ return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize
 
 
 class _SettingsState implements SettingsState {
-   _SettingsState({this.scrollSpeed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 42.0, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 60.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 35.0, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 50.0, this.countdownDuration = 0.0, this.themeMode = ThemeMode.system, this.appPrimaryColor = _defaultAppPrimaryColor, this.prompterBackgroundColor = Colors.black, this.prompterTextColor = Colors.white, this.markdownEnabled = false});
+   _SettingsState({this.scrollSpeed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 42.0, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 60.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 35.0, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 50.0, this.countdownDuration = 0.0, this.themeMode = ThemeMode.system, this.appPrimaryColor = const Color.fromARGB(255, 77, 103, 214), this.prompterBackgroundColor = Colors.black, this.prompterTextColor = Colors.white, this.markdownEnabled = false});
   
 
 @override@JsonKey() final  double scrollSpeed;

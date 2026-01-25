@@ -113,20 +113,19 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                         );
 
                         if (name.trim().isEmpty) {
-                          ref.read(bannerMessageProvider.notifier).state =
-                              context.tr(
-                                "SettingsScreen.SettingsRestore.NameRequired",
-                              );
+                          ref
+                              .read(bannerMessageProvider.notifier)
+                              .state = context.tr(
+                            "SettingsScreen.SettingsRestore.NameRequired",
+                          );
                           return;
                         }
 
                         await ref
                             .read(settingsStorageServiceProvider.notifier)
                             .save(name.trim(), value);
-                        ref.read(bannerMessageProvider.notifier).state =
-                            context.tr(
-                              "SettingsScreen.SettingsRestore.SaveSuccess",
-                            );
+                        ref.read(bannerMessageProvider.notifier).state = context
+                            .tr("SettingsScreen.SettingsRestore.SaveSuccess");
                       },
                     ),
                     DialogAppSetting<SettingsState>(
@@ -306,6 +305,9 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                 try {
                   final exportedString = jsonEncode({
                     'schemaVersion': kSettingsSchemaVersion,
+                    'name': await ref
+                        .read(settingsStorageServiceProvider.notifier)
+                        .getName(id),
                     'settings': SettingsState.toJson(
                       await ref
                           .read(settingsStorageServiceProvider.notifier)

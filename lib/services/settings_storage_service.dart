@@ -43,6 +43,12 @@ class SettingsStorageService extends _$SettingsStorageService {
           .asyncMap(_mapToState)
           .getSingle();
 
+  Future<String> getName(int settingsId) async => await _databaseManagers
+      .settingsModel
+      .filter((s) => s.id(settingsId))
+      .asyncMap((s) => s.name)
+      .getSingle();
+
   SettingsState _mapToState(SettingsModelData settings) {
     return SettingsState(
       scrollSpeed: settings.scrollSpeed,

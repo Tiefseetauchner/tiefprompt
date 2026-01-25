@@ -7,8 +7,6 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 part 'settings_provider.freezed.dart';
 part 'settings_provider.g.dart';
 
-const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
-
 @freezed
 abstract class SettingsState with _$SettingsState {
   factory SettingsState({
@@ -27,7 +25,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(50.0) double verticalMarginBoxesFadeLength,
     @Default(0.0) double countdownDuration,
     @Default(ThemeMode.system) ThemeMode themeMode,
-    @Default(_defaultAppPrimaryColor) Color appPrimaryColor,
+    @Default(Color.fromARGB(255, 77, 103, 214)) Color appPrimaryColor,
     @Default(Colors.black) Color prompterBackgroundColor,
     @Default(Colors.white) Color prompterTextColor,
     @Default(false) bool markdownEnabled,
@@ -35,42 +33,50 @@ abstract class SettingsState with _$SettingsState {
 
   static SettingsState fromJson(Map<String, dynamic> jsonValues) {
     return SettingsState(
-      scrollSpeed: jsonValues['scrollSpeed'],
-      mirroredX: jsonValues['mirroredX'],
-      mirroredY: jsonValues['mirroredY'],
-      fontSize: jsonValues['fontSize'],
-      sideMargin: jsonValues['sideMargin'],
-      fontFamily: jsonValues['fontFamily'],
-      alignment: _getAlignment(jsonValues['alignment']),
-      displayReadingIndicatorBoxes: jsonValues['displayReadingIndicatorBoxes'],
-      readingIndicatorBoxesHeight: jsonValues['readingIndicatorBoxesHeight'],
-      displayVerticalMarginBoxes: jsonValues['displayVerticalMarginBoxes'],
-      verticalMarginBoxesHeight: jsonValues['verticalMarginBoxesHeight'],
+      scrollSpeed: jsonValues['scrollSpeed'] ?? 1.0,
+      mirroredX: jsonValues['mirroredX'] ?? false,
+      mirroredY: jsonValues['mirroredY'] ?? false,
+      fontSize: jsonValues['fontSize'] ?? 42.0,
+      sideMargin: jsonValues['sideMargin'] ?? 0.0,
+      fontFamily: jsonValues['fontFamily'] ?? 'Roboto',
+      alignment: _getAlignment(jsonValues['alignment']) ?? TextAlign.left,
+      displayReadingIndicatorBoxes:
+          jsonValues['displayReadingIndicatorBoxes'] ?? false,
+      readingIndicatorBoxesHeight:
+          jsonValues['readingIndicatorBoxesHeight'] ?? 60.0,
+      displayVerticalMarginBoxes:
+          jsonValues['displayVerticalMarginBoxes'] ?? false,
+      verticalMarginBoxesHeight:
+          jsonValues['verticalMarginBoxesHeight'] ?? 35.0,
       verticalMarginBoxesFadeEnabled:
-          jsonValues['verticalMarginBoxesFadeEnabled'],
+          jsonValues['verticalMarginBoxesFadeEnabled'] ?? false,
       verticalMarginBoxesFadeLength:
-          jsonValues['verticalMarginBoxesFadeLength'],
-      countdownDuration: jsonValues['countdownDuration'],
-      themeMode: _getThemeMode(jsonValues['themeMode']),
-      appPrimaryColor: Color(jsonValues['appPrimaryColor']),
-      prompterBackgroundColor: Color(jsonValues['prompterBackgroundColor']),
-      prompterTextColor: Color(jsonValues['prompterTextColor']),
-      markdownEnabled: jsonValues['markdownEnabled'],
+          jsonValues['verticalMarginBoxesFadeLength'] ?? 50.0,
+      countdownDuration: jsonValues['countdownDuration'] ?? 0.0,
+      themeMode: _getThemeMode(jsonValues['themeMode']) ?? ThemeMode.system,
+      appPrimaryColor: jsonValues['appPrimaryColor'] != null
+          ? Color(jsonValues['appPrimaryColor'])
+          : Color.fromARGB(255, 77, 103, 214),
+      prompterBackgroundColor: jsonValues['prompterBackgroundColor'] != null
+          ? Color(jsonValues['prompterBackgroundColor'])
+          : Colors.black,
+      prompterTextColor: jsonValues['prompterTextColor'] != null
+          ? Color(jsonValues['prompterTextColor'])
+          : Colors.white,
+      markdownEnabled: jsonValues['markdownEnabled'] ?? false,
     );
   }
 
-  static TextAlign _getAlignment(String? alignment) {
+  static TextAlign? _getAlignment(String? alignment) {
     return TextAlign.values
-            .where((element) => element.name == alignment)
-            .singleOrNull ??
-        TextAlign.left;
+        .where((element) => element.name == alignment)
+        .singleOrNull;
   }
 
-  static ThemeMode _getThemeMode(String? themeMode) {
+  static ThemeMode? _getThemeMode(String? themeMode) {
     return ThemeMode.values
-            .where((element) => element.name == themeMode)
-            .singleOrNull ??
-        ThemeMode.system;
+        .where((element) => element.name == themeMode)
+        .singleOrNull;
   }
 
   static Map<String, dynamic> toJson(Object? value) {
@@ -153,6 +159,8 @@ class Settings extends _$Settings implements ISettings {
   static const _prompterBackgroundColorKey = 'prompter_background_color';
   static const _prompterTextColorKey = 'prompter_text_color';
   static const _markdownEnabledKey = 'markdown_enabled';
+
+  static const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
 
   late final SharedPreferences _prefs;
 
