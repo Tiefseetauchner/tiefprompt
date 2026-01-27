@@ -92,14 +92,16 @@ const kAllFeatures = [
 const kFreeFeatures = [
   Feature.appLanguage,
   Feature.appTheme,
+  Feature.primaryAppColor,
   Feature.textSettings,
   Feature.displaySettings,
   Feature.scrollSpeed,
   Feature.flipX,
   Feature.flipY,
-  Feature.readingIndicatorBoxes,
   Feature.sideMargins,
+  Feature.countdownTimer,
   Feature.fontSize,
+  Feature.fontFamily,
   Feature.textAlignment,
   Feature.playPause,
 ];
