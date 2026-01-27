@@ -284,13 +284,20 @@ class _BuildVersionNote extends ConsumerWidget {
               builder: (dialogContext) {
                 return AlertDialog(
                   title: Text(
-                    context.tr(switch (appFeatures.featureKind) {
-                      FeatureKind.fossVersion => "HomeScreen.FossVersion",
-                      FeatureKind.freeVersion => "HomeScreen.FreeVersion",
-                      FeatureKind.paidVersion => "HomeScreen.PaidVersion",
-                      FeatureKind.unverifiedBuild =>
+                    switch (appFeatures.featureKind) {
+                      FeatureKind.fossVersion => context.tr(
+                        "HomeScreen.FossVersion",
+                      ),
+                      FeatureKind.freeVersion => context.tr(
+                        "HomeScreen.FreeVersion",
+                      ),
+                      FeatureKind.paidVersion => context.tr(
+                        "HomeScreen.PaidVersion",
+                      ),
+                      FeatureKind.unverifiedBuild => context.tr(
                         "HomeScreen.UnverifiedBuild",
-                    }),
+                      ),
+                    },
                     style: TextStyle(
                       color:
                           appFeatures.featureKind == FeatureKind.unverifiedBuild
@@ -303,18 +310,20 @@ class _BuildVersionNote extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 10,
                       children: [
-                        Text(
-                          context.tr(switch (appFeatures.featureKind) {
-                            FeatureKind.fossVersion =>
-                              "HomeScreen.FossVersion_Explanation",
-                            FeatureKind.freeVersion =>
-                              "HomeScreen.FreeVersion_Explanation",
-                            FeatureKind.paidVersion =>
-                              "HomeScreen.PaidVersion_Explanation",
-                            FeatureKind.unverifiedBuild =>
-                              "HomeScreen.UnverifiedBuild_Explanation",
-                          }),
-                        ),
+                        Text(switch (appFeatures.featureKind) {
+                          FeatureKind.fossVersion => context.tr(
+                            "HomeScreen.FossVersion_Explanation",
+                          ),
+                          FeatureKind.freeVersion => context.tr(
+                            "HomeScreen.FreeVersion_Explanation",
+                          ),
+                          FeatureKind.paidVersion => context.tr(
+                            "HomeScreen.PaidVersion_Explanation",
+                          ),
+                          FeatureKind.unverifiedBuild => context.tr(
+                            "HomeScreen.UnverifiedBuild_Explanation",
+                          ),
+                        }),
                         if (appFeatures.featureKind == FeatureKind.freeVersion)
                           ElevatedButton(
                             onPressed: () =>
@@ -342,14 +351,14 @@ class _BuildVersionNote extends ConsumerWidget {
               },
             );
           },
-          child: Text(
-            context.tr(switch (appFeatures.featureKind) {
-              FeatureKind.fossVersion => "HomeScreen.FossVersion",
-              FeatureKind.freeVersion => "HomeScreen.FreeVersion",
-              FeatureKind.paidVersion => "HomeScreen.PaidVersion",
-              FeatureKind.unverifiedBuild => "HomeScreen.UnverifiedBuild",
-            }),
-          ),
+          child: Text(switch (appFeatures.featureKind) {
+            FeatureKind.fossVersion => context.tr("HomeScreen.FossVersion"),
+            FeatureKind.freeVersion => context.tr("HomeScreen.FreeVersion"),
+            FeatureKind.paidVersion => context.tr("HomeScreen.PaidVersion"),
+            FeatureKind.unverifiedBuild => context.tr(
+              "HomeScreen.UnverifiedBuild",
+            ),
+          }),
         ),
       ],
     );
