@@ -21,27 +21,30 @@ class Keybindings extends _$Keybindings {
       await _initializeDefaultKeybindings();
     }
 
-    return await _getCurrentKeybindings();
+    return await getCurrentKeybindings();
   }
 
-  Future<KeybindingMap> _getCurrentKeybindings() async {
+  Future<KeybindingMap> getCurrentKeybindings() async {
     final keybindingsMapId = (await ref.read(
       settingsProvider.future,
     )).keybindingsMapId;
 
-    final bindings =
-        (await _databaseManagers.keybindingMapModel
-                .withReferences(
-                  (prefetch) => prefetch(keybindingMappingModelRefs: true),
-                )
-                .filter((f) => f.id.equals(keybindingsMapId))
-                .getSingle())
-            .$2
-            .keybindingMappingModelRefs
-            .prefetchedData ??
-        [];
+    return getKeybindings(keybindingsMapId);
+  }
 
-    return KeybindingMap.fromBindings(bindings);
+  Future<KeybindingMap> getKeybindings(int keybindingsMapId) async {
+    return KeybindingMap.fromBindings(
+      (await _databaseManagers.keybindingMapModel
+                  .withReferences(
+                    (prefetch) => prefetch(keybindingMappingModelRefs: true),
+                  )
+                  .filter((f) => f.id.equals(keybindingsMapId))
+                  .getSingle())
+              .$2
+              .keybindingMappingModelRefs
+              .prefetchedData ??
+          [],
+    );
   }
 
   Future<void> _initializeDefaultKeybindings() async {
@@ -151,5 +154,26 @@ class Keybindings extends _$Keybindings {
     await _initializeDefaultKeybindings();
 
     ref.read(settingsProvider.notifier).setKeybindings(0);
+  }
+
+  Future<void> createKeybindingsMap(KeybindingMap bindings) async {
+    final keybindingMapId = await _databaseManagers.keybindingMapModel.create(
+      (o) => o(),
+    );
+
+    await _databaseManagers.keybindingMappingModel.bulkCreate(
+      (o) => [
+        for (final binding in bindings.keybindings)
+          o(
+            mapId: keybindingMapId,
+            actionName: binding.$1.name,
+            keyId: binding.$2.keyId,
+            ctrl: binding.$2.ctrl,
+            shift: binding.$2.shift,
+            alt: binding.$2.alt,
+            meta: binding.$2.meta,
+          ),
+      ],
+    );
   }
 }

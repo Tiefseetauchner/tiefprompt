@@ -382,6 +382,7 @@ class Settings extends _$Settings implements ISettings {
 
   @override
   Future<void> loadSettings(SettingsState newState) async {
+    print(newState.keybindingsMapId);
     await _saveSettings(newState);
     state = state.whenData((s) => newState);
   }

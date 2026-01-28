@@ -8,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
+import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
@@ -26,7 +28,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
       AsyncData(:final value) => FutureBuilder(
         future: ref
             .watch(settingsStorageServiceProvider.notifier)
-            .getSettings(),
+            .getSettingDisplayData(),
         builder: (context, settingDisplayStream) {
           if (settingDisplayStream.hasError) {
             return Scaffold(
@@ -195,6 +197,14 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                               .read(settingsStorageServiceProvider.notifier)
                               .save(name.trim(), settings);
 
+                          final keybindings = KeybindingMap.fromJson(
+                            importedJson['keybindings'],
+                          );
+
+                          await ref
+                              .read(keybindingsProvider.notifier)
+                              .createKeybindingsMap(keybindings);
+
                           ref
                                   .read(importedSettingsJsonProvider.notifier)
                                   .state =
@@ -246,14 +256,12 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                 _showOptionsDialog(context, ref, e.title, e.id),
                             onTap: () async {
                               try {
-                                final settings = await ref
+                                await ref
                                     .read(
                                       settingsStorageServiceProvider.notifier,
                                     )
                                     .loadSettings(e.id);
-                                await ref
-                                    .watch(settingsProvider.notifier)
-                                    .loadSettings(settings);
+                                ref.invalidate(keybindingsProvider);
                                 ref
                                     .read(bannerMessageProvider.notifier)
                                     .state = context.tr(
@@ -325,17 +333,22 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
+                final settings = await ref
+                    .read(settingsStorageServiceProvider.notifier)
+                    .getSettings(id);
+
                 try {
                   final exportedString = jsonEncode({
                     'schemaVersion': kSettingsSchemaVersion,
                     'name': await ref
                         .read(settingsStorageServiceProvider.notifier)
                         .getName(id),
-                    'settings': SettingsState.toJson(
-                      await ref
-                          .read(settingsStorageServiceProvider.notifier)
-                          .loadSettings(id),
-                    ),
+                    'settings': SettingsState.toJson(settings),
+                    'keybindings':
+                        (await ref
+                                .read(keybindingsProvider.notifier)
+                                .getKeybindings(settings.keybindingsMapId))
+                            .toJsonMap(),
                   });
                   await FilePicker.platform.saveFile(
                     dialogTitle: context.tr(

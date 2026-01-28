@@ -6,7 +6,7 @@ part of 'keybinding_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$keybindingsHash() => r'4ab12bb7ce195ed958472f7aa178c53877af2d8e';
+String _$keybindingsHash() => r'5b8108693b93713bcab735923ad5444f55d89977';
 
 /// See also [Keybindings].
 @ProviderFor(Keybindings)

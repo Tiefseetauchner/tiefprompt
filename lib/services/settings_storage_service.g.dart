@@ -7,7 +7,7 @@ part of 'settings_storage_service.dart';
 // **************************************************************************
 
 String _$settingsStorageServiceHash() =>
-    r'dbeea5fc169a4d7c93bd8691f705f4b87f990d2e';
+    r'416b6e83295fbe065f6f4c7e2f6856a7d35925af';
 
 /// See also [SettingsStorageService].
 @ProviderFor(SettingsStorageService)

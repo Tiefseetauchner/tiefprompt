@@ -27,7 +27,7 @@ class SettingsStorageService extends _$SettingsStorageService {
   Future<int> getSettingsCount() async =>
       await _databaseManagers.settingsPresetModel.count();
 
-  Future<Stream<List<SettingsDisplayData>>> getSettings() async =>
+  Future<Stream<List<SettingsDisplayData>>> getSettingDisplayData() async =>
       _databaseManagers.settingsPresetModel.asyncMap(_mapToDisplay).watch();
 
   SettingsDisplayData _mapToDisplay(SettingsPresetModelData settings) =>
@@ -37,7 +37,11 @@ class SettingsStorageService extends _$SettingsStorageService {
         createdAt: settings.createdAt,
       );
 
-  Future<SettingsState> loadSettings(int settingsId) async =>
+  Future<void> loadSettings(int settingsId) async => ref
+      .read(settingsProvider.notifier)
+      .loadSettings(await getSettings(settingsId));
+
+  Future<SettingsState> getSettings(int settingsId) async =>
       await _databaseManagers.settingsPresetModel
           .filter((s) => s.id(settingsId))
           .asyncMap(_mapToState)
@@ -90,34 +94,56 @@ class SettingsStorageService extends _$SettingsStorageService {
 
   Color _getColor(int color) => Color(color);
 
-  Future<void> save(String name, SettingsState settings) async =>
-      await _databaseManagers.settingsPresetModel.create(
-        (s) => s(
-          name: name,
-          scrollSpeed: settings.scrollSpeed,
-          mirroredX: settings.mirroredX,
-          mirroredY: settings.mirroredY,
-          fontSize: settings.fontSize,
-          sideMargin: settings.sideMargin,
-          fontFamily: settings.fontFamily,
-          alignment: settings.alignment.name,
-          displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
-          readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
-          displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
-          verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
-          verticalMarginBoxesFadeEnabled:
-              settings.verticalMarginBoxesFadeEnabled,
-          verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
-          countdownDuration: settings.countdownDuration,
-          themeMode: settings.themeMode.name,
-          appPrimaryColor: settings.appPrimaryColor.toARGB32(),
-          prompterBackgroundColor: settings.prompterBackgroundColor.toARGB32(),
-          prompterTextColor: settings.prompterTextColor.toARGB32(),
-          markdownEnabled: settings.markdownEnabled,
-          createdAt: DateTime.now(),
-          keybindings: settings.keybindingsMapId,
-        ),
-      );
+  Future<void> save(String name, SettingsState settings) async {
+    final keybindingMapId = await _databaseManagers.keybindingMapModel.create(
+      (o) => o(),
+    );
+
+    final mappedKeybindings = await _databaseManagers.keybindingMappingModel
+        .filter((b) => b.mapId.id.equals(settings.keybindingsMapId))
+        .get();
+    await _databaseManagers.keybindingMappingModel.bulkCreate(
+      (b) => [
+        for (final binding in mappedKeybindings)
+          b(
+            actionName: binding.actionName,
+            keyId: binding.keyId,
+            ctrl: binding.ctrl,
+            shift: binding.shift,
+            alt: binding.alt,
+            meta: binding.meta,
+            mapId: keybindingMapId,
+          ),
+      ],
+    );
+
+    await _databaseManagers.settingsPresetModel.create(
+      (s) => s(
+        name: name,
+        scrollSpeed: settings.scrollSpeed,
+        mirroredX: settings.mirroredX,
+        mirroredY: settings.mirroredY,
+        fontSize: settings.fontSize,
+        sideMargin: settings.sideMargin,
+        fontFamily: settings.fontFamily,
+        alignment: settings.alignment.name,
+        displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
+        readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
+        displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
+        verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
+        verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
+        verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
+        countdownDuration: settings.countdownDuration,
+        themeMode: settings.themeMode.name,
+        appPrimaryColor: settings.appPrimaryColor.toARGB32(),
+        prompterBackgroundColor: settings.prompterBackgroundColor.toARGB32(),
+        prompterTextColor: settings.prompterTextColor.toARGB32(),
+        markdownEnabled: settings.markdownEnabled,
+        createdAt: DateTime.now(),
+        keybindings: keybindingMapId,
+      ),
+    );
+  }
 
   Future<void> deleteSettings(int settingsId) async => await _databaseManagers
       .settingsPresetModel
