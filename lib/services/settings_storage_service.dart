@@ -25,12 +25,12 @@ class SettingsStorageService extends _$SettingsStorageService {
   Future<void> build() async {}
 
   Future<int> getSettingsCount() async =>
-      await _databaseManagers.settingsModel.count();
+      await _databaseManagers.settingsPresetModel.count();
 
   Future<Stream<List<SettingsDisplayData>>> getSettings() async =>
-      _databaseManagers.settingsModel.asyncMap(_mapToDisplay).watch();
+      _databaseManagers.settingsPresetModel.asyncMap(_mapToDisplay).watch();
 
-  SettingsDisplayData _mapToDisplay(SettingsModelData settings) =>
+  SettingsDisplayData _mapToDisplay(SettingsPresetModelData settings) =>
       SettingsDisplayData(
         id: settings.id,
         title: settings.name,
@@ -38,18 +38,18 @@ class SettingsStorageService extends _$SettingsStorageService {
       );
 
   Future<SettingsState> loadSettings(int settingsId) async =>
-      await _databaseManagers.settingsModel
+      await _databaseManagers.settingsPresetModel
           .filter((s) => s.id(settingsId))
           .asyncMap(_mapToState)
           .getSingle();
 
   Future<String> getName(int settingsId) async => await _databaseManagers
-      .settingsModel
+      .settingsPresetModel
       .filter((s) => s.id(settingsId))
       .asyncMap((s) => s.name)
       .getSingle();
 
-  SettingsState _mapToState(SettingsModelData settings) {
+  SettingsState _mapToState(SettingsPresetModelData settings) {
     return SettingsState(
       scrollSpeed: settings.scrollSpeed,
       mirroredX: settings.mirroredX,
@@ -70,6 +70,7 @@ class SettingsStorageService extends _$SettingsStorageService {
       prompterBackgroundColor: _getColor(settings.prompterBackgroundColor),
       prompterTextColor: _getColor(settings.prompterTextColor),
       markdownEnabled: settings.markdownEnabled,
+      keybindingsMapId: settings.keybindings,
     );
   }
 
@@ -90,7 +91,7 @@ class SettingsStorageService extends _$SettingsStorageService {
   Color _getColor(int color) => Color(color);
 
   Future<void> save(String name, SettingsState settings) async =>
-      await _databaseManagers.settingsModel.create(
+      await _databaseManagers.settingsPresetModel.create(
         (s) => s(
           name: name,
           scrollSpeed: settings.scrollSpeed,
@@ -114,11 +115,12 @@ class SettingsStorageService extends _$SettingsStorageService {
           prompterTextColor: settings.prompterTextColor.toARGB32(),
           markdownEnabled: settings.markdownEnabled,
           createdAt: DateTime.now(),
+          keybindings: settings.keybindingsMapId,
         ),
       );
 
   Future<void> deleteSettings(int settingsId) async => await _databaseManagers
-      .settingsModel
+      .settingsPresetModel
       .filter((s) => s.id(settingsId))
       .delete();
 }

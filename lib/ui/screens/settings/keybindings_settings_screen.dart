@@ -27,7 +27,10 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
                 displayText: context.tr(
                   "SettingsScreen.KeybindingsSettings.${b.name}",
                 ),
-                bindings: value.keybindings[b] ?? [],
+                bindings: value.keybindings
+                    .where((k) => k.$1 == b)
+                    .map((e) => e.$2)
+                    .toList(),
                 bindingAction: b,
               );
             }),

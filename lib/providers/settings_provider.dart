@@ -29,6 +29,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(Colors.black) Color prompterBackgroundColor,
     @Default(Colors.white) Color prompterTextColor,
     @Default(false) bool markdownEnabled,
+    @Default(0) int keybindingsMapId,
   }) = _SettingsState;
 
   static SettingsState fromJson(Map<String, dynamic> jsonValues) {
@@ -64,6 +65,7 @@ abstract class SettingsState with _$SettingsState {
           ? Color(jsonValues['prompterTextColor'])
           : Colors.white,
       markdownEnabled: jsonValues['markdownEnabled'] ?? false,
+      keybindingsMapId: jsonValues['keybindings'] ?? 0,
     );
   }
 
@@ -101,6 +103,7 @@ abstract class SettingsState with _$SettingsState {
         'prompterBackgroundColor': value.prompterBackgroundColor.toARGB32(),
         'prompterTextColor': value.prompterTextColor.toARGB32(),
         'markdownEnabled': value.markdownEnabled,
+        'keybindings': value.keybindingsMapId,
       };
     } else {
       throw UnsupportedError('Cannot convert to JSON: $value');

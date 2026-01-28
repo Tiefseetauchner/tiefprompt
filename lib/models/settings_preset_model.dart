@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
+import 'package:tiefprompt/models/keybinding.dart';
 
-class SettingsModel extends Table {
+class SettingsPresetModel extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   DateTimeColumn get createdAt => dateTime()();
@@ -24,4 +25,10 @@ class SettingsModel extends Table {
   IntColumn get prompterBackgroundColor => integer()();
   IntColumn get prompterTextColor => integer()();
   BoolColumn get markdownEnabled => boolean()();
+
+  IntColumn get keybindings => integer().references(
+    KeybindingMapModel,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
 }

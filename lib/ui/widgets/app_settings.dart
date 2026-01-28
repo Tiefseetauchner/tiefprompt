@@ -215,10 +215,7 @@ class _KeybindingAppSettingState
                         });
                         ref
                             .read(keybindingsProvider.notifier)
-                            .setBinding(
-                              widget.bindingAction,
-                              List<Keybinding>.from(dialogBindings),
-                            );
+                            .removeBinding(widget.bindingAction, b);
                       },
                       icon: Icon(Icons.delete),
                     ),
@@ -243,10 +240,7 @@ class _KeybindingAppSettingState
                     });
                     ref
                         .read(keybindingsProvider.notifier)
-                        .setBinding(
-                          widget.bindingAction,
-                          List<Keybinding>.from(dialogBindings),
-                        );
+                        .addBinding(widget.bindingAction, newBinding);
                   },
                 ),
               ],

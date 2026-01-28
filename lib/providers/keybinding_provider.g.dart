@@ -6,7 +6,7 @@ part of 'keybinding_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$keybindingsHash() => r'56d3c4aef54363a2ce4fae9d34215ef3b370dc70';
+String _$keybindingsHash() => r'4ab12bb7ce195ed958472f7aa178c53877af2d8e';
 
 /// See also [Keybindings].
 @ProviderFor(Keybindings)
@@ -17,8 +17,11 @@ final keybindingsProvider =
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
           : _$keybindingsHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+      dependencies: <ProviderOrFamily>[settingsProvider],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        settingsProvider,
+        ...?settingsProvider.allTransitiveDependencies,
+      },
     );
 
 typedef _$Keybindings = AsyncNotifier<KeybindingMap>;

@@ -303,12 +303,153 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
   }
 }
 
-class $SettingsModelTable extends SettingsModel
-    with TableInfo<$SettingsModelTable, SettingsModelData> {
+class $KeybindingMapModelTable extends KeybindingMapModel
+    with TableInfo<$KeybindingMapModelTable, KeybindingMapModelData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $SettingsModelTable(this.attachedDatabase, [this._alias]);
+  $KeybindingMapModelTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'keybinding_map_model';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<KeybindingMapModelData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  KeybindingMapModelData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return KeybindingMapModelData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+    );
+  }
+
+  @override
+  $KeybindingMapModelTable createAlias(String alias) {
+    return $KeybindingMapModelTable(attachedDatabase, alias);
+  }
+}
+
+class KeybindingMapModelData extends DataClass
+    implements Insertable<KeybindingMapModelData> {
+  final int id;
+  const KeybindingMapModelData({required this.id});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    return map;
+  }
+
+  KeybindingMapModelCompanion toCompanion(bool nullToAbsent) {
+    return KeybindingMapModelCompanion(id: Value(id));
+  }
+
+  factory KeybindingMapModelData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return KeybindingMapModelData(id: serializer.fromJson<int>(json['id']));
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{'id': serializer.toJson<int>(id)};
+  }
+
+  KeybindingMapModelData copyWith({int? id}) =>
+      KeybindingMapModelData(id: id ?? this.id);
+  KeybindingMapModelData copyWithCompanion(KeybindingMapModelCompanion data) {
+    return KeybindingMapModelData(
+      id: data.id.present ? data.id.value : this.id,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KeybindingMapModelData(')
+          ..write('id: $id')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KeybindingMapModelData && other.id == this.id);
+}
+
+class KeybindingMapModelCompanion
+    extends UpdateCompanion<KeybindingMapModelData> {
+  final Value<int> id;
+  const KeybindingMapModelCompanion({this.id = const Value.absent()});
+  KeybindingMapModelCompanion.insert({this.id = const Value.absent()});
+  static Insertable<KeybindingMapModelData> custom({Expression<int>? id}) {
+    return RawValuesInsertable({if (id != null) 'id': id});
+  }
+
+  KeybindingMapModelCompanion copyWith({Value<int>? id}) {
+    return KeybindingMapModelCompanion(id: id ?? this.id);
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KeybindingMapModelCompanion(')
+          ..write('id: $id')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SettingsPresetModelTable extends SettingsPresetModel
+    with TableInfo<$SettingsPresetModelTable, SettingsPresetModelData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SettingsPresetModelTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -570,6 +711,20 @@ class $SettingsModelTable extends SettingsModel
       'CHECK ("markdown_enabled" IN (0, 1))',
     ),
   );
+  static const VerificationMeta _keybindingsMeta = const VerificationMeta(
+    'keybindings',
+  );
+  @override
+  late final GeneratedColumn<int> keybindings = GeneratedColumn<int>(
+    'keybindings',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES keybinding_map_model (id) ON DELETE CASCADE',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -594,15 +749,16 @@ class $SettingsModelTable extends SettingsModel
     prompterBackgroundColor,
     prompterTextColor,
     markdownEnabled,
+    keybindings,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'settings_model';
+  static const String $name = 'settings_preset_model';
   @override
   VerificationContext validateIntegrity(
-    Insertable<SettingsModelData> instance, {
+    Insertable<SettingsPresetModelData> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -814,15 +970,29 @@ class $SettingsModelTable extends SettingsModel
     } else if (isInserting) {
       context.missing(_markdownEnabledMeta);
     }
+    if (data.containsKey('keybindings')) {
+      context.handle(
+        _keybindingsMeta,
+        keybindings.isAcceptableOrUnknown(
+          data['keybindings']!,
+          _keybindingsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_keybindingsMeta);
+    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  SettingsModelData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  SettingsPresetModelData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return SettingsModelData(
+    return SettingsPresetModelData(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -911,17 +1081,21 @@ class $SettingsModelTable extends SettingsModel
         DriftSqlType.bool,
         data['${effectivePrefix}markdown_enabled'],
       )!,
+      keybindings: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}keybindings'],
+      )!,
     );
   }
 
   @override
-  $SettingsModelTable createAlias(String alias) {
-    return $SettingsModelTable(attachedDatabase, alias);
+  $SettingsPresetModelTable createAlias(String alias) {
+    return $SettingsPresetModelTable(attachedDatabase, alias);
   }
 }
 
-class SettingsModelData extends DataClass
-    implements Insertable<SettingsModelData> {
+class SettingsPresetModelData extends DataClass
+    implements Insertable<SettingsPresetModelData> {
   final int id;
   final String name;
   final DateTime createdAt;
@@ -944,7 +1118,8 @@ class SettingsModelData extends DataClass
   final int prompterBackgroundColor;
   final int prompterTextColor;
   final bool markdownEnabled;
-  const SettingsModelData({
+  final int keybindings;
+  const SettingsPresetModelData({
     required this.id,
     required this.name,
     required this.createdAt,
@@ -967,6 +1142,7 @@ class SettingsModelData extends DataClass
     required this.prompterBackgroundColor,
     required this.prompterTextColor,
     required this.markdownEnabled,
+    required this.keybindings,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1005,11 +1181,12 @@ class SettingsModelData extends DataClass
     map['prompter_background_color'] = Variable<int>(prompterBackgroundColor);
     map['prompter_text_color'] = Variable<int>(prompterTextColor);
     map['markdown_enabled'] = Variable<bool>(markdownEnabled);
+    map['keybindings'] = Variable<int>(keybindings);
     return map;
   }
 
-  SettingsModelCompanion toCompanion(bool nullToAbsent) {
-    return SettingsModelCompanion(
+  SettingsPresetModelCompanion toCompanion(bool nullToAbsent) {
+    return SettingsPresetModelCompanion(
       id: Value(id),
       name: Value(name),
       createdAt: Value(createdAt),
@@ -1032,15 +1209,16 @@ class SettingsModelData extends DataClass
       prompterBackgroundColor: Value(prompterBackgroundColor),
       prompterTextColor: Value(prompterTextColor),
       markdownEnabled: Value(markdownEnabled),
+      keybindings: Value(keybindings),
     );
   }
 
-  factory SettingsModelData.fromJson(
+  factory SettingsPresetModelData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return SettingsModelData(
+    return SettingsPresetModelData(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -1077,6 +1255,7 @@ class SettingsModelData extends DataClass
       ),
       prompterTextColor: serializer.fromJson<int>(json['prompterTextColor']),
       markdownEnabled: serializer.fromJson<bool>(json['markdownEnabled']),
+      keybindings: serializer.fromJson<int>(json['keybindings']),
     );
   }
   @override
@@ -1119,10 +1298,11 @@ class SettingsModelData extends DataClass
       ),
       'prompterTextColor': serializer.toJson<int>(prompterTextColor),
       'markdownEnabled': serializer.toJson<bool>(markdownEnabled),
+      'keybindings': serializer.toJson<int>(keybindings),
     };
   }
 
-  SettingsModelData copyWith({
+  SettingsPresetModelData copyWith({
     int? id,
     String? name,
     DateTime? createdAt,
@@ -1145,7 +1325,8 @@ class SettingsModelData extends DataClass
     int? prompterBackgroundColor,
     int? prompterTextColor,
     bool? markdownEnabled,
-  }) => SettingsModelData(
+    int? keybindings,
+  }) => SettingsPresetModelData(
     id: id ?? this.id,
     name: name ?? this.name,
     createdAt: createdAt ?? this.createdAt,
@@ -1175,9 +1356,10 @@ class SettingsModelData extends DataClass
         prompterBackgroundColor ?? this.prompterBackgroundColor,
     prompterTextColor: prompterTextColor ?? this.prompterTextColor,
     markdownEnabled: markdownEnabled ?? this.markdownEnabled,
+    keybindings: keybindings ?? this.keybindings,
   );
-  SettingsModelData copyWithCompanion(SettingsModelCompanion data) {
-    return SettingsModelData(
+  SettingsPresetModelData copyWithCompanion(SettingsPresetModelCompanion data) {
+    return SettingsPresetModelData(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
@@ -1229,12 +1411,15 @@ class SettingsModelData extends DataClass
       markdownEnabled: data.markdownEnabled.present
           ? data.markdownEnabled.value
           : this.markdownEnabled,
+      keybindings: data.keybindings.present
+          ? data.keybindings.value
+          : this.keybindings,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('SettingsModelData(')
+    return (StringBuffer('SettingsPresetModelData(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('createdAt: $createdAt, ')
@@ -1262,7 +1447,8 @@ class SettingsModelData extends DataClass
           ..write('appPrimaryColor: $appPrimaryColor, ')
           ..write('prompterBackgroundColor: $prompterBackgroundColor, ')
           ..write('prompterTextColor: $prompterTextColor, ')
-          ..write('markdownEnabled: $markdownEnabled')
+          ..write('markdownEnabled: $markdownEnabled, ')
+          ..write('keybindings: $keybindings')
           ..write(')'))
         .toString();
   }
@@ -1291,11 +1477,12 @@ class SettingsModelData extends DataClass
     prompterBackgroundColor,
     prompterTextColor,
     markdownEnabled,
+    keybindings,
   ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is SettingsModelData &&
+      (other is SettingsPresetModelData &&
           other.id == this.id &&
           other.name == this.name &&
           other.createdAt == this.createdAt &&
@@ -1321,10 +1508,12 @@ class SettingsModelData extends DataClass
           other.appPrimaryColor == this.appPrimaryColor &&
           other.prompterBackgroundColor == this.prompterBackgroundColor &&
           other.prompterTextColor == this.prompterTextColor &&
-          other.markdownEnabled == this.markdownEnabled);
+          other.markdownEnabled == this.markdownEnabled &&
+          other.keybindings == this.keybindings);
 }
 
-class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
+class SettingsPresetModelCompanion
+    extends UpdateCompanion<SettingsPresetModelData> {
   final Value<int> id;
   final Value<String> name;
   final Value<DateTime> createdAt;
@@ -1347,7 +1536,8 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
   final Value<int> prompterBackgroundColor;
   final Value<int> prompterTextColor;
   final Value<bool> markdownEnabled;
-  const SettingsModelCompanion({
+  final Value<int> keybindings;
+  const SettingsPresetModelCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -1370,8 +1560,9 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
     this.prompterBackgroundColor = const Value.absent(),
     this.prompterTextColor = const Value.absent(),
     this.markdownEnabled = const Value.absent(),
+    this.keybindings = const Value.absent(),
   });
-  SettingsModelCompanion.insert({
+  SettingsPresetModelCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required DateTime createdAt,
@@ -1394,6 +1585,7 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
     required int prompterBackgroundColor,
     required int prompterTextColor,
     required bool markdownEnabled,
+    required int keybindings,
   }) : name = Value(name),
        createdAt = Value(createdAt),
        scrollSpeed = Value(scrollSpeed),
@@ -1414,8 +1606,9 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
        appPrimaryColor = Value(appPrimaryColor),
        prompterBackgroundColor = Value(prompterBackgroundColor),
        prompterTextColor = Value(prompterTextColor),
-       markdownEnabled = Value(markdownEnabled);
-  static Insertable<SettingsModelData> custom({
+       markdownEnabled = Value(markdownEnabled),
+       keybindings = Value(keybindings);
+  static Insertable<SettingsPresetModelData> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<DateTime>? createdAt,
@@ -1438,6 +1631,7 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
     Expression<int>? prompterBackgroundColor,
     Expression<int>? prompterTextColor,
     Expression<bool>? markdownEnabled,
+    Expression<int>? keybindings,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1469,10 +1663,11 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
         'prompter_background_color': prompterBackgroundColor,
       if (prompterTextColor != null) 'prompter_text_color': prompterTextColor,
       if (markdownEnabled != null) 'markdown_enabled': markdownEnabled,
+      if (keybindings != null) 'keybindings': keybindings,
     });
   }
 
-  SettingsModelCompanion copyWith({
+  SettingsPresetModelCompanion copyWith({
     Value<int>? id,
     Value<String>? name,
     Value<DateTime>? createdAt,
@@ -1495,8 +1690,9 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
     Value<int>? prompterBackgroundColor,
     Value<int>? prompterTextColor,
     Value<bool>? markdownEnabled,
+    Value<int>? keybindings,
   }) {
-    return SettingsModelCompanion(
+    return SettingsPresetModelCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,
@@ -1526,6 +1722,7 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
           prompterBackgroundColor ?? this.prompterBackgroundColor,
       prompterTextColor: prompterTextColor ?? this.prompterTextColor,
       markdownEnabled: markdownEnabled ?? this.markdownEnabled,
+      keybindings: keybindings ?? this.keybindings,
     );
   }
 
@@ -1612,12 +1809,15 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
     if (markdownEnabled.present) {
       map['markdown_enabled'] = Variable<bool>(markdownEnabled.value);
     }
+    if (keybindings.present) {
+      map['keybindings'] = Variable<int>(keybindings.value);
+    }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('SettingsModelCompanion(')
+    return (StringBuffer('SettingsPresetModelCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('createdAt: $createdAt, ')
@@ -1645,7 +1845,515 @@ class SettingsModelCompanion extends UpdateCompanion<SettingsModelData> {
           ..write('appPrimaryColor: $appPrimaryColor, ')
           ..write('prompterBackgroundColor: $prompterBackgroundColor, ')
           ..write('prompterTextColor: $prompterTextColor, ')
-          ..write('markdownEnabled: $markdownEnabled')
+          ..write('markdownEnabled: $markdownEnabled, ')
+          ..write('keybindings: $keybindings')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $KeybindingMappingModelTable extends KeybindingMappingModel
+    with TableInfo<$KeybindingMappingModelTable, KeybindingMappingModelData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $KeybindingMappingModelTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _mapIdMeta = const VerificationMeta('mapId');
+  @override
+  late final GeneratedColumn<int> mapId = GeneratedColumn<int>(
+    'map_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES keybinding_map_model (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _keyIdMeta = const VerificationMeta('keyId');
+  @override
+  late final GeneratedColumn<int> keyId = GeneratedColumn<int>(
+    'key_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _ctrlMeta = const VerificationMeta('ctrl');
+  @override
+  late final GeneratedColumn<bool> ctrl = GeneratedColumn<bool>(
+    'ctrl',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("ctrl" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _shiftMeta = const VerificationMeta('shift');
+  @override
+  late final GeneratedColumn<bool> shift = GeneratedColumn<bool>(
+    'shift',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("shift" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _altMeta = const VerificationMeta('alt');
+  @override
+  late final GeneratedColumn<bool> alt = GeneratedColumn<bool>(
+    'alt',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("alt" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _metaMeta = const VerificationMeta('meta');
+  @override
+  late final GeneratedColumn<bool> meta = GeneratedColumn<bool>(
+    'meta',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("meta" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _actionNameMeta = const VerificationMeta(
+    'actionName',
+  );
+  @override
+  late final GeneratedColumn<String> actionName = GeneratedColumn<String>(
+    'action_name',
+    aliasedName,
+    false,
+    check: () => actionName.isIn(KeybindingAction.values.map((e) => e.name)),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    mapId,
+    keyId,
+    ctrl,
+    shift,
+    alt,
+    meta,
+    actionName,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'keybinding_mapping_model';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<KeybindingMappingModelData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('map_id')) {
+      context.handle(
+        _mapIdMeta,
+        mapId.isAcceptableOrUnknown(data['map_id']!, _mapIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_mapIdMeta);
+    }
+    if (data.containsKey('key_id')) {
+      context.handle(
+        _keyIdMeta,
+        keyId.isAcceptableOrUnknown(data['key_id']!, _keyIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_keyIdMeta);
+    }
+    if (data.containsKey('ctrl')) {
+      context.handle(
+        _ctrlMeta,
+        ctrl.isAcceptableOrUnknown(data['ctrl']!, _ctrlMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ctrlMeta);
+    }
+    if (data.containsKey('shift')) {
+      context.handle(
+        _shiftMeta,
+        shift.isAcceptableOrUnknown(data['shift']!, _shiftMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shiftMeta);
+    }
+    if (data.containsKey('alt')) {
+      context.handle(
+        _altMeta,
+        alt.isAcceptableOrUnknown(data['alt']!, _altMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_altMeta);
+    }
+    if (data.containsKey('meta')) {
+      context.handle(
+        _metaMeta,
+        meta.isAcceptableOrUnknown(data['meta']!, _metaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_metaMeta);
+    }
+    if (data.containsKey('action_name')) {
+      context.handle(
+        _actionNameMeta,
+        actionName.isAcceptableOrUnknown(data['action_name']!, _actionNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_actionNameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  KeybindingMappingModelData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return KeybindingMappingModelData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      mapId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}map_id'],
+      )!,
+      keyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}key_id'],
+      )!,
+      ctrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}ctrl'],
+      )!,
+      shift: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}shift'],
+      )!,
+      alt: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}alt'],
+      )!,
+      meta: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}meta'],
+      )!,
+      actionName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}action_name'],
+      )!,
+    );
+  }
+
+  @override
+  $KeybindingMappingModelTable createAlias(String alias) {
+    return $KeybindingMappingModelTable(attachedDatabase, alias);
+  }
+}
+
+class KeybindingMappingModelData extends DataClass
+    implements Insertable<KeybindingMappingModelData> {
+  final int id;
+  final int mapId;
+  final int keyId;
+  final bool ctrl;
+  final bool shift;
+  final bool alt;
+  final bool meta;
+  final String actionName;
+  const KeybindingMappingModelData({
+    required this.id,
+    required this.mapId,
+    required this.keyId,
+    required this.ctrl,
+    required this.shift,
+    required this.alt,
+    required this.meta,
+    required this.actionName,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['map_id'] = Variable<int>(mapId);
+    map['key_id'] = Variable<int>(keyId);
+    map['ctrl'] = Variable<bool>(ctrl);
+    map['shift'] = Variable<bool>(shift);
+    map['alt'] = Variable<bool>(alt);
+    map['meta'] = Variable<bool>(meta);
+    map['action_name'] = Variable<String>(actionName);
+    return map;
+  }
+
+  KeybindingMappingModelCompanion toCompanion(bool nullToAbsent) {
+    return KeybindingMappingModelCompanion(
+      id: Value(id),
+      mapId: Value(mapId),
+      keyId: Value(keyId),
+      ctrl: Value(ctrl),
+      shift: Value(shift),
+      alt: Value(alt),
+      meta: Value(meta),
+      actionName: Value(actionName),
+    );
+  }
+
+  factory KeybindingMappingModelData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return KeybindingMappingModelData(
+      id: serializer.fromJson<int>(json['id']),
+      mapId: serializer.fromJson<int>(json['mapId']),
+      keyId: serializer.fromJson<int>(json['keyId']),
+      ctrl: serializer.fromJson<bool>(json['ctrl']),
+      shift: serializer.fromJson<bool>(json['shift']),
+      alt: serializer.fromJson<bool>(json['alt']),
+      meta: serializer.fromJson<bool>(json['meta']),
+      actionName: serializer.fromJson<String>(json['actionName']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'mapId': serializer.toJson<int>(mapId),
+      'keyId': serializer.toJson<int>(keyId),
+      'ctrl': serializer.toJson<bool>(ctrl),
+      'shift': serializer.toJson<bool>(shift),
+      'alt': serializer.toJson<bool>(alt),
+      'meta': serializer.toJson<bool>(meta),
+      'actionName': serializer.toJson<String>(actionName),
+    };
+  }
+
+  KeybindingMappingModelData copyWith({
+    int? id,
+    int? mapId,
+    int? keyId,
+    bool? ctrl,
+    bool? shift,
+    bool? alt,
+    bool? meta,
+    String? actionName,
+  }) => KeybindingMappingModelData(
+    id: id ?? this.id,
+    mapId: mapId ?? this.mapId,
+    keyId: keyId ?? this.keyId,
+    ctrl: ctrl ?? this.ctrl,
+    shift: shift ?? this.shift,
+    alt: alt ?? this.alt,
+    meta: meta ?? this.meta,
+    actionName: actionName ?? this.actionName,
+  );
+  KeybindingMappingModelData copyWithCompanion(
+    KeybindingMappingModelCompanion data,
+  ) {
+    return KeybindingMappingModelData(
+      id: data.id.present ? data.id.value : this.id,
+      mapId: data.mapId.present ? data.mapId.value : this.mapId,
+      keyId: data.keyId.present ? data.keyId.value : this.keyId,
+      ctrl: data.ctrl.present ? data.ctrl.value : this.ctrl,
+      shift: data.shift.present ? data.shift.value : this.shift,
+      alt: data.alt.present ? data.alt.value : this.alt,
+      meta: data.meta.present ? data.meta.value : this.meta,
+      actionName: data.actionName.present
+          ? data.actionName.value
+          : this.actionName,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KeybindingMappingModelData(')
+          ..write('id: $id, ')
+          ..write('mapId: $mapId, ')
+          ..write('keyId: $keyId, ')
+          ..write('ctrl: $ctrl, ')
+          ..write('shift: $shift, ')
+          ..write('alt: $alt, ')
+          ..write('meta: $meta, ')
+          ..write('actionName: $actionName')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, mapId, keyId, ctrl, shift, alt, meta, actionName);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KeybindingMappingModelData &&
+          other.id == this.id &&
+          other.mapId == this.mapId &&
+          other.keyId == this.keyId &&
+          other.ctrl == this.ctrl &&
+          other.shift == this.shift &&
+          other.alt == this.alt &&
+          other.meta == this.meta &&
+          other.actionName == this.actionName);
+}
+
+class KeybindingMappingModelCompanion
+    extends UpdateCompanion<KeybindingMappingModelData> {
+  final Value<int> id;
+  final Value<int> mapId;
+  final Value<int> keyId;
+  final Value<bool> ctrl;
+  final Value<bool> shift;
+  final Value<bool> alt;
+  final Value<bool> meta;
+  final Value<String> actionName;
+  const KeybindingMappingModelCompanion({
+    this.id = const Value.absent(),
+    this.mapId = const Value.absent(),
+    this.keyId = const Value.absent(),
+    this.ctrl = const Value.absent(),
+    this.shift = const Value.absent(),
+    this.alt = const Value.absent(),
+    this.meta = const Value.absent(),
+    this.actionName = const Value.absent(),
+  });
+  KeybindingMappingModelCompanion.insert({
+    this.id = const Value.absent(),
+    required int mapId,
+    required int keyId,
+    required bool ctrl,
+    required bool shift,
+    required bool alt,
+    required bool meta,
+    required String actionName,
+  }) : mapId = Value(mapId),
+       keyId = Value(keyId),
+       ctrl = Value(ctrl),
+       shift = Value(shift),
+       alt = Value(alt),
+       meta = Value(meta),
+       actionName = Value(actionName);
+  static Insertable<KeybindingMappingModelData> custom({
+    Expression<int>? id,
+    Expression<int>? mapId,
+    Expression<int>? keyId,
+    Expression<bool>? ctrl,
+    Expression<bool>? shift,
+    Expression<bool>? alt,
+    Expression<bool>? meta,
+    Expression<String>? actionName,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (mapId != null) 'map_id': mapId,
+      if (keyId != null) 'key_id': keyId,
+      if (ctrl != null) 'ctrl': ctrl,
+      if (shift != null) 'shift': shift,
+      if (alt != null) 'alt': alt,
+      if (meta != null) 'meta': meta,
+      if (actionName != null) 'action_name': actionName,
+    });
+  }
+
+  KeybindingMappingModelCompanion copyWith({
+    Value<int>? id,
+    Value<int>? mapId,
+    Value<int>? keyId,
+    Value<bool>? ctrl,
+    Value<bool>? shift,
+    Value<bool>? alt,
+    Value<bool>? meta,
+    Value<String>? actionName,
+  }) {
+    return KeybindingMappingModelCompanion(
+      id: id ?? this.id,
+      mapId: mapId ?? this.mapId,
+      keyId: keyId ?? this.keyId,
+      ctrl: ctrl ?? this.ctrl,
+      shift: shift ?? this.shift,
+      alt: alt ?? this.alt,
+      meta: meta ?? this.meta,
+      actionName: actionName ?? this.actionName,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (mapId.present) {
+      map['map_id'] = Variable<int>(mapId.value);
+    }
+    if (keyId.present) {
+      map['key_id'] = Variable<int>(keyId.value);
+    }
+    if (ctrl.present) {
+      map['ctrl'] = Variable<bool>(ctrl.value);
+    }
+    if (shift.present) {
+      map['shift'] = Variable<bool>(shift.value);
+    }
+    if (alt.present) {
+      map['alt'] = Variable<bool>(alt.value);
+    }
+    if (meta.present) {
+      map['meta'] = Variable<bool>(meta.value);
+    }
+    if (actionName.present) {
+      map['action_name'] = Variable<String>(actionName.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KeybindingMappingModelCompanion(')
+          ..write('id: $id, ')
+          ..write('mapId: $mapId, ')
+          ..write('keyId: $keyId, ')
+          ..write('ctrl: $ctrl, ')
+          ..write('shift: $shift, ')
+          ..write('alt: $alt, ')
+          ..write('meta: $meta, ')
+          ..write('actionName: $actionName')
           ..write(')'))
         .toString();
   }
@@ -1655,15 +2363,41 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ScriptModelTable scriptModel = $ScriptModelTable(this);
-  late final $SettingsModelTable settingsModel = $SettingsModelTable(this);
+  late final $KeybindingMapModelTable keybindingMapModel =
+      $KeybindingMapModelTable(this);
+  late final $SettingsPresetModelTable settingsPresetModel =
+      $SettingsPresetModelTable(this);
+  late final $KeybindingMappingModelTable keybindingMappingModel =
+      $KeybindingMappingModelTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     scriptModel,
-    settingsModel,
+    keybindingMapModel,
+    settingsPresetModel,
+    keybindingMappingModel,
   ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'keybinding_map_model',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('settings_preset_model', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'keybinding_map_model',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [
+        TableUpdate('keybinding_mapping_model', kind: UpdateKind.delete),
+      ],
+    ),
+  ]);
 }
 
 typedef $$ScriptModelTableCreateCompanionBuilder =
@@ -1843,8 +2577,355 @@ typedef $$ScriptModelTableProcessedTableManager =
       ScriptModelData,
       PrefetchHooks Function()
     >;
-typedef $$SettingsModelTableCreateCompanionBuilder =
-    SettingsModelCompanion Function({
+typedef $$KeybindingMapModelTableCreateCompanionBuilder =
+    KeybindingMapModelCompanion Function({Value<int> id});
+typedef $$KeybindingMapModelTableUpdateCompanionBuilder =
+    KeybindingMapModelCompanion Function({Value<int> id});
+
+final class $$KeybindingMapModelTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $KeybindingMapModelTable,
+          KeybindingMapModelData
+        > {
+  $$KeybindingMapModelTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<
+    $SettingsPresetModelTable,
+    List<SettingsPresetModelData>
+  >
+  _settingsPresetModelRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.settingsPresetModel,
+        aliasName: $_aliasNameGenerator(
+          db.keybindingMapModel.id,
+          db.settingsPresetModel.keybindings,
+        ),
+      );
+
+  $$SettingsPresetModelTableProcessedTableManager get settingsPresetModelRefs {
+    final manager = $$SettingsPresetModelTableTableManager(
+      $_db,
+      $_db.settingsPresetModel,
+    ).filter((f) => f.keybindings.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _settingsPresetModelRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $KeybindingMappingModelTable,
+    List<KeybindingMappingModelData>
+  >
+  _keybindingMappingModelRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.keybindingMappingModel,
+        aliasName: $_aliasNameGenerator(
+          db.keybindingMapModel.id,
+          db.keybindingMappingModel.mapId,
+        ),
+      );
+
+  $$KeybindingMappingModelTableProcessedTableManager
+  get keybindingMappingModelRefs {
+    final manager = $$KeybindingMappingModelTableTableManager(
+      $_db,
+      $_db.keybindingMappingModel,
+    ).filter((f) => f.mapId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _keybindingMappingModelRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$KeybindingMapModelTableFilterComposer
+    extends Composer<_$AppDatabase, $KeybindingMapModelTable> {
+  $$KeybindingMapModelTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> settingsPresetModelRefs(
+    Expression<bool> Function($$SettingsPresetModelTableFilterComposer f) f,
+  ) {
+    final $$SettingsPresetModelTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.settingsPresetModel,
+      getReferencedColumn: (t) => t.keybindings,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SettingsPresetModelTableFilterComposer(
+            $db: $db,
+            $table: $db.settingsPresetModel,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> keybindingMappingModelRefs(
+    Expression<bool> Function($$KeybindingMappingModelTableFilterComposer f) f,
+  ) {
+    final $$KeybindingMappingModelTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.keybindingMappingModel,
+          getReferencedColumn: (t) => t.mapId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$KeybindingMappingModelTableFilterComposer(
+                $db: $db,
+                $table: $db.keybindingMappingModel,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$KeybindingMapModelTableOrderingComposer
+    extends Composer<_$AppDatabase, $KeybindingMapModelTable> {
+  $$KeybindingMapModelTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$KeybindingMapModelTableAnnotationComposer
+    extends Composer<_$AppDatabase, $KeybindingMapModelTable> {
+  $$KeybindingMapModelTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  Expression<T> settingsPresetModelRefs<T extends Object>(
+    Expression<T> Function($$SettingsPresetModelTableAnnotationComposer a) f,
+  ) {
+    final $$SettingsPresetModelTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.settingsPresetModel,
+          getReferencedColumn: (t) => t.keybindings,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SettingsPresetModelTableAnnotationComposer(
+                $db: $db,
+                $table: $db.settingsPresetModel,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> keybindingMappingModelRefs<T extends Object>(
+    Expression<T> Function($$KeybindingMappingModelTableAnnotationComposer a) f,
+  ) {
+    final $$KeybindingMappingModelTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.keybindingMappingModel,
+          getReferencedColumn: (t) => t.mapId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$KeybindingMappingModelTableAnnotationComposer(
+                $db: $db,
+                $table: $db.keybindingMappingModel,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$KeybindingMapModelTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $KeybindingMapModelTable,
+          KeybindingMapModelData,
+          $$KeybindingMapModelTableFilterComposer,
+          $$KeybindingMapModelTableOrderingComposer,
+          $$KeybindingMapModelTableAnnotationComposer,
+          $$KeybindingMapModelTableCreateCompanionBuilder,
+          $$KeybindingMapModelTableUpdateCompanionBuilder,
+          (KeybindingMapModelData, $$KeybindingMapModelTableReferences),
+          KeybindingMapModelData,
+          PrefetchHooks Function({
+            bool settingsPresetModelRefs,
+            bool keybindingMappingModelRefs,
+          })
+        > {
+  $$KeybindingMapModelTableTableManager(
+    _$AppDatabase db,
+    $KeybindingMapModelTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$KeybindingMapModelTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$KeybindingMapModelTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$KeybindingMapModelTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback: ({Value<int> id = const Value.absent()}) =>
+              KeybindingMapModelCompanion(id: id),
+          createCompanionCallback: ({Value<int> id = const Value.absent()}) =>
+              KeybindingMapModelCompanion.insert(id: id),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$KeybindingMapModelTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                settingsPresetModelRefs = false,
+                keybindingMappingModelRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (settingsPresetModelRefs) db.settingsPresetModel,
+                    if (keybindingMappingModelRefs) db.keybindingMappingModel,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (settingsPresetModelRefs)
+                        await $_getPrefetchedData<
+                          KeybindingMapModelData,
+                          $KeybindingMapModelTable,
+                          SettingsPresetModelData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$KeybindingMapModelTableReferences
+                              ._settingsPresetModelRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$KeybindingMapModelTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).settingsPresetModelRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.keybindings == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (keybindingMappingModelRefs)
+                        await $_getPrefetchedData<
+                          KeybindingMapModelData,
+                          $KeybindingMapModelTable,
+                          KeybindingMappingModelData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$KeybindingMapModelTableReferences
+                              ._keybindingMappingModelRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$KeybindingMapModelTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).keybindingMappingModelRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.mapId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$KeybindingMapModelTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $KeybindingMapModelTable,
+      KeybindingMapModelData,
+      $$KeybindingMapModelTableFilterComposer,
+      $$KeybindingMapModelTableOrderingComposer,
+      $$KeybindingMapModelTableAnnotationComposer,
+      $$KeybindingMapModelTableCreateCompanionBuilder,
+      $$KeybindingMapModelTableUpdateCompanionBuilder,
+      (KeybindingMapModelData, $$KeybindingMapModelTableReferences),
+      KeybindingMapModelData,
+      PrefetchHooks Function({
+        bool settingsPresetModelRefs,
+        bool keybindingMappingModelRefs,
+      })
+    >;
+typedef $$SettingsPresetModelTableCreateCompanionBuilder =
+    SettingsPresetModelCompanion Function({
       Value<int> id,
       required String name,
       required DateTime createdAt,
@@ -1867,9 +2948,10 @@ typedef $$SettingsModelTableCreateCompanionBuilder =
       required int prompterBackgroundColor,
       required int prompterTextColor,
       required bool markdownEnabled,
+      required int keybindings,
     });
-typedef $$SettingsModelTableUpdateCompanionBuilder =
-    SettingsModelCompanion Function({
+typedef $$SettingsPresetModelTableUpdateCompanionBuilder =
+    SettingsPresetModelCompanion Function({
       Value<int> id,
       Value<String> name,
       Value<DateTime> createdAt,
@@ -1892,11 +2974,48 @@ typedef $$SettingsModelTableUpdateCompanionBuilder =
       Value<int> prompterBackgroundColor,
       Value<int> prompterTextColor,
       Value<bool> markdownEnabled,
+      Value<int> keybindings,
     });
 
-class $$SettingsModelTableFilterComposer
-    extends Composer<_$AppDatabase, $SettingsModelTable> {
-  $$SettingsModelTableFilterComposer({
+final class $$SettingsPresetModelTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $SettingsPresetModelTable,
+          SettingsPresetModelData
+        > {
+  $$SettingsPresetModelTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $KeybindingMapModelTable _keybindingsTable(_$AppDatabase db) =>
+      db.keybindingMapModel.createAlias(
+        $_aliasNameGenerator(
+          db.settingsPresetModel.keybindings,
+          db.keybindingMapModel.id,
+        ),
+      );
+
+  $$KeybindingMapModelTableProcessedTableManager get keybindings {
+    final $_column = $_itemColumn<int>('keybindings')!;
+
+    final manager = $$KeybindingMapModelTableTableManager(
+      $_db,
+      $_db.keybindingMapModel,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_keybindingsTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SettingsPresetModelTableFilterComposer
+    extends Composer<_$AppDatabase, $SettingsPresetModelTable> {
+  $$SettingsPresetModelTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -2012,11 +3131,34 @@ class $$SettingsModelTableFilterComposer
     column: $table.markdownEnabled,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$KeybindingMapModelTableFilterComposer get keybindings {
+    final $$KeybindingMapModelTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.keybindings,
+      referencedTable: $db.keybindingMapModel,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$KeybindingMapModelTableFilterComposer(
+            $db: $db,
+            $table: $db.keybindingMapModel,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
-class $$SettingsModelTableOrderingComposer
-    extends Composer<_$AppDatabase, $SettingsModelTable> {
-  $$SettingsModelTableOrderingComposer({
+class $$SettingsPresetModelTableOrderingComposer
+    extends Composer<_$AppDatabase, $SettingsPresetModelTable> {
+  $$SettingsPresetModelTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -2134,11 +3276,34 @@ class $$SettingsModelTableOrderingComposer
     column: $table.markdownEnabled,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$KeybindingMapModelTableOrderingComposer get keybindings {
+    final $$KeybindingMapModelTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.keybindings,
+      referencedTable: $db.keybindingMapModel,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$KeybindingMapModelTableOrderingComposer(
+            $db: $db,
+            $table: $db.keybindingMapModel,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
-class $$SettingsModelTableAnnotationComposer
-    extends Composer<_$AppDatabase, $SettingsModelTable> {
-  $$SettingsModelTableAnnotationComposer({
+class $$SettingsPresetModelTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SettingsPresetModelTable> {
+  $$SettingsPresetModelTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -2240,41 +3405,66 @@ class $$SettingsModelTableAnnotationComposer
     column: $table.markdownEnabled,
     builder: (column) => column,
   );
+
+  $$KeybindingMapModelTableAnnotationComposer get keybindings {
+    final $$KeybindingMapModelTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.keybindings,
+          referencedTable: $db.keybindingMapModel,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$KeybindingMapModelTableAnnotationComposer(
+                $db: $db,
+                $table: $db.keybindingMapModel,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
 }
 
-class $$SettingsModelTableTableManager
+class $$SettingsPresetModelTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $SettingsModelTable,
-          SettingsModelData,
-          $$SettingsModelTableFilterComposer,
-          $$SettingsModelTableOrderingComposer,
-          $$SettingsModelTableAnnotationComposer,
-          $$SettingsModelTableCreateCompanionBuilder,
-          $$SettingsModelTableUpdateCompanionBuilder,
-          (
-            SettingsModelData,
-            BaseReferences<
-              _$AppDatabase,
-              $SettingsModelTable,
-              SettingsModelData
-            >,
-          ),
-          SettingsModelData,
-          PrefetchHooks Function()
+          $SettingsPresetModelTable,
+          SettingsPresetModelData,
+          $$SettingsPresetModelTableFilterComposer,
+          $$SettingsPresetModelTableOrderingComposer,
+          $$SettingsPresetModelTableAnnotationComposer,
+          $$SettingsPresetModelTableCreateCompanionBuilder,
+          $$SettingsPresetModelTableUpdateCompanionBuilder,
+          (SettingsPresetModelData, $$SettingsPresetModelTableReferences),
+          SettingsPresetModelData,
+          PrefetchHooks Function({bool keybindings})
         > {
-  $$SettingsModelTableTableManager(_$AppDatabase db, $SettingsModelTable table)
-    : super(
+  $$SettingsPresetModelTableTableManager(
+    _$AppDatabase db,
+    $SettingsPresetModelTable table,
+  ) : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$SettingsModelTableFilterComposer($db: db, $table: table),
+              $$SettingsPresetModelTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$SettingsModelTableOrderingComposer($db: db, $table: table),
+              $$SettingsPresetModelTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
-              $$SettingsModelTableAnnotationComposer($db: db, $table: table),
+              $$SettingsPresetModelTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
@@ -2302,7 +3492,8 @@ class $$SettingsModelTableTableManager
                 Value<int> prompterBackgroundColor = const Value.absent(),
                 Value<int> prompterTextColor = const Value.absent(),
                 Value<bool> markdownEnabled = const Value.absent(),
-              }) => SettingsModelCompanion(
+                Value<int> keybindings = const Value.absent(),
+              }) => SettingsPresetModelCompanion(
                 id: id,
                 name: name,
                 createdAt: createdAt,
@@ -2325,6 +3516,7 @@ class $$SettingsModelTableTableManager
                 prompterBackgroundColor: prompterBackgroundColor,
                 prompterTextColor: prompterTextColor,
                 markdownEnabled: markdownEnabled,
+                keybindings: keybindings,
               ),
           createCompanionCallback:
               ({
@@ -2350,7 +3542,8 @@ class $$SettingsModelTableTableManager
                 required int prompterBackgroundColor,
                 required int prompterTextColor,
                 required bool markdownEnabled,
-              }) => SettingsModelCompanion.insert(
+                required int keybindings,
+              }) => SettingsPresetModelCompanion.insert(
                 id: id,
                 name: name,
                 createdAt: createdAt,
@@ -2373,31 +3566,474 @@ class $$SettingsModelTableTableManager
                 prompterBackgroundColor: prompterBackgroundColor,
                 prompterTextColor: prompterTextColor,
                 markdownEnabled: markdownEnabled,
+                keybindings: keybindings,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SettingsPresetModelTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({keybindings = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (keybindings) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.keybindings,
+                                referencedTable:
+                                    $$SettingsPresetModelTableReferences
+                                        ._keybindingsTable(db),
+                                referencedColumn:
+                                    $$SettingsPresetModelTableReferences
+                                        ._keybindingsTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
 
-typedef $$SettingsModelTableProcessedTableManager =
+typedef $$SettingsPresetModelTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $SettingsModelTable,
-      SettingsModelData,
-      $$SettingsModelTableFilterComposer,
-      $$SettingsModelTableOrderingComposer,
-      $$SettingsModelTableAnnotationComposer,
-      $$SettingsModelTableCreateCompanionBuilder,
-      $$SettingsModelTableUpdateCompanionBuilder,
-      (
-        SettingsModelData,
-        BaseReferences<_$AppDatabase, $SettingsModelTable, SettingsModelData>,
-      ),
-      SettingsModelData,
-      PrefetchHooks Function()
+      $SettingsPresetModelTable,
+      SettingsPresetModelData,
+      $$SettingsPresetModelTableFilterComposer,
+      $$SettingsPresetModelTableOrderingComposer,
+      $$SettingsPresetModelTableAnnotationComposer,
+      $$SettingsPresetModelTableCreateCompanionBuilder,
+      $$SettingsPresetModelTableUpdateCompanionBuilder,
+      (SettingsPresetModelData, $$SettingsPresetModelTableReferences),
+      SettingsPresetModelData,
+      PrefetchHooks Function({bool keybindings})
+    >;
+typedef $$KeybindingMappingModelTableCreateCompanionBuilder =
+    KeybindingMappingModelCompanion Function({
+      Value<int> id,
+      required int mapId,
+      required int keyId,
+      required bool ctrl,
+      required bool shift,
+      required bool alt,
+      required bool meta,
+      required String actionName,
+    });
+typedef $$KeybindingMappingModelTableUpdateCompanionBuilder =
+    KeybindingMappingModelCompanion Function({
+      Value<int> id,
+      Value<int> mapId,
+      Value<int> keyId,
+      Value<bool> ctrl,
+      Value<bool> shift,
+      Value<bool> alt,
+      Value<bool> meta,
+      Value<String> actionName,
+    });
+
+final class $$KeybindingMappingModelTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $KeybindingMappingModelTable,
+          KeybindingMappingModelData
+        > {
+  $$KeybindingMappingModelTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $KeybindingMapModelTable _mapIdTable(_$AppDatabase db) =>
+      db.keybindingMapModel.createAlias(
+        $_aliasNameGenerator(
+          db.keybindingMappingModel.mapId,
+          db.keybindingMapModel.id,
+        ),
+      );
+
+  $$KeybindingMapModelTableProcessedTableManager get mapId {
+    final $_column = $_itemColumn<int>('map_id')!;
+
+    final manager = $$KeybindingMapModelTableTableManager(
+      $_db,
+      $_db.keybindingMapModel,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_mapIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$KeybindingMappingModelTableFilterComposer
+    extends Composer<_$AppDatabase, $KeybindingMappingModelTable> {
+  $$KeybindingMappingModelTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get keyId => $composableBuilder(
+    column: $table.keyId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get ctrl => $composableBuilder(
+    column: $table.ctrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get shift => $composableBuilder(
+    column: $table.shift,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get alt => $composableBuilder(
+    column: $table.alt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get meta => $composableBuilder(
+    column: $table.meta,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get actionName => $composableBuilder(
+    column: $table.actionName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$KeybindingMapModelTableFilterComposer get mapId {
+    final $$KeybindingMapModelTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.mapId,
+      referencedTable: $db.keybindingMapModel,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$KeybindingMapModelTableFilterComposer(
+            $db: $db,
+            $table: $db.keybindingMapModel,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$KeybindingMappingModelTableOrderingComposer
+    extends Composer<_$AppDatabase, $KeybindingMappingModelTable> {
+  $$KeybindingMappingModelTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get keyId => $composableBuilder(
+    column: $table.keyId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get ctrl => $composableBuilder(
+    column: $table.ctrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get shift => $composableBuilder(
+    column: $table.shift,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get alt => $composableBuilder(
+    column: $table.alt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get meta => $composableBuilder(
+    column: $table.meta,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get actionName => $composableBuilder(
+    column: $table.actionName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$KeybindingMapModelTableOrderingComposer get mapId {
+    final $$KeybindingMapModelTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.mapId,
+      referencedTable: $db.keybindingMapModel,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$KeybindingMapModelTableOrderingComposer(
+            $db: $db,
+            $table: $db.keybindingMapModel,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$KeybindingMappingModelTableAnnotationComposer
+    extends Composer<_$AppDatabase, $KeybindingMappingModelTable> {
+  $$KeybindingMappingModelTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get keyId =>
+      $composableBuilder(column: $table.keyId, builder: (column) => column);
+
+  GeneratedColumn<bool> get ctrl =>
+      $composableBuilder(column: $table.ctrl, builder: (column) => column);
+
+  GeneratedColumn<bool> get shift =>
+      $composableBuilder(column: $table.shift, builder: (column) => column);
+
+  GeneratedColumn<bool> get alt =>
+      $composableBuilder(column: $table.alt, builder: (column) => column);
+
+  GeneratedColumn<bool> get meta =>
+      $composableBuilder(column: $table.meta, builder: (column) => column);
+
+  GeneratedColumn<String> get actionName => $composableBuilder(
+    column: $table.actionName,
+    builder: (column) => column,
+  );
+
+  $$KeybindingMapModelTableAnnotationComposer get mapId {
+    final $$KeybindingMapModelTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.mapId,
+          referencedTable: $db.keybindingMapModel,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$KeybindingMapModelTableAnnotationComposer(
+                $db: $db,
+                $table: $db.keybindingMapModel,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$KeybindingMappingModelTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $KeybindingMappingModelTable,
+          KeybindingMappingModelData,
+          $$KeybindingMappingModelTableFilterComposer,
+          $$KeybindingMappingModelTableOrderingComposer,
+          $$KeybindingMappingModelTableAnnotationComposer,
+          $$KeybindingMappingModelTableCreateCompanionBuilder,
+          $$KeybindingMappingModelTableUpdateCompanionBuilder,
+          (KeybindingMappingModelData, $$KeybindingMappingModelTableReferences),
+          KeybindingMappingModelData,
+          PrefetchHooks Function({bool mapId})
+        > {
+  $$KeybindingMappingModelTableTableManager(
+    _$AppDatabase db,
+    $KeybindingMappingModelTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$KeybindingMappingModelTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$KeybindingMappingModelTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$KeybindingMappingModelTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> mapId = const Value.absent(),
+                Value<int> keyId = const Value.absent(),
+                Value<bool> ctrl = const Value.absent(),
+                Value<bool> shift = const Value.absent(),
+                Value<bool> alt = const Value.absent(),
+                Value<bool> meta = const Value.absent(),
+                Value<String> actionName = const Value.absent(),
+              }) => KeybindingMappingModelCompanion(
+                id: id,
+                mapId: mapId,
+                keyId: keyId,
+                ctrl: ctrl,
+                shift: shift,
+                alt: alt,
+                meta: meta,
+                actionName: actionName,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int mapId,
+                required int keyId,
+                required bool ctrl,
+                required bool shift,
+                required bool alt,
+                required bool meta,
+                required String actionName,
+              }) => KeybindingMappingModelCompanion.insert(
+                id: id,
+                mapId: mapId,
+                keyId: keyId,
+                ctrl: ctrl,
+                shift: shift,
+                alt: alt,
+                meta: meta,
+                actionName: actionName,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$KeybindingMappingModelTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({mapId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (mapId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.mapId,
+                                referencedTable:
+                                    $$KeybindingMappingModelTableReferences
+                                        ._mapIdTable(db),
+                                referencedColumn:
+                                    $$KeybindingMappingModelTableReferences
+                                        ._mapIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$KeybindingMappingModelTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $KeybindingMappingModelTable,
+      KeybindingMappingModelData,
+      $$KeybindingMappingModelTableFilterComposer,
+      $$KeybindingMappingModelTableOrderingComposer,
+      $$KeybindingMappingModelTableAnnotationComposer,
+      $$KeybindingMappingModelTableCreateCompanionBuilder,
+      $$KeybindingMappingModelTableUpdateCompanionBuilder,
+      (KeybindingMappingModelData, $$KeybindingMappingModelTableReferences),
+      KeybindingMappingModelData,
+      PrefetchHooks Function({bool mapId})
     >;
 
 class $AppDatabaseManager {
@@ -2405,6 +4041,13 @@ class $AppDatabaseManager {
   $AppDatabaseManager(this._db);
   $$ScriptModelTableTableManager get scriptModel =>
       $$ScriptModelTableTableManager(_db, _db.scriptModel);
-  $$SettingsModelTableTableManager get settingsModel =>
-      $$SettingsModelTableTableManager(_db, _db.settingsModel);
+  $$KeybindingMapModelTableTableManager get keybindingMapModel =>
+      $$KeybindingMapModelTableTableManager(_db, _db.keybindingMapModel);
+  $$SettingsPresetModelTableTableManager get settingsPresetModel =>
+      $$SettingsPresetModelTableTableManager(_db, _db.settingsPresetModel);
+  $$KeybindingMappingModelTableTableManager get keybindingMappingModel =>
+      $$KeybindingMappingModelTableTableManager(
+        _db,
+        _db.keybindingMappingModel,
+      );
 }
