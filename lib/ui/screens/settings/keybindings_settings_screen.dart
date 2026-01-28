@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
@@ -43,6 +44,16 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
               },
             ),
           ],
+        ),
+      ),
+      AsyncLoading() => Scaffold(
+        appBar: AppBar(
+          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
+        ),
+        body: SpinKitRing(
+          color:
+              ref.read(settingsProvider).value?.appPrimaryColor ??
+              Color.fromARGB(255, 77, 103, 214),
         ),
       ),
       _ => Center(

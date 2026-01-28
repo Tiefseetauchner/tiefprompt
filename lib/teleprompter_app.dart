@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/router_provider.dart';
@@ -65,8 +66,13 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         routerConfig: router,
-        builder: (context, child) =>
-            BannerListener(child: child ?? const SizedBox.shrink()),
+        builder: (context, child) => BannerListener(
+          child:
+              child ??
+              const SizedBox.shrink(
+                child: SpinKitRing(color: Color.fromARGB(255, 77, 103, 214)),
+              ),
+        ),
       ),
       _ => Directionality(
         textDirection: TextDirection.ltr,
