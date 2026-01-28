@@ -133,6 +133,7 @@ abstract class ISettings {
   Future<void> setPrompterBackgroundColor(Color color);
   Future<void> setPrompterTextColor(Color color);
   Future<void> setMarkdownEnabled(bool enabled);
+  Future<void> setKeybindings(int mapId);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -162,6 +163,7 @@ class Settings extends _$Settings implements ISettings {
   static const _prompterBackgroundColorKey = 'prompter_background_color';
   static const _prompterTextColorKey = 'prompter_text_color';
   static const _markdownEnabledKey = 'markdown_enabled';
+  static const _keybindingsMapIdKey = 'keybindings_map_id';
 
   static const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
 
@@ -372,6 +374,13 @@ class Settings extends _$Settings implements ISettings {
   }
 
   @override
+  Future<void> setKeybindings(int mapId) async {
+    await _prefs.setInt(_keybindingsMapIdKey, mapId);
+
+    state = state.whenData((s) => s.copyWith(keybindingsMapId: mapId));
+  }
+
+  @override
   Future<void> loadSettings(SettingsState newState) async {
     await _saveSettings(newState);
     state = state.whenData((s) => newState);
@@ -421,6 +430,7 @@ class Settings extends _$Settings implements ISettings {
       state.prompterTextColor.toARGB32(),
     );
     await _prefs.setBool(_markdownEnabledKey, state.markdownEnabled);
+    await _prefs.setInt(_keybindingsMapIdKey, state.keybindingsMapId);
   }
 
   @override

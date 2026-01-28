@@ -160,9 +160,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        ScriptService().save(
-                                          ref.watch(scriptProvider),
-                                        );
+                                        ref
+                                            .read(
+                                              scriptServiceProvider.notifier,
+                                            )
+                                            .save(ref.watch(scriptProvider));
                                         dialogContext.pop();
                                       },
                                       child: Text(

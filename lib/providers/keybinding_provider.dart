@@ -143,5 +143,13 @@ class Keybindings extends _$Keybindings {
 
   Future<void> resetToDefaults() async {
     state = AsyncData(kDefaultKeybindings);
+
+    await _databaseManagers.keybindingMappingModel
+        .filter((o) => o.mapId.id.equals(0))
+        .delete();
+
+    await _initializeDefaultKeybindings();
+
+    ref.read(settingsProvider.notifier).setKeybindings(0);
   }
 }

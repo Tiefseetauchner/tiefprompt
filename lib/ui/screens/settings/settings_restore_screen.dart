@@ -46,7 +46,13 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
               appBar: AppBar(
                 title: Text(context.tr("SettingsScreen.SettingsRestore.Title")),
               ),
-              body: Center(child: CircularProgressIndicator()),
+              body: Center(
+                child: SpinKitRing(
+                  color:
+                      ref.read(settingsProvider).value?.appPrimaryColor ??
+                      Color.fromARGB(255, 77, 103, 214),
+                ),
+              ),
             );
           }
 
@@ -75,7 +81,13 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                       context.tr("SettingsScreen.SettingsRestore.Title"),
                     ),
                   ),
-                  body: Center(child: CircularProgressIndicator()),
+                  body: Center(
+                    child: SpinKitRing(
+                      color:
+                          ref.read(settingsProvider).value?.appPrimaryColor ??
+                          Color.fromARGB(255, 77, 103, 214),
+                    ),
+                  ),
                 );
               }
 
