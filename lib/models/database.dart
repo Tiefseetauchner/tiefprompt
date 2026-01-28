@@ -17,10 +17,10 @@ part 'database.g.dart';
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 2;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
@@ -36,17 +36,9 @@ class AppDatabase extends _$AppDatabase {
     return MigrationStrategy(
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
-          await m.createTable(schema.settingsModel);
-        },
-        from2To3: (m, schema) async {
+          await m.createTable(schema.settingsPresetModel);
           await m.createTable(schema.keybindingMapModel);
           await m.createTable(schema.keybindingMappingModel);
-
-          await m.renameTable(schema.settingsPresetModel, 'settings_model');
-          await m.addColumn(
-            schema.settingsPresetModel,
-            schema.settingsPresetModel.keybindings,
-          );
         },
       ),
     );

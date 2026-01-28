@@ -14,6 +14,7 @@ class Keybindings extends _$Keybindings {
 
   @override
   Future<KeybindingMap> build() async {
+    print(await _databaseManagers.keybindingMapModel.get());
     if (await _databaseManagers.keybindingMapModel
             .filter((b) => b.id.equals(0))
             .count() ==
@@ -34,20 +35,20 @@ class Keybindings extends _$Keybindings {
 
   Future<KeybindingMap> getKeybindings(int keybindingsMapId) async {
     return KeybindingMap.fromBindings(
-      (await _databaseManagers.keybindingMapModel
-                  .withReferences(
-                    (prefetch) => prefetch(keybindingMappingModelRefs: true),
-                  )
-                  .filter((f) => f.id.equals(keybindingsMapId))
-                  .getSingle())
-              .$2
-              .keybindingMappingModelRefs
-              .prefetchedData ??
-          [],
+      await _databaseManagers.keybindingMappingModel
+          .filter((b) => b.mapId.id.equals(keybindingsMapId))
+          .get(),
     );
   }
 
   Future<void> _initializeDefaultKeybindings() async {
+    await _databaseManagers.keybindingMapModel
+        .filter((o) => o.id.equals(0))
+        .delete();
+    await _databaseManagers.keybindingMappingModel
+        .filter((o) => o.mapId.id.equals(0))
+        .delete();
+
     await _databaseManagers.keybindingMapModel.create((o) => o(id: Value(0)));
 
     await _databaseManagers.keybindingMappingModel.bulkCreate(
@@ -145,13 +146,9 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<void> resetToDefaults() async {
-    state = AsyncData(kDefaultKeybindings);
-
-    await _databaseManagers.keybindingMappingModel
-        .filter((o) => o.mapId.id.equals(0))
-        .delete();
-
     await _initializeDefaultKeybindings();
+
+    state = AsyncData(kDefaultKeybindings);
 
     ref.read(settingsProvider.notifier).setKeybindings(0);
   }

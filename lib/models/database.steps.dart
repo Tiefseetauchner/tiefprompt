@@ -10,7 +10,9 @@ final class Schema2 extends i0.VersionedSchema {
   @override
   late final List<i1.DatabaseSchemaEntity> entities = [
     scriptModel,
-    settingsModel,
+    keybindingMapModel,
+    settingsPresetModel,
+    keybindingMappingModel,
   ];
   late final Shape0 scriptModel = Shape0(
     source: i0.VersionedTable(
@@ -23,9 +25,20 @@ final class Schema2 extends i0.VersionedSchema {
     ),
     alias: null,
   );
-  late final Shape1 settingsModel = Shape1(
+  late final Shape1 keybindingMapModel = Shape1(
     source: i0.VersionedTable(
-      entityName: 'settings_model',
+      entityName: 'keybinding_map_model',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_0],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 settingsPresetModel = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'settings_preset_model',
       withoutRowId: false,
       isStrict: false,
       tableConstraints: [],
@@ -52,6 +65,27 @@ final class Schema2 extends i0.VersionedSchema {
         _column_21,
         _column_22,
         _column_23,
+        _column_24,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape3 keybindingMappingModel = Shape3(
+    source: i0.VersionedTable(
+      entityName: 'keybinding_mapping_model',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_0,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_30,
+        _column_31,
       ],
       attachedDatabase: database,
     ),
@@ -108,6 +142,12 @@ class Shape1 extends i0.VersionedTable {
   Shape1({required super.source, required super.alias}) : super.aliased();
   i1.GeneratedColumn<int> get id =>
       columnsByName['id']! as i1.GeneratedColumn<int>;
+}
+
+class Shape2 extends i0.VersionedTable {
+  Shape2({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<int> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<int>;
   i1.GeneratedColumn<String> get name =>
       columnsByName['name']! as i1.GeneratedColumn<String>;
   i1.GeneratedColumn<DateTime> get createdAt =>
@@ -156,6 +196,8 @@ class Shape1 extends i0.VersionedTable {
       columnsByName['prompter_text_color']! as i1.GeneratedColumn<int>;
   i1.GeneratedColumn<bool> get markdownEnabled =>
       columnsByName['markdown_enabled']! as i1.GeneratedColumn<bool>;
+  i1.GeneratedColumn<int> get keybindings =>
+      columnsByName['keybindings']! as i1.GeneratedColumn<int>;
 }
 
 i1.GeneratedColumn<String> _column_4(String aliasedName) =>
@@ -316,157 +358,6 @@ i1.GeneratedColumn<bool> _column_23(String aliasedName) =>
         'CHECK ("markdown_enabled" IN (0, 1))',
       ),
     );
-
-final class Schema3 extends i0.VersionedSchema {
-  Schema3({required super.database}) : super(version: 3);
-  @override
-  late final List<i1.DatabaseSchemaEntity> entities = [
-    scriptModel,
-    keybindingMapModel,
-    settingsPresetModel,
-    keybindingMappingModel,
-  ];
-  late final Shape0 scriptModel = Shape0(
-    source: i0.VersionedTable(
-      entityName: 'script_model',
-      withoutRowId: false,
-      isStrict: false,
-      tableConstraints: [],
-      columns: [_column_0, _column_1, _column_2, _column_3],
-      attachedDatabase: database,
-    ),
-    alias: null,
-  );
-  late final Shape2 keybindingMapModel = Shape2(
-    source: i0.VersionedTable(
-      entityName: 'keybinding_map_model',
-      withoutRowId: false,
-      isStrict: false,
-      tableConstraints: [],
-      columns: [_column_0],
-      attachedDatabase: database,
-    ),
-    alias: null,
-  );
-  late final Shape3 settingsPresetModel = Shape3(
-    source: i0.VersionedTable(
-      entityName: 'settings_preset_model',
-      withoutRowId: false,
-      isStrict: false,
-      tableConstraints: [],
-      columns: [
-        _column_0,
-        _column_4,
-        _column_3,
-        _column_5,
-        _column_6,
-        _column_7,
-        _column_8,
-        _column_9,
-        _column_10,
-        _column_11,
-        _column_12,
-        _column_13,
-        _column_14,
-        _column_15,
-        _column_16,
-        _column_17,
-        _column_18,
-        _column_19,
-        _column_20,
-        _column_21,
-        _column_22,
-        _column_23,
-        _column_24,
-      ],
-      attachedDatabase: database,
-    ),
-    alias: null,
-  );
-  late final Shape4 keybindingMappingModel = Shape4(
-    source: i0.VersionedTable(
-      entityName: 'keybinding_mapping_model',
-      withoutRowId: false,
-      isStrict: false,
-      tableConstraints: [],
-      columns: [
-        _column_0,
-        _column_25,
-        _column_26,
-        _column_27,
-        _column_28,
-        _column_29,
-        _column_30,
-        _column_31,
-      ],
-      attachedDatabase: database,
-    ),
-    alias: null,
-  );
-}
-
-class Shape2 extends i0.VersionedTable {
-  Shape2({required super.source, required super.alias}) : super.aliased();
-  i1.GeneratedColumn<int> get id =>
-      columnsByName['id']! as i1.GeneratedColumn<int>;
-}
-
-class Shape3 extends i0.VersionedTable {
-  Shape3({required super.source, required super.alias}) : super.aliased();
-  i1.GeneratedColumn<int> get id =>
-      columnsByName['id']! as i1.GeneratedColumn<int>;
-  i1.GeneratedColumn<String> get name =>
-      columnsByName['name']! as i1.GeneratedColumn<String>;
-  i1.GeneratedColumn<DateTime> get createdAt =>
-      columnsByName['created_at']! as i1.GeneratedColumn<DateTime>;
-  i1.GeneratedColumn<double> get scrollSpeed =>
-      columnsByName['scroll_speed']! as i1.GeneratedColumn<double>;
-  i1.GeneratedColumn<bool> get mirroredX =>
-      columnsByName['mirrored_x']! as i1.GeneratedColumn<bool>;
-  i1.GeneratedColumn<bool> get mirroredY =>
-      columnsByName['mirrored_y']! as i1.GeneratedColumn<bool>;
-  i1.GeneratedColumn<double> get fontSize =>
-      columnsByName['font_size']! as i1.GeneratedColumn<double>;
-  i1.GeneratedColumn<double> get sideMargin =>
-      columnsByName['side_margin']! as i1.GeneratedColumn<double>;
-  i1.GeneratedColumn<String> get fontFamily =>
-      columnsByName['font_family']! as i1.GeneratedColumn<String>;
-  i1.GeneratedColumn<String> get alignment =>
-      columnsByName['alignment']! as i1.GeneratedColumn<String>;
-  i1.GeneratedColumn<bool> get displayReadingIndicatorBoxes =>
-      columnsByName['display_reading_indicator_boxes']!
-          as i1.GeneratedColumn<bool>;
-  i1.GeneratedColumn<double> get readingIndicatorBoxesHeight =>
-      columnsByName['reading_indicator_boxes_height']!
-          as i1.GeneratedColumn<double>;
-  i1.GeneratedColumn<bool> get displayVerticalMarginBoxes =>
-      columnsByName['display_vertical_margin_boxes']!
-          as i1.GeneratedColumn<bool>;
-  i1.GeneratedColumn<double> get verticalMarginBoxesHeight =>
-      columnsByName['vertical_margin_boxes_height']!
-          as i1.GeneratedColumn<double>;
-  i1.GeneratedColumn<bool> get verticalMarginBoxesFadeEnabled =>
-      columnsByName['vertical_margin_boxes_fade_enabled']!
-          as i1.GeneratedColumn<bool>;
-  i1.GeneratedColumn<double> get verticalMarginBoxesFadeLength =>
-      columnsByName['vertical_margin_boxes_fade_length']!
-          as i1.GeneratedColumn<double>;
-  i1.GeneratedColumn<double> get countdownDuration =>
-      columnsByName['countdown_duration']! as i1.GeneratedColumn<double>;
-  i1.GeneratedColumn<String> get themeMode =>
-      columnsByName['theme_mode']! as i1.GeneratedColumn<String>;
-  i1.GeneratedColumn<int> get appPrimaryColor =>
-      columnsByName['app_primary_color']! as i1.GeneratedColumn<int>;
-  i1.GeneratedColumn<int> get prompterBackgroundColor =>
-      columnsByName['prompter_background_color']! as i1.GeneratedColumn<int>;
-  i1.GeneratedColumn<int> get prompterTextColor =>
-      columnsByName['prompter_text_color']! as i1.GeneratedColumn<int>;
-  i1.GeneratedColumn<bool> get markdownEnabled =>
-      columnsByName['markdown_enabled']! as i1.GeneratedColumn<bool>;
-  i1.GeneratedColumn<int> get keybindings =>
-      columnsByName['keybindings']! as i1.GeneratedColumn<int>;
-}
-
 i1.GeneratedColumn<int> _column_24(String aliasedName) =>
     i1.GeneratedColumn<int>(
       'keybindings',
@@ -478,8 +369,8 @@ i1.GeneratedColumn<int> _column_24(String aliasedName) =>
       ),
     );
 
-class Shape4 extends i0.VersionedTable {
-  Shape4({required super.source, required super.alias}) : super.aliased();
+class Shape3 extends i0.VersionedTable {
+  Shape3({required super.source, required super.alias}) : super.aliased();
   i1.GeneratedColumn<int> get id =>
       columnsByName['id']! as i1.GeneratedColumn<int>;
   i1.GeneratedColumn<int> get mapId =>
@@ -567,7 +458,6 @@ i1.GeneratedColumn<String> _column_31(String aliasedName) =>
     );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
-  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -576,11 +466,6 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from1To2(migrator, schema);
         return 2;
-      case 2:
-        final schema = Schema3(database: database);
-        final migrator = i1.Migrator(database, schema);
-        await from2To3(migrator, schema);
-        return 3;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -589,7 +474,6 @@ i0.MigrationStepWithVersion migrationSteps({
 
 i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
-  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) => i0.VersionedSchema.stepByStepHelper(
-  step: migrationSteps(from1To2: from1To2, from2To3: from2To3),
+  step: migrationSteps(from1To2: from1To2),
 );
