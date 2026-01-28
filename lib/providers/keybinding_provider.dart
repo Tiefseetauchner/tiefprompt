@@ -25,7 +25,6 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<KeybindingMap> _getCurrentKeybindings() async {
-    print("Getting Keybinding Database");
     final keybindingsMapId = (await ref.read(
       settingsProvider.future,
     )).keybindingsMapId;
@@ -46,9 +45,9 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<void> _initializeDefaultKeybindings() async {
-    _databaseManagers.keybindingMapModel.create((o) => o(id: Value(0)));
+    await _databaseManagers.keybindingMapModel.create((o) => o(id: Value(0)));
 
-    _databaseManagers.keybindingMappingModel.bulkCreate(
+    await _databaseManagers.keybindingMappingModel.bulkCreate(
       (o) => [
         for (final binding in kDefaultKeybindings.keybindings)
           o(
