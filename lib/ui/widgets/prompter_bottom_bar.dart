@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
@@ -339,6 +340,16 @@ class _FontSettingsDialog extends ConsumerWidget {
           ],
         ),
       ),
+      AsyncLoading() => Scaffold(
+        appBar: AppBar(
+          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
+        ),
+        body: SpinKitRing(
+          color:
+              ref.read(settingsProvider).value?.appPrimaryColor ??
+              Color.fromARGB(255, 77, 103, 214),
+        ),
+      ),
       _ => Center(
         child: Column(
           children: [
@@ -588,6 +599,16 @@ class _DisplaySettingsDialog extends ConsumerWidget {
               ),
             ),
           ],
+        ),
+      ),
+      AsyncLoading() => Scaffold(
+        appBar: AppBar(
+          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
+        ),
+        body: SpinKitRing(
+          color:
+              ref.read(settingsProvider).value?.appPrimaryColor ??
+              Color.fromARGB(255, 77, 103, 214),
         ),
       ),
       _ => Center(

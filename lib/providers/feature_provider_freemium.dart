@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -38,6 +39,8 @@ class FeaturesFreemium extends Features {
     } catch (e) {
       ref.read(bannerMessageProvider.notifier).state =
           "Failed to initialize payment model: $e";
+
+      if (kDebugMode) print(e);
 
       return false;
     }
@@ -142,6 +145,9 @@ class FeaturesFreemium extends Features {
     } catch (e) {
       ref.read(bannerMessageProvider.notifier).state =
           "Failed to restore purchases: $e";
+
+      if (kDebugMode) print(e);
+
       return false;
     }
   }

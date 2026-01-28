@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/router_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/ui/widgets/banner_listener.dart';
 
 class TeleprompterApp extends ConsumerStatefulWidget {
   const TeleprompterApp({super.key});
@@ -52,6 +54,8 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         routerConfig: router,
+        builder: (context, child) =>
+            BannerListener(child: child ?? const SizedBox.shrink()),
         theme: value.states[1] as ThemeData,
         darkTheme: value.states[2] as ThemeData,
         themeMode: value.states[0] as ThemeMode,
@@ -62,6 +66,13 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         routerConfig: router,
+        builder: (context, child) => BannerListener(
+          child:
+              child ??
+              const SizedBox.shrink(
+                child: SpinKitRing(color: Color.fromARGB(255, 77, 103, 214)),
+              ),
+        ),
       ),
       _ => Directionality(
         textDirection: TextDirection.ltr,

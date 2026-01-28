@@ -28,5 +28,7 @@ linter:
 # https://dart.dev/guides/language/analysis-options
 
 analyzer:
+  errors:
+    recursive_getters: ignore
   plugins:
     - custom_lint

@@ -12,6 +12,8 @@ const double kPrompterMaxFontSize = 420.0;
 const double kPrompterMinSideMargin = 0.0;
 const double kPrompterMaxSideMargin = 99.0;
 
+const int kSettingsSchemaVersion = 1;
+
 const List<String> kAvailableFonts = [
   'Roboto',
   'RobotoMono',
@@ -57,6 +59,7 @@ enum Feature {
   keybindings,
   playPause,
   markdown,
+  settingsRestore,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -83,64 +86,78 @@ const kAllFeatures = [
   Feature.keybindings,
   Feature.playPause,
   Feature.markdown,
+  Feature.settingsRestore,
 ];
 
 const kFreeFeatures = [
   Feature.appLanguage,
   Feature.appTheme,
+  Feature.primaryAppColor,
   Feature.textSettings,
   Feature.displaySettings,
   Feature.scrollSpeed,
   Feature.flipX,
   Feature.flipY,
-  Feature.readingIndicatorBoxes,
   Feature.sideMargins,
+  Feature.countdownTimer,
   Feature.fontSize,
+  Feature.fontFamily,
   Feature.textAlignment,
   Feature.playPause,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";
 
-final KeybindingMap kDefaultKeybindings = KeybindingMap({
-  KeybindingAction.playPause: [
-    Keybinding(LogicalKeyboardKey.enter.keyId),
-    Keybinding(LogicalKeyboardKey.space.keyId),
-  ],
-  KeybindingAction.scrollUpSmall: [
+final KeybindingMap kDefaultKeybindings = KeybindingMap([
+  (KeybindingAction.playPause, Keybinding(LogicalKeyboardKey.enter.keyId)),
+  (KeybindingAction.playPause, Keybinding(LogicalKeyboardKey.space.keyId)),
+
+  (
+    KeybindingAction.scrollUpSmall,
     Keybinding(LogicalKeyboardKey.arrowUp.keyId, shift: true),
-  ],
-  KeybindingAction.scrollDownSmall: [
+  ),
+
+  (
+    KeybindingAction.scrollDownSmall,
     Keybinding(LogicalKeyboardKey.arrowDown.keyId, shift: true),
-  ],
-  KeybindingAction.scrollUp: [Keybinding(LogicalKeyboardKey.arrowUp.keyId)],
-  KeybindingAction.scrollDown: [Keybinding(LogicalKeyboardKey.arrowDown.keyId)],
-  KeybindingAction.pageUp: [Keybinding(LogicalKeyboardKey.pageUp.keyId)],
-  KeybindingAction.pageDown: [Keybinding(LogicalKeyboardKey.pageDown.keyId)],
-  KeybindingAction.jumpStart: [Keybinding(LogicalKeyboardKey.home.keyId)],
-  KeybindingAction.jumpEnd: [Keybinding(LogicalKeyboardKey.end.keyId)],
-  KeybindingAction.toggleControls: [Keybinding(LogicalKeyboardKey.tab.keyId)],
-  KeybindingAction.speedUp: [
-    Keybinding(LogicalKeyboardKey.equal.keyId),
-    Keybinding(LogicalKeyboardKey.numpadAdd.keyId),
-  ],
-  KeybindingAction.speedDown: [
-    Keybinding(LogicalKeyboardKey.minus.keyId),
+  ),
+  (KeybindingAction.scrollUp, Keybinding(LogicalKeyboardKey.arrowUp.keyId)),
+  (KeybindingAction.scrollDown, Keybinding(LogicalKeyboardKey.arrowDown.keyId)),
+  (KeybindingAction.pageUp, Keybinding(LogicalKeyboardKey.pageUp.keyId)),
+  (KeybindingAction.pageDown, Keybinding(LogicalKeyboardKey.pageDown.keyId)),
+  (KeybindingAction.jumpStart, Keybinding(LogicalKeyboardKey.home.keyId)),
+  (KeybindingAction.jumpEnd, Keybinding(LogicalKeyboardKey.end.keyId)),
+  (KeybindingAction.toggleControls, Keybinding(LogicalKeyboardKey.tab.keyId)),
+  (KeybindingAction.speedUp, Keybinding(LogicalKeyboardKey.equal.keyId)),
+  (KeybindingAction.speedUp, Keybinding(LogicalKeyboardKey.numpadAdd.keyId)),
+  (KeybindingAction.speedDown, Keybinding(LogicalKeyboardKey.minus.keyId)),
+  (
+    KeybindingAction.speedDown,
     Keybinding(LogicalKeyboardKey.numpadSubtract.keyId),
-  ],
-  KeybindingAction.fontSizeUp: [
+  ),
+  (
+    KeybindingAction.fontSizeUp,
     Keybinding(LogicalKeyboardKey.equal.keyId, ctrl: true),
+  ),
+  (
+    KeybindingAction.fontSizeUp,
     Keybinding(LogicalKeyboardKey.numpadAdd.keyId, ctrl: true),
-  ],
-  KeybindingAction.fontSizeDown: [
+  ),
+  (
+    KeybindingAction.fontSizeDown,
     Keybinding(LogicalKeyboardKey.minus.keyId, ctrl: true),
+  ),
+  (
+    KeybindingAction.fontSizeDown,
     Keybinding(LogicalKeyboardKey.numpadSubtract.keyId, ctrl: true),
-  ],
-  KeybindingAction.openSettings: [
+  ),
+  (
+    KeybindingAction.openSettings,
     Keybinding(LogicalKeyboardKey.comma.keyId, ctrl: true),
-  ],
-  KeybindingAction.saveSettingsFromPrompter: [
+  ),
+  (
+    KeybindingAction.saveSettingsFromPrompter,
     // NOTE: 115 is the KeyId for 's'.
     Keybinding(115, ctrl: true),
-  ],
-});
+  ),
+]);

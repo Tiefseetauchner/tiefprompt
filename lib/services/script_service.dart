@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 
 part 'script_service.g.dart';
@@ -18,7 +19,7 @@ class ScriptDisplayData {
 
 @riverpod
 class ScriptService extends _$ScriptService {
-  final _databaseManagers = AppDatabase().managers;
+  late final _databaseManagers = ref.read(databaseManagersProvider);
 
   @override
   Future<void> build() async {}

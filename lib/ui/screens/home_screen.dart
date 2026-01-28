@@ -130,53 +130,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
-                            builder: (dialogContext) {
-                              return SafeArea(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                    16.0,
-                                    16.0,
-                                    16.0,
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        16.0,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        context.tr(
-                                          "HomeScreen.BottomSheet.Text_Title",
-                                        ),
-                                      ),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: context.tr(
-                                            "HomeScreen.BottomSheet.TextField_hintText",
-                                          ),
-                                        ),
-                                        onChanged: (value) => ref
-                                            .read(scriptProvider.notifier)
-                                            .setTitle(value),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          ScriptService().save(
-                                            ref.watch(scriptProvider),
-                                          );
-                                          dialogContext.pop();
-                                        },
-                                        child: Text(
-                                          context.tr(
-                                            "HomeScreen.BottomSheet.ElevatedButton_Save",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                            builder: (dialogContext) => SafeArea(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  16.0,
+                                  16.0,
+                                  16.0,
+                                  MediaQuery.of(context).viewInsets.bottom +
+                                      16.0,
                                 ),
-                              );
-                            },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      context.tr(
+                                        "HomeScreen.BottomSheet.Text_Title",
+                                      ),
+                                    ),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: context.tr(
+                                          "HomeScreen.BottomSheet.TextField_hintText",
+                                        ),
+                                      ),
+                                      onChanged: (value) => ref
+                                          .read(scriptProvider.notifier)
+                                          .setTitle(value),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        ref
+                                            .read(
+                                              scriptServiceProvider.notifier,
+                                            )
+                                            .save(ref.watch(scriptProvider));
+                                        dialogContext.pop();
+                                      },
+                                      child: Text(
+                                        context.tr(
+                                          "HomeScreen.BottomSheet.ElevatedButton_Save",
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           );
                         },
                         child: Text(
@@ -286,13 +286,20 @@ class _BuildVersionNote extends ConsumerWidget {
               builder: (dialogContext) {
                 return AlertDialog(
                   title: Text(
-                    context.tr(switch (appFeatures.featureKind) {
-                      FeatureKind.fossVersion => "HomeScreen.FossVersion",
-                      FeatureKind.freeVersion => "HomeScreen.FreeVersion",
-                      FeatureKind.paidVersion => "HomeScreen.PaidVersion",
-                      FeatureKind.unverifiedBuild =>
+                    switch (appFeatures.featureKind) {
+                      FeatureKind.fossVersion => context.tr(
+                        "HomeScreen.FossVersion",
+                      ),
+                      FeatureKind.freeVersion => context.tr(
+                        "HomeScreen.FreeVersion",
+                      ),
+                      FeatureKind.paidVersion => context.tr(
+                        "HomeScreen.PaidVersion",
+                      ),
+                      FeatureKind.unverifiedBuild => context.tr(
                         "HomeScreen.UnverifiedBuild",
-                    }),
+                      ),
+                    },
                     style: TextStyle(
                       color:
                           appFeatures.featureKind == FeatureKind.unverifiedBuild
@@ -305,18 +312,20 @@ class _BuildVersionNote extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 10,
                       children: [
-                        Text(
-                          context.tr(switch (appFeatures.featureKind) {
-                            FeatureKind.fossVersion =>
-                              "HomeScreen.FossVersion_Explanation",
-                            FeatureKind.freeVersion =>
-                              "HomeScreen.FreeVersion_Explanation",
-                            FeatureKind.paidVersion =>
-                              "HomeScreen.PaidVersion_Explanation",
-                            FeatureKind.unverifiedBuild =>
-                              "HomeScreen.UnverifiedBuild_Explanation",
-                          }),
-                        ),
+                        Text(switch (appFeatures.featureKind) {
+                          FeatureKind.fossVersion => context.tr(
+                            "HomeScreen.FossVersion_Explanation",
+                          ),
+                          FeatureKind.freeVersion => context.tr(
+                            "HomeScreen.FreeVersion_Explanation",
+                          ),
+                          FeatureKind.paidVersion => context.tr(
+                            "HomeScreen.PaidVersion_Explanation",
+                          ),
+                          FeatureKind.unverifiedBuild => context.tr(
+                            "HomeScreen.UnverifiedBuild_Explanation",
+                          ),
+                        }),
                         if (appFeatures.featureKind == FeatureKind.freeVersion)
                           ElevatedButton(
                             onPressed: () =>
@@ -344,14 +353,14 @@ class _BuildVersionNote extends ConsumerWidget {
               },
             );
           },
-          child: Text(
-            context.tr(switch (appFeatures.featureKind) {
-              FeatureKind.fossVersion => "HomeScreen.FossVersion",
-              FeatureKind.freeVersion => "HomeScreen.FreeVersion",
-              FeatureKind.paidVersion => "HomeScreen.PaidVersion",
-              FeatureKind.unverifiedBuild => "HomeScreen.UnverifiedBuild",
-            }),
-          ),
+          child: Text(switch (appFeatures.featureKind) {
+            FeatureKind.fossVersion => context.tr("HomeScreen.FossVersion"),
+            FeatureKind.freeVersion => context.tr("HomeScreen.FreeVersion"),
+            FeatureKind.paidVersion => context.tr("HomeScreen.PaidVersion"),
+            FeatureKind.unverifiedBuild => context.tr(
+              "HomeScreen.UnverifiedBuild",
+            ),
+          }),
         ),
       ],
     );
