@@ -7,7 +7,7 @@ part of 'settings_storage_service.dart';
 // **************************************************************************
 
 String _$settingsStorageServiceHash() =>
-    r'416b6e83295fbe065f6f4c7e2f6856a7d35925af';
+    r'f240c4ee753ffb03961d64bfbf237faccebae520';
 
 /// See also [SettingsStorageService].
 @ProviderFor(SettingsStorageService)
@@ -18,8 +18,19 @@ final settingsStorageServiceProvider =
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
           : _$settingsStorageServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+      dependencies: <ProviderOrFamily>[
+        settingsProvider,
+        keybindingsProvider,
+        databaseManagersProvider,
+      ],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        settingsProvider,
+        ...?settingsProvider.allTransitiveDependencies,
+        keybindingsProvider,
+        ...?keybindingsProvider.allTransitiveDependencies,
+        databaseManagersProvider,
+        ...?databaseManagersProvider.allTransitiveDependencies,
+      },
     );
 
 typedef _$SettingsStorageService = AutoDisposeAsyncNotifier<void>;

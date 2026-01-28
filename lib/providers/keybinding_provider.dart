@@ -2,19 +2,18 @@ import 'package:drift/drift.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/constants.dart';
-import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/models/keybinding.dart';
+import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 part 'keybinding_provider.g.dart';
 
-@Riverpod(keepAlive: true, dependencies: [Settings])
+@Riverpod(keepAlive: true, dependencies: [Settings, DatabaseManagers])
 class Keybindings extends _$Keybindings {
-  final _databaseManagers = AppDatabase().managers;
+  late final _databaseManagers = ref.read(databaseManagersProvider);
 
   @override
   Future<KeybindingMap> build() async {
-    print(await _databaseManagers.keybindingMapModel.get());
     if (await _databaseManagers.keybindingMapModel
             .filter((b) => b.id.equals(0))
             .count() ==
@@ -26,9 +25,8 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<KeybindingMap> getCurrentKeybindings() async {
-    final keybindingsMapId = (await ref.read(
-      settingsProvider.future,
-    )).keybindingsMapId;
+    // NOTE: Due to potential for future expansion, this is hardcoded to 0
+    final keybindingsMapId = 0;
 
     return getKeybindings(keybindingsMapId);
   }
@@ -42,20 +40,38 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<void> _initializeDefaultKeybindings() async {
+    // NOTE: Due to potential for future expansion, this is hardcoded to 0
+    final keybindingsMapId = 0;
+
+    _setCurrentKeybindings(kDefaultKeybindings, keybindingsMapId);
+  }
+
+  Future<void> copyBindingsToCurrent(int keybindingMapId) async {
+    // NOTE: Due to potential for future expansion, this is hardcoded to 0
+    final currentMapId = 0;
+
+    final newBindings = await getKeybindings(keybindingMapId);
+    await _setCurrentKeybindings(newBindings, currentMapId);
+  }
+
+  Future<void> _setCurrentKeybindings(
+    KeybindingMap bindingMap,
+    int bindingMapId,
+  ) async {
     await _databaseManagers.keybindingMapModel
-        .filter((o) => o.id.equals(0))
+        .filter((o) => o.id.equals(bindingMapId))
         .delete();
     await _databaseManagers.keybindingMappingModel
-        .filter((o) => o.mapId.id.equals(0))
+        .filter((o) => o.mapId.id.equals(bindingMapId))
         .delete();
 
     await _databaseManagers.keybindingMapModel.create((o) => o(id: Value(0)));
 
     await _databaseManagers.keybindingMappingModel.bulkCreate(
       (o) => [
-        for (final binding in kDefaultKeybindings.keybindings)
+        for (final binding in bindingMap.keybindings)
           o(
-            mapId: 0,
+            mapId: bindingMapId,
             actionName: binding.$1.name,
             keyId: binding.$2.keyId,
             ctrl: binding.$2.ctrl,
@@ -153,7 +169,7 @@ class Keybindings extends _$Keybindings {
     ref.read(settingsProvider.notifier).setKeybindings(0);
   }
 
-  Future<void> createKeybindingsMap(KeybindingMap bindings) async {
+  Future<int> createKeybindingsMap(KeybindingMap bindings) async {
     final keybindingMapId = await _databaseManagers.keybindingMapModel.create(
       (o) => o(),
     );
@@ -172,5 +188,7 @@ class Keybindings extends _$Keybindings {
           ),
       ],
     );
+
+    return keybindingMapId;
   }
 }

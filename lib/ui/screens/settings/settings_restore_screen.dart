@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -136,9 +137,15 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                           return;
                         }
 
+                        final keybindingMapId = await ref
+                            .read(keybindingsProvider.notifier)
+                            .createKeybindingsMap(
+                              await ref.read(keybindingsProvider.future),
+                            );
+
                         await ref
                             .read(settingsStorageServiceProvider.notifier)
-                            .save(name.trim(), value);
+                            .save(name.trim(), value, keybindingMapId);
                         ref.read(bannerMessageProvider.notifier).state = context
                             .tr("SettingsScreen.SettingsRestore.SaveSuccess");
                       },
@@ -193,17 +200,17 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                             importedJson['settings'],
                           );
 
-                          await ref
-                              .read(settingsStorageServiceProvider.notifier)
-                              .save(name.trim(), settings);
-
                           final keybindings = KeybindingMap.fromJson(
                             importedJson['keybindings'],
                           );
 
-                          await ref
+                          final keybindingMapId = await ref
                               .read(keybindingsProvider.notifier)
                               .createKeybindingsMap(keybindings);
+
+                          await ref
+                              .read(settingsStorageServiceProvider.notifier)
+                              .save(name.trim(), settings, keybindingMapId);
 
                           ref
                                   .read(importedSettingsJsonProvider.notifier)
@@ -215,12 +222,13 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                               .state = context.tr(
                             "SettingsScreen.SettingsRestore.ImportSuccess",
                           );
-                        } catch (_) {
+                        } catch (e) {
                           ref
                               .read(bannerMessageProvider.notifier)
                               .state = context.tr(
                             "SettingsScreen.SettingsRestore.ImportFailed",
                           );
+                          if (kDebugMode) print(e);
                         }
                       },
                     ),
@@ -261,18 +269,22 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                       settingsStorageServiceProvider.notifier,
                                     )
                                     .loadSettings(e.id);
+
                                 ref.invalidate(keybindingsProvider);
+
                                 ref
                                     .read(bannerMessageProvider.notifier)
                                     .state = context.tr(
                                   "SettingsScreen.SettingsRestore.RestoreSuccess",
                                 );
-                              } catch (_) {
+                              } catch (e) {
                                 ref
                                     .read(bannerMessageProvider.notifier)
                                     .state = context.tr(
                                   "SettingsScreen.SettingsRestore.RestoreFailed",
                                 );
+
+                                if (kDebugMode) print(e);
                               }
                             },
                           ),
@@ -295,11 +307,11 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
               Color.fromARGB(255, 77, 103, 214),
         ),
       ),
-      _ => Center(
+      AsyncError(:final error) => Center(
         child: Column(
           children: [
             Text(
-              "An error occurred loading the settings. Do you want to reset them?",
+              "An error occurred loading the settings. Do you want to reset them? --- $error",
             ),
             ElevatedButton(
               onPressed: () =>
@@ -309,6 +321,8 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
           ],
         ),
       ),
+      // TODO: Handle this case.
+      AsyncValue<SettingsState>() => throw UnimplementedError(),
     };
   }
 
@@ -362,11 +376,13 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                     "SettingsScreen.SettingsRestore.ExportSuccess",
                   );
                   context.pop();
-                } catch (_) {
+                } catch (e) {
                   ref.read(bannerMessageProvider.notifier).state = context.tr(
                     "SettingsScreen.SettingsRestore.ExportFailed",
                   );
                   context.pop();
+
+                  if (kDebugMode) print(e);
                 }
               },
             ),
@@ -626,11 +642,13 @@ class _ImportSettingsDialogState extends ConsumerState<_ImportSettingsDialog> {
                     jsonContent;
 
                 context.pop();
-              } catch (_) {
+              } catch (e) {
                 ref.read(bannerMessageProvider.notifier).state = context.tr(
                   "SettingsScreen.SettingsRestore.ImportFailed",
                 );
                 context.pop();
+
+                if (kDebugMode) print(e);
               }
             }
           },

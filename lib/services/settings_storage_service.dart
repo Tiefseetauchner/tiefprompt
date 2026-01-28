@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/providers/database_provider.dart';
+import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 part 'settings_storage_service.g.dart';
@@ -17,9 +19,9 @@ class SettingsDisplayData {
   });
 }
 
-@riverpod
+@Riverpod(dependencies: [Settings, Keybindings, DatabaseManagers])
 class SettingsStorageService extends _$SettingsStorageService {
-  final _databaseManagers = AppDatabase().managers;
+  late final _databaseManagers = ref.read(databaseManagersProvider);
 
   @override
   Future<void> build() async {}
@@ -37,9 +39,15 @@ class SettingsStorageService extends _$SettingsStorageService {
         createdAt: settings.createdAt,
       );
 
-  Future<void> loadSettings(int settingsId) async => ref
-      .read(settingsProvider.notifier)
-      .loadSettings(await getSettings(settingsId));
+  Future<void> loadSettings(int settingsId) async {
+    final settings = await getSettings(settingsId);
+    await ref.read(settingsProvider.notifier).loadSettings(settings);
+
+    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
+    await ref
+        .read(keybindingsProvider.notifier)
+        .copyBindingsToCurrent(settings.keybindingsMapId);
+  }
 
   Future<SettingsState> getSettings(int settingsId) async =>
       await _databaseManagers.settingsPresetModel
@@ -94,29 +102,11 @@ class SettingsStorageService extends _$SettingsStorageService {
 
   Color _getColor(int color) => Color(color);
 
-  Future<void> save(String name, SettingsState settings) async {
-    final keybindingMapId = await _databaseManagers.keybindingMapModel.create(
-      (o) => o(),
-    );
-
-    final mappedKeybindings = await _databaseManagers.keybindingMappingModel
-        .filter((b) => b.mapId.id.equals(settings.keybindingsMapId))
-        .get();
-    await _databaseManagers.keybindingMappingModel.bulkCreate(
-      (b) => [
-        for (final binding in mappedKeybindings)
-          b(
-            actionName: binding.actionName,
-            keyId: binding.keyId,
-            ctrl: binding.ctrl,
-            shift: binding.shift,
-            alt: binding.alt,
-            meta: binding.meta,
-            mapId: keybindingMapId,
-          ),
-      ],
-    );
-
+  Future<void> save(
+    String name,
+    SettingsState settings,
+    int keybindingMapId,
+  ) async {
     await _databaseManagers.settingsPresetModel.create(
       (s) => s(
         name: name,

@@ -65,7 +65,7 @@ abstract class SettingsState with _$SettingsState {
           ? Color(jsonValues['prompterTextColor'])
           : Colors.white,
       markdownEnabled: jsonValues['markdownEnabled'] ?? false,
-      keybindingsMapId: jsonValues['keybindings'] ?? 0,
+      keybindingsMapId: jsonValues['keybindingsMapId'] ?? 0,
     );
   }
 
@@ -172,7 +172,7 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<SettingsState> build() async {
     _prefs = await SharedPreferences.getInstance();
-    return SettingsState().copyWith(
+    return SettingsState(
       scrollSpeed: _prefs.getDouble(_speedKey) ?? 1.0,
       mirroredX: _prefs.getBool(_mirroredXKey) ?? false,
       mirroredY: _prefs.getBool(_mirroredYKey) ?? false,
@@ -205,6 +205,7 @@ class Settings extends _$Settings implements ISettings {
         _prefs.getInt(_prompterTextColorKey) ?? Colors.white.toARGB32(),
       ),
       markdownEnabled: _prefs.getBool(_markdownEnabledKey) ?? false,
+      keybindingsMapId: 0,
     );
   }
 
