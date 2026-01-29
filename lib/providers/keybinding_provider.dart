@@ -43,7 +43,7 @@ class Keybindings extends _$Keybindings {
     // NOTE: Due to potential for future expansion, this is hardcoded to 0
     final keybindingsMapId = 0;
 
-    _setCurrentKeybindings(kDefaultKeybindings, keybindingsMapId);
+    await _setCurrentKeybindings(kDefaultKeybindings, keybindingsMapId);
   }
 
   Future<void> copyBindingsToCurrent(int keybindingMapId) async {

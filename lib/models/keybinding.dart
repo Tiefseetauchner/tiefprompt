@@ -94,11 +94,10 @@ class KeybindingMap {
     );
   }
 
-  factory KeybindingMap.fromJson(String json) {
-    final decoded = jsonDecode(json) as List<dynamic>;
+  factory KeybindingMap.fromJson(List<dynamic> jsonList) {
     final bindings = <(KeybindingAction, Keybinding)>[];
 
-    for (final entry in decoded) {
+    for (final entry in jsonList) {
       final KeybindingAction? action = _actionByName[entry.actionName];
       if (action == null) {
         continue;

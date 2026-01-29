@@ -103,7 +103,7 @@ abstract class SettingsState with _$SettingsState {
         'prompterBackgroundColor': value.prompterBackgroundColor.toARGB32(),
         'prompterTextColor': value.prompterTextColor.toARGB32(),
         'markdownEnabled': value.markdownEnabled,
-        'keybindings': value.keybindingsMapId,
+        'keybindingsMapId': value.keybindingsMapId,
       };
     } else {
       throw UnsupportedError('Cannot convert to JSON: $value');
