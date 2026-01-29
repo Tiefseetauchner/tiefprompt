@@ -384,7 +384,8 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> loadSettings(SettingsState newState) async {
     await _saveSettings(newState);
-    state = state.whenData((s) => newState);
+    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
+    state = state.whenData((s) => newState.copyWith(keybindingsMapId: 0));
   }
 
   Future<void> _saveSettings(SettingsState state) async {
@@ -431,7 +432,8 @@ class Settings extends _$Settings implements ISettings {
       state.prompterTextColor.toARGB32(),
     );
     await _prefs.setBool(_markdownEnabledKey, state.markdownEnabled);
-    await _prefs.setInt(_keybindingsMapIdKey, state.keybindingsMapId);
+    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
+    await _prefs.setInt(_keybindingsMapIdKey, 0);
   }
 
   @override

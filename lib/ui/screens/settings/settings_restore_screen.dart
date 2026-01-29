@@ -272,6 +272,12 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
 
                                 ref.invalidate(keybindingsProvider);
 
+                                print(
+                                  (await ref.read(
+                                    settingsProvider.future,
+                                  )).keybindingsMapId,
+                                );
+
                                 ref
                                     .read(bannerMessageProvider.notifier)
                                     .state = context.tr(

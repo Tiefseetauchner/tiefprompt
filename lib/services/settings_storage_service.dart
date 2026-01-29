@@ -43,7 +43,6 @@ class SettingsStorageService extends _$SettingsStorageService {
     final settings = await getSettings(settingsId);
     await ref.read(settingsProvider.notifier).loadSettings(settings);
 
-    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
     await ref
         .read(keybindingsProvider.notifier)
         .copyBindingsToCurrent(settings.keybindingsMapId);
