@@ -28,6 +28,7 @@ abstract class PrompterState with _$PrompterState {
     @Default(false) bool displayCountdown,
     @Default(false) bool verticalMarginBoxesFadeEnabled,
     @Default(0.0) double verticalMarginBoxesFadeLength,
+    @Default(false) bool markdownEnabled,
   }) = _PrompterState;
 }
 
@@ -57,6 +58,7 @@ class Prompter extends _$Prompter {
       countdownDuration: settings.countdownDuration,
       verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
       verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
+      markdownEnabled: settings.markdownEnabled,
     );
   }
 
@@ -166,5 +168,9 @@ class Prompter extends _$Prompter {
 
   void setVerticalMarginBoxesFadeLength(double fadeLength) {
     state = state.copyWith(verticalMarginBoxesFadeLength: fadeLength);
+  }
+
+  void toggleMarkdownEnabled() {
+    state = state.copyWith(markdownEnabled: !state.markdownEnabled);
   }
 }

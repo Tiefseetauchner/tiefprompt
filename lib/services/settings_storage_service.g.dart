@@ -1,34 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'keybinding_provider.dart';
+part of 'settings_storage_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$keybindingsHash() => r'9b65ecf53dd544ea23146ae895bf6aa2754fae6c';
+String _$settingsStorageServiceHash() =>
+    r'f240c4ee753ffb03961d64bfbf237faccebae520';
 
-/// See also [Keybindings].
-@ProviderFor(Keybindings)
-final keybindingsProvider =
-    AsyncNotifierProvider<Keybindings, KeybindingMap>.internal(
-      Keybindings.new,
-      name: r'keybindingsProvider',
+/// See also [SettingsStorageService].
+@ProviderFor(SettingsStorageService)
+final settingsStorageServiceProvider =
+    AutoDisposeAsyncNotifierProvider<SettingsStorageService, void>.internal(
+      SettingsStorageService.new,
+      name: r'settingsStorageServiceProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$keybindingsHash,
+          : _$settingsStorageServiceHash,
       dependencies: <ProviderOrFamily>[
         settingsProvider,
+        keybindingsProvider,
         databaseManagersProvider,
       ],
       allTransitiveDependencies: <ProviderOrFamily>{
         settingsProvider,
         ...?settingsProvider.allTransitiveDependencies,
+        keybindingsProvider,
+        ...?keybindingsProvider.allTransitiveDependencies,
         databaseManagersProvider,
         ...?databaseManagersProvider.allTransitiveDependencies,
       },
     );
 
-typedef _$Keybindings = AsyncNotifier<KeybindingMap>;
+typedef _$SettingsStorageService = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

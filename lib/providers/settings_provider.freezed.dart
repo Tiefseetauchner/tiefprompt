@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsState {
 
- double get scrollSpeed; bool get mirroredX; bool get mirroredY; double get fontSize; double get sideMargin; String get fontFamily; TextAlign get alignment; bool get displayReadingIndicatorBoxes; double get readingIndicatorBoxesHeight; bool get displayVerticalMarginBoxes; double get verticalMarginBoxesHeight; bool get verticalMarginBoxesFadeEnabled; double get verticalMarginBoxesFadeLength; double get countdownDuration; ThemeMode get themeMode; Color get appPrimaryColor; Color get prompterBackgroundColor; Color get prompterTextColor;
+ double get scrollSpeed; bool get mirroredX; bool get mirroredY; double get fontSize; double get sideMargin; String get fontFamily; TextAlign get alignment; bool get displayReadingIndicatorBoxes; double get readingIndicatorBoxesHeight; bool get displayVerticalMarginBoxes; double get verticalMarginBoxesHeight; bool get verticalMarginBoxesFadeEnabled; double get verticalMarginBoxesFadeLength; double get countdownDuration; ThemeMode get themeMode; Color get appPrimaryColor; Color get prompterBackgroundColor; Color get prompterTextColor; bool get markdownEnabled; int get keybindingsMapId;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.scrollSpeed, scrollSpeed) || other.scrollSpeed == scrollSpeed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.scrollSpeed, scrollSpeed) || other.scrollSpeed == scrollSpeed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,scrollSpeed,mirroredX,mirroredY,fontSize,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,countdownDuration,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor);
+int get hashCode => Object.hashAll([runtimeType,scrollSpeed,mirroredX,mirroredY,fontSize,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,countdownDuration,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,markdownEnabled,keybindingsMapId]);
 
 @override
 String toString() {
-  return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, countdownDuration: $countdownDuration, themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor)';
+  return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, countdownDuration: $countdownDuration, themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, markdownEnabled: $markdownEnabled, keybindingsMapId: $keybindingsMapId)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- double scrollSpeed, bool mirroredX, bool mirroredY, double fontSize, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, double countdownDuration, ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor
+ double scrollSpeed, bool mirroredX, bool mirroredY, double fontSize, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, double countdownDuration, ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor, bool markdownEnabled, int keybindingsMapId
 });
 
 
@@ -62,7 +62,7 @@ class _$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? scrollSpeed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? countdownDuration = null,Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? scrollSpeed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? countdownDuration = null,Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,Object? markdownEnabled = null,Object? keybindingsMapId = null,}) {
   return _then(_self.copyWith(
 scrollSpeed: null == scrollSpeed ? _self.scrollSpeed : scrollSpeed // ignore: cast_nullable_to_non_nullable
 as double,mirroredX: null == mirroredX ? _self.mirroredX : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -82,7 +82,9 @@ as double,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: 
 as ThemeMode,appPrimaryColor: null == appPrimaryColor ? _self.appPrimaryColor : appPrimaryColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterBackgroundColor: null == prompterBackgroundColor ? _self.prompterBackgroundColor : prompterBackgroundColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterTextColor: null == prompterTextColor ? _self.prompterTextColor : prompterTextColor // ignore: cast_nullable_to_non_nullable
-as Color,
+as Color,markdownEnabled: null == markdownEnabled ? _self.markdownEnabled : markdownEnabled // ignore: cast_nullable_to_non_nullable
+as bool,keybindingsMapId: null == keybindingsMapId ? _self.keybindingsMapId : keybindingsMapId // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -167,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  bool markdownEnabled,  int keybindingsMapId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor);case _:
+return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.markdownEnabled,_that.keybindingsMapId);case _:
   return orElse();
 
 }
@@ -188,10 +190,10 @@ return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  bool markdownEnabled,  int keybindingsMapId)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
-return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor);case _:
+return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.markdownEnabled,_that.keybindingsMapId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +210,10 @@ return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  bool markdownEnabled,  int keybindingsMapId)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor);case _:
+return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.markdownEnabled,_that.keybindingsMapId);case _:
   return null;
 
 }
@@ -223,7 +225,7 @@ return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize
 
 
 class _SettingsState implements SettingsState {
-   _SettingsState({this.scrollSpeed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 42.0, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 60.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 35.0, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 50.0, this.countdownDuration = 0.0, this.themeMode = ThemeMode.system, this.appPrimaryColor = _defaultAppPrimaryColor, this.prompterBackgroundColor = Colors.black, this.prompterTextColor = Colors.white});
+   _SettingsState({this.scrollSpeed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 42.0, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 60.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 35.0, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 50.0, this.countdownDuration = 0.0, this.themeMode = ThemeMode.system, this.appPrimaryColor = const Color.fromARGB(255, 77, 103, 214), this.prompterBackgroundColor = Colors.black, this.prompterTextColor = Colors.white, this.markdownEnabled = false, this.keybindingsMapId = 0});
   
 
 @override@JsonKey() final  double scrollSpeed;
@@ -244,6 +246,8 @@ class _SettingsState implements SettingsState {
 @override@JsonKey() final  Color appPrimaryColor;
 @override@JsonKey() final  Color prompterBackgroundColor;
 @override@JsonKey() final  Color prompterTextColor;
+@override@JsonKey() final  bool markdownEnabled;
+@override@JsonKey() final  int keybindingsMapId;
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
@@ -255,16 +259,16 @@ _$SettingsStateCopyWith<_SettingsState> get copyWith => __$SettingsStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.scrollSpeed, scrollSpeed) || other.scrollSpeed == scrollSpeed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.scrollSpeed, scrollSpeed) || other.scrollSpeed == scrollSpeed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,scrollSpeed,mirroredX,mirroredY,fontSize,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,countdownDuration,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor);
+int get hashCode => Object.hashAll([runtimeType,scrollSpeed,mirroredX,mirroredY,fontSize,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,countdownDuration,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,markdownEnabled,keybindingsMapId]);
 
 @override
 String toString() {
-  return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, countdownDuration: $countdownDuration, themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor)';
+  return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, countdownDuration: $countdownDuration, themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, markdownEnabled: $markdownEnabled, keybindingsMapId: $keybindingsMapId)';
 }
 
 
@@ -275,7 +279,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- double scrollSpeed, bool mirroredX, bool mirroredY, double fontSize, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, double countdownDuration, ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor
+ double scrollSpeed, bool mirroredX, bool mirroredY, double fontSize, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, double countdownDuration, ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor, bool markdownEnabled, int keybindingsMapId
 });
 
 
@@ -292,7 +296,7 @@ class __$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? scrollSpeed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? countdownDuration = null,Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? scrollSpeed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? countdownDuration = null,Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,Object? markdownEnabled = null,Object? keybindingsMapId = null,}) {
   return _then(_SettingsState(
 scrollSpeed: null == scrollSpeed ? _self.scrollSpeed : scrollSpeed // ignore: cast_nullable_to_non_nullable
 as double,mirroredX: null == mirroredX ? _self.mirroredX : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -312,7 +316,9 @@ as double,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: 
 as ThemeMode,appPrimaryColor: null == appPrimaryColor ? _self.appPrimaryColor : appPrimaryColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterBackgroundColor: null == prompterBackgroundColor ? _self.prompterBackgroundColor : prompterBackgroundColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterTextColor: null == prompterTextColor ? _self.prompterTextColor : prompterTextColor // ignore: cast_nullable_to_non_nullable
-as Color,
+as Color,markdownEnabled: null == markdownEnabled ? _self.markdownEnabled : markdownEnabled // ignore: cast_nullable_to_non_nullable
+as bool,keybindingsMapId: null == keybindingsMapId ? _self.keybindingsMapId : keybindingsMapId // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
