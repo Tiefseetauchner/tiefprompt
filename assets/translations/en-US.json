@@ -102,7 +102,53 @@
       "fontSizeDown": "Decrease Font Size",
       "openSettings": "Open Settings",
       "saveSettingsFromPrompter": "Save Settings from Prompter"
+    },
+    "SettingsRestore": {
+      "Title": "Save and Restore Settings",
+      "Save": "Save Current Settings",
+      "Import": "Import Settings from File",
+      "LoadError": "There was a problem loading saved settings.",
+      "NameRequired": "Please enter a profile name.",
+      "SaveSuccess": "Settings profile saved.",
+      "ImportSuccess": "Settings profile imported.",
+      "ImportFailed": "Import failed. Please check the file and try again.",
+      "RestoreSuccess": "Settings restored.",
+      "RestoreFailed": "Restore failed.",
+      "ExportSuccess": "Settings profile exported.",
+      "ExportFailed": "Export failed.",
+      "DeleteSuccess": "Settings profile deleted.",
+      "NameSheet": {
+        "Title": "Name This Settings Profile",
+        "Content": "Give this imported profile a name."
+      },
+      "DeleteDialog": {
+        "Title": "Delete Settings Profile",
+        "Content": "You're about to permanently delete the stored settings {}!",
+        "Cancel": "Cancel",
+        "Confirm": "Confirm"
+      },
+      "OptionsDialog": {
+        "Title": "More Options",
+        "Export": "Export Settings Profile",
+        "FilePickerTitle": "Choose File to export Settings to",
+        "Delete": "Delete Settings Profile"
+      },
+      "ImportSettings": {
+        "Title": "Import Settings Profile",
+        "Content": "Please choose a file to import the settings profile from. Note that this will be added as a new profile and not override current settings.",
+        "Cancel": "Cancel",
+        "Import": "Choose File",
+        "InvalidVersion": "Invalid Schema Version provided. Please use a settings schema from this TiefPrompt version."
+      },
+      "SaveDialog": {
+        "Title": "Save Settings Profile",
+        "Content": "You may save these settings under a name specified by you.",
+        "HintText": "Enter profile name",
+        "Cancel": "Cancel",
+        "Save": "Save"
+      }
     }
+
   },
   "PrompterScreen": {
     "speed": "{}x",

@@ -7,8 +7,6 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 part 'settings_provider.freezed.dart';
 part 'settings_provider.g.dart';
 
-const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
-
 @freezed
 abstract class SettingsState with _$SettingsState {
   factory SettingsState({
@@ -27,11 +25,90 @@ abstract class SettingsState with _$SettingsState {
     @Default(50.0) double verticalMarginBoxesFadeLength,
     @Default(0.0) double countdownDuration,
     @Default(ThemeMode.system) ThemeMode themeMode,
-    @Default(_defaultAppPrimaryColor) Color appPrimaryColor,
+    @Default(Color.fromARGB(255, 77, 103, 214)) Color appPrimaryColor,
     @Default(Colors.black) Color prompterBackgroundColor,
     @Default(Colors.white) Color prompterTextColor,
     @Default(false) bool markdownEnabled,
+    @Default(0) int keybindingsMapId,
   }) = _SettingsState;
+
+  static SettingsState fromJson(Map<String, dynamic> jsonValues) {
+    return SettingsState(
+      scrollSpeed: jsonValues['scrollSpeed'] ?? 1.0,
+      mirroredX: jsonValues['mirroredX'] ?? false,
+      mirroredY: jsonValues['mirroredY'] ?? false,
+      fontSize: jsonValues['fontSize'] ?? 42.0,
+      sideMargin: jsonValues['sideMargin'] ?? 0.0,
+      fontFamily: jsonValues['fontFamily'] ?? 'Roboto',
+      alignment: _getAlignment(jsonValues['alignment']) ?? TextAlign.left,
+      displayReadingIndicatorBoxes:
+          jsonValues['displayReadingIndicatorBoxes'] ?? false,
+      readingIndicatorBoxesHeight:
+          jsonValues['readingIndicatorBoxesHeight'] ?? 60.0,
+      displayVerticalMarginBoxes:
+          jsonValues['displayVerticalMarginBoxes'] ?? false,
+      verticalMarginBoxesHeight:
+          jsonValues['verticalMarginBoxesHeight'] ?? 35.0,
+      verticalMarginBoxesFadeEnabled:
+          jsonValues['verticalMarginBoxesFadeEnabled'] ?? false,
+      verticalMarginBoxesFadeLength:
+          jsonValues['verticalMarginBoxesFadeLength'] ?? 50.0,
+      countdownDuration: jsonValues['countdownDuration'] ?? 0.0,
+      themeMode: _getThemeMode(jsonValues['themeMode']) ?? ThemeMode.system,
+      appPrimaryColor: jsonValues['appPrimaryColor'] != null
+          ? Color(jsonValues['appPrimaryColor'])
+          : Color.fromARGB(255, 77, 103, 214),
+      prompterBackgroundColor: jsonValues['prompterBackgroundColor'] != null
+          ? Color(jsonValues['prompterBackgroundColor'])
+          : Colors.black,
+      prompterTextColor: jsonValues['prompterTextColor'] != null
+          ? Color(jsonValues['prompterTextColor'])
+          : Colors.white,
+      markdownEnabled: jsonValues['markdownEnabled'] ?? false,
+      keybindingsMapId: jsonValues['keybindingsMapId'] ?? 0,
+    );
+  }
+
+  static TextAlign? _getAlignment(String? alignment) {
+    return TextAlign.values
+        .where((element) => element.name == alignment)
+        .singleOrNull;
+  }
+
+  static ThemeMode? _getThemeMode(String? themeMode) {
+    return ThemeMode.values
+        .where((element) => element.name == themeMode)
+        .singleOrNull;
+  }
+
+  static Map<String, dynamic> toJson(Object? value) {
+    if (value is _SettingsState) {
+      return {
+        'scrollSpeed': value.scrollSpeed,
+        'mirroredX': value.mirroredX,
+        'mirroredY': value.mirroredY,
+        'fontSize': value.fontSize,
+        'sideMargin': value.sideMargin,
+        'fontFamily': value.fontFamily,
+        'alignment': value.alignment.name,
+        'displayReadingIndicatorBoxes': value.displayReadingIndicatorBoxes,
+        'readingIndicatorBoxesHeight': value.readingIndicatorBoxesHeight,
+        'displayVerticalMarginBoxes': value.displayVerticalMarginBoxes,
+        'verticalMarginBoxesHeight': value.verticalMarginBoxesHeight,
+        'verticalMarginBoxesFadeEnabled': value.verticalMarginBoxesFadeEnabled,
+        'verticalMarginBoxesFadeLength': value.verticalMarginBoxesFadeLength,
+        'countdownDuration': value.countdownDuration,
+        'themeMode': value.themeMode.name,
+        'appPrimaryColor': value.appPrimaryColor.toARGB32(),
+        'prompterBackgroundColor': value.prompterBackgroundColor.toARGB32(),
+        'prompterTextColor': value.prompterTextColor.toARGB32(),
+        'markdownEnabled': value.markdownEnabled,
+        'keybindingsMapId': value.keybindingsMapId,
+      };
+    } else {
+      throw UnsupportedError('Cannot convert to JSON: $value');
+    }
+  }
 }
 
 abstract class ISettings {
@@ -56,6 +133,9 @@ abstract class ISettings {
   Future<void> setPrompterBackgroundColor(Color color);
   Future<void> setPrompterTextColor(Color color);
   Future<void> setMarkdownEnabled(bool enabled);
+  Future<void> setKeybindings(int mapId);
+
+  Future<void> loadSettings(SettingsState newState);
 
   Future<void> applySettingsFromPrompter(PrompterState prompterState);
 }
@@ -83,13 +163,16 @@ class Settings extends _$Settings implements ISettings {
   static const _prompterBackgroundColorKey = 'prompter_background_color';
   static const _prompterTextColorKey = 'prompter_text_color';
   static const _markdownEnabledKey = 'markdown_enabled';
+  static const _keybindingsMapIdKey = 'keybindings_map_id';
+
+  static const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
 
   late final SharedPreferences _prefs;
 
   @override
   Future<SettingsState> build() async {
     _prefs = await SharedPreferences.getInstance();
-    return SettingsState().copyWith(
+    return SettingsState(
       scrollSpeed: _prefs.getDouble(_speedKey) ?? 1.0,
       mirroredX: _prefs.getBool(_mirroredXKey) ?? false,
       mirroredY: _prefs.getBool(_mirroredYKey) ?? false,
@@ -122,6 +205,7 @@ class Settings extends _$Settings implements ISettings {
         _prefs.getInt(_prompterTextColorKey) ?? Colors.white.toARGB32(),
       ),
       markdownEnabled: _prefs.getBool(_markdownEnabledKey) ?? false,
+      keybindingsMapId: 0,
     );
   }
 
@@ -288,6 +372,68 @@ class Settings extends _$Settings implements ISettings {
     await _prefs.setBool(_markdownEnabledKey, enabled);
 
     state = state.whenData((s) => s.copyWith(markdownEnabled: enabled));
+  }
+
+  @override
+  Future<void> setKeybindings(int mapId) async {
+    await _prefs.setInt(_keybindingsMapIdKey, mapId);
+
+    state = state.whenData((s) => s.copyWith(keybindingsMapId: mapId));
+  }
+
+  @override
+  Future<void> loadSettings(SettingsState newState) async {
+    await _saveSettings(newState);
+    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
+    state = state.whenData((s) => newState.copyWith(keybindingsMapId: 0));
+  }
+
+  Future<void> _saveSettings(SettingsState state) async {
+    await _prefs.setDouble(_speedKey, state.scrollSpeed);
+    await _prefs.setBool(_mirroredXKey, state.mirroredX);
+    await _prefs.setBool(_mirroredYKey, state.mirroredY);
+    await _prefs.setDouble(_fontSizeKey, state.fontSize);
+    await _prefs.setDouble(_sideMarginKey, state.sideMargin);
+    await _prefs.setString(_fontFamilyKey, state.fontFamily);
+    await _prefs.setString(_alignmentKey, state.alignment.name);
+    await _prefs.setBool(
+      _displayReadingIndicatorBoxesKey,
+      state.displayReadingIndicatorBoxes,
+    );
+    await _prefs.setDouble(
+      _readingIndicatorBoxesHeightKey,
+      state.readingIndicatorBoxesHeight,
+    );
+    await _prefs.setBool(
+      _displayVerticalMarginBoxesKey,
+      state.displayVerticalMarginBoxes,
+    );
+    await _prefs.setDouble(
+      _verticalMarginBoxesHeightKey,
+      state.verticalMarginBoxesHeight,
+    );
+    await _prefs.setBool(
+      _verticalMarginBoxesFadeEnabledKey,
+      state.verticalMarginBoxesFadeEnabled,
+    );
+    await _prefs.setDouble(
+      _verticalMarginBoxesFadeLengthKey,
+      state.verticalMarginBoxesFadeLength,
+    );
+    await _prefs.setDouble(_countdownDurationKey, state.countdownDuration);
+    await _prefs.setString(_themeModeKey, state.themeMode.name);
+    await _prefs.setInt(_appPrimaryColorKey, state.appPrimaryColor.toARGB32());
+    await _prefs.setInt(
+      _prompterBackgroundColorKey,
+      state.prompterBackgroundColor.toARGB32(),
+    );
+    await _prefs.setInt(
+      _prompterTextColorKey,
+      state.prompterTextColor.toARGB32(),
+    );
+    await _prefs.setBool(_markdownEnabledKey, state.markdownEnabled);
+    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
+    await _prefs.setInt(_keybindingsMapIdKey, 0);
   }
 
   @override
