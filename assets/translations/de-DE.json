@@ -122,7 +122,30 @@
                 "Content": "Gib diesem importierten Profil einen Namen."
             },
             "DeleteDialog": {
-                "Title": "Einstellungsprofil Löschen"
+                "Title": "Einstellungsprofil Löschen",
+                "Content": "Diese Aktion löscht die Einstellungen {} permanent!",
+                "Cancel": "Abbrechen",
+                "Confirm": "Weiter"
+            },
+            "OptionsDialog": {
+                "Title": "Mehr Optionen",
+                "Export": "Einstellungsprofil Exportieren",
+                "FilePickerTitle": "Wähle eine Datei, um das Einstellungsprofil zu exportieren",
+                "Delete": "Einstellungsprofil löschen"
+            },
+            "ImportSettings": {
+                "Title": "Einstellungsprofil importieren",
+                "Content": "Bitte wähle eine Datei, von der das Einstellungsprofil importiert werden soll. Die importierten Einstellungen werden nicht angewandt, sondern als neues Einstellungsprofil gespeichert.",
+                "Cancel": "Abbrechen",
+                "Import": "Datei Auswählen",
+                "InvalidVersion": "Ungültige Schemataversion. Bitte nutze ein Einstellungsprofil von dieser TiefPrompt Version."
+            },
+            "SaveDialog": {
+                "Title": "Einstellungsprofil Speichern",
+                "Content": "Du kannst die Einstellungen unter einem von dir festgelegten Namen speichern.",
+                "HintText": "Profilnamen angeben",
+                "Cancel": "Abbrechen",
+                "Save": "Speichern"
             }
         }
     },
