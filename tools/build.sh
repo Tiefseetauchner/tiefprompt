@@ -90,7 +90,7 @@ prepare_flutter() {
 }
 
 enable_iap() {
-  sed -i.iap_disabled 's/#  in_app_purchase/  in_app_purchase/g' pubspec.yaml
+  sed -i.iap_disabled 's/# in_app_purchase/in_app_purchase/g' pubspec.yaml
 }
 
 disable_iap() {
