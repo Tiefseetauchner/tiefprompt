@@ -1,0 +1,190 @@
+{
+    "title": "",
+    "empty_title": "",
+    "copyright": "",
+    "credits": "",
+    "ProFeatureDisabled": "",
+    "AboutDialog": {
+        "Text_PrivacyText": "",
+        "ElevatedButton_Privacy": ""
+    },
+    "HomeScreen": {
+        "TextField_hintText": "",
+        "ElevatedButton_Start": "",
+        "ElevatedButton_Select": "",
+        "ElevatedButton_Save": "",
+        "IconButton_Settings": "",
+        "IconButton_SourceCode": "",
+        "IconButton_About": "",
+        "BottomSheet": {
+            "Text_Title": "",
+            "TextField_hintText": "",
+            "ElevatedButton_Save": ""
+        },
+        "UnverifiedBuild": "",
+        "UnverifiedBuild_Explanation": "",
+        "FossVersion": "",
+        "FossVersion_Explanation": "",
+        "FreeVersion": "",
+        "FreeVersion_Explanation": "",
+        "PaidVersion": "",
+        "PaidVersion_Explanation": "",
+        "Understood": ""
+    },
+    "SettingsScreen": {
+        "title": "",
+        "NumberAppSetting": {
+            "Value": "",
+            "ElevatedButton_Save": ""
+        },
+        "DropdownAppSetting_DefaultLanguage": "",
+        "DropdownAppSetting_Theme": "",
+        "NumberAppSetting_DefaultScrollSpeed": "",
+        "NumberAppSetting_DefaultScrollSpeed_Unit": "",
+        "NumberAppSetting_DefaultFontSize": "",
+        "NumberAppSetting_DefaultFontSize_Unit": "",
+        "DropdownAppSetting_DefaultTextAlignment": "",
+        "DropdownAppSetting_DefaultTextAlignment_Unit": {
+            "Left": "",
+            "Center": "",
+            "Right": "",
+            "Justified": ""
+        },
+        "ElevatedButton_Save": "",
+        "DropdownAppSetting_DefaultFontFamily": "",
+        "BooleanAppSetting_DefaultFlipX": "",
+        "BooleanAppSetting_DefaultFlipY": "",
+        "BooleanAppSetting_ReadingIndicatorBoxes": "",
+        "BooleanAppSetting_Markdown": "",
+        "NumberAppSetting_ReadingIndicatorBoxes": "",
+        "NumberAppSetting_ReadingIndicatorBoxes_Unit": "",
+        "BooleanAppSetting_VerticalMarginBoxes": "",
+        "NumberAppSetting_VerticalMarginBoxes": "",
+        "NumberAppSetting_VerticalMarginBoxes_Unit": "",
+        "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength": "",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "",
+        "NumberAppSetting_SideMargin": "",
+        "NumberAppSetting_SideMargin_Unit": "",
+        "NumberAppSetting_CountdownTimer": "",
+        "NumberAppSetting_CountdownTimer_Unit": "",
+        "ColorAppSetting_AppPrimaryColor": "",
+        "ColorAppSetting_PrompterBackgroundColor": "",
+        "ColorAppSetting_PrompterTextColor": "",
+        "DisplaySettings": "",
+        "TextSettings": "",
+        "ListTile_Reset": "",
+        "Reset_Warning": "",
+        "Abort": "",
+        "Confirm": "",
+        "RestorePurchases": "",
+        "RestorePurchases_Snackbar": "",
+        "KeybindingsSettings": {
+            "Title": "",
+            "ChangeBindings": "",
+            "AddBinding": "",
+            "CaptureBindingTitle": "",
+            "CaptureBindingHint": "",
+            "ResetBindings": "",
+            "playPause": "",
+            "scrollUpSmall": "",
+            "scrollDownSmall": "",
+            "scrollUp": "",
+            "scrollDown": "",
+            "pageUp": "",
+            "pageDown": "",
+            "jumpStart": "",
+            "jumpEnd": "",
+            "toggleControls": "",
+            "speedUp": "",
+            "speedDown": "",
+            "fontSizeUp": "",
+            "fontSizeDown": "",
+            "openSettings": "",
+            "saveSettingsFromPrompter": ""
+        },
+        "SettingsRestore": {
+            "Title": "",
+            "Save": "",
+            "Import": "",
+            "LoadError": "",
+            "NameRequired": "",
+            "SaveSuccess": "",
+            "ImportSuccess": "",
+            "ImportFailed": "",
+            "RestoreSuccess": "",
+            "RestoreFailed": "",
+            "ExportSuccess": "",
+            "ExportFailed": "",
+            "DeleteSuccess": "",
+            "NameSheet": {
+                "Title": "",
+                "Content": ""
+            },
+            "DeleteDialog": {
+                "Title": "",
+                "Content": "",
+                "Cancel": "",
+                "Confirm": ""
+            },
+            "OptionsDialog": {
+                "Title": "",
+                "Export": "",
+                "FilePickerTitle": "",
+                "Delete": ""
+            },
+            "ImportSettings": {
+                "Title": "",
+                "Content": "",
+                "Cancel": "",
+                "Import": "",
+                "InvalidVersion": ""
+            },
+            "SaveDialog": {
+                "Title": "",
+                "Content": "",
+                "HintText": "",
+                "Cancel": "",
+                "Save": ""
+            }
+        }
+    },
+    "PrompterScreen": {
+        "speed": "",
+        "fontsize": "",
+        "IconButton_Save": "",
+        "IconButton_DisplaySettings": "",
+        "IconButton_DecreaseSpeed": "",
+        "IconButton_TogglePlayPause": "",
+        "IconButton_IncreaseSpeed": "",
+        "IconButton_TextFormat": "",
+        "IconButton_Settings": "",
+        "SimpleDialog_TextFormat": {
+            "title": "",
+            "fontsize": "",
+            "IconButton_TextIncrease": "",
+            "IconButton_TextDecrease": "",
+            "IconButton_Left": "",
+            "IconButton_Center": "",
+            "IconButton_Right": "",
+            "IconButton_Justified": ""
+        },
+        "SimpleDialog_DisplaySettings": {
+            "title": "",
+            "IconButton_FlipX": "",
+            "IconButton_FlipY": "",
+            "IconButton_Markdown": "",
+            "IconButton_ReadingIndicatorBoxes": "",
+            "IconButton_VerticalMarginBoxes": "",
+            "IconButton_FadeEnabled": "",
+            "Slider_SideMargin": "",
+            "Slider_Countdown": ""
+        }
+    },
+    "OpenFileScreen": {
+        "title": "",
+        "if_empty": "",
+        "ElevatedButton_Select": "",
+        "ListTile_Delete": ""
+    }
+}
