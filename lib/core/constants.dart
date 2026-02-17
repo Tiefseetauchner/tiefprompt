@@ -26,6 +26,7 @@ const kSupportedLocales = [
   ("简体中文", Locale("zh", "CN")),
   ("Deutsch", Locale("de", "DE")),
   ("Pirate English", ExtendedLocale("en", "pirate")),
+  ("Русский", Locale("ru")),
 ];
 
 class ExtendedLocale extends Locale {
