@@ -1,0 +1,6 @@
+Diese Version bringt Einstellungsprofile und allgemeine Stabilitätsverbesserungen.
+
+* Einstellungen können nun als Profile gespeichert, geladen, exportiert, importiert und gelöscht werden
+* Tastaturkürzel werden stabiler gespeichert, mit der Möglichkeit diese mit Einstellungsprofilen zu laden.
+* Markdown kann nun in den Einstellungen deaktiviert oder aktiviert werden.
+* Russisch wurde als Sprache hinzu gefügt.

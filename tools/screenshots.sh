@@ -66,7 +66,7 @@ start_emulator() {
 }
 
 enable_iap() {
-  sed -i.iap_disabled 's/#  in_app_purchase/  in_app_purchase/g' pubspec.yaml
+  sed -i.iap_disabled 's/  # in_app_purchase/  in_app_purchase/g' pubspec.yaml
 }
 
 disable_iap() {
@@ -75,6 +75,8 @@ disable_iap() {
 
 run_tests() {
   enable_iap
+
+  .flutter/bin/flutter pub get
   
   #SERVER_IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | tail -n 1)
   SERVER_IP=10.0.2.2

@@ -1,0 +1,6 @@
+This version introduces settings profiles and improves overall reliability.
+
+* You can now save, load, import, export, and delete named settings profiles.
+* Keybindings are now stored more reliably, with fixes for loading, editing, and restoring bindings.
+* Markdown can now be toggled in settings.
+* Russian was added as an app language.

@@ -1,0 +1,6 @@
+Yer gonna sail the sea, rescuing settin's profiles from their doom!
+
+* Settin's Profiles may now be stored, rescued, imported, exported and be thrown overboard.
+* Yer keys to success shan't disappear again! Better storage of 'em ensures that.
+* Yer can turn on and off the Markdown now.
+* Russians are able ter read the app now too.
