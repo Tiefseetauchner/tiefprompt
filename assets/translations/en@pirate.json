@@ -132,6 +132,20 @@
                 "Export": "Push Settin's into Sea",
                 "FilePickerTitle": "Select a destination for travel",
                 "Delete": "Throw 'em off board"
+            },
+            "ImportSettings": {
+                "Title": "Pull Settings from 'e Sea",
+                "Content": "Choose yer file ter pull tere settin's from. Note that yer not gonna override current settings, but add 'em as a new profile.",
+                "Cancel": "Abort",
+                "Import": "Choose yer File",
+                "InvalidVersion": "Yer Schema Version was not fine. Use a Schema from this here TiefPrompt version."
+            },
+            "SaveDialog": {
+                "Title": "Store yer Settin's Profile",
+                "Content": "Yer may wanna specify a name.",
+                "HintText": "Gimme yer profile name",
+                "Cancel": "Abort",
+                "Save": "Store"
             }
         }
     },
@@ -163,7 +177,8 @@
             "IconButton_VerticalMarginBoxes": "Add top 'n bottom space",
             "IconButton_FadeEnabled": "Make 'em top 'n bottom spaces fade",
             "Slider_SideMargin": "Left 'n right spacing",
-            "Slider_Countdown": "Yer Hourglass"
+            "Slider_Countdown": "Yer Hourglass",
+            "IconButton_Markdown": "Turn on pretty sailin'"
         }
     },
     "OpenFileScreen": {
