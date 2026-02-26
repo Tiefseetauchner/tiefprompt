@@ -75,7 +75,7 @@
         "TextSettings": "Настройки текста",
         "ListTile_Reset": "Сбросить настройки",
         "Reset_Warning": "Вы собираетесь безвозвратно сбросить все настройки!",
-        "Abort": "Отмена",
+        "Abort": "Прервать",
         "Confirm": "Подтвердить",
         "RestorePurchases": "Восстановить покупки",
         "RestorePurchases_Snackbar": "Покупки восстановлены.",
