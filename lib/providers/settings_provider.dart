@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 
 part 'settings_provider.freezed.dart';
@@ -29,6 +30,9 @@ abstract class SettingsState with _$SettingsState {
     @Default(Colors.black) Color prompterBackgroundColor,
     @Default(Colors.white) Color prompterTextColor,
     @Default(false) bool markdownEnabled,
+    @Default(false) bool showControlButtons,
+    @Default(ControlButtonsPosition.left)
+    ControlButtonsPosition controlButtonsPosition,
     @Default(0) int keybindingsMapId,
   }) = _SettingsState;
 
@@ -65,6 +69,9 @@ abstract class SettingsState with _$SettingsState {
           ? Color(jsonValues['prompterTextColor'])
           : Colors.white,
       markdownEnabled: jsonValues['markdownEnabled'] ?? false,
+      showControlButtons: jsonValues['showControlButtons'] ?? false,
+      controlButtonsPosition:
+          jsonValues['controlButtonsPosition'] ?? ControlButtonsPosition.left,
       keybindingsMapId: jsonValues['keybindingsMapId'] ?? 0,
     );
   }
@@ -103,6 +110,8 @@ abstract class SettingsState with _$SettingsState {
         'prompterBackgroundColor': value.prompterBackgroundColor.toARGB32(),
         'prompterTextColor': value.prompterTextColor.toARGB32(),
         'markdownEnabled': value.markdownEnabled,
+        'showControlButtons': value.showControlButtons,
+        'controlButtonsPosition': value.controlButtonsPosition,
         'keybindingsMapId': value.keybindingsMapId,
       };
     } else {
@@ -133,6 +142,8 @@ abstract class ISettings {
   Future<void> setPrompterBackgroundColor(Color color);
   Future<void> setPrompterTextColor(Color color);
   Future<void> setMarkdownEnabled(bool enabled);
+  Future<void> setShowControlButtons(bool enabled);
+  Future<void> setControlButtonsPosition(ControlButtonsPosition position);
   Future<void> setKeybindings(int mapId);
 
   Future<void> loadSettings(SettingsState newState);
@@ -163,6 +174,8 @@ class Settings extends _$Settings implements ISettings {
   static const _prompterBackgroundColorKey = 'prompter_background_color';
   static const _prompterTextColorKey = 'prompter_text_color';
   static const _markdownEnabledKey = 'markdown_enabled';
+  static const _showControlButtonsKey = 'show_control_buttons';
+  static const _controlButtonsPositionKey = 'control_buttons_position';
   static const _keybindingsMapIdKey = 'keybindings_map_id';
 
   static const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
@@ -205,6 +218,10 @@ class Settings extends _$Settings implements ISettings {
         _prefs.getInt(_prompterTextColorKey) ?? Colors.white.toARGB32(),
       ),
       markdownEnabled: _prefs.getBool(_markdownEnabledKey) ?? false,
+      showControlButtons: _prefs.getBool(_showControlButtonsKey) ?? false,
+      controlButtonsPosition: _getControlButtonsPosition(
+        _prefs.getString(_controlButtonsPositionKey),
+      ),
       keybindingsMapId: 0,
     );
   }
@@ -221,6 +238,13 @@ class Settings extends _$Settings implements ISettings {
             .where((element) => element.name == themeMode)
             .singleOrNull ??
         ThemeMode.system;
+  }
+
+  ControlButtonsPosition _getControlButtonsPosition(String? position) {
+    return ControlButtonsPosition.values
+            .where((element) => element.name == position)
+            .singleOrNull ??
+        ControlButtonsPosition.left;
   }
 
   @override
@@ -375,6 +399,22 @@ class Settings extends _$Settings implements ISettings {
   }
 
   @override
+  Future<void> setShowControlButtons(bool enabled) async {
+    await _prefs.setBool(_showControlButtonsKey, enabled);
+
+    state = state.whenData((s) => s.copyWith(showControlButtons: enabled));
+  }
+
+  @override
+  Future<void> setControlButtonsPosition(
+    ControlButtonsPosition position,
+  ) async {
+    await _prefs.setString(_controlButtonsPositionKey, position.name);
+
+    state = state.whenData((s) => s.copyWith(controlButtonsPosition: position));
+  }
+
+  @override
   Future<void> setKeybindings(int mapId) async {
     await _prefs.setInt(_keybindingsMapIdKey, mapId);
 
@@ -432,6 +472,11 @@ class Settings extends _$Settings implements ISettings {
       state.prompterTextColor.toARGB32(),
     );
     await _prefs.setBool(_markdownEnabledKey, state.markdownEnabled);
+    await _prefs.setBool(_showControlButtonsKey, state.showControlButtons);
+    await _prefs.setString(
+      _controlButtonsPositionKey,
+      state.controlButtonsPosition.name,
+    );
     // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
     await _prefs.setInt(_keybindingsMapIdKey, 0);
   }
@@ -463,5 +508,7 @@ class Settings extends _$Settings implements ISettings {
       prompterState.verticalMarginBoxesFadeLength,
     );
     await setMarkdownEnabled(prompterState.markdownEnabled);
+    await setShowControlButtons(prompterState.showControlButtons);
+    await setControlButtonsPosition(prompterState.controlButtonsPosition);
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
@@ -10,6 +11,7 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
+import 'package:tiefprompt/ui/widgets/prompter_control_buttons_overlay.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
 import 'package:tiefprompt/ui/widgets/vertical_margin.dart';
 import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
@@ -123,6 +125,13 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               ),
             if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
             if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
+            if ((!ref.watch(controlsVisibleProvider) ||
+                    (prompter.controlButtonsPosition ==
+                            ControlButtonsPosition.left ||
+                        prompter.controlButtonsPosition ==
+                            ControlButtonsPosition.right)) &&
+                prompter.showControlButtons)
+              PrompterControlButtonsOverlay(),
             if (prompter.displayCountdown && prompter.countdownDuration > 0)
               CountdownTimer(duration: prompter.countdownDuration.toInt()),
           ],

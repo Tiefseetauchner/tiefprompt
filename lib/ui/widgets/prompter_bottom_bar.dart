@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -589,6 +590,44 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               onChanged: (value) => ref
                                   .read(prompterProvider.notifier)
                                   .setCountdownDuration(value),
+                            ),
+                          ],
+                        ),
+                      ),
+                      _FeatureGate(
+                        feature: Feature.controlButtons,
+                        displayText: context.tr(
+                          "SettingsScreen.BooleanAppSetting_ControlButtons",
+                        ),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () => ref
+                                  .read(prompterProvider.notifier)
+                                  .toggleShowControlButtons(),
+                              isSelected: prompter.showControlButtons,
+                              icon: Icon(Icons.apps_outlined),
+                              tooltip: context.tr(
+                                "SettingsScreen.BooleanAppSetting_ControlButtons",
+                              ),
+                            ),
+                            DropdownButton(
+                              value: prompter.controlButtonsPosition,
+                              items: ControlButtonsPosition.values
+                                  .map(
+                                    (v) => DropdownMenuItem(
+                                      value: v,
+                                      child: Text(
+                                        context.tr(
+                                          "SettingsScreen.DropdownAppSetting_ControlButtonPosition.${v.name}",
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) => ref
+                                  .read(prompterProvider.notifier)
+                                  .setControlButtonsPosition(value!),
                             ),
                           ],
                         ),

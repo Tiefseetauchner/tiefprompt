@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PrompterState {
 
- double get speed; bool get mirroredX; bool get mirroredY; double get fontSize; bool get isPlaying; double get sideMargin; String get fontFamily; TextAlign get alignment; bool get displayReadingIndicatorBoxes; double get readingIndicatorBoxesHeight; bool get displayVerticalMarginBoxes; double get verticalMarginBoxesHeight; double get countdownDuration; bool get displayCountdown; bool get verticalMarginBoxesFadeEnabled; double get verticalMarginBoxesFadeLength; bool get markdownEnabled;
+ double get speed; bool get mirroredX; bool get mirroredY; double get fontSize; bool get isPlaying; double get sideMargin; String get fontFamily; TextAlign get alignment; bool get displayReadingIndicatorBoxes; double get readingIndicatorBoxesHeight; bool get displayVerticalMarginBoxes; double get verticalMarginBoxesHeight; double get countdownDuration; bool get displayCountdown; bool get verticalMarginBoxesFadeEnabled; double get verticalMarginBoxesFadeLength; bool get markdownEnabled; bool get showControlButtons; ControlButtonsPosition get controlButtonsPosition;
 /// Create a copy of PrompterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PrompterStateCopyWith<PrompterState> get copyWith => _$PrompterStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PrompterState&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.displayCountdown, displayCountdown) || other.displayCountdown == displayCountdown)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PrompterState&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.displayCountdown, displayCountdown) || other.displayCountdown == displayCountdown)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled)&&(identical(other.showControlButtons, showControlButtons) || other.showControlButtons == showControlButtons)&&(identical(other.controlButtonsPosition, controlButtonsPosition) || other.controlButtonsPosition == controlButtonsPosition));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,speed,mirroredX,mirroredY,fontSize,isPlaying,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,countdownDuration,displayCountdown,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,markdownEnabled);
+int get hashCode => Object.hashAll([runtimeType,speed,mirroredX,mirroredY,fontSize,isPlaying,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,countdownDuration,displayCountdown,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,markdownEnabled,showControlButtons,controlButtonsPosition]);
 
 @override
 String toString() {
-  return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, markdownEnabled: $markdownEnabled)';
+  return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, markdownEnabled: $markdownEnabled, showControlButtons: $showControlButtons, controlButtonsPosition: $controlButtonsPosition)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PrompterStateCopyWith<$Res>  {
   factory $PrompterStateCopyWith(PrompterState value, $Res Function(PrompterState) _then) = _$PrompterStateCopyWithImpl;
 @useResult
 $Res call({
- double speed, bool mirroredX, bool mirroredY, double fontSize, bool isPlaying, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, double countdownDuration, bool displayCountdown, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, bool markdownEnabled
+ double speed, bool mirroredX, bool mirroredY, double fontSize, bool isPlaying, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, double countdownDuration, bool displayCountdown, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, bool markdownEnabled, bool showControlButtons, ControlButtonsPosition controlButtonsPosition
 });
 
 
@@ -62,7 +62,7 @@ class _$PrompterStateCopyWithImpl<$Res>
 
 /// Create a copy of PrompterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? speed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? isPlaying = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? countdownDuration = null,Object? displayCountdown = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? markdownEnabled = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? speed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? isPlaying = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? countdownDuration = null,Object? displayCountdown = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? markdownEnabled = null,Object? showControlButtons = null,Object? controlButtonsPosition = null,}) {
   return _then(_self.copyWith(
 speed: null == speed ? _self.speed : speed // ignore: cast_nullable_to_non_nullable
 as double,mirroredX: null == mirroredX ? _self.mirroredX : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,9 @@ as double,displayCountdown: null == displayCountdown ? _self.displayCountdown : 
 as bool,verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled ? _self.verticalMarginBoxesFadeEnabled : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
 as bool,verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength ? _self.verticalMarginBoxesFadeLength : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
 as double,markdownEnabled: null == markdownEnabled ? _self.markdownEnabled : markdownEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,showControlButtons: null == showControlButtons ? _self.showControlButtons : showControlButtons // ignore: cast_nullable_to_non_nullable
+as bool,controlButtonsPosition: null == controlButtonsPosition ? _self.controlButtonsPosition : controlButtonsPosition // ignore: cast_nullable_to_non_nullable
+as ControlButtonsPosition,
   ));
 }
 
@@ -166,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double speed,  bool mirroredX,  bool mirroredY,  double fontSize,  bool isPlaying,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  double countdownDuration,  bool displayCountdown,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  bool markdownEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double speed,  bool mirroredX,  bool mirroredY,  double fontSize,  bool isPlaying,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  double countdownDuration,  bool displayCountdown,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  bool markdownEnabled,  bool showControlButtons,  ControlButtonsPosition controlButtonsPosition)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PrompterState() when $default != null:
-return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.isPlaying,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.countdownDuration,_that.displayCountdown,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.markdownEnabled);case _:
+return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.isPlaying,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.countdownDuration,_that.displayCountdown,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.markdownEnabled,_that.showControlButtons,_that.controlButtonsPosition);case _:
   return orElse();
 
 }
@@ -187,10 +189,10 @@ return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double speed,  bool mirroredX,  bool mirroredY,  double fontSize,  bool isPlaying,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  double countdownDuration,  bool displayCountdown,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  bool markdownEnabled)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double speed,  bool mirroredX,  bool mirroredY,  double fontSize,  bool isPlaying,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  double countdownDuration,  bool displayCountdown,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  bool markdownEnabled,  bool showControlButtons,  ControlButtonsPosition controlButtonsPosition)  $default,) {final _that = this;
 switch (_that) {
 case _PrompterState():
-return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.isPlaying,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.countdownDuration,_that.displayCountdown,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.markdownEnabled);case _:
+return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.isPlaying,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.countdownDuration,_that.displayCountdown,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.markdownEnabled,_that.showControlButtons,_that.controlButtonsPosition);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +209,10 @@ return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double speed,  bool mirroredX,  bool mirroredY,  double fontSize,  bool isPlaying,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  double countdownDuration,  bool displayCountdown,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  bool markdownEnabled)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double speed,  bool mirroredX,  bool mirroredY,  double fontSize,  bool isPlaying,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  double countdownDuration,  bool displayCountdown,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  bool markdownEnabled,  bool showControlButtons,  ControlButtonsPosition controlButtonsPosition)?  $default,) {final _that = this;
 switch (_that) {
 case _PrompterState() when $default != null:
-return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.isPlaying,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.countdownDuration,_that.displayCountdown,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.markdownEnabled);case _:
+return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.isPlaying,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.countdownDuration,_that.displayCountdown,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.markdownEnabled,_that.showControlButtons,_that.controlButtonsPosition);case _:
   return null;
 
 }
@@ -222,7 +224,7 @@ return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that
 
 
 class _PrompterState implements PrompterState {
-   _PrompterState({this.speed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 48.0, this.isPlaying = false, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 25.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 25.0, this.countdownDuration = 5.0, this.displayCountdown = false, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 0.0, this.markdownEnabled = false});
+   _PrompterState({this.speed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 48.0, this.isPlaying = false, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 25.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 25.0, this.countdownDuration = 5.0, this.displayCountdown = false, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 0.0, this.markdownEnabled = false, this.showControlButtons = false, this.controlButtonsPosition = ControlButtonsPosition.left});
   
 
 @override@JsonKey() final  double speed;
@@ -242,6 +244,8 @@ class _PrompterState implements PrompterState {
 @override@JsonKey() final  bool verticalMarginBoxesFadeEnabled;
 @override@JsonKey() final  double verticalMarginBoxesFadeLength;
 @override@JsonKey() final  bool markdownEnabled;
+@override@JsonKey() final  bool showControlButtons;
+@override@JsonKey() final  ControlButtonsPosition controlButtonsPosition;
 
 /// Create a copy of PrompterState
 /// with the given fields replaced by the non-null parameter values.
@@ -253,16 +257,16 @@ _$PrompterStateCopyWith<_PrompterState> get copyWith => __$PrompterStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PrompterState&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.displayCountdown, displayCountdown) || other.displayCountdown == displayCountdown)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PrompterState&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.isPlaying, isPlaying) || other.isPlaying == isPlaying)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.displayCountdown, displayCountdown) || other.displayCountdown == displayCountdown)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled)&&(identical(other.showControlButtons, showControlButtons) || other.showControlButtons == showControlButtons)&&(identical(other.controlButtonsPosition, controlButtonsPosition) || other.controlButtonsPosition == controlButtonsPosition));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,speed,mirroredX,mirroredY,fontSize,isPlaying,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,countdownDuration,displayCountdown,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,markdownEnabled);
+int get hashCode => Object.hashAll([runtimeType,speed,mirroredX,mirroredY,fontSize,isPlaying,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,countdownDuration,displayCountdown,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,markdownEnabled,showControlButtons,controlButtonsPosition]);
 
 @override
 String toString() {
-  return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, markdownEnabled: $markdownEnabled)';
+  return 'PrompterState(speed: $speed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, isPlaying: $isPlaying, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, countdownDuration: $countdownDuration, displayCountdown: $displayCountdown, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, markdownEnabled: $markdownEnabled, showControlButtons: $showControlButtons, controlButtonsPosition: $controlButtonsPosition)';
 }
 
 
@@ -273,7 +277,7 @@ abstract mixin class _$PrompterStateCopyWith<$Res> implements $PrompterStateCopy
   factory _$PrompterStateCopyWith(_PrompterState value, $Res Function(_PrompterState) _then) = __$PrompterStateCopyWithImpl;
 @override @useResult
 $Res call({
- double speed, bool mirroredX, bool mirroredY, double fontSize, bool isPlaying, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, double countdownDuration, bool displayCountdown, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, bool markdownEnabled
+ double speed, bool mirroredX, bool mirroredY, double fontSize, bool isPlaying, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, double countdownDuration, bool displayCountdown, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, bool markdownEnabled, bool showControlButtons, ControlButtonsPosition controlButtonsPosition
 });
 
 
@@ -290,7 +294,7 @@ class __$PrompterStateCopyWithImpl<$Res>
 
 /// Create a copy of PrompterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? speed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? isPlaying = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? countdownDuration = null,Object? displayCountdown = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? markdownEnabled = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? speed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? isPlaying = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? countdownDuration = null,Object? displayCountdown = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? markdownEnabled = null,Object? showControlButtons = null,Object? controlButtonsPosition = null,}) {
   return _then(_PrompterState(
 speed: null == speed ? _self.speed : speed // ignore: cast_nullable_to_non_nullable
 as double,mirroredX: null == mirroredX ? _self.mirroredX : mirroredX // ignore: cast_nullable_to_non_nullable
@@ -309,7 +313,9 @@ as double,displayCountdown: null == displayCountdown ? _self.displayCountdown : 
 as bool,verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled ? _self.verticalMarginBoxesFadeEnabled : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
 as bool,verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength ? _self.verticalMarginBoxesFadeLength : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
 as double,markdownEnabled: null == markdownEnabled ? _self.markdownEnabled : markdownEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,showControlButtons: null == showControlButtons ? _self.showControlButtons : showControlButtons // ignore: cast_nullable_to_non_nullable
+as bool,controlButtonsPosition: null == controlButtonsPosition ? _self.controlButtonsPosition : controlButtonsPosition // ignore: cast_nullable_to_non_nullable
+as ControlButtonsPosition,
   ));
 }
 

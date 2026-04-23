@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
 part 'prompter_provider.freezed.dart';
@@ -29,6 +30,9 @@ abstract class PrompterState with _$PrompterState {
     @Default(false) bool verticalMarginBoxesFadeEnabled,
     @Default(0.0) double verticalMarginBoxesFadeLength,
     @Default(false) bool markdownEnabled,
+    @Default(false) bool showControlButtons,
+    @Default(ControlButtonsPosition.left)
+    ControlButtonsPosition controlButtonsPosition,
   }) = _PrompterState;
 }
 
@@ -59,6 +63,8 @@ class Prompter extends _$Prompter {
       verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
       verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
       markdownEnabled: settings.markdownEnabled,
+      showControlButtons: settings.showControlButtons,
+      controlButtonsPosition: settings.controlButtonsPosition,
     );
   }
 
@@ -172,5 +178,13 @@ class Prompter extends _$Prompter {
 
   void toggleMarkdownEnabled() {
     state = state.copyWith(markdownEnabled: !state.markdownEnabled);
+  }
+
+  void toggleShowControlButtons() {
+    state = state.copyWith(showControlButtons: !state.showControlButtons);
+  }
+
+  void setControlButtonsPosition(ControlButtonsPosition position) {
+    state = state.copyWith(controlButtonsPosition: position);
   }
 }

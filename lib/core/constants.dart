@@ -61,6 +61,7 @@ enum Feature {
   playPause,
   markdown,
   settingsRestore,
+  controlButtons,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -88,6 +89,7 @@ const kAllFeatures = [
   Feature.playPause,
   Feature.markdown,
   Feature.settingsRestore,
+  Feature.controlButtons,
 ];
 
 const kFreeFeatures = [
@@ -105,6 +107,7 @@ const kFreeFeatures = [
   Feature.fontFamily,
   Feature.textAlignment,
   Feature.playPause,
+  Feature.controlButtons,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";

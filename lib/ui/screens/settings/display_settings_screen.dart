@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
 
@@ -54,6 +55,36 @@ class DisplaySettingsScreen extends ConsumerWidget {
               onValueChanged: (updatedValue) => ref
                   .read(settingsProvider.notifier)
                   .setMirroredY(updatedValue),
+            ),
+            BooleanAppSetting(
+              feature: Feature.controlButtons,
+              displayText: context.tr(
+                "SettingsScreen.BooleanAppSetting_ControlButtons",
+              ),
+              value: value.showControlButtons,
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setShowControlButtons(updatedValue),
+            ),
+            DropdownAppSetting(
+              feature: Feature.controlButtons,
+              displayText: context.tr(
+                "SettingsScreen.DropdownAppSetting_ControlButtonPosition.Label",
+              ),
+              value: value.controlButtonsPosition,
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setControlButtonsPosition(updatedValue),
+              values: ControlButtonsPosition.values
+                  .map(
+                    (v) => (
+                      context.tr(
+                        "SettingsScreen.DropdownAppSetting_ControlButtonPosition.${v.name}",
+                      ),
+                      v,
+                    ),
+                  )
+                  .toList(),
             ),
             BooleanAppSetting(
               feature: Feature.readingIndicatorBoxes,
