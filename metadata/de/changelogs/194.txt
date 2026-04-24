@@ -1,0 +1,3 @@
+Diese Version bringt signifikante Performance-Verbesserungen.
+
+Außerdem wird eine neue Option für einen neuen Knopf freigegeben.
