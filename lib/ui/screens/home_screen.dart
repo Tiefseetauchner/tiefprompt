@@ -242,9 +242,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                     ),
                                     ElevatedButton(
-                                      onPressed: () => _launchUrl(
-                                        "https://www.lukechriswalker.at/projects/fe5a26d763326489020000a4",
-                                      ),
+                                      onPressed: () =>
+                                          _launchUrl(kPrivacyPolicyUrl),
                                       child: Text(
                                         context.tr(
                                           "AboutDialog.ElevatedButton_Privacy",
