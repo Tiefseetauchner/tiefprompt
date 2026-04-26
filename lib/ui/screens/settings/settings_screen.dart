@@ -34,19 +34,19 @@ class SettingsScreen extends ConsumerWidget {
             LinkAppSetting(
               displayText: context.tr("SettingsScreen.DisplaySettings"),
               feature: Feature.displaySettings,
-              value: "display",
+              value: "/settings/display",
             ),
             LinkAppSetting(
               displayText: context.tr("SettingsScreen.TextSettings"),
               feature: Feature.textSettings,
-              value: "text",
+              value: "/settings/text",
             ),
             LinkAppSetting(
               displayText: context.tr(
                 "SettingsScreen.KeybindingsSettings.Title",
               ),
               feature: Feature.keybindings,
-              value: "keybindings",
+              value: "/settings/keybindings",
             ),
             DropdownAppSetting<ThemeMode>(
               feature: Feature.appTheme,
@@ -79,7 +79,7 @@ class SettingsScreen extends ConsumerWidget {
             LinkAppSetting(
               displayText: context.tr("SettingsScreen.SettingsRestore.Title"),
               feature: Feature.settingsRestore,
-              value: "settingsrestore",
+              value: "/settings/settingsrestore",
             ),
             if (featureKind == FeatureKind.freeVersion ||
                 featureKind == FeatureKind.paidVersion)
@@ -97,6 +97,11 @@ class SettingsScreen extends ConsumerWidget {
                   );
                 },
               ),
+            LinkAppSetting(
+              displayText: context.tr("SettingsScreen.ShowHelpRequest"),
+              feature: Feature.showHelpRequest,
+              value: "/helprequest",
+            ),
             ListTile(
               hoverColor: const Color.fromARGB(255, 255, 175, 169),
               title: Text(context.tr("SettingsScreen.ListTile_Reset")),

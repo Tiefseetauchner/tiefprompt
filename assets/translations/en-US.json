@@ -64,6 +64,7 @@
       "right": "Right Side",
       "bottom": "Bottom Side"
     },
+    "ShowHelpRequest": "Show Help Request Again",
     "NumberAppSetting_ReadingIndicatorBoxes": "Height of Reading Indicator Boxes",
     "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
     "BooleanAppSetting_VerticalMarginBoxes": "Enable Vertical Margins",
@@ -194,5 +195,12 @@
     "if_empty": "No scripts saved. Save your scripts to view them here.",
     "ElevatedButton_Select": "Open file",
     "ListTile_Delete": "Delete (Be careful)"
+  },
+  "HelpRequestScreen": {
+    "Title": "Help us!",
+    "Abstract": "TL;DR: TiefPrompt is a community created and funded project. Being FOSS means everyone can contribute - but alas, there are costs to creating and publishing an app. Aside our time, the Apple tax is real. Contributing to the project really helps. I elaborate below, but check out the GitHub if you want to help out.",
+    "ElaborateExplanation": "You reading on already means you are interested in our project, so let me catch you up. TiefPrompt is a teleprompter application without ads, tracking, or any such monetary means most apps resort to. That means we're fully reliant on the purchases of TiefPrompt Pro, as well as donations.\n\nSince the developers sink a lot of time and money into providing this app (e.g. lawyers to write a privacy policy, Apple Tax, so on), we decided on two means of getting funding - one is, obviously, the In-App Purchases on iOS and Android. If you've downloaded this app from Google Play or the Apple App Store, you'll notice that some features are indeed restricted. That is a side effect of Apple requiring developers to own an Apple product - something we had to specifically acquire for this project - and a yearly payment for the privilege of creating an app.\n\nAdditionally, this app is free. You may be wondering how that is possible, as I had just explained how totally not free this app is, but if you look at the link above, this app is, indeed, fully open-source. You're allowed to use, modify, sell, or really do whatever with this app. And it's free as in beer if you download it from F-Droid or GitHub, or simply compile it yourself.\n\nThat's why we don't only have an In-App Purchase option, but also donation links. If you're using the app how it was initially envisioned - that is, freely - we ask of you that you consider donating. No hard feelings if you don't, we know the financial realities, but it's a way to support us.\n\nAside that, making an app obviously requires time. Developing, sorting issues, planning releases - all of this, while being fun, is a strain on the devs. So if you can't or don't want to donate or pay for the app, how about you contribute to the app!\n\nHow to contribute, you ask? Well, one way is simply giving feedback. Is there a feature missing? Is the app buggy? Simply tell us, and we'll make it better!\n\nAnother way to contribute is obviously to provide code. If you're able, we'd appreciate any help on getting Issues down, making new features and fixing bugs. We're all just humans, and your support would be a big help.\n\nLastly, there's translations. We provide this app in multiple languages, but there's always another language, a translation error, or simply a small typo to fix. You can find how to help making translations of this app better in the GitHub repo, and we really do appreciate any help on that front as well.\n\nAnd now, a personal note from the creator, because you just read through my prose and you deserve it: Thank you. Thank you for considering this app, downloading it, reading this, so on. I really do appreciate you all immensly. Seeing a project actually be used is validating and it makes me happy that I'm not alone here. So, one last time: Thank you.\n\nNow to the last thing, there's links below, click them to find out more.\n\nBest, Lena",
+    "ReadMore": "Read more",
+    "Continue": "Continue to the App"
   }
 }

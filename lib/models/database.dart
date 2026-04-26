@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tiefprompt/models/keybinding.dart';
+import 'package:tiefprompt/models/help_request.dart';
 import 'package:tiefprompt/models/script_model.dart';
 import 'package:tiefprompt/models/settings_preset_model.dart';
 import "database.steps.dart";
@@ -14,13 +15,14 @@ part 'database.g.dart';
     SettingsPresetModel,
     KeybindingMapModel,
     KeybindingMappingModel,
+    HelpRequestModel,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
@@ -34,11 +36,24 @@ class AppDatabase extends _$AppDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
+      onCreate: (m) async {
+        await m.createAll();
+        await into(helpRequestModel).insert(
+          HelpRequestModelCompanion.insert(helpRequestShown: false),
+        );
+      },
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
           await m.createTable(schema.settingsPresetModel);
           await m.createTable(schema.keybindingMapModel);
           await m.createTable(schema.keybindingMappingModel);
+        },
+        from2To3: (m, schema) async {
+          await m.createTable(schema.helpRequestModel);
+          await m.database.customInsert(
+            'INSERT INTO help_request_model (help_request_shown) VALUES (?)',
+            variables: [Variable.withBool(false)],
+          );
         },
       ),
     );

@@ -12,6 +12,12 @@ const double kPrompterMaxFontSize = 420.0;
 const double kPrompterMinSideMargin = 0.0;
 const double kPrompterMaxSideMargin = 99.0;
 
+const String kRepoUrl = "https://github.com/Tiefseetauchner/tiefprompt";
+const String kWeblateUrl = "https://hosted.weblate.org/projects/tiefprompt/";
+const String kPrivacyPolicyUrl =
+    "https://www.lukechriswalker.at/policies/tiefprompt-privacy";
+const String kLukeChriswalkerUrl = "https://www.lukechriswalker.at";
+
 const int kSettingsSchemaVersion = 1;
 
 const List<String> kAvailableFonts = [
@@ -62,6 +68,7 @@ enum Feature {
   markdown,
   settingsRestore,
   controlButtons,
+  showHelpRequest,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -90,6 +97,7 @@ const kAllFeatures = [
   Feature.markdown,
   Feature.settingsRestore,
   Feature.controlButtons,
+  Feature.showHelpRequest,
 ];
 
 const kFreeFeatures = [
@@ -108,6 +116,7 @@ const kFreeFeatures = [
   Feature.textAlignment,
   Feature.playPause,
   Feature.controlButtons,
+  Feature.showHelpRequest,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";

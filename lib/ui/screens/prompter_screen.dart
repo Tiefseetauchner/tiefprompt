@@ -123,8 +123,6 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                 heightRatio: prompter.readingIndicatorBoxesHeight,
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(60),
               ),
-            if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
-            if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
             if ((!ref.watch(controlsVisibleProvider) ||
                     (prompter.controlButtonsPosition ==
                             ControlButtonsPosition.left ||
@@ -132,6 +130,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                             ControlButtonsPosition.right)) &&
                 prompter.showControlButtons)
               PrompterControlButtonsOverlay(),
+            if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
+            if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
             if (prompter.displayCountdown && prompter.countdownDuration > 0)
               CountdownTimer(duration: prompter.countdownDuration.toInt()),
           ],
