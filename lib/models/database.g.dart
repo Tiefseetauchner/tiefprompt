@@ -2359,6 +2359,187 @@ class KeybindingMappingModelCompanion
   }
 }
 
+class $HelpRequestModelTable extends HelpRequestModel
+    with TableInfo<$HelpRequestModelTable, HelpRequestModelData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $HelpRequestModelTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _helpRequestShownMeta = const VerificationMeta(
+    'helpRequestShown',
+  );
+  @override
+  late final GeneratedColumn<bool> helpRequestShown = GeneratedColumn<bool>(
+    'help_request_shown',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("help_request_shown" IN (0, 1))',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [helpRequestShown];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'help_request_model';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<HelpRequestModelData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('help_request_shown')) {
+      context.handle(
+        _helpRequestShownMeta,
+        helpRequestShown.isAcceptableOrUnknown(
+          data['help_request_shown']!,
+          _helpRequestShownMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_helpRequestShownMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  HelpRequestModelData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return HelpRequestModelData(
+      helpRequestShown: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}help_request_shown'],
+      )!,
+    );
+  }
+
+  @override
+  $HelpRequestModelTable createAlias(String alias) {
+    return $HelpRequestModelTable(attachedDatabase, alias);
+  }
+}
+
+class HelpRequestModelData extends DataClass
+    implements Insertable<HelpRequestModelData> {
+  final bool helpRequestShown;
+  const HelpRequestModelData({required this.helpRequestShown});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['help_request_shown'] = Variable<bool>(helpRequestShown);
+    return map;
+  }
+
+  HelpRequestModelCompanion toCompanion(bool nullToAbsent) {
+    return HelpRequestModelCompanion(helpRequestShown: Value(helpRequestShown));
+  }
+
+  factory HelpRequestModelData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return HelpRequestModelData(
+      helpRequestShown: serializer.fromJson<bool>(json['helpRequestShown']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'helpRequestShown': serializer.toJson<bool>(helpRequestShown),
+    };
+  }
+
+  HelpRequestModelData copyWith({bool? helpRequestShown}) =>
+      HelpRequestModelData(
+        helpRequestShown: helpRequestShown ?? this.helpRequestShown,
+      );
+  HelpRequestModelData copyWithCompanion(HelpRequestModelCompanion data) {
+    return HelpRequestModelData(
+      helpRequestShown: data.helpRequestShown.present
+          ? data.helpRequestShown.value
+          : this.helpRequestShown,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HelpRequestModelData(')
+          ..write('helpRequestShown: $helpRequestShown')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => helpRequestShown.hashCode;
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is HelpRequestModelData &&
+          other.helpRequestShown == this.helpRequestShown);
+}
+
+class HelpRequestModelCompanion extends UpdateCompanion<HelpRequestModelData> {
+  final Value<bool> helpRequestShown;
+  final Value<int> rowid;
+  const HelpRequestModelCompanion({
+    this.helpRequestShown = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  HelpRequestModelCompanion.insert({
+    required bool helpRequestShown,
+    this.rowid = const Value.absent(),
+  }) : helpRequestShown = Value(helpRequestShown);
+  static Insertable<HelpRequestModelData> custom({
+    Expression<bool>? helpRequestShown,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (helpRequestShown != null) 'help_request_shown': helpRequestShown,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  HelpRequestModelCompanion copyWith({
+    Value<bool>? helpRequestShown,
+    Value<int>? rowid,
+  }) {
+    return HelpRequestModelCompanion(
+      helpRequestShown: helpRequestShown ?? this.helpRequestShown,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (helpRequestShown.present) {
+      map['help_request_shown'] = Variable<bool>(helpRequestShown.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HelpRequestModelCompanion(')
+          ..write('helpRequestShown: $helpRequestShown, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2369,6 +2550,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $SettingsPresetModelTable(this);
   late final $KeybindingMappingModelTable keybindingMappingModel =
       $KeybindingMappingModelTable(this);
+  late final $HelpRequestModelTable helpRequestModel = $HelpRequestModelTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2378,6 +2562,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     keybindingMapModel,
     settingsPresetModel,
     keybindingMappingModel,
+    helpRequestModel,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -4035,6 +4220,142 @@ typedef $$KeybindingMappingModelTableProcessedTableManager =
       KeybindingMappingModelData,
       PrefetchHooks Function({bool mapId})
     >;
+typedef $$HelpRequestModelTableCreateCompanionBuilder =
+    HelpRequestModelCompanion Function({
+      required bool helpRequestShown,
+      Value<int> rowid,
+    });
+typedef $$HelpRequestModelTableUpdateCompanionBuilder =
+    HelpRequestModelCompanion Function({
+      Value<bool> helpRequestShown,
+      Value<int> rowid,
+    });
+
+class $$HelpRequestModelTableFilterComposer
+    extends Composer<_$AppDatabase, $HelpRequestModelTable> {
+  $$HelpRequestModelTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<bool> get helpRequestShown => $composableBuilder(
+    column: $table.helpRequestShown,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$HelpRequestModelTableOrderingComposer
+    extends Composer<_$AppDatabase, $HelpRequestModelTable> {
+  $$HelpRequestModelTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<bool> get helpRequestShown => $composableBuilder(
+    column: $table.helpRequestShown,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$HelpRequestModelTableAnnotationComposer
+    extends Composer<_$AppDatabase, $HelpRequestModelTable> {
+  $$HelpRequestModelTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<bool> get helpRequestShown => $composableBuilder(
+    column: $table.helpRequestShown,
+    builder: (column) => column,
+  );
+}
+
+class $$HelpRequestModelTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $HelpRequestModelTable,
+          HelpRequestModelData,
+          $$HelpRequestModelTableFilterComposer,
+          $$HelpRequestModelTableOrderingComposer,
+          $$HelpRequestModelTableAnnotationComposer,
+          $$HelpRequestModelTableCreateCompanionBuilder,
+          $$HelpRequestModelTableUpdateCompanionBuilder,
+          (
+            HelpRequestModelData,
+            BaseReferences<
+              _$AppDatabase,
+              $HelpRequestModelTable,
+              HelpRequestModelData
+            >,
+          ),
+          HelpRequestModelData,
+          PrefetchHooks Function()
+        > {
+  $$HelpRequestModelTableTableManager(
+    _$AppDatabase db,
+    $HelpRequestModelTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$HelpRequestModelTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$HelpRequestModelTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$HelpRequestModelTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<bool> helpRequestShown = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => HelpRequestModelCompanion(
+                helpRequestShown: helpRequestShown,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required bool helpRequestShown,
+                Value<int> rowid = const Value.absent(),
+              }) => HelpRequestModelCompanion.insert(
+                helpRequestShown: helpRequestShown,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$HelpRequestModelTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $HelpRequestModelTable,
+      HelpRequestModelData,
+      $$HelpRequestModelTableFilterComposer,
+      $$HelpRequestModelTableOrderingComposer,
+      $$HelpRequestModelTableAnnotationComposer,
+      $$HelpRequestModelTableCreateCompanionBuilder,
+      $$HelpRequestModelTableUpdateCompanionBuilder,
+      (
+        HelpRequestModelData,
+        BaseReferences<
+          _$AppDatabase,
+          $HelpRequestModelTable,
+          HelpRequestModelData
+        >,
+      ),
+      HelpRequestModelData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -4050,4 +4371,6 @@ class $AppDatabaseManager {
         _db,
         _db.keybindingMappingModel,
       );
+  $$HelpRequestModelTableTableManager get helpRequestModel =>
+      $$HelpRequestModelTableTableManager(_db, _db.helpRequestModel);
 }

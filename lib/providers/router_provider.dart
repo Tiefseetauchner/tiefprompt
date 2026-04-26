@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/ui/screens/help_request_screen.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
@@ -20,10 +21,7 @@ class TiefPromptRouter extends _$TiefPromptRouter {
     return GoRouter(
       initialLocation: '/',
       routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const HomeScreen(),
-        ),
+        GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
         GoRoute(
           path: '/teleprompter',
           builder: (context, state) {
@@ -59,10 +57,13 @@ class TiefPromptRouter extends _$TiefPromptRouter {
             ),
             GoRoute(
               path: 'settingsrestore',
-              builder: (context, state) =>
-                  const SettingsRestoreSetingsScreen(),
+              builder: (context, state) => const SettingsRestoreSetingsScreen(),
             ),
           ],
+        ),
+        GoRoute(
+          path: '/helprequest',
+          builder: (context, state) => const HelpRequestScreen(),
         ),
       ],
     );

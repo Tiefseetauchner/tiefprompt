@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
@@ -56,6 +57,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _shouldShowHelpRequest().then((v) {
+      if (v && context.mounted) {
+        context.push("/helprequest");
+      }
+    });
+
     LicenseRegistry.addLicense(() async* {
       final openDyslexicLicense = await rootBundle.loadString(
         'assets/licenses/openDyslexicLicense.txt',
@@ -207,9 +214,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       IconButton(
                         icon: Icon(Icons.code),
-                        onPressed: () => _launchUrl(
-                          "https://github.com/tiefseetauchner/tiefprompt",
-                        ),
+                        onPressed: () => _launchUrl(kRepoUrl),
                         tooltip: context.tr("HomeScreen.IconButton_SourceCode"),
                       ),
                       FutureBuilder(
@@ -262,6 +267,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> _shouldShowHelpRequest() async {
+    final helpRequestInfo = await ref
+        .watch(databaseManagersProvider)
+        .helpRequestModel
+        .getSingle();
+
+    return !helpRequestInfo.helpRequestShown;
   }
 
   Future<void> _launchUrl(String uri) async {
@@ -333,12 +347,8 @@ class _BuildVersionNote extends ConsumerWidget {
                             child: Text("Buy the Pro Version"),
                           ),
                         ElevatedButton(
-                          onPressed: () => _launchUrl(
-                            "https://github.com/Tiefseetauchner/tiefprompt",
-                          ),
-                          child: Text(
-                            "https://github.com/Tiefseetauchner/tiefprompt",
-                          ),
+                          onPressed: () => _launchUrl(kRepoUrl),
+                          child: Text(kRepoUrl),
                         ),
                       ],
                     ),

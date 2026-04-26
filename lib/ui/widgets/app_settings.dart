@@ -151,10 +151,7 @@ class LinkAppSetting extends AppSetting {
 
   @override
   Widget buildSetting(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(displayText),
-      onTap: () => context.push("/settings/$value"),
-    );
+    return ListTile(title: Text(displayText), onTap: () => context.push(value));
   }
 }
 
