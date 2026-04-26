@@ -70,6 +70,14 @@
         "ColorAppSetting_AppPrimaryColor": "Applikationsprimärfarbe",
         "ColorAppSetting_PrompterBackgroundColor": "Prompter Hintergrundfarbe",
         "ColorAppSetting_PrompterTextColor": "Prompter Textfarbe",
+        "BooleanAppSetting_ControlButtons": "Steuerungsknöpfe einschalten",
+        "DropdownAppSetting_ControlButtonPosition": {
+            "Label": "Position der Steuerungsknöpfe",
+            "left": "Linke Seite",
+            "top": "Oberseite",
+            "right": "Rechte Seite",
+            "bottom": "Unterseite"
+        },
         "DisplaySettings": "Anzeigeeinstellungen",
         "TextSettings": "Schrifteinstellungen",
         "ListTile_Reset": "Reset settings",
