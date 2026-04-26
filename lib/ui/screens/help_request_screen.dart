@@ -12,7 +12,6 @@ class HelpRequestScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      // appBar: AppBar(title: Text(context.tr("HelpRequestScreen.Title"))),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(35, 35, 35, 100),
         child: Column(

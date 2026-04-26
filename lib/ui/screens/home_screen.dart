@@ -28,6 +28,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    _checkHelpRequest();
+  }
+
+  Future<void> _checkHelpRequest() async {
+    final helpRequestInfo = await ref
+        .read(databaseManagersProvider)
+        .helpRequestModel
+        .getSingle();
+    if (!helpRequestInfo.helpRequestShown && mounted) {
+      context.push("/helprequest");
+    }
   }
 
   @override
@@ -57,12 +68,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _shouldShowHelpRequest().then((v) {
-      if (v && context.mounted) {
-        context.push("/helprequest");
-      }
-    });
-
     LicenseRegistry.addLicense(() async* {
       final openDyslexicLicense = await rootBundle.loadString(
         'assets/licenses/openDyslexicLicense.txt',
@@ -266,15 +271,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ),
     );
-  }
-
-  Future<bool> _shouldShowHelpRequest() async {
-    final helpRequestInfo = await ref
-        .watch(databaseManagersProvider)
-        .helpRequestModel
-        .getSingle();
-
-    return !helpRequestInfo.helpRequestShown;
   }
 
   Future<void> _launchUrl(String uri) async {
