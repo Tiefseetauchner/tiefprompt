@@ -130,22 +130,39 @@ sign_macos() {
   fi
 
   app_name=$(get_first_app "$1")
-  
+
   xattr -rc "$app_name"
 
-  verbose_echo "${CYAN}Cleaning up embedded frameworks...${RESET}"
-  find "$app_name/Contents/Frameworks" -type d -name "*.framework" | while read -r framework; do
-    for file in "$framework"/*; do
-      fname=$(basename "$file")
-      if [[ "$fname" != "Versions" && "$fname" != *.framework ]]; then
-        verbose_echo "Removing unexpected file from $framework: $fname"
-        rm -rf "$file"
-      fi
-    done
+  if [ -n "$MACOS_PROVISIONING_PROFILE" ]; then
+    verbose_echo "${CYAN}Embedding provisioning profile...${RESET}"
+    cp "$MACOS_PROVISIONING_PROFILE" "$app_name/Contents/embedded.provisionprofile" \
+      > >(verbose_echo_stdin "cp provisionprofile") \
+      2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
+    # Remove quarantine from the copy — source file may have been downloaded
+    xattr -d com.apple.quarantine "$app_name/Contents/embedded.provisionprofile" 2>/dev/null || true
+  fi
+
+  verbose_echo "${CYAN}Fixing framework symlinks...${RESET}"
+  find "$app_name/Contents/Frameworks" -maxdepth 1 -type d -name "*.framework" | while read -r framework; do
+    name=$(basename "$framework" .framework)
+    if [ -d "$framework/Versions/A" ]; then
+      # Versions/Current -> A (Flutter build leaves this as a broken placeholder)
+      rm -f "$framework/Versions/Current"
+      ln -s A "$framework/Versions/Current"
+    fi
+    # Top-level binary symlink: <name> -> Versions/Current/<name>
+    if [ -e "$framework/Versions/A/$name" ]; then
+      rm -f "$framework/$name"
+      ln -s "Versions/Current/$name" "$framework/$name"
+    fi
+    # Top-level Resources symlink: Resources -> Versions/Current/Resources
+    if [ -d "$framework/Versions/A/Resources" ]; then
+      rm -f "$framework/Resources"
+      ln -s "Versions/Current/Resources" "$framework/Resources"
+    fi
   done
 
-  verbose_echo "${CYAN}Signing macOS app and nested binaries...${RESET}"
-
+  verbose_echo "${CYAN}Signing nested binaries...${RESET}"
   while IFS= read -r bin; do
     verbose_echo "${CYAN}Signing nested binary: $bin${RESET}"
     codesign --force --verify --verbose --timestamp \
@@ -154,20 +171,29 @@ sign_macos() {
       2> >(normal_echo_stderr "${RED}codesign (nested error)")
   done < <(find "$app_name/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "*.so" -o -perm -111 \))
 
-
-  main_exec="$app_name/Contents/MacOS/$(basename "$app_name" .app)"
-  if [ -f "$main_exec" ]; then
-    verbose_echo "${CYAN}Signing main executable: $main_exec with entitlements${RESET}"
+  verbose_echo "${CYAN}Signing framework bundles...${RESET}"
+  while IFS= read -r framework; do
+    verbose_echo "${CYAN}Signing framework: $framework${RESET}"
     codesign --force --verify --verbose --timestamp \
-      --entitlements macos/Runner/Release.entitlements \
-      --sign "$MACOS_CODE_SIGN_KEY" "$main_exec" \
-      > >(verbose_echo_stdin "codesign (main exec)") \
-      2> >(normal_echo_stderr "${RED}codesign (main exec error)")
+      --sign "$MACOS_CODE_SIGN_KEY" "$framework" \
+      > >(verbose_echo_stdin "codesign (framework)") \
+      2> >(normal_echo_stderr "${RED}codesign (framework error)")
+  done < <(find "$app_name/Contents/Frameworks" -maxdepth 1 -type d -name "*.framework")
+
+  if [ -n "$MACOS_PROVISIONING_PROFILE" ]; then
+    entitlements_plist="$(dirname "$app_name")/entitlements.plist"
+    security cms -D -i "$MACOS_PROVISIONING_PROFILE" 2>/dev/null |
+      plutil -extract Entitlements xml1 -o "$entitlements_plist" -
+    # Profiles for Mac App Store often omit app-sandbox — force it on
+    /usr/libexec/PlistBuddy -c "Add :com.apple.security.app-sandbox bool true" "$entitlements_plist" 2>/dev/null || \
+      /usr/libexec/PlistBuddy -c "Set :com.apple.security.app-sandbox true" "$entitlements_plist"
+    verbose_echo "${CYAN}Using entitlements from provisioning profile (sandbox enforced)${RESET}"
   else
-    error_echo "Main executable not found at $main_exec" 1
+    entitlements_plist="macos/Runner/Release.entitlements"
   fi
 
-  codesign --force --verify --verbose --timestamp --options runtime --preserve-metadata=identifier,requirements,flags,runtime \
+  codesign --force --verify --verbose --timestamp --options runtime \
+    --entitlements "$entitlements_plist" \
     --sign "$MACOS_CODE_SIGN_KEY" "$app_name" \
     > >(verbose_echo_stdin "codesign (main app)") \
     2> >(normal_echo_stderr "${RED}codesign (main app error)")
@@ -576,10 +602,10 @@ for freedom in $FREEDOM_LIST; do
     target_results=$scratch_dir/$(basename "$target_results")
     more_verbose_echo "${CYAN}Scratch dir ready.${RESET}"
 
-    # if [ "$target" = "macos" ] || [ "$target" = "macospkg" ]; then
-    #   sign_macos "$target_results"
-    # fi
-    
+    if [ "$target" = "macos" ] || [ "$target" = "macospkg" ]; then
+      sign_macos "$target_results"
+    fi
+
     if [ "$target" = "iosipa" ]; then
       sign_ios "$target_results"
     fi
