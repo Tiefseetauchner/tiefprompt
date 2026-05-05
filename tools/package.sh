@@ -8,6 +8,20 @@ CONTAINER_NAME="tiefprompt_build_container"
 TARGETS="androidaab,androidapk"
 FREEDOM="foss,freemium"
 
+while getopts "f:" opt; do
+  case $opt in
+    f)
+      FREEDOM="$OPTARG"
+      ;;
+    *)
+      echo "Usage: $0 [-f <flavor>[,<flavor>,...]]" >&2
+      exit 1
+      ;;
+  esac
+done
+
+FREEDOM_LIST=$(echo "$FREEDOM" | tr ',' ' ')
+
 # Define colors
 GREEN="\e[32m"
 RED="\e[31m"
@@ -19,8 +33,9 @@ RESET="\e[0m"
 echo -e "${CYAN}Creating package directory: $PACKAGE_DIR${RESET}"
 mkdir -p "$PACKAGE_DIR"
 rm -rf "$PACKAGE_DIR"/*
-mkdir -p "$PACKAGE_DIR/foss"
-mkdir -p "$PACKAGE_DIR/freemium"
+for freedom in $FREEDOM_LIST; do
+  mkdir -p "$PACKAGE_DIR/$freedom"
+done
 chmod 777 -R $PACKAGE_DIR
 
 docker pull $DOCKER_IMAGE

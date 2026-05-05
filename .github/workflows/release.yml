@@ -198,7 +198,7 @@ jobs:
         run: chmod -R 777 .
 
       - name: package
-        run: ./tools/package.sh
+        run: ./tools/package.sh -f foss
 
       - name: copy packages
         run: |
