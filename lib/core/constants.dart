@@ -14,8 +14,7 @@ const double kPrompterMaxSideMargin = 99.0;
 
 const String kRepoUrl = "https://github.com/Tiefseetauchner/tiefprompt";
 const String kWeblateUrl = "https://hosted.weblate.org/projects/tiefprompt/";
-const String kPrivacyPolicyUrl =
-    "https://www.lukechriswalker.at/policies/tiefprompt-privacy";
+const String kPrivacyPolicyUrl = "https://tiefprompt.com/policies/privacy/en/";
 const String kLukeChriswalkerUrl = "https://www.lukechriswalker.at";
 
 const int kSettingsSchemaVersion = 1;
