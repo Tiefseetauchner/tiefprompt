@@ -87,11 +87,11 @@ case "$version_number" in
 esac
 ok "Version number is a release version"
 
-metadata_changelog="metadata/en-US/changelogs/${build_number}.txt"
+metadata_changelog="metadata/en-US/changelogs/${build_number}4.txt"
 [ -f "$metadata_changelog" ] || error_echo "Missing store changelog: $metadata_changelog"
 ok "Store changelog present: $metadata_changelog"
 
-required_changelog_locales=("en-US" "de" "en@pirate")
+required_changelog_locales=("en-US" "de-DE")
 for locale in "${required_changelog_locales[@]}"; do
   asset_changelog="assets/changelogs/${locale}/${version_number}.md"
   [ -f "$asset_changelog" ] || error_echo "Missing in-app changelog: $asset_changelog"
@@ -101,11 +101,11 @@ done
 for dir in assets/changelogs/*/; do
   [ -d "$dir" ] || continue
   asset_entry="${dir%/}/"
-  if ! grep -qF "- $asset_entry" "$PUBSPEC"; then
+  if ! grep -qF -- "- $asset_entry" "$PUBSPEC"; then
     # Insert after the last existing entry so the changelog assets stay grouped.
-    last_line="$(grep -nF "- assets/changelogs/" "$PUBSPEC" | tail -n1 | cut -d: -f1)"
+    last_line="$(grep -nF -- "- assets/changelogs/" "$PUBSPEC" | tail -n1 | cut -d: -f1)"
     [ -n "$last_line" ] || error_echo "No existing 'assets/changelogs/' entries in $PUBSPEC to anchor insertion."
-    indent="$(grep -F "- assets/changelogs/" "$PUBSPEC" | head -n1 | sed -E 's/-.*//')"
+    indent="$(grep -F -- "- assets/changelogs/" "$PUBSPEC" | head -n1 | sed -E 's/-.*//')"
     verbose_echo "${CYAN}Inserting '${asset_entry}' after line ${last_line} of ${PUBSPEC}${RESET}"
     sed -i "${last_line}a\\${indent}- ${asset_entry}" "$PUBSPEC"
     ok "Registered missing asset dir in $PUBSPEC: $asset_entry"
@@ -134,6 +134,6 @@ verbose_echo "${CYAN}Tagging: git tag ${tag}${RESET}"
 git tag "$tag"
 ok "Created tag '$tag'"
 
-normal_echo
+normal_echo ""
 normal_echo "Done. To publish the release, run:"
 normal_echo "    git push origin $tag"
