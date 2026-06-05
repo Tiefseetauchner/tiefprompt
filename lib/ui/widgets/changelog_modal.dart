@@ -81,7 +81,7 @@ Future<void> showChangelogModal(BuildContext context) async {
                     title: Text(entry.version.toString()),
                     children: [
                       Align(
-                        alignment: AlignmentGeometry.centerLeft,
+                        alignment: Alignment.centerLeft,
                         child: Markdown(
                           entry.content,
                           textAlign: TextAlign.left,
@@ -96,7 +96,7 @@ Future<void> showChangelogModal(BuildContext context) async {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.pop(context),
             child: Text(context.tr("ChangelogModal.close")),
           ),
         ],
