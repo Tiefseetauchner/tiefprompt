@@ -2359,12 +2359,12 @@ class KeybindingMappingModelCompanion
   }
 }
 
-class $HelpRequestModelTable extends HelpRequestModel
-    with TableInfo<$HelpRequestModelTable, HelpRequestModelData> {
+class $AppStateModelTable extends AppStateModel
+    with TableInfo<$AppStateModelTable, AppStateModelData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $HelpRequestModelTable(this.attachedDatabase, [this._alias]);
+  $AppStateModelTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _helpRequestShownMeta = const VerificationMeta(
     'helpRequestShown',
   );
@@ -2379,16 +2379,27 @@ class $HelpRequestModelTable extends HelpRequestModel
       'CHECK ("help_request_shown" IN (0, 1))',
     ),
   );
+  static const VerificationMeta _lastSeenVersionMeta = const VerificationMeta(
+    'lastSeenVersion',
+  );
   @override
-  List<GeneratedColumn> get $columns => [helpRequestShown];
+  late final GeneratedColumn<String> lastSeenVersion = GeneratedColumn<String>(
+    'last_seen_version',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [helpRequestShown, lastSeenVersion];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'help_request_model';
+  static const String $name = 'app_state_model';
   @override
   VerificationContext validateIntegrity(
-    Insertable<HelpRequestModelData> instance, {
+    Insertable<AppStateModelData> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -2404,50 +2415,76 @@ class $HelpRequestModelTable extends HelpRequestModel
     } else if (isInserting) {
       context.missing(_helpRequestShownMeta);
     }
+    if (data.containsKey('last_seen_version')) {
+      context.handle(
+        _lastSeenVersionMeta,
+        lastSeenVersion.isAcceptableOrUnknown(
+          data['last_seen_version']!,
+          _lastSeenVersionMeta,
+        ),
+      );
+    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => const {};
   @override
-  HelpRequestModelData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  AppStateModelData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return HelpRequestModelData(
+    return AppStateModelData(
       helpRequestShown: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}help_request_shown'],
       )!,
+      lastSeenVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_seen_version'],
+      ),
     );
   }
 
   @override
-  $HelpRequestModelTable createAlias(String alias) {
-    return $HelpRequestModelTable(attachedDatabase, alias);
+  $AppStateModelTable createAlias(String alias) {
+    return $AppStateModelTable(attachedDatabase, alias);
   }
 }
 
-class HelpRequestModelData extends DataClass
-    implements Insertable<HelpRequestModelData> {
+class AppStateModelData extends DataClass
+    implements Insertable<AppStateModelData> {
   final bool helpRequestShown;
-  const HelpRequestModelData({required this.helpRequestShown});
+  final String? lastSeenVersion;
+  const AppStateModelData({
+    required this.helpRequestShown,
+    this.lastSeenVersion,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['help_request_shown'] = Variable<bool>(helpRequestShown);
+    if (!nullToAbsent || lastSeenVersion != null) {
+      map['last_seen_version'] = Variable<String>(lastSeenVersion);
+    }
     return map;
   }
 
-  HelpRequestModelCompanion toCompanion(bool nullToAbsent) {
-    return HelpRequestModelCompanion(helpRequestShown: Value(helpRequestShown));
+  AppStateModelCompanion toCompanion(bool nullToAbsent) {
+    return AppStateModelCompanion(
+      helpRequestShown: Value(helpRequestShown),
+      lastSeenVersion: lastSeenVersion == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSeenVersion),
+    );
   }
 
-  factory HelpRequestModelData.fromJson(
+  factory AppStateModelData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return HelpRequestModelData(
+    return AppStateModelData(
       helpRequestShown: serializer.fromJson<bool>(json['helpRequestShown']),
+      lastSeenVersion: serializer.fromJson<String?>(json['lastSeenVersion']),
     );
   }
   @override
@@ -2455,65 +2492,83 @@ class HelpRequestModelData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'helpRequestShown': serializer.toJson<bool>(helpRequestShown),
+      'lastSeenVersion': serializer.toJson<String?>(lastSeenVersion),
     };
   }
 
-  HelpRequestModelData copyWith({bool? helpRequestShown}) =>
-      HelpRequestModelData(
-        helpRequestShown: helpRequestShown ?? this.helpRequestShown,
-      );
-  HelpRequestModelData copyWithCompanion(HelpRequestModelCompanion data) {
-    return HelpRequestModelData(
+  AppStateModelData copyWith({
+    bool? helpRequestShown,
+    Value<String?> lastSeenVersion = const Value.absent(),
+  }) => AppStateModelData(
+    helpRequestShown: helpRequestShown ?? this.helpRequestShown,
+    lastSeenVersion: lastSeenVersion.present
+        ? lastSeenVersion.value
+        : this.lastSeenVersion,
+  );
+  AppStateModelData copyWithCompanion(AppStateModelCompanion data) {
+    return AppStateModelData(
       helpRequestShown: data.helpRequestShown.present
           ? data.helpRequestShown.value
           : this.helpRequestShown,
+      lastSeenVersion: data.lastSeenVersion.present
+          ? data.lastSeenVersion.value
+          : this.lastSeenVersion,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('HelpRequestModelData(')
-          ..write('helpRequestShown: $helpRequestShown')
+    return (StringBuffer('AppStateModelData(')
+          ..write('helpRequestShown: $helpRequestShown, ')
+          ..write('lastSeenVersion: $lastSeenVersion')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => helpRequestShown.hashCode;
+  int get hashCode => Object.hash(helpRequestShown, lastSeenVersion);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is HelpRequestModelData &&
-          other.helpRequestShown == this.helpRequestShown);
+      (other is AppStateModelData &&
+          other.helpRequestShown == this.helpRequestShown &&
+          other.lastSeenVersion == this.lastSeenVersion);
 }
 
-class HelpRequestModelCompanion extends UpdateCompanion<HelpRequestModelData> {
+class AppStateModelCompanion extends UpdateCompanion<AppStateModelData> {
   final Value<bool> helpRequestShown;
+  final Value<String?> lastSeenVersion;
   final Value<int> rowid;
-  const HelpRequestModelCompanion({
+  const AppStateModelCompanion({
     this.helpRequestShown = const Value.absent(),
+    this.lastSeenVersion = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  HelpRequestModelCompanion.insert({
+  AppStateModelCompanion.insert({
     required bool helpRequestShown,
+    this.lastSeenVersion = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : helpRequestShown = Value(helpRequestShown);
-  static Insertable<HelpRequestModelData> custom({
+  static Insertable<AppStateModelData> custom({
     Expression<bool>? helpRequestShown,
+    Expression<String>? lastSeenVersion,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (helpRequestShown != null) 'help_request_shown': helpRequestShown,
+      if (lastSeenVersion != null) 'last_seen_version': lastSeenVersion,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  HelpRequestModelCompanion copyWith({
+  AppStateModelCompanion copyWith({
     Value<bool>? helpRequestShown,
+    Value<String?>? lastSeenVersion,
     Value<int>? rowid,
   }) {
-    return HelpRequestModelCompanion(
+    return AppStateModelCompanion(
       helpRequestShown: helpRequestShown ?? this.helpRequestShown,
+      lastSeenVersion: lastSeenVersion ?? this.lastSeenVersion,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2524,6 +2579,9 @@ class HelpRequestModelCompanion extends UpdateCompanion<HelpRequestModelData> {
     if (helpRequestShown.present) {
       map['help_request_shown'] = Variable<bool>(helpRequestShown.value);
     }
+    if (lastSeenVersion.present) {
+      map['last_seen_version'] = Variable<String>(lastSeenVersion.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2532,8 +2590,9 @@ class HelpRequestModelCompanion extends UpdateCompanion<HelpRequestModelData> {
 
   @override
   String toString() {
-    return (StringBuffer('HelpRequestModelCompanion(')
+    return (StringBuffer('AppStateModelCompanion(')
           ..write('helpRequestShown: $helpRequestShown, ')
+          ..write('lastSeenVersion: $lastSeenVersion, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2550,9 +2609,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $SettingsPresetModelTable(this);
   late final $KeybindingMappingModelTable keybindingMappingModel =
       $KeybindingMappingModelTable(this);
-  late final $HelpRequestModelTable helpRequestModel = $HelpRequestModelTable(
-    this,
-  );
+  late final $AppStateModelTable appStateModel = $AppStateModelTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2562,7 +2619,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     keybindingMapModel,
     settingsPresetModel,
     keybindingMappingModel,
-    helpRequestModel,
+    appStateModel,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -4220,20 +4277,22 @@ typedef $$KeybindingMappingModelTableProcessedTableManager =
       KeybindingMappingModelData,
       PrefetchHooks Function({bool mapId})
     >;
-typedef $$HelpRequestModelTableCreateCompanionBuilder =
-    HelpRequestModelCompanion Function({
+typedef $$AppStateModelTableCreateCompanionBuilder =
+    AppStateModelCompanion Function({
       required bool helpRequestShown,
+      Value<String?> lastSeenVersion,
       Value<int> rowid,
     });
-typedef $$HelpRequestModelTableUpdateCompanionBuilder =
-    HelpRequestModelCompanion Function({
+typedef $$AppStateModelTableUpdateCompanionBuilder =
+    AppStateModelCompanion Function({
       Value<bool> helpRequestShown,
+      Value<String?> lastSeenVersion,
       Value<int> rowid,
     });
 
-class $$HelpRequestModelTableFilterComposer
-    extends Composer<_$AppDatabase, $HelpRequestModelTable> {
-  $$HelpRequestModelTableFilterComposer({
+class $$AppStateModelTableFilterComposer
+    extends Composer<_$AppDatabase, $AppStateModelTable> {
+  $$AppStateModelTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4244,11 +4303,16 @@ class $$HelpRequestModelTableFilterComposer
     column: $table.helpRequestShown,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<String> get lastSeenVersion => $composableBuilder(
+    column: $table.lastSeenVersion,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
-class $$HelpRequestModelTableOrderingComposer
-    extends Composer<_$AppDatabase, $HelpRequestModelTable> {
-  $$HelpRequestModelTableOrderingComposer({
+class $$AppStateModelTableOrderingComposer
+    extends Composer<_$AppDatabase, $AppStateModelTable> {
+  $$AppStateModelTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4259,11 +4323,16 @@ class $$HelpRequestModelTableOrderingComposer
     column: $table.helpRequestShown,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get lastSeenVersion => $composableBuilder(
+    column: $table.lastSeenVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
-class $$HelpRequestModelTableAnnotationComposer
-    extends Composer<_$AppDatabase, $HelpRequestModelTable> {
-  $$HelpRequestModelTableAnnotationComposer({
+class $$AppStateModelTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AppStateModelTable> {
+  $$AppStateModelTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4274,57 +4343,64 @@ class $$HelpRequestModelTableAnnotationComposer
     column: $table.helpRequestShown,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get lastSeenVersion => $composableBuilder(
+    column: $table.lastSeenVersion,
+    builder: (column) => column,
+  );
 }
 
-class $$HelpRequestModelTableTableManager
+class $$AppStateModelTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $HelpRequestModelTable,
-          HelpRequestModelData,
-          $$HelpRequestModelTableFilterComposer,
-          $$HelpRequestModelTableOrderingComposer,
-          $$HelpRequestModelTableAnnotationComposer,
-          $$HelpRequestModelTableCreateCompanionBuilder,
-          $$HelpRequestModelTableUpdateCompanionBuilder,
+          $AppStateModelTable,
+          AppStateModelData,
+          $$AppStateModelTableFilterComposer,
+          $$AppStateModelTableOrderingComposer,
+          $$AppStateModelTableAnnotationComposer,
+          $$AppStateModelTableCreateCompanionBuilder,
+          $$AppStateModelTableUpdateCompanionBuilder,
           (
-            HelpRequestModelData,
+            AppStateModelData,
             BaseReferences<
               _$AppDatabase,
-              $HelpRequestModelTable,
-              HelpRequestModelData
+              $AppStateModelTable,
+              AppStateModelData
             >,
           ),
-          HelpRequestModelData,
+          AppStateModelData,
           PrefetchHooks Function()
         > {
-  $$HelpRequestModelTableTableManager(
-    _$AppDatabase db,
-    $HelpRequestModelTable table,
-  ) : super(
+  $$AppStateModelTableTableManager(_$AppDatabase db, $AppStateModelTable table)
+    : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$HelpRequestModelTableFilterComposer($db: db, $table: table),
+              $$AppStateModelTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$HelpRequestModelTableOrderingComposer($db: db, $table: table),
+              $$AppStateModelTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$HelpRequestModelTableAnnotationComposer($db: db, $table: table),
+              $$AppStateModelTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<bool> helpRequestShown = const Value.absent(),
+                Value<String?> lastSeenVersion = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => HelpRequestModelCompanion(
+              }) => AppStateModelCompanion(
                 helpRequestShown: helpRequestShown,
+                lastSeenVersion: lastSeenVersion,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
                 required bool helpRequestShown,
+                Value<String?> lastSeenVersion = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => HelpRequestModelCompanion.insert(
+              }) => AppStateModelCompanion.insert(
                 helpRequestShown: helpRequestShown,
+                lastSeenVersion: lastSeenVersion,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -4335,25 +4411,21 @@ class $$HelpRequestModelTableTableManager
       );
 }
 
-typedef $$HelpRequestModelTableProcessedTableManager =
+typedef $$AppStateModelTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $HelpRequestModelTable,
-      HelpRequestModelData,
-      $$HelpRequestModelTableFilterComposer,
-      $$HelpRequestModelTableOrderingComposer,
-      $$HelpRequestModelTableAnnotationComposer,
-      $$HelpRequestModelTableCreateCompanionBuilder,
-      $$HelpRequestModelTableUpdateCompanionBuilder,
+      $AppStateModelTable,
+      AppStateModelData,
+      $$AppStateModelTableFilterComposer,
+      $$AppStateModelTableOrderingComposer,
+      $$AppStateModelTableAnnotationComposer,
+      $$AppStateModelTableCreateCompanionBuilder,
+      $$AppStateModelTableUpdateCompanionBuilder,
       (
-        HelpRequestModelData,
-        BaseReferences<
-          _$AppDatabase,
-          $HelpRequestModelTable,
-          HelpRequestModelData
-        >,
+        AppStateModelData,
+        BaseReferences<_$AppDatabase, $AppStateModelTable, AppStateModelData>,
       ),
-      HelpRequestModelData,
+      AppStateModelData,
       PrefetchHooks Function()
     >;
 
@@ -4371,6 +4443,6 @@ class $AppDatabaseManager {
         _db,
         _db.keybindingMappingModel,
       );
-  $$HelpRequestModelTableTableManager get helpRequestModel =>
-      $$HelpRequestModelTableTableManager(_db, _db.helpRequestModel);
+  $$AppStateModelTableTableManager get appStateModel =>
+      $$AppStateModelTableTableManager(_db, _db.appStateModel);
 }

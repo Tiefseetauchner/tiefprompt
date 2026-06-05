@@ -6,6 +6,7 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
+import 'package:tiefprompt/ui/widgets/changelog_modal.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -101,6 +102,10 @@ class SettingsScreen extends ConsumerWidget {
               displayText: context.tr("SettingsScreen.ShowHelpRequest"),
               feature: Feature.showHelpRequest,
               value: "/helprequest",
+            ),
+            ListTile(
+              title: Text(context.tr("SettingsScreen.ShowChangelog")),
+              onTap: () => showChangelogModal(context),
             ),
             ListTile(
               hoverColor: const Color.fromARGB(255, 255, 175, 169),

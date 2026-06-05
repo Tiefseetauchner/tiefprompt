@@ -465,7 +465,7 @@ final class Schema3 extends i0.VersionedSchema {
     keybindingMapModel,
     settingsPresetModel,
     keybindingMappingModel,
-    helpRequestModel,
+    appStateModel,
   ];
   late final Shape0 scriptModel = Shape0(
     source: i0.VersionedTable(
@@ -544,13 +544,13 @@ final class Schema3 extends i0.VersionedSchema {
     ),
     alias: null,
   );
-  late final Shape4 helpRequestModel = Shape4(
+  late final Shape4 appStateModel = Shape4(
     source: i0.VersionedTable(
-      entityName: 'help_request_model',
+      entityName: 'app_state_model',
       withoutRowId: false,
       isStrict: false,
       tableConstraints: [],
-      columns: [_column_32],
+      columns: [_column_32, _column_33],
       attachedDatabase: database,
     ),
     alias: null,
@@ -561,6 +561,8 @@ class Shape4 extends i0.VersionedTable {
   Shape4({required super.source, required super.alias}) : super.aliased();
   i1.GeneratedColumn<bool> get helpRequestShown =>
       columnsByName['help_request_shown']! as i1.GeneratedColumn<bool>;
+  i1.GeneratedColumn<String> get lastSeenVersion =>
+      columnsByName['last_seen_version']! as i1.GeneratedColumn<String>;
 }
 
 i1.GeneratedColumn<bool> _column_32(String aliasedName) =>
@@ -572,6 +574,13 @@ i1.GeneratedColumn<bool> _column_32(String aliasedName) =>
       defaultConstraints: i1.GeneratedColumn.constraintIsAlways(
         'CHECK ("help_request_shown" IN (0, 1))',
       ),
+    );
+i1.GeneratedColumn<String> _column_33(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'last_seen_version',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
     );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,

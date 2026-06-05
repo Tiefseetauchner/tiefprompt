@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' hide Column;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,11 +77,10 @@ class HelpRequestScreen extends ConsumerWidget {
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
-                ref.read(databaseManagersProvider).helpRequestModel.delete();
                 ref
                     .read(databaseManagersProvider)
-                    .helpRequestModel
-                    .create((o) => o(helpRequestShown: true));
+                    .appStateModel
+                    .update((o) => o(helpRequestShown: Value(true)));
 
                 while (context.canPop()) {
                   context.pop();
