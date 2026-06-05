@@ -17,7 +17,7 @@ Future<List<_ChangelogEntry>> _loadChangelogs(Locale locale) async {
   final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
   final allAssets = manifest.listAssets();
 
-  final localeString = locale.toString();
+  final localeString = locale.toString().split("_").join("-");
 
   List<String> paths = allAssets
       .where(
