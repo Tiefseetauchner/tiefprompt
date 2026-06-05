@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
+import 'package:tiefprompt/ui/widgets/changelog_modal.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -28,17 +31,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    _checkHelpRequest();
+    _runStartupChecks();
   }
 
-  Future<void> _checkHelpRequest() async {
-    final helpRequestInfo = await ref
+  Future<void> _runStartupChecks() async {
+    if (!mounted) return;
+
+    final appState = await ref
         .read(databaseManagersProvider)
-        .helpRequestModel
+        .appStateModel
         .getSingle();
-    if (!helpRequestInfo.helpRequestShown && mounted) {
+
+    await _checkChangelog(appState);
+    _checkHelpRequest(appState);
+  }
+
+  void _checkHelpRequest(AppStateModelData appState) {
+    if (!appState.helpRequestShown) {
       context.push("/helprequest");
     }
+  }
+
+  Future<void> _checkChangelog(AppStateModelData appState) async {
+    final appStateVersion = appState.lastSeenVersion;
+    final packageInfo = await PackageInfo.fromPlatform();
+    final currentVersion = packageInfo.version;
+
+    if (appStateVersion == currentVersion) return;
+
+    await showChangelogModal(context);
+
+    await ref
+        .read(databaseManagersProvider)
+        .appStateModel
+        .update((o) => o(lastSeenVersion: Value(currentVersion)));
   }
 
   @override

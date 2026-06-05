@@ -1,0 +1,1 @@
+Added changelog and help requests, and fixed a bug in markdown rendering.

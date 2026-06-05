@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tiefprompt/models/keybinding.dart';
-import 'package:tiefprompt/models/help_request.dart';
+import 'package:tiefprompt/models/app_state.dart';
 import 'package:tiefprompt/models/script_model.dart';
 import 'package:tiefprompt/models/settings_preset_model.dart';
 import "database.steps.dart";
@@ -15,7 +15,7 @@ part 'database.g.dart';
     SettingsPresetModel,
     KeybindingMapModel,
     KeybindingMappingModel,
-    HelpRequestModel,
+    AppStateModel,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -38,9 +38,9 @@ class AppDatabase extends _$AppDatabase {
     return MigrationStrategy(
       onCreate: (m) async {
         await m.createAll();
-        await into(helpRequestModel).insert(
-          HelpRequestModelCompanion.insert(helpRequestShown: false),
-        );
+        await into(
+          appStateModel,
+        ).insert(AppStateModelCompanion.insert(helpRequestShown: false));
       },
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
@@ -49,7 +49,7 @@ class AppDatabase extends _$AppDatabase {
           await m.createTable(schema.keybindingMappingModel);
         },
         from2To3: (m, schema) async {
-          await m.createTable(schema.helpRequestModel);
+          await m.createTable(schema.appStateModel);
           await m.database.customInsert(
             'INSERT INTO help_request_model (help_request_shown) VALUES (?)',
             variables: [Variable.withBool(false)],

@@ -8,6 +8,10 @@
     "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
     "ElevatedButton_Privacy": "Privacy Policy"
   },
+  "ChangelogModal": {
+    "title": "What's New",
+    "close": "Close"
+  },
   "HomeScreen": {
     "TextField_hintText": "Enter script text",
     "ElevatedButton_Start": "Start Teleprompter",
@@ -65,6 +69,7 @@
       "bottom": "Bottom Side"
     },
     "ShowHelpRequest": "Show Help Request Again",
+    "ShowChangelog": "Show Changelog",
     "NumberAppSetting_ReadingIndicatorBoxes": "Height of Reading Indicator Boxes",
     "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
     "BooleanAppSetting_VerticalMarginBoxes": "Enable Vertical Margins",

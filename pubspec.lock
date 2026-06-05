@@ -789,7 +789,7 @@ packages:
     source: hosted
     version: "5.0.5"
   pub_semver:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pub_semver
       sha256: "5bfcf68ca79ef689f8990d1160781b4bad40a3bd5e5218ad4076ddb7f4081585"
@@ -1044,10 +1044,11 @@ packages:
   tief_weave:
     dependency: "direct main"
     description:
-      path: "../tief_weave"
-      relative: true
-    source: path
-    version: "0.2.1-ALPHA.1"
+      name: tief_weave
+      sha256: "7851db389b2fda1bb271ef3c93da1a629330a3209831a112649dd7411439bb77"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   timing:
     dependency: transitive
     description:
