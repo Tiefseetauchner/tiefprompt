@@ -1,0 +1,1 @@
+In dieser Version wurde ein Changelog und Unterstützungsaufruf hinzugefügt, sowie ein Markdown-Rendering Fehler behoben.
