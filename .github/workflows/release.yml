@@ -12,60 +12,60 @@ permissions:
   contents: write
 
 jobs:
-  build-linux:
-    name: Build for Linux
-    runs-on: ubuntu-latest
+  # build-linux:
+  #   name: Build for Linux
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-        with:
-          path: app
-          submodules: recursive
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v6
+  #       with:
+  #         path: app
+  #         submodules: recursive
+  #         fetch-depth: 0
 
-      - name: Build Linux App
-        run: |
-          sudo apt-get update
-          sudo apt-get install \
-            clang cmake git \
-            ninja-build pkg-config \
-            libgtk-3-dev liblzma-dev \
-            libstdc++-12-dev
-          mkdir ../artifacts/
-          ./tools/build.sh -t linux -f foss -b ../artifacts/ -V
-        working-directory: app
+  #     - name: Build Linux App
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install \
+  #           clang cmake git \
+  #           ninja-build pkg-config \
+  #           libgtk-3-dev liblzma-dev \
+  #           libstdc++-12-dev
+  #         mkdir ../artifacts/
+  #         ./tools/build.sh -t linux -f foss -b ../artifacts/ -V
+  #       working-directory: app
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: tiefprompt-${{ runner.os }}
-          path: artifacts/*
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: tiefprompt-${{ runner.os }}
+  #         path: artifacts/*
 
-  build-windows:
-    name: Build for Windows
-    runs-on: windows-latest
+  # build-windows:
+  #   name: Build for Windows
+  #   runs-on: windows-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-        with:
-          path: app
-          submodules: recursive
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v6
+  #       with:
+  #         path: app
+  #         submodules: recursive
+  #         fetch-depth: 0
 
-      - name: Build Windows App
-        shell: bash
-        run: |
-          mkdir ../artifacts/
-          ./tools/build.sh -t windows,windowsmsix -f foss -b ../artifacts/ -V
-        working-directory: app
+  #     - name: Build Windows App
+  #       shell: bash
+  #       run: |
+  #         mkdir ../artifacts/
+  #         ./tools/build.sh -t windows,windowsmsix -f foss -b ../artifacts/ -V
+  #       working-directory: app
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: tiefprompt-${{ runner.os }}
-          path: artifacts/*
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: tiefprompt-${{ runner.os }}
+  #         path: artifacts/*
 
   build-apple:
     name: Build for macOS and iOS
@@ -171,126 +171,126 @@ jobs:
           name: tiefprompt-${{ runner.os }}
           path: artifacts/*
 
-  build-android:
-    name: Build for Android
-    runs-on: ubuntu-latest
+  # build-android:
+  #   name: Build for Android
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-        with:
-          submodules: recursive
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v6
+  #       with:
+  #         submodules: recursive
+  #         fetch-depth: 0
 
-      - name: Decode Keystore
-        run: |
-          mkdir -p keys
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keys/release.keystore
+  #     - name: Decode Keystore
+  #       run: |
+  #         mkdir -p keys
+  #         echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keys/release.keystore
 
-      - name: Create key.properties
-        run: |
-          cat <<EOF > android/key.properties
-          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
-          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
-          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
-          storeFile=/keys/release.keystore
-          EOF
+  #     - name: Create key.properties
+  #       run: |
+  #         cat <<EOF > android/key.properties
+  #         storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+  #         keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+  #         keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+  #         storeFile=/keys/release.keystore
+  #         EOF
 
-      - name: Repo Permissions
-        run: chmod -R 777 .
+  #     - name: Repo Permissions
+  #       run: chmod -R 777 .
 
-      - name: package
-        run: ./tools/package.sh -f foss
+  #     - name: package
+  #       run: ./tools/package.sh -f foss
 
-      - name: copy packages
-        run: |
-          mkdir -p artifacts/
-          cp -r package/* artifacts/
+  #     - name: copy packages
+  #       run: |
+  #         mkdir -p artifacts/
+  #         cp -r package/* artifacts/
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: tiefprompt-android
-          path: artifacts/*
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: tiefprompt-android
+  #         path: artifacts/*
 
-  nightly-release:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    needs: [build-linux, build-windows, build-android]
+  # nightly-release:
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   needs: [build-linux, build-windows, build-android]
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v6
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Move / create the nightly tag
-        env:
-          GIT_AUTHOR_NAME: github-actions
-          GIT_AUTHOR_EMAIL: github-actions@github.com
-          GIT_COMMITTER_NAME: github-actions
-          GIT_COMMITTER_EMAIL: github-actions@github.com
-        run: |
-          git tag -fa nightly ${{ github.sha }} -m "nightly $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          git push -f origin refs/tags/nightly
+  #     - name: Move / create the nightly tag
+  #       env:
+  #         GIT_AUTHOR_NAME: github-actions
+  #         GIT_AUTHOR_EMAIL: github-actions@github.com
+  #         GIT_COMMITTER_NAME: github-actions
+  #         GIT_COMMITTER_EMAIL: github-actions@github.com
+  #       run: |
+  #         git tag -fa nightly ${{ github.sha }} -m "nightly $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+  #         git push -f origin refs/tags/nightly
 
-      - name: Download artifact
-        id: download-artifact
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts/
-          merge-multiple: true
+  #     - name: Download artifact
+  #       id: download-artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         path: artifacts/
+  #         merge-multiple: true
 
-      - name: Update Nightly GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: nightly
-          name: Nightly
-          body: "Latest build from main branch."
-          prerelease: true
-          draft: false
-          generate_release_notes: false
-          files: artifacts/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
+  #     - name: Update Nightly GitHub Release
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         tag_name: nightly
+  #         name: Nightly
+  #         body: "Latest build from main branch."
+  #         prerelease: true
+  #         draft: false
+  #         generate_release_notes: false
+  #         files: artifacts/*
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
 
-  version-release:
-    if: startswith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    needs: [build-linux, build-windows, build-android]
+  # version-release:
+  #   if: startswith(github.ref, 'refs/tags/v')
+  #   runs-on: ubuntu-latest
+  #   needs: [build-linux, build-windows, build-android]
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v6
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Download artifact
-        id: download-artifact
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts/
-          merge-multiple: true
+  #     - name: Download artifact
+  #       id: download-artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         path: artifacts/
+  #         merge-multiple: true
 
-      - name: Determine Pre-release Status
-        id: prerelease_check
-        run: |
-          TAG_NAME="${{ github.ref_name }}"
-          if [[ "$TAG_NAME" =~ ^v0\.|- ]]; then
-            echo "prerelease=true" >> $GITHUB_ENV
-          else
-            echo "prerelease=false" >> $GITHUB_ENV
-          fi
+  #     - name: Determine Pre-release Status
+  #       id: prerelease_check
+  #       run: |
+  #         TAG_NAME="${{ github.ref_name }}"
+  #         if [[ "$TAG_NAME" =~ ^v0\.|- ]]; then
+  #           echo "prerelease=true" >> $GITHUB_ENV
+  #         else
+  #           echo "prerelease=false" >> $GITHUB_ENV
+  #         fi
 
-      - name: Publish Versioned GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          body: "Stable release for ${{ github.ref_name }}."
-          prerelease: ${{ env.prerelease }}
-          draft: true
-          generate_release_notes: true
-          files: artifacts/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
+  #     - name: Publish Versioned GitHub Release
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         tag_name: ${{ github.ref_name }}
+  #         name: Release ${{ github.ref_name }}
+  #         body: "Stable release for ${{ github.ref_name }}."
+  #         prerelease: ${{ env.prerelease }}
+  #         draft: true
+  #         generate_release_notes: true
+  #         files: artifacts/*
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
