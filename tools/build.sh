@@ -101,7 +101,7 @@ build_flutter() {
   normal_echo "${GREEN}Building for target $1 and freedom $2...${RESET}"
   shift 2
   flutter_args=("$@")
-  .flutter/bin/flutter build "${flutter_args[@]}" \
+  env "${extra_env[@]}" .flutter/bin/flutter build "${flutter_args[@]}" \
     > >(verbose_echo_stdin "flutter") \
     2> >(normal_echo_stderr "${RED}flutter (error)")
   return $?
@@ -516,7 +516,7 @@ for freedom in $FREEDOM_LIST; do
     fi
 
     target_options=()
-    extra_args=()
+    extra_env=()
     should_compress=
     compress_path=
     case $target in
@@ -549,12 +549,12 @@ for freedom in $FREEDOM_LIST; do
         target_results="build/macos/Build/Products/$configuration_upper"
         should_compress=YES
         compress_path="macos.zip"
-        extra_args=("--" "CODE_SIGNING_REQUIRED=NO" "CODE_SIGN_IDENTITY=")
+        extra_env=("FLUTTER_XCODE_CODE_SIGNING_REQUIRED=NO" "FLUTTER_XCODE_CODE_SIGN_IDENTITY=" "FLUTTER_XCODE_CODE_SIGNING_ALLOWED=NO")
         ;;
       macospkg)
         target_options=(macos)
         target_results="build/macos/Build/Products/$configuration_upper"
-        extra_args=("--" "CODE_SIGNING_REQUIRED=NO" "CODE_SIGN_IDENTITY=")
+        extra_env=("FLUTTER_XCODE_CODE_SIGNING_REQUIRED=NO" "FLUTTER_XCODE_CODE_SIGN_IDENTITY=" "FLUTTER_XCODE_CODE_SIGNING_ALLOWED=NO")
         ;;
       iosipa)
         target_options=(ios --no-codesign)
@@ -590,7 +590,7 @@ for freedom in $FREEDOM_LIST; do
 
     if [ ! "$target" = "windowsmsix" ]; then
       flutter_status=0
-      build_flutter "$target" "$freedom" "${target_options[@]}" "${extra_args[@]}" || flutter_status=$?
+      build_flutter "$target" "$freedom" "${target_options[@]}" || flutter_status=$?
       if [ $flutter_status -ne 0 ]; then
         error_echo "Flutter exited with status code ${flutter_status}." "$flutter_status"
         continue
