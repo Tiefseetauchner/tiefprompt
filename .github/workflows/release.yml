@@ -101,6 +101,7 @@ jobs:
           security import keys/devid-app.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/codesign
           security import keys/devid-installer.p12 -k "$KEYCHAIN" -P "$MACOS_DEVID_CERT_PASSWORD" -T /usr/bin/productbuild
           security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security list-keychains -d user -s "$KEYCHAIN" ~/Library/Keychains/login.keychain-db
         env:
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
           MACOS_APPSTORE_APP_CERT_P12_BASE64: ${{ secrets.MACOS_APPSTORE_APP_CERT_P12_BASE64 }}
