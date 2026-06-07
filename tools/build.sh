@@ -516,6 +516,7 @@ for freedom in $FREEDOM_LIST; do
     fi
 
     target_options=()
+    extra_args=()
     should_compress=
     compress_path=
     case $target in
@@ -548,10 +549,12 @@ for freedom in $FREEDOM_LIST; do
         target_results="build/macos/Build/Products/$configuration_upper"
         should_compress=YES
         compress_path="macos.zip"
+        extra_args=("--" "CODE_SIGNING_REQUIRED=NO" "CODE_SIGN_IDENTITY=")
         ;;
       macospkg)
         target_options=(macos)
         target_results="build/macos/Build/Products/$configuration_upper"
+        extra_args=("--" "CODE_SIGNING_REQUIRED=NO" "CODE_SIGN_IDENTITY=")
         ;;
       iosipa)
         target_options=(ios --no-codesign)
@@ -587,7 +590,7 @@ for freedom in $FREEDOM_LIST; do
 
     if [ ! "$target" = "windowsmsix" ]; then
       flutter_status=0
-      build_flutter "$target" "$freedom" "${target_options[@]}" || flutter_status=$?
+      build_flutter "$target" "$freedom" "${target_options[@]}" "${extra_args[@]}" || flutter_status=$?
       if [ $flutter_status -ne 0 ]; then
         error_echo "Flutter exited with status code ${flutter_status}." "$flutter_status"
         continue
