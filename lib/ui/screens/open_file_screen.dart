@@ -90,11 +90,15 @@ class OpenFileScreen extends ConsumerWidget {
                           final scriptProviderNotifier = ref.read(
                             scriptProvider.notifier,
                           );
+                          scriptProviderNotifier.setId(loadedScript.id);
                           scriptProviderNotifier.setText(
-                            (loadedScript.scriptText),
+                            loadedScript.scriptText,
                           );
                           scriptProviderNotifier.setTitle(loadedScript.title);
                           scriptProviderNotifier.setIsSaved(true);
+                          scriptProviderNotifier.setEphemeral(
+                            loadedScript.ephemeral,
+                          );
 
                           context.pop();
                         },

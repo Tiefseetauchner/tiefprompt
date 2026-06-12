@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/debouncer.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
@@ -26,6 +27,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late TextEditingController _scriptTextController;
   late TextEditingController _scriptTitleController;
+  late final Debouncer _scriptChangeDebouncer;
   ProviderSubscription? _scriptListener;
 
   @override
@@ -33,6 +35,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     _scriptTextController = TextEditingController();
     _scriptTitleController = TextEditingController();
+    _scriptChangeDebouncer = Debouncer(delay: Duration(milliseconds: 500));
     _runStartupChecks();
   }
 
@@ -98,6 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _scriptListener?.close();
     _scriptTextController.dispose();
     _scriptTitleController.dispose();
+    _scriptChangeDebouncer.dispose();
     super.dispose();
   }
 
@@ -136,7 +140,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 children: [
                   Text(
                     context.tr("HomeScreen.TitleField_heading"),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   TextField(
                     keyboardType: TextInputType.text,
@@ -148,12 +152,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onChanged: (value) {
                       ref.read(scriptProvider.notifier).setTitle(value);
                       ref.read(scriptProvider.notifier).setIsSaved(false);
+                      if (ref.read(scriptProvider).ephemeral) {
+                        _scriptChangeDebouncer.run(() async {
+                          final script = ref.read(scriptProvider);
+                          await ref
+                              .read(scriptServiceProvider.notifier)
+                              .saveEphemeral(script);
+                        });
+                      }
                     },
                   ),
                   Text(
                     context.tr("HomeScreen.TextField_heading") +
                         (ref.watch(scriptProvider).isSaved ? "" : " *"),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   TextField(
                     keyboardType: TextInputType.multiline,
@@ -166,6 +178,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onChanged: (value) {
                       ref.read(scriptProvider.notifier).setText(value);
                       ref.read(scriptProvider.notifier).setIsSaved(false);
+                      if (ref.read(scriptProvider).ephemeral) {
+                        _scriptChangeDebouncer.run(() async {
+                          final script = ref.read(scriptProvider);
+                          await ref
+                              .read(scriptServiceProvider.notifier)
+                              .saveEphemeral(script);
+                        });
+                      }
                     },
                   ),
                   const SizedBox(height: 16),
@@ -187,65 +207,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          context.push('/open_file');
+                          if (ref.read(scriptProvider).isSaved) {
+                            context.push('/open_file');
+                          } else {
+                            _showDiscardConfirmDialog(
+                              () => context.push('/open_file'),
+                            );
+                          }
                         },
                         child: Text(
                           context.tr("HomeScreen.ElevatedButton_Select"),
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (dialogContext) => SafeArea(
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                  16.0,
-                                  16.0,
-                                  16.0,
-                                  MediaQuery.of(context).viewInsets.bottom +
-                                      16.0,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      context.tr(
-                                        "HomeScreen.BottomSheet.Text_Title",
-                                      ),
-                                    ),
-                                    TextField(
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        hintText: context.tr(
-                                          "HomeScreen.BottomSheet.TextField_hintText",
-                                        ),
-                                      ),
-                                      onChanged: (value) => ref
-                                          .read(scriptProvider.notifier)
-                                          .setTitle(value),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        ref
-                                            .read(
-                                              scriptServiceProvider.notifier,
-                                            )
-                                            .save(ref.watch(scriptProvider));
-                                        dialogContext.pop();
-                                      },
-                                      child: Text(
-                                        context.tr(
-                                          "HomeScreen.BottomSheet.ElevatedButton_Save",
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                        onPressed: () async {
+                          final scriptService = ref.read(
+                            scriptServiceProvider.notifier,
                           );
+                          final currentScript = ref.read(scriptProvider);
+                          ref.read(scriptProvider.notifier).setEphemeral(false);
+                          final scriptId = await scriptService.save(
+                            currentScript,
+                          );
+                          scriptService.createEphemeral();
+                          ref.read(scriptProvider.notifier).setIsSaved(true);
+                          ref.read(scriptProvider.notifier).setId(scriptId);
                         },
                         child: Text(
                           context.tr('HomeScreen.ElevatedButton_Save'),
@@ -334,6 +320,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  void _showDiscardConfirmDialog(Function() confirmAction) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.tr("HomeScreen.DiscardConfirmDialog.Title")),
+        content: Text(context.tr("HomeScreen.DiscardConfirmDialog.Body")),
+        actions: [
+          ElevatedButton(
+            onPressed: () => context.pop(),
+            child: Text(context.tr("HomeScreen.DiscardConfirmDialog.Cancel")),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+            ),
+            onPressed: () {
+              context.pop();
+              confirmAction();
+            },
+            child: Text(context.tr("HomeScreen.DiscardConfirmDialog.Confirm")),
+          ),
+        ],
+      ),
+    );
   }
 }
 

@@ -1,8 +1,10 @@
+import 'package:drift/drift.dart' hide Column;
 import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
@@ -10,6 +12,7 @@ import 'package:tiefprompt/providers/router_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/banner_listener.dart';
 
 class TeleprompterApp extends ConsumerStatefulWidget {
@@ -34,19 +37,30 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
           .watch(featuresProvider)
           .features
           .contains(Feature.ephemeralScript)) {
-        final ephemeralScript = await ref
+        final ephemeralScriptsFilter = ref
             .read(databaseManagersProvider)
             .scriptModel
-            .filter((f) => f.ephemeral.equals(true))
-            .getSingle();
+            .filter((f) => f.ephemeral.equals(true));
+        final ephemeralScripts = await ephemeralScriptsFilter.get();
 
-        final scriptProviderNotifier = ref.read(scriptProvider.notifier);
-        scriptProviderNotifier.setIsSaved(false);
-        scriptProviderNotifier.setScrollPosition(
-          ephemeralScript.scrollPosition,
-        );
-        scriptProviderNotifier.setText(ephemeralScript.scriptText);
-        scriptProviderNotifier.setTitle(ephemeralScript.title);
+        final scriptService = ref.read(scriptServiceProvider.notifier);
+
+        if (ephemeralScripts.isEmpty) {
+          scriptService.createEphemeral();
+        } else if (ephemeralScripts.length > 1) {
+          if (mounted) {
+            ref.read(bannerMessageProvider.notifier).state =
+                "Multiple ephemeral scripts were found. Creating empty new ephemeral script.";
+          }
+
+          ephemeralScriptsFilter.update((o) => o(ephemeral: Value(false)));
+          scriptService.createEphemeral();
+        } else {
+          final ephemeralScript = ephemeralScripts.single;
+          final scriptProviderNotifier = ref.read(scriptProvider.notifier);
+          scriptProviderNotifier.loadScript(ephemeralScript);
+          scriptProviderNotifier.setIsSaved(ephemeralScript.scriptText == "");
+        }
       }
     });
 
