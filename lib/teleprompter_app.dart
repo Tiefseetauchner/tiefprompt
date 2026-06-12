@@ -2,9 +2,12 @@ import 'package:easy_localization/easy_localization.dart' as el;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
+import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/router_provider.dart';
+import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
 import 'package:tiefprompt/ui/widgets/banner_listener.dart';
@@ -25,6 +28,25 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
 
       if (!res) {
         ref.invalidate(featuresProvider);
+      }
+
+      if (ref
+          .watch(featuresProvider)
+          .features
+          .contains(Feature.ephemeralScript)) {
+        final ephemeralScript = await ref
+            .read(databaseManagersProvider)
+            .scriptModel
+            .filter((f) => f.ephemeral.equals(true))
+            .getSingle();
+
+        final scriptProviderNotifier = ref.read(scriptProvider.notifier);
+        scriptProviderNotifier.setIsSaved(false);
+        scriptProviderNotifier.setScrollPosition(
+          ephemeralScript.scrollPosition,
+        );
+        scriptProviderNotifier.setText(ephemeralScript.scriptText);
+        scriptProviderNotifier.setTitle(ephemeralScript.title);
       }
     });
 

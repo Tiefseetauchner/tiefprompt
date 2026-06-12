@@ -45,6 +45,7 @@ class OpenFileScreen extends ConsumerWidget {
                               .read(scriptProvider.notifier)
                               .setText(fileContent);
                           ref.read(scriptProvider.notifier).setTitle(file.name);
+
                           context.pop();
                         }
                       },
@@ -83,11 +84,17 @@ class OpenFileScreen extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         onTap: () async {
-                          ref
-                              .read(scriptProvider.notifier)
-                              .setText(
-                                (await scriptService.loadScript(script.id)),
-                              );
+                          final loadedScript = await scriptService.loadScript(
+                            script.id,
+                          );
+                          final scriptProviderNotifier = ref.read(
+                            scriptProvider.notifier,
+                          );
+                          scriptProviderNotifier.setText(
+                            (loadedScript.scriptText),
+                          );
+                          scriptProviderNotifier.setTitle(loadedScript.title);
+                          scriptProviderNotifier.setIsSaved(true);
 
                           context.pop();
                         },

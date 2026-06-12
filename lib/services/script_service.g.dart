@@ -6,7 +6,7 @@ part of 'script_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$scriptServiceHash() => r'0c62d015ed109b226c9557ecc76089a8936fdbed';
+String _$scriptServiceHash() => r'13e9f9db22530acbc365ee9233fa501e7cae9e4e';
 
 /// See also [ScriptService].
 @ProviderFor(ScriptService)

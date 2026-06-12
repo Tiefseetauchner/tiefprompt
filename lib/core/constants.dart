@@ -68,6 +68,7 @@ enum Feature {
   settingsRestore,
   controlButtons,
   showHelpRequest,
+  ephemeralScript,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -97,6 +98,7 @@ const kAllFeatures = [
   Feature.settingsRestore,
   Feature.controlButtons,
   Feature.showHelpRequest,
+  Feature.ephemeralScript,
 ];
 
 const kFreeFeatures = [
@@ -116,6 +118,7 @@ const kFreeFeatures = [
   Feature.playPause,
   Feature.controlButtons,
   Feature.showHelpRequest,
+  Feature.ephemeralScript,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";

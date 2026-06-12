@@ -13,7 +13,10 @@
     "close": "Close"
   },
   "HomeScreen": {
-    "TextField_hintText": "Enter script text",
+    "TitleField_heading": "Script Title",
+    "TitleField_hintText": "Enter script title",
+    "TextField_heading": "Script Content",
+    "TextField_hintText": "Enter script content",
     "ElevatedButton_Start": "Start Teleprompter",
     "ElevatedButton_Select": "Select Script from Device",
     "ElevatedButton_Save": "Save Script",

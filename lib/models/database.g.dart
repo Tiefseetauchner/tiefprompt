@@ -53,8 +53,42 @@ class $ScriptModelTable extends ScriptModel
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _ephemeralMeta = const VerificationMeta(
+    'ephemeral',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, title, scriptText, createdAt];
+  late final GeneratedColumn<bool> ephemeral = GeneratedColumn<bool>(
+    'ephemeral',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("ephemeral" IN (0, 1))',
+    ),
+    defaultValue: Constant(false),
+  );
+  static const VerificationMeta _scrollPositionMeta = const VerificationMeta(
+    'scrollPosition',
+  );
+  @override
+  late final GeneratedColumn<double> scrollPosition = GeneratedColumn<double>(
+    'scroll_position',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    scriptText,
+    createdAt,
+    ephemeral,
+    scrollPosition,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -94,6 +128,21 @@ class $ScriptModelTable extends ScriptModel
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('ephemeral')) {
+      context.handle(
+        _ephemeralMeta,
+        ephemeral.isAcceptableOrUnknown(data['ephemeral']!, _ephemeralMeta),
+      );
+    }
+    if (data.containsKey('scroll_position')) {
+      context.handle(
+        _scrollPositionMeta,
+        scrollPosition.isAcceptableOrUnknown(
+          data['scroll_position']!,
+          _scrollPositionMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -119,6 +168,14 @@ class $ScriptModelTable extends ScriptModel
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      ephemeral: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}ephemeral'],
+      )!,
+      scrollPosition: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}scroll_position'],
+      )!,
     );
   }
 
@@ -133,11 +190,15 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
   final String title;
   final String scriptText;
   final DateTime createdAt;
+  final bool ephemeral;
+  final double scrollPosition;
   const ScriptModelData({
     required this.id,
     required this.title,
     required this.scriptText,
     required this.createdAt,
+    required this.ephemeral,
+    required this.scrollPosition,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -146,6 +207,8 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
     map['title'] = Variable<String>(title);
     map['script_text'] = Variable<String>(scriptText);
     map['created_at'] = Variable<DateTime>(createdAt);
+    map['ephemeral'] = Variable<bool>(ephemeral);
+    map['scroll_position'] = Variable<double>(scrollPosition);
     return map;
   }
 
@@ -155,6 +218,8 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
       title: Value(title),
       scriptText: Value(scriptText),
       createdAt: Value(createdAt),
+      ephemeral: Value(ephemeral),
+      scrollPosition: Value(scrollPosition),
     );
   }
 
@@ -168,6 +233,8 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
       title: serializer.fromJson<String>(json['title']),
       scriptText: serializer.fromJson<String>(json['scriptText']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      ephemeral: serializer.fromJson<bool>(json['ephemeral']),
+      scrollPosition: serializer.fromJson<double>(json['scrollPosition']),
     );
   }
   @override
@@ -178,6 +245,8 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
       'title': serializer.toJson<String>(title),
       'scriptText': serializer.toJson<String>(scriptText),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'ephemeral': serializer.toJson<bool>(ephemeral),
+      'scrollPosition': serializer.toJson<double>(scrollPosition),
     };
   }
 
@@ -186,11 +255,15 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
     String? title,
     String? scriptText,
     DateTime? createdAt,
+    bool? ephemeral,
+    double? scrollPosition,
   }) => ScriptModelData(
     id: id ?? this.id,
     title: title ?? this.title,
     scriptText: scriptText ?? this.scriptText,
     createdAt: createdAt ?? this.createdAt,
+    ephemeral: ephemeral ?? this.ephemeral,
+    scrollPosition: scrollPosition ?? this.scrollPosition,
   );
   ScriptModelData copyWithCompanion(ScriptModelCompanion data) {
     return ScriptModelData(
@@ -200,6 +273,10 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
           ? data.scriptText.value
           : this.scriptText,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      ephemeral: data.ephemeral.present ? data.ephemeral.value : this.ephemeral,
+      scrollPosition: data.scrollPosition.present
+          ? data.scrollPosition.value
+          : this.scrollPosition,
     );
   }
 
@@ -209,13 +286,16 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('scriptText: $scriptText, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('ephemeral: $ephemeral, ')
+          ..write('scrollPosition: $scrollPosition')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, scriptText, createdAt);
+  int get hashCode =>
+      Object.hash(id, title, scriptText, createdAt, ephemeral, scrollPosition);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -223,7 +303,9 @@ class ScriptModelData extends DataClass implements Insertable<ScriptModelData> {
           other.id == this.id &&
           other.title == this.title &&
           other.scriptText == this.scriptText &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.ephemeral == this.ephemeral &&
+          other.scrollPosition == this.scrollPosition);
 }
 
 class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
@@ -231,17 +313,23 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
   final Value<String> title;
   final Value<String> scriptText;
   final Value<DateTime> createdAt;
+  final Value<bool> ephemeral;
+  final Value<double> scrollPosition;
   const ScriptModelCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.scriptText = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.ephemeral = const Value.absent(),
+    this.scrollPosition = const Value.absent(),
   });
   ScriptModelCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String scriptText,
     required DateTime createdAt,
+    this.ephemeral = const Value.absent(),
+    this.scrollPosition = const Value.absent(),
   }) : title = Value(title),
        scriptText = Value(scriptText),
        createdAt = Value(createdAt);
@@ -250,12 +338,16 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
     Expression<String>? title,
     Expression<String>? scriptText,
     Expression<DateTime>? createdAt,
+    Expression<bool>? ephemeral,
+    Expression<double>? scrollPosition,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (scriptText != null) 'script_text': scriptText,
       if (createdAt != null) 'created_at': createdAt,
+      if (ephemeral != null) 'ephemeral': ephemeral,
+      if (scrollPosition != null) 'scroll_position': scrollPosition,
     });
   }
 
@@ -264,12 +356,16 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
     Value<String>? title,
     Value<String>? scriptText,
     Value<DateTime>? createdAt,
+    Value<bool>? ephemeral,
+    Value<double>? scrollPosition,
   }) {
     return ScriptModelCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       scriptText: scriptText ?? this.scriptText,
       createdAt: createdAt ?? this.createdAt,
+      ephemeral: ephemeral ?? this.ephemeral,
+      scrollPosition: scrollPosition ?? this.scrollPosition,
     );
   }
 
@@ -288,6 +384,12 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (ephemeral.present) {
+      map['ephemeral'] = Variable<bool>(ephemeral.value);
+    }
+    if (scrollPosition.present) {
+      map['scroll_position'] = Variable<double>(scrollPosition.value);
+    }
     return map;
   }
 
@@ -297,7 +399,9 @@ class ScriptModelCompanion extends UpdateCompanion<ScriptModelData> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('scriptText: $scriptText, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('ephemeral: $ephemeral, ')
+          ..write('scrollPosition: $scrollPosition')
           ..write(')'))
         .toString();
   }
@@ -2648,6 +2752,8 @@ typedef $$ScriptModelTableCreateCompanionBuilder =
       required String title,
       required String scriptText,
       required DateTime createdAt,
+      Value<bool> ephemeral,
+      Value<double> scrollPosition,
     });
 typedef $$ScriptModelTableUpdateCompanionBuilder =
     ScriptModelCompanion Function({
@@ -2655,6 +2761,8 @@ typedef $$ScriptModelTableUpdateCompanionBuilder =
       Value<String> title,
       Value<String> scriptText,
       Value<DateTime> createdAt,
+      Value<bool> ephemeral,
+      Value<double> scrollPosition,
     });
 
 class $$ScriptModelTableFilterComposer
@@ -2683,6 +2791,16 @@ class $$ScriptModelTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get ephemeral => $composableBuilder(
+    column: $table.ephemeral,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get scrollPosition => $composableBuilder(
+    column: $table.scrollPosition,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -2715,6 +2833,16 @@ class $$ScriptModelTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get ephemeral => $composableBuilder(
+    column: $table.ephemeral,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get scrollPosition => $composableBuilder(
+    column: $table.scrollPosition,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ScriptModelTableAnnotationComposer
@@ -2739,6 +2867,14 @@ class $$ScriptModelTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get ephemeral =>
+      $composableBuilder(column: $table.ephemeral, builder: (column) => column);
+
+  GeneratedColumn<double> get scrollPosition => $composableBuilder(
+    column: $table.scrollPosition,
+    builder: (column) => column,
+  );
 }
 
 class $$ScriptModelTableTableManager
@@ -2776,11 +2912,15 @@ class $$ScriptModelTableTableManager
                 Value<String> title = const Value.absent(),
                 Value<String> scriptText = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<bool> ephemeral = const Value.absent(),
+                Value<double> scrollPosition = const Value.absent(),
               }) => ScriptModelCompanion(
                 id: id,
                 title: title,
                 scriptText: scriptText,
                 createdAt: createdAt,
+                ephemeral: ephemeral,
+                scrollPosition: scrollPosition,
               ),
           createCompanionCallback:
               ({
@@ -2788,11 +2928,15 @@ class $$ScriptModelTableTableManager
                 required String title,
                 required String scriptText,
                 required DateTime createdAt,
+                Value<bool> ephemeral = const Value.absent(),
+                Value<double> scrollPosition = const Value.absent(),
               }) => ScriptModelCompanion.insert(
                 id: id,
                 title: title,
                 scriptText: scriptText,
                 createdAt: createdAt,
+                ephemeral: ephemeral,
+                scrollPosition: scrollPosition,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

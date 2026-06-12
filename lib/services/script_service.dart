@@ -37,13 +37,10 @@ class ScriptService extends _$ScriptService {
         createdAt: script.createdAt,
       );
 
-  Future<String> loadScript(int scriptId) async => await _databaseManagers
-      .scriptModel
-      .filter((s) => s.id(scriptId))
-      .asyncMap(_mapToText)
-      .getSingle();
-
-  Future<String> _mapToText(ScriptModelData script) async => script.scriptText;
+  Future<ScriptModelData> loadScript(int scriptId) async =>
+      await _databaseManagers.scriptModel
+          .filter((s) => s.id(scriptId))
+          .getSingle();
 
   Future<void> save(ScriptState script) async =>
       await _databaseManagers.scriptModel.create(

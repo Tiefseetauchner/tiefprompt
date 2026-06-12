@@ -22,7 +22,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
@@ -41,6 +41,14 @@ class AppDatabase extends _$AppDatabase {
         await into(
           appStateModel,
         ).insert(AppStateModelCompanion.insert(helpRequestShown: false));
+        await into(scriptModel).insert(
+          ScriptModelCompanion.insert(
+            title: "Unnamed Script",
+            scriptText: "",
+            createdAt: DateTime.now(),
+            ephemeral: Value(true),
+          ),
+        );
       },
       onUpgrade: stepByStep(
         from1To2: (m, schema) async {
@@ -53,6 +61,22 @@ class AppDatabase extends _$AppDatabase {
           await m.database.customInsert(
             'INSERT INTO help_request_model (help_request_shown) VALUES (?)',
             variables: [Variable.withBool(false)],
+          );
+        },
+        from3To4: (m, schema) async {
+          await m.addColumn(schema.scriptModel, schema.scriptModel.ephemeral);
+          await m.addColumn(
+            schema.scriptModel,
+            schema.scriptModel.scrollPosition,
+          );
+
+          await into(scriptModel).insert(
+            ScriptModelCompanion.insert(
+              title: "Unnamed Script",
+              scriptText: "",
+              createdAt: DateTime.now(),
+              ephemeral: Value(true),
+            ),
           );
         },
       ),

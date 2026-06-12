@@ -24,13 +24,15 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  late TextEditingController _controller;
+  late TextEditingController _scriptTextController;
+  late TextEditingController _scriptTitleController;
   ProviderSubscription? _scriptListener;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    _scriptTextController = TextEditingController();
+    _scriptTitleController = TextEditingController();
     _runStartupChecks();
   }
 
@@ -73,14 +75,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     _scriptListener?.close();
     _scriptListener = ref.listenManual(scriptProvider, (previous, next) {
-      if (previous?.text != next.text &&
-          _controller.text != next.text &&
-          !_controller.value.composing.isValid) {
+      var scriptTextChanged =
+          previous?.text != next.text &&
+          _scriptTextController.text != next.text;
+      var scriptTitleChanged =
+          previous?.title != next.title &&
+          _scriptTitleController.text != next.title;
+      if ((scriptTextChanged || scriptTitleChanged) &&
+          !_scriptTextController.value.composing.isValid) {
         final selection = TextSelection.collapsed(offset: next.text.length);
-        _controller.value = TextEditingValue(
+        _scriptTextController.value = TextEditingValue(
           text: next.text,
           selection: selection,
         );
+        _scriptTitleController.value = TextEditingValue(text: next.title ?? "");
       }
     });
   }
@@ -88,7 +96,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void dispose() {
     _scriptListener?.close();
-    _controller.dispose();
+    _scriptTextController.dispose();
+    _scriptTitleController.dispose();
     super.dispose();
   }
 
@@ -125,17 +134,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    context.tr("HomeScreen.TitleField_heading"),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: context.tr("HomeScreen.TitleField_hintText"),
+                    ),
+                    controller: _scriptTitleController,
+                    onChanged: (value) {
+                      ref.read(scriptProvider.notifier).setTitle(value);
+                      ref.read(scriptProvider.notifier).setIsSaved(false);
+                    },
+                  ),
+                  Text(
+                    context.tr("HomeScreen.TextField_heading") +
+                        (ref.watch(scriptProvider).isSaved ? "" : " *"),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
                   TextField(
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: context.tr("HomeScreen.TextField_hintText"),
                     ),
-                    // textInputAction: TextInputAction.newline,
                     maxLines: (MediaQuery.of(context).size.height / 70).floor(),
-                    controller: _controller,
+                    controller: _scriptTextController,
                     onChanged: (value) {
                       ref.read(scriptProvider.notifier).setText(value);
+                      ref.read(scriptProvider.notifier).setIsSaved(false);
                     },
                   ),
                   const SizedBox(height: 16),

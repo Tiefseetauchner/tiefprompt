@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ScriptState {
 
- String get text; String? get title;
+ String get text; String? get title; bool get isSaved; double get scrollPosition;
 /// Create a copy of ScriptState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ScriptStateCopyWith<ScriptState> get copyWith => _$ScriptStateCopyWithImpl<Scri
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScriptState&&(identical(other.text, text) || other.text == text)&&(identical(other.title, title) || other.title == title));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScriptState&&(identical(other.text, text) || other.text == text)&&(identical(other.title, title) || other.title == title)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.scrollPosition, scrollPosition) || other.scrollPosition == scrollPosition));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,text,title);
+int get hashCode => Object.hash(runtimeType,text,title,isSaved,scrollPosition);
 
 @override
 String toString() {
-  return 'ScriptState(text: $text, title: $title)';
+  return 'ScriptState(text: $text, title: $title, isSaved: $isSaved, scrollPosition: $scrollPosition)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ScriptStateCopyWith<$Res>  {
   factory $ScriptStateCopyWith(ScriptState value, $Res Function(ScriptState) _then) = _$ScriptStateCopyWithImpl;
 @useResult
 $Res call({
- String text, String? title
+ String text, String? title, bool isSaved, double scrollPosition
 });
 
 
@@ -62,11 +62,13 @@ class _$ScriptStateCopyWithImpl<$Res>
 
 /// Create a copy of ScriptState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? title = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? title = freezed,Object? isSaved = null,Object? scrollPosition = null,}) {
   return _then(_self.copyWith(
 text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isSaved: null == isSaved ? _self.isSaved : isSaved // ignore: cast_nullable_to_non_nullable
+as bool,scrollPosition: null == scrollPosition ? _self.scrollPosition : scrollPosition // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -151,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String text,  String? title)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String text,  String? title,  bool isSaved,  double scrollPosition)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ScriptState() when $default != null:
-return $default(_that.text,_that.title);case _:
+return $default(_that.text,_that.title,_that.isSaved,_that.scrollPosition);case _:
   return orElse();
 
 }
@@ -172,10 +174,10 @@ return $default(_that.text,_that.title);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String text,  String? title)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String text,  String? title,  bool isSaved,  double scrollPosition)  $default,) {final _that = this;
 switch (_that) {
 case _ScriptState():
-return $default(_that.text,_that.title);case _:
+return $default(_that.text,_that.title,_that.isSaved,_that.scrollPosition);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +194,10 @@ return $default(_that.text,_that.title);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String text,  String? title)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String text,  String? title,  bool isSaved,  double scrollPosition)?  $default,) {final _that = this;
 switch (_that) {
 case _ScriptState() when $default != null:
-return $default(_that.text,_that.title);case _:
+return $default(_that.text,_that.title,_that.isSaved,_that.scrollPosition);case _:
   return null;
 
 }
@@ -207,11 +209,13 @@ return $default(_that.text,_that.title);case _:
 
 
 class _ScriptState implements ScriptState {
-   _ScriptState({required this.text, required this.title});
+   _ScriptState({required this.text, required this.title, required this.isSaved, required this.scrollPosition});
   
 
 @override final  String text;
 @override final  String? title;
+@override final  bool isSaved;
+@override final  double scrollPosition;
 
 /// Create a copy of ScriptState
 /// with the given fields replaced by the non-null parameter values.
@@ -223,16 +227,16 @@ _$ScriptStateCopyWith<_ScriptState> get copyWith => __$ScriptStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScriptState&&(identical(other.text, text) || other.text == text)&&(identical(other.title, title) || other.title == title));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScriptState&&(identical(other.text, text) || other.text == text)&&(identical(other.title, title) || other.title == title)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.scrollPosition, scrollPosition) || other.scrollPosition == scrollPosition));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,text,title);
+int get hashCode => Object.hash(runtimeType,text,title,isSaved,scrollPosition);
 
 @override
 String toString() {
-  return 'ScriptState(text: $text, title: $title)';
+  return 'ScriptState(text: $text, title: $title, isSaved: $isSaved, scrollPosition: $scrollPosition)';
 }
 
 
@@ -243,7 +247,7 @@ abstract mixin class _$ScriptStateCopyWith<$Res> implements $ScriptStateCopyWith
   factory _$ScriptStateCopyWith(_ScriptState value, $Res Function(_ScriptState) _then) = __$ScriptStateCopyWithImpl;
 @override @useResult
 $Res call({
- String text, String? title
+ String text, String? title, bool isSaved, double scrollPosition
 });
 
 
@@ -260,11 +264,13 @@ class __$ScriptStateCopyWithImpl<$Res>
 
 /// Create a copy of ScriptState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? title = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? title = freezed,Object? isSaved = null,Object? scrollPosition = null,}) {
   return _then(_ScriptState(
 text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isSaved: null == isSaved ? _self.isSaved : isSaved // ignore: cast_nullable_to_non_nullable
+as bool,scrollPosition: null == scrollPosition ? _self.scrollPosition : scrollPosition // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
