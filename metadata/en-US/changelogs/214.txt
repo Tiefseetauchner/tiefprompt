@@ -1,0 +1,1 @@
+Completely reworked script persistence and added saving and restoring of scroll position.
