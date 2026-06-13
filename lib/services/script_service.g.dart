@@ -6,7 +6,7 @@ part of 'script_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$scriptServiceHash() => r'0c62d015ed109b226c9557ecc76089a8936fdbed';
+String _$scriptServiceHash() => r'f7f03b78befe880341227549425d1e5e7f55cb59';
 
 /// See also [ScriptService].
 @ProviderFor(ScriptService)
@@ -17,8 +17,11 @@ final scriptServiceProvider =
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
           : _$scriptServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+      dependencies: <ProviderOrFamily>[databaseManagersProvider],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        databaseManagersProvider,
+        ...?databaseManagersProvider.allTransitiveDependencies,
+      },
     );
 
 typedef _$ScriptService = AutoDisposeAsyncNotifier<void>;

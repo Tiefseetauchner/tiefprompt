@@ -1,4 +1,6 @@
+import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
@@ -17,7 +19,7 @@ class ScriptDisplayData {
   });
 }
 
-@riverpod
+@Riverpod(dependencies: [DatabaseManagers])
 class ScriptService extends _$ScriptService {
   late final _databaseManagers = ref.read(databaseManagersProvider);
 
@@ -28,7 +30,10 @@ class ScriptService extends _$ScriptService {
       await _databaseManagers.scriptModel.count();
 
   Future<Stream<List<ScriptDisplayData>>> getScripts() async =>
-      _databaseManagers.scriptModel.asyncMap(_mapToDisplay).watch();
+      _databaseManagers.scriptModel
+          .filter((f) => f.ephemeral.equals(false))
+          .asyncMap(_mapToDisplay)
+          .watch();
 
   Future<ScriptDisplayData> _mapToDisplay(ScriptModelData script) async =>
       ScriptDisplayData(
@@ -37,25 +42,68 @@ class ScriptService extends _$ScriptService {
         createdAt: script.createdAt,
       );
 
-  Future<String> loadScript(int scriptId) async => await _databaseManagers
-      .scriptModel
-      .filter((s) => s.id(scriptId))
-      .asyncMap(_mapToText)
-      .getSingle();
+  Future<ScriptModelData> loadScript(int scriptId) async =>
+      await _databaseManagers.scriptModel
+          .filter((s) => s.id(scriptId))
+          .getSingle();
 
-  Future<String> _mapToText(ScriptModelData script) async => script.scriptText;
+  Future<int> save(ScriptState script) async {
+    return await _databaseManagers.scriptModel
+        .filter((f) => f.id.equals(script.id))
+        .update(
+          (s) => s(
+            scriptText: Value(script.text),
+            title: Value(script.title ?? kNewScriptName),
+            ephemeral: Value(false),
+            scrollPosition: Value(script.scrollPosition),
+            createdAt: Value(DateTime.now()),
+          ),
+        );
+  }
 
-  Future<void> save(ScriptState script) async =>
-      await _databaseManagers.scriptModel.create(
-        (s) => s(
-          scriptText: script.text,
-          title: script.title ?? "Untitled",
-          createdAt: DateTime.now(),
-        ),
-      );
+  Future<int> saveAsNew(ScriptState script) async {
+    return await _databaseManagers.scriptModel.create(
+      (s) => s(
+        scriptText: script.text,
+        title: script.title ?? kNewScriptName,
+        ephemeral: Value(false),
+        scrollPosition: Value(script.scrollPosition),
+        createdAt: DateTime.now(),
+      ),
+    );
+  }
+
+  Future<int> saveEphemeral(ScriptState script) async {
+    return await _databaseManagers.scriptModel
+        .filter((f) => f.id.equals(script.id))
+        .update(
+          (s) => s(
+            scriptText: Value(script.text),
+            title: Value(script.title ?? kNewScriptName),
+            scrollPosition: Value(script.scrollPosition),
+          ),
+        );
+  }
+
+  Future<int> createEphemeral() async {
+    return await _databaseManagers.scriptModel.create(
+      (s) => s(
+        scriptText: "",
+        title: kNewScriptName,
+        ephemeral: Value(true),
+        createdAt: DateTime.now(),
+      ),
+    );
+  }
 
   Future<void> deleteScript(int scriptId) async => await _databaseManagers
       .scriptModel
       .filter((s) => s.id(scriptId))
       .delete();
+
+  Future<void> updateScrollPosition(int scriptId, double scrollOffset) async {
+    await _databaseManagers.scriptModel
+        .filter((s) => s.id(scriptId))
+        .update((f) => f(scrollPosition: Value(scrollOffset)));
+  }
 }

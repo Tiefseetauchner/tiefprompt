@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
+import 'package:tiefprompt/core/debouncer.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_control_buttons_overlay.dart';
@@ -30,17 +32,23 @@ class PrompterScreen extends ConsumerStatefulWidget {
 class _PrompterScreenState extends ConsumerState<PrompterScreen> {
   final _focusNode = FocusNode();
   late final ScrollableTextController _scrollableTextController;
+  late final Debouncer _scrollableTextControllerSaveDebouncer;
 
   @override
   void initState() {
     super.initState();
     _scrollableTextController = ScrollableTextController();
+    _scrollableTextControllerSaveDebouncer = PeriodicRunDebouncer(
+      delay: Duration(seconds: 1),
+      periodicDelay: Duration(seconds: 5),
+    );
     WakelockPlus.enable();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollableTextController.scrollController.hasClients) {
+        final storedScrollOffset = ref.read(scriptProvider).scrollPosition;
         _scrollableTextController.jumpTo(
-          MediaQuery.of(context).size.height / 2,
+          storedScrollOffset ?? MediaQuery.of(context).size.height / 2,
         );
       }
     });
@@ -48,6 +56,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     ref.read(settingsProvider).whenData((data) {
       ref.read(prompterProvider.notifier).applySettings(data);
     });
+
+    _scrollableTextController.scrollController.addListener(_saveOnScroll);
   }
 
   @override
@@ -150,6 +160,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     WakelockPlus.disable();
     _focusNode.dispose();
     _scrollableTextController.dispose();
+    _scrollableTextControllerSaveDebouncer.dispose();
     super.dispose();
   }
 
@@ -282,6 +293,22 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
 
     if (isEnabled) {
       action();
+    }
+  }
+
+  void _saveOnScroll() {
+    _scrollableTextControllerSaveDebouncer.run(_saveScrollPosition);
+  }
+
+  void _saveScrollPosition() {
+    final scriptId = ref.read(scriptProvider).id;
+    final scrollOffset = _scrollableTextController.scrollController.offset;
+
+    ref.read(scriptProvider.notifier).setScrollPosition(scrollOffset);
+    if (scriptId != null) {
+      ref
+          .read(scriptServiceProvider.notifier)
+          .updateScrollPosition(scriptId, scrollOffset);
     }
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/debouncer.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
@@ -24,13 +25,17 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  late TextEditingController _controller;
+  late TextEditingController _scriptTextController;
+  late TextEditingController _scriptTitleController;
+  late final Debouncer _scriptChangeDebouncer;
   ProviderSubscription? _scriptListener;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    _scriptTextController = TextEditingController();
+    _scriptTitleController = TextEditingController();
+    _scriptChangeDebouncer = Debouncer(delay: Duration(milliseconds: 500));
     _runStartupChecks();
   }
 
@@ -73,14 +78,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     _scriptListener?.close();
     _scriptListener = ref.listenManual(scriptProvider, (previous, next) {
-      if (previous?.text != next.text &&
-          _controller.text != next.text &&
-          !_controller.value.composing.isValid) {
+      var scriptTextChanged =
+          previous?.text != next.text &&
+          _scriptTextController.text != next.text;
+      var scriptTitleChanged =
+          previous?.title != next.title &&
+          _scriptTitleController.text != next.title;
+      if ((scriptTextChanged || scriptTitleChanged) &&
+          !_scriptTextController.value.composing.isValid) {
         final selection = TextSelection.collapsed(offset: next.text.length);
-        _controller.value = TextEditingValue(
+        _scriptTextController.value = TextEditingValue(
           text: next.text,
           selection: selection,
         );
+        _scriptTitleController.value = TextEditingValue(text: next.title ?? "");
       }
     });
   }
@@ -88,7 +99,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void dispose() {
     _scriptListener?.close();
-    _controller.dispose();
+    _scriptTextController.dispose();
+    _scriptTitleController.dispose();
+    _scriptChangeDebouncer.dispose();
     super.dispose();
   }
 
@@ -125,17 +138,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    context.tr("HomeScreen.TitleField_heading"),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: context.tr("HomeScreen.TitleField_hintText"),
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                    controller: _scriptTitleController,
+                    onChanged: (value) {
+                      ref.read(scriptProvider.notifier).setTitle(value);
+                      ref.read(scriptProvider.notifier).setIsSaved(false);
+                      if (ref.read(scriptProvider).ephemeral) {
+                        _scriptChangeDebouncer.run(_updateEphemeralScript);
+                      }
+                    },
+                  ),
+                  Text(
+                    context.tr("HomeScreen.TextField_heading") +
+                        (ref.watch(scriptProvider).isSaved ? "" : " *"),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
                   TextField(
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: context.tr("HomeScreen.TextField_hintText"),
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
                     ),
-                    // textInputAction: TextInputAction.newline,
                     maxLines: (MediaQuery.of(context).size.height / 70).floor(),
-                    controller: _controller,
+                    controller: _scriptTextController,
                     onChanged: (value) {
                       ref.read(scriptProvider.notifier).setText(value);
+                      ref.read(scriptProvider.notifier).setIsSaved(false);
+                      if (ref.read(scriptProvider).ephemeral) {
+                        _scriptChangeDebouncer.run(_updateEphemeralScript);
+                      }
                     },
                   ),
                   const SizedBox(height: 16),
@@ -157,65 +199,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          context.push('/open_file');
+                          if (ref.read(scriptProvider).isSaved) {
+                            context.push('/open_file');
+                          } else {
+                            _showDiscardConfirmDialog(
+                              () => context.push('/open_file'),
+                            );
+                          }
                         },
                         child: Text(
                           context.tr("HomeScreen.ElevatedButton_Select"),
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (dialogContext) => SafeArea(
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                  16.0,
-                                  16.0,
-                                  16.0,
-                                  MediaQuery.of(context).viewInsets.bottom +
-                                      16.0,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      context.tr(
-                                        "HomeScreen.BottomSheet.Text_Title",
-                                      ),
-                                    ),
-                                    TextField(
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        hintText: context.tr(
-                                          "HomeScreen.BottomSheet.TextField_hintText",
-                                        ),
-                                      ),
-                                      onChanged: (value) => ref
-                                          .read(scriptProvider.notifier)
-                                          .setTitle(value),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        ref
-                                            .read(
-                                              scriptServiceProvider.notifier,
-                                            )
-                                            .save(ref.watch(scriptProvider));
-                                        dialogContext.pop();
-                                      },
-                                      child: Text(
-                                        context.tr(
-                                          "HomeScreen.BottomSheet.ElevatedButton_Save",
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
+                        onPressed: () async {
+                          if (ref.read(scriptProvider).ephemeral) {
+                            _saveCurrentScript();
+                            ref
+                                .read(scriptServiceProvider.notifier)
+                                .createEphemeral();
+                          } else {
+                            await _showNewOrOverrideDialog();
+                          }
                         },
                         child: Text(
                           context.tr('HomeScreen.ElevatedButton_Save'),
@@ -299,11 +304,98 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
+  void _updateEphemeralScript() {
+    final script = ref.read(scriptProvider);
+    ref.read(scriptServiceProvider.notifier).saveEphemeral(script);
+  }
+
   Future<void> _launchUrl(String uri) async {
     final Uri url = Uri.parse(uri);
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  void _showDiscardConfirmDialog(Function() confirmAction) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.tr("HomeScreen.DiscardConfirmDialog.Title")),
+        content: Text(context.tr("HomeScreen.DiscardConfirmDialog.Body")),
+        actions: [
+          ElevatedButton(
+            onPressed: () => context.pop(),
+            child: Text(context.tr("HomeScreen.DiscardConfirmDialog.Cancel")),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+            ),
+            onPressed: () {
+              context.pop();
+              confirmAction();
+            },
+            child: Text(context.tr("HomeScreen.DiscardConfirmDialog.Confirm")),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showNewOrOverrideDialog() async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.tr("HomeScreen.NewOrOverrideDialog.Title")),
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              await _saveCurrentScriptAsNew();
+              context.pop();
+            },
+            child: Text(context.tr("HomeScreen.NewOrOverrideDialog.NewScript")),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await _saveCurrentScript();
+              context.pop();
+            },
+            child: Text(
+              context.tr("HomeScreen.NewOrOverrideDialog.OverrideScript"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _saveCurrentScriptAsNew() async {
+    final scriptService = ref.read(scriptServiceProvider.notifier);
+    final currentScript = ref.read(scriptProvider);
+    final scriptProviderNotifier = ref.read(scriptProvider.notifier);
+
+    final savedScriptId = await scriptService.saveAsNew(currentScript);
+
+    scriptProviderNotifier.loadScript(
+      await scriptService.loadScript(savedScriptId),
+    );
+    scriptProviderNotifier.setEphemeral(false);
+    scriptProviderNotifier.setIsSaved(true);
+  }
+
+  Future<int> _saveCurrentScript() async {
+    final scriptService = ref.read(scriptServiceProvider.notifier);
+    final currentScript = ref.read(scriptProvider);
+    final scriptProviderNotifier = ref.read(scriptProvider.notifier);
+
+    final savedScriptId = await scriptService.save(currentScript);
+
+    scriptProviderNotifier.setEphemeral(false);
+    scriptProviderNotifier.setIsSaved(true);
+    scriptProviderNotifier.setId(savedScriptId);
+
+    return savedScriptId;
   }
 }
 

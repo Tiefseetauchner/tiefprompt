@@ -13,7 +13,10 @@
     "close": "Close"
   },
   "HomeScreen": {
-    "TextField_hintText": "Enter script text",
+    "TitleField_heading": "Script Title",
+    "TitleField_hintText": "Enter script title",
+    "TextField_heading": "Script Content",
+    "TextField_hintText": "Enter script content",
     "ElevatedButton_Start": "Start Teleprompter",
     "ElevatedButton_Select": "Select Script from Device",
     "ElevatedButton_Save": "Save Script",
@@ -24,6 +27,17 @@
       "Text_Title": "Save Script",
       "TextField_hintText": "Enter script name",
       "ElevatedButton_Save": "Save"
+    },
+    "DiscardConfirmDialog": {
+      "Title": "Discard Changes?",
+      "Body": "Loading a script will discard your current scripts changes. Do you want to proceed and discard all changes?",
+      "Cancel": "Cancel",
+      "Confirm": "Confirm and Discard"
+    },
+    "NewOrOverrideDialog": {
+      "Title": "Override Current Script or Save as New?",
+      "NewScript": "Save as New Script",
+      "OverrideScript": "Override Current"
     },
     "UnverifiedBuild": "Unverified Build",
     "UnverifiedBuild_Explanation": "This build is unverified. That means it may not be stable or could contain bugs. Use at your own risk. To build a verified version, please use the main_foss.dart file as your entry point.",

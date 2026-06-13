@@ -17,6 +17,8 @@ const String kWeblateUrl = "https://hosted.weblate.org/projects/tiefprompt/";
 const String kPrivacyPolicyUrl = "https://tiefprompt.com/policies/privacy/en/";
 const String kLukeChriswalkerUrl = "https://www.lukechriswalker.at";
 
+const String kNewScriptName = "New Script";
+
 const int kSettingsSchemaVersion = 1;
 
 const List<String> kAvailableFonts = [
@@ -68,6 +70,7 @@ enum Feature {
   settingsRestore,
   controlButtons,
   showHelpRequest,
+  ephemeralScript,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -97,6 +100,7 @@ const kAllFeatures = [
   Feature.settingsRestore,
   Feature.controlButtons,
   Feature.showHelpRequest,
+  Feature.ephemeralScript,
 ];
 
 const kFreeFeatures = [
@@ -116,6 +120,7 @@ const kFreeFeatures = [
   Feature.playPause,
   Feature.controlButtons,
   Feature.showHelpRequest,
+  Feature.ephemeralScript,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";

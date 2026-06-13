@@ -41,10 +41,23 @@ class OpenFileScreen extends ConsumerWidget {
                             file.path!,
                           ).readAsString();
 
+                          final newScriptId = await scriptService.saveAsNew(
+                            ScriptState(
+                              id: null,
+                              text: fileContent,
+                              title: file.name,
+                              isSaved: true,
+                              scrollPosition: null,
+                              ephemeral: false,
+                            ),
+                          );
+                          final newScript = await scriptService.loadScript(
+                            newScriptId,
+                          );
                           ref
                               .read(scriptProvider.notifier)
-                              .setText(fileContent);
-                          ref.read(scriptProvider.notifier).setTitle(file.name);
+                              .loadScript(newScript);
+
                           context.pop();
                         }
                       },
@@ -83,11 +96,13 @@ class OpenFileScreen extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         onTap: () async {
+                          final loadedScript = await scriptService.loadScript(
+                            script.id,
+                          );
+
                           ref
                               .read(scriptProvider.notifier)
-                              .setText(
-                                (await scriptService.loadScript(script.id)),
-                              );
+                              .loadScript(loadedScript);
 
                           context.pop();
                         },
