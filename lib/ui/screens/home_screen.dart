@@ -154,7 +154,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ref.read(scriptProvider.notifier).setTitle(value);
                       ref.read(scriptProvider.notifier).setIsSaved(false);
                       if (ref.read(scriptProvider).ephemeral) {
-                        _updateEphemeralScript();
+                        _scriptChangeDebouncer.run(_updateEphemeralScript);
                       }
                     },
                   ),
@@ -176,7 +176,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ref.read(scriptProvider.notifier).setText(value);
                       ref.read(scriptProvider.notifier).setIsSaved(false);
                       if (ref.read(scriptProvider).ephemeral) {
-                        _updateEphemeralScript();
+                        _scriptChangeDebouncer.run(_updateEphemeralScript);
                       }
                     },
                   ),
@@ -305,10 +305,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _updateEphemeralScript() {
-    _scriptChangeDebouncer.run(() async {
-      final script = ref.read(scriptProvider);
-      await ref.read(scriptServiceProvider.notifier).saveEphemeral(script);
-    });
+    final script = ref.read(scriptProvider);
+    ref.read(scriptServiceProvider.notifier).saveEphemeral(script);
   }
 
   Future<void> _launchUrl(String uri) async {
