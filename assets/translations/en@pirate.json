@@ -29,7 +29,21 @@
         "FreeVersion": "Half Sunk Ship Version",
         "FreeVersion_Explanation": "Arr! Us is a real project with real crew, and port costs, and 'er ale ar'n't payin' itself. TiefPrompt is free and open source - yer don't needa pay but... Well, yer know how pirating goes. Yer boat takes damage, and yer don' wanna steal them cannon balls. Trust us on that... So, to use all there features, yer needa upgrade.\n\nIf yer can't pay or are in the mood for some privateering, yer free to - source is open.\n\nI wish I hadn't needed ter hold this ransom but alas.",
         "PaidVersion": "Glamorous Ship Version",
-        "PaidVersion_Explanation": "Arr! Yer paid! Thank yer, it means a world to us. Yer not just making the ship pretty, yer helping the ship continue to sail, and become more glorious!\n\nThank yer. Now, mateys, we're got som' ale to drink."
+        "PaidVersion_Explanation": "Arr! Yer paid! Thank yer, it means a world to us. Yer not just making the ship pretty, yer helping the ship continue to sail, and become more glorious!\n\nThank yer. Now, mateys, we're got som' ale to drink.",
+        "TitleField_heading": "Yer scriptes name",
+        "TitleField_hintText": "Put yer scriptes name her'",
+        "TextField_heading": "Yer script",
+        "DiscardConfirmDialog": {
+            "Title": "Scuttle yer changes?",
+            "Body": "Yer 'bouta load a script, which'll scuttle yer changes. D'yer wan' a proceed and scuttle yer changes?",
+            "Cancel": "Abort",
+            "Confirm": "Ye', scuttle"
+        },
+        "NewOrOverrideDialog": {
+            "Title": "Push yer Changes to yer Script or Get a new Ship?",
+            "NewScript": "New Ship",
+            "OverrideScript": "Scuttle old Script"
+        }
     },
     "SettingsScreen": {
         "title": "Settin's",
@@ -155,7 +169,9 @@
                 "Cancel": "Abort",
                 "Save": "Store"
             }
-        }
+        },
+        "ShowHelpRequest": "Gi'me yer beggin' 'gain",
+        "ShowChangelog": "Gi'me yer Papers Again"
     },
     "PrompterScreen": {
         "speed": "{} knots",
@@ -201,5 +217,9 @@
         "ElaborateExplanation": "Yer readin' on already means yer be interested in our ship, so let me catch yer up. TiefPrompt be a teleprompter app without ads, trackin', or any such treasure-grabbin' means most apps resort ter. That means we're fully reliant on 'e purchases of TiefPrompt Pro, as well as donations.\n\nSince 'e crew sinks a lot of time 'n doubloons int' providin' this here app (e.g. lawyers ter write a privacy policy, Apple Tax, 'n so on), we decided on two means of gettin' gold - one be, obviously, 'e In-App Purchases on iOS 'n Android. If yer've downloaded this here app from Google Play or 'e Apple App Store, yer'll notice that some features be indeed locked up. That be a side effect of Apple requirin' developers t' own an Apple device - somethin' we had ter specifically acquire fer this here ship - 'n a yearly payment fer 'e privilege of settin' an app t' sail.\n\nBut! This here app also sails free. Yer may be wonderin' how that be possible, seein' as I just explained how totally not free this here app be - but if yer look at 'e link above, this here app be, indeed, fully open-source. Yer allowed t' use, modify, sell, or really do whatever with this here app. 'N it be free as grog if yer download it from F-Droid or GitHub, or simply compile it yerself.\n\nThat's why we don't only have an In-App Purchase option, but also donation links. If yer usin' the app how it was initially envisioned - that is, freely - we ask of yer that yer consider donatin'. No hard feelings if yer don't, we know the financial realities, but it be a way to support 'e crew.\n\nAside that, buildin' an app obviously requires time. Developin', sortin' issues, plannin' voyages - all of this, while bein' a grand adventure, be a strain on 'e crew. So if yer can't or don't wanna donate or pay fer 'e app, how about yer contribute t' the ship!\n\nHow ter contribute, yer ask? Well, one way be simply givin' feedback. Be there a feature missin'? Be 'e app buggy? Simply tell us, 'n we'll make her better!\n\nAnother way t' contribute be obviously ter provide code. If yer be able, we'd appreciate any help on gettin' Issues down, makin' new features 'n fixin' bugs. We're all just sailors, 'n yer support would be a great boon.\n\nLastly, there be translations. We provide this here app in many tongues, but there be always another tongue, a translation error, or simply a small typo ter fix. Yer can find how ter help makin' translations of this here app better in 'e GitHub repo, 'n we really do appreciate any help on that front as well.\n\n'N now, a personal note from 'e captain, because yer just read through me prose 'n yer deserve it: Thank yer. Thank yer for considerin' this here app, downloadin' it, readin' this, 'n so on. I really do appreciate yer all immensely. Seein' a ship actually be sailed be validatin' 'n it makes me glad that I'm not alone here. So, one last time: Thank yer.\n\nNow ter 'e last thing, there be links below, click 'em ter find out more.\n\nBest, Lena",
         "ReadMore": "Read 'em more",
         "Continue": "Set Course fer 'e App"
+    },
+    "ChangelogModal": {
+        "title": "The papers",
+        "close": "Scuttle Dialog"
     }
 }
