@@ -1,0 +1,1 @@
+Komplette Neuimplementierung von Scriptspeicherung, sowie das Wiederherstellen von Positionen im Prompter.
