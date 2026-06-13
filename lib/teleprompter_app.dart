@@ -46,15 +46,23 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         final scriptService = ref.read(scriptServiceProvider.notifier);
 
         if (ephemeralScripts.isEmpty) {
-          scriptService.createEphemeral();
+          final newEphemeralScriptId = await scriptService.createEphemeral();
+          final newEphemeralScript = await ref
+              .read(scriptServiceProvider.notifier)
+              .loadScript(newEphemeralScriptId);
+          ref.read(scriptProvider.notifier).loadScript(newEphemeralScript);
         } else if (ephemeralScripts.length > 1) {
           if (mounted) {
             ref.read(bannerMessageProvider.notifier).state =
-                "Multiple ephemeral scripts were found. Creating empty new ephemeral script.";
+                "Multiple ephemeral scripts were found. Creating empty new ephemeral script. This is a bug in TiefPrompt, please report it to the author.";
           }
 
           ephemeralScriptsFilter.update((o) => o(ephemeral: Value(false)));
-          scriptService.createEphemeral();
+          final newEphemeralScriptId = await scriptService.createEphemeral();
+          final newEphemeralScript = await ref
+              .read(scriptServiceProvider.notifier)
+              .loadScript(newEphemeralScriptId);
+          ref.read(scriptProvider.notifier).loadScript(newEphemeralScript);
         } else {
           final ephemeralScript = ephemeralScripts.single;
           final scriptProviderNotifier = ref.read(scriptProvider.notifier);

@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/models/app_state.dart';
 import 'package:tiefprompt/models/script_model.dart';
@@ -43,7 +44,7 @@ class AppDatabase extends _$AppDatabase {
         ).insert(AppStateModelCompanion.insert(helpRequestShown: false));
         await into(scriptModel).insert(
           ScriptModelCompanion.insert(
-            title: "Unnamed Script",
+            title: kNewScriptName,
             scriptText: "",
             createdAt: DateTime.now(),
             ephemeral: Value(true),
@@ -72,7 +73,7 @@ class AppDatabase extends _$AppDatabase {
 
           await into(scriptModel).insert(
             ScriptModelCompanion.insert(
-              title: "Unnamed Script",
+              title: kNewScriptName,
               scriptText: "",
               createdAt: DateTime.now(),
               ephemeral: Value(true),

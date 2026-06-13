@@ -147,18 +147,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: context.tr("HomeScreen.TitleField_hintText"),
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     controller: _scriptTitleController,
                     onChanged: (value) {
                       ref.read(scriptProvider.notifier).setTitle(value);
                       ref.read(scriptProvider.notifier).setIsSaved(false);
                       if (ref.read(scriptProvider).ephemeral) {
-                        _scriptChangeDebouncer.run(() async {
-                          final script = ref.read(scriptProvider);
-                          await ref
-                              .read(scriptServiceProvider.notifier)
-                              .saveEphemeral(script);
-                        });
+                        _updateEphemeralScript();
                       }
                     },
                   ),
@@ -172,6 +168,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: context.tr("HomeScreen.TextField_hintText"),
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     maxLines: (MediaQuery.of(context).size.height / 70).floor(),
                     controller: _scriptTextController,
@@ -179,12 +176,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ref.read(scriptProvider.notifier).setText(value);
                       ref.read(scriptProvider.notifier).setIsSaved(false);
                       if (ref.read(scriptProvider).ephemeral) {
-                        _scriptChangeDebouncer.run(() async {
-                          final script = ref.read(scriptProvider);
-                          await ref
-                              .read(scriptServiceProvider.notifier)
-                              .saveEphemeral(script);
-                        });
+                        _updateEphemeralScript();
                       }
                     },
                   ),
@@ -221,17 +213,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          final scriptService = ref.read(
-                            scriptServiceProvider.notifier,
-                          );
-                          final currentScript = ref.read(scriptProvider);
-                          ref.read(scriptProvider.notifier).setEphemeral(false);
-                          final scriptId = await scriptService.save(
-                            currentScript,
-                          );
-                          scriptService.createEphemeral();
-                          ref.read(scriptProvider.notifier).setIsSaved(true);
-                          ref.read(scriptProvider.notifier).setId(scriptId);
+                          if (ref.read(scriptProvider).ephemeral) {
+                            _saveCurrentScript();
+                            ref
+                                .read(scriptServiceProvider.notifier)
+                                .createEphemeral();
+                          } else {
+                            await _showNewOrOverrideDialog();
+                          }
                         },
                         child: Text(
                           context.tr('HomeScreen.ElevatedButton_Save'),
@@ -315,6 +304,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
+  void _updateEphemeralScript() {
+    _scriptChangeDebouncer.run(() async {
+      final script = ref.read(scriptProvider);
+      await ref.read(scriptServiceProvider.notifier).saveEphemeral(script);
+    });
+  }
+
   Future<void> _launchUrl(String uri) async {
     final Uri url = Uri.parse(uri);
     if (!await launchUrl(url)) {
@@ -347,6 +343,61 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _showNewOrOverrideDialog() async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.tr("HomeScreen.NewOrOverrideDialog.Title")),
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              await _saveCurrentScriptAsNew();
+              context.pop();
+            },
+            child: Text(context.tr("HomeScreen.NewOrOverrideDialog.NewScript")),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await _saveCurrentScript();
+              context.pop();
+            },
+            child: Text(
+              context.tr("HomeScreen.NewOrOverrideDialog.OverrideScript"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _saveCurrentScriptAsNew() async {
+    final scriptService = ref.read(scriptServiceProvider.notifier);
+    final currentScript = ref.read(scriptProvider);
+    final scriptProviderNotifier = ref.read(scriptProvider.notifier);
+
+    final savedScriptId = await scriptService.saveAsNew(currentScript);
+
+    scriptProviderNotifier.loadScript(
+      await scriptService.loadScript(savedScriptId),
+    );
+    scriptProviderNotifier.setEphemeral(false);
+    scriptProviderNotifier.setIsSaved(true);
+  }
+
+  Future<int> _saveCurrentScript() async {
+    final scriptService = ref.read(scriptServiceProvider.notifier);
+    final currentScript = ref.read(scriptProvider);
+    final scriptProviderNotifier = ref.read(scriptProvider.notifier);
+
+    final savedScriptId = await scriptService.save(currentScript);
+
+    scriptProviderNotifier.setEphemeral(false);
+    scriptProviderNotifier.setIsSaved(true);
+    scriptProviderNotifier.setId(savedScriptId);
+
+    return savedScriptId;
   }
 }
 

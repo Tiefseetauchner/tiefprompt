@@ -721,9 +721,8 @@ i1.GeneratedColumn<double> _column_35(String aliasedName) =>
     i1.GeneratedColumn<double>(
       'scroll_position',
       aliasedName,
-      false,
+      true,
       type: i1.DriftSqlType.double,
-      defaultValue: Constant(0),
     );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,

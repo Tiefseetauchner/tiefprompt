@@ -41,10 +41,22 @@ class OpenFileScreen extends ConsumerWidget {
                             file.path!,
                           ).readAsString();
 
+                          final newScriptId = await scriptService.saveAsNew(
+                            ScriptState(
+                              id: null,
+                              text: fileContent,
+                              title: file.name,
+                              isSaved: true,
+                              scrollPosition: null,
+                              ephemeral: false,
+                            ),
+                          );
+                          final newScript = await scriptService.loadScript(
+                            newScriptId,
+                          );
                           ref
                               .read(scriptProvider.notifier)
-                              .setText(fileContent);
-                          ref.read(scriptProvider.notifier).setTitle(file.name);
+                              .loadScript(newScript);
 
                           context.pop();
                         }
@@ -87,18 +99,10 @@ class OpenFileScreen extends ConsumerWidget {
                           final loadedScript = await scriptService.loadScript(
                             script.id,
                           );
-                          final scriptProviderNotifier = ref.read(
-                            scriptProvider.notifier,
-                          );
-                          scriptProviderNotifier.setId(loadedScript.id);
-                          scriptProviderNotifier.setText(
-                            loadedScript.scriptText,
-                          );
-                          scriptProviderNotifier.setTitle(loadedScript.title);
-                          scriptProviderNotifier.setIsSaved(true);
-                          scriptProviderNotifier.setEphemeral(
-                            loadedScript.ephemeral,
-                          );
+
+                          ref
+                              .read(scriptProvider.notifier)
+                              .loadScript(loadedScript);
 
                           context.pop();
                         },

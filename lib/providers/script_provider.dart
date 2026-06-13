@@ -12,7 +12,7 @@ abstract class ScriptState with _$ScriptState {
     required String text,
     required String? title,
     required bool isSaved,
-    required double scrollPosition,
+    required double? scrollPosition,
     required bool ephemeral,
   }) = _ScriptState;
 }
@@ -25,7 +25,7 @@ class Script extends _$Script {
     text: "",
     title: null,
     isSaved: true,
-    scrollPosition: 0,
+    scrollPosition: null,
     ephemeral: false,
   );
 
@@ -40,7 +40,7 @@ class Script extends _$Script {
   void setEphemeral(bool ephemeral) =>
       state = state.copyWith(ephemeral: ephemeral);
 
-  void setScrollPosition(double value) =>
+  void setScrollPosition(double? value) =>
       state = state.copyWith(scrollPosition: value);
 
   void loadScript(ScriptModelData script) {

@@ -6,5 +6,5 @@ class ScriptModel extends Table {
   TextColumn get scriptText => text()();
   DateTimeColumn get createdAt => dateTime()();
   BoolColumn get ephemeral => boolean().withDefault(Constant(false))();
-  RealColumn get scrollPosition => real().withDefault(Constant(0))();
+  RealColumn get scrollPosition => real().nullable()();
 }

@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
@@ -47,27 +48,29 @@ class ScriptService extends _$ScriptService {
           .getSingle();
 
   Future<int> save(ScriptState script) async {
-    if (script.ephemeral || script.id == null) {
-      return await _databaseManagers.scriptModel.create(
-        (s) => s(
-          scriptText: script.text,
-          title: script.title ?? "Untitled",
-          ephemeral: Value(false),
-          scrollPosition: Value(script.scrollPosition),
-          createdAt: DateTime.now(),
-        ),
-      );
-    } else {
-      return await _databaseManagers.scriptModel
-          .filter((f) => f.id.equals(script.id))
-          .update(
-            (s) => s(
-              scriptText: Value(script.text),
-              title: Value(script.title ?? "Untitled"),
-              scrollPosition: Value(script.scrollPosition),
-            ),
-          );
-    }
+    return await _databaseManagers.scriptModel
+        .filter((f) => f.id.equals(script.id))
+        .update(
+          (s) => s(
+            scriptText: Value(script.text),
+            title: Value(script.title ?? kNewScriptName),
+            ephemeral: Value(false),
+            scrollPosition: Value(script.scrollPosition),
+            createdAt: Value(DateTime.now()),
+          ),
+        );
+  }
+
+  Future<int> saveAsNew(ScriptState script) async {
+    return await _databaseManagers.scriptModel.create(
+      (s) => s(
+        scriptText: script.text,
+        title: script.title ?? kNewScriptName,
+        ephemeral: Value(false),
+        scrollPosition: Value(script.scrollPosition),
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 
   Future<int> saveEphemeral(ScriptState script) async {
@@ -76,17 +79,17 @@ class ScriptService extends _$ScriptService {
         .update(
           (s) => s(
             scriptText: Value(script.text),
-            title: Value(script.title ?? "Untitled"),
+            title: Value(script.title ?? kNewScriptName),
             scrollPosition: Value(script.scrollPosition),
           ),
         );
   }
 
-  Future<void> createEphemeral() async {
-    await _databaseManagers.scriptModel.create(
+  Future<int> createEphemeral() async {
+    return await _databaseManagers.scriptModel.create(
       (s) => s(
         scriptText: "",
-        title: "Untitled",
+        title: kNewScriptName,
         ephemeral: Value(true),
         createdAt: DateTime.now(),
       ),
@@ -97,4 +100,10 @@ class ScriptService extends _$ScriptService {
       .scriptModel
       .filter((s) => s.id(scriptId))
       .delete();
+
+  Future<void> updateScrollPosition(int scriptId, double scrollOffset) async {
+    await _databaseManagers.scriptModel
+        .filter((s) => s.id(scriptId))
+        .update((f) => f(scrollPosition: Value(scrollOffset)));
+  }
 }
