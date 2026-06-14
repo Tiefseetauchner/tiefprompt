@@ -29,7 +29,7 @@ done
 echo -e "${GREEN}All required tools are installed.${NC}"
 
 # Ensure required system image is installed
-SYSTEM_IMAGE="system-images;android-24;default;x86_64"
+SYSTEM_IMAGE="system-images;android-36;default;x86_64"
 
 echo -e "${BLUE}Checking if required system image is installed...${NC}"
 if ! sdkmanager --list | grep -q "$SYSTEM_IMAGE"; then

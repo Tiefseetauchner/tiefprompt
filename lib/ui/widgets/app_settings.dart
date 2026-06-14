@@ -102,16 +102,20 @@ class DropdownAppSetting<T> extends AppSetting {
   Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
-      trailing: DropdownButton<T>(
-        value: value,
-        items: values.map((value) {
-          return DropdownMenuItem<T>(value: value.$2, child: Text(value.$1));
-        }).toList(),
-        onChanged: (newValue) {
-          if (newValue != null) {
-            onValueChanged(newValue);
-          }
-        },
+      trailing: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 200),
+        child: DropdownButton<T>(
+          isExpanded: true,
+          value: value,
+          items: values.map((value) {
+            return DropdownMenuItem<T>(value: value.$2, child: Text(value.$1));
+          }).toList(),
+          onChanged: (newValue) {
+            if (newValue != null) {
+              onValueChanged(newValue);
+            }
+          },
+        ),
       ),
     );
   }
