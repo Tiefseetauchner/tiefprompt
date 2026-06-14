@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/feature_provider_freemium.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -17,10 +19,12 @@ import 'package:tiefprompt/ui/screens/prompter_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
 
 import 'mock_app.dart';
+import 'mock_database_managers.dart';
 import 'mock_script_service.dart';
 
 Future<void> main() async {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  final db = await createSeededDatabase();
 
   final List<(String, List<int>)> screenshots = [];
 
@@ -53,6 +57,9 @@ Future<void> main() async {
 
       await tester.pumpAndSettle();
 
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+      await tester.pumpAndSettle();
+
       screenshots.add((
         "${locale.$2.languageCode}-${locale.$2.countryCode}/$platformName/$screenName${screenName == null ? "" : "_"}$caseName${caseName == null ? "" : "_"}",
         await binding.takeScreenshot("screenshot"),
@@ -64,7 +71,17 @@ Future<void> main() async {
     });
 
     testWidgets("Take screenshot of home screen", (WidgetTester tester) async {
-      await tester.pumpWidget(MockApp(locale: locale.$2, child: HomeScreen()));
+      await tester.pumpWidget(
+        MockApp(
+          locale: locale.$2,
+          overrides: [
+            appDatabaseManagerProvider.overrideWith(
+              () => MockAppDatabaseManager(db),
+            ),
+          ],
+          child: HomeScreen(),
+        ),
+      );
       await tester.pumpAndSettle();
 
       await generateScreenshot(
@@ -85,6 +102,11 @@ Future<void> main() async {
               primary: Color.fromARGB(255, 77, 103, 214),
             ),
           ),
+          overrides: [
+            appDatabaseManagerProvider.overrideWith(
+              () => MockAppDatabaseManager(db),
+            ),
+          ],
           child: HomeScreen(),
         ),
       );
@@ -103,7 +125,12 @@ Future<void> main() async {
       await tester.pumpWidget(
         MockApp(
           locale: locale.$2,
-          overrides: [featuresProvider.overrideWith(() => FeaturesFreemium())],
+          overrides: [
+            appDatabaseManagerProvider.overrideWith(
+              () => MockAppDatabaseManager(db),
+            ),
+            featuresProvider.overrideWith(() => FeaturesFreemium()),
+          ],
           child: DisplaySettingsScreen(),
         ),
       );
@@ -123,6 +150,11 @@ Future<void> main() async {
         MockApp(
           scriptOverride: MockScriptService(),
           locale: locale.$2,
+          overrides: [
+            appDatabaseManagerProvider.overrideWith(
+              () => MockAppDatabaseManager(db),
+            ),
+          ],
           child: OpenFileScreen(),
         ),
       );
@@ -148,6 +180,11 @@ Future<void> main() async {
               onSurface: Colors.white,
             ),
           ),
+          overrides: [
+            appDatabaseManagerProvider.overrideWith(
+              () => MockAppDatabaseManager(db),
+            ),
+          ],
           child: PrompterScreen(),
         ),
       );
@@ -178,6 +215,11 @@ Future<void> main() async {
                 onSurface: const Color.fromARGB(255, 17, 255, 0),
               ),
             ),
+            overrides: [
+              appDatabaseManagerProvider.overrideWith(
+                () => MockAppDatabaseManager(db),
+              ),
+            ],
             child: PrompterScreen(),
           ),
         );

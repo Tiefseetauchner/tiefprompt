@@ -28,12 +28,7 @@ class MockApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return ProviderScope(
-      overrides: [
-        scriptServiceProvider.overrideWith(
-          () => scriptOverride ?? ScriptService(),
-        ),
-        ...overrides,
-      ],
+      overrides: [...overrides],
       child: EasyLocalization(
         saveLocale: false,
         supportedLocales: supportedLocales,
