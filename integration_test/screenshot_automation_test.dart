@@ -20,7 +20,6 @@ import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
 
 import 'mock_app.dart';
 import 'mock_database_managers.dart';
-import 'mock_script_service.dart';
 
 Future<void> main() async {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -148,7 +147,6 @@ Future<void> main() async {
     ) async {
       await tester.pumpWidget(
         MockApp(
-          scriptOverride: MockScriptService(),
           locale: locale.$2,
           overrides: [
             appDatabaseManagerProvider.overrideWith(
