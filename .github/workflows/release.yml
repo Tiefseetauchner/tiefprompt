@@ -162,12 +162,12 @@ jobs:
             --apiKey ${{ secrets.AC_API_KEY_ID }} \
             --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
           xcrun altool --validate-app \
-            -f package/freemium_tiefprompt.ipa \
+            -f package/freemium_Runner.ipa \
             -t ios \
             --apiKey ${{ secrets.AC_API_KEY_ID }} \
             --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
           xcrun altool --upload-app \
-            -f package/freemium_tiefprompt.ipa \
+            -f package/freemium_Runner.ipa \
             -t ios \
             --apiKey ${{ secrets.AC_API_KEY_ID }} \
             --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
