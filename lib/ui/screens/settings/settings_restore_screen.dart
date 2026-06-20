@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -11,12 +10,20 @@ import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
+import 'package:tiefprompt/providers/talker_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
 
-final importedSettingsJsonProvider = StateProvider<dynamic>((ref) => null);
+class _ImportedSettingsJson extends Notifier<dynamic> {
+  @override
+  dynamic build() => null;
+  void setValue(dynamic v) => state = v;
+}
+
+final importedSettingsJsonProvider =
+    NotifierProvider<_ImportedSettingsJson, dynamic>(_ImportedSettingsJson.new);
 
 class SettingsRestoreSetingsScreen extends ConsumerWidget {
   const SettingsRestoreSetingsScreen({super.key});
@@ -131,9 +138,11 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                         if (name.trim().isEmpty) {
                           ref
                               .read(bannerMessageProvider.notifier)
-                              .state = context.tr(
-                            "SettingsScreen.SettingsRestore.NameRequired",
-                          );
+                              .set(
+                                context.tr(
+                                  "SettingsScreen.SettingsRestore.NameRequired",
+                                ),
+                              );
                           return;
                         }
 
@@ -146,8 +155,13 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                         await ref
                             .read(settingsStorageServiceProvider.notifier)
                             .save(name.trim(), value, keybindingMapId);
-                        ref.read(bannerMessageProvider.notifier).state = context
-                            .tr("SettingsScreen.SettingsRestore.SaveSuccess");
+                        ref
+                            .read(bannerMessageProvider.notifier)
+                            .set(
+                              context.tr(
+                                "SettingsScreen.SettingsRestore.SaveSuccess",
+                              ),
+                            );
                       },
                     ),
                     DialogAppSetting<SettingsState>(
@@ -189,9 +203,11 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                         if (name.trim().isEmpty) {
                           ref
                               .read(bannerMessageProvider.notifier)
-                              .state = context.tr(
-                            "SettingsScreen.SettingsRestore.NameRequired",
-                          );
+                              .set(
+                                context.tr(
+                                  "SettingsScreen.SettingsRestore.NameRequired",
+                                ),
+                              );
                           return;
                         }
 
@@ -213,22 +229,27 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                               .save(name.trim(), settings, keybindingMapId);
 
                           ref
-                                  .read(importedSettingsJsonProvider.notifier)
-                                  .state =
-                              null;
+                              .read(importedSettingsJsonProvider.notifier)
+                              .setValue(null);
 
                           ref
                               .read(bannerMessageProvider.notifier)
-                              .state = context.tr(
-                            "SettingsScreen.SettingsRestore.ImportSuccess",
-                          );
+                              .set(
+                                context.tr(
+                                  "SettingsScreen.SettingsRestore.ImportSuccess",
+                                ),
+                              );
                         } catch (e) {
                           ref
                               .read(bannerMessageProvider.notifier)
-                              .state = context.tr(
-                            "SettingsScreen.SettingsRestore.ImportFailed",
-                          );
-                          if (kDebugMode) print(e);
+                              .set(
+                                context.tr(
+                                  "SettingsScreen.SettingsRestore.ImportFailed",
+                                ),
+                              );
+                          ref
+                              .read(talkerProvider)
+                              .error('Settings import failed', e);
                         }
                       },
                     ),
@@ -272,25 +293,31 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
 
                                 ref.invalidate(keybindingsProvider);
 
-                                print(
-                                  (await ref.read(
-                                    settingsProvider.future,
-                                  )).keybindingsMapId,
-                                );
+                                ref
+                                    .read(talkerProvider)
+                                    .debug(
+                                      'Loaded keybindingsMapId: ${(await ref.read(settingsProvider.future)).keybindingsMapId}',
+                                    );
 
                                 ref
                                     .read(bannerMessageProvider.notifier)
-                                    .state = context.tr(
-                                  "SettingsScreen.SettingsRestore.RestoreSuccess",
-                                );
+                                    .set(
+                                      context.tr(
+                                        "SettingsScreen.SettingsRestore.RestoreSuccess",
+                                      ),
+                                    );
                               } catch (e) {
                                 ref
                                     .read(bannerMessageProvider.notifier)
-                                    .state = context.tr(
-                                  "SettingsScreen.SettingsRestore.RestoreFailed",
-                                );
+                                    .set(
+                                      context.tr(
+                                        "SettingsScreen.SettingsRestore.RestoreFailed",
+                                      ),
+                                    );
 
-                                if (kDebugMode) print(e);
+                                ref
+                                    .read(talkerProvider)
+                                    .error('Settings restore failed', e);
                               }
                             },
                           ),
@@ -327,8 +354,6 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
           ],
         ),
       ),
-      // TODO: Handle this case.
-      AsyncValue<SettingsState>() => throw UnimplementedError(),
     };
   }
 
@@ -370,7 +395,8 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                 .getKeybindings(settings.keybindingsMapId))
                             .toJsonMap(),
                   });
-                  await FilePicker.platform.saveFile(
+                  await FilePicker.saveFile(
+                    fileName: "settings.json",
                     dialogTitle: context.tr(
                       "SettingsScreen.SettingsRestore.OptionsDialog.FilePickerTitle",
                     ),
@@ -378,17 +404,25 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                     type: FileType.custom,
                     bytes: Utf8Encoder().convert(exportedString),
                   );
-                  ref.read(bannerMessageProvider.notifier).state = context.tr(
-                    "SettingsScreen.SettingsRestore.ExportSuccess",
-                  );
+                  ref
+                      .read(bannerMessageProvider.notifier)
+                      .set(
+                        context.tr(
+                          "SettingsScreen.SettingsRestore.ExportSuccess",
+                        ),
+                      );
                   context.pop();
                 } catch (e) {
-                  ref.read(bannerMessageProvider.notifier).state = context.tr(
-                    "SettingsScreen.SettingsRestore.ExportFailed",
-                  );
+                  ref
+                      .read(bannerMessageProvider.notifier)
+                      .set(
+                        context.tr(
+                          "SettingsScreen.SettingsRestore.ExportFailed",
+                        ),
+                      );
                   context.pop();
 
-                  if (kDebugMode) print(e);
+                  ref.read(talkerProvider).error('Settings export failed', e);
                 }
               },
             ),
@@ -451,9 +485,11 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
               if (cb != null) {
                 cb();
               }
-              ref.read(bannerMessageProvider.notifier).state = context.tr(
-                "SettingsScreen.SettingsRestore.DeleteSuccess",
-              );
+              ref
+                  .read(bannerMessageProvider.notifier)
+                  .set(
+                    context.tr("SettingsScreen.SettingsRestore.DeleteSuccess"),
+                  );
             },
             child: Text(
               context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Confirm"),
@@ -616,7 +652,7 @@ class _ImportSettingsDialogState extends ConsumerState<_ImportSettingsDialog> {
         ),
         ElevatedButton(
           onPressed: () async {
-            final resultFile = await FilePicker.platform.pickFiles(
+            final resultFile = await FilePicker.pickFiles(
               type: FileType.custom,
               allowedExtensions: ['json'],
             );
@@ -629,32 +665,43 @@ class _ImportSettingsDialogState extends ConsumerState<_ImportSettingsDialog> {
                 final jsonContent = jsonDecode(fileContent);
 
                 if (jsonContent['schemaVersion'] != kSettingsSchemaVersion) {
-                  ref.read(bannerMessageProvider.notifier).state = context.tr(
-                    "SettingsScreen.SettingsRestore.ImportSettings.InvalidVersion",
-                  );
+                  ref
+                      .read(bannerMessageProvider.notifier)
+                      .set(
+                        context.tr(
+                          "SettingsScreen.SettingsRestore.ImportSettings.InvalidVersion",
+                        ),
+                      );
                   context.pop();
                   return;
                 }
 
                 if (jsonContent['settings'] == null) {
-                  ref.read(bannerMessageProvider.notifier).state = context.tr(
-                    "SettingsScreen.SettingsRestore.ImportFailed",
-                  );
+                  ref
+                      .read(bannerMessageProvider.notifier)
+                      .set(
+                        context.tr(
+                          "SettingsScreen.SettingsRestore.ImportFailed",
+                        ),
+                      );
                   context.pop();
                   return;
                 }
 
-                ref.read(importedSettingsJsonProvider.notifier).state =
-                    jsonContent;
+                ref
+                    .read(importedSettingsJsonProvider.notifier)
+                    .setValue(jsonContent);
 
                 context.pop();
               } catch (e) {
-                ref.read(bannerMessageProvider.notifier).state = context.tr(
-                  "SettingsScreen.SettingsRestore.ImportFailed",
-                );
+                ref
+                    .read(bannerMessageProvider.notifier)
+                    .set(
+                      context.tr("SettingsScreen.SettingsRestore.ImportFailed"),
+                    );
                 context.pop();
 
-                if (kDebugMode) print(e);
+                ref.read(talkerProvider).error('Settings import failed', e);
               }
             }
           },

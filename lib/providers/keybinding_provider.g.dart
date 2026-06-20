@@ -6,29 +6,53 @@ part of 'keybinding_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$keybindingsHash() => r'f8b3b12f0ea79096e4b708f002878cdebe2cb4b6';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [Keybindings].
 @ProviderFor(Keybindings)
-final keybindingsProvider =
-    AsyncNotifierProvider<Keybindings, KeybindingMap>.internal(
-      Keybindings.new,
-      name: r'keybindingsProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$keybindingsHash,
-      dependencies: <ProviderOrFamily>[
-        settingsProvider,
-        databaseManagersProvider,
-      ],
-      allTransitiveDependencies: <ProviderOrFamily>{
-        settingsProvider,
-        ...?settingsProvider.allTransitiveDependencies,
-        databaseManagersProvider,
-        ...?databaseManagersProvider.allTransitiveDependencies,
-      },
-    );
+final keybindingsProvider = KeybindingsProvider._();
 
-typedef _$Keybindings = AsyncNotifier<KeybindingMap>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class KeybindingsProvider
+    extends $AsyncNotifierProvider<Keybindings, KeybindingMap> {
+  KeybindingsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'keybindingsProvider',
+        isAutoDispose: false,
+        dependencies: <ProviderOrFamily>[settingsProvider],
+        $allTransitiveDependencies: <ProviderOrFamily>[
+          KeybindingsProvider.$allTransitiveDependencies0,
+        ],
+      );
+
+  static final $allTransitiveDependencies0 = settingsProvider;
+
+  @override
+  String debugGetCreateSourceHash() => _$keybindingsHash();
+
+  @$internal
+  @override
+  Keybindings create() => Keybindings();
+}
+
+String _$keybindingsHash() => r'036c3b1e7195c7f68cedba89008c4f6b8c10b6b1';
+
+abstract class _$Keybindings extends $AsyncNotifier<KeybindingMap> {
+  FutureOr<KeybindingMap> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<KeybindingMap>, KeybindingMap>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<KeybindingMap>, KeybindingMap>,
+              AsyncValue<KeybindingMap>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

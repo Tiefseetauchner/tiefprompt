@@ -6,20 +6,56 @@ part of 'feature_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(Features)
+final featuresProvider = FeaturesProvider._();
+
+final class FeaturesProvider extends $NotifierProvider<Features, AppFeatures> {
+  FeaturesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'featuresProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$featuresHash();
+
+  @$internal
+  @override
+  Features create() => Features();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppFeatures value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppFeatures>(value),
+    );
+  }
+}
+
 String _$featuresHash() => r'e5f057907f092e8e1c90d0b31b89b88381f9ea6a';
 
-/// See also [Features].
-@ProviderFor(Features)
-final featuresProvider = NotifierProvider<Features, AppFeatures>.internal(
-  Features.new,
-  name: r'featuresProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$featuresHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$Features = Notifier<AppFeatures>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$Features extends $Notifier<AppFeatures> {
+  AppFeatures build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AppFeatures, AppFeatures>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AppFeatures, AppFeatures>,
+              AppFeatures,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

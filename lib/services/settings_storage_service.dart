@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/settings_preset_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/providers/talker_provider.dart';
 
 part 'settings_storage_service.g.dart';
 
@@ -19,7 +20,7 @@ class SettingsDisplayData {
   });
 }
 
-@Riverpod(dependencies: [Settings, Keybindings, DatabaseManagers])
+@Riverpod(dependencies: [Settings, Keybindings])
 class SettingsStorageService extends _$SettingsStorageService {
   late final _databaseManagers = ref.read(databaseManagersProvider);
 
@@ -40,12 +41,13 @@ class SettingsStorageService extends _$SettingsStorageService {
       );
 
   Future<void> loadSettings(int settingsId) async {
+    ref.read(talkerProvider).info('Settings preset loading: id=$settingsId');
     final settings = await getSettings(settingsId);
     await ref.read(settingsProvider.notifier).loadSettings(settings);
-
     await ref
         .read(keybindingsProvider.notifier)
         .copyBindingsToCurrent(settings.keybindingsMapId);
+    ref.read(talkerProvider).info('Settings preset loaded: id=$settingsId');
   }
 
   Future<SettingsState> getSettings(int settingsId) async =>
@@ -106,6 +108,7 @@ class SettingsStorageService extends _$SettingsStorageService {
     SettingsState settings,
     int keybindingMapId,
   ) async {
+    ref.read(talkerProvider).info('Settings preset saved: "$name"');
     await _databaseManagers.settingsPresetModel.create(
       (s) => s(
         name: name,
@@ -134,8 +137,10 @@ class SettingsStorageService extends _$SettingsStorageService {
     );
   }
 
-  Future<void> deleteSettings(int settingsId) async => await _databaseManagers
-      .settingsPresetModel
-      .filter((s) => s.id(settingsId))
-      .delete();
+  Future<void> deleteSettings(int settingsId) async {
+    ref.read(talkerProvider).info('Settings preset deleted: id=$settingsId');
+    await _databaseManagers.settingsPresetModel
+        .filter((s) => s.id(settingsId))
+        .delete();
+  }
 }

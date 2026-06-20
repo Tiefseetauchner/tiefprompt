@@ -20,7 +20,15 @@ import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
-final controlsVisibleProvider = StateProvider<bool>((ref) => true);
+class _ControlsVisible extends Notifier<bool> {
+  @override
+  bool build() => true;
+  void toggle() => state = !state;
+}
+
+final controlsVisibleProvider = NotifierProvider<_ControlsVisible, bool>(
+  _ControlsVisible.new,
+);
 
 class PrompterScreen extends ConsumerStatefulWidget {
   const PrompterScreen({super.key});
@@ -100,9 +108,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
           children: [
             GestureDetector(
               onTap: () {
-                ref.read(controlsVisibleProvider.notifier).state = !ref.watch(
-                  controlsVisibleProvider,
-                );
+                ref.read(controlsVisibleProvider.notifier).toggle();
               },
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -239,9 +245,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
         case KeybindingAction.toggleControls:
           _gatedKeybinding(
             Feature.keybindings,
-            () => ref.read(controlsVisibleProvider.notifier).state = !ref.watch(
-              controlsVisibleProvider,
-            ),
+            () => ref.read(controlsVisibleProvider.notifier).toggle(),
           );
           break;
         case KeybindingAction.fontSizeUp:

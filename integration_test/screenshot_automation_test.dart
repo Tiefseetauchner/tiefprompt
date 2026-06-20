@@ -1,13 +1,11 @@
 import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:tiefprompt/core/constants.dart';
-import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_freemium.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -17,7 +15,6 @@ import 'package:tiefprompt/ui/screens/prompter_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
 
 import 'mock_app.dart';
-import 'mock_script_service.dart';
 
 Future<void> main() async {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +38,7 @@ Future<void> main() async {
       } else if (Platform.isMacOS) {
         platformName = "macos";
       } else if (Platform.isIOS) {
-        final deviceInfo = await DeviceInfoPlugin().iosInfo;
-        platformName = "ios${deviceInfo.modelName}";
+        platformName = "ios${Platform.localHostname}";
       } else if (Platform.isWindows) {
         platformName = "windows";
       } else {
@@ -51,6 +47,9 @@ Future<void> main() async {
         );
       }
 
+      await tester.pumpAndSettle();
+
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
       await tester.pumpAndSettle();
 
       screenshots.add((
@@ -101,11 +100,7 @@ Future<void> main() async {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MockApp(
-          locale: locale.$2,
-          overrides: [featuresProvider.overrideWith(() => FeaturesFreemium())],
-          child: DisplaySettingsScreen(),
-        ),
+        MockApp(locale: locale.$2, child: DisplaySettingsScreen()),
       );
       await tester.pumpAndSettle();
 
@@ -120,11 +115,7 @@ Future<void> main() async {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MockApp(
-          scriptOverride: MockScriptService(),
-          locale: locale.$2,
-          child: OpenFileScreen(),
-        ),
+        MockApp(locale: locale.$2, child: OpenFileScreen()),
       );
       await tester.pumpAndSettle();
 

@@ -4,7 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 
-final _userScrollingProvider = StateProvider<bool>((ref) => false);
+class _UserScrolling extends Notifier<bool> {
+  @override
+  bool build() => false;
+  void setValue(bool v) => state = v;
+}
+
+final _userScrollingProvider = NotifierProvider<_UserScrolling, bool>(
+  _UserScrolling.new,
+);
 
 class ScrollableTextController {
   final ScrollController scrollController;
@@ -101,12 +109,16 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       widget.controller.scrollController.position.isScrollingNotifier
           .addListener(() {
-            ref.read(_userScrollingProvider.notifier).state = widget
-                .controller
-                .scrollController
-                .position
-                .isScrollingNotifier
-                .value;
+            ref
+                .read(_userScrollingProvider.notifier)
+                .setValue(
+                  widget
+                      .controller
+                      .scrollController
+                      .position
+                      .isScrollingNotifier
+                      .value,
+                );
           });
     });
 

@@ -6,6 +6,7 @@ import 'package:tiefprompt/ui/screens/help_request_screen.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
+import 'package:tiefprompt/ui/screens/log_viewer_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/keybindings_settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
@@ -58,6 +59,10 @@ class TiefPromptRouter extends _$TiefPromptRouter {
             GoRoute(
               path: 'settingsrestore',
               builder: (context, state) => const SettingsRestoreSetingsScreen(),
+            ),
+            GoRoute(
+              path: 'logs',
+              builder: (context, state) => const LogViewerScreen(),
             ),
           ],
         ),
