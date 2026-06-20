@@ -4,9 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 
 class PrompterTopBar extends ConsumerWidget {
-  const PrompterTopBar({
-    super.key,
-  });
+  const PrompterTopBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,8 +22,10 @@ class PrompterTopBar extends ConsumerWidget {
           spacing: 12,
           children: [
             IconButton(
-              icon: Icon(Icons.close,
-                  color: Theme.of(context).colorScheme.onSurface),
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               onPressed: () => Navigator.of(context).pop(),
             ),
             Expanded(
@@ -33,8 +33,9 @@ class PrompterTopBar extends ConsumerWidget {
                 script.title ?? context.tr("empty_title"),
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).colorScheme.onSurface),
+                  fontSize: 20,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             ),
           ],

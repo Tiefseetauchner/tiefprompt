@@ -18,10 +18,12 @@ class _BoolToggle extends Notifier<bool> {
   void toggle() => state = !state;
 }
 
-final fontSettingsVisibleProvider =
-    NotifierProvider<_BoolToggle, bool>(() => _BoolToggle(false));
-final displaySettingsVisibleProvider =
-    NotifierProvider<_BoolToggle, bool>(() => _BoolToggle(false));
+final fontSettingsVisibleProvider = NotifierProvider<_BoolToggle, bool>(
+  () => _BoolToggle(false),
+);
+final displaySettingsVisibleProvider = NotifierProvider<_BoolToggle, bool>(
+  () => _BoolToggle(false),
+);
 
 class PrompterBottomBar extends ConsumerWidget {
   const PrompterBottomBar({super.key});

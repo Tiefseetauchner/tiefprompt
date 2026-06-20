@@ -33,7 +33,9 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
       final res = await ref.read(featuresProvider.notifier).bootstrap();
 
       if (!res) {
-        talker.warning('Feature bootstrap returned false — invalidating featuresProvider');
+        talker.warning(
+          'Feature bootstrap returned false — invalidating featuresProvider',
+        );
         ref.invalidate(featuresProvider);
       } else {
         talker.info('Feature bootstrap succeeded');
@@ -59,7 +61,9 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
               .loadScript(newEphemeralScriptId);
           ref.read(scriptProvider.notifier).loadScript(newEphemeralScript);
         } else if (ephemeralScripts.length > 1) {
-          talker.error('Multiple ephemeral scripts found (count: ${ephemeralScripts.length}) — resetting');
+          talker.error(
+            'Multiple ephemeral scripts found (count: ${ephemeralScripts.length}) — resetting',
+          );
           if (mounted) {
             ref
                 .read(bannerMessageProvider.notifier)

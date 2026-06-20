@@ -247,7 +247,9 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                   "SettingsScreen.SettingsRestore.ImportFailed",
                                 ),
                               );
-                          ref.read(talkerProvider).error('Settings import failed', e);
+                          ref
+                              .read(talkerProvider)
+                              .error('Settings import failed', e);
                         }
                       },
                     ),
@@ -291,9 +293,11 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
 
                                 ref.invalidate(keybindingsProvider);
 
-                                ref.read(talkerProvider).debug(
-                                  'Loaded keybindingsMapId: ${(await ref.read(settingsProvider.future)).keybindingsMapId}',
-                                );
+                                ref
+                                    .read(talkerProvider)
+                                    .debug(
+                                      'Loaded keybindingsMapId: ${(await ref.read(settingsProvider.future)).keybindingsMapId}',
+                                    );
 
                                 ref
                                     .read(bannerMessageProvider.notifier)
@@ -311,7 +315,9 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                       ),
                                     );
 
-                                ref.read(talkerProvider).error('Settings restore failed', e);
+                                ref
+                                    .read(talkerProvider)
+                                    .error('Settings restore failed', e);
                               }
                             },
                           ),

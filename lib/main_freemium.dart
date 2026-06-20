@@ -27,7 +27,12 @@ void main() async {
 
   runApp(
     ProviderScope(
-      observers: [TalkerRiverpodObserver(talker: talker)],
+      observers: [
+        TalkerRiverpodObserver(
+          talker: talker,
+          settings: kTalkerRiverpodObserverSettings,
+        ),
+      ],
       overrides: [
         featuresProvider.overrideWith(() => FeaturesFreemium()),
         talkerProvider.overrideWithValue(talker),
