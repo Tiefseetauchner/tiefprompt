@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -11,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
+import 'package:tiefprompt/providers/talker_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
@@ -247,7 +247,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                   "SettingsScreen.SettingsRestore.ImportFailed",
                                 ),
                               );
-                          if (kDebugMode) print(e);
+                          ref.read(talkerProvider).error('Settings import failed', e);
                         }
                       },
                     ),
@@ -291,10 +291,8 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
 
                                 ref.invalidate(keybindingsProvider);
 
-                                print(
-                                  (await ref.read(
-                                    settingsProvider.future,
-                                  )).keybindingsMapId,
+                                ref.read(talkerProvider).debug(
+                                  'Loaded keybindingsMapId: ${(await ref.read(settingsProvider.future)).keybindingsMapId}',
                                 );
 
                                 ref
@@ -313,7 +311,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                                       ),
                                     );
 
-                                if (kDebugMode) print(e);
+                                ref.read(talkerProvider).error('Settings restore failed', e);
                               }
                             },
                           ),
@@ -418,7 +416,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                       );
                   context.pop();
 
-                  if (kDebugMode) print(e);
+                  ref.read(talkerProvider).error('Settings export failed', e);
                 }
               },
             ),
@@ -697,7 +695,7 @@ class _ImportSettingsDialogState extends ConsumerState<_ImportSettingsDialog> {
                     );
                 context.pop();
 
-                if (kDebugMode) print(e);
+                ref.read(talkerProvider).error('Settings import failed', e);
               }
             }
           },

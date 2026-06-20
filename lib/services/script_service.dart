@@ -4,6 +4,7 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/script_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
+import 'package:tiefprompt/providers/talker_provider.dart';
 
 part 'script_service.g.dart';
 
@@ -48,6 +49,7 @@ class ScriptService extends _$ScriptService {
           .getSingle();
 
   Future<int> save(ScriptState script) async {
+    ref.read(talkerProvider).info('Script saved: id=${script.id}, title="${script.title}"');
     return await _databaseManagers.scriptModel
         .filter((f) => f.id.equals(script.id))
         .update(
@@ -62,6 +64,7 @@ class ScriptService extends _$ScriptService {
   }
 
   Future<int> saveAsNew(ScriptState script) async {
+    ref.read(talkerProvider).info('Script saved as new: title="${script.title}"');
     return await _databaseManagers.scriptModel.create(
       (s) => s(
         scriptText: script.text,
@@ -86,6 +89,7 @@ class ScriptService extends _$ScriptService {
   }
 
   Future<int> createEphemeral() async {
+    ref.read(talkerProvider).info('Ephemeral script created');
     return await _databaseManagers.scriptModel.create(
       (s) => s(
         scriptText: "",
@@ -96,10 +100,10 @@ class ScriptService extends _$ScriptService {
     );
   }
 
-  Future<void> deleteScript(int scriptId) async => await _databaseManagers
-      .scriptModel
-      .filter((s) => s.id(scriptId))
-      .delete();
+  Future<void> deleteScript(int scriptId) async {
+    ref.read(talkerProvider).info('Script deleted: id=$scriptId');
+    await _databaseManagers.scriptModel.filter((s) => s.id(scriptId)).delete();
+  }
 
   Future<void> updateScrollPosition(int scriptId, double scrollOffset) async {
     await _databaseManagers.scriptModel
