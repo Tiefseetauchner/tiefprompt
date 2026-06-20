@@ -230,6 +230,44 @@ package_macos() {
   return 0
 }
 
+notarize_macos() {
+  if [ -z "$AC_API_KEY_ID" ]; then
+    error_echo "AC_API_KEY_ID must be set to notarize." 127
+    return 127
+  fi
+  if [ -z "$AC_API_KEY_ISSUER" ]; then
+    error_echo "AC_API_KEY_ISSUER must be set to notarize." 127
+    return 127
+  fi
+  if [ -z "$AC_API_PRIVATE_KEY" ]; then
+    error_echo "AC_API_PRIVATE_KEY must be set to notarize." 127
+    return 127
+  fi
+
+  verbose_echo "${CYAN}Zipping app for notarization...${RESET}"
+  app_name=$(get_first_app "$1")
+  notarize_zip="$(dirname "$app_name")/notarize.zip"
+  ditto -c -k --keepParent "$app_name" "$notarize_zip" \
+    > >(verbose_echo_stdin "ditto") \
+    2> >(normal_echo_stderr "${RED}ditto (error)")
+
+  verbose_echo "${CYAN}Submitting for notarization...${RESET}"
+  xcrun notarytool submit "$notarize_zip" \
+    --key "$AC_API_PRIVATE_KEY" \
+    --key-id "$AC_API_KEY_ID" \
+    --issuer "$AC_API_KEY_ISSUER" \
+    --wait \
+    > >(verbose_echo_stdin "notarytool") \
+    2> >(normal_echo_stderr "${RED}notarytool (error)")
+
+  verbose_echo "${CYAN}Stapling notarization ticket...${RESET}"
+  xcrun stapler staple "$app_name" \
+    > >(verbose_echo_stdin "stapler") \
+    2> >(normal_echo_stderr "${RED}stapler (error)")
+
+  rm -f "$notarize_zip"
+}
+
 add_ios_swiftsupport() {
   more_verbose_echo "${CYAN}Adding iOS SwiftSupport Folder${RESET}"
 
@@ -423,8 +461,9 @@ unset -v MORE_VERBOSE
 unset -v SKIP_FLUTTER_SETUP
 unset -v CONTINUE_ON_FAIL
 unset -v RUN_DEBUG_BUILD
+unset -v NOTARIZE
 
-while getopts "t:f:b:k:K:p:i:P:hEvVcdsq" opt; do
+while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
   case $opt in
     t)
       TARGETS=$OPTARG
@@ -464,6 +503,9 @@ while getopts "t:f:b:k:K:p:i:P:hEvVcdsq" opt; do
       ;;
     d)
       RUN_DEBUG_BUILD=YES
+      ;;
+    n)
+      NOTARIZE=YES
       ;;
     s)
       SKIP_FLUTTER_SETUP=YES
@@ -627,6 +669,10 @@ for freedom in $FREEDOM_LIST; do
         > >(more_verbose_echo_stdin "cp") \
         2> >(normal_echo_stderr "${RED}cp (error)")
       target_results=$app_dir
+
+      if [ "$NOTARIZE" ]; then
+        notarize_macos "$target_results"
+      fi
     fi
 
     if [ "$target" = "windowsmsix" ]; then
