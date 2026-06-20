@@ -49,7 +49,9 @@ class ScriptService extends _$ScriptService {
           .getSingle();
 
   Future<int> save(ScriptState script) async {
-    ref.read(talkerProvider).info('Script saved: id=${script.id}, title="${script.title}"');
+    ref
+        .read(talkerProvider)
+        .info('Script saved: id=${script.id}, title="${script.title}"');
     return await _databaseManagers.scriptModel
         .filter((f) => f.id.equals(script.id))
         .update(
@@ -64,7 +66,9 @@ class ScriptService extends _$ScriptService {
   }
 
   Future<int> saveAsNew(ScriptState script) async {
-    ref.read(talkerProvider).info('Script saved as new: title="${script.title}"');
+    ref
+        .read(talkerProvider)
+        .info('Script saved as new: title="${script.title}"');
     return await _databaseManagers.scriptModel.create(
       (s) => s(
         scriptText: script.text,

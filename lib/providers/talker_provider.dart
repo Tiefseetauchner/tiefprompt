@@ -5,7 +5,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 final talkerProvider = Provider<Talker>((ref) {
-  throw UnimplementedError('talkerProvider must be overridden in ProviderScope');
+  throw UnimplementedError(
+    'talkerProvider must be overridden in ProviderScope',
+  );
 });
 
 Future<Talker> createTalker() async {
@@ -13,10 +15,7 @@ Future<Talker> createTalker() async {
   final logFile = File('${dir.path}/tiefprompt_logs.txt');
 
   final talker = TalkerFlutter.init(
-    settings: TalkerSettings(
-      useHistory: true,
-      maxHistoryItems: 1000,
-    ),
+    settings: TalkerSettings(useHistory: true, maxHistoryItems: 1000),
     observer: _FileObserver(logFile),
   );
 

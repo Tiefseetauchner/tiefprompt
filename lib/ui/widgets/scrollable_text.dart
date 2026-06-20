@@ -10,8 +10,9 @@ class _UserScrolling extends Notifier<bool> {
   void setValue(bool v) => state = v;
 }
 
-final _userScrollingProvider =
-    NotifierProvider<_UserScrolling, bool>(_UserScrolling.new);
+final _userScrollingProvider = NotifierProvider<_UserScrolling, bool>(
+  _UserScrolling.new,
+);
 
 class ScrollableTextController {
   final ScrollController scrollController;
@@ -108,7 +109,9 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       widget.controller.scrollController.position.isScrollingNotifier
           .addListener(() {
-            ref.read(_userScrollingProvider.notifier).setValue(
+            ref
+                .read(_userScrollingProvider.notifier)
+                .setValue(
                   widget
                       .controller
                       .scrollController

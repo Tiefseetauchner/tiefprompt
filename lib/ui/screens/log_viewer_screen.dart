@@ -9,6 +9,10 @@ class LogViewerScreen extends ConsumerWidget {
   @override
   Widget build(context, ref) {
     final talker = ref.read(talkerProvider);
-    return TalkerScreen(talker: talker);
+
+    return TalkerScreen(
+      talker: talker,
+      theme: TalkerScreenTheme.fromTheme(Theme.of(context)),
+    );
   }
 }

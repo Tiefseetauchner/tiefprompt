@@ -51,7 +51,9 @@ class Keybindings extends _$Keybindings {
     // NOTE: Due to potential for future expansion, this is hardcoded to 0
     final currentMapId = 0;
 
-    ref.read(talkerProvider).info('Keybindings copied to current from mapId=$keybindingMapId');
+    ref
+        .read(talkerProvider)
+        .info('Keybindings copied to current from mapId=$keybindingMapId');
     final newBindings = await getKeybindings(keybindingMapId);
     await _setCurrentKeybindings(newBindings, currentMapId);
   }
@@ -60,9 +62,11 @@ class Keybindings extends _$Keybindings {
     KeybindingMap bindingMap,
     int bindingMapId,
   ) async {
-    ref.read(talkerProvider).info(
-      'Keybindings replacing mapId=$bindingMapId with ${bindingMap.keybindings.length} bindings',
-    );
+    ref
+        .read(talkerProvider)
+        .info(
+          'Keybindings replacing mapId=$bindingMapId with ${bindingMap.keybindings.length} bindings',
+        );
     await _databaseManagers.keybindingMapModel
         .filter((o) => o.id.equals(bindingMapId))
         .delete();

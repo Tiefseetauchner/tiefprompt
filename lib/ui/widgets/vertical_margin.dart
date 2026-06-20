@@ -89,7 +89,4 @@ class _VerticalMarginBox extends StatelessWidget {
   }
 }
 
-enum _FadePosition {
-  top,
-  bottom,
-}
+enum _FadePosition { top, bottom }

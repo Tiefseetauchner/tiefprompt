@@ -26,8 +26,9 @@ class _ControlsVisible extends Notifier<bool> {
   void toggle() => state = !state;
 }
 
-final controlsVisibleProvider =
-    NotifierProvider<_ControlsVisible, bool>(_ControlsVisible.new);
+final controlsVisibleProvider = NotifierProvider<_ControlsVisible, bool>(
+  _ControlsVisible.new,
+);
 
 class PrompterScreen extends ConsumerStatefulWidget {
   const PrompterScreen({super.key});
