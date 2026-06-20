@@ -29,21 +29,7 @@
     "FreeVersion": "Gratisversion",
     "FreeVersion_Explanation": "Wir sind ein gratis und quelloffenes Projekt. Leider heißt das auch, dass TiefPrompt viel Zeit - und Geld - in Anspruch nimmt. Zwischen Entwicklung, Design, und Distribution (hallo, Apple Developer Gebühren) ist TiefPrompt sowohl zeitlich als auch finanziell eine Belastung geworden. Um das ganze nachhaltig weiter zu führen habe ich mich für ein freemium Modell entschieden: die App ist gratis verwendbar, aber ein paar Features sind nur in der Pro Version verfügbar.\n\nSolltest du nicht für Pro zahlen können oder wollen kannst du die App trotzdem verwenden oder vom Quellcode selber kompilieren.\n\nIch wünschte es wäre nicht notwendig, aber ich hoffe du verstehst es und findest die App trotzdem wertvoll.",
     "PaidVersion": "TiefPrompt Pro",
-    "PaidVersion_Explanation": "Danke für das Kaufen von TiefPrompt Pro! Deine Unterstützung bedeutet mir viel. Du schaltest nicht nur neue Features frei - du hilfst diesem Projekt, am Leben zu bleiben und weiterentwickelt zu werden. Diese App entsteht aus Liebe, und deine Beisteuerung hilft, die Kosten von Hosting, Entwicklung, Testgeräten und viel zu viel Kaffee abzudecken.\n\nEhrlich, danke, dass du das hier möglich machst.",
-    "TitleField_heading": "Scriptname",
-    "TitleField_hintText": "Gib den Scriptnamen an",
-    "TextField_heading": "Scripttext",
-    "DiscardConfirmDialog": {
-      "Title": "Änderungen verwerfen?",
-      "Body": "Das Laden eines Scriptes würde Änderungen verwerfen. Fortfahren und alle ungespeicherten Änderungen verwerfen?",
-      "Cancel": "Abbrechen",
-      "Confirm": "Bestätigen und Verwerfen"
-    },
-    "NewOrOverrideDialog": {
-      "Title": "Aktuelle Script überschreiben oder als Neues speichern?",
-      "NewScript": "Als neues Script speichern",
-      "OverrideScript": "Altes Script überschreiben"
-    }
+    "PaidVersion_Explanation": "Danke für das Kaufen von TiefPrompt Pro! Deine Unterstützung bedeutet mir viel. Du schaltest nicht nur neue Features frei - du hilfst diesem Projekt, am Leben zu bleiben und weiterentwickelt zu werden. Diese App entsteht aus Liebe, und deine Beisteuerung hilft, die Kosten von Hosting, Entwicklung, Testgeräten und viel zu viel Kaffee abzudecken.\n\nEhrlich, danke, dass du das hier möglich machst."
   },
   "SettingsScreen": {
     "title": "Einstellungen",
