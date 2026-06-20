@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/settings_preset_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -19,7 +19,7 @@ class SettingsDisplayData {
   });
 }
 
-@Riverpod(dependencies: [Settings, Keybindings, DatabaseManagers])
+@Riverpod(dependencies: [Settings, Keybindings])
 class SettingsStorageService extends _$SettingsStorageService {
   late final _databaseManagers = ref.read(databaseManagersProvider);
 

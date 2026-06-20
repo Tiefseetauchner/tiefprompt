@@ -7,8 +7,9 @@ import 'package:tiefprompt/models/app_state.dart';
 import 'package:tiefprompt/models/script_model.dart';
 import 'package:tiefprompt/models/settings_preset_model.dart';
 import "database.steps.dart";
-
-part 'database.g.dart';
+import 'database.drift.dart';
+import 'app_state.drift.dart';
+import 'script_model.drift.dart';
 
 @DriftDatabase(
   tables: [
@@ -19,7 +20,7 @@ part 'database.g.dart';
     AppStateModel,
   ],
 )
-class AppDatabase extends _$AppDatabase {
+class AppDatabase extends $AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override

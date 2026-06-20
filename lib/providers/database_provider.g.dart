@@ -6,41 +6,105 @@ part of 'database_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(AppDatabaseManager)
+final appDatabaseManagerProvider = AppDatabaseManagerProvider._();
+
+final class AppDatabaseManagerProvider
+    extends $NotifierProvider<AppDatabaseManager, AppDatabase> {
+  AppDatabaseManagerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appDatabaseManagerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$appDatabaseManagerHash();
+
+  @$internal
+  @override
+  AppDatabaseManager create() => AppDatabaseManager();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppDatabase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppDatabase>(value),
+    );
+  }
+}
+
 String _$appDatabaseManagerHash() =>
     r'24f0ffb20ce983fbe55e5c7e33e5b44b02c2c8c6';
 
-/// See also [AppDatabaseManager].
-@ProviderFor(AppDatabaseManager)
-final appDatabaseManagerProvider =
-    NotifierProvider<AppDatabaseManager, AppDatabase>.internal(
-      AppDatabaseManager.new,
-      name: r'appDatabaseManagerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$appDatabaseManagerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+abstract class _$AppDatabaseManager extends $Notifier<AppDatabase> {
+  AppDatabase build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AppDatabase, AppDatabase>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AppDatabase, AppDatabase>,
+              AppDatabase,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(databaseManagers)
+final databaseManagersProvider = DatabaseManagersProvider._();
+
+final class DatabaseManagersProvider
+    extends
+        $FunctionalProvider<
+          $AppDatabaseManager,
+          $AppDatabaseManager,
+          $AppDatabaseManager
+        >
+    with $Provider<$AppDatabaseManager> {
+  DatabaseManagersProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'databaseManagersProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$databaseManagersHash();
+
+  @$internal
+  @override
+  $ProviderElement<$AppDatabaseManager> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  $AppDatabaseManager create(Ref ref) {
+    return databaseManagers(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue($AppDatabaseManager value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<$AppDatabaseManager>(value),
     );
+  }
+}
 
-typedef _$AppDatabaseManager = Notifier<AppDatabase>;
-String _$databaseManagersHash() => r'8b88c5a18990798273ae7587e9d4090dd7e6e1d8';
-
-/// See also [DatabaseManagers].
-@ProviderFor(DatabaseManagers)
-final databaseManagersProvider =
-    NotifierProvider<DatabaseManagers, $AppDatabaseManager>.internal(
-      DatabaseManagers.new,
-      name: r'databaseManagersProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$databaseManagersHash,
-      dependencies: <ProviderOrFamily>[appDatabaseManagerProvider],
-      allTransitiveDependencies: <ProviderOrFamily>{
-        appDatabaseManagerProvider,
-        ...?appDatabaseManagerProvider.allTransitiveDependencies,
-      },
-    );
-
-typedef _$DatabaseManagers = Notifier<$AppDatabaseManager>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+String _$databaseManagersHash() => r'50a59805832f60b38af5ee45daceea58d9fcb6e5';

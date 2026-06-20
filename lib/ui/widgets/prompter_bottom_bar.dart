@@ -10,8 +10,18 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
 
-final fontSettingsVisibleProvider = StateProvider<bool>((ref) => false);
-final displaySettingsVisibleProvider = StateProvider<bool>((ref) => false);
+class _BoolToggle extends Notifier<bool> {
+  _BoolToggle(this._initial);
+  final bool _initial;
+  @override
+  bool build() => _initial;
+  void toggle() => state = !state;
+}
+
+final fontSettingsVisibleProvider =
+    NotifierProvider<_BoolToggle, bool>(() => _BoolToggle(false));
+final displaySettingsVisibleProvider =
+    NotifierProvider<_BoolToggle, bool>(() => _BoolToggle(false));
 
 class PrompterBottomBar extends ConsumerWidget {
   const PrompterBottomBar({super.key});
@@ -21,9 +31,6 @@ class PrompterBottomBar extends ConsumerWidget {
     WidgetRef ref,
     PrompterState prompterState,
   ) {
-    final fontSettingsVisible = ref.watch(fontSettingsVisibleProvider);
-    final displaySettingsVisible = ref.watch(displaySettingsVisibleProvider);
-
     return [
       Row(
         mainAxisSize: MainAxisSize.min,
@@ -57,8 +64,7 @@ class PrompterBottomBar extends ConsumerWidget {
             ),
             tooltip: context.tr("PrompterScreen.IconButton_DisplaySettings"),
             onPressed: () =>
-                ref.read(displaySettingsVisibleProvider.notifier).state =
-                    !displaySettingsVisible,
+                ref.read(displaySettingsVisibleProvider.notifier).toggle(),
           ),
           VerticalDivider(width: 15),
         ],
@@ -118,8 +124,7 @@ class PrompterBottomBar extends ConsumerWidget {
             ),
             tooltip: context.tr("PrompterScreen.IconButton_TextFormat"),
             onPressed: () =>
-                ref.read(fontSettingsVisibleProvider.notifier).state =
-                    !fontSettingsVisible,
+                ref.read(fontSettingsVisibleProvider.notifier).toggle(),
           ),
           VerticalDivider(width: 15),
         ],

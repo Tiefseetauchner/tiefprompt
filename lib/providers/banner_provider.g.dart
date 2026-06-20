@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'script_provider.dart';
+part of 'banner_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,50 +9,51 @@ part of 'script_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Script)
-final scriptProvider = ScriptProvider._();
+@ProviderFor(BannerMessage)
+final bannerMessageProvider = BannerMessageProvider._();
 
-final class ScriptProvider extends $NotifierProvider<Script, ScriptState> {
-  ScriptProvider._()
+final class BannerMessageProvider
+    extends $NotifierProvider<BannerMessage, String?> {
+  BannerMessageProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'scriptProvider',
+        name: r'bannerMessageProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$scriptHash();
+  String debugGetCreateSourceHash() => _$bannerMessageHash();
 
   @$internal
   @override
-  Script create() => Script();
+  BannerMessage create() => BannerMessage();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ScriptState value) {
+  Override overrideWithValue(String? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<ScriptState>(value),
+      providerOverride: $SyncValueProvider<String?>(value),
     );
   }
 }
 
-String _$scriptHash() => r'cb6d99fce4b51c730adf4e95979085e1cddc51ec';
+String _$bannerMessageHash() => r'5c677c01ab9a661fdb605588ce796eb89962fb87';
 
-abstract class _$Script extends $Notifier<ScriptState> {
-  ScriptState build();
+abstract class _$BannerMessage extends $Notifier<String?> {
+  String? build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<ScriptState, ScriptState>;
+    final ref = this.ref as $Ref<String?, String?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<ScriptState, ScriptState>,
-              ScriptState,
+              AnyNotifier<String?, String?>,
+              String?,
               Object?,
               Object?
             >;

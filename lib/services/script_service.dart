@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/constants.dart';
-import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/script_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 
@@ -19,7 +19,7 @@ class ScriptDisplayData {
   });
 }
 
-@Riverpod(dependencies: [DatabaseManagers])
+@Riverpod()
 class ScriptService extends _$ScriptService {
   late final _databaseManagers = ref.read(databaseManagersProvider);
 

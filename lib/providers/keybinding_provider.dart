@@ -8,7 +8,7 @@ import 'package:tiefprompt/providers/settings_provider.dart';
 
 part 'keybinding_provider.g.dart';
 
-@Riverpod(keepAlive: true, dependencies: [Settings, DatabaseManagers])
+@Riverpod(keepAlive: true, dependencies: [Settings])
 class Keybindings extends _$Keybindings {
   late final _databaseManagers = ref.read(databaseManagersProvider);
 
@@ -84,7 +84,7 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<List<KeybindingAction>> actionForEvent(KeyEvent event) async {
-    final keybindingMap = state.valueOrNull ?? await future;
+    final keybindingMap = state.value ?? await future;
     final keyId = event.logicalKey.keyId;
     final hardwareKeyboard = HardwareKeyboard.instance;
     final ctrl = hardwareKeyboard.isControlPressed;

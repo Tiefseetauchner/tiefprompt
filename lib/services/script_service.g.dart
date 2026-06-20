@@ -6,24 +6,49 @@ part of 'script_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$scriptServiceHash() => r'f7f03b78befe880341227549425d1e5e7f55cb59';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [ScriptService].
 @ProviderFor(ScriptService)
-final scriptServiceProvider =
-    AutoDisposeAsyncNotifierProvider<ScriptService, void>.internal(
-      ScriptService.new,
-      name: r'scriptServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$scriptServiceHash,
-      dependencies: <ProviderOrFamily>[databaseManagersProvider],
-      allTransitiveDependencies: <ProviderOrFamily>{
-        databaseManagersProvider,
-        ...?databaseManagersProvider.allTransitiveDependencies,
-      },
-    );
+final scriptServiceProvider = ScriptServiceProvider._();
 
-typedef _$ScriptService = AutoDisposeAsyncNotifier<void>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ScriptServiceProvider
+    extends $AsyncNotifierProvider<ScriptService, void> {
+  ScriptServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'scriptServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$scriptServiceHash();
+
+  @$internal
+  @override
+  ScriptService create() => ScriptService();
+}
+
+String _$scriptServiceHash() => r'd3fcb5bd42e23d9366c217530578d0108a7e183f';
+
+abstract class _$ScriptService extends $AsyncNotifier<void> {
+  FutureOr<void> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

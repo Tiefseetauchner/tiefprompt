@@ -30,7 +30,7 @@ class OpenFileScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: ElevatedButton(
                       onPressed: () async {
-                        final result = await FilePicker.platform.pickFiles(
+                        final result = await FilePicker.pickFiles(
                           type: FileType.custom,
                           allowedExtensions: ['txt', 'md'],
                         );

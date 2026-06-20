@@ -1,7 +1,26 @@
 targets:
-  $default:
+  drift:
+    auto_apply_builders: false
     builders:
-      drift_dev:
-        options:
+      drift_dev:analyzer:
+        enabled: true
+        options: &options
+          store_date_time_values_as_text: true
+          named_parameters: true
           databases:
             tiefprompt: lib/models/database.dart
+          sql:
+            dialect: sqlite
+            options:
+              version: "3.39"
+              modules: [fts5]
+      drift_dev:modular:
+        enabled: true
+        options: *options
+
+  $default:
+    dependencies:
+      - ":drift"
+    builders:
+      drift_dev:
+        enabled: false
