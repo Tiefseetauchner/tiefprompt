@@ -11,6 +11,7 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/router_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/providers/talker_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/banner_listener.dart';
@@ -27,10 +28,15 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final talker = ref.read(talkerProvider);
+
       final res = await ref.read(featuresProvider.notifier).bootstrap();
 
       if (!res) {
+        talker.warning('Feature bootstrap returned false — invalidating featuresProvider');
         ref.invalidate(featuresProvider);
+      } else {
+        talker.info('Feature bootstrap succeeded');
       }
 
       if (ref
@@ -46,12 +52,14 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
         final scriptService = ref.read(scriptServiceProvider.notifier);
 
         if (ephemeralScripts.isEmpty) {
+          talker.info('No ephemeral script found — creating one');
           final newEphemeralScriptId = await scriptService.createEphemeral();
           final newEphemeralScript = await ref
               .read(scriptServiceProvider.notifier)
               .loadScript(newEphemeralScriptId);
           ref.read(scriptProvider.notifier).loadScript(newEphemeralScript);
         } else if (ephemeralScripts.length > 1) {
+          talker.error('Multiple ephemeral scripts found (count: ${ephemeralScripts.length}) — resetting');
           if (mounted) {
             ref
                 .read(bannerMessageProvider.notifier)
@@ -68,6 +76,7 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
           ref.read(scriptProvider.notifier).loadScript(newEphemeralScript);
         } else {
           final ephemeralScript = ephemeralScripts.single;
+          talker.info('Ephemeral script loaded: id=${ephemeralScript.id}');
           final scriptProviderNotifier = ref.read(scriptProvider.notifier);
           scriptProviderNotifier.loadScript(ephemeralScript);
           scriptProviderNotifier.setIsSaved(ephemeralScript.scriptText == "");

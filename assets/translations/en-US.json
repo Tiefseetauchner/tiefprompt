@@ -84,6 +84,7 @@
     },
     "ShowHelpRequest": "Show Help Request Again",
     "ShowChangelog": "Show Changelog",
+    "ViewLogs": "View Logs",
     "NumberAppSetting_ReadingIndicatorBoxes": "Height of Reading Indicator Boxes",
     "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
     "BooleanAppSetting_VerticalMarginBoxes": "Enable Vertical Margins",

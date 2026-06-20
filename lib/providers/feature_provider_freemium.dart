@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -9,6 +8,7 @@ import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/in_app_purchase_provider.dart';
+import 'package:tiefprompt/providers/talker_provider.dart';
 
 class FeaturesFreemium extends Features {
   late final InAppPurchase _iap = InAppPurchase.instance;
@@ -43,7 +43,7 @@ class FeaturesFreemium extends Features {
           "Failed to initialize payment model: $e",
         );
 
-      if (kDebugMode) print(e);
+      ref.read(talkerProvider).error('Failed to initialize payment model', e);
 
       return false;
     }
@@ -156,7 +156,7 @@ class FeaturesFreemium extends Features {
           "Failed to restore purchases: $e",
         );
 
-      if (kDebugMode) print(e);
+      ref.read(talkerProvider).error('Failed to restore purchases', e);
 
       return false;
     }

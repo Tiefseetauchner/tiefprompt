@@ -5,6 +5,7 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/providers/talker_provider.dart';
 
 part 'keybinding_provider.g.dart';
 
@@ -50,6 +51,7 @@ class Keybindings extends _$Keybindings {
     // NOTE: Due to potential for future expansion, this is hardcoded to 0
     final currentMapId = 0;
 
+    ref.read(talkerProvider).info('Keybindings copied to current from mapId=$keybindingMapId');
     final newBindings = await getKeybindings(keybindingMapId);
     await _setCurrentKeybindings(newBindings, currentMapId);
   }
@@ -58,6 +60,9 @@ class Keybindings extends _$Keybindings {
     KeybindingMap bindingMap,
     int bindingMapId,
   ) async {
+    ref.read(talkerProvider).info(
+      'Keybindings replacing mapId=$bindingMapId with ${bindingMap.keybindings.length} bindings',
+    );
     await _databaseManagers.keybindingMapModel
         .filter((o) => o.id.equals(bindingMapId))
         .delete();
@@ -115,6 +120,7 @@ class Keybindings extends _$Keybindings {
     KeybindingAction action,
     Keybinding keybinding,
   ) async {
+    ref.read(talkerProvider).info('Keybinding removed: action=${action.name}');
     final keybindingsMapId = (await ref.read(
       settingsProvider.future,
     )).keybindingsMapId;
@@ -140,6 +146,7 @@ class Keybindings extends _$Keybindings {
     KeybindingAction action,
     Keybinding keybinding,
   ) async {
+    ref.read(talkerProvider).info('Keybinding added: action=${action.name}');
     final keybindingsMapId = (await ref.read(
       settingsProvider.future,
     )).keybindingsMapId;
@@ -162,6 +169,7 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<void> resetToDefaults() async {
+    ref.read(talkerProvider).info('Keybindings reset to defaults');
     await _initializeDefaultKeybindings();
 
     state = AsyncData(kDefaultKeybindings);
