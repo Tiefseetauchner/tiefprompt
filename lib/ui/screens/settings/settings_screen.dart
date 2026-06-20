@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -106,6 +107,11 @@ class SettingsScreen extends ConsumerWidget {
             ListTile(
               title: Text(context.tr("SettingsScreen.ShowChangelog")),
               onTap: () => showChangelogModal(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.bug_report_outlined),
+              title: Text(context.tr("SettingsScreen.ViewLogs")),
+              onTap: () => context.push('/settings/logs'),
             ),
             ListTile(
               hoverColor: const Color.fromARGB(255, 255, 175, 169),

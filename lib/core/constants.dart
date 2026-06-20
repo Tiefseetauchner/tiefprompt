@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/services.dart';
+import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 
 const double kPrompterMinSpeed = 0.1;
@@ -18,6 +19,14 @@ const String kPrivacyPolicyUrl = "https://tiefprompt.com/policies/privacy/en/";
 const String kLukeChriswalkerUrl = "https://www.lukechriswalker.at";
 
 const String kNewScriptName = "New Script";
+
+const TalkerRiverpodLoggerSettings kTalkerRiverpodObserverSettings =
+    TalkerRiverpodLoggerSettings(
+      printMutationStart: false,
+      printMutationSuccess: false,
+      printProviderAdded: false,
+      printProviderUpdated: false,
+    );
 
 const int kSettingsSchemaVersion = 1;
 

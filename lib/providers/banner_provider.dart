@@ -1,3 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final bannerMessageProvider = StateProvider<String?>((ref) => null);
+part 'banner_provider.g.dart';
+
+@riverpod
+class BannerMessage extends _$BannerMessage {
+  @override
+  String? build() => null;
+  void set(String? msg) => state = msg;
+}

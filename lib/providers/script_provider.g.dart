@@ -6,21 +6,56 @@ part of 'script_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$scriptHash() => r'bbcb32d06928dd514091661dbed55277866a9eec';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [Script].
 @ProviderFor(Script)
-final scriptProvider =
-    AutoDisposeNotifierProvider<Script, ScriptState>.internal(
-      Script.new,
-      name: r'scriptProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$scriptHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final scriptProvider = ScriptProvider._();
 
-typedef _$Script = AutoDisposeNotifier<ScriptState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ScriptProvider extends $NotifierProvider<Script, ScriptState> {
+  ScriptProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'scriptProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$scriptHash();
+
+  @$internal
+  @override
+  Script create() => Script();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ScriptState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ScriptState>(value),
+    );
+  }
+}
+
+String _$scriptHash() => r'cb6d99fce4b51c730adf4e95979085e1cddc51ec';
+
+abstract class _$Script extends $Notifier<ScriptState> {
+  ScriptState build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ScriptState, ScriptState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ScriptState, ScriptState>,
+              ScriptState,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

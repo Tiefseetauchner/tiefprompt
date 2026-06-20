@@ -6,173 +6,104 @@ part of 'combining_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$combinedAsyncDataHash() => r'7a5108dde816da771e7af7304118c9aaf4f2d6a9';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-abstract class _$CombinedAsyncData
-    extends BuildlessAutoDisposeNotifier<AsyncValue<CombinedState>> {
-  late final List<AsyncValue<Object>> states;
-
-  AsyncValue<CombinedState> build(List<AsyncValue<Object>> states);
-}
-
-/// See also [CombinedAsyncData].
 @ProviderFor(CombinedAsyncData)
-const combinedAsyncDataProvider = CombinedAsyncDataFamily();
+final combinedAsyncDataProvider = CombinedAsyncDataFamily._();
 
-/// See also [CombinedAsyncData].
-class CombinedAsyncDataFamily extends Family<AsyncValue<CombinedState>> {
-  /// See also [CombinedAsyncData].
-  const CombinedAsyncDataFamily();
+final class CombinedAsyncDataProvider
+    extends $NotifierProvider<CombinedAsyncData, AsyncValue<CombinedState>> {
+  CombinedAsyncDataProvider._({
+    required CombinedAsyncDataFamily super.from,
+    required List<AsyncValue<Object>> super.argument,
+  }) : super(
+         retry: null,
+         name: r'combinedAsyncDataProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [CombinedAsyncData].
-  CombinedAsyncDataProvider call(List<AsyncValue<Object>> states) {
-    return CombinedAsyncDataProvider(states);
+  @override
+  String debugGetCreateSourceHash() => _$combinedAsyncDataHash();
+
+  @override
+  String toString() {
+    return r'combinedAsyncDataProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  CombinedAsyncDataProvider getProviderOverride(
-    covariant CombinedAsyncDataProvider provider,
-  ) {
-    return call(provider.states);
-  }
+  CombinedAsyncData create() => CombinedAsyncData();
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'combinedAsyncDataProvider';
-}
-
-/// See also [CombinedAsyncData].
-class CombinedAsyncDataProvider
-    extends
-        AutoDisposeNotifierProviderImpl<
-          CombinedAsyncData,
-          AsyncValue<CombinedState>
-        > {
-  /// See also [CombinedAsyncData].
-  CombinedAsyncDataProvider(List<AsyncValue<Object>> states)
-    : this._internal(
-        () => CombinedAsyncData()..states = states,
-        from: combinedAsyncDataProvider,
-        name: r'combinedAsyncDataProvider',
-        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-            ? null
-            : _$combinedAsyncDataHash,
-        dependencies: CombinedAsyncDataFamily._dependencies,
-        allTransitiveDependencies:
-            CombinedAsyncDataFamily._allTransitiveDependencies,
-        states: states,
-      );
-
-  CombinedAsyncDataProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.states,
-  }) : super.internal();
-
-  final List<AsyncValue<Object>> states;
-
-  @override
-  AsyncValue<CombinedState> runNotifierBuild(
-    covariant CombinedAsyncData notifier,
-  ) {
-    return notifier.build(states);
-  }
-
-  @override
-  Override overrideWith(CombinedAsyncData Function() create) {
-    return ProviderOverride(
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<CombinedState> value) {
+    return $ProviderOverride(
       origin: this,
-      override: CombinedAsyncDataProvider._internal(
-        () => create()..states = states,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        states: states,
-      ),
+      providerOverride: $SyncValueProvider<AsyncValue<CombinedState>>(value),
     );
   }
 
   @override
-  AutoDisposeNotifierProviderElement<
-    CombinedAsyncData,
-    AsyncValue<CombinedState>
-  >
-  createElement() {
-    return _CombinedAsyncDataProviderElement(this);
-  }
-
-  @override
   bool operator ==(Object other) {
-    return other is CombinedAsyncDataProvider && other.states == states;
+    return other is CombinedAsyncDataProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, states.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin CombinedAsyncDataRef
-    on AutoDisposeNotifierProviderRef<AsyncValue<CombinedState>> {
-  /// The parameter `states` of this provider.
-  List<AsyncValue<Object>> get states;
-}
+String _$combinedAsyncDataHash() => r'7a5108dde816da771e7af7304118c9aaf4f2d6a9';
 
-class _CombinedAsyncDataProviderElement
-    extends
-        AutoDisposeNotifierProviderElement<
+final class CombinedAsyncDataFamily extends $Family
+    with
+        $ClassFamilyOverride<
           CombinedAsyncData,
-          AsyncValue<CombinedState>
-        >
-    with CombinedAsyncDataRef {
-  _CombinedAsyncDataProviderElement(super.provider);
+          AsyncValue<CombinedState>,
+          AsyncValue<CombinedState>,
+          AsyncValue<CombinedState>,
+          List<AsyncValue<Object>>
+        > {
+  CombinedAsyncDataFamily._()
+    : super(
+        retry: null,
+        name: r'combinedAsyncDataProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  CombinedAsyncDataProvider call(List<AsyncValue<Object>> states) =>
+      CombinedAsyncDataProvider._(argument: states, from: this);
 
   @override
-  List<AsyncValue<Object>> get states =>
-      (origin as CombinedAsyncDataProvider).states;
+  String toString() => r'combinedAsyncDataProvider';
 }
 
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$CombinedAsyncData
+    extends $Notifier<AsyncValue<CombinedState>> {
+  late final _$args = ref.$arg as List<AsyncValue<Object>>;
+  List<AsyncValue<Object>> get states => _$args;
+
+  AsyncValue<CombinedState> build(List<AsyncValue<Object>> states);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<CombinedState>, AsyncValue<CombinedState>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<CombinedState>, AsyncValue<CombinedState>>,
+              AsyncValue<CombinedState>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
+}

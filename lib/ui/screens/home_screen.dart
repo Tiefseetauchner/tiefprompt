@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/debouncer.dart';
-import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/app_state.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
