@@ -52,8 +52,8 @@ dependencies:
   talker_riverpod_logger: ^5.1.17
   flutter_spinkit: ^5.2.2
   pub_semver: ^2.2.0
-  in_app_purchase: ^3.2.3
-  in_app_purchase_android: ^0.4.0+7
+  # in_app_purchase: ^3.2.3
+  # in_app_purchase_android: ^0.4.0+7
 
 dev_dependencies:
   integration_test:
