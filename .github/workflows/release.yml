@@ -180,9 +180,9 @@ jobs:
           export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
           export AC_API_KEY_ISSUER="${{ secrets.API_KEY_ISSUER }}"
           export AC_API_KEY_ID="${{ secrets.AC_API_KEY_ID }}"
-          export AC_API_PRIVATE_KEY="./keys/authkey.p8"
+          export AC_API_PRIVATE_KEY="./keys/AuthKey_${{ secrets.AC_API_KEY_ID }}.p8"
           export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
-          export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
+          export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision"
           ./tools/build.sh -t macos,macospkg,iosipa -f foss -b ../artifacts -Vn
         working-directory: app
 

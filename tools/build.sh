@@ -230,42 +230,53 @@ package_macos() {
   return 0
 }
 
-notarize_macos() {
-  if [ -z "$AC_API_KEY_ID" ]; then
-    error_echo "AC_API_KEY_ID must be set to notarize." 127
+notarize_macos_pkg() {
+  if [ ! "$ENABLE_MACOS_NOTARIZATION" ]; then
+    return 0
+  fi
+
+  pkg_path="$1"
+
+  if [ -z "$pkg_path" ]; then
+    error_echo "notarize_macos_pkg: package path missing." 127
     return 127
   fi
-  if [ -z "$AC_API_KEY_ISSUER" ]; then
-    error_echo "AC_API_KEY_ISSUER must be set to notarize." 127
-    return 127
-  fi
-  if [ -z "$AC_API_PRIVATE_KEY" ]; then
-    error_echo "AC_API_PRIVATE_KEY must be set to notarize." 127
+  if [ ! -f "$pkg_path" ]; then
+    error_echo "notarize_macos_pkg: $pkg_path does not exist." 127
     return 127
   fi
 
-  verbose_echo "${CYAN}Zipping app for notarization...${RESET}"
-  app_name=$(get_first_app "$1")
-  notarize_zip="$(dirname "$app_name")/notarize.zip"
-  ditto -c -k --keepParent "$app_name" "$notarize_zip" \
-    > >(verbose_echo_stdin "ditto") \
-    2> >(normal_echo_stderr "${RED}ditto (error)")
+  cred_args=()
+  if [ "$AC_API_KEY_ID" ] && [ "$AC_API_KEY_ISSUER" ] && [ "$AC_API_PRIVATE_KEY" ]; then
+    cred_args+=(--key "$AC_API_PRIVATE_KEY" --key-id "$AC_API_KEY_ID" --issuer "$AC_API_KEY_ISSUER")
+  elif [ "$APPLE_ID" ] && [ "$APPLE_ID_PASSWORD" ]; then
+    cred_args+=(--apple-id "$APPLE_ID" --password "$APPLE_ID_PASSWORD")
+  else
+    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${RESET}"
+    return 0
+  fi
 
-  verbose_echo "${CYAN}Submitting for notarization...${RESET}"
-  xcrun notarytool submit "$notarize_zip" \
-    --key "$AC_API_PRIVATE_KEY" \
-    --key-id "$AC_API_KEY_ID" \
-    --issuer "$AC_API_KEY_ISSUER" \
-    --wait \
+  verbose_echo "${CYAN}Submitting $pkg_path for notarization...${RESET}"
+  xcrun notarytool submit "$pkg_path" "${cred_args[@]}" --wait \
     > >(verbose_echo_stdin "notarytool") \
     2> >(normal_echo_stderr "${RED}notarytool (error)")
+  submit_status=$?
+  if [ ! $submit_status -eq 0 ]; then
+    error_echo "Notarization failed with status code ${submit_status}." $submit_status
+    return 127
+  fi
 
   verbose_echo "${CYAN}Stapling notarization ticket...${RESET}"
-  xcrun stapler staple "$app_name" \
+  xcrun stapler staple "$pkg_path" \
     > >(verbose_echo_stdin "stapler") \
     2> >(normal_echo_stderr "${RED}stapler (error)")
+  staple_status=$?
+  if [ ! $staple_status -eq 0 ]; then
+    error_echo "Stapling failed with status code ${staple_status}." $staple_status
+    return 127
+  fi
 
-  rm -f "$notarize_zip"
+  return 0
 }
 
 add_ios_swiftsupport() {
@@ -461,7 +472,7 @@ unset -v MORE_VERBOSE
 unset -v SKIP_FLUTTER_SETUP
 unset -v CONTINUE_ON_FAIL
 unset -v RUN_DEBUG_BUILD
-unset -v NOTARIZE
+unset -v ENABLE_MACOS_NOTARIZATION
 
 while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
   case $opt in
@@ -505,7 +516,7 @@ while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
       RUN_DEBUG_BUILD=YES
       ;;
     n)
-      NOTARIZE=YES
+      ENABLE_MACOS_NOTARIZATION=YES
       ;;
     s)
       SKIP_FLUTTER_SETUP=YES
@@ -669,10 +680,6 @@ for freedom in $FREEDOM_LIST; do
         > >(more_verbose_echo_stdin "cp") \
         2> >(normal_echo_stderr "${RED}cp (error)")
       target_results=$app_dir
-
-      if [ "$NOTARIZE" ]; then
-        notarize_macos "$target_results"
-      fi
     fi
 
     if [ "$target" = "windowsmsix" ]; then
@@ -686,6 +693,11 @@ for freedom in $FREEDOM_LIST; do
       fi
 
       target_results="$PACKAGE_MACOS_RESULT"
+
+      if ! notarize_macos_pkg "$target_results"; then
+        error_echo "Notarizing macOS Build failed" 1
+        continue
+      fi
     fi
 
     if [ "$target" = "iosipa" ]; then
