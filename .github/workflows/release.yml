@@ -148,8 +148,9 @@ jobs:
 
       - name: Publish to App Store
         shell: bash
+        working-directory: app
         run: |
-          export API_PRIVATE_KEYS_DIR=./app/keys
+          export API_PRIVATE_KEYS_DIR=./keys
           xcrun altool --validate-app \
             -f package/freemium_tiefprompt.pkg \
             -t macos \
