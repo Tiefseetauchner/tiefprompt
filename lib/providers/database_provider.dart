@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/database.drift.dart';
 
 part 'database_provider.g.dart';
 
@@ -13,10 +14,7 @@ class AppDatabaseManager extends _$AppDatabaseManager {
   }
 }
 
-@Riverpod(keepAlive: true, dependencies: [AppDatabaseManager])
-class DatabaseManagers extends _$DatabaseManagers {
-  @override
-  $AppDatabaseManager build() {
-    return ref.watch(appDatabaseManagerProvider).managers;
-  }
+@Riverpod(keepAlive: true)
+$AppDatabaseManager databaseManagers(Ref ref) {
+  return ref.watch(appDatabaseManagerProvider).managers;
 }

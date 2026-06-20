@@ -53,8 +53,11 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
           ref.read(scriptProvider.notifier).loadScript(newEphemeralScript);
         } else if (ephemeralScripts.length > 1) {
           if (mounted) {
-            ref.read(bannerMessageProvider.notifier).state =
-                "Multiple ephemeral scripts were found. Creating empty new ephemeral script. This is a bug in TiefPrompt, please report it to the author.";
+            ref
+                .read(bannerMessageProvider.notifier)
+                .set(
+                  "Multiple ephemeral scripts were found. Creating empty new ephemeral script. This is a bug in TiefPrompt, please report it to the author.",
+                );
           }
 
           ephemeralScriptsFilter.update((o) => o(ephemeral: Value(false)));

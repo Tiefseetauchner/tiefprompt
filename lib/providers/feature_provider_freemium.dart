@@ -21,8 +21,9 @@ class FeaturesFreemium extends Features {
     _sub ??= _iap.purchaseStream.listen(
       (details) => unawaited(_onPurchaseUpdate(details)),
       onError: (error) {
-        ref.read(bannerMessageProvider.notifier).state =
-            "Failed to initialize payment model: $error";
+        ref.read(bannerMessageProvider.notifier).set(
+          "Failed to initialize payment model: $error",
+        );
       },
     );
     ref.onDispose(() {
@@ -32,13 +33,15 @@ class FeaturesFreemium extends Features {
 
     try {
       if (!await _iap.isAvailable()) {
-        ref.read(bannerMessageProvider.notifier).state =
-            "Failed to initialize payment model: InAppPurchase is not available";
+        ref.read(bannerMessageProvider.notifier).set(
+            "Failed to initialize payment model: InAppPurchase is not available",
+          );
         return false;
       }
     } catch (e) {
-      ref.read(bannerMessageProvider.notifier).state =
-          "Failed to initialize payment model: $e";
+      ref.read(bannerMessageProvider.notifier).set(
+          "Failed to initialize payment model: $e",
+        );
 
       if (kDebugMode) print(e);
 
@@ -47,12 +50,14 @@ class FeaturesFreemium extends Features {
 
     final resp = await _iap.queryProductDetails(_productIds);
     if (resp.error != null) {
-      ref.read(bannerMessageProvider.notifier).state =
-          "Failed to initialize payment model: failed to load product details: ${resp.error}";
+      ref.read(bannerMessageProvider.notifier).set(
+          "Failed to initialize payment model: failed to load product details: ${resp.error}",
+        );
       return false;
     } else if (resp.notFoundIDs.isNotEmpty) {
-      ref.read(bannerMessageProvider.notifier).state =
-          "Failed to initialize payment model: Ids were not found. ${resp.notFoundIDs.join(", ")}";
+      ref.read(bannerMessageProvider.notifier).set(
+          "Failed to initialize payment model: Ids were not found. ${resp.notFoundIDs.join(", ")}",
+        );
       return false;
     } else {
       ref
@@ -82,8 +87,9 @@ class FeaturesFreemium extends Features {
           state = build();
           break;
         case PurchaseStatus.error:
-          ref.read(bannerMessageProvider.notifier).state =
-              "Failed to initialize payment model: ${p.error}";
+          ref.read(bannerMessageProvider.notifier).set(
+              "Failed to initialize payment model: ${p.error}",
+            );
           break;
         case PurchaseStatus.canceled:
         case PurchaseStatus.pending:
@@ -110,8 +116,9 @@ class FeaturesFreemium extends Features {
         .singleOrNull;
 
     if (ref.read(inAppPurchaseDataProvider).owned.contains(kProId)) {
-      ref.read(bannerMessageProvider.notifier).state =
-          "Failed to initialize purchase: $kProId is already owned by this account";
+      ref.read(bannerMessageProvider.notifier).set(
+          "Failed to initialize purchase: $kProId is already owned by this account",
+        );
       return;
     }
 
@@ -119,12 +126,14 @@ class FeaturesFreemium extends Features {
       if (!await _iap.buyNonConsumable(
         purchaseParam: PurchaseParam(productDetails: proProduct),
       )) {
-        ref.read(bannerMessageProvider.notifier).state =
-            "Failed to complete purchase.";
+        ref.read(bannerMessageProvider.notifier).set(
+            "Failed to complete purchase.",
+          );
       }
     } else {
-      ref.read(bannerMessageProvider.notifier).state =
-          "Failed to initialize purchase: $kProId could not be found";
+      ref.read(bannerMessageProvider.notifier).set(
+          "Failed to initialize purchase: $kProId could not be found",
+        );
     }
 
     return Future.value();
@@ -143,8 +152,9 @@ class FeaturesFreemium extends Features {
       }
       return true;
     } catch (e) {
-      ref.read(bannerMessageProvider.notifier).state =
-          "Failed to restore purchases: $e";
+      ref.read(bannerMessageProvider.notifier).set(
+          "Failed to restore purchases: $e",
+        );
 
       if (kDebugMode) print(e);
 

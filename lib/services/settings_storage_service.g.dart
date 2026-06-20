@@ -6,33 +6,56 @@ part of 'settings_storage_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$settingsStorageServiceHash() =>
-    r'f240c4ee753ffb03961d64bfbf237faccebae520';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [SettingsStorageService].
 @ProviderFor(SettingsStorageService)
-final settingsStorageServiceProvider =
-    AutoDisposeAsyncNotifierProvider<SettingsStorageService, void>.internal(
-      SettingsStorageService.new,
-      name: r'settingsStorageServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$settingsStorageServiceHash,
-      dependencies: <ProviderOrFamily>[
-        settingsProvider,
-        keybindingsProvider,
-        databaseManagersProvider,
-      ],
-      allTransitiveDependencies: <ProviderOrFamily>{
-        settingsProvider,
-        ...?settingsProvider.allTransitiveDependencies,
-        keybindingsProvider,
-        ...?keybindingsProvider.allTransitiveDependencies,
-        databaseManagersProvider,
-        ...?databaseManagersProvider.allTransitiveDependencies,
-      },
-    );
+final settingsStorageServiceProvider = SettingsStorageServiceProvider._();
 
-typedef _$SettingsStorageService = AutoDisposeAsyncNotifier<void>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class SettingsStorageServiceProvider
+    extends $AsyncNotifierProvider<SettingsStorageService, void> {
+  SettingsStorageServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'settingsStorageServiceProvider',
+        isAutoDispose: true,
+        dependencies: <ProviderOrFamily>[settingsProvider, keybindingsProvider],
+        $allTransitiveDependencies: <ProviderOrFamily>[
+          SettingsStorageServiceProvider.$allTransitiveDependencies0,
+          SettingsStorageServiceProvider.$allTransitiveDependencies1,
+        ],
+      );
+
+  static final $allTransitiveDependencies0 = settingsProvider;
+  static final $allTransitiveDependencies1 = keybindingsProvider;
+
+  @override
+  String debugGetCreateSourceHash() => _$settingsStorageServiceHash();
+
+  @$internal
+  @override
+  SettingsStorageService create() => SettingsStorageService();
+}
+
+String _$settingsStorageServiceHash() =>
+    r'd99aac9ac1cfdc47c2e15248ec27735a72ff3102';
+
+abstract class _$SettingsStorageService extends $AsyncNotifier<void> {
+  FutureOr<void> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

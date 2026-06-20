@@ -6,21 +6,57 @@ part of 'prompter_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(Prompter)
+final prompterProvider = PrompterProvider._();
+
+final class PrompterProvider
+    extends $NotifierProvider<Prompter, PrompterState> {
+  PrompterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'prompterProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$prompterHash();
+
+  @$internal
+  @override
+  Prompter create() => Prompter();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(PrompterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<PrompterState>(value),
+    );
+  }
+}
+
 String _$prompterHash() => r'03a3ada609347677ba8a4cc1679aac795309d46c';
 
-/// See also [Prompter].
-@ProviderFor(Prompter)
-final prompterProvider =
-    AutoDisposeNotifierProvider<Prompter, PrompterState>.internal(
-      Prompter.new,
-      name: r'prompterProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$prompterHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-typedef _$Prompter = AutoDisposeNotifier<PrompterState>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+abstract class _$Prompter extends $Notifier<PrompterState> {
+  PrompterState build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<PrompterState, PrompterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<PrompterState, PrompterState>,
+              PrompterState,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

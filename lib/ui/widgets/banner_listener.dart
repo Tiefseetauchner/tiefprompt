@@ -31,7 +31,7 @@ class _BannerListenerState extends ConsumerState<BannerListener> {
               TextButton(
                 onPressed: () {
                   messenger.hideCurrentMaterialBanner();
-                  ref.read(bannerMessageProvider.notifier).state = null;
+                  ref.read(bannerMessageProvider.notifier).set(null);
                 },
                 child: Text(context.tr("HomeScreen.Understood")),
               ),

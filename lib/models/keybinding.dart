@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
-import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/keybinding.drift.dart';
 
 enum KeybindingAction {
   playPause,
