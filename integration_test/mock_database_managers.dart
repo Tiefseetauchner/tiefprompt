@@ -1,7 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:tiefprompt/models/app_state.drift.dart';
 import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/script_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 
 Future<AppDatabase> createSeededDatabase() async {
