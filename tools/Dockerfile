@@ -6,7 +6,7 @@ ENV SOURCE_DATE_EPOCH=1680000000
 
 RUN apt update && apt install -y \
     curl git unzip xz-utils zip libglu1-mesa \
-    openjdk-17-jdk \
+    openjdk-25-jdk \
     clang cmake ninja-build pkg-config libgtk-3-dev \
     && apt clean
 
@@ -30,12 +30,11 @@ RUN curl -o sdk-tools.zip https://dl.google.com/android/repository/commandlineto
 RUN yes | /home/flutteruser/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses && \
     /home/flutteruser/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME \
         "platform-tools" \
-        "platforms;android-34" \
-        "platforms;android-35" \
-        "build-tools;35.0.0" \
+        "platforms;android-36" \
+        "build-tools;37.0.0" \
         "cmdline-tools;latest" \
-        "ndk;27.0.12077973" \
-        "cmake;3.22.1"
+        "ndk;28.2.13676358" \
+        "cmake;4.1.2"
 
 USER flutteruser
 WORKDIR /app
