@@ -6,7 +6,7 @@ ENV SOURCE_DATE_EPOCH=1680000000
 
 RUN apt update && apt install -y \
     curl git unzip xz-utils zip libglu1-mesa \
-    openjdk-25-jdk \
+    openjdk-21-jdk \
     clang cmake ninja-build pkg-config libgtk-3-dev \
     && apt clean
 
