@@ -31,6 +31,14 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        externalNativeBuild {
+            cmake {
+                cFlags "-ffile-prefix-map=${rootDir}=."
+                cppFlags "-ffile-prefix-map=${rootDir}=."
+                arguments "-DANDROID_LINKER_FLAGS=-Wl,--build-id=none"
+            }
+        }
     }
     
     signingConfigs {
