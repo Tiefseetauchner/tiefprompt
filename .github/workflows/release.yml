@@ -146,37 +146,37 @@ jobs:
           echo "${{ secrets.AC_API_PRIVATE_KEY }}" | base64 -d > keys/AuthKey_${{ secrets.AC_API_KEY_ID }}.p8
         working-directory: app
 
-      - name: Publish to App Store
-        shell: bash
-        working-directory: app
-        run: |
-          export API_PRIVATE_KEYS_DIR=./keys
-          xcrun altool --validate-app \
-            -f package/freemium_tiefprompt.pkg \
-            -t macos \
-            --apiKey ${{ secrets.AC_API_KEY_ID }} \
-            --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
-          xcrun altool --upload-app \
-            -f package/freemium_tiefprompt.pkg \
-            -t macos \
-            --apiKey ${{ secrets.AC_API_KEY_ID }} \
-            --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
-          xcrun altool --validate-app \
-            -f package/freemium_Runner.ipa \
-            -t ios \
-            --apiKey ${{ secrets.AC_API_KEY_ID }} \
-            --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
-          xcrun altool --upload-app \
-            -f package/freemium_Runner.ipa \
-            -t ios \
-            --apiKey ${{ secrets.AC_API_KEY_ID }} \
-            --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
+      # - name: Publish to App Store
+      #   shell: bash
+      #   working-directory: app
+      #   run: |
+      #     export API_PRIVATE_KEYS_DIR=./keys
+      #     xcrun altool --validate-app \
+      #       -f package/freemium_tiefprompt.pkg \
+      #       -t macos \
+      #       --apiKey ${{ secrets.AC_API_KEY_ID }} \
+      #       --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
+      #     xcrun altool --upload-app \
+      #       -f package/freemium_tiefprompt.pkg \
+      #       -t macos \
+      #       --apiKey ${{ secrets.AC_API_KEY_ID }} \
+      #       --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
+      #     xcrun altool --validate-app \
+      #       -f package/freemium_Runner.ipa \
+      #       -t ios \
+      #       --apiKey ${{ secrets.AC_API_KEY_ID }} \
+      #       --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
+      #     xcrun altool --upload-app \
+      #       -f package/freemium_Runner.ipa \
+      #       -t ios \
+      #       --apiKey ${{ secrets.AC_API_KEY_ID }} \
+      #       --apiIssuer "${{ secrets.API_KEY_ISSUER }}"
 
       - name: Build iOS and notarized macOS App
         shell: bash
         run: |
-          export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
+          export MACOS_CODE_SIGN_KEY="Developer ID Application: Lena Tauchner (RJD48MM8G9)"
+          export MACOS_PACKAGE_SIGN_KEY="Developer ID Installer: Lena Tauchner (RJD48MM8G9)"
           export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
           export AC_API_KEY_ISSUER="${{ secrets.API_KEY_ISSUER }}"
           export AC_API_KEY_ID="${{ secrets.AC_API_KEY_ID }}"
