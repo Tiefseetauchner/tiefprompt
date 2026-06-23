@@ -175,8 +175,8 @@ jobs:
       - name: Build iOS and notarized macOS App
         shell: bash
         run: |
-          export MACOS_CODE_SIGN_KEY="Developer ID Application: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PACKAGE_SIGN_KEY="Developer ID Installer: Lena Tauchner (RJD48MM8G9)"
+          export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
+          export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
           export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
           export AC_API_KEY_ISSUER="${{ secrets.API_KEY_ISSUER }}"
           export AC_API_KEY_ID="${{ secrets.AC_API_KEY_ID }}"
