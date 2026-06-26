@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-    - 'never'
+      - "release/**"
 
 jobs:
   build-linux:
@@ -13,11 +13,11 @@ jobs:
       ${{ contains(matrix.target, 'windows') && 'windows-latest' ||
           startsWith(matrix.target, 'android') && 'ubuntu-latest' ||
           matrix.target == 'linux' && 'ubuntu-latest' ||
-          'ubuntu-latest' }}    
-    
+          'ubuntu-latest' }}
+
     strategy:
       matrix:
-        target: [linux, androidaab, androidapk, windows,]
+        target: [linux, androidaab, androidapk, windows]
         freedom: [foss, freemium]
 
     steps:
