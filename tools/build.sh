@@ -187,6 +187,9 @@ sign_macos() {
     # Profiles for Mac App Store often omit app-sandbox — force it on
     /usr/libexec/PlistBuddy -c "Add :com.apple.security.app-sandbox bool true" "$entitlements_plist" 2>/dev/null || \
       /usr/libexec/PlistBuddy -c "Set :com.apple.security.app-sandbox true" "$entitlements_plist"
+    # Ensure file picker access — file_picker checks for this at runtime
+    /usr/libexec/PlistBuddy -c "Add :com.apple.security.files.user-selected.read-only bool true" "$entitlements_plist" 2>/dev/null || \
+      /usr/libexec/PlistBuddy -c "Set :com.apple.security.files.user-selected.read-only true" "$entitlements_plist"
     verbose_echo "${CYAN}Using entitlements from provisioning profile (sandbox enforced)${RESET}"
   else
     entitlements_plist="macos/Runner/Release.entitlements"
@@ -235,14 +238,20 @@ add_ios_swiftsupport() {
 
   app_path=$(find "$1" -name "*.app" -maxdepth 1)
 
-  mkdir -p "$2/SwiftSupport" \
-    > >(more_verbose_echo_stdin "mkdir") \
-    2> >(normal_echo_stderr "${RED}mkdir (error)")
+  dylibs=()
+  while IFS= read -r -d '' lib; do
+    dylibs+=("$lib")
+  done < <(find "$app_path/Frameworks" -type f -name "*.dylib" -print0 2>/dev/null)
+  if [ ${#dylibs[@]} -eq 0 ]; then
+    more_verbose_echo "${CYAN}No Swift dylibs found, skipping SwiftSupport folder${RESET}"
+    return 0
+  fi
+
   mkdir -p "$2/SwiftSupport/iphoneos" \
     > >(more_verbose_echo_stdin "mkdir") \
     2> >(normal_echo_stderr "${RED}mkdir (error)")
-  find "$app_path/Frameworks" -type f -name "*.dylib" | while read -r lib; do
-    cp "$lib" "$2/SwiftSupport/iphoneos"\
+  for lib in "${dylibs[@]}"; do
+    cp "$lib" "$2/SwiftSupport/iphoneos" \
       > >(more_verbose_echo_stdin "cp") \
       2> >(normal_echo_stderr "${RED}cp (error)")
   done
