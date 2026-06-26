@@ -7,18 +7,9 @@ on:
 
 jobs:
   build-linux:
-    name: Debug Build for ${{ matrix.target }} (${{ matrix.freedom }})
+    name: Debug Build
 
-    runs-on: >-
-      ${{ contains(matrix.target, 'windows') && 'windows-latest' ||
-          startsWith(matrix.target, 'android') && 'ubuntu-latest' ||
-          matrix.target == 'linux' && 'ubuntu-latest' ||
-          'ubuntu-latest' }}
-
-    strategy:
-      matrix:
-        target: [linux, androidaab, androidapk, windows]
-        freedom: [foss, freemium]
+    runs-on: "ubuntu-latest"
 
     steps:
       - name: Checkout repository
@@ -37,5 +28,5 @@ jobs:
             libgtk-3-dev liblzma-dev \
             libstdc++-12-dev
           mkdir package/
-          ./tools/build.sh -t ${{ matrix.target }} -f ${{ matrix.freedom }} -b package/ -V
+          ./tools/build.sh -t linux -f foss -b package/ -V
         working-directory: app
