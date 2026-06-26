@@ -17,7 +17,7 @@ jobs:
         with:
           path: app
           submodules: recursive
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Compile
         run: |
