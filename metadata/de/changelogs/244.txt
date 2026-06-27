@@ -1,0 +1,1 @@
+Ein kleiner Bugfix um Notches auf manchen Geräten richtig zu behandeln.
