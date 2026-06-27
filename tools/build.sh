@@ -274,6 +274,62 @@ notarize_macos_pkg() {
   return 0
 }
 
+notarize_macos_app() {
+  if [ ! "$ENABLE_MACOS_NOTARIZATION" ]; then
+    return 0
+  fi
+
+  app_path="$1"
+
+  if [ -z "$app_path" ]; then
+    error_echo "notarize_macos_app: app path missing." 127
+    return 127
+  fi
+  if [ ! -d "$app_path" ]; then
+    error_echo "notarize_macos_app: $app_path does not exist." 127
+    return 127
+  fi
+
+  cred_args=()
+  if [ "$AC_API_KEY_ID" ] && [ "$AC_API_KEY_ISSUER" ] && [ "$AC_API_PRIVATE_KEY" ]; then
+    cred_args+=(--key "$AC_API_PRIVATE_KEY" --key-id "$AC_API_KEY_ID" --issuer "$AC_API_KEY_ISSUER")
+  elif [ "$APPLE_ID" ] && [ "$APPLE_ID_PASSWORD" ]; then
+    cred_args+=(--apple-id "$APPLE_ID" --password "$APPLE_ID_PASSWORD")
+  else
+    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${RESET}"
+    return 0
+  fi
+
+  zip_path="${app_path%.app}.notarize.zip"
+  verbose_echo "${CYAN}Zipping $app_path for notarization submission...${RESET}"
+  ditto -c -k --keepParent "$app_path" "$zip_path" \
+    > >(verbose_echo_stdin "ditto") \
+    2> >(normal_echo_stderr "${RED}ditto (error)")
+
+  verbose_echo "${CYAN}Submitting $app_path for notarization...${RESET}"
+  xcrun notarytool submit "$zip_path" "${cred_args[@]}" --wait \
+    > >(verbose_echo_stdin "notarytool") \
+    2> >(normal_echo_stderr "${RED}notarytool (error)")
+  submit_status=$?
+  rm -f "$zip_path"
+  if [ ! $submit_status -eq 0 ]; then
+    error_echo "App notarization failed with status code ${submit_status}." $submit_status
+    return 127
+  fi
+
+  verbose_echo "${CYAN}Stapling notarization ticket to $app_path...${RESET}"
+  xcrun stapler staple "$app_path" \
+    > >(verbose_echo_stdin "stapler") \
+    2> >(normal_echo_stderr "${RED}stapler (error)")
+  staple_status=$?
+  if [ ! $staple_status -eq 0 ]; then
+    error_echo "App stapling failed with status code ${staple_status}." $staple_status
+    return 127
+  fi
+
+  return 0
+}
+
 add_ios_swiftsupport() {
   more_verbose_echo "${CYAN}Adding iOS SwiftSupport Folder${RESET}"
 
@@ -666,6 +722,12 @@ for freedom in $FREEDOM_LIST; do
 
     if [ "$target" = "macos" ]; then
       app_path=$(get_first_app "$target_results")
+
+      if ! notarize_macos_app "$app_path"; then
+        error_echo "Notarizing macOS App failed" 1
+        continue
+      fi
+
       more_verbose_echo "${CYAN}Copying $app_path to new directory...${RESET}"
       app_dir="$target_results/app_dir"
       mkdir -p "$app_dir" \
