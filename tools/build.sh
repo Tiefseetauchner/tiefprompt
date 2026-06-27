@@ -212,11 +212,6 @@ package_macos() {
     return 127
   fi
 
-  if [ -z "$MACOS_PROVISIONING_PROFILE" ]; then
-    error_echo "-p must be set if building macOS packages to provide the provisioning profile." 127
-    return 127
-  fi
-
   more_verbose_echo "${CYAN}Creating macOS pkg...${RESET}"
   productbuild --component "$app_name" /Applications \
     --sign "$MACOS_PACKAGE_SIGN_KEY" \
