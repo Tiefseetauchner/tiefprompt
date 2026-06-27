@@ -423,7 +423,12 @@ compress_directory() {
   shift
   inputs=("$@")
 
-  if command -v 7z &>/dev/null; then
+  if command -v ditto &>/dev/null && [ ${#inputs[@]} -eq 1 ]; then
+    ditto -c -k --keepParent "${inputs[0]}" "$output" \
+      > >(more_verbose_echo_stdin "ditto") \
+      2> >(normal_echo_stderr "${RED}ditto (error)")
+    return $?
+  elif command -v 7z &>/dev/null; then
     7z a "$output" "${inputs[@]}" \
       > >(more_verbose_echo_stdin "7z") \
       2> >(normal_echo_stderr "${RED}7z (error)")
@@ -434,7 +439,7 @@ compress_directory() {
       2> >(normal_echo_stderr "${RED}zip (error)")
     return $?
   else
-    error_echo "No suitable compression tool (7z or zip) found."
+    error_echo "No suitable compression tool (ditto, 7z, or zip) found."
     return 127
   fi
 }
