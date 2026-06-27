@@ -6,7 +6,6 @@ on:
       - "v*"
     branches:
       - main
-      - feature/apple-github-build
 
 permissions:
   contents: write
