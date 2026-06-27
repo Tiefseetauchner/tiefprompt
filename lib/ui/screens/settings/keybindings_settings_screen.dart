@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -16,7 +17,7 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
     final keybindings = ref.watch(keybindingsProvider);
 
     return switch (keybindings) {
-      AsyncData(:final value) => Scaffold(
+      AsyncData(:final value) => SafeScaffold(
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),
@@ -46,7 +47,7 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
-      AsyncLoading() => Scaffold(
+      AsyncLoading() => SafeScaffold(
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
@@ -19,7 +20,7 @@ class OpenFileScreen extends ConsumerWidget {
       future: scriptService.getScripts(),
       builder: (buildContext, streamSnapshot) => StreamBuilder(
         stream: streamSnapshot.data,
-        builder: (context, snapshot) => Scaffold(
+        builder: (context, snapshot) => SafeScaffold(
           appBar: AppBar(title: Text(context.tr("OpenFileScreen.title"))),
           body: Column(
             children: [
