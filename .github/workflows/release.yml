@@ -140,10 +140,10 @@ jobs:
       #     ./tools/build.sh -t macospkg,iosipa -f freemium -b ./package -V
       #   working-directory: app
 
-      # - name: Write app api key
-      #   run: |
-      #     echo "${{ secrets.AC_API_PRIVATE_KEY }}" | base64 -d > keys/AuthKey_${{ secrets.AC_API_KEY_ID }}.p8
-      #   working-directory: app
+      - name: Write app api key
+        run: |
+          echo "${{ secrets.AC_API_PRIVATE_KEY }}" | base64 -d > keys/AuthKey_${{ secrets.AC_API_KEY_ID }}.p8
+        working-directory: app
 
       # - name: Publish to App Store
       #   shell: bash
