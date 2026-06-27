@@ -169,7 +169,9 @@ class PrompterBottomBar extends ConsumerWidget {
               vertical: 12.0,
               horizontal: 16.0,
             ),
-            child: Stack(
+            child: SafeArea(
+              top: false,
+              child: Stack(
               children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -207,11 +209,12 @@ class PrompterBottomBar extends ConsumerWidget {
                   ),
                 ),
               ],
+              ),
             ),
           ),
         ),
-        if (fontSettingsVisible) _FontSettingsDialog(),
-        if (displaySettingsVisible) _DisplaySettingsDialog(),
+        if (fontSettingsVisible) SafeArea(child: _FontSettingsDialog()),
+        if (displaySettingsVisible) SafeArea(child: _DisplaySettingsDialog()),
       ],
     );
   }

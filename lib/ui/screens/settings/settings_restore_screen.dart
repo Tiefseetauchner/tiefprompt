@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
@@ -39,7 +40,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
             .getSettingDisplayData(),
         builder: (context, settingDisplayStream) {
           if (settingDisplayStream.hasError) {
-            return Scaffold(
+            return SafeScaffold(
               appBar: AppBar(
                 title: Text(context.tr("SettingsScreen.SettingsRestore.Title")),
               ),
@@ -52,7 +53,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
           }
 
           if (!settingDisplayStream.hasData) {
-            return Scaffold(
+            return SafeScaffold(
               appBar: AppBar(
                 title: Text(context.tr("SettingsScreen.SettingsRestore.Title")),
               ),
@@ -70,7 +71,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
             stream: settingDisplayStream.data,
             builder: (context, settingDisplays) {
               if (settingDisplays.hasError) {
-                return Scaffold(
+                return SafeScaffold(
                   appBar: AppBar(
                     title: Text(
                       context.tr("SettingsScreen.SettingsRestore.Title"),
@@ -85,7 +86,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
               }
 
               if (!settingDisplays.hasData) {
-                return Scaffold(
+                return SafeScaffold(
                   appBar: AppBar(
                     title: Text(
                       context.tr("SettingsScreen.SettingsRestore.Title"),
@@ -101,7 +102,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                 );
               }
 
-              return Scaffold(
+              return SafeScaffold(
                 appBar: AppBar(
                   title: Text(
                     context.tr("SettingsScreen.SettingsRestore.Title"),
@@ -330,7 +331,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
           );
         },
       ),
-      AsyncLoading() => Scaffold(
+      AsyncLoading() => SafeScaffold(
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),

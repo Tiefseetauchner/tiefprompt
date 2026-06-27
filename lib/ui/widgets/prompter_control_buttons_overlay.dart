@@ -12,17 +12,19 @@ class PrompterControlButtonsOverlay extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final prompter = ref.watch(prompterProvider);
 
-    return Container(
-      alignment: ControlButtonsPositionResolver.getAlignment(
-        prompter.controlButtonsPosition,
-      ),
-      padding: EdgeInsets.all(kControlButtonMargin),
+    return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary.withAlpha(120),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+        alignment: ControlButtonsPositionResolver.getAlignment(
+          prompter.controlButtonsPosition,
         ),
-        child: _ControlButtons(),
+        padding: EdgeInsets.all(kControlButtonMargin),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary.withAlpha(120),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: _ControlButtons(),
+        ),
       ),
     );
   }

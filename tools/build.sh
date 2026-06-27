@@ -101,7 +101,7 @@ build_flutter() {
   normal_echo "${GREEN}Building for target $1 and freedom $2...${RESET}"
   shift 2
   flutter_args=("$@")
-  .flutter/bin/flutter build "${flutter_args[@]}" \
+  env "${extra_env[@]}" .flutter/bin/flutter build "${flutter_args[@]}" \
     > >(verbose_echo_stdin "flutter") \
     2> >(normal_echo_stderr "${RED}flutter (error)")
   return $?
@@ -215,11 +215,6 @@ package_macos() {
     return 127
   fi
 
-  if [ -z "$MACOS_PROVISIONING_PROFILE" ]; then
-    error_echo "-p must be set if building macOS packages to provide the provisioning profile." 127
-    return 127
-  fi
-
   more_verbose_echo "${CYAN}Creating macOS pkg...${RESET}"
   productbuild --component "$app_name" /Applications \
     --sign "$MACOS_PACKAGE_SIGN_KEY" \
@@ -229,6 +224,111 @@ package_macos() {
 
 
   PACKAGE_MACOS_RESULT="${base_name}.pkg"
+
+  return 0
+}
+
+notarize_macos_pkg() {
+  if [ ! "$ENABLE_MACOS_NOTARIZATION" ]; then
+    return 0
+  fi
+
+  pkg_path="$1"
+
+  if [ -z "$pkg_path" ]; then
+    error_echo "notarize_macos_pkg: package path missing." 127
+    return 127
+  fi
+  if [ ! -f "$pkg_path" ]; then
+    error_echo "notarize_macos_pkg: $pkg_path does not exist." 127
+    return 127
+  fi
+
+  cred_args=()
+  if [ "$AC_API_KEY_ID" ] && [ "$AC_API_KEY_ISSUER" ] && [ "$AC_API_PRIVATE_KEY" ]; then
+    cred_args+=(--key "$AC_API_PRIVATE_KEY" --key-id "$AC_API_KEY_ID" --issuer "$AC_API_KEY_ISSUER")
+  elif [ "$APPLE_ID" ] && [ "$APPLE_ID_PASSWORD" ]; then
+    cred_args+=(--apple-id "$APPLE_ID" --password "$APPLE_ID_PASSWORD")
+  else
+    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${RESET}"
+    return 0
+  fi
+
+  verbose_echo "${CYAN}Submitting $pkg_path for notarization...${RESET}"
+  xcrun notarytool submit "$pkg_path" "${cred_args[@]}" --wait \
+    > >(verbose_echo_stdin "notarytool") \
+    2> >(normal_echo_stderr "${RED}notarytool (error)")
+  submit_status=$?
+  if [ ! $submit_status -eq 0 ]; then
+    error_echo "Notarization failed with status code ${submit_status}." $submit_status
+    return 127
+  fi
+
+  verbose_echo "${CYAN}Stapling notarization ticket...${RESET}"
+  xcrun stapler staple "$pkg_path" \
+    > >(verbose_echo_stdin "stapler") \
+    2> >(normal_echo_stderr "${RED}stapler (error)")
+  staple_status=$?
+  if [ ! $staple_status -eq 0 ]; then
+    error_echo "Stapling failed with status code ${staple_status}." $staple_status
+    return 127
+  fi
+
+  return 0
+}
+
+notarize_macos_app() {
+  if [ ! "$ENABLE_MACOS_NOTARIZATION" ]; then
+    return 0
+  fi
+
+  app_path="$1"
+
+  if [ -z "$app_path" ]; then
+    error_echo "notarize_macos_app: app path missing." 127
+    return 127
+  fi
+  if [ ! -d "$app_path" ]; then
+    error_echo "notarize_macos_app: $app_path does not exist." 127
+    return 127
+  fi
+
+  cred_args=()
+  if [ "$AC_API_KEY_ID" ] && [ "$AC_API_KEY_ISSUER" ] && [ "$AC_API_PRIVATE_KEY" ]; then
+    cred_args+=(--key "$AC_API_PRIVATE_KEY" --key-id "$AC_API_KEY_ID" --issuer "$AC_API_KEY_ISSUER")
+  elif [ "$APPLE_ID" ] && [ "$APPLE_ID_PASSWORD" ]; then
+    cred_args+=(--apple-id "$APPLE_ID" --password "$APPLE_ID_PASSWORD")
+  else
+    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${RESET}"
+    return 0
+  fi
+
+  zip_path="${app_path%.app}.notarize.zip"
+  verbose_echo "${CYAN}Zipping $app_path for notarization submission...${RESET}"
+  ditto -c -k --keepParent "$app_path" "$zip_path" \
+    > >(verbose_echo_stdin "ditto") \
+    2> >(normal_echo_stderr "${RED}ditto (error)")
+
+  verbose_echo "${CYAN}Submitting $app_path for notarization...${RESET}"
+  xcrun notarytool submit "$zip_path" "${cred_args[@]}" --wait \
+    > >(verbose_echo_stdin "notarytool") \
+    2> >(normal_echo_stderr "${RED}notarytool (error)")
+  submit_status=$?
+  rm -f "$zip_path"
+  if [ ! $submit_status -eq 0 ]; then
+    error_echo "App notarization failed with status code ${submit_status}." $submit_status
+    return 127
+  fi
+
+  verbose_echo "${CYAN}Stapling notarization ticket to $app_path...${RESET}"
+  xcrun stapler staple "$app_path" \
+    > >(verbose_echo_stdin "stapler") \
+    2> >(normal_echo_stderr "${RED}stapler (error)")
+  staple_status=$?
+  if [ ! $staple_status -eq 0 ]; then
+    error_echo "App stapling failed with status code ${staple_status}." $staple_status
+    return 127
+  fi
 
   return 0
 }
@@ -332,7 +432,12 @@ compress_directory() {
   shift
   inputs=("$@")
 
-  if command -v 7z &>/dev/null; then
+  if command -v ditto &>/dev/null && [ ${#inputs[@]} -eq 1 ]; then
+    ditto -c -k --keepParent "${inputs[0]}" "$output" \
+      > >(more_verbose_echo_stdin "ditto") \
+      2> >(normal_echo_stderr "${RED}ditto (error)")
+    return $?
+  elif command -v 7z &>/dev/null; then
     7z a "$output" "${inputs[@]}" \
       > >(more_verbose_echo_stdin "7z") \
       2> >(normal_echo_stderr "${RED}7z (error)")
@@ -343,7 +448,7 @@ compress_directory() {
       2> >(normal_echo_stderr "${RED}zip (error)")
     return $?
   else
-    error_echo "No suitable compression tool (7z or zip) found."
+    error_echo "No suitable compression tool (ditto, 7z, or zip) found."
     return 127
   fi
 }
@@ -432,8 +537,9 @@ unset -v MORE_VERBOSE
 unset -v SKIP_FLUTTER_SETUP
 unset -v CONTINUE_ON_FAIL
 unset -v RUN_DEBUG_BUILD
+unset -v ENABLE_MACOS_NOTARIZATION
 
-while getopts "t:f:b:k:K:p:i:P:hEvVcdsq" opt; do
+while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
   case $opt in
     t)
       TARGETS=$OPTARG
@@ -473,6 +579,9 @@ while getopts "t:f:b:k:K:p:i:P:hEvVcdsq" opt; do
       ;;
     d)
       RUN_DEBUG_BUILD=YES
+      ;;
+    n)
+      ENABLE_MACOS_NOTARIZATION=YES
       ;;
     s)
       SKIP_FLUTTER_SETUP=YES
@@ -525,6 +634,7 @@ for freedom in $FREEDOM_LIST; do
     fi
 
     target_options=()
+    extra_env=()
     should_compress=
     compress_path=
     case $target in
@@ -557,10 +667,12 @@ for freedom in $FREEDOM_LIST; do
         target_results="build/macos/Build/Products/$configuration_upper"
         should_compress=YES
         compress_path="macos.zip"
+        extra_env=("FLUTTER_XCODE_CODE_SIGNING_REQUIRED=NO" "FLUTTER_XCODE_CODE_SIGN_IDENTITY=" "FLUTTER_XCODE_CODE_SIGNING_ALLOWED=NO")
         ;;
       macospkg)
         target_options=(macos)
         target_results="build/macos/Build/Products/$configuration_upper"
+        extra_env=("FLUTTER_XCODE_CODE_SIGNING_REQUIRED=NO" "FLUTTER_XCODE_CODE_SIGN_IDENTITY=" "FLUTTER_XCODE_CODE_SIGNING_ALLOWED=NO")
         ;;
       iosipa)
         target_options=(ios --no-codesign)
@@ -624,6 +736,12 @@ for freedom in $FREEDOM_LIST; do
 
     if [ "$target" = "macos" ]; then
       app_path=$(get_first_app "$target_results")
+
+      if ! notarize_macos_app "$app_path"; then
+        error_echo "Notarizing macOS App failed" 1
+        continue
+      fi
+
       more_verbose_echo "${CYAN}Copying $app_path to new directory...${RESET}"
       app_dir="$target_results/app_dir"
       mkdir -p "$app_dir" \
@@ -646,6 +764,11 @@ for freedom in $FREEDOM_LIST; do
       fi
 
       target_results="$PACKAGE_MACOS_RESULT"
+
+      if ! notarize_macos_pkg "$target_results"; then
+        error_echo "Notarizing macOS Build failed" 1
+        continue
+      fi
     fi
 
     if [ "$target" = "iosipa" ]; then

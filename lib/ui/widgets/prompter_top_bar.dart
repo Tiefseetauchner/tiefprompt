@@ -17,7 +17,9 @@ class PrompterTopBar extends ConsumerWidget {
       child: Container(
         color: Theme.of(context).colorScheme.onSurface.withAlpha(120),
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
-        child: Row(
+        child: SafeArea(
+          bottom: false,
+          child: Row(
           mainAxisSize: MainAxisSize.min,
           spacing: 12,
           children: [
@@ -39,6 +41,7 @@ class PrompterTopBar extends ConsumerWidget {
               ),
             ),
           ],
+          ),
         ),
       ),
     );

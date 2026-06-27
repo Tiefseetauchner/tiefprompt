@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -18,7 +19,7 @@ class SettingsScreen extends ConsumerWidget {
     final featureKind = ref.watch(featuresProvider).featureKind;
 
     return switch (settings) {
-      AsyncData(:final value) => Scaffold(
+      AsyncData(:final value) => SafeScaffold(
         appBar: AppBar(title: Text(context.tr("SettingsScreen.title"))),
         body: ListView(
           children: [
@@ -151,7 +152,7 @@ class SettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
-      AsyncLoading() => Scaffold(
+      AsyncLoading() => SafeScaffold(
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),

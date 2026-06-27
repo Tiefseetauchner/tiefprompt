@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -12,7 +13,7 @@ class HelpRequestScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
+    return SafeScaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(35, 35, 35, 100),
         child: Column(

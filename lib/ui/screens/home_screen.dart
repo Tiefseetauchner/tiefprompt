@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -128,7 +129,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
 
-    return Scaffold(
+    return SafeScaffold(
       appBar: AppBar(title: Text(context.tr("title"))),
       body: SingleChildScrollView(
         child: Column(

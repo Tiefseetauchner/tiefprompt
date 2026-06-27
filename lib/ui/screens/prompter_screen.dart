@@ -110,8 +110,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               onTap: () {
                 ref.read(controlsVisibleProvider.notifier).toggle();
               },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+              child: SafeArea(
+                minimum: const EdgeInsets.all(16.0),
                 child: ScrollableText(
                   controller: _scrollableTextController,
                   text: script.text,
