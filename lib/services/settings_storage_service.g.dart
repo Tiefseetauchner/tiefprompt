@@ -40,7 +40,7 @@ final class SettingsStorageServiceProvider
 }
 
 String _$settingsStorageServiceHash() =>
-    r'd99aac9ac1cfdc47c2e15248ec27735a72ff3102';
+    r'b8f0f6602713a0d1620085a41fb689004b92ee6e';
 
 abstract class _$SettingsStorageService extends $AsyncNotifier<void> {
   FutureOr<void> build();

@@ -25,6 +25,8 @@ class SettingsPresetModel extends Table {
   IntColumn get prompterBackgroundColor => integer()();
   IntColumn get prompterTextColor => integer()();
   BoolColumn get markdownEnabled => boolean()();
+  BoolColumn get showControlButtons => boolean()();
+  TextColumn get controlButtonsPosition => text()();
 
   IntColumn get keybindings => integer().references(
     KeybindingMapModel,
