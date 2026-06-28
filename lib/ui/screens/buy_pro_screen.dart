@@ -8,12 +8,6 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/in_app_purchase_provider.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 
-class BuyProScreenRouterState {
-  final Feature? feature;
-
-  BuyProScreenRouterState({required this.feature});
-}
-
 class BuyProScreen extends ConsumerWidget {
   final Feature? feature;
 

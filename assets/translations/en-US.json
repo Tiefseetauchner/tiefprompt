@@ -257,5 +257,10 @@
       "ephemeralScript": "## Quick Script\n\nStart prompting instantly without saving a script first.",
       "MainBlock": "Unlock this and every other Pro feature with a single one-time purchase. No subscription, yours forever.\n\nFrankly, TiefPrompt is currently, other than translations, a one person project. Your purchase funds the development, allows this app to be ad and tracking and bs free, pays for the Apple fees, *and* allows me to get *an excessive amount of camera equipment*. Thank you for reading and considering!\n\n  ~ Lena"
     }
+  },
+  "NoPurchaseAvailable": {
+    "Title": "There are no purchases...",
+    "Back": "Back",
+    "MainBody": "Oh hi! Apparently, you arrived at the purchases screen no one is supposed to see, and which only exists so the build is easier.\n\nWell, see you! Have a nice one!"
   }
 }
