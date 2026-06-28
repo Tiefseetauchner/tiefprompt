@@ -92,7 +92,7 @@ class FeatureDisabledAppSetting extends ConsumerWidget {
       title: Text(displayText),
       subtitle: Text(context.tr("ProFeatureDisabled")),
       onTap: () => context.push(
-        "/buyproscreen",
+        "/disabledfeature",
         extra: DisabledFeatureScreenRouterExtra(feature: feature),
       ),
     );
