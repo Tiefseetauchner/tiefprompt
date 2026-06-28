@@ -5,10 +5,10 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
-import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 
 abstract class AppSetting extends ConsumerWidget {
   final Feature feature;
@@ -97,7 +97,7 @@ class FeatureDisabledAppSetting extends ConsumerWidget {
       subtitle: Text(context.tr("ProFeatureDisabled")),
       onTap: () => context.push(
         "/buyproscreen",
-        extra: BuyProScreenRouterState(feature: feature),
+        extra: DisabledFeatureScreenRouterExtra(feature: feature),
       ),
     );
   }

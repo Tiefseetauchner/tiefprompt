@@ -5,11 +5,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
+import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
-import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 
 class _BoolToggle extends Notifier<bool> {
   _BoolToggle(this._initial);
@@ -752,8 +752,8 @@ class _FeatureDisabledInline extends ConsumerWidget {
       tileColor: Colors.blueGrey.withAlpha(30),
       title: Text(displayText),
       onTap: () => context.push(
-        "/buyproscreen",
-        extra: BuyProScreenRouterState(feature: feature),
+        "/disabledfeature",
+        extra: DisabledFeatureScreenRouterExtra(feature: feature),
       ),
     );
   }
@@ -795,8 +795,8 @@ class _FeatureGatedIconButton extends ConsumerWidget {
       icon: Icon(Icons.lock_outline),
       tooltip: "$displayText: ${context.tr("ProFeatureDisabled")}",
       onPressed: () => context.push(
-        "/buyproscreen",
-        extra: BuyProScreenRouterState(feature: feature),
+        "/disabledfeature",
+        extra: DisabledFeatureScreenRouterExtra(feature: feature),
       ),
     );
   }

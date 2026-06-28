@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/in_app_purchase_provider.dart';
 import 'package:tiefprompt/providers/talker_provider.dart';
+import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 
 class FeaturesFreemium extends Features {
   late final InAppPurchase _iap = InAppPurchase.instance;
@@ -168,5 +171,10 @@ class FeaturesFreemium extends Features {
 
       return false;
     }
+  }
+
+  @override
+  Widget getPurchaseScreen(DisabledFeatureScreenRouterExtra? extra) {
+    return BuyProScreen(feature: extra?.feature);
   }
 }

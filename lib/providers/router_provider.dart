@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
+import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
-import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 import 'package:tiefprompt/ui/screens/help_request_screen.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
@@ -43,9 +44,11 @@ class TiefPromptRouter extends _$TiefPromptRouter {
         ),
         GoRoute(
           path: '/buyproscreen',
-          builder: (context, state) => BuyProScreen(
-            feature: (state.extra as BuyProScreenRouterState?)?.feature,
-          ),
+          builder: (context, state) => ref
+              .read(featuresProvider.notifier)
+              .getPurchaseScreen(
+                state.extra as DisabledFeatureScreenRouterExtra?,
+              ),
         ),
         GoRoute(
           path: '/settings',
