@@ -9,7 +9,20 @@ An extraordinarily simple cross-platform teleprompter.
 
 Load a script from a file or paste it into the input box.
 
-Press play to start the teleprompter. Press pause to stop it. Press + to make it faster, - to make it slower. There's also a button to flip it vertically and one to flip it horizontally. Font size can also be adjusted.
+Press play to start the teleprompter. Press pause to stop it. Press + to make it faster, - to make it slower. There's also a button to flip it vertically and one to flip it horizontally. Font size can also be adjusted. And so much more!
+
+**Feature List**
+
+- Play/pause, speed control (0.1x–20x), and a countdown timer before scrolling starts
+- Adjustable font size, font family, text alignment, and Markdown rendering
+- Flip text horizontally or vertically for use with a physical teleprompter
+- Reading indicator box, side margins, and top/bottom margin fade
+- Custom text and background colors, app accent color, light/dark/system theme
+- Save multiple named scripts, or use a quick throwaway script without saving
+- Export and import settings as JSON
+- Fully customizable keyboard shortcuts
+- Keeps the screen awake during playback
+- Available in English, German, Simplified Chinese (incomplete), Russian, and Pirate English (the most important language)
 
 ## Download
 
@@ -17,7 +30,7 @@ Press play to start the teleprompter. Press pause to stop it. Press + to make it
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/io.github.tiefseetauchner.tiefprompt/)
 
-Or download the latest APK from the [Releases Section](https://github.com/Tiefseetauchner/tiefprompt/releases/latest).
+Or download the latest APK from the [Releases Section](https://github.com/Tiefseetauchner/tiefprompt/releases/latest). Also available on [the Apple App Store](https://apps.apple.com/us/app/tiefprompt/id6749463142)!
 
 ## Build
 
@@ -62,7 +75,7 @@ This application is sadly not only an extreme time-, but also money sink for me.
 
 This does not, however, affect F-Droid or my uploaded builds - these remain free as in beer. That's why I split the application in a `main_foss.dart` and a `main_freemium.dart` entrypoint. The different versions can be built using the build script, or just with `.flutter/bin/flutter build [target] -t main_[freedom].dart`.
 
-However, if you want the foss version of the application to sideload on your iPhone, you will have to build it yourself. I'm sorry.
+There's an unvalidated iOS build available, I have no idea whether it works but if it does, yippie!
 
 ## Translations
 
