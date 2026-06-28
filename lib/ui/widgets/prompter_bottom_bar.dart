@@ -9,6 +9,7 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 
 class _BoolToggle extends Notifier<bool> {
   _BoolToggle(this._initial);
@@ -172,43 +173,43 @@ class PrompterBottomBar extends ConsumerWidget {
             child: SafeArea(
               top: false,
               child: Stack(
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: _getWidgetButtons(context, ref, prompterState),
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: _getWidgetButtons(context, ref, prompterState),
+                    ),
                   ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: Column(
-                    children: [
-                      Text(
-                        context.tr(
-                          "PrompterScreen.speed",
-                          args: [prompterState.speed.toStringAsFixed(1)],
+                  Positioned(
+                    right: 0,
+                    child: Column(
+                      children: [
+                        Text(
+                          context.tr(
+                            "PrompterScreen.speed",
+                            args: [prompterState.speed.toStringAsFixed(1)],
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
+                        Text(
+                          context.tr(
+                            "PrompterScreen.fontsize",
+                            args: [prompterState.fontSize.toStringAsFixed(1)],
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
-                      ),
-                      Text(
-                        context.tr(
-                          "PrompterScreen.fontsize",
-                          args: [prompterState.fontSize.toStringAsFixed(1)],
-                        ),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
               ),
             ),
           ),
@@ -445,7 +446,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               "M",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            isSelected: prompter.mirroredY,
+                            isSelected: prompter.markdownEnabled,
                             tooltip: context.tr(
                               "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_Markdown",
                             ),
@@ -696,7 +697,7 @@ class _FeatureGate extends ConsumerWidget {
     );
 
     if (!isEnabled) {
-      return _FeatureDisabledInline(displayText: displayText);
+      return _FeatureDisabledInline(displayText: displayText, feature: feature);
     }
 
     return child;
@@ -704,9 +705,13 @@ class _FeatureGate extends ConsumerWidget {
 }
 
 class _FeatureDisabledInline extends ConsumerWidget {
-  const _FeatureDisabledInline({required this.displayText});
+  const _FeatureDisabledInline({
+    required this.displayText,
+    required this.feature,
+  });
 
   final String displayText;
+  final Feature feature;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -714,8 +719,10 @@ class _FeatureDisabledInline extends ConsumerWidget {
       leading: Icon(Icons.lock_outline),
       tileColor: Colors.blueGrey.withAlpha(30),
       title: Text(displayText),
-      subtitle: Text(context.tr("ProFeatureDisabled")),
-      onTap: () => ref.read(featuresProvider.notifier).buyPro(),
+      onTap: () => context.push(
+        "/buyproscreen",
+        extra: BuyProScreenRouterState(feature: feature),
+      ),
     );
   }
 }
@@ -755,7 +762,10 @@ class _FeatureGatedIconButton extends ConsumerWidget {
     return IconButton(
       icon: Icon(Icons.lock_outline),
       tooltip: "$displayText: ${context.tr("ProFeatureDisabled")}",
-      onPressed: () => ref.read(featuresProvider.notifier).buyPro(),
+      onPressed: () => context.push(
+        "/buyproscreen",
+        extra: BuyProScreenRouterState(feature: feature),
+      ),
     );
   }
 }
