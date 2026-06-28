@@ -171,7 +171,8 @@
       }
     },
     "ShowHelpRequest": "Förderaufruf-Bildschirm erneut aufrufen",
-    "ShowChangelog": "Änderungsliste erneut aufrufen"
+    "ShowChangelog": "Änderungsliste erneut aufrufen",
+    "ViewLogs": "Logs anzeigen"
   },
   "PrompterScreen": {
     "speed": "{}x",
@@ -221,5 +222,45 @@
     "ElaborateExplanation": "Dass du überhaupt weiterliest heißt, dass du an unserem Projekt interessiert bist, also lass mich dich abholen. TiefPrompt ist eine Teleprompter Applikation ohne Werbung, Tracking oder sonstigen Geldmaschen zu denen Entwickler zumeist greifen. Das heißt, dass wir völlig von Käufen von TiefPrompt Pro und Spenden angewiesen sind.\n\nDa die Entwickler:innen sehr viel Zeit und Geld in diese App stecken (z.B. Anwälte, Apple Steuer, u.s.w.) haben wir entschieden, auf zwei Wegen Geld einzunehmen - einer ist, offensichtlicher weise, der In-App Kauf bei iOS und Android. Solltest du die App via Google Play oder Apple App Store herunter geladen haben wirst du merken, dass einige Features eingeschränkt sind. Das ist ein Nebeneffekt davon, dass Apple voraussetzt ein Apple Produkt zu besitzen - etwas was wir spezifisch für dieses Projekt kaufen mussten - und eine jährliche Zahlung für das Privileg, eine App zu erstellen.\n\nAußerdem ist diese App gratis. Vielleicht fragst du dich, wie das möglich ist, da ich gerade erst erklärt habe, dass die App nicht gratis ist, aber solltest du den Link oberhalb ansehen wirst du merken, dass diese App tatsächlich Open-Source ist. Du darfst diese App nutzen, abändern, verkaufen, und eigentlich so ziemlich alles was du dir vorstellen kannst damit machen. Und sie ist gratis wenn man sie von F-Droid oder GitHub bezieht, oder sie einfach selber kompiliert.\n\nDarum haben wir nicht nur einen In-App Kauf, sondern auch Spendenlinks. Wenn du die App so verwendest wie sie initial gedacht war - das heißt, frei und gratis - bitten wir, dass du darüber nachdenkst zu spenden. Es ist voll Okay solltest du das nicht machen, wir kennen die Finanzielle Realität, aber es ist ein Weg uns zu unterstützen.\n\nDazu, eine App erstellen kostet natürlich Zeit. Entwicklung, Issues sortieren, Releases planen - alles das, egal wie spaßig, ist ziemlich anstrengend für die Entwickler:innen. Also falls du der App nicht spenden möchtest oder kannst, wie wärs damit zur App bei zu steuern!\n\nWie kann man beisteuern, fragst du dich? Ein Weg ist einfach Feedback geben. Fehlt ein Feature? Ist die App fehlerhaft? Einfach Laut geben und wir werden es besser machen!\n\nEin anderer Weg beizutragen ist, Code zu schreiben. Solltest du in der Lage sein freuen wir uns darüber, Issues herunter zu bekommen, neue Features einzubauen und Fehler zu beheben. Wir sind alle Menschen, und deine Unterstützung würde viel Hilfe sein.\n\nLetztendlich gibt es Übersetzungen. Wir stellen diese App in mehreren Sprachen bereit, aber es gibt immer noch eine Sprache, ein Übersetzungsfehler, oder einfach Rechtschreibfehler zum beheben. Wie man beim Übersetzen helfen kann findest du im GitHub Repo, und wir freuen uns über jegliche Hilfe dabei.\n\nUnd jetzt, direkt von der Schöpferin, weil du durch die Prosa gelesen hast und du es dir verdienst: Danke. Danke, dass du die App angesehen, heruntergeladen, das hier gelesen hast, und so weiter. Ich schätze das unendlich. Zu sehen, dass ein Projekt tatsächlich verwendet wird ist validierend und macht mich glücklich, hier nicht allein zu sein. Also, ein letztes Mal: Danke.\n\nSo, jetzt aber wirklich allerletzt, unten sind Links, einfach durchklicken.\n\nHerzlichst, Lena",
     "ReadMore": "Mehr lesen",
     "Continue": "Zur App fortfahren"
+  },
+  "BuyProScreen": {
+    "Title": "Pro-Version",
+    "Back": "Zurück",
+    "RestorePurchases": "Käufe wiederherstellen",
+    "BuyPro": "Pro-Version kaufen",
+    "BuyRequest": {
+      "Generic": "## Überlegst du, upzugraden??\n\nDas hier ist die gratis Version von TiefPrompt, aber alle Pro features sind einen klick entfernt.",
+      "appLanguage": "## App Sprache\n\nÄndere die lokalisierung der App.",
+      "appTheme": "## App Theme\n\nWelchsle zwischen hellem, dunklem und eigenen Themes, um zu deinem Studio zu passen.",
+      "primaryAppColor": "## Akzentfarbe\n\nPersonalisiere deine App mit deiner eigenen Akzentfarbe.",
+      "textSettings": "## Texteinstellungen\n\nVerfeinere, wie dein Skript auf dem Bildschirm angezeigt wird.",
+      "displaySettings": "## Anzeigeeinstellungen\n\nÜbernehme volle Kontrolle darüber, wie der Prompter dein Skript präsentiert.",
+      "scrollSpeed": "## Lesegeschwindigkeit\n\nStelle die genaue Geschwindigkeit des Prompters für deine Lesegeschwindigkeit ein.",
+      "flipX": "## Horizontal spiegeln\n\nSpiegle den Prompter um die horizontale Achse.",
+      "flipY": "## Vertikal spiegeln\n\nSpiegle den Prompter um die vertikale Achse.",
+      "readingIndicatorBoxes": "## Lesehilfen\n\nUmrahme die Zeile, die du gerade liest, mit einstellbaren Lesehilfen, damit du nie wieder deine Stelle verlierst.",
+      "verticalMargins": "## Vertikale Abstände\n\nVerstecke den oberen und unteren Bildschirmrand, um deine Augen auf das wesentliche zu fokusieren.",
+      "verticalMarginFade": "## Abstandsverlauf\n\nLass den Text flüssig ein- und ausblenden, um eine professionelle Ansicht zu bekommen.",
+      "sideMargins": "## Seitenabstand\n\nVerschmälere den Text, damit deine Augen weniger hin und her springen.",
+      "countdownTimer": "## Countdown-Timer\n\nBekomm einen Countdown bevor der Prompter beginnt, damit du immer für den Start bereit bist.",
+      "prompterBackgroundColor": "## Hintergrundfarbe\n\nWähle jegliche Prompter-Hintergrundfarbe, um Spiegelungen zu minimieren.",
+      "prompterTextColor": "## Textfarbe\n\nWähle die Textfarbe, um die beste Lesbarkeit unter allen Umständen zu erreichen.",
+      "fontSize": "## Schriftgröße\n\nSetze die perfekte Schriftgröße für deine Entfernung vom Prompter.",
+      "textAlignment": "## Schriftausrichtung\n\nRichte dein Script links, rechts, mittig, oder bündig aus.",
+      "fontFamily": "## Schriftart\n\nWähle die Schriftart, die am einfachsten für dich zu lesen ist.",
+      "keybindings": "## Tastaturkürzel\n\nÄndere jedes Tastaturkürzel für deine eigene Tastatur oder jeglichen Controller.",
+      "playPause": "## Start & Pause\n\nFang and und hör auf, immer dann, wenn du es brauchst",
+      "markdown": "## Markdownformatierung\n\nSchreibe Überschriften, fetten, kursiven, und unterstrichenen Text und seh sie in deinem Script gerendert.",
+      "settingsRestore": "## Einstellungen speichern und wiederherstellen\n\nSpeichere deine Prompter Einstellungen und bring sie auf jedem Gerät zurück.",
+      "controlButtons": "## Kontrollknopf\n\nBildschirmkontrollen für einfachere Bedienung.",
+      "showHelpRequest": "## TiefPrompt unterstützen\n\nLerne, wie du TiefPrompt helfen kannst.",
+      "ephemeralScript": "## Schnelles Skript\n\nFang sofort an zu arbeiten, ohne ein Skript speichern zu müssen.",
+      "MainBlock": "Entsperre diese und alle anderen Pro-Funktionen mit einem einzelnen, einmaligen Kauf. Kein Abo, deines für immer.\n\nGanz ehrlich: TiefPrompt ist, bis auf Übersetzungen, aktuell ein Einmannboot. Dein Kauf ermöglicht die Entwicklung, erlaubt der App, werbung-, tracking-, und (fein wienerisch) kreiwäh-frei zu sein, zahlt die Apple Gebühren, *und* erlaubt mir *eine exzessive Menge an Kameraequipment zu erwerben*. Danke fürs Lesen und darüber Nachdenken!\n\n  ~ Lena"
+    }
+  },
+  "NoPurchaseAvailable": {
+    "Title": "Es gibt keine Käufe...",
+    "Back": "Zurück",
+    "MainBody": "Oh, hi! Es scheint als wärest du an einem Kauf Bildschirm vorbei gekommen, den niemand sehen sollte, und der nur existiert, um das Programmieren leichter zu machen.\n\nTja, ciao! Schönen Tag noch!"
   }
 }
