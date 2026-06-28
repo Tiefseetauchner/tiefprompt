@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/current_chapter_provider.dart';
+import 'package:tiefprompt/providers/prompter_provider.dart';
 
 class CurrentChapterBanner extends ConsumerWidget {
   final EdgeInsets? offset;
@@ -10,6 +11,7 @@ class CurrentChapterBanner extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chapter = ref.watch(currentChapterProvider);
+    final prompter = ref.watch(prompterProvider);
 
     if (chapter == null) return const SizedBox.shrink();
 
@@ -30,10 +32,21 @@ class CurrentChapterBanner extends ConsumerWidget {
           child: SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal:
+                    16 +
+                    (MediaQuery.of(context).size.width / 2) *
+                        (prompter.sideMargin / 100),
+                vertical: 8,
+              ),
               child: Text(
                 chapter,
-                style: TextStyle(color: onSurface),
+                style: TextStyle(
+                  color: onSurface,
+                  fontFamily: prompter.fontFamily,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: prompter.alignment,
                 textScaler: TextScaler.linear(2),
                 overflow: TextOverflow.ellipsis,
               ),

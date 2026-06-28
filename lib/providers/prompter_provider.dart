@@ -189,4 +189,8 @@ class Prompter extends _$Prompter {
   void setControlButtonsPosition(ControlButtonsPosition position) {
     state = state.copyWith(controlButtonsPosition: position);
   }
+
+  void toggleCurrentChapterEnabled() {
+    state = state.copyWith(showCurrentChapter: !state.showCurrentChapter);
+  }
 }

@@ -398,7 +398,6 @@ class _DisplaySettingsDialog extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
-                height: MediaQuery.of(context).size.height - 250,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -443,15 +442,48 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                             ),
                             icon: Text(
                               "M",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: prompter.markdownEnabled
+                                    ? Theme.of(context).colorScheme.primary
+                                    : IconTheme.of(context).color,
+                              ),
                             ),
-                            isSelected: prompter.mirroredY,
+                            isSelected: prompter.markdownEnabled,
                             tooltip: context.tr(
                               "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_Markdown",
                             ),
                             onPressed: () => ref
                                 .read(prompterProvider.notifier)
                                 .toggleMarkdownEnabled(),
+                          ),
+                          _FeatureGatedIconButton(
+                            feature: Feature.currentChapter,
+                            displayText: context.tr(
+                              "SettingsScreen.BooleanAppSetting_Current_Chapter",
+                            ),
+                            icon: Text(
+                              "C",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: prompter.markdownEnabled
+                                    ? (prompter.showCurrentChapter
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.primary
+                                          : IconTheme.of(context).color)
+                                    : Theme.of(context).disabledColor,
+                              ),
+                            ),
+                            isSelected: prompter.showCurrentChapter,
+                            tooltip: context.tr(
+                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_Current_Chapter",
+                            ),
+                            onPressed: prompter.markdownEnabled
+                                ? () => ref
+                                      .read(prompterProvider.notifier)
+                                      .toggleCurrentChapterEnabled()
+                                : null,
                           ),
                         ],
                       ),
@@ -722,19 +754,19 @@ class _FeatureDisabledInline extends ConsumerWidget {
 
 class _FeatureGatedIconButton extends ConsumerWidget {
   const _FeatureGatedIconButton({
+    this.isSelected,
     required this.feature,
     required this.displayText,
     required this.icon,
     required this.tooltip,
     required this.onPressed,
-    this.isSelected,
   });
 
   final Feature feature;
   final String displayText;
   final Widget icon;
   final String tooltip;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final bool? isSelected;
 
   @override
