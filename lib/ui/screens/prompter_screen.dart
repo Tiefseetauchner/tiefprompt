@@ -12,6 +12,7 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
+import 'package:tiefprompt/ui/widgets/current_chapter_banner.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_control_buttons_overlay.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
@@ -147,6 +148,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                 prompter.showControlButtons)
               PrompterControlButtonsOverlay(),
             if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
+            CurrentChapterBanner(),
             if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
             if (prompter.displayCountdown && prompter.countdownDuration > 0)
               CountdownTimer(duration: prompter.countdownDuration.toInt()),

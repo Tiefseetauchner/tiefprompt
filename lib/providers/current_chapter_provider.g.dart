@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'prompter_provider.dart';
+part of 'current_chapter_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,51 @@ part of 'prompter_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Prompter)
-final prompterProvider = PrompterProvider._();
+@ProviderFor(CurrentChapter)
+final currentChapterProvider = CurrentChapterProvider._();
 
-final class PrompterProvider
-    extends $NotifierProvider<Prompter, PrompterState> {
-  PrompterProvider._()
+final class CurrentChapterProvider
+    extends $NotifierProvider<CurrentChapter, String?> {
+  CurrentChapterProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'prompterProvider',
-        isAutoDispose: true,
+        name: r'currentChapterProvider',
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$prompterHash();
+  String debugGetCreateSourceHash() => _$currentChapterHash();
 
   @$internal
   @override
-  Prompter create() => Prompter();
+  CurrentChapter create() => CurrentChapter();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(PrompterState value) {
+  Override overrideWithValue(String? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<PrompterState>(value),
+      providerOverride: $SyncValueProvider<String?>(value),
     );
   }
 }
 
-String _$prompterHash() => r'ff3822e00864f4680777cfb585cdfc8042c58e48';
+String _$currentChapterHash() => r'8d38fcc0ce8e42d220919163c5d55de23c9de966';
 
-abstract class _$Prompter extends $Notifier<PrompterState> {
-  PrompterState build();
+abstract class _$CurrentChapter extends $Notifier<String?> {
+  String? build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<PrompterState, PrompterState>;
+    final ref = this.ref as $Ref<String?, String?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<PrompterState, PrompterState>,
-              PrompterState,
+              AnyNotifier<String?, String?>,
+              String?,
               Object?,
               Object?
             >;

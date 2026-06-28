@@ -33,7 +33,7 @@ final class ScriptServiceProvider
   ScriptService create() => ScriptService();
 }
 
-String _$scriptServiceHash() => r'd3fcb5bd42e23d9366c217530578d0108a7e183f';
+String _$scriptServiceHash() => r'4ced05b027a635e3b45f9424c2131236f6b64abf';
 
 abstract class _$ScriptService extends $AsyncNotifier<void> {
   FutureOr<void> build();

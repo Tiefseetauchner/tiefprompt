@@ -80,6 +80,7 @@ enum Feature {
   controlButtons,
   showHelpRequest,
   ephemeralScript,
+  currentChapter,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -110,6 +111,7 @@ const kAllFeatures = [
   Feature.controlButtons,
   Feature.showHelpRequest,
   Feature.ephemeralScript,
+  Feature.currentChapter,
 ];
 
 const kFreeFeatures = [

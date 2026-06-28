@@ -33,6 +33,7 @@ abstract class PrompterState with _$PrompterState {
     @Default(false) bool showControlButtons,
     @Default(ControlButtonsPosition.left)
     ControlButtonsPosition controlButtonsPosition,
+    @Default(false) bool showCurrentChapter,
   }) = _PrompterState;
 }
 
@@ -65,6 +66,7 @@ class Prompter extends _$Prompter {
       markdownEnabled: settings.markdownEnabled,
       showControlButtons: settings.showControlButtons,
       controlButtonsPosition: settings.controlButtonsPosition,
+      showCurrentChapter: settings.showCurrentChapter,
     );
   }
 

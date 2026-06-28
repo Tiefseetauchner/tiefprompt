@@ -34,6 +34,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(ControlButtonsPosition.left)
     ControlButtonsPosition controlButtonsPosition,
     @Default(0) int keybindingsMapId,
+    @Default(false) bool showCurrentChapter,
   }) = _SettingsState;
 
   static SettingsState fromJson(Map<String, dynamic> jsonValues) {
@@ -73,6 +74,7 @@ abstract class SettingsState with _$SettingsState {
       controlButtonsPosition:
           jsonValues['controlButtonsPosition'] ?? ControlButtonsPosition.left,
       keybindingsMapId: jsonValues['keybindingsMapId'] ?? 0,
+      showCurrentChapter: jsonValues['showCurrentChapter'] ?? false,
     );
   }
 
@@ -113,6 +115,7 @@ abstract class SettingsState with _$SettingsState {
         'showControlButtons': value.showControlButtons,
         'controlButtonsPosition': value.controlButtonsPosition,
         'keybindingsMapId': value.keybindingsMapId,
+        'showCurrentChapter': value.showCurrentChapter,
       };
     } else {
       throw UnsupportedError('Cannot convert to JSON: $value');
@@ -145,6 +148,7 @@ abstract class ISettings {
   Future<void> setShowControlButtons(bool enabled);
   Future<void> setControlButtonsPosition(ControlButtonsPosition position);
   Future<void> setKeybindings(int mapId);
+  Future<void> setShowCurrentChapter(bool value);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -177,6 +181,7 @@ class Settings extends _$Settings implements ISettings {
   static const _showControlButtonsKey = 'show_control_buttons';
   static const _controlButtonsPositionKey = 'control_buttons_position';
   static const _keybindingsMapIdKey = 'keybindings_map_id';
+  static const _showCurrentChapterKey = 'show_current_chapter';
 
   static const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
 
@@ -223,6 +228,7 @@ class Settings extends _$Settings implements ISettings {
         _prefs.getString(_controlButtonsPositionKey),
       ),
       keybindingsMapId: 0,
+      showCurrentChapter: _prefs.getBool(_showCurrentChapterKey) ?? false,
     );
   }
 
@@ -415,6 +421,13 @@ class Settings extends _$Settings implements ISettings {
   }
 
   @override
+  Future<void> setShowCurrentChapter(bool value) async {
+    await _prefs.setBool(_showCurrentChapterKey, value);
+
+    state = state.whenData((s) => s.copyWith(showCurrentChapter: value));
+  }
+
+  @override
   Future<void> setKeybindings(int mapId) async {
     await _prefs.setInt(_keybindingsMapIdKey, mapId);
 
@@ -479,6 +492,7 @@ class Settings extends _$Settings implements ISettings {
     );
     // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
     await _prefs.setInt(_keybindingsMapIdKey, 0);
+    await _prefs.setBool(_showCurrentChapterKey, state.showCurrentChapter);
   }
 
   @override
@@ -510,5 +524,6 @@ class Settings extends _$Settings implements ISettings {
     await setMarkdownEnabled(prompterState.markdownEnabled);
     await setShowControlButtons(prompterState.showControlButtons);
     await setControlButtonsPosition(prompterState.controlButtonsPosition);
+    await setShowCurrentChapter(prompterState.showCurrentChapter);
   }
 }

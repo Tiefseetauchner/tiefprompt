@@ -46,7 +46,7 @@ dependencies:
   easy_localization: ^3.0.7+1
   package_info_plus: ^10.0.0
   flutter_colorpicker: ^1.1.0
-  tief_weave: ^0.2.1
+  tief_weave: ^0.3.0
   talker: ^5.1.17
   talker_flutter: ^5.1.17
   talker_riverpod_logger: ^5.1.17
