@@ -8,6 +8,7 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
+import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 
 abstract class AppSetting extends ConsumerWidget {
   final Feature feature;
@@ -23,14 +24,17 @@ abstract class AppSetting extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!_isFeatureEnabled(ref)) {
-      return FeatureDisabledAppSetting(displayText: displayText);
+    if (!_isEnabled(ref)) {
+      return FeatureDisabledAppSetting(
+        displayText: displayText,
+        feature: feature,
+      );
     }
 
     return buildSetting(context, ref);
   }
 
-  bool _isFeatureEnabled(WidgetRef ref) {
+  bool _isEnabled(WidgetRef ref) {
     return ref.watch(
       featuresProvider.select((s) => s.features.contains(feature)),
     );
@@ -56,14 +60,17 @@ abstract class StatefulAppSettingState<T extends StatefulAppSetting>
     extends ConsumerState<T> {
   @override
   Widget build(BuildContext context) {
-    if (!_isFeatureEnabled()) {
-      return FeatureDisabledAppSetting(displayText: widget.displayText);
+    if (!_isEnabled()) {
+      return FeatureDisabledAppSetting(
+        displayText: widget.displayText,
+        feature: widget.feature,
+      );
     }
 
     return buildSetting(context);
   }
 
-  bool _isFeatureEnabled() {
+  bool _isEnabled() {
     return ref.watch(
       featuresProvider.select((s) => s.features.contains(widget.feature)),
     );
@@ -74,8 +81,13 @@ abstract class StatefulAppSettingState<T extends StatefulAppSetting>
 
 class FeatureDisabledAppSetting extends ConsumerWidget {
   final String displayText;
+  final Feature feature;
 
-  const FeatureDisabledAppSetting({super.key, required this.displayText});
+  const FeatureDisabledAppSetting({
+    super.key,
+    required this.displayText,
+    required this.feature,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -83,7 +95,10 @@ class FeatureDisabledAppSetting extends ConsumerWidget {
       tileColor: Colors.blueGrey.withAlpha(30),
       title: Text(displayText),
       subtitle: Text(context.tr("ProFeatureDisabled")),
-      onTap: () => {ref.read(featuresProvider.notifier).buyPro()},
+      onTap: () => context.push(
+        "/buyproscreen",
+        extra: BuyProScreenRouterState(feature: feature),
+      ),
     );
   }
 }

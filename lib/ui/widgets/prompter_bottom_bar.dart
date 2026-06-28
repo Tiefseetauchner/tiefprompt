@@ -9,6 +9,7 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 
 class _BoolToggle extends Notifier<bool> {
   _BoolToggle(this._initial);
@@ -728,7 +729,7 @@ class _FeatureGate extends ConsumerWidget {
     );
 
     if (!isEnabled) {
-      return _FeatureDisabledInline(displayText: displayText);
+      return _FeatureDisabledInline(displayText: displayText, feature: feature);
     }
 
     return child;
@@ -736,9 +737,13 @@ class _FeatureGate extends ConsumerWidget {
 }
 
 class _FeatureDisabledInline extends ConsumerWidget {
-  const _FeatureDisabledInline({required this.displayText});
+  const _FeatureDisabledInline({
+    required this.displayText,
+    required this.feature,
+  });
 
   final String displayText;
+  final Feature feature;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -746,8 +751,10 @@ class _FeatureDisabledInline extends ConsumerWidget {
       leading: Icon(Icons.lock_outline),
       tileColor: Colors.blueGrey.withAlpha(30),
       title: Text(displayText),
-      subtitle: Text(context.tr("ProFeatureDisabled")),
-      onTap: () => ref.read(featuresProvider.notifier).buyPro(),
+      onTap: () => context.push(
+        "/buyproscreen",
+        extra: BuyProScreenRouterState(feature: feature),
+      ),
     );
   }
 }
@@ -787,7 +794,10 @@ class _FeatureGatedIconButton extends ConsumerWidget {
     return IconButton(
       icon: Icon(Icons.lock_outline),
       tooltip: "$displayText: ${context.tr("ProFeatureDisabled")}",
-      onPressed: () => ref.read(featuresProvider.notifier).buyPro(),
+      onPressed: () => context.push(
+        "/buyproscreen",
+        extra: BuyProScreenRouterState(feature: feature),
+      ),
     );
   }
 }
