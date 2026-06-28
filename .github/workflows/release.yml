@@ -128,17 +128,17 @@ jobs:
           echo "${{ secrets.IOS_APPSTORE_PROVISIONPROFILE_BASE64 }}" | base64 -d > keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision
         working-directory: app
 
-      - name: Build macOS and iOS App for App Store publishing
-        shell: bash
-        run: |
-          mkdir -p package
-          export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
-          export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
-          export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
-          export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
-          ./tools/build.sh -t macospkg,iosipa -f freemium -b ./package -V
-        working-directory: app
+      # - name: Build macOS and iOS App for App Store publishing
+      #   shell: bash
+      #   run: |
+      #     mkdir -p package
+      #     export MACOS_CODE_SIGN_KEY="3rd Party Mac Developer Application: Lena Tauchner (RJD48MM8G9)"
+      #     export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
+      #     export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
+      #     export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
+      #     export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
+      #     ./tools/build.sh -t macospkg,iosipa -f freemium -b ./package -V
+      #   working-directory: app
 
       - name: Write app api key
         run: |
