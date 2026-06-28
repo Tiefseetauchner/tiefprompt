@@ -118,12 +118,16 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   }
 
   String _inlinesToText(List<Inline> inlines) {
-    return inlines.map((inline) => switch (inline) {
-      PlainText(:final text) => text,
-      Emphasis(:final children) => _inlinesToText(children),
-      Strong(:final children) => _inlinesToText(children),
-      Underline(:final children) => _inlinesToText(children),
-    }).join();
+    return inlines
+        .map(
+          (inline) => switch (inline) {
+            PlainText(:final text) => text,
+            Emphasis(:final children) => _inlinesToText(children),
+            Strong(:final children) => _inlinesToText(children),
+            Underline(:final children) => _inlinesToText(children),
+          },
+        )
+        .join();
   }
 
   void _updateCurrentChapter() {

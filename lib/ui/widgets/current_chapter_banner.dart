@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/current_chapter_provider.dart';
 
 class CurrentChapterBanner extends ConsumerWidget {
-  const CurrentChapterBanner({super.key});
+  final EdgeInsets? offset;
+
+  const CurrentChapterBanner({super.key, this.offset});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -11,26 +13,30 @@ class CurrentChapterBanner extends ConsumerWidget {
 
     if (chapter == null) return const SizedBox.shrink();
 
-    final surface = Theme.of(context).colorScheme.onSurface;
+    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final canvas = Theme.of(context).canvasColor;
 
     return Positioned(
       top: 0,
       left: 0,
       right: 0,
       child: Container(
-        decoration: BoxDecoration(
-          color: surface.withAlpha(120),
-          border: Border(bottom: BorderSide(color: surface.withAlpha(180))),
-        ),
-        child: SafeArea(
-          bottom: false,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text(
-              chapter,
-              style: TextStyle(color: surface),
-              textScaler: TextScaler.linear(2),
-              overflow: TextOverflow.ellipsis,
+        padding: offset,
+        child: Container(
+          decoration: BoxDecoration(
+            color: canvas.withAlpha(120),
+            border: Border(bottom: BorderSide(color: onSurface.withAlpha(180))),
+          ),
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                chapter,
+                style: TextStyle(color: onSurface),
+                textScaler: TextScaler.linear(2),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ),

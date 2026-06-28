@@ -172,43 +172,43 @@ class PrompterBottomBar extends ConsumerWidget {
             child: SafeArea(
               top: false,
               child: Stack(
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: _getWidgetButtons(context, ref, prompterState),
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: _getWidgetButtons(context, ref, prompterState),
+                    ),
                   ),
-                ),
-                Positioned(
-                  right: 0,
-                  child: Column(
-                    children: [
-                      Text(
-                        context.tr(
-                          "PrompterScreen.speed",
-                          args: [prompterState.speed.toStringAsFixed(1)],
+                  Positioned(
+                    right: 0,
+                    child: Column(
+                      children: [
+                        Text(
+                          context.tr(
+                            "PrompterScreen.speed",
+                            args: [prompterState.speed.toStringAsFixed(1)],
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
+                        Text(
+                          context.tr(
+                            "PrompterScreen.fontsize",
+                            args: [prompterState.fontSize.toStringAsFixed(1)],
+                          ),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
-                      ),
-                      Text(
-                        context.tr(
-                          "PrompterScreen.fontsize",
-                          args: [prompterState.fontSize.toStringAsFixed(1)],
-                        ),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
               ),
             ),
           ),
