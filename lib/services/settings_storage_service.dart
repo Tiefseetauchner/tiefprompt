@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/models/settings_preset_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
@@ -83,6 +84,10 @@ class SettingsStorageService extends _$SettingsStorageService {
       prompterBackgroundColor: _getColor(settings.prompterBackgroundColor),
       prompterTextColor: _getColor(settings.prompterTextColor),
       markdownEnabled: settings.markdownEnabled,
+      showControlButtons: settings.showControlButtons,
+      controlButtonsPosition: ControlButtonsPosition.values.singleWhere(
+        (e) => e.name == settings.controlButtonsPosition,
+      ),
       keybindingsMapId: settings.keybindings,
     );
   }
@@ -131,6 +136,8 @@ class SettingsStorageService extends _$SettingsStorageService {
         prompterBackgroundColor: settings.prompterBackgroundColor.toARGB32(),
         prompterTextColor: settings.prompterTextColor.toARGB32(),
         markdownEnabled: settings.markdownEnabled,
+        showControlButtons: settings.showControlButtons,
+        controlButtonsPosition: settings.controlButtonsPosition.name,
         createdAt: DateTime.now(),
         keybindings: keybindingMapId,
       ),

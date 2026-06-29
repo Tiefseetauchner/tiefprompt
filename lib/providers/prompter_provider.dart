@@ -16,7 +16,7 @@ abstract class PrompterState with _$PrompterState {
     @Default(1.0) double speed,
     @Default(false) bool mirroredX,
     @Default(false) bool mirroredY,
-    @Default(48.0) double fontSize,
+    @Default(42.0) double fontSize,
     @Default(false) bool isPlaying,
     @Default(0.0) double sideMargin,
     @Default('Roboto') String fontFamily,
