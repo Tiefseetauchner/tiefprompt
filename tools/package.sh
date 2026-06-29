@@ -36,7 +36,7 @@ rm -rf "$PACKAGE_DIR"/*
 for freedom in $FREEDOM_LIST; do
   mkdir -p "$PACKAGE_DIR/$freedom"
 done
-chmod a+rw -R $PACKAGE_DIR
+chmod 755 -R $PACKAGE_DIR
 
 docker pull $DOCKER_IMAGE
 
