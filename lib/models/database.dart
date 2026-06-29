@@ -2,10 +2,12 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/models/app_state.dart';
 import 'package:tiefprompt/models/script_model.dart';
 import 'package:tiefprompt/models/settings_preset_model.dart';
+import 'package:tiefprompt/models/settings_preset_model.drift.dart';
 import "database.steps.dart";
 import 'database.drift.dart';
 import 'app_state.drift.dart';
@@ -24,7 +26,7 @@ class AppDatabase extends $AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
@@ -78,6 +80,25 @@ class AppDatabase extends $AppDatabase {
               scriptText: "",
               createdAt: DateTime.now(),
               ephemeral: Value(true),
+            ),
+          );
+        },
+        from4To5: (m, schema) async {
+          await m.addColumn(
+            schema.settingsPresetModel,
+            schema.settingsPresetModel.showControlButtons,
+          );
+          await m.addColumn(
+            schema.settingsPresetModel,
+            schema.settingsPresetModel.controlButtonsPosition,
+          );
+
+          await update(settingsPresetModel).write(
+            SettingsPresetModelCompanion.custom(
+              showControlButtons: Constant(false),
+              controlButtonsPosition: Constant(
+                ControlButtonsPosition.left.name,
+              ),
             ),
           );
         },
