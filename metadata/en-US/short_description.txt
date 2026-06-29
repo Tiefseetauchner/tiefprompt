@@ -1,1 +1,1 @@
-The ultimate open source teleprompter application, TiefPrompt, elevates your speech to the next level
+The ultimate open source teleprompter application, TiefPrompt
