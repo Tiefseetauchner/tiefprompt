@@ -17,7 +17,7 @@ class Features extends _$Features {
     throw UnimplementedError('bootstrap must be implemented in subclasses');
   }
 
-  Future<void> buyPro() {
+  Future<bool> buyPro() {
     throw UnimplementedError('buyPro must be implemented in subclasses');
   }
 

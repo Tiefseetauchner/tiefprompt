@@ -15,7 +15,16 @@ class BuyProScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var proPrice = ref
+    ref.listen(
+      inAppPurchaseDataProvider.select(
+        (value) => value.owned.any((f) => f == kProId),
+      ),
+      (previous, isOwned) {
+        if (isOwned && context.mounted) context.pop();
+      },
+    );
+
+    final proPrice = ref
         .read(inAppPurchaseDataProvider)
         .products
         .where((p) => p.id == kProId)
@@ -29,12 +38,21 @@ class BuyProScreen extends ConsumerWidget {
           child: Text(context.tr("BuyProScreen.Back")),
         ),
         ElevatedButton(
-          onPressed: () =>
-              ref.read(featuresProvider.notifier).restorePurchase(),
+          onPressed: () async {
+            final restored = await ref
+                .read(featuresProvider.notifier)
+                .restorePurchase();
+
+            if (restored) {
+              context.pop();
+            }
+          },
           child: Text(context.tr("BuyProScreen.RestorePurchases")),
         ),
         ElevatedButton(
-          onPressed: () => ref.read(featuresProvider.notifier).buyPro(),
+          onPressed: () async {
+            await ref.read(featuresProvider.notifier).buyPro();
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
