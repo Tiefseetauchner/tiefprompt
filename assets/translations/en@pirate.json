@@ -221,5 +221,46 @@
   "ChangelogModal": {
     "title": "The papers",
     "close": "Scuttle Dialog"
+  },
+  "BuyProScreen": {
+    "Title": "Yer wanna pay?",
+    "Back": "Scuttle!",
+    "RestorePurchases": "Get back yer loot",
+    "BuyPro": "Pay for t'is",
+    "BuyRequest": {
+      "Generic": "## Considering upgrading?\n\nThis is the free version of TiefPrompt, and every Pro feature is one tap away.",
+      "appLanguage": "## App Language\n\nChange the localization of the app.",
+      "appTheme": "## App Theme\n\nSwitch between light, dark, and custom themes to suit your studio.",
+      "primaryAppColor": "## Accent Color\n\nPersonalize the app with your own primary color.",
+      "textSettings": "## Text Settings\n\nFine-tune exactly how your script reads on screen.",
+      "displaySettings": "## Display Settings\n\nTake full control of how the prompter presents your script.",
+      "scrollSpeed": "## Scroll Speed\n\nDial in the perfect scrolling pace for your delivery.",
+      "flipX": "## Mirror Horizontally\n\nFlip the prompter for use with a beam-splitter glass.",
+      "flipY": "## Mirror Vertically\n\nFlip the prompter top-to-bottom for mirrored rigs.",
+      "readingIndicatorBoxes": "## Reading Indicators\n\nFrame the line you're reading with adjustable indicator bars so you never lose your place.",
+      "verticalMargins": "## Vertical Margins\n\nMask the top and bottom of the screen to keep your eyes on the active lines.",
+      "verticalMarginFade": "## Margin Fade\n\nFade text gently in and out at the edges for a smooth, professional look.",
+      "sideMargins": "## Side Margins\n\nNarrow the text column so your eyes travel less between lines.",
+      "countdownTimer": "## Countdown Timer\n\nGet a countdown before scrolling begins, so you're ready on cue.",
+      "prompterBackgroundColor": "## Background Color\n\nPick any prompter background color to match your set or cut glare.",
+      "prompterTextColor": "## Text Color\n\nChoose your own text color for the best readability under any lighting.",
+      "fontSize": "## Font Size\n\nSet the perfect reading size for your distance from the screen.",
+      "textAlignment": "## Text Alignment\n\nAlign your script left, center, right, or justified.",
+      "fontFamily": "## Font Family\n\nPick the typeface that's easiest for you to read.",
+      "keybindings": "## Custom Keybindings\n\nRemap every shortcut to your own keyboard or remote control.",
+      "playPause": "## Play & Pause\n\nStart and stop scrolling exactly when you need to.",
+      "markdown": "## Markdown Formatting\n\nWrite headings, bold, italics, and underlines and see them rendered live in your script.",
+      "settingsRestore": "## Save & Restore Settings\n\nSave your prompter setups as profiles and bring them back on any device.",
+      "controlButtons": "## Control Buttons\n\nOn-screen controls for simpler operation.",
+      "showHelpRequest": "## Support TiefPrompt\n\nLearn how you can help keep TiefPrompt alive and growing.",
+      "ephemeralScript": "## Quick Script\n\nStart prompting instantly without saving a script first.",
+      "currentChapter": "## Current Chapter\n\nNever loose sight of where you are - display the current chapter at the top of the screen.",
+      "MainBlock": "Get yer loot 'ere for a small ext- I mean, fee. But 't be only one! Never again, you'll not have ter pay again!\n\nYer know, TiefPrompt is yer frends heart but, not thinking of the tongue, it be a one person boat. Yer payment of the fee funds the building of t'is ship, keeps ter app free of evil sea creatures, pays for the mighty Tim Apple harbor dues, *and* it makes yer one and only me get *a mighty load of imaging technology*. Thank yer for reading and thinkin' 'bout it!\n\n  ~ Lena"
+    }
+  },
+  "NoPurchaseAvailable": {
+    "Title": "There are no treasures here...",
+    "Back": "Back",
+    "MainBody": "ARRR! Yer found 'e secret stash!\n\nMeanin' yer not supposed to find this... Yer be skilled!"
   }
 }

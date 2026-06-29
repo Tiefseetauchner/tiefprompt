@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/in_app_purchase_provider.dart';
 import 'package:tiefprompt/providers/talker_provider.dart';
+import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
 
 class FeaturesFreemium extends Features {
   late final InAppPurchase _iap = InAppPurchase.instance;
@@ -84,21 +87,32 @@ class FeaturesFreemium extends Features {
   }
 
   Future<void> _onPurchaseUpdate(List<PurchaseDetails> details) async {
+    final talker = ref.read(talkerProvider);
+    talker.info(
+      'Purchase update: ${details.map((p) => '${p.productID}=${p.status}').join(', ')}',
+    );
     for (final p in details) {
       switch (p.status) {
         case PurchaseStatus.purchased:
         case PurchaseStatus.restored:
-          if (p.pendingCompletePurchase) await _iap.completePurchase(p);
           ref.read(inAppPurchaseDataProvider.notifier).addOwned(p.productID);
           state = build();
+          if (p.pendingCompletePurchase) {
+            try {
+              await _iap.completePurchase(p);
+            } catch (e) {
+              talker.error('Failed to complete purchase ${p.productID}', e);
+            }
+          }
           break;
         case PurchaseStatus.error:
+          talker.error('Purchase error for ${p.productID}', p.error);
           ref
               .read(bannerMessageProvider.notifier)
               .set("Failed to initialize payment model: ${p.error}");
           break;
-        case PurchaseStatus.canceled:
-        case PurchaseStatus.pending:
+        default:
+          talker.info('Purchase ${p.productID} ignored status ${p.status}');
           break;
       }
     }
@@ -114,7 +128,7 @@ class FeaturesFreemium extends Features {
   }
 
   @override
-  Future<void> buyPro() async {
+  Future<bool> buyPro() async {
     final proProduct = ref
         .read(inAppPurchaseDataProvider)
         .products
@@ -127,7 +141,7 @@ class FeaturesFreemium extends Features {
           .set(
             "Failed to initialize purchase: $kProId is already owned by this account",
           );
-      return;
+      return false;
     }
 
     if (proProduct != null) {
@@ -137,14 +151,16 @@ class FeaturesFreemium extends Features {
         ref
             .read(bannerMessageProvider.notifier)
             .set("Failed to complete purchase.");
+        return false;
       }
     } else {
       ref
           .read(bannerMessageProvider.notifier)
           .set("Failed to initialize purchase: $kProId could not be found");
+      return false;
     }
 
-    return Future.value();
+    return true;
   }
 
   @override
@@ -168,5 +184,10 @@ class FeaturesFreemium extends Features {
 
       return false;
     }
+  }
+
+  @override
+  Widget getPurchaseScreen(DisabledFeatureScreenRouterExtra? extra) {
+    return BuyProScreen(feature: extra?.feature);
   }
 }
