@@ -225,7 +225,7 @@ return $default(_that.speed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that
 
 
 class _PrompterState implements PrompterState {
-   _PrompterState({this.speed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 48.0, this.isPlaying = false, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 25.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 25.0, this.countdownDuration = 5.0, this.displayCountdown = false, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 0.0, this.markdownEnabled = false, this.showControlButtons = false, this.controlButtonsPosition = ControlButtonsPosition.left, this.showCurrentChapter = false});
+   _PrompterState({this.speed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 42.0, this.isPlaying = false, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 25.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 25.0, this.countdownDuration = 5.0, this.displayCountdown = false, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 0.0, this.markdownEnabled = false, this.showControlButtons = false, this.controlButtonsPosition = ControlButtonsPosition.left, this.showCurrentChapter = false});
   
 
 @override@JsonKey() final  double speed;
