@@ -255,6 +255,7 @@
       "controlButtons": "## Control Buttons\n\nOn-screen controls for simpler operation.",
       "showHelpRequest": "## Support TiefPrompt\n\nLearn how you can help keep TiefPrompt alive and growing.",
       "ephemeralScript": "## Quick Script\n\nStart prompting instantly without saving a script first.",
+      "currentChapter": "## Current Chapter\n\nNever loose sight of where you are - display the current chapter at the top of the screen.",
       "MainBlock": "Unlock this and every other Pro feature with a single one-time purchase. No subscription, yours forever.\n\nFrankly, TiefPrompt is currently, other than translations, a one person project. Your purchase funds the development, allows this app to be ad and tracking and bs free, pays for the Apple fees, *and* allows me to get *an excessive amount of camera equipment*. Thank you for reading and considering!\n\n  ~ Lena"
     }
   },

@@ -255,6 +255,7 @@
       "controlButtons": "## Kontrollknopf\n\nBildschirmkontrollen für einfachere Bedienung.",
       "showHelpRequest": "## TiefPrompt unterstützen\n\nLerne, wie du TiefPrompt helfen kannst.",
       "ephemeralScript": "## Schnelles Skript\n\nFang sofort an zu arbeiten, ohne ein Skript speichern zu müssen.",
+      "currentChapter": "## Aktuelles Kapitel\n\nVerliere nie wieder den Faden - zeige das letzte Kapitel oben am Bildschirm an.",
       "MainBlock": "Entsperre diese und alle anderen Pro-Funktionen mit einem einzelnen, einmaligen Kauf. Kein Abo, deines für immer.\n\nGanz ehrlich: TiefPrompt ist, bis auf Übersetzungen, aktuell ein Einmannboot. Dein Kauf ermöglicht die Entwicklung, erlaubt der App, werbung-, tracking-, und (fein wienerisch) kreiwäh-frei zu sein, zahlt die Apple Gebühren, *und* erlaubt mir *eine exzessive Menge an Kameraequipment zu erwerben*. Danke fürs Lesen und darüber Nachdenken!\n\n  ~ Lena"
     }
   },
