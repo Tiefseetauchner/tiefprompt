@@ -1,0 +1,1 @@
+Verbesserungen und (hoffentlich) bugfixes in dem In-App-Kauf Ablauf, sowie kleinere bugfixes rund um das Speichern von Daten.
