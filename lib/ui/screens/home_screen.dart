@@ -456,7 +456,7 @@ class _BuildVersionNote extends ConsumerWidget {
                         }),
                         if (appFeatures.featureKind == FeatureKind.freeVersion)
                           ElevatedButton(
-                            onPressed: () => context.push("/buyproscreen"),
+                            onPressed: () => context.push("/disabledfeature"),
                             child: Text("Buy the Pro Version"),
                           ),
                         ElevatedButton(

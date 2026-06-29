@@ -18,9 +18,9 @@ class FeaturesFoss extends Features {
   }
 
   @override
-  Future<void> buyPro() {
+  Future<bool> buyPro() {
     // No purchase logic for foss builds
-    return Future.value();
+    return Future.value(false);
   }
 
   @override
@@ -31,6 +31,7 @@ class FeaturesFoss extends Features {
 
   @override
   Widget getPurchaseScreen(DisabledFeatureScreenRouterExtra? extra) {
+    // No purchases available for foss builds
     return NoPurchaseAvailableScreen();
   }
 }

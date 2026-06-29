@@ -18,9 +18,9 @@ class FeaturesUnverified extends Features {
   }
 
   @override
-  Future<void> buyPro() {
+  Future<bool> buyPro() {
     // No purchase logic for unverified builds
-    return Future.value();
+    return Future.value(false);
   }
 
   @override

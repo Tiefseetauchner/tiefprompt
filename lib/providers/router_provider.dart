@@ -43,7 +43,7 @@ class TiefPromptRouter extends _$TiefPromptRouter {
           builder: (context, state) => const OpenFileScreen(),
         ),
         GoRoute(
-          path: '/buyproscreen',
+          path: '/disabledfeature',
           builder: (context, state) => ref
               .read(featuresProvider.notifier)
               .getPurchaseScreen(
