@@ -216,7 +216,7 @@ jobs:
           EOF
 
       - name: Repo Permissions
-        run: chmod -R 755 .
+        run: chmod -R 777 .
 
       - name: package
         run: ./tools/package.sh -f foss
