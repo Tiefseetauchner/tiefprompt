@@ -30,6 +30,8 @@ typedef $$SettingsPresetModelTableCreateCompanionBuilder =
       required int prompterBackgroundColor,
       required int prompterTextColor,
       required bool markdownEnabled,
+      required bool showControlButtons,
+      required String controlButtonsPosition,
       required int keybindings,
     });
 typedef $$SettingsPresetModelTableUpdateCompanionBuilder =
@@ -56,6 +58,8 @@ typedef $$SettingsPresetModelTableUpdateCompanionBuilder =
       i0.Value<int> prompterBackgroundColor,
       i0.Value<int> prompterTextColor,
       i0.Value<bool> markdownEnabled,
+      i0.Value<bool> showControlButtons,
+      i0.Value<String> controlButtonsPosition,
       i0.Value<int> keybindings,
     });
 
@@ -221,6 +225,16 @@ class $$SettingsPresetModelTableFilterComposer
     builder: (column) => i0.ColumnFilters(column),
   );
 
+  i0.ColumnFilters<bool> get showControlButtons => $composableBuilder(
+    column: $table.showControlButtons,
+    builder: (column) => i0.ColumnFilters(column),
+  );
+
+  i0.ColumnFilters<String> get controlButtonsPosition => $composableBuilder(
+    column: $table.controlButtonsPosition,
+    builder: (column) => i0.ColumnFilters(column),
+  );
+
   i3.$$KeybindingMapModelTableFilterComposer get keybindings {
     final i3.$$KeybindingMapModelTableFilterComposer composer =
         $composerBuilder(
@@ -375,6 +389,16 @@ class $$SettingsPresetModelTableOrderingComposer
     builder: (column) => i0.ColumnOrderings(column),
   );
 
+  i0.ColumnOrderings<bool> get showControlButtons => $composableBuilder(
+    column: $table.showControlButtons,
+    builder: (column) => i0.ColumnOrderings(column),
+  );
+
+  i0.ColumnOrderings<String> get controlButtonsPosition => $composableBuilder(
+    column: $table.controlButtonsPosition,
+    builder: (column) => i0.ColumnOrderings(column),
+  );
+
   i3.$$KeybindingMapModelTableOrderingComposer get keybindings {
     final i3.$$KeybindingMapModelTableOrderingComposer composer =
         $composerBuilder(
@@ -513,6 +537,16 @@ class $$SettingsPresetModelTableAnnotationComposer
     builder: (column) => column,
   );
 
+  i0.GeneratedColumn<bool> get showControlButtons => $composableBuilder(
+    column: $table.showControlButtons,
+    builder: (column) => column,
+  );
+
+  i0.GeneratedColumn<String> get controlButtonsPosition => $composableBuilder(
+    column: $table.controlButtonsPosition,
+    builder: (column) => column,
+  );
+
   i3.$$KeybindingMapModelTableAnnotationComposer get keybindings {
     final i3.$$KeybindingMapModelTableAnnotationComposer composer =
         $composerBuilder(
@@ -607,6 +641,9 @@ class $$SettingsPresetModelTableTableManager
                 i0.Value<int> prompterBackgroundColor = const i0.Value.absent(),
                 i0.Value<int> prompterTextColor = const i0.Value.absent(),
                 i0.Value<bool> markdownEnabled = const i0.Value.absent(),
+                i0.Value<bool> showControlButtons = const i0.Value.absent(),
+                i0.Value<String> controlButtonsPosition =
+                    const i0.Value.absent(),
                 i0.Value<int> keybindings = const i0.Value.absent(),
               }) => i1.SettingsPresetModelCompanion(
                 id: id,
@@ -631,6 +668,8 @@ class $$SettingsPresetModelTableTableManager
                 prompterBackgroundColor: prompterBackgroundColor,
                 prompterTextColor: prompterTextColor,
                 markdownEnabled: markdownEnabled,
+                showControlButtons: showControlButtons,
+                controlButtonsPosition: controlButtonsPosition,
                 keybindings: keybindings,
               ),
           createCompanionCallback:
@@ -657,6 +696,8 @@ class $$SettingsPresetModelTableTableManager
                 required int prompterBackgroundColor,
                 required int prompterTextColor,
                 required bool markdownEnabled,
+                required bool showControlButtons,
+                required String controlButtonsPosition,
                 required int keybindings,
               }) => i1.SettingsPresetModelCompanion.insert(
                 id: id,
@@ -681,6 +722,8 @@ class $$SettingsPresetModelTableTableManager
                 prompterBackgroundColor: prompterBackgroundColor,
                 prompterTextColor: prompterTextColor,
                 markdownEnabled: markdownEnabled,
+                showControlButtons: showControlButtons,
+                controlButtonsPosition: controlButtonsPosition,
                 keybindings: keybindings,
               ),
           withReferenceMapper: (p0) => p0
@@ -1022,6 +1065,31 @@ class $SettingsPresetModelTable extends i2.SettingsPresetModel
           'CHECK ("markdown_enabled" IN (0, 1))',
         ),
       );
+  static const i0.VerificationMeta _showControlButtonsMeta =
+      const i0.VerificationMeta('showControlButtons');
+  @override
+  late final i0.GeneratedColumn<bool> showControlButtons =
+      i0.GeneratedColumn<bool>(
+        'show_control_buttons',
+        aliasedName,
+        false,
+        type: i0.DriftSqlType.bool,
+        requiredDuringInsert: true,
+        defaultConstraints: i0.GeneratedColumn.constraintIsAlways(
+          'CHECK ("show_control_buttons" IN (0, 1))',
+        ),
+      );
+  static const i0.VerificationMeta _controlButtonsPositionMeta =
+      const i0.VerificationMeta('controlButtonsPosition');
+  @override
+  late final i0.GeneratedColumn<String> controlButtonsPosition =
+      i0.GeneratedColumn<String>(
+        'control_buttons_position',
+        aliasedName,
+        false,
+        type: i0.DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
   static const i0.VerificationMeta _keybindingsMeta = const i0.VerificationMeta(
     'keybindings',
   );
@@ -1060,6 +1128,8 @@ class $SettingsPresetModelTable extends i2.SettingsPresetModel
     prompterBackgroundColor,
     prompterTextColor,
     markdownEnabled,
+    showControlButtons,
+    controlButtonsPosition,
     keybindings,
   ];
   @override
@@ -1281,6 +1351,28 @@ class $SettingsPresetModelTable extends i2.SettingsPresetModel
     } else if (isInserting) {
       context.missing(_markdownEnabledMeta);
     }
+    if (data.containsKey('show_control_buttons')) {
+      context.handle(
+        _showControlButtonsMeta,
+        showControlButtons.isAcceptableOrUnknown(
+          data['show_control_buttons']!,
+          _showControlButtonsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_showControlButtonsMeta);
+    }
+    if (data.containsKey('control_buttons_position')) {
+      context.handle(
+        _controlButtonsPositionMeta,
+        controlButtonsPosition.isAcceptableOrUnknown(
+          data['control_buttons_position']!,
+          _controlButtonsPositionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_controlButtonsPositionMeta);
+    }
     if (data.containsKey('keybindings')) {
       context.handle(
         _keybindingsMeta,
@@ -1392,6 +1484,14 @@ class $SettingsPresetModelTable extends i2.SettingsPresetModel
         i0.DriftSqlType.bool,
         data['${effectivePrefix}markdown_enabled'],
       )!,
+      showControlButtons: attachedDatabase.typeMapping.read(
+        i0.DriftSqlType.bool,
+        data['${effectivePrefix}show_control_buttons'],
+      )!,
+      controlButtonsPosition: attachedDatabase.typeMapping.read(
+        i0.DriftSqlType.string,
+        data['${effectivePrefix}control_buttons_position'],
+      )!,
       keybindings: attachedDatabase.typeMapping.read(
         i0.DriftSqlType.int,
         data['${effectivePrefix}keybindings'],
@@ -1429,6 +1529,8 @@ class SettingsPresetModelData extends i0.DataClass
   final int prompterBackgroundColor;
   final int prompterTextColor;
   final bool markdownEnabled;
+  final bool showControlButtons;
+  final String controlButtonsPosition;
   final int keybindings;
   const SettingsPresetModelData({
     required this.id,
@@ -1453,6 +1555,8 @@ class SettingsPresetModelData extends i0.DataClass
     required this.prompterBackgroundColor,
     required this.prompterTextColor,
     required this.markdownEnabled,
+    required this.showControlButtons,
+    required this.controlButtonsPosition,
     required this.keybindings,
   });
   @override
@@ -1494,6 +1598,10 @@ class SettingsPresetModelData extends i0.DataClass
     );
     map['prompter_text_color'] = i0.Variable<int>(prompterTextColor);
     map['markdown_enabled'] = i0.Variable<bool>(markdownEnabled);
+    map['show_control_buttons'] = i0.Variable<bool>(showControlButtons);
+    map['control_buttons_position'] = i0.Variable<String>(
+      controlButtonsPosition,
+    );
     map['keybindings'] = i0.Variable<int>(keybindings);
     return map;
   }
@@ -1522,6 +1630,8 @@ class SettingsPresetModelData extends i0.DataClass
       prompterBackgroundColor: i0.Value(prompterBackgroundColor),
       prompterTextColor: i0.Value(prompterTextColor),
       markdownEnabled: i0.Value(markdownEnabled),
+      showControlButtons: i0.Value(showControlButtons),
+      controlButtonsPosition: i0.Value(controlButtonsPosition),
       keybindings: i0.Value(keybindings),
     );
   }
@@ -1568,6 +1678,10 @@ class SettingsPresetModelData extends i0.DataClass
       ),
       prompterTextColor: serializer.fromJson<int>(json['prompterTextColor']),
       markdownEnabled: serializer.fromJson<bool>(json['markdownEnabled']),
+      showControlButtons: serializer.fromJson<bool>(json['showControlButtons']),
+      controlButtonsPosition: serializer.fromJson<String>(
+        json['controlButtonsPosition'],
+      ),
       keybindings: serializer.fromJson<int>(json['keybindings']),
     );
   }
@@ -1611,6 +1725,10 @@ class SettingsPresetModelData extends i0.DataClass
       ),
       'prompterTextColor': serializer.toJson<int>(prompterTextColor),
       'markdownEnabled': serializer.toJson<bool>(markdownEnabled),
+      'showControlButtons': serializer.toJson<bool>(showControlButtons),
+      'controlButtonsPosition': serializer.toJson<String>(
+        controlButtonsPosition,
+      ),
       'keybindings': serializer.toJson<int>(keybindings),
     };
   }
@@ -1638,6 +1756,8 @@ class SettingsPresetModelData extends i0.DataClass
     int? prompterBackgroundColor,
     int? prompterTextColor,
     bool? markdownEnabled,
+    bool? showControlButtons,
+    String? controlButtonsPosition,
     int? keybindings,
   }) => i1.SettingsPresetModelData(
     id: id ?? this.id,
@@ -1669,6 +1789,9 @@ class SettingsPresetModelData extends i0.DataClass
         prompterBackgroundColor ?? this.prompterBackgroundColor,
     prompterTextColor: prompterTextColor ?? this.prompterTextColor,
     markdownEnabled: markdownEnabled ?? this.markdownEnabled,
+    showControlButtons: showControlButtons ?? this.showControlButtons,
+    controlButtonsPosition:
+        controlButtonsPosition ?? this.controlButtonsPosition,
     keybindings: keybindings ?? this.keybindings,
   );
   SettingsPresetModelData copyWithCompanion(
@@ -1726,6 +1849,12 @@ class SettingsPresetModelData extends i0.DataClass
       markdownEnabled: data.markdownEnabled.present
           ? data.markdownEnabled.value
           : this.markdownEnabled,
+      showControlButtons: data.showControlButtons.present
+          ? data.showControlButtons.value
+          : this.showControlButtons,
+      controlButtonsPosition: data.controlButtonsPosition.present
+          ? data.controlButtonsPosition.value
+          : this.controlButtonsPosition,
       keybindings: data.keybindings.present
           ? data.keybindings.value
           : this.keybindings,
@@ -1763,6 +1892,8 @@ class SettingsPresetModelData extends i0.DataClass
           ..write('prompterBackgroundColor: $prompterBackgroundColor, ')
           ..write('prompterTextColor: $prompterTextColor, ')
           ..write('markdownEnabled: $markdownEnabled, ')
+          ..write('showControlButtons: $showControlButtons, ')
+          ..write('controlButtonsPosition: $controlButtonsPosition, ')
           ..write('keybindings: $keybindings')
           ..write(')'))
         .toString();
@@ -1792,6 +1923,8 @@ class SettingsPresetModelData extends i0.DataClass
     prompterBackgroundColor,
     prompterTextColor,
     markdownEnabled,
+    showControlButtons,
+    controlButtonsPosition,
     keybindings,
   ]);
   @override
@@ -1824,6 +1957,8 @@ class SettingsPresetModelData extends i0.DataClass
           other.prompterBackgroundColor == this.prompterBackgroundColor &&
           other.prompterTextColor == this.prompterTextColor &&
           other.markdownEnabled == this.markdownEnabled &&
+          other.showControlButtons == this.showControlButtons &&
+          other.controlButtonsPosition == this.controlButtonsPosition &&
           other.keybindings == this.keybindings);
 }
 
@@ -1851,6 +1986,8 @@ class SettingsPresetModelCompanion
   final i0.Value<int> prompterBackgroundColor;
   final i0.Value<int> prompterTextColor;
   final i0.Value<bool> markdownEnabled;
+  final i0.Value<bool> showControlButtons;
+  final i0.Value<String> controlButtonsPosition;
   final i0.Value<int> keybindings;
   const SettingsPresetModelCompanion({
     this.id = const i0.Value.absent(),
@@ -1875,6 +2012,8 @@ class SettingsPresetModelCompanion
     this.prompterBackgroundColor = const i0.Value.absent(),
     this.prompterTextColor = const i0.Value.absent(),
     this.markdownEnabled = const i0.Value.absent(),
+    this.showControlButtons = const i0.Value.absent(),
+    this.controlButtonsPosition = const i0.Value.absent(),
     this.keybindings = const i0.Value.absent(),
   });
   SettingsPresetModelCompanion.insert({
@@ -1900,6 +2039,8 @@ class SettingsPresetModelCompanion
     required int prompterBackgroundColor,
     required int prompterTextColor,
     required bool markdownEnabled,
+    required bool showControlButtons,
+    required String controlButtonsPosition,
     required int keybindings,
   }) : name = i0.Value(name),
        createdAt = i0.Value(createdAt),
@@ -1924,6 +2065,8 @@ class SettingsPresetModelCompanion
        prompterBackgroundColor = i0.Value(prompterBackgroundColor),
        prompterTextColor = i0.Value(prompterTextColor),
        markdownEnabled = i0.Value(markdownEnabled),
+       showControlButtons = i0.Value(showControlButtons),
+       controlButtonsPosition = i0.Value(controlButtonsPosition),
        keybindings = i0.Value(keybindings);
   static i0.Insertable<i1.SettingsPresetModelData> custom({
     i0.Expression<int>? id,
@@ -1948,6 +2091,8 @@ class SettingsPresetModelCompanion
     i0.Expression<int>? prompterBackgroundColor,
     i0.Expression<int>? prompterTextColor,
     i0.Expression<bool>? markdownEnabled,
+    i0.Expression<bool>? showControlButtons,
+    i0.Expression<String>? controlButtonsPosition,
     i0.Expression<int>? keybindings,
   }) {
     return i0.RawValuesInsertable({
@@ -1980,6 +2125,10 @@ class SettingsPresetModelCompanion
         'prompter_background_color': prompterBackgroundColor,
       if (prompterTextColor != null) 'prompter_text_color': prompterTextColor,
       if (markdownEnabled != null) 'markdown_enabled': markdownEnabled,
+      if (showControlButtons != null)
+        'show_control_buttons': showControlButtons,
+      if (controlButtonsPosition != null)
+        'control_buttons_position': controlButtonsPosition,
       if (keybindings != null) 'keybindings': keybindings,
     });
   }
@@ -2007,6 +2156,8 @@ class SettingsPresetModelCompanion
     i0.Value<int>? prompterBackgroundColor,
     i0.Value<int>? prompterTextColor,
     i0.Value<bool>? markdownEnabled,
+    i0.Value<bool>? showControlButtons,
+    i0.Value<String>? controlButtonsPosition,
     i0.Value<int>? keybindings,
   }) {
     return i1.SettingsPresetModelCompanion(
@@ -2039,6 +2190,9 @@ class SettingsPresetModelCompanion
           prompterBackgroundColor ?? this.prompterBackgroundColor,
       prompterTextColor: prompterTextColor ?? this.prompterTextColor,
       markdownEnabled: markdownEnabled ?? this.markdownEnabled,
+      showControlButtons: showControlButtons ?? this.showControlButtons,
+      controlButtonsPosition:
+          controlButtonsPosition ?? this.controlButtonsPosition,
       keybindings: keybindings ?? this.keybindings,
     );
   }
@@ -2126,6 +2280,14 @@ class SettingsPresetModelCompanion
     if (markdownEnabled.present) {
       map['markdown_enabled'] = i0.Variable<bool>(markdownEnabled.value);
     }
+    if (showControlButtons.present) {
+      map['show_control_buttons'] = i0.Variable<bool>(showControlButtons.value);
+    }
+    if (controlButtonsPosition.present) {
+      map['control_buttons_position'] = i0.Variable<String>(
+        controlButtonsPosition.value,
+      );
+    }
     if (keybindings.present) {
       map['keybindings'] = i0.Variable<int>(keybindings.value);
     }
@@ -2163,6 +2325,8 @@ class SettingsPresetModelCompanion
           ..write('prompterBackgroundColor: $prompterBackgroundColor, ')
           ..write('prompterTextColor: $prompterTextColor, ')
           ..write('markdownEnabled: $markdownEnabled, ')
+          ..write('showControlButtons: $showControlButtons, ')
+          ..write('controlButtonsPosition: $controlButtonsPosition, ')
           ..write('keybindings: $keybindings')
           ..write(')'))
         .toString();
