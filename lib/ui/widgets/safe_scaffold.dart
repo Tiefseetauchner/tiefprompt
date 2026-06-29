@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// A [Scaffold] that automatically wraps [body] in a [SafeArea].
-///
-/// All other Scaffold parameters are forwarded unchanged.
-/// Because [Scaffold] adjusts [MediaQuery.padding.top] to zero for its body
-/// when an [AppBar] is present, the [SafeArea] adds no redundant top inset in
-/// that case — but correctly adds top inset for screens without an AppBar, and
-/// adds left/right/bottom insets in landscape or on devices with a home
-/// indicator.
+
 class SafeScaffold extends Scaffold {
   SafeScaffold({
     super.key,

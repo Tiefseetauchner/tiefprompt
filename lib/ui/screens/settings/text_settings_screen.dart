@@ -90,6 +90,17 @@ class TextSettingsScreen extends ConsumerWidget {
                   .read(settingsProvider.notifier)
                   .setMarkdownEnabled(updatedValue),
             ),
+            BooleanAppSetting(
+              feature: Feature.currentChapter,
+              enabled: value.markdownEnabled,
+              value: value.showCurrentChapter,
+              displayText: context.tr(
+                "SettingsScreen.BooleanAppSetting_ShowCurrentChapter",
+              ),
+              onValueChanged: (updatedValue) => ref
+                  .read(settingsProvider.notifier)
+                  .setShowCurrentChapter(updatedValue),
+            ),
           ],
         ),
       ),

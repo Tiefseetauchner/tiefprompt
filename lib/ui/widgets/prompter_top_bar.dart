@@ -20,27 +20,27 @@ class PrompterTopBar extends ConsumerWidget {
         child: SafeArea(
           bottom: false,
           child: Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 12,
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.close,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            Expanded(
-              child: Text(
-                script.title ?? context.tr("empty_title"),
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 20,
+            mainAxisSize: MainAxisSize.min,
+            spacing: 12,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.close,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-            ),
-          ],
+              Expanded(
+                child: Text(
+                  script.title ?? context.tr("empty_title"),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

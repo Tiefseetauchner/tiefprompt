@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'feature_provider.dart';
+part of 'current_chapter_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,50 +9,51 @@ part of 'feature_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Features)
-final featuresProvider = FeaturesProvider._();
+@ProviderFor(CurrentChapter)
+final currentChapterProvider = CurrentChapterProvider._();
 
-final class FeaturesProvider extends $NotifierProvider<Features, AppFeatures> {
-  FeaturesProvider._()
+final class CurrentChapterProvider
+    extends $NotifierProvider<CurrentChapter, String?> {
+  CurrentChapterProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'featuresProvider',
+        name: r'currentChapterProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$featuresHash();
+  String debugGetCreateSourceHash() => _$currentChapterHash();
 
   @$internal
   @override
-  Features create() => Features();
+  CurrentChapter create() => CurrentChapter();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AppFeatures value) {
+  Override overrideWithValue(String? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AppFeatures>(value),
+      providerOverride: $SyncValueProvider<String?>(value),
     );
   }
 }
 
-String _$featuresHash() => r'15f70e1d2c8d926aec3ea03c526bb6ae873db756';
+String _$currentChapterHash() => r'8d38fcc0ce8e42d220919163c5d55de23c9de966';
 
-abstract class _$Features extends $Notifier<AppFeatures> {
-  AppFeatures build();
+abstract class _$CurrentChapter extends $Notifier<String?> {
+  String? build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<AppFeatures, AppFeatures>;
+    final ref = this.ref as $Ref<String?, String?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AppFeatures, AppFeatures>,
-              AppFeatures,
+              AnyNotifier<String?, String?>,
+              String?,
               Object?,
               Object?
             >;

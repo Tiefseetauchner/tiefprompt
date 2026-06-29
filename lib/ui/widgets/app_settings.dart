@@ -5,6 +5,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
@@ -12,17 +13,22 @@ import 'package:tiefprompt/providers/keybinding_provider.dart';
 abstract class AppSetting extends ConsumerWidget {
   final Feature feature;
   final String displayText;
+  final bool enabled;
 
   const AppSetting({
     super.key,
     required this.feature,
     required this.displayText,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!_isEnabled(ref)) {
-      return FeatureDisabledAppSetting(displayText: displayText);
+      return FeatureDisabledAppSetting(
+        displayText: displayText,
+        feature: feature,
+      );
     }
 
     return buildSetting(context, ref);
@@ -40,11 +46,13 @@ abstract class AppSetting extends ConsumerWidget {
 abstract class StatefulAppSetting extends ConsumerStatefulWidget {
   final Feature feature;
   final String displayText;
+  final bool enabled;
 
   const StatefulAppSetting({
     super.key,
     required this.feature,
     required this.displayText,
+    this.enabled = true,
   });
 }
 
@@ -53,7 +61,10 @@ abstract class StatefulAppSettingState<T extends StatefulAppSetting>
   @override
   Widget build(BuildContext context) {
     if (!_isEnabled()) {
-      return FeatureDisabledAppSetting(displayText: widget.displayText);
+      return FeatureDisabledAppSetting(
+        displayText: widget.displayText,
+        feature: widget.feature,
+      );
     }
 
     return buildSetting(context);
@@ -70,8 +81,13 @@ abstract class StatefulAppSettingState<T extends StatefulAppSetting>
 
 class FeatureDisabledAppSetting extends ConsumerWidget {
   final String displayText;
+  final Feature feature;
 
-  const FeatureDisabledAppSetting({super.key, required this.displayText});
+  const FeatureDisabledAppSetting({
+    super.key,
+    required this.displayText,
+    required this.feature,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,7 +95,10 @@ class FeatureDisabledAppSetting extends ConsumerWidget {
       tileColor: Colors.blueGrey.withAlpha(30),
       title: Text(displayText),
       subtitle: Text(context.tr("ProFeatureDisabled")),
-      onTap: () => {ref.read(featuresProvider.notifier).buyPro()},
+      onTap: () => context.push(
+        "/disabledfeature",
+        extra: DisabledFeatureScreenRouterExtra(feature: feature),
+      ),
     );
   }
 }
@@ -93,6 +112,7 @@ class DropdownAppSetting<T> extends AppSetting {
     super.key,
     required super.feature,
     required super.displayText,
+    super.enabled,
     required this.value,
     required this.onValueChanged,
     required this.values,
@@ -110,11 +130,11 @@ class DropdownAppSetting<T> extends AppSetting {
           items: values.map((value) {
             return DropdownMenuItem<T>(value: value.$2, child: Text(value.$1));
           }).toList(),
-          onChanged: (newValue) {
-            if (newValue != null) {
-              onValueChanged(newValue);
-            }
-          },
+          onChanged: enabled
+              ? (newValue) {
+                  if (newValue != null) onValueChanged(newValue);
+                }
+              : null,
         ),
       ),
     );
@@ -129,6 +149,7 @@ class BooleanAppSetting extends AppSetting {
     super.key,
     required super.feature,
     required super.displayText,
+    super.enabled,
     required this.value,
     required this.onValueChanged,
   });
@@ -137,8 +158,11 @@ class BooleanAppSetting extends AppSetting {
   Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
-      trailing: Switch(value: value, onChanged: onValueChanged),
-      onTap: () => onValueChanged(!value),
+      trailing: Switch(
+        value: value,
+        onChanged: enabled ? onValueChanged : null,
+      ),
+      onTap: enabled ? () => onValueChanged(!value) : null,
     );
   }
 }
@@ -148,6 +172,7 @@ class LinkAppSetting extends AppSetting {
     super.key,
     required super.displayText,
     required super.feature,
+    super.enabled,
     required this.value,
   });
 
@@ -155,7 +180,10 @@ class LinkAppSetting extends AppSetting {
 
   @override
   Widget buildSetting(BuildContext context, WidgetRef ref) {
-    return ListTile(title: Text(displayText), onTap: () => context.push(value));
+    return ListTile(
+      title: Text(displayText),
+      onTap: enabled ? () => context.push(value) : null,
+    );
   }
 }
 
@@ -164,6 +192,7 @@ class KeybindingAppSetting extends StatefulAppSetting {
     super.key,
     required super.feature,
     required super.displayText,
+    super.enabled,
     required this.bindings,
     required this.bindingAction,
   });
@@ -184,9 +213,9 @@ class _KeybindingAppSettingState
       title: Text(widget.displayText),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
-        children: [_getBindingsDisplay(), Icon(Icons.chevron_right)],
+        children: [_getBindingsDisplay(), const Icon(Icons.chevron_right)],
       ),
-      onTap: () => _showDialog(context),
+      onTap: widget.enabled ? () => _showDialog(context) : null,
     );
   }
 
@@ -354,6 +383,7 @@ class NumberAppSetting extends StatefulAppSetting {
     super.key,
     required super.feature,
     required super.displayText,
+    super.enabled,
     required this.value,
     required this.onValueChanged,
     required this.min,
@@ -436,11 +466,9 @@ class _NumberAppSettingState extends StatefulAppSettingState<NumberAppSetting> {
   Widget buildSetting(BuildContext context) {
     return ListTile(
       title: Text(widget.displayText),
-      trailing: Icon(Icons.chevron_right),
+      trailing: const Icon(Icons.chevron_right),
       subtitle: Text("${widget.value.toStringAsFixed(1)} ${widget.unit}"),
-      onTap: () {
-        _showDialog(context);
-      },
+      onTap: widget.enabled ? () => _showDialog(context) : null,
     );
   }
 }
@@ -529,6 +557,7 @@ class ColorAppSetting extends StatefulAppSetting {
     super.key,
     required super.feature,
     required super.displayText,
+    super.enabled,
     required this.value,
     required this.onValueChanged,
   });
@@ -580,10 +609,8 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
   Widget buildSetting(BuildContext context) {
     return ListTile(
       title: Text(widget.displayText),
-      trailing: Icon(Icons.chevron_right),
-      onTap: () {
-        _showDialog(context);
-      },
+      trailing: const Icon(Icons.chevron_right),
+      onTap: widget.enabled ? () => _showDialog(context) : null,
     );
   }
 }
@@ -598,6 +625,7 @@ class DialogAppSetting<TValue> extends AppSetting {
     super.key,
     required super.feature,
     required super.displayText,
+    super.enabled,
     this.dialogContent,
     required this.value,
     this.callback,
@@ -611,7 +639,9 @@ class DialogAppSetting<TValue> extends AppSetting {
       'DialogAppSetting requires onTap or dialogContent.',
     );
     return _DialogCloseListener(
-      onTap: () => onTap == null ? _showDialog(context) : onTap!(context, ref),
+      onTap: enabled
+          ? () => onTap == null ? _showDialog(context) : onTap!(context, ref)
+          : null,
       callback: callback,
       child: ListTile(title: Text(displayText)),
     );
