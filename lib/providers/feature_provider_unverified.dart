@@ -1,6 +1,9 @@
+import 'package:flutter/widgets.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
+import 'package:tiefprompt/ui/screens/no_purchase_available_screen.dart';
 
 class FeaturesUnverified extends Features {
   @override
@@ -15,14 +18,20 @@ class FeaturesUnverified extends Features {
   }
 
   @override
-  Future<void> buyPro() {
+  Future<bool> buyPro() {
     // No purchase logic for unverified builds
-    return Future.value();
+    return Future.value(false);
   }
 
   @override
   Future<bool> restorePurchase() {
     // No restore logic for unverified builds
     return Future.value(false);
+  }
+
+  @override
+  Widget getPurchaseScreen(DisabledFeatureScreenRouterExtra? extra) {
+    // No purchases available for unverified builds
+    return NoPurchaseAvailableScreen();
   }
 }

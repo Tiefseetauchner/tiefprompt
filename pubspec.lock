@@ -1157,10 +1157,10 @@ packages:
     dependency: "direct main"
     description:
       name: tief_weave
-      sha256: "7851db389b2fda1bb271ef3c93da1a629330a3209831a112649dd7411439bb77"
+      sha256: ac8cf1fc9bbd68459a884f1888ff6c2705bc08d972d23a170c25064ca28e69ec
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.3.1"
   typed_data:
     dependency: transitive
     description:
