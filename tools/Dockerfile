@@ -11,8 +11,8 @@ RUN apt update && apt install -y \
     && apt clean
 
 RUN useradd -m flutteruser && mkdir -p /home/flutteruser
-RUN mkdir -p /app && chown flutteruser /app && chmod 777 /app
-RUN mkdir -p /keys && chown flutteruser /keys && chmod 777 /keys
+RUN mkdir -p /app && chown flutteruser /app && chmod 755 /app
+RUN mkdir -p /keys && chown flutteruser /keys && chmod 755 /keys
 
 USER flutteruser
 WORKDIR /home/flutteruser

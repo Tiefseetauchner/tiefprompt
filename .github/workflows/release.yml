@@ -136,7 +136,7 @@ jobs:
       #     export MACOS_PACKAGE_SIGN_KEY="3rd Party Mac Developer Installer: Lena Tauchner (RJD48MM8G9)"
       #     export MACOS_PROVISIONING_PROFILE=./keys/TiefPrompt_Prod_Provisioning.provisionprofile
       #     export IOS_CODE_SIGN_KEY="Apple Distribution: Lena Tauchner (RJD48MM8G9)"
-      #     export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision" 
+      #     export IOS_PROVISIONING_PROFILE="./keys/TiefPrompt_iOS_Prod_Provisioning.mobileprovision"
       #     ./tools/build.sh -t macospkg,iosipa -f freemium -b ./package -V
       #   working-directory: app
 
@@ -216,7 +216,7 @@ jobs:
           EOF
 
       - name: Repo Permissions
-        run: chmod -R 777 .
+        run: chmod -R 755 .
 
       - name: package
         run: ./tools/package.sh -f foss
