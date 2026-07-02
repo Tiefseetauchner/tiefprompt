@@ -126,6 +126,11 @@ class DropdownAppSetting<T> extends AppSetting {
         constraints: const BoxConstraints(maxWidth: 200),
         child: DropdownButton<T>(
           isExpanded: true,
+          // NOTE: The properties must be set on the DropdownButton itself, as
+          //       it does not respect the theme's dropdownMenuTheme.
+          elevation: 0,
+          dropdownColor: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(kBrandRadius),
           value: value,
           items: values.map((value) {
             return DropdownMenuItem<T>(value: value.$2, child: Text(value.$1));

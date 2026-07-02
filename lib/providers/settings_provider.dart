@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 
@@ -26,7 +27,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(50.0) double verticalMarginBoxesFadeLength,
     @Default(0.0) double countdownDuration,
     @Default(ThemeMode.system) ThemeMode themeMode,
-    @Default(Color.fromARGB(255, 77, 103, 214)) Color appPrimaryColor,
+    @Default(kBrandTeal) Color appPrimaryColor,
     @Default(Colors.black) Color prompterBackgroundColor,
     @Default(Colors.white) Color prompterTextColor,
     @Default(false) bool markdownEnabled,
@@ -62,7 +63,7 @@ abstract class SettingsState with _$SettingsState {
       themeMode: _getThemeMode(jsonValues['themeMode']) ?? ThemeMode.system,
       appPrimaryColor: jsonValues['appPrimaryColor'] != null
           ? Color(jsonValues['appPrimaryColor'])
-          : Color.fromARGB(255, 77, 103, 214),
+          : kBrandTeal,
       prompterBackgroundColor: jsonValues['prompterBackgroundColor'] != null
           ? Color(jsonValues['prompterBackgroundColor'])
           : Colors.black,
@@ -183,7 +184,7 @@ class Settings extends _$Settings implements ISettings {
   static const _keybindingsMapIdKey = 'keybindings_map_id';
   static const _showCurrentChapterKey = 'show_current_chapter';
 
-  static const _defaultAppPrimaryColor = Color.fromARGB(255, 77, 103, 214);
+  static const _defaultAppPrimaryColor = kBrandTeal;
 
   late final SharedPreferences _prefs;
 
