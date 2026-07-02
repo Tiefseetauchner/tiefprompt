@@ -125,6 +125,7 @@
       "saveSettingsFromPrompter": "Einstellungen von Prompter speichern"
     },
     "BooleanAppSetting_Markdown": "Markdown aktivieren",
+    "BooleanAppSetting_ShowCurrentChapter": "Aktuelles Kapitel anzeigen",
     "SettingsRestore": {
       "Title": "Einstellungen Speichern und Wiederherstellen",
       "Save": "Aktuelle Einstellungen Speichern",

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
 
 class DisplaySettingsScreen extends ConsumerWidget {
@@ -219,20 +220,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
-      _ => Center(
-        child: Column(
-          children: [
-            Text(
-              "An error occurred loading the settings. Do you want to reset them?",
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(settingsProvider.notifier).resetSettings(),
-              child: Text("Reset Settings"),
-            ),
-          ],
-        ),
-      ),
+      _ => const ResetSettingsScreen(),
     };
   }
 }

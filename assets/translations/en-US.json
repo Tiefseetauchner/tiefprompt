@@ -74,6 +74,7 @@
     "BooleanAppSetting_DefaultFlipY": "Default Flip Y",
     "BooleanAppSetting_ReadingIndicatorBoxes": "Display Reading Indicator Boxes",
     "BooleanAppSetting_Markdown": "Enable Markdown",
+    "BooleanAppSetting_ShowCurrentChapter": "Show Current Chapter",
     "BooleanAppSetting_ControlButtons": "Enable Control Buttons",
     "DropdownAppSetting_ControlButtonPosition": {
       "Label": "Control Buttons Position",

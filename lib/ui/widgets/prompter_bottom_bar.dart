@@ -10,6 +10,7 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 
 class _BoolToggle extends Notifier<bool> {
   _BoolToggle(this._initial);
@@ -362,20 +363,7 @@ class _FontSettingsDialog extends ConsumerWidget {
               Color.fromARGB(255, 77, 103, 214),
         ),
       ),
-      _ => Center(
-        child: Column(
-          children: [
-            Text(
-              "An error occurred loading the settings. Do you want to reset them?",
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(settingsProvider.notifier).resetSettings(),
-              child: Text("Reset Settings"),
-            ),
-          ],
-        ),
-      ),
+      _ => const ResetSettingsView(),
     };
   }
 }
@@ -693,20 +681,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
               Color.fromARGB(255, 77, 103, 214),
         ),
       ),
-      _ => Center(
-        child: Column(
-          children: [
-            Text(
-              "An error occurred loading the settings. Do you want to reset them?",
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(settingsProvider.notifier).resetSettings(),
-              child: Text("Reset Settings"),
-            ),
-          ],
-        ),
-      ),
+      _ => const ResetSettingsView(),
     };
   }
 }

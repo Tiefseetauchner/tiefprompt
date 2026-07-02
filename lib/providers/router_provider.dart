@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
@@ -14,6 +13,7 @@ import 'package:tiefprompt/ui/screens/settings/keybindings_settings_screen.dart'
 import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/text_settings_screen.dart';
+import 'package:tiefprompt/ui/widgets/prompter_theme_scope.dart';
 
 part 'router_provider.g.dart';
 
@@ -27,16 +27,8 @@ class TiefPromptRouter extends _$TiefPromptRouter {
         GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
         GoRoute(
           path: '/teleprompter',
-          builder: (context, state) {
-            final theme = ref
-                .read(themesProvider)
-                .whenOrNull(data: (d) => d.prompterTheme);
-
-            return Theme(
-              data: theme ?? ThemeData.dark(),
-              child: const PrompterScreen(),
-            );
-          },
+          builder: (context, state) =>
+              const PrompterThemeScope(child: PrompterScreen()),
         ),
         GoRoute(
           path: '/open_file',

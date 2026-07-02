@@ -125,6 +125,7 @@
       "saveSettingsFromPrompter": "Write 'em settings"
     },
     "BooleanAppSetting_Markdown": "Sail more glamorously",
+    "BooleanAppSetting_ShowCurrentChapter": "Show yer current chapter",
     "SettingsRestore": {
       "Title": "Rescue ol' settin's",
       "Save": "Store yer Settin's",
