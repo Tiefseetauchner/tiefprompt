@@ -237,6 +237,9 @@ class _FontSettingsDialog extends ConsumerWidget {
             style: TextStyle(fontSize: 18),
           ),
           alignment: Alignment(1, 0),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height - 160,
+          ),
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -383,6 +386,9 @@ class _DisplaySettingsDialog extends ConsumerWidget {
             style: TextStyle(fontSize: 18),
           ),
           alignment: Alignment(-1, 0),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height - 160,
+          ),
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
