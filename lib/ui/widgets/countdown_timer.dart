@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CountdownTimer extends StatefulWidget {
-  final int duration; // Countdown duration in seconds
+  final int duration;
 
   const CountdownTimer({super.key, required this.duration});
 
@@ -17,7 +17,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   void initState() {
     super.initState();
     remainingTime = widget.duration;
-    progress = 1.0; // Full progress at the start
+    progress = 1.0;
     startCountdown();
   }
 
@@ -51,7 +51,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 height: 200,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.grey[200],
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               ),
               SizedBox(
@@ -60,8 +60,12 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 child: CircularProgressIndicator(
                   value: progress,
                   strokeWidth: 16,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.surface.withAlpha(50),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             ],
@@ -69,10 +73,10 @@ class _CountdownTimerState extends State<CountdownTimer> {
           Text(
             '$remainingTime',
             key: ValueKey<int>(remainingTime),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 100,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ],

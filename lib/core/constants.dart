@@ -20,6 +20,20 @@ const String kLukeChriswalkerUrl = "https://www.lukechriswalker.at";
 
 const String kNewScriptName = "New Script";
 
+const Color kBrandTeal = Color(0xFF1FB6B6);
+const Color kBrandAbyss = Color(0xFF0A1822);
+const Color kBrandAbyssSurface = Color(0xFF10222E);
+const Color kBrandAbyssSurfaceAlt = Color(0xFF0D1D27);
+const Color kBrandBorderDark = Color(0xFF1D3543);
+const Color kBrandDarkText = Color(0xFFD6E4E8);
+
+const Color kBrandLightBackground = Color(0xFFF4F8F9);
+const Color kBrandLightSurface = Color(0xFFFFFFFF);
+const Color kBrandBorderLight = Color(0xFFD3E0E4);
+const Color kBrandLightText = Color(0xFF0A1822);
+
+const double kBrandRadius = 14.0;
+
 const TalkerRiverpodLoggerSettings kTalkerRiverpodObserverSettings =
     TalkerRiverpodLoggerSettings(
       printMutationStart: false,
