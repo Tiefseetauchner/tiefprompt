@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/core/utilities.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,7 +120,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         );
         _scriptTitleController.value = TextEditingValue(text: next.title ?? "");
       }
-      Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
     });
   }
 
@@ -259,7 +259,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       IconButton(
                         icon: Icon(Icons.code),
-                        onPressed: () => _launchUrl(kRepoUrl),
+                        onPressed: () => launchUrlFromString(kRepoUrl),
                         tooltip: context.tr("HomeScreen.IconButton_SourceCode"),
                       ),
                       FutureBuilder(
@@ -287,8 +287,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                     ),
                                     ElevatedButton(
-                                      onPressed: () =>
-                                          _launchUrl(kPrivacyPolicyUrl),
+                                      onPressed: () => launchUrlFromString(
+                                        kPrivacyPolicyUrl,
+                                      ),
                                       child: Text(
                                         context.tr(
                                           "AboutDialog.ElevatedButton_Privacy",
@@ -316,13 +317,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _updateEphemeralScript() {
     final script = ref.read(scriptProvider);
     ref.read(scriptServiceProvider.notifier).saveEphemeral(script);
-  }
-
-  Future<void> _launchUrl(String uri) async {
-    final Uri url = Uri.parse(uri);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
   }
 
   void _showDiscardConfirmDialog(Function() confirmAction) {
@@ -468,7 +462,7 @@ class _BuildVersionNote extends ConsumerWidget {
                             child: Text("Buy the Pro Version"),
                           ),
                         ElevatedButton(
-                          onPressed: () => _launchUrl(kRepoUrl),
+                          onPressed: () => launchUrlFromString(kRepoUrl),
                           child: Text(kRepoUrl),
                         ),
                       ],
@@ -495,12 +489,5 @@ class _BuildVersionNote extends ConsumerWidget {
         ),
       ],
     );
-  }
-
-  Future<void> _launchUrl(String uri) async {
-    final Uri url = Uri.parse(uri);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
   }
 }

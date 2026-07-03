@@ -62,7 +62,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                 child: SpinKitRing(
                   color:
                       ref.read(settingsProvider).value?.appPrimaryColor ??
-                      Color.fromARGB(255, 77, 103, 214),
+                      kBrandTeal,
                 ),
               ),
             );
@@ -97,7 +97,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
                     child: SpinKitRing(
                       color:
                           ref.read(settingsProvider).value?.appPrimaryColor ??
-                          Color.fromARGB(255, 77, 103, 214),
+                          kBrandTeal,
                     ),
                   ),
                 );
@@ -338,8 +338,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
         ),
         body: SpinKitRing(
           color:
-              ref.read(settingsProvider).value?.appPrimaryColor ??
-              Color.fromARGB(255, 77, 103, 214),
+              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
         ),
       ),
       AsyncError(:final error) => ResetSettingsScreen(error: error),

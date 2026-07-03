@@ -111,8 +111,7 @@ class TextSettingsScreen extends ConsumerWidget {
         ),
         body: SpinKitRing(
           color:
-              ref.read(settingsProvider).value?.appPrimaryColor ??
-              Color.fromARGB(255, 77, 103, 214),
+              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
         ),
       ),
       _ => const ResetSettingsScreen(),
