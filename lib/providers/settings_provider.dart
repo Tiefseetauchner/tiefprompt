@@ -73,7 +73,8 @@ abstract class SettingsState with _$SettingsState {
       markdownEnabled: jsonValues['markdownEnabled'] ?? false,
       showControlButtons: jsonValues['showControlButtons'] ?? false,
       controlButtonsPosition:
-          jsonValues['controlButtonsPosition'] ?? ControlButtonsPosition.left,
+          _getControlButtonsPosition(jsonValues['controlButtonsPosition']) ??
+          ControlButtonsPosition.left,
       keybindingsMapId: jsonValues['keybindingsMapId'] ?? 0,
       showCurrentChapter: jsonValues['showCurrentChapter'] ?? false,
     );
@@ -88,6 +89,12 @@ abstract class SettingsState with _$SettingsState {
   static ThemeMode? _getThemeMode(String? themeMode) {
     return ThemeMode.values
         .where((element) => element.name == themeMode)
+        .singleOrNull;
+  }
+
+  static ControlButtonsPosition? _getControlButtonsPosition(String? position) {
+    return ControlButtonsPosition.values
+        .where((element) => element.name == position)
         .singleOrNull;
   }
 
@@ -114,7 +121,7 @@ abstract class SettingsState with _$SettingsState {
         'prompterTextColor': value.prompterTextColor.toARGB32(),
         'markdownEnabled': value.markdownEnabled,
         'showControlButtons': value.showControlButtons,
-        'controlButtonsPosition': value.controlButtonsPosition,
+        'controlButtonsPosition': value.controlButtonsPosition.name,
         'keybindingsMapId': value.keybindingsMapId,
         'showCurrentChapter': value.showCurrentChapter,
       };

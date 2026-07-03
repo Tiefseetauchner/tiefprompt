@@ -154,7 +154,11 @@ class PrompterBottomBar extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: _getWidgetButtons(context, ref, prompterState),
+                        children: _getWidgetButtons(
+                          context,
+                          ref,
+                          prompterState,
+                        ),
                       ),
                     ),
                   ),

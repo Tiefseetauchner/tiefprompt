@@ -67,9 +67,7 @@ class _SettingsRestoreView extends ConsumerWidget {
           }
 
           if (!snapshot.hasData) {
-            return Center(
-              child: SpinKitRing(color: settings.appPrimaryColor),
-            );
+            return Center(child: SpinKitRing(color: settings.appPrimaryColor));
           }
 
           return ListView(
@@ -81,7 +79,9 @@ class _SettingsRestoreView extends ConsumerWidget {
               ),
               DialogAppSetting(
                 feature: Feature.settingsRestore,
-                displayText: context.tr("SettingsScreen.SettingsRestore.Import"),
+                displayText: context.tr(
+                  "SettingsScreen.SettingsRestore.Import",
+                ),
                 dialogContent: const _ImportSettingsDialog(),
                 callback: () => _importSettings(context, ref),
               ),
@@ -164,9 +164,7 @@ class _SettingsRestoreView extends ConsumerWidget {
     }
 
     try {
-      final importedSettings = SettingsState.fromJson(
-        importedJson['settings'],
-      );
+      final importedSettings = SettingsState.fromJson(importedJson['settings']);
       final keybindings = KeybindingMap.fromJson(importedJson['keybindings']);
 
       final keybindingMapId = await ref
@@ -379,7 +377,9 @@ class _SavedSettingsTile extends ConsumerWidget {
               }
               ref
                   .read(bannerMessageProvider.notifier)
-                  .set(context.tr("SettingsScreen.SettingsRestore.DeleteSuccess"));
+                  .set(
+                    context.tr("SettingsScreen.SettingsRestore.DeleteSuccess"),
+                  );
             },
             child: Text(
               context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Confirm"),

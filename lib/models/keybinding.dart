@@ -98,7 +98,7 @@ class KeybindingMap {
     final bindings = <(KeybindingAction, Keybinding)>[];
 
     for (final entry in jsonList) {
-      final KeybindingAction? action = _actionByName[entry.actionName];
+      final KeybindingAction? action = _actionByName[entry['actionName']];
       if (action == null) {
         continue;
       }
@@ -106,11 +106,11 @@ class KeybindingMap {
       bindings.add((
         action,
         Keybinding(
-          entry.keyId,
-          ctrl: entry.ctrl,
-          shift: entry.shift,
-          alt: entry.alt,
-          meta: entry.meta,
+          entry['keyId'],
+          ctrl: entry['ctrl'],
+          shift: entry['shift'],
+          alt: entry['alt'],
+          meta: entry['meta'],
         ),
       ));
     }
