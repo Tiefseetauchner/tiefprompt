@@ -57,11 +57,13 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     with SingleTickerProviderStateMixin {
   Ticker? _ticker;
   double _scrollSpeed = 0;
+  Duration _lastElapsed = Duration.zero;
   Function? _onReachedEnd;
 
   void _startScrolling(double speed) {
     _stopScrolling();
     _scrollSpeed = speed;
+    _lastElapsed = Duration.zero;
     _ticker?.start();
   }
 
@@ -73,16 +75,32 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   void initState() {
     super.initState();
 
+    ref.listen(_userScrollingProvider, (previous, next) {
+      if (next) {
+        _stopScrolling();
+      } else {
+        final prompter = ref.read(prompterProvider);
+        if (prompter.isPlaying) {
+          _startScrolling(prompter.speed);
+        }
+      }
+    });
+
     _ticker = createTicker((Duration elapsed) {
-      _tick();
+      _tick(elapsed);
     });
   }
 
-  void _tick() {
+  void _tick(Duration elapsed) {
     final isUserScrolling = ref.read(_userScrollingProvider);
 
+    final deltaSeconds =
+        (elapsed - _lastElapsed).inMicroseconds /
+        Duration.microsecondsPerSecond;
+    _lastElapsed = elapsed;
+
     final calculatedScrollOffset =
-        (_scrollSpeed * (widget.style?.fontSize ?? 48)) / 10;
+        _getScrollOffsetInLinesPerSecond(_scrollSpeed) * deltaSeconds;
 
     if (widget.controller.scrollController.hasClients && !isUserScrolling) {
       if (widget.controller.scrollController.position.pixels +
@@ -91,36 +109,26 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
         _onReachedEnd?.call();
         return;
       }
-
-      widget.controller.scrollController.animateTo(
+      widget.controller.scrollController.jumpTo(
         widget.controller.scrollController.position.pixels +
             calculatedScrollOffset,
-        duration: Duration(milliseconds: 100),
-        curve: Curves.linear,
       );
     }
+  }
+
+  double _getScrollOffsetInLinesPerSecond(double speed) {
+    final textStyle = widget.style ?? const TextStyle(fontSize: 14);
+    final lineHeight = textStyle.height ?? 1.0;
+    final fontSize = textStyle.fontSize ?? 14.0;
+    final lineHeightInPixels = lineHeight * fontSize;
+
+    return speed * lineHeightInPixels;
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaHeight = MediaQuery.of(context).size.height;
     final mediaWidth = MediaQuery.of(context).size.width;
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      widget.controller.scrollController.position.isScrollingNotifier
-          .addListener(() {
-            ref
-                .read(_userScrollingProvider.notifier)
-                .setValue(
-                  widget
-                      .controller
-                      .scrollController
-                      .position
-                      .isScrollingNotifier
-                      .value,
-                );
-          });
-    });
 
     final prompter = ref.watch(prompterProvider);
 
