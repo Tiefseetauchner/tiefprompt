@@ -150,7 +150,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   }
 
   void _tick() {
-    final isUserScrolling = ref.watch(_userScrollingProvider);
+    final isUserScrolling = ref.read(_userScrollingProvider);
 
     final calculatedScrollOffset =
         (_scrollSpeed * (widget.style?.fontSize ?? 48)) / 10;
