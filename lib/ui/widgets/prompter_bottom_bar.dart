@@ -10,6 +10,7 @@ import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
+import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 
 class _BoolToggle extends Notifier<bool> {
   _BoolToggle(this._initial);
@@ -236,6 +237,9 @@ class _FontSettingsDialog extends ConsumerWidget {
             style: TextStyle(fontSize: 18),
           ),
           alignment: Alignment(1, 0),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height - 160,
+          ),
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -362,20 +366,7 @@ class _FontSettingsDialog extends ConsumerWidget {
               Color.fromARGB(255, 77, 103, 214),
         ),
       ),
-      _ => Center(
-        child: Column(
-          children: [
-            Text(
-              "An error occurred loading the settings. Do you want to reset them?",
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(settingsProvider.notifier).resetSettings(),
-              child: Text("Reset Settings"),
-            ),
-          ],
-        ),
-      ),
+      _ => const ResetSettingsView(),
     };
   }
 }
@@ -395,6 +386,9 @@ class _DisplaySettingsDialog extends ConsumerWidget {
             style: TextStyle(fontSize: 18),
           ),
           alignment: Alignment(-1, 0),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height - 160,
+          ),
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -461,7 +455,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           _FeatureGatedIconButton(
                             feature: Feature.currentChapter,
                             displayText: context.tr(
-                              "SettingsScreen.BooleanAppSetting_Current_Chapter",
+                              "SettingsScreen.BooleanAppSetting_ShowCurrentChapter",
                             ),
                             icon: Text(
                               "C",
@@ -478,7 +472,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                             ),
                             isSelected: prompter.showCurrentChapter,
                             tooltip: context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_Current_Chapter",
+                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_ShowCurrentChapter",
                             ),
                             onPressed: prompter.markdownEnabled
                                 ? () => ref
@@ -693,20 +687,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
               Color.fromARGB(255, 77, 103, 214),
         ),
       ),
-      _ => Center(
-        child: Column(
-          children: [
-            Text(
-              "An error occurred loading the settings. Do you want to reset them?",
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(settingsProvider.notifier).resetSettings(),
-              child: Text("Reset Settings"),
-            ),
-          ],
-        ),
-      ),
+      _ => const ResetSettingsView(),
     };
   }
 }

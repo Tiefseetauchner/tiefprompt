@@ -13,6 +13,7 @@ import 'package:tiefprompt/ui/screens/home_screen.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
+import 'package:tiefprompt/ui/widgets/prompter_theme_scope.dart';
 
 import 'mock_app.dart';
 
@@ -79,11 +80,7 @@ Future<void> main() async {
       await tester.pumpWidget(
         MockApp(
           locale: locale.$2,
-          theme: ThemeData.from(
-            colorScheme: ColorScheme.dark(
-              primary: Color.fromARGB(255, 77, 103, 214),
-            ),
-          ),
+          settings: SettingsState(themeMode: ThemeMode.dark),
           child: HomeScreen(),
         ),
       );
@@ -132,14 +129,7 @@ Future<void> main() async {
       await tester.pumpWidget(
         MockApp(
           locale: locale.$2,
-          theme: ThemeData.from(
-            colorScheme: ColorScheme.highContrastDark(
-              primary: Color.fromARGB(255, 77, 103, 214),
-              surface: Colors.black,
-              onSurface: Colors.white,
-            ),
-          ),
-          child: PrompterScreen(),
+          child: const PrompterThemeScope(child: PrompterScreen()),
         ),
       );
       await tester.pumpAndSettle();
@@ -162,14 +152,11 @@ Future<void> main() async {
         await tester.pumpWidget(
           MockApp(
             locale: locale.$2,
-            theme: ThemeData.from(
-              colorScheme: ColorScheme.highContrastDark(
-                primary: const Color.fromARGB(255, 77, 103, 214),
-                surface: const Color.fromARGB(255, 53, 0, 94),
-                onSurface: const Color.fromARGB(255, 17, 255, 0),
-              ),
+            settings: SettingsState(
+              prompterBackgroundColor: const Color.fromARGB(255, 53, 0, 94),
+              prompterTextColor: const Color.fromARGB(255, 17, 255, 0),
             ),
-            child: PrompterScreen(),
+            child: const PrompterThemeScope(child: PrompterScreen()),
           ),
         );
         await tester.pumpAndSettle();
@@ -189,24 +176,32 @@ Future<void> main() async {
 
     tearDownAll(() async {
       final serverIp = const String.fromEnvironment("SERVER_IP");
+      final client = HttpClient();
 
-      for (var screenshot in screenshots) {
-        var request =
-            await HttpClient().post(
-                serverIp,
-                3824,
-                "screenshots/${screenshot.$1}.png",
-              )
+      try {
+        await Future.wait(
+          screenshots.map((screenshot) async {
+            final request = await client.post(
+              serverIp,
+              3824,
+              "screenshots/${screenshot.$1}.png",
+            );
+            request
               ..contentLength = screenshot.$2.length
               ..add(screenshot.$2);
 
-        var response = await request.close();
+            final response = await request.close();
+            await response.drain();
 
-        if (response.statusCode != 200) {
-          throw Exception(
-            "Failed to upload screenshot: ${response.statusCode}",
-          );
-        }
+            if (response.statusCode != 200) {
+              throw Exception(
+                "Failed to upload screenshot: ${response.statusCode}",
+              );
+            }
+          }),
+        );
+      } finally {
+        client.close();
       }
     });
   }

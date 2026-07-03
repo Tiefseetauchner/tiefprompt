@@ -7,6 +7,7 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
 
 class KeybindingsSettingsScreen extends ConsumerWidget {
@@ -57,20 +58,7 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
               Color.fromARGB(255, 77, 103, 214),
         ),
       ),
-      _ => Center(
-        child: Column(
-          children: [
-            Text(
-              "An error occurred loading the settings. Do you want to reset them?",
-            ),
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(settingsProvider.notifier).resetSettings(),
-              child: Text("Reset Settings"),
-            ),
-          ],
-        ),
-      ),
+      _ => const ResetSettingsScreen(),
     };
   }
 }

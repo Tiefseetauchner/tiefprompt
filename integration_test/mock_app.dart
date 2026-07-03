@@ -6,23 +6,34 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/feature_provider_freemium.dart';
+import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
+import 'package:tiefprompt/ui/widgets/themed_app.dart';
 
 import 'mock_database_managers.dart';
+
+class _MockSettings extends Settings {
+  _MockSettings(this._state);
+
+  final SettingsState _state;
+
+  @override
+  Future<SettingsState> build() async => _state;
+}
 
 class MockApp extends StatelessWidget {
   final Widget child;
   final ScriptService? scriptOverride;
   final Locale locale;
-  final ThemeData? theme;
+  final SettingsState settings;
 
-  const MockApp({
+  MockApp({
     super.key,
     required this.child,
     required this.locale,
     this.scriptOverride,
-    this.theme,
-  });
+    SettingsState? settings,
+  }) : settings = settings ?? SettingsState();
 
   @override
   Widget build(BuildContext context) {
@@ -33,37 +44,30 @@ class MockApp extends StatelessWidget {
 
     return FutureBuilder(
       future: db,
-      builder: (context, snapshot) => ProviderScope(
-        overrides: [
-          appDatabaseManagerProvider.overrideWith(
-            () => MockAppDatabaseManager(snapshot.data!),
-          ),
-          featuresProvider.overrideWith(() => FeaturesFreemium()),
-        ],
-        child: EasyLocalization(
-          saveLocale: false,
-          supportedLocales: supportedLocales,
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en', 'US'),
-          startLocale: locale,
-          child: Builder(
-            builder: (context) => MaterialApp(
-              debugShowCheckedModeBanner: false,
-              supportedLocales: supportedLocales,
-              locale: locale,
-              localizationsDelegates: context.localizationDelegates,
-              home: child,
-              theme:
-                  theme ??
-                  ThemeData.from(
-                    colorScheme: ColorScheme.light(
-                      primary: Color.fromARGB(255, 77, 103, 214),
-                    ),
-                  ),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const SizedBox.shrink();
+
+        return ProviderScope(
+          overrides: [
+            appDatabaseManagerProvider.overrideWith(
+              () => MockAppDatabaseManager(snapshot.data!),
+            ),
+            featuresProvider.overrideWith(() => FeaturesFreemium()),
+            settingsProvider.overrideWith(() => _MockSettings(settings)),
+          ],
+          child: EasyLocalization(
+            saveLocale: false,
+            supportedLocales: supportedLocales,
+            path: 'assets/translations',
+            fallbackLocale: const Locale('en', 'US'),
+            startLocale: locale,
+            child: Builder(
+              builder: (context) =>
+                  ThemedApp(home: child, debugShowCheckedModeBanner: false),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

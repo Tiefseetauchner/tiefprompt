@@ -22,8 +22,12 @@ void main() async {
       final file = File('screenshots/$locale/$platform/$fileName');
 
       await file.create(recursive: true);
-      await file.writeAsBytes(await request
-          .fold<List<int>>([], (buffer, data) => buffer..addAll(data)));
+      await file.writeAsBytes(
+        await request.fold<List<int>>(
+          [],
+          (buffer, data) => buffer..addAll(data),
+        ),
+      );
 
       request.response
         ..statusCode = HttpStatus.ok

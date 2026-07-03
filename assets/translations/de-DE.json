@@ -125,6 +125,7 @@
       "saveSettingsFromPrompter": "Einstellungen von Prompter speichern"
     },
     "BooleanAppSetting_Markdown": "Markdown aktivieren",
+    "BooleanAppSetting_ShowCurrentChapter": "Aktuelles Kapitel anzeigen",
     "SettingsRestore": {
       "Title": "Einstellungen Speichern und Wiederherstellen",
       "Save": "Aktuelle Einstellungen Speichern",
@@ -199,6 +200,7 @@
       "IconButton_FlipX": "Um X spiegeln",
       "IconButton_FlipY": "Um Y spiegeln",
       "IconButton_Markdown": "Markdown aktivieren",
+      "IconButton_ShowCurrentChapter": "Aktuelles Kapitel anzeigen",
       "IconButton_ReadingIndicatorBoxes": "Lesehilfen anzeigen",
       "IconButton_VerticalMarginBoxes": "Vertikalen Abstand anzeigen",
       "IconButton_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",

@@ -16,6 +16,7 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/changelog_modal.dart';
+import 'package:tiefprompt/ui/widgets/wave_divider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -43,6 +44,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         'assets/licenses/openDyslexicLicense.txt',
       );
       yield LicenseEntryWithLineBreaks(['OpenDyslexic'], openDyslexicLicense);
+      final exoLicense = await rootBundle.loadString(
+        'assets/licenses/exoLicense.txt',
+      );
+      yield LicenseEntryWithLineBreaks(['Exo'], exoLicense);
       final robotoLicense = await rootBundle.loadString(
         'assets/licenses/robotoLicense.txt',
       );
@@ -114,6 +119,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         );
         _scriptTitleController.value = TextEditingValue(text: next.title ?? "");
       }
+      Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
     });
   }
 
@@ -135,6 +141,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const WaveDivider(),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
