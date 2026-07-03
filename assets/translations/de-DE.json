@@ -231,7 +231,7 @@
     "RestorePurchases": "Käufe wiederherstellen",
     "BuyPro": "Pro-Version kaufen",
     "BuyRequest": {
-      "Generic": "## Überlegst du, upzugraden??\n\nDas hier ist die gratis Version von TiefPrompt, aber alle Pro features sind einen klick entfernt.",
+      "Generic": "## Überlegst du upzugraden?\n\nDas hier ist die gratis Version von TiefPrompt, aber alle Pro features sind einen klick entfernt.",
       "appLanguage": "## App Sprache\n\nÄndere die lokalisierung der App.",
       "appTheme": "## App Theme\n\nWelchsle zwischen hellem, dunklem und eigenen Themes, um zu deinem Studio zu passen.",
       "primaryAppColor": "## Akzentfarbe\n\nPersonalisiere deine App mit deiner eigenen Akzentfarbe.",

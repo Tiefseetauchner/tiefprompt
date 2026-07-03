@@ -10,7 +10,7 @@ part 'feature_provider.g.dart';
 class Features extends _$Features {
   @override
   AppFeatures build() {
-    return AppFeatures([], FeatureKind.unverifiedBuild);
+    return AppFeatures([], FeatureKind.unverifiedBuild, "No Override found");
   }
 
   Future<bool> bootstrap() {
@@ -30,6 +30,12 @@ class Features extends _$Features {
   Widget getPurchaseScreen(DisabledFeatureScreenRouterExtra? extra) {
     throw UnimplementedError(
       'getPurchaseScreen must be implemented in subclasses',
+    );
+  }
+
+  Widget Function(BuildContext) getFeaturePopup() {
+    throw UnimplementedError(
+      'getFeaturePopup must be implemented in subclasses',
     );
   }
 }

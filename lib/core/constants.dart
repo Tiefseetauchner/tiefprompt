@@ -17,6 +17,7 @@ const String kRepoUrl = "https://github.com/Tiefseetauchner/tiefprompt";
 const String kWeblateUrl = "https://hosted.weblate.org/projects/tiefprompt/";
 const String kPrivacyPolicyUrl = "https://tiefprompt.com/policies/privacy/en/";
 const String kLukeChriswalkerUrl = "https://www.lukechriswalker.at";
+const String kDonationUrl = "https://tiefprompt.com/donate";
 
 const String kNewScriptName = "New Script";
 

@@ -48,7 +48,7 @@ final class TiefPromptRouterProvider
   }
 }
 
-String _$tiefPromptRouterHash() => r'4cdd5360bd0f253651ede4b0deda33e470e84618';
+String _$tiefPromptRouterHash() => r'f972713d7441af77bd112fa7f36ec1698de3b1da';
 
 abstract class _$TiefPromptRouter extends $Notifier<GoRouter> {
   GoRouter build();

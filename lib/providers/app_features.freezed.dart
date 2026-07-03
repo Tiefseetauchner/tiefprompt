@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppFeatures {
 
- List<Feature> get features; FeatureKind get featureKind;
+ List<Feature> get features; FeatureKind get featureKind; String get featureName;
 /// Create a copy of AppFeatures
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AppFeaturesCopyWith<AppFeatures> get copyWith => _$AppFeaturesCopyWithImpl<AppF
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppFeatures&&const DeepCollectionEquality().equals(other.features, features)&&(identical(other.featureKind, featureKind) || other.featureKind == featureKind));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppFeatures&&const DeepCollectionEquality().equals(other.features, features)&&(identical(other.featureKind, featureKind) || other.featureKind == featureKind)&&(identical(other.featureName, featureName) || other.featureName == featureName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(features),featureKind);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(features),featureKind,featureName);
 
 @override
 String toString() {
-  return 'AppFeatures(features: $features, featureKind: $featureKind)';
+  return 'AppFeatures(features: $features, featureKind: $featureKind, featureName: $featureName)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AppFeaturesCopyWith<$Res>  {
   factory $AppFeaturesCopyWith(AppFeatures value, $Res Function(AppFeatures) _then) = _$AppFeaturesCopyWithImpl;
 @useResult
 $Res call({
- List<Feature> features, FeatureKind featureKind
+ List<Feature> features, FeatureKind featureKind, String featureName
 });
 
 
@@ -62,11 +62,12 @@ class _$AppFeaturesCopyWithImpl<$Res>
 
 /// Create a copy of AppFeatures
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? features = null,Object? featureKind = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? features = null,Object? featureKind = null,Object? featureName = null,}) {
   return _then(_self.copyWith(
 features: null == features ? _self.features : features // ignore: cast_nullable_to_non_nullable
 as List<Feature>,featureKind: null == featureKind ? _self.featureKind : featureKind // ignore: cast_nullable_to_non_nullable
-as FeatureKind,
+as FeatureKind,featureName: null == featureName ? _self.featureName : featureName // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -151,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Feature> features,  FeatureKind featureKind)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Feature> features,  FeatureKind featureKind,  String featureName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppFeatures() when $default != null:
-return $default(_that.features,_that.featureKind);case _:
+return $default(_that.features,_that.featureKind,_that.featureName);case _:
   return orElse();
 
 }
@@ -172,10 +173,10 @@ return $default(_that.features,_that.featureKind);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Feature> features,  FeatureKind featureKind)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Feature> features,  FeatureKind featureKind,  String featureName)  $default,) {final _that = this;
 switch (_that) {
 case _AppFeatures():
-return $default(_that.features,_that.featureKind);case _:
+return $default(_that.features,_that.featureKind,_that.featureName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +193,10 @@ return $default(_that.features,_that.featureKind);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Feature> features,  FeatureKind featureKind)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Feature> features,  FeatureKind featureKind,  String featureName)?  $default,) {final _that = this;
 switch (_that) {
 case _AppFeatures() when $default != null:
-return $default(_that.features,_that.featureKind);case _:
+return $default(_that.features,_that.featureKind,_that.featureName);case _:
   return null;
 
 }
@@ -207,7 +208,7 @@ return $default(_that.features,_that.featureKind);case _:
 
 
 class _AppFeatures implements AppFeatures {
-   _AppFeatures(final  List<Feature> features, this.featureKind): _features = features;
+   _AppFeatures(final  List<Feature> features, this.featureKind, this.featureName): _features = features;
   
 
  final  List<Feature> _features;
@@ -218,6 +219,7 @@ class _AppFeatures implements AppFeatures {
 }
 
 @override final  FeatureKind featureKind;
+@override final  String featureName;
 
 /// Create a copy of AppFeatures
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +231,16 @@ _$AppFeaturesCopyWith<_AppFeatures> get copyWith => __$AppFeaturesCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppFeatures&&const DeepCollectionEquality().equals(other._features, _features)&&(identical(other.featureKind, featureKind) || other.featureKind == featureKind));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppFeatures&&const DeepCollectionEquality().equals(other._features, _features)&&(identical(other.featureKind, featureKind) || other.featureKind == featureKind)&&(identical(other.featureName, featureName) || other.featureName == featureName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_features),featureKind);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_features),featureKind,featureName);
 
 @override
 String toString() {
-  return 'AppFeatures(features: $features, featureKind: $featureKind)';
+  return 'AppFeatures(features: $features, featureKind: $featureKind, featureName: $featureName)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$AppFeaturesCopyWith<$Res> implements $AppFeaturesCopyWith
   factory _$AppFeaturesCopyWith(_AppFeatures value, $Res Function(_AppFeatures) _then) = __$AppFeaturesCopyWithImpl;
 @override @useResult
 $Res call({
- List<Feature> features, FeatureKind featureKind
+ List<Feature> features, FeatureKind featureKind, String featureName
 });
 
 
@@ -266,11 +268,12 @@ class __$AppFeaturesCopyWithImpl<$Res>
 
 /// Create a copy of AppFeatures
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? features = null,Object? featureKind = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? features = null,Object? featureKind = null,Object? featureName = null,}) {
   return _then(_AppFeatures(
 null == features ? _self._features : features // ignore: cast_nullable_to_non_nullable
 as List<Feature>,null == featureKind ? _self.featureKind : featureKind // ignore: cast_nullable_to_non_nullable
-as FeatureKind,
+as FeatureKind,null == featureName ? _self.featureName : featureName // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

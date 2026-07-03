@@ -5,6 +5,9 @@ part 'app_features.freezed.dart';
 
 @freezed
 abstract class AppFeatures with _$AppFeatures {
-  factory AppFeatures(List<Feature> features, FeatureKind featureKind) =
-      _AppFeatures;
+  factory AppFeatures(
+    List<Feature> features,
+    FeatureKind featureKind,
+    String featureName,
+  ) = _AppFeatures;
 }

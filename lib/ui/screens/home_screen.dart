@@ -405,7 +405,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 class _BuildVersionNote extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appFeatures = ref.watch(featuresProvider);
+    final (:featureKind, :featureName) = ref.watch(
+      featuresProvider.select(
+        (f) => (featureKind: f.featureKind, featureName: f.featureName),
+      ),
+    );
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -415,77 +420,22 @@ class _BuildVersionNote extends ConsumerWidget {
               context: context,
               builder: (dialogContext) {
                 return AlertDialog(
-                  title: Text(
-                    switch (appFeatures.featureKind) {
-                      FeatureKind.fossVersion => context.tr(
-                        "HomeScreen.FossVersion",
-                      ),
-                      FeatureKind.freeVersion => context.tr(
-                        "HomeScreen.FreeVersion",
-                      ),
-                      FeatureKind.paidVersion => context.tr(
-                        "HomeScreen.PaidVersion",
-                      ),
-                      FeatureKind.unverifiedBuild => context.tr(
-                        "HomeScreen.UnverifiedBuild",
-                      ),
-                    },
-                    style: TextStyle(
-                      color:
-                          appFeatures.featureKind == FeatureKind.unverifiedBuild
-                          ? Colors.red
-                          : null,
-                    ),
-                  ),
                   content: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        Text(switch (appFeatures.featureKind) {
-                          FeatureKind.fossVersion => context.tr(
-                            "HomeScreen.FossVersion_Explanation",
-                          ),
-                          FeatureKind.freeVersion => context.tr(
-                            "HomeScreen.FreeVersion_Explanation",
-                          ),
-                          FeatureKind.paidVersion => context.tr(
-                            "HomeScreen.PaidVersion_Explanation",
-                          ),
-                          FeatureKind.unverifiedBuild => context.tr(
-                            "HomeScreen.UnverifiedBuild_Explanation",
-                          ),
-                        }),
-                        if (appFeatures.featureKind == FeatureKind.freeVersion)
-                          ElevatedButton(
-                            onPressed: () => context.push("/disabledfeature"),
-                            child: Text("Buy the Pro Version"),
-                          ),
-                        ElevatedButton(
-                          onPressed: () => launchUrlFromString(kRepoUrl),
-                          child: Text(kRepoUrl),
-                        ),
-                      ],
-                    ),
+                    child: ref
+                        .read(featuresProvider.notifier)
+                        .getFeaturePopup()(dialogContext),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => dialogContext.pop(),
-                      child: Text(context.tr("HomeScreen.Understood")),
+                      child: Text(dialogContext.tr("HomeScreen.Understood")),
                     ),
                   ],
                 );
               },
             );
           },
-          child: Text(switch (appFeatures.featureKind) {
-            FeatureKind.fossVersion => context.tr("HomeScreen.FossVersion"),
-            FeatureKind.freeVersion => context.tr("HomeScreen.FreeVersion"),
-            FeatureKind.paidVersion => context.tr("HomeScreen.PaidVersion"),
-            FeatureKind.unverifiedBuild => context.tr(
-              "HomeScreen.UnverifiedBuild",
-            ),
-          }),
+          child: Text(context.tr(featureName)),
         ),
       ],
     );
