@@ -37,6 +37,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _scriptTextController = TextEditingController();
     _scriptTitleController = TextEditingController();
     _scriptChangeDebouncer = Debouncer(delay: Duration(milliseconds: 500));
+
+    LicenseRegistry.addLicense(() async* {
+      final openDyslexicLicense = await rootBundle.loadString(
+        'assets/licenses/openDyslexicLicense.txt',
+      );
+      yield LicenseEntryWithLineBreaks(['OpenDyslexic'], openDyslexicLicense);
+      final robotoLicense = await rootBundle.loadString(
+        'assets/licenses/robotoLicense.txt',
+      );
+      yield LicenseEntryWithLineBreaks(['roboto'], robotoLicense);
+      final robotoMonoLicense = await rootBundle.loadString(
+        'assets/licenses/robotoMonoLicense.txt',
+      );
+      yield LicenseEntryWithLineBreaks(['roboto mono'], robotoMonoLicense);
+      final robotoSlabLicense = await rootBundle.loadString(
+        'assets/licenses/robotoSlabLicense.txt',
+      );
+      yield LicenseEntryWithLineBreaks(['roboto slab'], robotoSlabLicense);
+    });
+
     _runStartupChecks();
   }
 
@@ -108,25 +128,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    LicenseRegistry.addLicense(() async* {
-      final openDyslexicLicense = await rootBundle.loadString(
-        'assets/licenses/openDyslexicLicense.txt',
-      );
-      yield LicenseEntryWithLineBreaks(['OpenDyslexic'], openDyslexicLicense);
-      final robotoLicense = await rootBundle.loadString(
-        'assets/licenses/robotoLicense.txt',
-      );
-      yield LicenseEntryWithLineBreaks(['roboto'], robotoLicense);
-      final robotoMonoLicense = await rootBundle.loadString(
-        'assets/licenses/robotoMonoLicense.txt',
-      );
-      yield LicenseEntryWithLineBreaks(['roboto mono'], robotoMonoLicense);
-      final robotoSlabLicense = await rootBundle.loadString(
-        'assets/licenses/robotoSlabLicense.txt',
-      );
-      yield LicenseEntryWithLineBreaks(['roboto slab'], robotoSlabLicense);
-    });
-
     Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
 
     return SafeScaffold(
