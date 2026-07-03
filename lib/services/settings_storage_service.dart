@@ -31,7 +31,7 @@ class SettingsStorageService extends _$SettingsStorageService {
   Future<int> getSettingsCount() async =>
       await _databaseManagers.settingsPresetModel.count();
 
-  Future<Stream<List<SettingsDisplayData>>> getSettingDisplayData() async =>
+  Stream<List<SettingsDisplayData>> getSettingDisplayData() =>
       _databaseManagers.settingsPresetModel.asyncMap(_mapToDisplay).watch();
 
   SettingsDisplayData _mapToDisplay(SettingsPresetModelData settings) =>

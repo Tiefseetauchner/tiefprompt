@@ -620,9 +620,8 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
   }
 }
 
-class DialogAppSetting<TValue> extends AppSetting {
+class DialogAppSetting extends AppSetting {
   final Widget? dialogContent;
-  final TValue value;
   final Function()? callback;
   final Future<void> Function(BuildContext context, WidgetRef ref)? onTap;
 
@@ -632,7 +631,6 @@ class DialogAppSetting<TValue> extends AppSetting {
     required super.displayText,
     super.enabled,
     this.dialogContent,
-    required this.value,
     this.callback,
     this.onTap,
   });
