@@ -75,24 +75,9 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   void initState() {
     super.initState();
 
-    ref.listen(_userScrollingProvider, (previous, next) {
-      if (next) {
-        _stopScrolling();
-      } else {
-        final prompter = ref.read(prompterProvider);
-        if (prompter.isPlaying) {
-          _startScrolling(prompter.speed);
-        }
-      }
-    });
-
-    ref.listen(prompterProvider, (previous, next) {
-      if (next.isPlaying) {
-        _startScrolling(next.speed);
-      } else {
-        _stopScrolling();
-      }
-    });
+    _onReachedEnd = () {
+      ref.read(prompterProvider.notifier).togglePlayPause();
+    };
 
     _ticker = createTicker((Duration elapsed) {
       _tick(elapsed);
@@ -135,6 +120,17 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      prompterProvider.select((s) => (isPlaying: s.isPlaying, speed: s.speed)),
+      (previous, next) {
+        if (next.isPlaying) {
+          _startScrolling(next.speed);
+        } else {
+          _stopScrolling();
+        }
+      },
+    );
+
     final mediaHeight = MediaQuery.of(context).size.height;
     final mediaWidth = MediaQuery.of(context).size.width;
 
@@ -149,37 +145,44 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       ),
     );
 
-    _onReachedEnd = () {
-      ref.read(prompterProvider.notifier).togglePlayPause();
-    };
-
-    return Transform.flip(
-      flipX: mirroredX,
-      flipY: mirroredY,
-      child: SingleChildScrollView(
-        controller: widget.controller.scrollController,
-        padding: EdgeInsets.fromLTRB(
-          widget.sideMargin,
-          mediaHeight,
-          widget.sideMargin,
-          0,
-        ),
-        child: Column(
-          children: [
-            if (markdownEnabled)
-              Markdown(
-                widget.text,
-                textAlign: alignment,
-                style: widget.style,
-                width: mediaWidth - widget.sideMargin * 2,
-              )
-            else
-              Text(widget.text, style: widget.style, textAlign: alignment),
-            SizedBox(
-              height: mediaHeight,
-              child: Center(child: Text("The End", style: widget.style)),
-            ),
-          ],
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification is ScrollStartNotification &&
+            notification.dragDetails != null) {
+          ref.read(_userScrollingProvider.notifier).setValue(true);
+        } else if (notification is ScrollEndNotification) {
+          ref.read(_userScrollingProvider.notifier).setValue(false);
+        }
+        return false;
+      },
+      child: Transform.flip(
+        flipX: mirroredX,
+        flipY: mirroredY,
+        child: SingleChildScrollView(
+          controller: widget.controller.scrollController,
+          padding: EdgeInsets.fromLTRB(
+            widget.sideMargin,
+            mediaHeight,
+            widget.sideMargin,
+            0,
+          ),
+          child: Column(
+            children: [
+              if (markdownEnabled)
+                Markdown(
+                  widget.text,
+                  textAlign: alignment,
+                  style: widget.style,
+                  width: mediaWidth - widget.sideMargin * 2,
+                )
+              else
+                Text(widget.text, style: widget.style, textAlign: alignment),
+              SizedBox(
+                height: mediaHeight,
+                child: Center(child: Text("The End", style: widget.style)),
+              ),
+            ],
+          ),
         ),
       ),
     );
