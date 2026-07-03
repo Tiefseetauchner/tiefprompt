@@ -207,6 +207,7 @@
       "IconButton_ReadingIndicatorBoxes": "Show Reading Indicator Boxes",
       "IconButton_VerticalMarginBoxes": "Enable Vertical Margins",
       "IconButton_FadeEnabled": "Enable Fade for Vertical Margins",
+      "IconButton_ShowCurrentChapter": "Show Current Chapter",
       "Slider_SideMargin": "Side Margin",
       "Slider_Countdown": "Countdown"
     }

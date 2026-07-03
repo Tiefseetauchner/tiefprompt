@@ -455,7 +455,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           _FeatureGatedIconButton(
                             feature: Feature.currentChapter,
                             displayText: context.tr(
-                              "SettingsScreen.BooleanAppSetting_Current_Chapter",
+                              "SettingsScreen.BooleanAppSetting_ShowCurrentChapter",
                             ),
                             icon: Text(
                               "C",
@@ -472,7 +472,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                             ),
                             isSelected: prompter.showCurrentChapter,
                             tooltip: context.tr(
-                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_Current_Chapter",
+                              "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_ShowCurrentChapter",
                             ),
                             onPressed: prompter.markdownEnabled
                                 ? () => ref
