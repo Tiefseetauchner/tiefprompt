@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
-import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
+import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 
 class DisplaySettingsScreen extends ConsumerWidget {
   const DisplaySettingsScreen({super.key});
@@ -15,8 +15,10 @@ class DisplaySettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
 
-    return switch (settings) {
-      AsyncData(:final value) => SafeScaffold(
+    return AsyncSettingsBuilder(
+      state: settings,
+      screenTitle: context.tr("SettingsScreen.DisplaySettings"),
+      builder: (ref, value) => SafeScaffold(
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.DisplaySettings")),
         ),
@@ -220,7 +222,6 @@ class DisplaySettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
-      _ => const ResetSettingsScreen(),
-    };
+    );
   }
 }

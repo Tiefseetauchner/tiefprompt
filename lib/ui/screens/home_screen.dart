@@ -18,7 +18,6 @@ import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/changelog_modal.dart';
 import 'package:tiefprompt/ui/widgets/wave_divider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

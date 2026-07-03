@@ -17,6 +17,7 @@ import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
+import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 
 class _ImportedSettingsJson extends Notifier<dynamic> {
   @override
@@ -34,8 +35,10 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
 
-    return switch (settings) {
-      AsyncData(:final value) => FutureBuilder(
+    return AsyncSettingsBuilder(
+      state: settings,
+      screenTitle: context.tr("SettingsScreen.SettingsRestore.Title"),
+      builder: (ref, value) => FutureBuilder(
         future: ref
             .watch(settingsStorageServiceProvider.notifier)
             .getSettingDisplayData(),
@@ -332,17 +335,7 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
           );
         },
       ),
-      AsyncLoading() => SafeScaffold(
-        appBar: AppBar(
-          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
-        ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
-        ),
-      ),
-      AsyncError(:final error) => ResetSettingsScreen(error: error),
-    };
+    );
   }
 
   void _showOptionsDialog(

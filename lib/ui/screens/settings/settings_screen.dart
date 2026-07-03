@@ -1,13 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
-import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
 import 'package:tiefprompt/ui/widgets/changelog_modal.dart';
 
@@ -19,9 +18,13 @@ class SettingsScreen extends ConsumerWidget {
     final settings = ref.watch(settingsProvider);
     final featureKind = ref.watch(featuresProvider).featureKind;
 
-    return switch (settings) {
-      AsyncData(:final value) => SafeScaffold(
-        appBar: AppBar(title: Text(context.tr("SettingsScreen.title"))),
+    final title = context.tr("SettingsScreen.title");
+
+    return AsyncSettingsBuilder(
+      state: settings,
+      screenTitle: title,
+      builder: (ref, value) => SafeScaffold(
+        appBar: AppBar(title: Text(title)),
         body: ListView(
           children: [
             DropdownAppSetting<Locale>(
@@ -153,16 +156,6 @@ class SettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
-      AsyncLoading() => SafeScaffold(
-        appBar: AppBar(
-          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
-        ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
-        ),
-      ),
-      _ => const ResetSettingsScreen(),
-    };
+    );
   }
 }
