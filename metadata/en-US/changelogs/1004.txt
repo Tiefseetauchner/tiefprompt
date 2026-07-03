@@ -1,0 +1,1 @@
+Significant performance improvements, and: a redesign of the app! It looks awesome now.
