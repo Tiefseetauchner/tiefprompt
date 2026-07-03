@@ -36,54 +36,38 @@ class PrompterBottomBar extends ConsumerWidget {
     PrompterState prompterState,
   ) {
     return [
-      Row(
-        mainAxisSize: MainAxisSize.min,
+      _ButtonGroup(
+        leadingWidth: 50,
         children: [
-          VerticalDivider(width: 50),
           IconButton(
-            icon: Icon(
-              Icons.save,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            icon: Icon(Icons.save),
             tooltip: context.tr("PrompterScreen.IconButton_Save"),
             onPressed: () => ref
                 .read(settingsProvider.notifier)
                 .applySettingsFromPrompter(prompterState),
           ),
-          VerticalDivider(width: 15),
         ],
       ),
-      Row(
-        mainAxisSize: MainAxisSize.min,
+      _ButtonGroup(
         children: [
-          VerticalDivider(width: 15),
           _FeatureGatedIconButton(
             feature: Feature.displaySettings,
             displayText: context.tr(
               "PrompterScreen.IconButton_DisplaySettings",
             ),
-            icon: Icon(
-              Icons.display_settings,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            icon: Icon(Icons.display_settings),
             tooltip: context.tr("PrompterScreen.IconButton_DisplaySettings"),
             onPressed: () =>
                 ref.read(displaySettingsVisibleProvider.notifier).toggle(),
           ),
-          VerticalDivider(width: 15),
         ],
       ),
-      Row(
-        mainAxisSize: MainAxisSize.min,
+      _ButtonGroup(
         children: [
-          VerticalDivider(width: 15),
           _FeatureGatedIconButton(
             feature: Feature.scrollSpeed,
             displayText: context.tr("PrompterScreen.IconButton_DecreaseSpeed"),
-            icon: Icon(
-              Icons.remove,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            icon: Icon(Icons.remove),
             tooltip: context.tr("PrompterScreen.IconButton_DecreaseSpeed"),
             onPressed: () =>
                 ref.read(prompterProvider.notifier).decreaseSpeed(.1),
@@ -95,7 +79,6 @@ class PrompterBottomBar extends ConsumerWidget {
             ),
             icon: Icon(
               prompterState.isPlaying ? Icons.pause : Icons.play_arrow,
-              color: Theme.of(context).colorScheme.onSurface,
             ),
             tooltip: context.tr("PrompterScreen.IconButton_TogglePlayPause"),
             onPressed: () =>
@@ -104,48 +87,33 @@ class PrompterBottomBar extends ConsumerWidget {
           _FeatureGatedIconButton(
             feature: Feature.scrollSpeed,
             displayText: context.tr("PrompterScreen.IconButton_IncreaseSpeed"),
-            icon: Icon(
-              Icons.add,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            icon: Icon(Icons.add),
             tooltip: context.tr("PrompterScreen.IconButton_IncreaseSpeed"),
             onPressed: () =>
                 ref.read(prompterProvider.notifier).increaseSpeed(.1),
           ),
-          VerticalDivider(width: 15),
         ],
       ),
-      Row(
-        mainAxisSize: MainAxisSize.min,
+      _ButtonGroup(
         children: [
-          VerticalDivider(width: 15),
           _FeatureGatedIconButton(
             feature: Feature.textSettings,
             displayText: context.tr("PrompterScreen.IconButton_TextFormat"),
-            icon: Icon(
-              Icons.text_format,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            icon: Icon(Icons.text_format),
             tooltip: context.tr("PrompterScreen.IconButton_TextFormat"),
             onPressed: () =>
                 ref.read(fontSettingsVisibleProvider.notifier).toggle(),
           ),
-          VerticalDivider(width: 15),
         ],
       ),
-      Row(
-        mainAxisSize: MainAxisSize.min,
+      _ButtonGroup(
+        trailingWidth: 50,
         children: [
-          VerticalDivider(width: 15),
           IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            icon: Icon(Icons.settings),
             tooltip: context.tr("PrompterScreen.IconButton_Settings"),
             onPressed: () => context.push("/settings"),
           ),
-          VerticalDivider(width: 50),
         ],
       ),
     ];
@@ -178,11 +146,16 @@ class PrompterBottomBar extends ConsumerWidget {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: _getWidgetButtons(context, ref, prompterState),
+                    child: IconTheme.merge(
+                      data: IconThemeData(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: _getWidgetButtons(context, ref, prompterState),
+                      ),
                     ),
                   ),
                   Positioned(
@@ -217,6 +190,30 @@ class PrompterBottomBar extends ConsumerWidget {
         ),
         if (fontSettingsVisible) SafeArea(child: _FontSettingsDialog()),
         if (displaySettingsVisible) SafeArea(child: _DisplaySettingsDialog()),
+      ],
+    );
+  }
+}
+
+class _ButtonGroup extends StatelessWidget {
+  const _ButtonGroup({
+    this.leadingWidth = 15,
+    this.trailingWidth = 15,
+    required this.children,
+  });
+
+  final double leadingWidth;
+  final double trailingWidth;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        VerticalDivider(width: leadingWidth),
+        ...children,
+        VerticalDivider(width: trailingWidth),
       ],
     );
   }
