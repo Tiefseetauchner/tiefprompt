@@ -86,6 +86,14 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       }
     });
 
+    ref.listen(prompterProvider, (previous, next) {
+      if (next.isPlaying) {
+        _startScrolling(next.speed);
+      } else {
+        _stopScrolling();
+      }
+    });
+
     _ticker = createTicker((Duration elapsed) {
       _tick(elapsed);
     });
@@ -130,20 +138,24 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     final mediaHeight = MediaQuery.of(context).size.height;
     final mediaWidth = MediaQuery.of(context).size.width;
 
-    final prompter = ref.watch(prompterProvider);
+    final (:mirroredX, :mirroredY, :markdownEnabled, :alignment) = ref.watch(
+      prompterProvider.select(
+        (s) => (
+          mirroredX: s.mirroredX,
+          mirroredY: s.mirroredY,
+          markdownEnabled: s.markdownEnabled,
+          alignment: s.alignment,
+        ),
+      ),
+    );
 
     _onReachedEnd = () {
       ref.read(prompterProvider.notifier).togglePlayPause();
     };
 
-    if (prompter.isPlaying) {
-      _startScrolling(prompter.speed);
-    } else {
-      _stopScrolling();
-    }
     return Transform.flip(
-      flipX: prompter.mirroredX,
-      flipY: prompter.mirroredY,
+      flipX: mirroredX,
+      flipY: mirroredY,
       child: SingleChildScrollView(
         controller: widget.controller.scrollController,
         padding: EdgeInsets.fromLTRB(
@@ -154,19 +166,15 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
         ),
         child: Column(
           children: [
-            if (prompter.markdownEnabled)
+            if (markdownEnabled)
               Markdown(
                 widget.text,
-                textAlign: prompter.alignment,
+                textAlign: alignment,
                 style: widget.style,
                 width: mediaWidth - widget.sideMargin * 2,
               )
             else
-              Text(
-                widget.text,
-                style: widget.style,
-                textAlign: prompter.alignment,
-              ),
+              Text(widget.text, style: widget.style, textAlign: alignment),
             SizedBox(
               height: mediaHeight,
               child: Center(child: Text("The End", style: widget.style)),
