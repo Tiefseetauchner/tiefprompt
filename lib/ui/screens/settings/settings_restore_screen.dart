@@ -12,7 +12,6 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/talker_provider.dart';
-import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
