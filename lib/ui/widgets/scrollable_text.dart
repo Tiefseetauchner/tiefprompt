@@ -93,6 +93,14 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       }
     });
 
+    ref.listen(prompterProvider, (previous, next) {
+      if (next.isPlaying) {
+        _startScrolling(next.speed);
+      } else {
+        _stopScrolling();
+      }
+    });
+
     _ticker = createTicker((Duration elapsed) {
       _tick(elapsed);
     });
@@ -144,8 +152,15 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   }
 
   void _updateCurrentChapter() {
-    final prompter = ref.read(prompterProvider);
-    if (!prompter.showCurrentChapter || !prompter.markdownEnabled) {
+    final (:markdownEnabled, :showCurrentChapter) = ref.read(
+      prompterProvider.select(
+        (s) => (
+          markdownEnabled: s.markdownEnabled,
+          showCurrentChapter: s.showCurrentChapter,
+        ),
+      ),
+    );
+    if (!showCurrentChapter || !markdownEnabled) {
       return;
     }
 
@@ -203,9 +218,25 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     final renderWidth = mediaWidth - widget.sideMargin * 2;
     _topPadding = mediaHeight;
 
-    final prompter = ref.watch(prompterProvider);
+    final (
+      :mirroredX,
+      :mirroredY,
+      :markdownEnabled,
+      :showCurrentChapter,
+      :alignment,
+    ) = ref.watch(
+      prompterProvider.select(
+        (s) => (
+          mirroredX: s.mirroredX,
+          mirroredY: s.mirroredY,
+          markdownEnabled: s.markdownEnabled,
+          showCurrentChapter: s.showCurrentChapter,
+          alignment: s.alignment,
+        ),
+      ),
+    );
 
-    if (!prompter.markdownEnabled || !prompter.showCurrentChapter) {
+    if (!markdownEnabled || !showCurrentChapter) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.read(currentChapterProvider.notifier).setValue(null);
       });
@@ -215,14 +246,9 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       ref.read(prompterProvider.notifier).togglePlayPause();
     };
 
-    if (prompter.isPlaying) {
-      _startScrolling(prompter.speed);
-    } else {
-      _stopScrolling();
-    }
     return Transform.flip(
-      flipX: prompter.mirroredX,
-      flipY: prompter.mirroredY,
+      flipX: mirroredX,
+      flipY: mirroredY,
       child: SingleChildScrollView(
         controller: widget.controller.scrollController,
         padding: EdgeInsets.fromLTRB(
@@ -233,20 +259,16 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
         ),
         child: Column(
           children: [
-            if (prompter.markdownEnabled)
+            if (markdownEnabled)
               Markdown(
                 widget.text,
                 controller: _markdownController,
-                textAlign: prompter.alignment,
+                textAlign: alignment,
                 style: widget.style,
                 width: renderWidth,
               )
             else
-              Text(
-                widget.text,
-                style: widget.style,
-                textAlign: prompter.alignment,
-              ),
+              Text(widget.text, style: widget.style, textAlign: alignment),
             SizedBox(
               height: mediaHeight,
               child: Center(child: Text("The End", style: widget.style)),
