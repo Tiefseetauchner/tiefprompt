@@ -29,7 +29,7 @@ class AppDatabase extends $AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
@@ -115,7 +115,8 @@ class AppDatabase extends $AppDatabase {
           }
 
           await m.alterTable(TableMigration(schema.scriptModel));
-
+        },
+        from6To7: (m, schema) async {
           final oldRows = await m.database
               .customSelect('SELECT * FROM settings_preset_model')
               .get();
