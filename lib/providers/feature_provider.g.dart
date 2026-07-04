@@ -40,7 +40,7 @@ final class FeaturesProvider extends $NotifierProvider<Features, AppFeatures> {
   }
 }
 
-String _$featuresHash() => r'73c684069f0a0bd232bab41b41649f1a1f59da30';
+String _$featuresHash() => r'49c0b37b45db417908055f2a51f5296baabb6a3d';
 
 abstract class _$Features extends $Notifier<AppFeatures> {
   AppFeatures build();
