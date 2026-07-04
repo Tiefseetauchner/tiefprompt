@@ -18,37 +18,16 @@ abstract class SettingsState with _$SettingsState {
   const SettingsState._();
 
   factory SettingsState({
-    @Default(ThemeMode.system) ThemeMode themeMode,
-    @Default(kBrandTeal) Color appPrimaryColor,
-    @Default(Colors.black) Color prompterBackgroundColor,
-    @Default(Colors.white) Color prompterTextColor,
+    @ThemeModeConverter() @Default(ThemeMode.system) ThemeMode themeMode,
+    @ColorConverter() @Default(kBrandTeal) Color appPrimaryColor,
+    @ColorConverter() @Default(Colors.black) Color prompterBackgroundColor,
+    @ColorConverter() @Default(Colors.white) Color prompterTextColor,
     @Default(0) int keybindingsMapId,
     @Default(PrompterConfiguration()) PrompterConfiguration config,
   }) = _SettingsState;
 
-  Map<String, dynamic> toJson() => {
-    ...config.toJson(),
-    'themeMode': const ThemeModeConverter().toJson(themeMode),
-    'appPrimaryColor': const ColorConverter().toJson(appPrimaryColor),
-    'prompterBackgroundColor': const ColorConverter().toJson(prompterBackgroundColor),
-    'prompterTextColor': const ColorConverter().toJson(prompterTextColor),
-  };
-
-  static SettingsState fromJson(Map<String, dynamic> json) => SettingsState(
-    config: PrompterConfiguration.fromJson(json),
-    themeMode: const ThemeModeConverter().fromJson(
-      json['themeMode'] as String? ?? '',
-    ),
-    appPrimaryColor: json['appPrimaryColor'] != null
-        ? const ColorConverter().fromJson(json['appPrimaryColor'])
-        : kBrandTeal,
-    prompterBackgroundColor: json['prompterBackgroundColor'] != null
-        ? const ColorConverter().fromJson(json['prompterBackgroundColor'])
-        : Colors.black,
-    prompterTextColor: json['prompterTextColor'] != null
-        ? const ColorConverter().fromJson(json['prompterTextColor'])
-        : Colors.white,
-  );
+  factory SettingsState.fromJson(Map<String, dynamic> json) =>
+      _$SettingsStateFromJson(json);
 }
 
 abstract class ISettings {

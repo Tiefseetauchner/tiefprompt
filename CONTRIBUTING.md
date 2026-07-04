@@ -152,35 +152,7 @@ checklist in the file, because the fan-out is wide *and* nobody has ever gotten
 all of it right in one pass (see the warning at the end). For one new setting,
 in order:
 
-1. A field on `SettingsState` with an `@Default`, in `settings_provider.dart`.
-2. `SettingsState.fromJson` and `toJson` (used by settings export/restore).
-3. A `_xKey` constant, and read it in `Settings.build()`.
-4. The setter on the `ISettings` interface.
-5. The setter implementation (write to prefs, then `state.whenData(copyWith)`).
-6. `_saveSettings`.
-7. The Drift preset path, which is *two* files, not one:
-   - `settings_preset_model.dart`: add the column. A non-nullable column
-     (`real()()`, `boolean()()`, ...) has no default, so existing preset rows
-     have nothing for it. Run `.flutter/bin/dart run drift_dev make-migrations`,
-     then open the generated migration and give it a sane default, or the
-     migration fails on anyone's existing data.
-   - `settings_storage_service.dart`: wire the field into **both** `_mapToState`
-     (DB row -> `SettingsState`) and `save()` (`SettingsState` -> DB row).
-     `save()` calls `create(...)` with every column as a required arg, so until
-     you add it here, it won't even compile.
-8. The UI control. It goes in a settings screen under
-   `lib/ui/screens/settings/` (e.g. `text_settings_screen.dart`), usually as a
-   `NumberAppSetting` / `BooleanAppSetting` / etc. Those widget classes live in
-   `app_settings.dart`, which is the *kit*, not where instances go. The
-   `AppSetting` widgets auto-gate off the `Feature` you pass them. Optionally
-   also expose the setting in the prompter bottom-bar dialog if it makes sense
-   live.
-9. Localization keys, usually *more than one*. A `NumberAppSetting` wants a label
-   key and a `_Unit` key (e.g. `NumberAppSetting_DefaultFontSize` plus
-   `..._Unit`); the live prompter version may want more, some with args. Add
-   them to `en-US.json` and your native language only (see section 6).
-10. Re-run `build_runner` (you edited the Freezed `SettingsState` and the Drift
-    table).
+- Add a prompter 
 
 There are two independent schema versions and they bite differently:
 

@@ -11,16 +11,19 @@ part of 'settings_provider.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$SettingsState {
 
- ThemeMode get themeMode; Color get appPrimaryColor; Color get prompterBackgroundColor; Color get prompterTextColor; int get keybindingsMapId; PrompterConfiguration get config;
+@ThemeModeConverter() ThemeMode get themeMode;@ColorConverter() Color get appPrimaryColor;@ColorConverter() Color get prompterBackgroundColor;@ColorConverter() Color get prompterTextColor; int get keybindingsMapId; PrompterConfiguration get config;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImpl<SettingsState>(this as SettingsState, _$identity);
 
+  /// Serializes this SettingsState to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.config, config) || other.config == config));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,keybindingsMapId,config);
 
@@ -45,7 +48,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor, int keybindingsMapId, PrompterConfiguration config
+@ThemeModeConverter() ThemeMode themeMode,@ColorConverter() Color appPrimaryColor,@ColorConverter() Color prompterBackgroundColor,@ColorConverter() Color prompterTextColor, int keybindingsMapId, PrompterConfiguration config
 });
 
 
@@ -164,7 +167,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@ThemeModeConverter()  ThemeMode themeMode, @ColorConverter()  Color appPrimaryColor, @ColorConverter()  Color prompterBackgroundColor, @ColorConverter()  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
 return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.keybindingsMapId,_that.config);case _:
@@ -185,7 +188,7 @@ return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundCo
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@ThemeModeConverter()  ThemeMode themeMode, @ColorConverter()  Color appPrimaryColor, @ColorConverter()  Color prompterBackgroundColor, @ColorConverter()  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
 return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.keybindingsMapId,_that.config);case _:
@@ -205,7 +208,7 @@ return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundCo
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@ThemeModeConverter()  ThemeMode themeMode, @ColorConverter()  Color appPrimaryColor, @ColorConverter()  Color prompterBackgroundColor, @ColorConverter()  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
 return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.keybindingsMapId,_that.config);case _:
@@ -217,16 +220,16 @@ return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundCo
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _SettingsState extends SettingsState {
-   _SettingsState({this.themeMode = ThemeMode.system, this.appPrimaryColor = kBrandTeal, this.prompterBackgroundColor = Colors.black, this.prompterTextColor = Colors.white, this.keybindingsMapId = 0, this.config = const PrompterConfiguration()}): super._();
-  
+   _SettingsState({@ThemeModeConverter() this.themeMode = ThemeMode.system, @ColorConverter() this.appPrimaryColor = kBrandTeal, @ColorConverter() this.prompterBackgroundColor = Colors.black, @ColorConverter() this.prompterTextColor = Colors.white, this.keybindingsMapId = 0, this.config = const PrompterConfiguration()}): super._();
+  factory _SettingsState.fromJson(Map<String, dynamic> json) => _$SettingsStateFromJson(json);
 
-@override@JsonKey() final  ThemeMode themeMode;
-@override@JsonKey() final  Color appPrimaryColor;
-@override@JsonKey() final  Color prompterBackgroundColor;
-@override@JsonKey() final  Color prompterTextColor;
+@override@JsonKey()@ThemeModeConverter() final  ThemeMode themeMode;
+@override@JsonKey()@ColorConverter() final  Color appPrimaryColor;
+@override@JsonKey()@ColorConverter() final  Color prompterBackgroundColor;
+@override@JsonKey()@ColorConverter() final  Color prompterTextColor;
 @override@JsonKey() final  int keybindingsMapId;
 @override@JsonKey() final  PrompterConfiguration config;
 
@@ -236,14 +239,17 @@ class _SettingsState extends SettingsState {
 @pragma('vm:prefer-inline')
 _$SettingsStateCopyWith<_SettingsState> get copyWith => __$SettingsStateCopyWithImpl<_SettingsState>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$SettingsStateToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.config, config) || other.config == config));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,keybindingsMapId,config);
 
@@ -260,7 +266,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor, int keybindingsMapId, PrompterConfiguration config
+@ThemeModeConverter() ThemeMode themeMode,@ColorConverter() Color appPrimaryColor,@ColorConverter() Color prompterBackgroundColor,@ColorConverter() Color prompterTextColor, int keybindingsMapId, PrompterConfiguration config
 });
 
 
