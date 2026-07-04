@@ -501,186 +501,14 @@ class SettingsPresetModel extends Table
     requiredDuringInsert: true,
     $customConstraints: 'NOT NULL',
   );
-  late final GeneratedColumn<double> scrollSpeed = GeneratedColumn<double>(
-    'scroll_speed',
-    aliasedName,
-    false,
-    type: DriftSqlType.double,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumn<int> mirroredX = GeneratedColumn<int>(
-    'mirrored_x',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL CHECK (mirrored_x IN (0, 1))',
-  );
-  late final GeneratedColumn<int> mirroredY = GeneratedColumn<int>(
-    'mirrored_y',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL CHECK (mirrored_y IN (0, 1))',
-  );
-  late final GeneratedColumn<double> fontSize = GeneratedColumn<double>(
-    'font_size',
-    aliasedName,
-    false,
-    type: DriftSqlType.double,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumn<double> sideMargin = GeneratedColumn<double>(
-    'side_margin',
-    aliasedName,
-    false,
-    type: DriftSqlType.double,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumn<String> fontFamily = GeneratedColumn<String>(
-    'font_family',
+  late final GeneratedColumn<String> data = GeneratedColumn<String>(
+    'data',
     aliasedName,
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
     $customConstraints: 'NOT NULL',
   );
-  late final GeneratedColumn<String> alignment = GeneratedColumn<String>(
-    'alignment',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumn<int> displayReadingIndicatorBoxes =
-      GeneratedColumn<int>(
-        'display_reading_indicator_boxes',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: true,
-        $customConstraints:
-            'NOT NULL CHECK (display_reading_indicator_boxes IN (0, 1))',
-      );
-  late final GeneratedColumn<double> readingIndicatorBoxesHeight =
-      GeneratedColumn<double>(
-        'reading_indicator_boxes_height',
-        aliasedName,
-        false,
-        type: DriftSqlType.double,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      );
-  late final GeneratedColumn<int> displayVerticalMarginBoxes =
-      GeneratedColumn<int>(
-        'display_vertical_margin_boxes',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: true,
-        $customConstraints:
-            'NOT NULL CHECK (display_vertical_margin_boxes IN (0, 1))',
-      );
-  late final GeneratedColumn<double> verticalMarginBoxesHeight =
-      GeneratedColumn<double>(
-        'vertical_margin_boxes_height',
-        aliasedName,
-        false,
-        type: DriftSqlType.double,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      );
-  late final GeneratedColumn<int> verticalMarginBoxesFadeEnabled =
-      GeneratedColumn<int>(
-        'vertical_margin_boxes_fade_enabled',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: true,
-        $customConstraints:
-            'NOT NULL CHECK (vertical_margin_boxes_fade_enabled IN (0, 1))',
-      );
-  late final GeneratedColumn<double> verticalMarginBoxesFadeLength =
-      GeneratedColumn<double>(
-        'vertical_margin_boxes_fade_length',
-        aliasedName,
-        false,
-        type: DriftSqlType.double,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      );
-  late final GeneratedColumn<double> countdownDuration =
-      GeneratedColumn<double>(
-        'countdown_duration',
-        aliasedName,
-        false,
-        type: DriftSqlType.double,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      );
-  late final GeneratedColumn<String> themeMode = GeneratedColumn<String>(
-    'theme_mode',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumn<int> appPrimaryColor = GeneratedColumn<int>(
-    'app_primary_color',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumn<int> prompterBackgroundColor =
-      GeneratedColumn<int>(
-        'prompter_background_color',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      );
-  late final GeneratedColumn<int> prompterTextColor = GeneratedColumn<int>(
-    'prompter_text_color',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumn<int> markdownEnabled = GeneratedColumn<int>(
-    'markdown_enabled',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL CHECK (markdown_enabled IN (0, 1))',
-  );
-  late final GeneratedColumn<int> showControlButtons = GeneratedColumn<int>(
-    'show_control_buttons',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL CHECK (show_control_buttons IN (0, 1))',
-  );
-  late final GeneratedColumn<String> controlButtonsPosition =
-      GeneratedColumn<String>(
-        'control_buttons_position',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      );
   late final GeneratedColumn<int> keybindings = GeneratedColumn<int>(
     'keybindings',
     aliasedName,
@@ -695,27 +523,7 @@ class SettingsPresetModel extends Table
     id,
     name,
     createdAt,
-    scrollSpeed,
-    mirroredX,
-    mirroredY,
-    fontSize,
-    sideMargin,
-    fontFamily,
-    alignment,
-    displayReadingIndicatorBoxes,
-    readingIndicatorBoxesHeight,
-    displayVerticalMarginBoxes,
-    verticalMarginBoxesHeight,
-    verticalMarginBoxesFadeEnabled,
-    verticalMarginBoxesFadeLength,
-    countdownDuration,
-    themeMode,
-    appPrimaryColor,
-    prompterBackgroundColor,
-    prompterTextColor,
-    markdownEnabled,
-    showControlButtons,
-    controlButtonsPosition,
+    data,
     keybindings,
   ];
   @override
@@ -744,89 +552,9 @@ class SettingsPresetModel extends Table
         DriftSqlType.string,
         data['${effectivePrefix}created_at'],
       )!,
-      scrollSpeed: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}scroll_speed'],
-      )!,
-      mirroredX: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}mirrored_x'],
-      )!,
-      mirroredY: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}mirrored_y'],
-      )!,
-      fontSize: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}font_size'],
-      )!,
-      sideMargin: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}side_margin'],
-      )!,
-      fontFamily: attachedDatabase.typeMapping.read(
+      data: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}font_family'],
-      )!,
-      alignment: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}alignment'],
-      )!,
-      displayReadingIndicatorBoxes: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}display_reading_indicator_boxes'],
-      )!,
-      readingIndicatorBoxesHeight: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}reading_indicator_boxes_height'],
-      )!,
-      displayVerticalMarginBoxes: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}display_vertical_margin_boxes'],
-      )!,
-      verticalMarginBoxesHeight: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}vertical_margin_boxes_height'],
-      )!,
-      verticalMarginBoxesFadeEnabled: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}vertical_margin_boxes_fade_enabled'],
-      )!,
-      verticalMarginBoxesFadeLength: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}vertical_margin_boxes_fade_length'],
-      )!,
-      countdownDuration: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}countdown_duration'],
-      )!,
-      themeMode: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}theme_mode'],
-      )!,
-      appPrimaryColor: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}app_primary_color'],
-      )!,
-      prompterBackgroundColor: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}prompter_background_color'],
-      )!,
-      prompterTextColor: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}prompter_text_color'],
-      )!,
-      markdownEnabled: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}markdown_enabled'],
-      )!,
-      showControlButtons: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}show_control_buttons'],
-      )!,
-      controlButtonsPosition: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}control_buttons_position'],
+        data['${effectivePrefix}data'],
       )!,
       keybindings: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
@@ -849,53 +577,13 @@ class SettingsPresetModelData extends DataClass
   final int id;
   final String name;
   final String createdAt;
-  final double scrollSpeed;
-  final int mirroredX;
-  final int mirroredY;
-  final double fontSize;
-  final double sideMargin;
-  final String fontFamily;
-  final String alignment;
-  final int displayReadingIndicatorBoxes;
-  final double readingIndicatorBoxesHeight;
-  final int displayVerticalMarginBoxes;
-  final double verticalMarginBoxesHeight;
-  final int verticalMarginBoxesFadeEnabled;
-  final double verticalMarginBoxesFadeLength;
-  final double countdownDuration;
-  final String themeMode;
-  final int appPrimaryColor;
-  final int prompterBackgroundColor;
-  final int prompterTextColor;
-  final int markdownEnabled;
-  final int showControlButtons;
-  final String controlButtonsPosition;
+  final String data;
   final int keybindings;
   const SettingsPresetModelData({
     required this.id,
     required this.name,
     required this.createdAt,
-    required this.scrollSpeed,
-    required this.mirroredX,
-    required this.mirroredY,
-    required this.fontSize,
-    required this.sideMargin,
-    required this.fontFamily,
-    required this.alignment,
-    required this.displayReadingIndicatorBoxes,
-    required this.readingIndicatorBoxesHeight,
-    required this.displayVerticalMarginBoxes,
-    required this.verticalMarginBoxesHeight,
-    required this.verticalMarginBoxesFadeEnabled,
-    required this.verticalMarginBoxesFadeLength,
-    required this.countdownDuration,
-    required this.themeMode,
-    required this.appPrimaryColor,
-    required this.prompterBackgroundColor,
-    required this.prompterTextColor,
-    required this.markdownEnabled,
-    required this.showControlButtons,
-    required this.controlButtonsPosition,
+    required this.data,
     required this.keybindings,
   });
   @override
@@ -904,39 +592,7 @@ class SettingsPresetModelData extends DataClass
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['created_at'] = Variable<String>(createdAt);
-    map['scroll_speed'] = Variable<double>(scrollSpeed);
-    map['mirrored_x'] = Variable<int>(mirroredX);
-    map['mirrored_y'] = Variable<int>(mirroredY);
-    map['font_size'] = Variable<double>(fontSize);
-    map['side_margin'] = Variable<double>(sideMargin);
-    map['font_family'] = Variable<String>(fontFamily);
-    map['alignment'] = Variable<String>(alignment);
-    map['display_reading_indicator_boxes'] = Variable<int>(
-      displayReadingIndicatorBoxes,
-    );
-    map['reading_indicator_boxes_height'] = Variable<double>(
-      readingIndicatorBoxesHeight,
-    );
-    map['display_vertical_margin_boxes'] = Variable<int>(
-      displayVerticalMarginBoxes,
-    );
-    map['vertical_margin_boxes_height'] = Variable<double>(
-      verticalMarginBoxesHeight,
-    );
-    map['vertical_margin_boxes_fade_enabled'] = Variable<int>(
-      verticalMarginBoxesFadeEnabled,
-    );
-    map['vertical_margin_boxes_fade_length'] = Variable<double>(
-      verticalMarginBoxesFadeLength,
-    );
-    map['countdown_duration'] = Variable<double>(countdownDuration);
-    map['theme_mode'] = Variable<String>(themeMode);
-    map['app_primary_color'] = Variable<int>(appPrimaryColor);
-    map['prompter_background_color'] = Variable<int>(prompterBackgroundColor);
-    map['prompter_text_color'] = Variable<int>(prompterTextColor);
-    map['markdown_enabled'] = Variable<int>(markdownEnabled);
-    map['show_control_buttons'] = Variable<int>(showControlButtons);
-    map['control_buttons_position'] = Variable<String>(controlButtonsPosition);
+    map['data'] = Variable<String>(data);
     map['keybindings'] = Variable<int>(keybindings);
     return map;
   }
@@ -946,27 +602,7 @@ class SettingsPresetModelData extends DataClass
       id: Value(id),
       name: Value(name),
       createdAt: Value(createdAt),
-      scrollSpeed: Value(scrollSpeed),
-      mirroredX: Value(mirroredX),
-      mirroredY: Value(mirroredY),
-      fontSize: Value(fontSize),
-      sideMargin: Value(sideMargin),
-      fontFamily: Value(fontFamily),
-      alignment: Value(alignment),
-      displayReadingIndicatorBoxes: Value(displayReadingIndicatorBoxes),
-      readingIndicatorBoxesHeight: Value(readingIndicatorBoxesHeight),
-      displayVerticalMarginBoxes: Value(displayVerticalMarginBoxes),
-      verticalMarginBoxesHeight: Value(verticalMarginBoxesHeight),
-      verticalMarginBoxesFadeEnabled: Value(verticalMarginBoxesFadeEnabled),
-      verticalMarginBoxesFadeLength: Value(verticalMarginBoxesFadeLength),
-      countdownDuration: Value(countdownDuration),
-      themeMode: Value(themeMode),
-      appPrimaryColor: Value(appPrimaryColor),
-      prompterBackgroundColor: Value(prompterBackgroundColor),
-      prompterTextColor: Value(prompterTextColor),
-      markdownEnabled: Value(markdownEnabled),
-      showControlButtons: Value(showControlButtons),
-      controlButtonsPosition: Value(controlButtonsPosition),
+      data: Value(data),
       keybindings: Value(keybindings),
     );
   }
@@ -980,43 +616,7 @@ class SettingsPresetModelData extends DataClass
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
-      scrollSpeed: serializer.fromJson<double>(json['scrollSpeed']),
-      mirroredX: serializer.fromJson<int>(json['mirroredX']),
-      mirroredY: serializer.fromJson<int>(json['mirroredY']),
-      fontSize: serializer.fromJson<double>(json['fontSize']),
-      sideMargin: serializer.fromJson<double>(json['sideMargin']),
-      fontFamily: serializer.fromJson<String>(json['fontFamily']),
-      alignment: serializer.fromJson<String>(json['alignment']),
-      displayReadingIndicatorBoxes: serializer.fromJson<int>(
-        json['displayReadingIndicatorBoxes'],
-      ),
-      readingIndicatorBoxesHeight: serializer.fromJson<double>(
-        json['readingIndicatorBoxesHeight'],
-      ),
-      displayVerticalMarginBoxes: serializer.fromJson<int>(
-        json['displayVerticalMarginBoxes'],
-      ),
-      verticalMarginBoxesHeight: serializer.fromJson<double>(
-        json['verticalMarginBoxesHeight'],
-      ),
-      verticalMarginBoxesFadeEnabled: serializer.fromJson<int>(
-        json['verticalMarginBoxesFadeEnabled'],
-      ),
-      verticalMarginBoxesFadeLength: serializer.fromJson<double>(
-        json['verticalMarginBoxesFadeLength'],
-      ),
-      countdownDuration: serializer.fromJson<double>(json['countdownDuration']),
-      themeMode: serializer.fromJson<String>(json['themeMode']),
-      appPrimaryColor: serializer.fromJson<int>(json['appPrimaryColor']),
-      prompterBackgroundColor: serializer.fromJson<int>(
-        json['prompterBackgroundColor'],
-      ),
-      prompterTextColor: serializer.fromJson<int>(json['prompterTextColor']),
-      markdownEnabled: serializer.fromJson<int>(json['markdownEnabled']),
-      showControlButtons: serializer.fromJson<int>(json['showControlButtons']),
-      controlButtonsPosition: serializer.fromJson<String>(
-        json['controlButtonsPosition'],
-      ),
+      data: serializer.fromJson<String>(json['data']),
       keybindings: serializer.fromJson<int>(json['keybindings']),
     );
   }
@@ -1027,43 +627,7 @@ class SettingsPresetModelData extends DataClass
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'createdAt': serializer.toJson<String>(createdAt),
-      'scrollSpeed': serializer.toJson<double>(scrollSpeed),
-      'mirroredX': serializer.toJson<int>(mirroredX),
-      'mirroredY': serializer.toJson<int>(mirroredY),
-      'fontSize': serializer.toJson<double>(fontSize),
-      'sideMargin': serializer.toJson<double>(sideMargin),
-      'fontFamily': serializer.toJson<String>(fontFamily),
-      'alignment': serializer.toJson<String>(alignment),
-      'displayReadingIndicatorBoxes': serializer.toJson<int>(
-        displayReadingIndicatorBoxes,
-      ),
-      'readingIndicatorBoxesHeight': serializer.toJson<double>(
-        readingIndicatorBoxesHeight,
-      ),
-      'displayVerticalMarginBoxes': serializer.toJson<int>(
-        displayVerticalMarginBoxes,
-      ),
-      'verticalMarginBoxesHeight': serializer.toJson<double>(
-        verticalMarginBoxesHeight,
-      ),
-      'verticalMarginBoxesFadeEnabled': serializer.toJson<int>(
-        verticalMarginBoxesFadeEnabled,
-      ),
-      'verticalMarginBoxesFadeLength': serializer.toJson<double>(
-        verticalMarginBoxesFadeLength,
-      ),
-      'countdownDuration': serializer.toJson<double>(countdownDuration),
-      'themeMode': serializer.toJson<String>(themeMode),
-      'appPrimaryColor': serializer.toJson<int>(appPrimaryColor),
-      'prompterBackgroundColor': serializer.toJson<int>(
-        prompterBackgroundColor,
-      ),
-      'prompterTextColor': serializer.toJson<int>(prompterTextColor),
-      'markdownEnabled': serializer.toJson<int>(markdownEnabled),
-      'showControlButtons': serializer.toJson<int>(showControlButtons),
-      'controlButtonsPosition': serializer.toJson<String>(
-        controlButtonsPosition,
-      ),
+      'data': serializer.toJson<String>(data),
       'keybindings': serializer.toJson<int>(keybindings),
     };
   }
@@ -1072,61 +636,13 @@ class SettingsPresetModelData extends DataClass
     int? id,
     String? name,
     String? createdAt,
-    double? scrollSpeed,
-    int? mirroredX,
-    int? mirroredY,
-    double? fontSize,
-    double? sideMargin,
-    String? fontFamily,
-    String? alignment,
-    int? displayReadingIndicatorBoxes,
-    double? readingIndicatorBoxesHeight,
-    int? displayVerticalMarginBoxes,
-    double? verticalMarginBoxesHeight,
-    int? verticalMarginBoxesFadeEnabled,
-    double? verticalMarginBoxesFadeLength,
-    double? countdownDuration,
-    String? themeMode,
-    int? appPrimaryColor,
-    int? prompterBackgroundColor,
-    int? prompterTextColor,
-    int? markdownEnabled,
-    int? showControlButtons,
-    String? controlButtonsPosition,
+    String? data,
     int? keybindings,
   }) => SettingsPresetModelData(
     id: id ?? this.id,
     name: name ?? this.name,
     createdAt: createdAt ?? this.createdAt,
-    scrollSpeed: scrollSpeed ?? this.scrollSpeed,
-    mirroredX: mirroredX ?? this.mirroredX,
-    mirroredY: mirroredY ?? this.mirroredY,
-    fontSize: fontSize ?? this.fontSize,
-    sideMargin: sideMargin ?? this.sideMargin,
-    fontFamily: fontFamily ?? this.fontFamily,
-    alignment: alignment ?? this.alignment,
-    displayReadingIndicatorBoxes:
-        displayReadingIndicatorBoxes ?? this.displayReadingIndicatorBoxes,
-    readingIndicatorBoxesHeight:
-        readingIndicatorBoxesHeight ?? this.readingIndicatorBoxesHeight,
-    displayVerticalMarginBoxes:
-        displayVerticalMarginBoxes ?? this.displayVerticalMarginBoxes,
-    verticalMarginBoxesHeight:
-        verticalMarginBoxesHeight ?? this.verticalMarginBoxesHeight,
-    verticalMarginBoxesFadeEnabled:
-        verticalMarginBoxesFadeEnabled ?? this.verticalMarginBoxesFadeEnabled,
-    verticalMarginBoxesFadeLength:
-        verticalMarginBoxesFadeLength ?? this.verticalMarginBoxesFadeLength,
-    countdownDuration: countdownDuration ?? this.countdownDuration,
-    themeMode: themeMode ?? this.themeMode,
-    appPrimaryColor: appPrimaryColor ?? this.appPrimaryColor,
-    prompterBackgroundColor:
-        prompterBackgroundColor ?? this.prompterBackgroundColor,
-    prompterTextColor: prompterTextColor ?? this.prompterTextColor,
-    markdownEnabled: markdownEnabled ?? this.markdownEnabled,
-    showControlButtons: showControlButtons ?? this.showControlButtons,
-    controlButtonsPosition:
-        controlButtonsPosition ?? this.controlButtonsPosition,
+    data: data ?? this.data,
     keybindings: keybindings ?? this.keybindings,
   );
   SettingsPresetModelData copyWithCompanion(SettingsPresetModelCompanion data) {
@@ -1134,60 +650,7 @@ class SettingsPresetModelData extends DataClass
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      scrollSpeed: data.scrollSpeed.present
-          ? data.scrollSpeed.value
-          : this.scrollSpeed,
-      mirroredX: data.mirroredX.present ? data.mirroredX.value : this.mirroredX,
-      mirroredY: data.mirroredY.present ? data.mirroredY.value : this.mirroredY,
-      fontSize: data.fontSize.present ? data.fontSize.value : this.fontSize,
-      sideMargin: data.sideMargin.present
-          ? data.sideMargin.value
-          : this.sideMargin,
-      fontFamily: data.fontFamily.present
-          ? data.fontFamily.value
-          : this.fontFamily,
-      alignment: data.alignment.present ? data.alignment.value : this.alignment,
-      displayReadingIndicatorBoxes: data.displayReadingIndicatorBoxes.present
-          ? data.displayReadingIndicatorBoxes.value
-          : this.displayReadingIndicatorBoxes,
-      readingIndicatorBoxesHeight: data.readingIndicatorBoxesHeight.present
-          ? data.readingIndicatorBoxesHeight.value
-          : this.readingIndicatorBoxesHeight,
-      displayVerticalMarginBoxes: data.displayVerticalMarginBoxes.present
-          ? data.displayVerticalMarginBoxes.value
-          : this.displayVerticalMarginBoxes,
-      verticalMarginBoxesHeight: data.verticalMarginBoxesHeight.present
-          ? data.verticalMarginBoxesHeight.value
-          : this.verticalMarginBoxesHeight,
-      verticalMarginBoxesFadeEnabled:
-          data.verticalMarginBoxesFadeEnabled.present
-          ? data.verticalMarginBoxesFadeEnabled.value
-          : this.verticalMarginBoxesFadeEnabled,
-      verticalMarginBoxesFadeLength: data.verticalMarginBoxesFadeLength.present
-          ? data.verticalMarginBoxesFadeLength.value
-          : this.verticalMarginBoxesFadeLength,
-      countdownDuration: data.countdownDuration.present
-          ? data.countdownDuration.value
-          : this.countdownDuration,
-      themeMode: data.themeMode.present ? data.themeMode.value : this.themeMode,
-      appPrimaryColor: data.appPrimaryColor.present
-          ? data.appPrimaryColor.value
-          : this.appPrimaryColor,
-      prompterBackgroundColor: data.prompterBackgroundColor.present
-          ? data.prompterBackgroundColor.value
-          : this.prompterBackgroundColor,
-      prompterTextColor: data.prompterTextColor.present
-          ? data.prompterTextColor.value
-          : this.prompterTextColor,
-      markdownEnabled: data.markdownEnabled.present
-          ? data.markdownEnabled.value
-          : this.markdownEnabled,
-      showControlButtons: data.showControlButtons.present
-          ? data.showControlButtons.value
-          : this.showControlButtons,
-      controlButtonsPosition: data.controlButtonsPosition.present
-          ? data.controlButtonsPosition.value
-          : this.controlButtonsPosition,
+      data: data.data.present ? data.data.value : this.data,
       keybindings: data.keybindings.present
           ? data.keybindings.value
           : this.keybindings,
@@ -1200,66 +663,14 @@ class SettingsPresetModelData extends DataClass
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('createdAt: $createdAt, ')
-          ..write('scrollSpeed: $scrollSpeed, ')
-          ..write('mirroredX: $mirroredX, ')
-          ..write('mirroredY: $mirroredY, ')
-          ..write('fontSize: $fontSize, ')
-          ..write('sideMargin: $sideMargin, ')
-          ..write('fontFamily: $fontFamily, ')
-          ..write('alignment: $alignment, ')
-          ..write(
-            'displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, ',
-          )
-          ..write('readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, ')
-          ..write('displayVerticalMarginBoxes: $displayVerticalMarginBoxes, ')
-          ..write('verticalMarginBoxesHeight: $verticalMarginBoxesHeight, ')
-          ..write(
-            'verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, ',
-          )
-          ..write(
-            'verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, ',
-          )
-          ..write('countdownDuration: $countdownDuration, ')
-          ..write('themeMode: $themeMode, ')
-          ..write('appPrimaryColor: $appPrimaryColor, ')
-          ..write('prompterBackgroundColor: $prompterBackgroundColor, ')
-          ..write('prompterTextColor: $prompterTextColor, ')
-          ..write('markdownEnabled: $markdownEnabled, ')
-          ..write('showControlButtons: $showControlButtons, ')
-          ..write('controlButtonsPosition: $controlButtonsPosition, ')
+          ..write('data: $data, ')
           ..write('keybindings: $keybindings')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hashAll([
-    id,
-    name,
-    createdAt,
-    scrollSpeed,
-    mirroredX,
-    mirroredY,
-    fontSize,
-    sideMargin,
-    fontFamily,
-    alignment,
-    displayReadingIndicatorBoxes,
-    readingIndicatorBoxesHeight,
-    displayVerticalMarginBoxes,
-    verticalMarginBoxesHeight,
-    verticalMarginBoxesFadeEnabled,
-    verticalMarginBoxesFadeLength,
-    countdownDuration,
-    themeMode,
-    appPrimaryColor,
-    prompterBackgroundColor,
-    prompterTextColor,
-    markdownEnabled,
-    showControlButtons,
-    controlButtonsPosition,
-    keybindings,
-  ]);
+  int get hashCode => Object.hash(id, name, createdAt, data, keybindings);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1267,31 +678,7 @@ class SettingsPresetModelData extends DataClass
           other.id == this.id &&
           other.name == this.name &&
           other.createdAt == this.createdAt &&
-          other.scrollSpeed == this.scrollSpeed &&
-          other.mirroredX == this.mirroredX &&
-          other.mirroredY == this.mirroredY &&
-          other.fontSize == this.fontSize &&
-          other.sideMargin == this.sideMargin &&
-          other.fontFamily == this.fontFamily &&
-          other.alignment == this.alignment &&
-          other.displayReadingIndicatorBoxes ==
-              this.displayReadingIndicatorBoxes &&
-          other.readingIndicatorBoxesHeight ==
-              this.readingIndicatorBoxesHeight &&
-          other.displayVerticalMarginBoxes == this.displayVerticalMarginBoxes &&
-          other.verticalMarginBoxesHeight == this.verticalMarginBoxesHeight &&
-          other.verticalMarginBoxesFadeEnabled ==
-              this.verticalMarginBoxesFadeEnabled &&
-          other.verticalMarginBoxesFadeLength ==
-              this.verticalMarginBoxesFadeLength &&
-          other.countdownDuration == this.countdownDuration &&
-          other.themeMode == this.themeMode &&
-          other.appPrimaryColor == this.appPrimaryColor &&
-          other.prompterBackgroundColor == this.prompterBackgroundColor &&
-          other.prompterTextColor == this.prompterTextColor &&
-          other.markdownEnabled == this.markdownEnabled &&
-          other.showControlButtons == this.showControlButtons &&
-          other.controlButtonsPosition == this.controlButtonsPosition &&
+          other.data == this.data &&
           other.keybindings == this.keybindings);
 }
 
@@ -1300,166 +687,37 @@ class SettingsPresetModelCompanion
   final Value<int> id;
   final Value<String> name;
   final Value<String> createdAt;
-  final Value<double> scrollSpeed;
-  final Value<int> mirroredX;
-  final Value<int> mirroredY;
-  final Value<double> fontSize;
-  final Value<double> sideMargin;
-  final Value<String> fontFamily;
-  final Value<String> alignment;
-  final Value<int> displayReadingIndicatorBoxes;
-  final Value<double> readingIndicatorBoxesHeight;
-  final Value<int> displayVerticalMarginBoxes;
-  final Value<double> verticalMarginBoxesHeight;
-  final Value<int> verticalMarginBoxesFadeEnabled;
-  final Value<double> verticalMarginBoxesFadeLength;
-  final Value<double> countdownDuration;
-  final Value<String> themeMode;
-  final Value<int> appPrimaryColor;
-  final Value<int> prompterBackgroundColor;
-  final Value<int> prompterTextColor;
-  final Value<int> markdownEnabled;
-  final Value<int> showControlButtons;
-  final Value<String> controlButtonsPosition;
+  final Value<String> data;
   final Value<int> keybindings;
   const SettingsPresetModelCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.createdAt = const Value.absent(),
-    this.scrollSpeed = const Value.absent(),
-    this.mirroredX = const Value.absent(),
-    this.mirroredY = const Value.absent(),
-    this.fontSize = const Value.absent(),
-    this.sideMargin = const Value.absent(),
-    this.fontFamily = const Value.absent(),
-    this.alignment = const Value.absent(),
-    this.displayReadingIndicatorBoxes = const Value.absent(),
-    this.readingIndicatorBoxesHeight = const Value.absent(),
-    this.displayVerticalMarginBoxes = const Value.absent(),
-    this.verticalMarginBoxesHeight = const Value.absent(),
-    this.verticalMarginBoxesFadeEnabled = const Value.absent(),
-    this.verticalMarginBoxesFadeLength = const Value.absent(),
-    this.countdownDuration = const Value.absent(),
-    this.themeMode = const Value.absent(),
-    this.appPrimaryColor = const Value.absent(),
-    this.prompterBackgroundColor = const Value.absent(),
-    this.prompterTextColor = const Value.absent(),
-    this.markdownEnabled = const Value.absent(),
-    this.showControlButtons = const Value.absent(),
-    this.controlButtonsPosition = const Value.absent(),
+    this.data = const Value.absent(),
     this.keybindings = const Value.absent(),
   });
   SettingsPresetModelCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required String createdAt,
-    required double scrollSpeed,
-    required int mirroredX,
-    required int mirroredY,
-    required double fontSize,
-    required double sideMargin,
-    required String fontFamily,
-    required String alignment,
-    required int displayReadingIndicatorBoxes,
-    required double readingIndicatorBoxesHeight,
-    required int displayVerticalMarginBoxes,
-    required double verticalMarginBoxesHeight,
-    required int verticalMarginBoxesFadeEnabled,
-    required double verticalMarginBoxesFadeLength,
-    required double countdownDuration,
-    required String themeMode,
-    required int appPrimaryColor,
-    required int prompterBackgroundColor,
-    required int prompterTextColor,
-    required int markdownEnabled,
-    required int showControlButtons,
-    required String controlButtonsPosition,
+    required String data,
     required int keybindings,
   }) : name = Value(name),
        createdAt = Value(createdAt),
-       scrollSpeed = Value(scrollSpeed),
-       mirroredX = Value(mirroredX),
-       mirroredY = Value(mirroredY),
-       fontSize = Value(fontSize),
-       sideMargin = Value(sideMargin),
-       fontFamily = Value(fontFamily),
-       alignment = Value(alignment),
-       displayReadingIndicatorBoxes = Value(displayReadingIndicatorBoxes),
-       readingIndicatorBoxesHeight = Value(readingIndicatorBoxesHeight),
-       displayVerticalMarginBoxes = Value(displayVerticalMarginBoxes),
-       verticalMarginBoxesHeight = Value(verticalMarginBoxesHeight),
-       verticalMarginBoxesFadeEnabled = Value(verticalMarginBoxesFadeEnabled),
-       verticalMarginBoxesFadeLength = Value(verticalMarginBoxesFadeLength),
-       countdownDuration = Value(countdownDuration),
-       themeMode = Value(themeMode),
-       appPrimaryColor = Value(appPrimaryColor),
-       prompterBackgroundColor = Value(prompterBackgroundColor),
-       prompterTextColor = Value(prompterTextColor),
-       markdownEnabled = Value(markdownEnabled),
-       showControlButtons = Value(showControlButtons),
-       controlButtonsPosition = Value(controlButtonsPosition),
+       data = Value(data),
        keybindings = Value(keybindings);
   static Insertable<SettingsPresetModelData> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? createdAt,
-    Expression<double>? scrollSpeed,
-    Expression<int>? mirroredX,
-    Expression<int>? mirroredY,
-    Expression<double>? fontSize,
-    Expression<double>? sideMargin,
-    Expression<String>? fontFamily,
-    Expression<String>? alignment,
-    Expression<int>? displayReadingIndicatorBoxes,
-    Expression<double>? readingIndicatorBoxesHeight,
-    Expression<int>? displayVerticalMarginBoxes,
-    Expression<double>? verticalMarginBoxesHeight,
-    Expression<int>? verticalMarginBoxesFadeEnabled,
-    Expression<double>? verticalMarginBoxesFadeLength,
-    Expression<double>? countdownDuration,
-    Expression<String>? themeMode,
-    Expression<int>? appPrimaryColor,
-    Expression<int>? prompterBackgroundColor,
-    Expression<int>? prompterTextColor,
-    Expression<int>? markdownEnabled,
-    Expression<int>? showControlButtons,
-    Expression<String>? controlButtonsPosition,
+    Expression<String>? data,
     Expression<int>? keybindings,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (createdAt != null) 'created_at': createdAt,
-      if (scrollSpeed != null) 'scroll_speed': scrollSpeed,
-      if (mirroredX != null) 'mirrored_x': mirroredX,
-      if (mirroredY != null) 'mirrored_y': mirroredY,
-      if (fontSize != null) 'font_size': fontSize,
-      if (sideMargin != null) 'side_margin': sideMargin,
-      if (fontFamily != null) 'font_family': fontFamily,
-      if (alignment != null) 'alignment': alignment,
-      if (displayReadingIndicatorBoxes != null)
-        'display_reading_indicator_boxes': displayReadingIndicatorBoxes,
-      if (readingIndicatorBoxesHeight != null)
-        'reading_indicator_boxes_height': readingIndicatorBoxesHeight,
-      if (displayVerticalMarginBoxes != null)
-        'display_vertical_margin_boxes': displayVerticalMarginBoxes,
-      if (verticalMarginBoxesHeight != null)
-        'vertical_margin_boxes_height': verticalMarginBoxesHeight,
-      if (verticalMarginBoxesFadeEnabled != null)
-        'vertical_margin_boxes_fade_enabled': verticalMarginBoxesFadeEnabled,
-      if (verticalMarginBoxesFadeLength != null)
-        'vertical_margin_boxes_fade_length': verticalMarginBoxesFadeLength,
-      if (countdownDuration != null) 'countdown_duration': countdownDuration,
-      if (themeMode != null) 'theme_mode': themeMode,
-      if (appPrimaryColor != null) 'app_primary_color': appPrimaryColor,
-      if (prompterBackgroundColor != null)
-        'prompter_background_color': prompterBackgroundColor,
-      if (prompterTextColor != null) 'prompter_text_color': prompterTextColor,
-      if (markdownEnabled != null) 'markdown_enabled': markdownEnabled,
-      if (showControlButtons != null)
-        'show_control_buttons': showControlButtons,
-      if (controlButtonsPosition != null)
-        'control_buttons_position': controlButtonsPosition,
+      if (data != null) 'data': data,
       if (keybindings != null) 'keybindings': keybindings,
     });
   }
@@ -1468,62 +726,14 @@ class SettingsPresetModelCompanion
     Value<int>? id,
     Value<String>? name,
     Value<String>? createdAt,
-    Value<double>? scrollSpeed,
-    Value<int>? mirroredX,
-    Value<int>? mirroredY,
-    Value<double>? fontSize,
-    Value<double>? sideMargin,
-    Value<String>? fontFamily,
-    Value<String>? alignment,
-    Value<int>? displayReadingIndicatorBoxes,
-    Value<double>? readingIndicatorBoxesHeight,
-    Value<int>? displayVerticalMarginBoxes,
-    Value<double>? verticalMarginBoxesHeight,
-    Value<int>? verticalMarginBoxesFadeEnabled,
-    Value<double>? verticalMarginBoxesFadeLength,
-    Value<double>? countdownDuration,
-    Value<String>? themeMode,
-    Value<int>? appPrimaryColor,
-    Value<int>? prompterBackgroundColor,
-    Value<int>? prompterTextColor,
-    Value<int>? markdownEnabled,
-    Value<int>? showControlButtons,
-    Value<String>? controlButtonsPosition,
+    Value<String>? data,
     Value<int>? keybindings,
   }) {
     return SettingsPresetModelCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,
-      scrollSpeed: scrollSpeed ?? this.scrollSpeed,
-      mirroredX: mirroredX ?? this.mirroredX,
-      mirroredY: mirroredY ?? this.mirroredY,
-      fontSize: fontSize ?? this.fontSize,
-      sideMargin: sideMargin ?? this.sideMargin,
-      fontFamily: fontFamily ?? this.fontFamily,
-      alignment: alignment ?? this.alignment,
-      displayReadingIndicatorBoxes:
-          displayReadingIndicatorBoxes ?? this.displayReadingIndicatorBoxes,
-      readingIndicatorBoxesHeight:
-          readingIndicatorBoxesHeight ?? this.readingIndicatorBoxesHeight,
-      displayVerticalMarginBoxes:
-          displayVerticalMarginBoxes ?? this.displayVerticalMarginBoxes,
-      verticalMarginBoxesHeight:
-          verticalMarginBoxesHeight ?? this.verticalMarginBoxesHeight,
-      verticalMarginBoxesFadeEnabled:
-          verticalMarginBoxesFadeEnabled ?? this.verticalMarginBoxesFadeEnabled,
-      verticalMarginBoxesFadeLength:
-          verticalMarginBoxesFadeLength ?? this.verticalMarginBoxesFadeLength,
-      countdownDuration: countdownDuration ?? this.countdownDuration,
-      themeMode: themeMode ?? this.themeMode,
-      appPrimaryColor: appPrimaryColor ?? this.appPrimaryColor,
-      prompterBackgroundColor:
-          prompterBackgroundColor ?? this.prompterBackgroundColor,
-      prompterTextColor: prompterTextColor ?? this.prompterTextColor,
-      markdownEnabled: markdownEnabled ?? this.markdownEnabled,
-      showControlButtons: showControlButtons ?? this.showControlButtons,
-      controlButtonsPosition:
-          controlButtonsPosition ?? this.controlButtonsPosition,
+      data: data ?? this.data,
       keybindings: keybindings ?? this.keybindings,
     );
   }
@@ -1540,84 +750,8 @@ class SettingsPresetModelCompanion
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
     }
-    if (scrollSpeed.present) {
-      map['scroll_speed'] = Variable<double>(scrollSpeed.value);
-    }
-    if (mirroredX.present) {
-      map['mirrored_x'] = Variable<int>(mirroredX.value);
-    }
-    if (mirroredY.present) {
-      map['mirrored_y'] = Variable<int>(mirroredY.value);
-    }
-    if (fontSize.present) {
-      map['font_size'] = Variable<double>(fontSize.value);
-    }
-    if (sideMargin.present) {
-      map['side_margin'] = Variable<double>(sideMargin.value);
-    }
-    if (fontFamily.present) {
-      map['font_family'] = Variable<String>(fontFamily.value);
-    }
-    if (alignment.present) {
-      map['alignment'] = Variable<String>(alignment.value);
-    }
-    if (displayReadingIndicatorBoxes.present) {
-      map['display_reading_indicator_boxes'] = Variable<int>(
-        displayReadingIndicatorBoxes.value,
-      );
-    }
-    if (readingIndicatorBoxesHeight.present) {
-      map['reading_indicator_boxes_height'] = Variable<double>(
-        readingIndicatorBoxesHeight.value,
-      );
-    }
-    if (displayVerticalMarginBoxes.present) {
-      map['display_vertical_margin_boxes'] = Variable<int>(
-        displayVerticalMarginBoxes.value,
-      );
-    }
-    if (verticalMarginBoxesHeight.present) {
-      map['vertical_margin_boxes_height'] = Variable<double>(
-        verticalMarginBoxesHeight.value,
-      );
-    }
-    if (verticalMarginBoxesFadeEnabled.present) {
-      map['vertical_margin_boxes_fade_enabled'] = Variable<int>(
-        verticalMarginBoxesFadeEnabled.value,
-      );
-    }
-    if (verticalMarginBoxesFadeLength.present) {
-      map['vertical_margin_boxes_fade_length'] = Variable<double>(
-        verticalMarginBoxesFadeLength.value,
-      );
-    }
-    if (countdownDuration.present) {
-      map['countdown_duration'] = Variable<double>(countdownDuration.value);
-    }
-    if (themeMode.present) {
-      map['theme_mode'] = Variable<String>(themeMode.value);
-    }
-    if (appPrimaryColor.present) {
-      map['app_primary_color'] = Variable<int>(appPrimaryColor.value);
-    }
-    if (prompterBackgroundColor.present) {
-      map['prompter_background_color'] = Variable<int>(
-        prompterBackgroundColor.value,
-      );
-    }
-    if (prompterTextColor.present) {
-      map['prompter_text_color'] = Variable<int>(prompterTextColor.value);
-    }
-    if (markdownEnabled.present) {
-      map['markdown_enabled'] = Variable<int>(markdownEnabled.value);
-    }
-    if (showControlButtons.present) {
-      map['show_control_buttons'] = Variable<int>(showControlButtons.value);
-    }
-    if (controlButtonsPosition.present) {
-      map['control_buttons_position'] = Variable<String>(
-        controlButtonsPosition.value,
-      );
+    if (data.present) {
+      map['data'] = Variable<String>(data.value);
     }
     if (keybindings.present) {
       map['keybindings'] = Variable<int>(keybindings.value);
@@ -1631,33 +765,7 @@ class SettingsPresetModelCompanion
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('createdAt: $createdAt, ')
-          ..write('scrollSpeed: $scrollSpeed, ')
-          ..write('mirroredX: $mirroredX, ')
-          ..write('mirroredY: $mirroredY, ')
-          ..write('fontSize: $fontSize, ')
-          ..write('sideMargin: $sideMargin, ')
-          ..write('fontFamily: $fontFamily, ')
-          ..write('alignment: $alignment, ')
-          ..write(
-            'displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, ',
-          )
-          ..write('readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, ')
-          ..write('displayVerticalMarginBoxes: $displayVerticalMarginBoxes, ')
-          ..write('verticalMarginBoxesHeight: $verticalMarginBoxesHeight, ')
-          ..write(
-            'verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, ',
-          )
-          ..write(
-            'verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, ',
-          )
-          ..write('countdownDuration: $countdownDuration, ')
-          ..write('themeMode: $themeMode, ')
-          ..write('appPrimaryColor: $appPrimaryColor, ')
-          ..write('prompterBackgroundColor: $prompterBackgroundColor, ')
-          ..write('prompterTextColor: $prompterTextColor, ')
-          ..write('markdownEnabled: $markdownEnabled, ')
-          ..write('showControlButtons: $showControlButtons, ')
-          ..write('controlButtonsPosition: $controlButtonsPosition, ')
+          ..write('data: $data, ')
           ..write('keybindings: $keybindings')
           ..write(')'))
         .toString();
@@ -2282,8 +1390,8 @@ class AppStateModelCompanion extends UpdateCompanion<AppStateModelData> {
   }
 }
 
-class DatabaseAtV6 extends GeneratedDatabase {
-  DatabaseAtV6(QueryExecutor e) : super(e);
+class DatabaseAtV7 extends GeneratedDatabase {
+  DatabaseAtV7(QueryExecutor e) : super(e);
   late final ScriptModel scriptModel = ScriptModel(this);
   late final KeybindingMapModel keybindingMapModel = KeybindingMapModel(this);
   late final SettingsPresetModel settingsPresetModel = SettingsPresetModel(
@@ -2323,7 +1431,7 @@ class DatabaseAtV6 extends GeneratedDatabase {
     ),
   ]);
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
   @override
   DriftDatabaseOptions get options =>
       const DriftDatabaseOptions(storeDateTimeAsText: true);

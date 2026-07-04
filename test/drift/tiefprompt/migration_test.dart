@@ -17,6 +17,7 @@ import 'generated/schema_v3.dart' as v3;
 import 'generated/schema_v4.dart' as v4;
 import 'generated/schema_v5.dart' as v5;
 import 'generated/schema_v6.dart' as v6;
+import 'generated/schema_v7.dart' as v7;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -42,12 +43,40 @@ void main() {
     }
   });
 
-  test('v2 -> v6 seeds the app state row', () async {
+  test(
+    'v4 -> v6 flips script_model created_at from int storage to text',
+    () async {
+      await verifier.testWithDataIntegrity(
+        oldVersion: 4,
+        newVersion: 6,
+        createOld: v4.DatabaseAtV4.new,
+        createNew: v6.DatabaseAtV6.new,
+        openTestedDatabase: AppDatabase.new,
+        createItems: (batch, oldDb) {
+          batch.insert(
+            oldDb.scriptModel,
+            v4.ScriptModelCompanion.insert(
+              title: 'Legacy Script',
+              scriptText: 'hi',
+              createdAt: DateTime.utc(2024, 1, 2, 3, 4, 5),
+            ),
+          );
+        },
+        validateItems: (newDb) async {
+          final scripts = await newDb.select(newDb.scriptModel).get();
+          final legacy = scripts.firstWhere((s) => s.title == 'Legacy Script');
+          expect(legacy.createdAt, '2024-01-02T03:04:05.000Z');
+        },
+      );
+    },
+  );
+
+  test('v2 -> v7 seeds the app state row', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 2,
-      newVersion: 6,
+      newVersion: 7,
       createOld: v2.DatabaseAtV2.new,
-      createNew: v6.DatabaseAtV6.new,
+      createNew: v7.DatabaseAtV7.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {},
       validateItems: (newDb) async {
@@ -58,12 +87,12 @@ void main() {
     );
   });
 
-  test('v3 -> v6 preserves scripts and defaults the new columns', () async {
+  test('v3 -> v7 preserves scripts and defaults the new columns', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 3,
-      newVersion: 6,
+      newVersion: 7,
       createOld: v3.DatabaseAtV3.new,
-      createNew: v6.DatabaseAtV6.new,
+      createNew: v7.DatabaseAtV7.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {
         batch.insert(
@@ -85,12 +114,12 @@ void main() {
     );
   });
 
-  test('v4 -> v6 backfills the control-button columns into the json', () async {
+  test('v4 -> v7 backfills the control-button columns into the json', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 4,
-      newVersion: 6,
+      newVersion: 7,
       createOld: v4.DatabaseAtV4.new,
-      createNew: v6.DatabaseAtV6.new,
+      createNew: v7.DatabaseAtV7.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {
         batch.insert(
@@ -139,12 +168,12 @@ void main() {
     );
   });
 
-  test('v5 -> v6 packs every preset column into the json blob', () async {
+  test('v5 -> v7 packs every preset column into the json blob', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 5,
-      newVersion: 6,
+      newVersion: 7,
       createOld: v5.DatabaseAtV5.new,
-      createNew: v6.DatabaseAtV6.new,
+      createNew: v7.DatabaseAtV7.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {
         batch.insert(
