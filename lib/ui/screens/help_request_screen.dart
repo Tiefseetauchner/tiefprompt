@@ -1,12 +1,12 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/core/utilities.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HelpRequestScreen extends ConsumerWidget {
   const HelpRequestScreen({super.key});
@@ -27,7 +27,7 @@ class HelpRequestScreen extends ConsumerWidget {
             Divider(),
             Text(context.tr("HelpRequestScreen.Abstract")),
             ElevatedButton(
-              onPressed: () => _launchUrl(kRepoUrl),
+              onPressed: () => launchUrlFromString(kRepoUrl),
               child: Text(kRepoUrl),
             ),
             ExpansionTile(
@@ -42,19 +42,20 @@ class HelpRequestScreen extends ConsumerWidget {
                         context.tr("HelpRequestScreen.ElaborateExplanation"),
                       ),
                       ElevatedButton(
-                        onPressed: () => _launchUrl(kRepoUrl),
+                        onPressed: () => launchUrlFromString(kRepoUrl),
                         child: Text(kRepoUrl),
                       ),
                       ElevatedButton(
-                        onPressed: () => _launchUrl(kWeblateUrl),
+                        onPressed: () => launchUrlFromString(kWeblateUrl),
                         child: Text(kWeblateUrl),
                       ),
                       ElevatedButton(
-                        onPressed: () => _launchUrl(kPrivacyPolicyUrl),
+                        onPressed: () => launchUrlFromString(kPrivacyPolicyUrl),
                         child: Text(kPrivacyPolicyUrl),
                       ),
                       ElevatedButton(
-                        onPressed: () => _launchUrl(kLukeChriswalkerUrl),
+                        onPressed: () =>
+                            launchUrlFromString(kLukeChriswalkerUrl),
                         child: Text(kLukeChriswalkerUrl),
                       ),
                     ],
@@ -95,12 +96,5 @@ class HelpRequestScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  Future<void> _launchUrl(String uri) async {
-    final Uri url = Uri.parse(uri);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
   }
 }

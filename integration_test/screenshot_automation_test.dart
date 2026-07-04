@@ -213,26 +213,7 @@ ProviderContainer getProviderContainer(WidgetTester tester) {
 }
 
 void clearPrompterState(WidgetTester tester, ProviderContainer container) {
-  container
-      .read(prompterProvider.notifier)
-      .applySettings(
-        SettingsState(
-          scrollSpeed: 1.6,
-          mirroredX: false,
-          mirroredY: false,
-          fontSize: 30,
-          sideMargin: 10,
-          fontFamily: "Roboto",
-          alignment: TextAlign.left,
-          displayReadingIndicatorBoxes: true,
-          readingIndicatorBoxesHeight: 70,
-          displayVerticalMarginBoxes: true,
-          verticalMarginBoxesHeight: 20,
-          countdownDuration: 0,
-          verticalMarginBoxesFadeEnabled: true,
-          verticalMarginBoxesFadeLength: 0.3,
-        ),
-      );
+  container.read(prompterProvider.notifier).applySettings(SettingsState());
 }
 
 void setPrompterText(WidgetTester tester, ProviderContainer container) {

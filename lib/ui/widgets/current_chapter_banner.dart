@@ -11,7 +11,15 @@ class CurrentChapterBanner extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chapter = ref.watch(currentChapterProvider);
-    final prompter = ref.watch(prompterProvider);
+    final (:sideMargin, :fontFamily, :alignment) = ref.watch(
+      prompterProvider.select(
+        (p) => (
+          sideMargin: p.config.sideMargin,
+          fontFamily: p.config.fontFamily,
+          alignment: p.config.alignment,
+        ),
+      ),
+    );
 
     if (chapter == null) return const SizedBox.shrink();
 
@@ -36,17 +44,17 @@ class CurrentChapterBanner extends ConsumerWidget {
                 horizontal:
                     16 +
                     (MediaQuery.of(context).size.width / 2) *
-                        (prompter.sideMargin / 100),
+                        (sideMargin / 100),
                 vertical: 8,
               ),
               child: Text(
                 chapter,
                 style: TextStyle(
                   color: onSurface,
-                  fontFamily: prompter.fontFamily,
+                  fontFamily: fontFamily,
                   fontWeight: FontWeight.bold,
                 ),
-                textAlign: prompter.alignment,
+                textAlign: alignment,
                 textScaler: TextScaler.linear(2),
                 overflow: TextOverflow.ellipsis,
               ),

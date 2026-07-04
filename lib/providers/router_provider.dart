@@ -60,7 +60,7 @@ class TiefPromptRouter extends _$TiefPromptRouter {
             ),
             GoRoute(
               path: 'settingsrestore',
-              builder: (context, state) => const SettingsRestoreSetingsScreen(),
+              builder: (context, state) => const SettingsRestoreScreen(),
             ),
             GoRoute(
               path: 'logs',

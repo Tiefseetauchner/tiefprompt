@@ -11,30 +11,33 @@ part of 'settings_provider.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$SettingsState {
 
- double get scrollSpeed; bool get mirroredX; bool get mirroredY; double get fontSize; double get sideMargin; String get fontFamily; TextAlign get alignment; bool get displayReadingIndicatorBoxes; double get readingIndicatorBoxesHeight; bool get displayVerticalMarginBoxes; double get verticalMarginBoxesHeight; bool get verticalMarginBoxesFadeEnabled; double get verticalMarginBoxesFadeLength; double get countdownDuration; ThemeMode get themeMode; Color get appPrimaryColor; Color get prompterBackgroundColor; Color get prompterTextColor; bool get markdownEnabled; bool get showControlButtons; ControlButtonsPosition get controlButtonsPosition; int get keybindingsMapId; bool get showCurrentChapter;
+@ThemeModeConverter() ThemeMode get themeMode;@ColorConverter() Color get appPrimaryColor;@ColorConverter() Color get prompterBackgroundColor;@ColorConverter() Color get prompterTextColor; int get keybindingsMapId; PrompterConfiguration get config;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImpl<SettingsState>(this as SettingsState, _$identity);
 
+  /// Serializes this SettingsState to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.scrollSpeed, scrollSpeed) || other.scrollSpeed == scrollSpeed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled)&&(identical(other.showControlButtons, showControlButtons) || other.showControlButtons == showControlButtons)&&(identical(other.controlButtonsPosition, controlButtonsPosition) || other.controlButtonsPosition == controlButtonsPosition)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.showCurrentChapter, showCurrentChapter) || other.showCurrentChapter == showCurrentChapter));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.config, config) || other.config == config));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,scrollSpeed,mirroredX,mirroredY,fontSize,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,countdownDuration,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,markdownEnabled,showControlButtons,controlButtonsPosition,keybindingsMapId,showCurrentChapter]);
+int get hashCode => Object.hash(runtimeType,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,keybindingsMapId,config);
 
 @override
 String toString() {
-  return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, countdownDuration: $countdownDuration, themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, markdownEnabled: $markdownEnabled, showControlButtons: $showControlButtons, controlButtonsPosition: $controlButtonsPosition, keybindingsMapId: $keybindingsMapId, showCurrentChapter: $showCurrentChapter)';
+  return 'SettingsState(themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, keybindingsMapId: $keybindingsMapId, config: $config)';
 }
 
 
@@ -45,11 +48,11 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- double scrollSpeed, bool mirroredX, bool mirroredY, double fontSize, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, double countdownDuration, ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor, bool markdownEnabled, bool showControlButtons, ControlButtonsPosition controlButtonsPosition, int keybindingsMapId, bool showCurrentChapter
+@ThemeModeConverter() ThemeMode themeMode,@ColorConverter() Color appPrimaryColor,@ColorConverter() Color prompterBackgroundColor,@ColorConverter() Color prompterTextColor, int keybindingsMapId, PrompterConfiguration config
 });
 
 
-
+$PrompterConfigurationCopyWith<$Res> get config;
 
 }
 /// @nodoc
@@ -62,35 +65,27 @@ class _$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? scrollSpeed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? countdownDuration = null,Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,Object? markdownEnabled = null,Object? showControlButtons = null,Object? controlButtonsPosition = null,Object? keybindingsMapId = null,Object? showCurrentChapter = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,Object? keybindingsMapId = null,Object? config = null,}) {
   return _then(_self.copyWith(
-scrollSpeed: null == scrollSpeed ? _self.scrollSpeed : scrollSpeed // ignore: cast_nullable_to_non_nullable
-as double,mirroredX: null == mirroredX ? _self.mirroredX : mirroredX // ignore: cast_nullable_to_non_nullable
-as bool,mirroredY: null == mirroredY ? _self.mirroredY : mirroredY // ignore: cast_nullable_to_non_nullable
-as bool,fontSize: null == fontSize ? _self.fontSize : fontSize // ignore: cast_nullable_to_non_nullable
-as double,sideMargin: null == sideMargin ? _self.sideMargin : sideMargin // ignore: cast_nullable_to_non_nullable
-as double,fontFamily: null == fontFamily ? _self.fontFamily : fontFamily // ignore: cast_nullable_to_non_nullable
-as String,alignment: null == alignment ? _self.alignment : alignment // ignore: cast_nullable_to_non_nullable
-as TextAlign,displayReadingIndicatorBoxes: null == displayReadingIndicatorBoxes ? _self.displayReadingIndicatorBoxes : displayReadingIndicatorBoxes // ignore: cast_nullable_to_non_nullable
-as bool,readingIndicatorBoxesHeight: null == readingIndicatorBoxesHeight ? _self.readingIndicatorBoxesHeight : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
-as double,displayVerticalMarginBoxes: null == displayVerticalMarginBoxes ? _self.displayVerticalMarginBoxes : displayVerticalMarginBoxes // ignore: cast_nullable_to_non_nullable
-as bool,verticalMarginBoxesHeight: null == verticalMarginBoxesHeight ? _self.verticalMarginBoxesHeight : verticalMarginBoxesHeight // ignore: cast_nullable_to_non_nullable
-as double,verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled ? _self.verticalMarginBoxesFadeEnabled : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
-as bool,verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength ? _self.verticalMarginBoxesFadeLength : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
-as double,countdownDuration: null == countdownDuration ? _self.countdownDuration : countdownDuration // ignore: cast_nullable_to_non_nullable
-as double,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
+themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,appPrimaryColor: null == appPrimaryColor ? _self.appPrimaryColor : appPrimaryColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterBackgroundColor: null == prompterBackgroundColor ? _self.prompterBackgroundColor : prompterBackgroundColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterTextColor: null == prompterTextColor ? _self.prompterTextColor : prompterTextColor // ignore: cast_nullable_to_non_nullable
-as Color,markdownEnabled: null == markdownEnabled ? _self.markdownEnabled : markdownEnabled // ignore: cast_nullable_to_non_nullable
-as bool,showControlButtons: null == showControlButtons ? _self.showControlButtons : showControlButtons // ignore: cast_nullable_to_non_nullable
-as bool,controlButtonsPosition: null == controlButtonsPosition ? _self.controlButtonsPosition : controlButtonsPosition // ignore: cast_nullable_to_non_nullable
-as ControlButtonsPosition,keybindingsMapId: null == keybindingsMapId ? _self.keybindingsMapId : keybindingsMapId // ignore: cast_nullable_to_non_nullable
-as int,showCurrentChapter: null == showCurrentChapter ? _self.showCurrentChapter : showCurrentChapter // ignore: cast_nullable_to_non_nullable
-as bool,
+as Color,keybindingsMapId: null == keybindingsMapId ? _self.keybindingsMapId : keybindingsMapId // ignore: cast_nullable_to_non_nullable
+as int,config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
+as PrompterConfiguration,
   ));
 }
-
+/// Create a copy of SettingsState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PrompterConfigurationCopyWith<$Res> get config {
+  
+  return $PrompterConfigurationCopyWith<$Res>(_self.config, (value) {
+    return _then(_self.copyWith(config: value));
+  });
+}
 }
 
 
@@ -172,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  bool markdownEnabled,  bool showControlButtons,  ControlButtonsPosition controlButtonsPosition,  int keybindingsMapId,  bool showCurrentChapter)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@ThemeModeConverter()  ThemeMode themeMode, @ColorConverter()  Color appPrimaryColor, @ColorConverter()  Color prompterBackgroundColor, @ColorConverter()  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.markdownEnabled,_that.showControlButtons,_that.controlButtonsPosition,_that.keybindingsMapId,_that.showCurrentChapter);case _:
+return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.keybindingsMapId,_that.config);case _:
   return orElse();
 
 }
@@ -193,10 +188,10 @@ return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  bool markdownEnabled,  bool showControlButtons,  ControlButtonsPosition controlButtonsPosition,  int keybindingsMapId,  bool showCurrentChapter)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@ThemeModeConverter()  ThemeMode themeMode, @ColorConverter()  Color appPrimaryColor, @ColorConverter()  Color prompterBackgroundColor, @ColorConverter()  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
-return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.markdownEnabled,_that.showControlButtons,_that.controlButtonsPosition,_that.keybindingsMapId,_that.showCurrentChapter);case _:
+return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.keybindingsMapId,_that.config);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -213,10 +208,10 @@ return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double scrollSpeed,  bool mirroredX,  bool mirroredY,  double fontSize,  double sideMargin,  String fontFamily,  TextAlign alignment,  bool displayReadingIndicatorBoxes,  double readingIndicatorBoxesHeight,  bool displayVerticalMarginBoxes,  double verticalMarginBoxesHeight,  bool verticalMarginBoxesFadeEnabled,  double verticalMarginBoxesFadeLength,  double countdownDuration,  ThemeMode themeMode,  Color appPrimaryColor,  Color prompterBackgroundColor,  Color prompterTextColor,  bool markdownEnabled,  bool showControlButtons,  ControlButtonsPosition controlButtonsPosition,  int keybindingsMapId,  bool showCurrentChapter)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@ThemeModeConverter()  ThemeMode themeMode, @ColorConverter()  Color appPrimaryColor, @ColorConverter()  Color prompterBackgroundColor, @ColorConverter()  Color prompterTextColor,  int keybindingsMapId,  PrompterConfiguration config)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize,_that.sideMargin,_that.fontFamily,_that.alignment,_that.displayReadingIndicatorBoxes,_that.readingIndicatorBoxesHeight,_that.displayVerticalMarginBoxes,_that.verticalMarginBoxesHeight,_that.verticalMarginBoxesFadeEnabled,_that.verticalMarginBoxesFadeLength,_that.countdownDuration,_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.markdownEnabled,_that.showControlButtons,_that.controlButtonsPosition,_that.keybindingsMapId,_that.showCurrentChapter);case _:
+return $default(_that.themeMode,_that.appPrimaryColor,_that.prompterBackgroundColor,_that.prompterTextColor,_that.keybindingsMapId,_that.config);case _:
   return null;
 
 }
@@ -225,35 +220,18 @@ return $default(_that.scrollSpeed,_that.mirroredX,_that.mirroredY,_that.fontSize
 }
 
 /// @nodoc
+@JsonSerializable()
 
+class _SettingsState extends SettingsState {
+   _SettingsState({@ThemeModeConverter() this.themeMode = ThemeMode.system, @ColorConverter() this.appPrimaryColor = kBrandTeal, @ColorConverter() this.prompterBackgroundColor = Colors.black, @ColorConverter() this.prompterTextColor = Colors.white, this.keybindingsMapId = 0, this.config = const PrompterConfiguration()}): super._();
+  factory _SettingsState.fromJson(Map<String, dynamic> json) => _$SettingsStateFromJson(json);
 
-class _SettingsState implements SettingsState {
-   _SettingsState({this.scrollSpeed = 1.0, this.mirroredX = false, this.mirroredY = false, this.fontSize = 42.0, this.sideMargin = 0.0, this.fontFamily = 'Roboto', this.alignment = TextAlign.left, this.displayReadingIndicatorBoxes = false, this.readingIndicatorBoxesHeight = 60.0, this.displayVerticalMarginBoxes = false, this.verticalMarginBoxesHeight = 35.0, this.verticalMarginBoxesFadeEnabled = false, this.verticalMarginBoxesFadeLength = 50.0, this.countdownDuration = 0.0, this.themeMode = ThemeMode.system, this.appPrimaryColor = kBrandTeal, this.prompterBackgroundColor = Colors.black, this.prompterTextColor = Colors.white, this.markdownEnabled = false, this.showControlButtons = false, this.controlButtonsPosition = ControlButtonsPosition.left, this.keybindingsMapId = 0, this.showCurrentChapter = false});
-  
-
-@override@JsonKey() final  double scrollSpeed;
-@override@JsonKey() final  bool mirroredX;
-@override@JsonKey() final  bool mirroredY;
-@override@JsonKey() final  double fontSize;
-@override@JsonKey() final  double sideMargin;
-@override@JsonKey() final  String fontFamily;
-@override@JsonKey() final  TextAlign alignment;
-@override@JsonKey() final  bool displayReadingIndicatorBoxes;
-@override@JsonKey() final  double readingIndicatorBoxesHeight;
-@override@JsonKey() final  bool displayVerticalMarginBoxes;
-@override@JsonKey() final  double verticalMarginBoxesHeight;
-@override@JsonKey() final  bool verticalMarginBoxesFadeEnabled;
-@override@JsonKey() final  double verticalMarginBoxesFadeLength;
-@override@JsonKey() final  double countdownDuration;
-@override@JsonKey() final  ThemeMode themeMode;
-@override@JsonKey() final  Color appPrimaryColor;
-@override@JsonKey() final  Color prompterBackgroundColor;
-@override@JsonKey() final  Color prompterTextColor;
-@override@JsonKey() final  bool markdownEnabled;
-@override@JsonKey() final  bool showControlButtons;
-@override@JsonKey() final  ControlButtonsPosition controlButtonsPosition;
+@override@JsonKey()@ThemeModeConverter() final  ThemeMode themeMode;
+@override@JsonKey()@ColorConverter() final  Color appPrimaryColor;
+@override@JsonKey()@ColorConverter() final  Color prompterBackgroundColor;
+@override@JsonKey()@ColorConverter() final  Color prompterTextColor;
 @override@JsonKey() final  int keybindingsMapId;
-@override@JsonKey() final  bool showCurrentChapter;
+@override@JsonKey() final  PrompterConfiguration config;
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
@@ -261,20 +239,23 @@ class _SettingsState implements SettingsState {
 @pragma('vm:prefer-inline')
 _$SettingsStateCopyWith<_SettingsState> get copyWith => __$SettingsStateCopyWithImpl<_SettingsState>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$SettingsStateToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.scrollSpeed, scrollSpeed) || other.scrollSpeed == scrollSpeed)&&(identical(other.mirroredX, mirroredX) || other.mirroredX == mirroredX)&&(identical(other.mirroredY, mirroredY) || other.mirroredY == mirroredY)&&(identical(other.fontSize, fontSize) || other.fontSize == fontSize)&&(identical(other.sideMargin, sideMargin) || other.sideMargin == sideMargin)&&(identical(other.fontFamily, fontFamily) || other.fontFamily == fontFamily)&&(identical(other.alignment, alignment) || other.alignment == alignment)&&(identical(other.displayReadingIndicatorBoxes, displayReadingIndicatorBoxes) || other.displayReadingIndicatorBoxes == displayReadingIndicatorBoxes)&&(identical(other.readingIndicatorBoxesHeight, readingIndicatorBoxesHeight) || other.readingIndicatorBoxesHeight == readingIndicatorBoxesHeight)&&(identical(other.displayVerticalMarginBoxes, displayVerticalMarginBoxes) || other.displayVerticalMarginBoxes == displayVerticalMarginBoxes)&&(identical(other.verticalMarginBoxesHeight, verticalMarginBoxesHeight) || other.verticalMarginBoxesHeight == verticalMarginBoxesHeight)&&(identical(other.verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeEnabled) || other.verticalMarginBoxesFadeEnabled == verticalMarginBoxesFadeEnabled)&&(identical(other.verticalMarginBoxesFadeLength, verticalMarginBoxesFadeLength) || other.verticalMarginBoxesFadeLength == verticalMarginBoxesFadeLength)&&(identical(other.countdownDuration, countdownDuration) || other.countdownDuration == countdownDuration)&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.markdownEnabled, markdownEnabled) || other.markdownEnabled == markdownEnabled)&&(identical(other.showControlButtons, showControlButtons) || other.showControlButtons == showControlButtons)&&(identical(other.controlButtonsPosition, controlButtonsPosition) || other.controlButtonsPosition == controlButtonsPosition)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.showCurrentChapter, showCurrentChapter) || other.showCurrentChapter == showCurrentChapter));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.config, config) || other.config == config));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,scrollSpeed,mirroredX,mirroredY,fontSize,sideMargin,fontFamily,alignment,displayReadingIndicatorBoxes,readingIndicatorBoxesHeight,displayVerticalMarginBoxes,verticalMarginBoxesHeight,verticalMarginBoxesFadeEnabled,verticalMarginBoxesFadeLength,countdownDuration,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,markdownEnabled,showControlButtons,controlButtonsPosition,keybindingsMapId,showCurrentChapter]);
+int get hashCode => Object.hash(runtimeType,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,keybindingsMapId,config);
 
 @override
 String toString() {
-  return 'SettingsState(scrollSpeed: $scrollSpeed, mirroredX: $mirroredX, mirroredY: $mirroredY, fontSize: $fontSize, sideMargin: $sideMargin, fontFamily: $fontFamily, alignment: $alignment, displayReadingIndicatorBoxes: $displayReadingIndicatorBoxes, readingIndicatorBoxesHeight: $readingIndicatorBoxesHeight, displayVerticalMarginBoxes: $displayVerticalMarginBoxes, verticalMarginBoxesHeight: $verticalMarginBoxesHeight, verticalMarginBoxesFadeEnabled: $verticalMarginBoxesFadeEnabled, verticalMarginBoxesFadeLength: $verticalMarginBoxesFadeLength, countdownDuration: $countdownDuration, themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, markdownEnabled: $markdownEnabled, showControlButtons: $showControlButtons, controlButtonsPosition: $controlButtonsPosition, keybindingsMapId: $keybindingsMapId, showCurrentChapter: $showCurrentChapter)';
+  return 'SettingsState(themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, keybindingsMapId: $keybindingsMapId, config: $config)';
 }
 
 
@@ -285,11 +266,11 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- double scrollSpeed, bool mirroredX, bool mirroredY, double fontSize, double sideMargin, String fontFamily, TextAlign alignment, bool displayReadingIndicatorBoxes, double readingIndicatorBoxesHeight, bool displayVerticalMarginBoxes, double verticalMarginBoxesHeight, bool verticalMarginBoxesFadeEnabled, double verticalMarginBoxesFadeLength, double countdownDuration, ThemeMode themeMode, Color appPrimaryColor, Color prompterBackgroundColor, Color prompterTextColor, bool markdownEnabled, bool showControlButtons, ControlButtonsPosition controlButtonsPosition, int keybindingsMapId, bool showCurrentChapter
+@ThemeModeConverter() ThemeMode themeMode,@ColorConverter() Color appPrimaryColor,@ColorConverter() Color prompterBackgroundColor,@ColorConverter() Color prompterTextColor, int keybindingsMapId, PrompterConfiguration config
 });
 
 
-
+@override $PrompterConfigurationCopyWith<$Res> get config;
 
 }
 /// @nodoc
@@ -302,36 +283,28 @@ class __$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? scrollSpeed = null,Object? mirroredX = null,Object? mirroredY = null,Object? fontSize = null,Object? sideMargin = null,Object? fontFamily = null,Object? alignment = null,Object? displayReadingIndicatorBoxes = null,Object? readingIndicatorBoxesHeight = null,Object? displayVerticalMarginBoxes = null,Object? verticalMarginBoxesHeight = null,Object? verticalMarginBoxesFadeEnabled = null,Object? verticalMarginBoxesFadeLength = null,Object? countdownDuration = null,Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,Object? markdownEnabled = null,Object? showControlButtons = null,Object? controlButtonsPosition = null,Object? keybindingsMapId = null,Object? showCurrentChapter = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,Object? keybindingsMapId = null,Object? config = null,}) {
   return _then(_SettingsState(
-scrollSpeed: null == scrollSpeed ? _self.scrollSpeed : scrollSpeed // ignore: cast_nullable_to_non_nullable
-as double,mirroredX: null == mirroredX ? _self.mirroredX : mirroredX // ignore: cast_nullable_to_non_nullable
-as bool,mirroredY: null == mirroredY ? _self.mirroredY : mirroredY // ignore: cast_nullable_to_non_nullable
-as bool,fontSize: null == fontSize ? _self.fontSize : fontSize // ignore: cast_nullable_to_non_nullable
-as double,sideMargin: null == sideMargin ? _self.sideMargin : sideMargin // ignore: cast_nullable_to_non_nullable
-as double,fontFamily: null == fontFamily ? _self.fontFamily : fontFamily // ignore: cast_nullable_to_non_nullable
-as String,alignment: null == alignment ? _self.alignment : alignment // ignore: cast_nullable_to_non_nullable
-as TextAlign,displayReadingIndicatorBoxes: null == displayReadingIndicatorBoxes ? _self.displayReadingIndicatorBoxes : displayReadingIndicatorBoxes // ignore: cast_nullable_to_non_nullable
-as bool,readingIndicatorBoxesHeight: null == readingIndicatorBoxesHeight ? _self.readingIndicatorBoxesHeight : readingIndicatorBoxesHeight // ignore: cast_nullable_to_non_nullable
-as double,displayVerticalMarginBoxes: null == displayVerticalMarginBoxes ? _self.displayVerticalMarginBoxes : displayVerticalMarginBoxes // ignore: cast_nullable_to_non_nullable
-as bool,verticalMarginBoxesHeight: null == verticalMarginBoxesHeight ? _self.verticalMarginBoxesHeight : verticalMarginBoxesHeight // ignore: cast_nullable_to_non_nullable
-as double,verticalMarginBoxesFadeEnabled: null == verticalMarginBoxesFadeEnabled ? _self.verticalMarginBoxesFadeEnabled : verticalMarginBoxesFadeEnabled // ignore: cast_nullable_to_non_nullable
-as bool,verticalMarginBoxesFadeLength: null == verticalMarginBoxesFadeLength ? _self.verticalMarginBoxesFadeLength : verticalMarginBoxesFadeLength // ignore: cast_nullable_to_non_nullable
-as double,countdownDuration: null == countdownDuration ? _self.countdownDuration : countdownDuration // ignore: cast_nullable_to_non_nullable
-as double,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
+themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,appPrimaryColor: null == appPrimaryColor ? _self.appPrimaryColor : appPrimaryColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterBackgroundColor: null == prompterBackgroundColor ? _self.prompterBackgroundColor : prompterBackgroundColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterTextColor: null == prompterTextColor ? _self.prompterTextColor : prompterTextColor // ignore: cast_nullable_to_non_nullable
-as Color,markdownEnabled: null == markdownEnabled ? _self.markdownEnabled : markdownEnabled // ignore: cast_nullable_to_non_nullable
-as bool,showControlButtons: null == showControlButtons ? _self.showControlButtons : showControlButtons // ignore: cast_nullable_to_non_nullable
-as bool,controlButtonsPosition: null == controlButtonsPosition ? _self.controlButtonsPosition : controlButtonsPosition // ignore: cast_nullable_to_non_nullable
-as ControlButtonsPosition,keybindingsMapId: null == keybindingsMapId ? _self.keybindingsMapId : keybindingsMapId // ignore: cast_nullable_to_non_nullable
-as int,showCurrentChapter: null == showCurrentChapter ? _self.showCurrentChapter : showCurrentChapter // ignore: cast_nullable_to_non_nullable
-as bool,
+as Color,keybindingsMapId: null == keybindingsMapId ? _self.keybindingsMapId : keybindingsMapId // ignore: cast_nullable_to_non_nullable
+as int,config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
+as PrompterConfiguration,
   ));
 }
 
-
+/// Create a copy of SettingsState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PrompterConfigurationCopyWith<$Res> get config {
+  
+  return $PrompterConfigurationCopyWith<$Res>(_self.config, (value) {
+    return _then(_self.copyWith(config: value));
+  });
+}
 }
 
 // dart format on

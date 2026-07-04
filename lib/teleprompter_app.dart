@@ -95,9 +95,7 @@ class _TeleprompterAppState extends ConsumerState<TeleprompterApp> {
       builder: (context, child) => BannerListener(
         child:
             child ??
-            const SizedBox.shrink(
-              child: SpinKitRing(color: Color.fromARGB(255, 77, 103, 214)),
-            ),
+            const SizedBox.shrink(child: SpinKitRing(color: kBrandTeal)),
       ),
     );
   }

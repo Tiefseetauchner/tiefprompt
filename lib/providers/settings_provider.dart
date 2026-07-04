@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
+import 'package:tiefprompt/core/json_converters.dart';
+import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 
 part 'settings_provider.freezed.dart';
@@ -11,117 +15,19 @@ part 'settings_provider.g.dart';
 
 @freezed
 abstract class SettingsState with _$SettingsState {
+  const SettingsState._();
+
   factory SettingsState({
-    @Default(1.0) double scrollSpeed,
-    @Default(false) bool mirroredX,
-    @Default(false) bool mirroredY,
-    @Default(42.0) double fontSize,
-    @Default(0.0) double sideMargin,
-    @Default('Roboto') String fontFamily,
-    @Default(TextAlign.left) TextAlign alignment,
-    @Default(false) bool displayReadingIndicatorBoxes,
-    @Default(60.0) double readingIndicatorBoxesHeight,
-    @Default(false) bool displayVerticalMarginBoxes,
-    @Default(35.0) double verticalMarginBoxesHeight,
-    @Default(false) bool verticalMarginBoxesFadeEnabled,
-    @Default(50.0) double verticalMarginBoxesFadeLength,
-    @Default(0.0) double countdownDuration,
-    @Default(ThemeMode.system) ThemeMode themeMode,
-    @Default(kBrandTeal) Color appPrimaryColor,
-    @Default(Colors.black) Color prompterBackgroundColor,
-    @Default(Colors.white) Color prompterTextColor,
-    @Default(false) bool markdownEnabled,
-    @Default(false) bool showControlButtons,
-    @Default(ControlButtonsPosition.left)
-    ControlButtonsPosition controlButtonsPosition,
+    @ThemeModeConverter() @Default(ThemeMode.system) ThemeMode themeMode,
+    @ColorConverter() @Default(kBrandTeal) Color appPrimaryColor,
+    @ColorConverter() @Default(Colors.black) Color prompterBackgroundColor,
+    @ColorConverter() @Default(Colors.white) Color prompterTextColor,
     @Default(0) int keybindingsMapId,
-    @Default(false) bool showCurrentChapter,
+    @Default(PrompterConfiguration()) PrompterConfiguration config,
   }) = _SettingsState;
 
-  static SettingsState fromJson(Map<String, dynamic> jsonValues) {
-    return SettingsState(
-      scrollSpeed: jsonValues['scrollSpeed'] ?? 1.0,
-      mirroredX: jsonValues['mirroredX'] ?? false,
-      mirroredY: jsonValues['mirroredY'] ?? false,
-      fontSize: jsonValues['fontSize'] ?? 42.0,
-      sideMargin: jsonValues['sideMargin'] ?? 0.0,
-      fontFamily: jsonValues['fontFamily'] ?? 'Roboto',
-      alignment: _getAlignment(jsonValues['alignment']) ?? TextAlign.left,
-      displayReadingIndicatorBoxes:
-          jsonValues['displayReadingIndicatorBoxes'] ?? false,
-      readingIndicatorBoxesHeight:
-          jsonValues['readingIndicatorBoxesHeight'] ?? 60.0,
-      displayVerticalMarginBoxes:
-          jsonValues['displayVerticalMarginBoxes'] ?? false,
-      verticalMarginBoxesHeight:
-          jsonValues['verticalMarginBoxesHeight'] ?? 35.0,
-      verticalMarginBoxesFadeEnabled:
-          jsonValues['verticalMarginBoxesFadeEnabled'] ?? false,
-      verticalMarginBoxesFadeLength:
-          jsonValues['verticalMarginBoxesFadeLength'] ?? 50.0,
-      countdownDuration: jsonValues['countdownDuration'] ?? 0.0,
-      themeMode: _getThemeMode(jsonValues['themeMode']) ?? ThemeMode.system,
-      appPrimaryColor: jsonValues['appPrimaryColor'] != null
-          ? Color(jsonValues['appPrimaryColor'])
-          : kBrandTeal,
-      prompterBackgroundColor: jsonValues['prompterBackgroundColor'] != null
-          ? Color(jsonValues['prompterBackgroundColor'])
-          : Colors.black,
-      prompterTextColor: jsonValues['prompterTextColor'] != null
-          ? Color(jsonValues['prompterTextColor'])
-          : Colors.white,
-      markdownEnabled: jsonValues['markdownEnabled'] ?? false,
-      showControlButtons: jsonValues['showControlButtons'] ?? false,
-      controlButtonsPosition:
-          jsonValues['controlButtonsPosition'] ?? ControlButtonsPosition.left,
-      keybindingsMapId: jsonValues['keybindingsMapId'] ?? 0,
-      showCurrentChapter: jsonValues['showCurrentChapter'] ?? false,
-    );
-  }
-
-  static TextAlign? _getAlignment(String? alignment) {
-    return TextAlign.values
-        .where((element) => element.name == alignment)
-        .singleOrNull;
-  }
-
-  static ThemeMode? _getThemeMode(String? themeMode) {
-    return ThemeMode.values
-        .where((element) => element.name == themeMode)
-        .singleOrNull;
-  }
-
-  static Map<String, dynamic> toJson(Object? value) {
-    if (value is _SettingsState) {
-      return {
-        'scrollSpeed': value.scrollSpeed,
-        'mirroredX': value.mirroredX,
-        'mirroredY': value.mirroredY,
-        'fontSize': value.fontSize,
-        'sideMargin': value.sideMargin,
-        'fontFamily': value.fontFamily,
-        'alignment': value.alignment.name,
-        'displayReadingIndicatorBoxes': value.displayReadingIndicatorBoxes,
-        'readingIndicatorBoxesHeight': value.readingIndicatorBoxesHeight,
-        'displayVerticalMarginBoxes': value.displayVerticalMarginBoxes,
-        'verticalMarginBoxesHeight': value.verticalMarginBoxesHeight,
-        'verticalMarginBoxesFadeEnabled': value.verticalMarginBoxesFadeEnabled,
-        'verticalMarginBoxesFadeLength': value.verticalMarginBoxesFadeLength,
-        'countdownDuration': value.countdownDuration,
-        'themeMode': value.themeMode.name,
-        'appPrimaryColor': value.appPrimaryColor.toARGB32(),
-        'prompterBackgroundColor': value.prompterBackgroundColor.toARGB32(),
-        'prompterTextColor': value.prompterTextColor.toARGB32(),
-        'markdownEnabled': value.markdownEnabled,
-        'showControlButtons': value.showControlButtons,
-        'controlButtonsPosition': value.controlButtonsPosition,
-        'keybindingsMapId': value.keybindingsMapId,
-        'showCurrentChapter': value.showCurrentChapter,
-      };
-    } else {
-      throw UnsupportedError('Cannot convert to JSON: $value');
-    }
-  }
+  factory SettingsState.fromJson(Map<String, dynamic> json) =>
+      _$SettingsStateFromJson(json);
 }
 
 abstract class ISettings {
@@ -158,101 +64,37 @@ abstract class ISettings {
 
 @Riverpod(keepAlive: true, dependencies: [])
 class Settings extends _$Settings implements ISettings {
-  static const _speedKey = 'scroll_speed';
-  static const _mirroredXKey = 'mirror_text_x';
-  static const _mirroredYKey = 'mirror_text_y';
-  static const _fontSizeKey = 'font_size';
-  static const _sideMarginKey = 'side_margin';
-  static const _fontFamilyKey = 'font_family';
-  static const _alignmentKey = 'alignment';
-  static const _displayReadingIndicatorBoxesKey =
-      'display_reading_indicator_boxes';
-  static const _readingIndicatorBoxesHeightKey =
-      'reading_indicator_boxes_height';
-  static const _displayVerticalMarginBoxesKey = 'display_vertical_margin_boxes';
-  static const _verticalMarginBoxesHeightKey = 'vertical_margin_boxes_height';
-  static const _countdownDurationKey = 'countdown_duration';
-  static const _verticalMarginBoxesFadeEnabledKey = 'fade_enabled';
-  static const _verticalMarginBoxesFadeLengthKey = 'fade_length';
-  static const _themeModeKey = 'theme_mode';
-  static const _appPrimaryColorKey = 'app_primary_color';
-  static const _prompterBackgroundColorKey = 'prompter_background_color';
-  static const _prompterTextColorKey = 'prompter_text_color';
-  static const _markdownEnabledKey = 'markdown_enabled';
-  static const _showControlButtonsKey = 'show_control_buttons';
-  static const _controlButtonsPositionKey = 'control_buttons_position';
-  static const _keybindingsMapIdKey = 'keybindings_map_id';
-  static const _showCurrentChapterKey = 'show_current_chapter';
-
-  static const _defaultAppPrimaryColor = kBrandTeal;
+  static const _jsonKey = 'settings_json';
 
   late final SharedPreferences _prefs;
 
   @override
   Future<SettingsState> build() async {
     _prefs = await SharedPreferences.getInstance();
-    return SettingsState(
-      scrollSpeed: _prefs.getDouble(_speedKey) ?? 1.0,
-      mirroredX: _prefs.getBool(_mirroredXKey) ?? false,
-      mirroredY: _prefs.getBool(_mirroredYKey) ?? false,
-      fontSize: _prefs.getDouble(_fontSizeKey) ?? 42.0,
-      sideMargin: _prefs.getDouble(_sideMarginKey) ?? 0.0,
-      fontFamily: _prefs.getString(_fontFamilyKey) ?? 'Roboto',
-      alignment: _getAlignment(_prefs.getString(_alignmentKey)),
-      displayReadingIndicatorBoxes:
-          _prefs.getBool(_displayReadingIndicatorBoxesKey) ?? false,
-      readingIndicatorBoxesHeight:
-          _prefs.getDouble(_readingIndicatorBoxesHeightKey) ?? 60.0,
-      displayVerticalMarginBoxes:
-          _prefs.getBool(_displayVerticalMarginBoxesKey) ?? false,
-      verticalMarginBoxesHeight:
-          _prefs.getDouble(_verticalMarginBoxesHeightKey) ?? 35.0,
-      verticalMarginBoxesFadeEnabled:
-          _prefs.getBool(_verticalMarginBoxesFadeEnabledKey) ?? false,
-      verticalMarginBoxesFadeLength:
-          _prefs.getDouble(_verticalMarginBoxesFadeLengthKey) ?? 50.0,
-      countdownDuration: _prefs.getDouble(_countdownDurationKey) ?? 0.0,
-      themeMode: _getThemeMode(_prefs.getString(_themeModeKey)),
-      appPrimaryColor: Color(
-        _prefs.getInt(_appPrimaryColorKey) ??
-            _defaultAppPrimaryColor.toARGB32(),
-      ),
-      prompterBackgroundColor: Color(
-        _prefs.getInt(_prompterBackgroundColorKey) ?? Colors.black.toARGB32(),
-      ),
-      prompterTextColor: Color(
-        _prefs.getInt(_prompterTextColorKey) ?? Colors.white.toARGB32(),
-      ),
-      markdownEnabled: _prefs.getBool(_markdownEnabledKey) ?? false,
-      showControlButtons: _prefs.getBool(_showControlButtonsKey) ?? false,
-      controlButtonsPosition: _getControlButtonsPosition(
-        _prefs.getString(_controlButtonsPositionKey),
-      ),
-      keybindingsMapId: 0,
-      showCurrentChapter: _prefs.getBool(_showCurrentChapterKey) ?? false,
-    );
+
+    final raw = _prefs.getString(_jsonKey);
+    if (raw != null) {
+      return SettingsState.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    }
+
+    return await _migrateLegacyPrefs() ?? SettingsState();
   }
 
-  TextAlign _getAlignment(String? alignment) {
-    return TextAlign.values
-            .where((element) => element.name == alignment)
-            .singleOrNull ??
-        TextAlign.left;
+  Future<void> _persist(SettingsState settings) async {
+    await _prefs.setString(_jsonKey, jsonEncode(settings.toJson()));
   }
 
-  ThemeMode _getThemeMode(String? themeMode) {
-    return ThemeMode.values
-            .where((element) => element.name == themeMode)
-            .singleOrNull ??
-        ThemeMode.system;
+  Future<void> _mutate(SettingsState Function(SettingsState) update) async {
+    final current = state.value;
+    if (current == null) return;
+    final next = update(current);
+    state = AsyncData(next);
+    await _persist(next);
   }
 
-  ControlButtonsPosition _getControlButtonsPosition(String? position) {
-    return ControlButtonsPosition.values
-            .where((element) => element.name == position)
-            .singleOrNull ??
-        ControlButtonsPosition.left;
-  }
+  Future<void> _mutateConfig(
+    PrompterConfiguration Function(PrompterConfiguration) update,
+  ) => _mutate((s) => s.copyWith(config: update(s.config)));
 
   @override
   Future<bool> resetSettings() async {
@@ -261,270 +103,184 @@ class Settings extends _$Settings implements ISettings {
   }
 
   @override
-  Future<void> setScrollSpeed(double speed) async {
-    await _prefs.setDouble(_speedKey, speed);
-
-    state = state.whenData((s) => s.copyWith(scrollSpeed: speed));
-  }
+  Future<void> setScrollSpeed(double speed) =>
+      _mutateConfig((c) => c.copyWith(scrollSpeed: speed));
 
   @override
-  Future<void> setMirroredX(bool value) async {
-    await _prefs.setBool(_mirroredXKey, value);
-
-    state = state.whenData((s) => s.copyWith(mirroredX: value));
-  }
+  Future<void> setMirroredX(bool value) =>
+      _mutateConfig((c) => c.copyWith(mirroredX: value));
 
   @override
-  Future<void> setMirroredY(bool value) async {
-    await _prefs.setBool(_mirroredYKey, value);
-
-    state = state.whenData((s) => s.copyWith(mirroredY: value));
-  }
+  Future<void> setMirroredY(bool value) =>
+      _mutateConfig((c) => c.copyWith(mirroredY: value));
 
   @override
-  Future<void> setDisplayReadingIndicatorBoxes(bool value) async {
-    await _prefs.setBool(_displayReadingIndicatorBoxesKey, value);
-
-    state = state.whenData(
-      (s) => s.copyWith(displayReadingIndicatorBoxes: value),
-    );
-  }
+  Future<void> setFontSize(double fontSize) =>
+      _mutateConfig((c) => c.copyWith(fontSize: fontSize));
 
   @override
-  Future<void> setReadingIndicatorBoxesHeight(double height) async {
-    await _prefs.setDouble(_readingIndicatorBoxesHeightKey, height);
-
-    state = state.whenData(
-      (s) => s.copyWith(readingIndicatorBoxesHeight: height),
-    );
-  }
+  Future<void> setSideMargin(double sideMargin) =>
+      _mutateConfig((c) => c.copyWith(sideMargin: sideMargin));
 
   @override
-  Future<void> setDisplayVerticalMarginBoxes(bool value) async {
-    await _prefs.setBool(_displayVerticalMarginBoxesKey, value);
-
-    state = state.whenData(
-      (s) => s.copyWith(displayVerticalMarginBoxes: value),
-    );
-  }
+  Future<void> setFontFamily(String fontFamily) =>
+      _mutateConfig((c) => c.copyWith(fontFamily: fontFamily));
 
   @override
-  Future<void> setVerticalMarginBoxesHeight(double height) async {
-    await _prefs.setDouble(_verticalMarginBoxesHeightKey, height);
-
-    state = state.whenData(
-      (s) => s.copyWith(verticalMarginBoxesHeight: height),
-    );
-  }
+  Future<void> setAlignment(TextAlign alignment) =>
+      _mutateConfig((c) => c.copyWith(alignment: alignment));
 
   @override
-  Future<void> setVerticalMarginBoxesFadeEnabled(bool value) async {
-    await _prefs.setBool(_verticalMarginBoxesFadeEnabledKey, value);
-
-    state = state.whenData(
-      (s) => s.copyWith(verticalMarginBoxesFadeEnabled: value),
-    );
-  }
+  Future<void> setDisplayReadingIndicatorBoxes(bool value) =>
+      _mutateConfig((c) => c.copyWith(displayReadingIndicatorBoxes: value));
 
   @override
-  Future<void> setVerticalMarginBoxesFadeLength(double length) async {
-    await _prefs.setDouble(_verticalMarginBoxesFadeLengthKey, length);
-
-    state = state.whenData(
-      (s) => s.copyWith(verticalMarginBoxesFadeLength: length),
-    );
-  }
+  Future<void> setReadingIndicatorBoxesHeight(double height) =>
+      _mutateConfig((c) => c.copyWith(readingIndicatorBoxesHeight: height));
 
   @override
-  Future<void> setSideMargin(double sideMargin) async {
-    await _prefs.setDouble(_sideMarginKey, sideMargin);
-
-    state = state.whenData((s) => s.copyWith(sideMargin: sideMargin));
-  }
+  Future<void> setDisplayVerticalMarginBoxes(bool value) =>
+      _mutateConfig((c) => c.copyWith(displayVerticalMarginBoxes: value));
 
   @override
-  Future<void> setFontFamily(String fontFamily) async {
-    await _prefs.setString(_fontFamilyKey, fontFamily);
-
-    state = state.whenData((s) => s.copyWith(fontFamily: fontFamily));
-  }
+  Future<void> setVerticalMarginBoxesHeight(double height) =>
+      _mutateConfig((c) => c.copyWith(verticalMarginBoxesHeight: height));
 
   @override
-  Future<void> setFontSize(double fontSize) async {
-    await _prefs.setDouble(_fontSizeKey, fontSize);
-
-    state = state.whenData((s) => s.copyWith(fontSize: fontSize));
-  }
+  Future<void> setVerticalMarginBoxesFadeEnabled(bool value) =>
+      _mutateConfig((c) => c.copyWith(verticalMarginBoxesFadeEnabled: value));
 
   @override
-  Future<void> setAlignment(TextAlign alignment) async {
-    await _prefs.setString(_alignmentKey, alignment.toString());
-
-    state = state.whenData((s) => s.copyWith(alignment: alignment));
-  }
+  Future<void> setVerticalMarginBoxesFadeLength(double length) =>
+      _mutateConfig((c) => c.copyWith(verticalMarginBoxesFadeLength: length));
 
   @override
-  Future<void> setCountdownDuration(double duration) async {
-    await _prefs.setDouble(_countdownDurationKey, duration);
-
-    state = state.whenData((s) => s.copyWith(countdownDuration: duration));
-  }
+  Future<void> setCountdownDuration(double duration) =>
+      _mutateConfig((c) => c.copyWith(countdownDuration: duration));
 
   @override
-  Future<void> setThemeMode(ThemeMode themeMode) async {
-    await _prefs.setString(_themeModeKey, themeMode.name);
-
-    state = state.whenData((s) => s.copyWith(themeMode: themeMode));
-  }
+  Future<void> setMarkdownEnabled(bool enabled) =>
+      _mutateConfig((c) => c.copyWith(markdownEnabled: enabled));
 
   @override
-  Future<void> setAppPrimaryColor(Color color) async {
-    await _prefs.setInt(_appPrimaryColorKey, color.toARGB32());
-
-    state = state.whenData((s) => s.copyWith(appPrimaryColor: color));
-  }
+  Future<void> setShowControlButtons(bool enabled) =>
+      _mutateConfig((c) => c.copyWith(showControlButtons: enabled));
 
   @override
-  Future<void> setPrompterBackgroundColor(Color color) async {
-    await _prefs.setInt(_prompterBackgroundColorKey, color.toARGB32());
-
-    state = state.whenData((s) => s.copyWith(prompterBackgroundColor: color));
-  }
+  Future<void> setControlButtonsPosition(ControlButtonsPosition position) =>
+      _mutateConfig((c) => c.copyWith(controlButtonsPosition: position));
 
   @override
-  Future<void> setPrompterTextColor(Color color) async {
-    await _prefs.setInt(_prompterTextColorKey, color.toARGB32());
-
-    state = state.whenData((s) => s.copyWith(prompterTextColor: color));
-  }
+  Future<void> setShowCurrentChapter(bool value) =>
+      _mutateConfig((c) => c.copyWith(showCurrentChapter: value));
 
   @override
-  Future<void> setMarkdownEnabled(bool enabled) async {
-    await _prefs.setBool(_markdownEnabledKey, enabled);
-
-    state = state.whenData((s) => s.copyWith(markdownEnabled: enabled));
-  }
+  Future<void> setThemeMode(ThemeMode themeMode) =>
+      _mutate((s) => s.copyWith(themeMode: themeMode));
 
   @override
-  Future<void> setShowControlButtons(bool enabled) async {
-    await _prefs.setBool(_showControlButtonsKey, enabled);
-
-    state = state.whenData((s) => s.copyWith(showControlButtons: enabled));
-  }
+  Future<void> setAppPrimaryColor(Color color) =>
+      _mutate((s) => s.copyWith(appPrimaryColor: color));
 
   @override
-  Future<void> setControlButtonsPosition(
-    ControlButtonsPosition position,
-  ) async {
-    await _prefs.setString(_controlButtonsPositionKey, position.name);
-
-    state = state.whenData((s) => s.copyWith(controlButtonsPosition: position));
-  }
+  Future<void> setPrompterBackgroundColor(Color color) =>
+      _mutate((s) => s.copyWith(prompterBackgroundColor: color));
 
   @override
-  Future<void> setShowCurrentChapter(bool value) async {
-    await _prefs.setBool(_showCurrentChapterKey, value);
-
-    state = state.whenData((s) => s.copyWith(showCurrentChapter: value));
-  }
+  Future<void> setPrompterTextColor(Color color) =>
+      _mutate((s) => s.copyWith(prompterTextColor: color));
 
   @override
-  Future<void> setKeybindings(int mapId) async {
-    await _prefs.setInt(_keybindingsMapIdKey, mapId);
-
-    state = state.whenData((s) => s.copyWith(keybindingsMapId: mapId));
-  }
+  Future<void> setKeybindings(int mapId) =>
+      _mutate((s) => s.copyWith(keybindingsMapId: mapId));
 
   @override
   Future<void> loadSettings(SettingsState newState) async {
-    await _saveSettings(newState);
-    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
-    state = state.whenData((s) => newState.copyWith(keybindingsMapId: 0));
-  }
-
-  Future<void> _saveSettings(SettingsState state) async {
-    await _prefs.setDouble(_speedKey, state.scrollSpeed);
-    await _prefs.setBool(_mirroredXKey, state.mirroredX);
-    await _prefs.setBool(_mirroredYKey, state.mirroredY);
-    await _prefs.setDouble(_fontSizeKey, state.fontSize);
-    await _prefs.setDouble(_sideMarginKey, state.sideMargin);
-    await _prefs.setString(_fontFamilyKey, state.fontFamily);
-    await _prefs.setString(_alignmentKey, state.alignment.name);
-    await _prefs.setBool(
-      _displayReadingIndicatorBoxesKey,
-      state.displayReadingIndicatorBoxes,
-    );
-    await _prefs.setDouble(
-      _readingIndicatorBoxesHeightKey,
-      state.readingIndicatorBoxesHeight,
-    );
-    await _prefs.setBool(
-      _displayVerticalMarginBoxesKey,
-      state.displayVerticalMarginBoxes,
-    );
-    await _prefs.setDouble(
-      _verticalMarginBoxesHeightKey,
-      state.verticalMarginBoxesHeight,
-    );
-    await _prefs.setBool(
-      _verticalMarginBoxesFadeEnabledKey,
-      state.verticalMarginBoxesFadeEnabled,
-    );
-    await _prefs.setDouble(
-      _verticalMarginBoxesFadeLengthKey,
-      state.verticalMarginBoxesFadeLength,
-    );
-    await _prefs.setDouble(_countdownDurationKey, state.countdownDuration);
-    await _prefs.setString(_themeModeKey, state.themeMode.name);
-    await _prefs.setInt(_appPrimaryColorKey, state.appPrimaryColor.toARGB32());
-    await _prefs.setInt(
-      _prompterBackgroundColorKey,
-      state.prompterBackgroundColor.toARGB32(),
-    );
-    await _prefs.setInt(
-      _prompterTextColorKey,
-      state.prompterTextColor.toARGB32(),
-    );
-    await _prefs.setBool(_markdownEnabledKey, state.markdownEnabled);
-    await _prefs.setBool(_showControlButtonsKey, state.showControlButtons);
-    await _prefs.setString(
-      _controlButtonsPositionKey,
-      state.controlButtonsPosition.name,
-    );
-    // NOTE: Due to potential for future expansion, the map is hardcoded to 0, and overridden on load
-    await _prefs.setInt(_keybindingsMapIdKey, 0);
-    await _prefs.setBool(_showCurrentChapterKey, state.showCurrentChapter);
+    final normalized = newState.copyWith(keybindingsMapId: 0);
+    state = AsyncData(normalized);
+    await _persist(normalized);
   }
 
   @override
-  Future<void> applySettingsFromPrompter(PrompterState prompterState) async {
-    await setScrollSpeed(prompterState.speed);
-    await setMirroredX(prompterState.mirroredX);
-    await setMirroredY(prompterState.mirroredY);
-    await setFontSize(prompterState.fontSize);
-    await setSideMargin(prompterState.sideMargin);
-    await setFontFamily(prompterState.fontFamily);
-    await setAlignment(prompterState.alignment);
-    await setDisplayReadingIndicatorBoxes(
-      prompterState.displayReadingIndicatorBoxes,
+  Future<void> applySettingsFromPrompter(PrompterState prompterState) =>
+      _mutate((s) => s.copyWith(config: prompterState.config));
+
+  Future<SettingsState?> _migrateLegacyPrefs() async {
+    const legacyKeys = [
+      'scroll_speed',
+      'mirror_text_x',
+      'mirror_text_y',
+      'font_size',
+      'side_margin',
+      'font_family',
+      'alignment',
+      'display_reading_indicator_boxes',
+      'reading_indicator_boxes_height',
+      'display_vertical_margin_boxes',
+      'vertical_margin_boxes_height',
+      'countdown_duration',
+      'fade_enabled',
+      'fade_length',
+      'theme_mode',
+      'app_primary_color',
+      'prompter_background_color',
+      'prompter_text_color',
+      'markdown_enabled',
+      'show_control_buttons',
+      'control_buttons_position',
+      'keybindings_map_id',
+      'show_current_chapter',
+    ];
+
+    if (!legacyKeys.any(_prefs.containsKey)) return null;
+
+    final migrated = SettingsState(
+      config: PrompterConfiguration(
+        scrollSpeed: _prefs.getDouble('scroll_speed') ?? 1.0,
+        mirroredX: _prefs.getBool('mirror_text_x') ?? false,
+        mirroredY: _prefs.getBool('mirror_text_y') ?? false,
+        fontSize: _prefs.getDouble('font_size') ?? 42.0,
+        sideMargin: _prefs.getDouble('side_margin') ?? 0.0,
+        fontFamily: _prefs.getString('font_family') ?? 'Roboto',
+        alignment: const TextAlignConverter().fromJson(
+          _prefs.getString('alignment') ?? '',
+        ),
+        displayReadingIndicatorBoxes:
+            _prefs.getBool('display_reading_indicator_boxes') ?? false,
+        readingIndicatorBoxesHeight:
+            _prefs.getDouble('reading_indicator_boxes_height') ?? 60.0,
+        displayVerticalMarginBoxes:
+            _prefs.getBool('display_vertical_margin_boxes') ?? false,
+        verticalMarginBoxesHeight:
+            _prefs.getDouble('vertical_margin_boxes_height') ?? 35.0,
+        verticalMarginBoxesFadeEnabled: _prefs.getBool('fade_enabled') ?? false,
+        verticalMarginBoxesFadeLength: _prefs.getDouble('fade_length') ?? 50.0,
+        countdownDuration: _prefs.getDouble('countdown_duration') ?? 0.0,
+        markdownEnabled: _prefs.getBool('markdown_enabled') ?? false,
+        showControlButtons: _prefs.getBool('show_control_buttons') ?? false,
+        controlButtonsPosition: const ControlButtonsPositionConverter()
+            .fromJson(_prefs.getString('control_buttons_position') ?? ''),
+        showCurrentChapter: _prefs.getBool('show_current_chapter') ?? false,
+      ),
+      themeMode: const ThemeModeConverter().fromJson(
+        _prefs.getString('theme_mode') ?? '',
+      ),
+      appPrimaryColor: Color(
+        _prefs.getInt('app_primary_color') ?? kBrandTeal.toARGB32(),
+      ),
+      prompterBackgroundColor: Color(
+        _prefs.getInt('prompter_background_color') ?? Colors.black.toARGB32(),
+      ),
+      prompterTextColor: Color(
+        _prefs.getInt('prompter_text_color') ?? Colors.white.toARGB32(),
+      ),
     );
-    await setReadingIndicatorBoxesHeight(
-      prompterState.readingIndicatorBoxesHeight,
-    );
-    await setDisplayVerticalMarginBoxes(
-      prompterState.displayVerticalMarginBoxes,
-    );
-    await setVerticalMarginBoxesHeight(prompterState.verticalMarginBoxesHeight);
-    await setCountdownDuration(prompterState.countdownDuration);
-    await setVerticalMarginBoxesFadeEnabled(
-      prompterState.verticalMarginBoxesFadeEnabled,
-    );
-    await setVerticalMarginBoxesFadeLength(
-      prompterState.verticalMarginBoxesFadeLength,
-    );
-    await setMarkdownEnabled(prompterState.markdownEnabled);
-    await setShowControlButtons(prompterState.showControlButtons);
-    await setControlButtonsPosition(prompterState.controlButtonsPosition);
-    await setShowCurrentChapter(prompterState.showCurrentChapter);
+
+    await _persist(migrated);
+    for (final key in legacyKeys) {
+      await _prefs.remove(key);
+    }
+
+    return migrated;
   }
 }

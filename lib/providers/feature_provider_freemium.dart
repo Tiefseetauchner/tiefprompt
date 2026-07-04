@@ -1,17 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
+import 'package:tiefprompt/core/utilities.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/in_app_purchase_provider.dart';
 import 'package:tiefprompt/providers/talker_provider.dart';
 import 'package:tiefprompt/ui/screens/buy_pro_screen.dart';
+import 'package:tiefprompt/ui/widgets/feature_version_popup_content.dart';
 
 class FeaturesFreemium extends Features {
   late final InAppPurchase _iap = InAppPurchase.instance;
@@ -121,10 +125,18 @@ class FeaturesFreemium extends Features {
   @override
   AppFeatures build() {
     if (ref.read(inAppPurchaseDataProvider).owned.contains(kProId)) {
-      return AppFeatures(kAllFeatures, FeatureKind.paidVersion);
+      return AppFeatures(
+        kAllFeatures,
+        FeatureKind.paidVersion,
+        "HomeScreen.PaidVersion",
+      );
     }
 
-    return AppFeatures(kFreeFeatures, FeatureKind.freeVersion);
+    return AppFeatures(
+      kFreeFeatures,
+      FeatureKind.freeVersion,
+      "HomeScreen.FreeVersion",
+    );
   }
 
   @override
@@ -189,5 +201,41 @@ class FeaturesFreemium extends Features {
   @override
   Widget getPurchaseScreen(DisabledFeatureScreenRouterExtra? extra) {
     return BuyProScreen(feature: extra?.feature);
+  }
+
+  @override
+  Widget Function(BuildContext) getFeaturePopup() {
+    return (context) {
+      if (!ref.read(inAppPurchaseDataProvider).owned.contains(kProId)) {
+        return FeatureVersionPopupContent(
+          featureName: context.tr("HomeScreen.FreeVersion"),
+          featureExplanation: context.tr("HomeScreen.FreeVersion_Explanation"),
+          actions: [
+            ElevatedButton(
+              onPressed: () => context.push(
+                "/disabledfeature",
+                extra: DisabledFeatureScreenRouterExtra(feature: null),
+              ),
+              child: Text(context.tr("HomeScreen.FreeVersion_BuyPro")),
+            ),
+            OutlinedButton(
+              onPressed: () => launchUrlFromString(kRepoUrl),
+              child: Text(kRepoUrl),
+            ),
+          ],
+        );
+      }
+
+      return FeatureVersionPopupContent(
+        featureName: context.tr("HomeScreen.PaidVersion"),
+        featureExplanation: context.tr("HomeScreen.PaidVersion_Explanation"),
+        actions: [
+          ElevatedButton(
+            onPressed: () => launchUrlFromString(kRepoUrl),
+            child: Text(kRepoUrl),
+          ),
+        ],
+      );
+    };
   }
 }

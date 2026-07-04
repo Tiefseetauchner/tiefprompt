@@ -12,11 +12,11 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/talker_provider.dart';
-import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
+import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 
 class _ImportedSettingsJson extends Notifier<dynamic> {
   @override
@@ -27,466 +27,165 @@ class _ImportedSettingsJson extends Notifier<dynamic> {
 final importedSettingsJsonProvider =
     NotifierProvider<_ImportedSettingsJson, dynamic>(_ImportedSettingsJson.new);
 
-class SettingsRestoreSetingsScreen extends ConsumerWidget {
-  const SettingsRestoreSetingsScreen({super.key});
+class SettingsRestoreScreen extends ConsumerWidget {
+  const SettingsRestoreScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(settingsProvider);
+    return AsyncSettingsBuilder(
+      state: ref.watch(settingsProvider),
+      screenTitle: context.tr("SettingsScreen.SettingsRestore.Title"),
+      builder: (ref, value) => _SettingsRestoreView(settings: value),
+    );
+  }
+}
 
-    return switch (settings) {
-      AsyncData(:final value) => FutureBuilder(
-        future: ref
-            .watch(settingsStorageServiceProvider.notifier)
-            .getSettingDisplayData(),
-        builder: (context, settingDisplayStream) {
-          if (settingDisplayStream.hasError) {
-            return SafeScaffold(
-              appBar: AppBar(
-                title: Text(context.tr("SettingsScreen.SettingsRestore.Title")),
-              ),
-              body: Center(
-                child: Text(
-                  context.tr("SettingsScreen.SettingsRestore.LoadError"),
-                ),
-              ),
-            );
-          }
+class _SettingsRestoreView extends ConsumerWidget {
+  final SettingsState settings;
 
-          if (!settingDisplayStream.hasData) {
-            return SafeScaffold(
-              appBar: AppBar(
-                title: Text(context.tr("SettingsScreen.SettingsRestore.Title")),
-              ),
-              body: Center(
-                child: SpinKitRing(
-                  color:
-                      ref.read(settingsProvider).value?.appPrimaryColor ??
-                      Color.fromARGB(255, 77, 103, 214),
-                ),
+  const _SettingsRestoreView({required this.settings});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final entriesStream = ref
+        .watch(settingsStorageServiceProvider.notifier)
+        .getSettingDisplayData();
+
+    return SafeScaffold(
+      appBar: AppBar(
+        title: Text(context.tr("SettingsScreen.SettingsRestore.Title")),
+      ),
+      body: StreamBuilder(
+        stream: entriesStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                context.tr("SettingsScreen.SettingsRestore.LoadError"),
               ),
             );
           }
 
-          return StreamBuilder(
-            stream: settingDisplayStream.data,
-            builder: (context, settingDisplays) {
-              if (settingDisplays.hasError) {
-                return SafeScaffold(
-                  appBar: AppBar(
-                    title: Text(
-                      context.tr("SettingsScreen.SettingsRestore.Title"),
-                    ),
-                  ),
-                  body: Center(
-                    child: Text(
-                      context.tr("SettingsScreen.SettingsRestore.LoadError"),
-                    ),
-                  ),
-                );
-              }
+          if (!snapshot.hasData) {
+            return Center(child: SpinKitRing(color: settings.appPrimaryColor));
+          }
 
-              if (!settingDisplays.hasData) {
-                return SafeScaffold(
-                  appBar: AppBar(
-                    title: Text(
-                      context.tr("SettingsScreen.SettingsRestore.Title"),
-                    ),
-                  ),
-                  body: Center(
-                    child: SpinKitRing(
-                      color:
-                          ref.read(settingsProvider).value?.appPrimaryColor ??
-                          Color.fromARGB(255, 77, 103, 214),
-                    ),
-                  ),
-                );
-              }
-
-              return SafeScaffold(
-                appBar: AppBar(
-                  title: Text(
-                    context.tr("SettingsScreen.SettingsRestore.Title"),
-                  ),
+          return ListView(
+            children: [
+              DialogAppSetting(
+                feature: Feature.settingsRestore,
+                displayText: context.tr("SettingsScreen.SettingsRestore.Save"),
+                onTap: _saveSettings,
+              ),
+              DialogAppSetting(
+                feature: Feature.settingsRestore,
+                displayText: context.tr(
+                  "SettingsScreen.SettingsRestore.Import",
                 ),
-                body: ListView(
-                  children: [
-                    DialogAppSetting<SettingsState>(
-                      feature: Feature.settingsRestore,
-                      displayText: context.tr(
-                        "SettingsScreen.SettingsRestore.Save",
-                      ),
-                      value: value,
-                      onTap: (context, ref) async {
-                        final name = await _showNameBottomSheet(
-                          context,
-                          titleText: context.tr(
-                            "SettingsScreen.SettingsRestore.SaveDialog.Title",
-                          ),
-                          contentText: context.tr(
-                            "SettingsScreen.SettingsRestore.SaveDialog.Content",
-                          ),
-                          hintText: context.tr(
-                            "SettingsScreen.SettingsRestore.SaveDialog.HintText",
-                          ),
-                          cancelText: context.tr(
-                            "SettingsScreen.SettingsRestore.SaveDialog.Cancel",
-                          ),
-                          saveText: context.tr(
-                            "SettingsScreen.SettingsRestore.SaveDialog.Save",
-                          ),
-                        );
-
-                        if (name.trim().isEmpty) {
-                          ref
-                              .read(bannerMessageProvider.notifier)
-                              .set(
-                                context.tr(
-                                  "SettingsScreen.SettingsRestore.NameRequired",
-                                ),
-                              );
-                          return;
-                        }
-
-                        final keybindingMapId = await ref
-                            .read(keybindingsProvider.notifier)
-                            .createKeybindingsMap(
-                              await ref.read(keybindingsProvider.future),
-                            );
-
-                        await ref
-                            .read(settingsStorageServiceProvider.notifier)
-                            .save(name.trim(), value, keybindingMapId);
-                        ref
-                            .read(bannerMessageProvider.notifier)
-                            .set(
-                              context.tr(
-                                "SettingsScreen.SettingsRestore.SaveSuccess",
-                              ),
-                            );
-                      },
-                    ),
-                    DialogAppSetting<SettingsState>(
-                      feature: Feature.settingsRestore,
-                      displayText: context.tr(
-                        "SettingsScreen.SettingsRestore.Import",
-                      ),
-                      value: value,
-                      dialogContent: _ImportSettingsDialog(value: value),
-                      callback: () async {
-                        final importedJson = ref.read(
-                          importedSettingsJsonProvider,
-                        );
-                        if (importedJson == null) {
-                          return;
-                        }
-
-                        final name =
-                            (importedJson['name'] as String?)?.trim() ??
-                            await _showNameBottomSheet(
-                              context,
-                              titleText: context.tr(
-                                "SettingsScreen.SettingsRestore.NameSheet.Title",
-                              ),
-                              contentText: context.tr(
-                                "SettingsScreen.SettingsRestore.NameSheet.Content",
-                              ),
-                              hintText: context.tr(
-                                "SettingsScreen.SettingsRestore.SaveDialog.HintText",
-                              ),
-                              cancelText: context.tr(
-                                "SettingsScreen.SettingsRestore.SaveDialog.Cancel",
-                              ),
-                              saveText: context.tr(
-                                "SettingsScreen.SettingsRestore.SaveDialog.Save",
-                              ),
-                            );
-
-                        if (name.trim().isEmpty) {
-                          ref
-                              .read(bannerMessageProvider.notifier)
-                              .set(
-                                context.tr(
-                                  "SettingsScreen.SettingsRestore.NameRequired",
-                                ),
-                              );
-                          return;
-                        }
-
-                        try {
-                          final settings = SettingsState.fromJson(
-                            importedJson['settings'],
-                          );
-
-                          final keybindings = KeybindingMap.fromJson(
-                            importedJson['keybindings'],
-                          );
-
-                          final keybindingMapId = await ref
-                              .read(keybindingsProvider.notifier)
-                              .createKeybindingsMap(keybindings);
-
-                          await ref
-                              .read(settingsStorageServiceProvider.notifier)
-                              .save(name.trim(), settings, keybindingMapId);
-
-                          ref
-                              .read(importedSettingsJsonProvider.notifier)
-                              .setValue(null);
-
-                          ref
-                              .read(bannerMessageProvider.notifier)
-                              .set(
-                                context.tr(
-                                  "SettingsScreen.SettingsRestore.ImportSuccess",
-                                ),
-                              );
-                        } catch (e) {
-                          ref
-                              .read(bannerMessageProvider.notifier)
-                              .set(
-                                context.tr(
-                                  "SettingsScreen.SettingsRestore.ImportFailed",
-                                ),
-                              );
-                          ref
-                              .read(talkerProvider)
-                              .error('Settings import failed', e);
-                        }
-                      },
-                    ),
-                    Divider(height: 30, thickness: 3),
-                    ...settingDisplays.data?.map(
-                          (e) => ListTile(
-                            title: Text(e.title),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(e.createdAt.toString()),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () => _showDeletionConfirmDialog(
-                                    context,
-                                    ref,
-                                    e.title,
-                                    e.id,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.more_horiz),
-                                  onPressed: () => _showOptionsDialog(
-                                    context,
-                                    ref,
-                                    e.title,
-                                    e.id,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onLongPress: () =>
-                                _showOptionsDialog(context, ref, e.title, e.id),
-                            onTap: () async {
-                              try {
-                                await ref
-                                    .read(
-                                      settingsStorageServiceProvider.notifier,
-                                    )
-                                    .loadSettings(e.id);
-
-                                ref.invalidate(keybindingsProvider);
-
-                                ref
-                                    .read(talkerProvider)
-                                    .debug(
-                                      'Loaded keybindingsMapId: ${(await ref.read(settingsProvider.future)).keybindingsMapId}',
-                                    );
-
-                                ref
-                                    .read(bannerMessageProvider.notifier)
-                                    .set(
-                                      context.tr(
-                                        "SettingsScreen.SettingsRestore.RestoreSuccess",
-                                      ),
-                                    );
-                              } catch (e) {
-                                ref
-                                    .read(bannerMessageProvider.notifier)
-                                    .set(
-                                      context.tr(
-                                        "SettingsScreen.SettingsRestore.RestoreFailed",
-                                      ),
-                                    );
-
-                                ref
-                                    .read(talkerProvider)
-                                    .error('Settings restore failed', e);
-                              }
-                            },
-                          ),
-                        ) ??
-                        [],
-                  ],
-                ),
-              );
-            },
+                dialogContent: const _ImportSettingsDialog(),
+                callback: () => _importSettings(context, ref),
+              ),
+              Divider(height: 30, thickness: 3),
+              ...snapshot.data!.map((e) => _SavedSettingsTile(entry: e)),
+            ],
           );
         },
       ),
-      AsyncLoading() => SafeScaffold(
-        appBar: AppBar(
-          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
-        ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ??
-              Color.fromARGB(255, 77, 103, 214),
-        ),
-      ),
-      AsyncError(:final error) => ResetSettingsScreen(error: error),
-    };
-  }
-
-  void _showOptionsDialog(
-    BuildContext context,
-    WidgetRef ref,
-    String title,
-    int id,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          context.tr("SettingsScreen.SettingsRestore.OptionsDialog.Title"),
-        ),
-        content: Column(
-          children: [
-            ListTile(
-              title: Text(
-                context.tr(
-                  "SettingsScreen.SettingsRestore.OptionsDialog.Export",
-                ),
-              ),
-              onTap: () async {
-                final settings = await ref
-                    .read(settingsStorageServiceProvider.notifier)
-                    .getSettings(id);
-
-                try {
-                  final exportedString = jsonEncode({
-                    'schemaVersion': kSettingsSchemaVersion,
-                    'name': await ref
-                        .read(settingsStorageServiceProvider.notifier)
-                        .getName(id),
-                    'settings': SettingsState.toJson(settings),
-                    'keybindings':
-                        (await ref
-                                .read(keybindingsProvider.notifier)
-                                .getKeybindings(settings.keybindingsMapId))
-                            .toJsonMap(),
-                  });
-                  await FilePicker.saveFile(
-                    fileName: "settings.json",
-                    dialogTitle: context.tr(
-                      "SettingsScreen.SettingsRestore.OptionsDialog.FilePickerTitle",
-                    ),
-                    allowedExtensions: ["json"],
-                    type: FileType.custom,
-                    bytes: Utf8Encoder().convert(exportedString),
-                  );
-                  ref
-                      .read(bannerMessageProvider.notifier)
-                      .set(
-                        context.tr(
-                          "SettingsScreen.SettingsRestore.ExportSuccess",
-                        ),
-                      );
-                  context.pop();
-                } catch (e) {
-                  ref
-                      .read(bannerMessageProvider.notifier)
-                      .set(
-                        context.tr(
-                          "SettingsScreen.SettingsRestore.ExportFailed",
-                        ),
-                      );
-                  context.pop();
-
-                  ref.read(talkerProvider).error('Settings export failed', e);
-                }
-              },
-            ),
-            ListTile(
-              title: Text(
-                context.tr(
-                  "SettingsScreen.SettingsRestore.OptionsDialog.Delete",
-                ),
-              ),
-              onTap: () {
-                _showDeletionConfirmDialog(
-                  context,
-                  ref,
-                  title,
-                  id,
-                  cb: () => context.pop(),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 
-  void _showDeletionConfirmDialog(
-    BuildContext context,
-    WidgetRef ref,
-    String title,
-    int id, {
-    Function()? cb,
-  }) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Title"),
-        ),
-        content: SingleChildScrollView(
-          child: Text(
-            context.tr(
-              "SettingsScreen.SettingsRestore.DeleteDialog.Content",
-              args: [title],
-            ),
-          ),
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () => context.pop(),
-            child: Text(
-              context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Cancel"),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              ref
-                  .watch(settingsStorageServiceProvider.notifier)
-                  .deleteSettings(id);
-              context.pop();
-              if (cb != null) {
-                cb();
-              }
-              ref
-                  .read(bannerMessageProvider.notifier)
-                  .set(
-                    context.tr("SettingsScreen.SettingsRestore.DeleteSuccess"),
-                  );
-            },
-            child: Text(
-              context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Confirm"),
-            ),
-          ),
-        ],
+  Future<void> _saveSettings(BuildContext context, WidgetRef ref) async {
+    final name = await _showNameBottomSheet(
+      context,
+      titleText: context.tr("SettingsScreen.SettingsRestore.SaveDialog.Title"),
+      contentText: context.tr(
+        "SettingsScreen.SettingsRestore.SaveDialog.Content",
       ),
+      hintText: context.tr(
+        "SettingsScreen.SettingsRestore.SaveDialog.HintText",
+      ),
+      cancelText: context.tr(
+        "SettingsScreen.SettingsRestore.SaveDialog.Cancel",
+      ),
+      saveText: context.tr("SettingsScreen.SettingsRestore.SaveDialog.Save"),
     );
+
+    if (name.trim().isEmpty) {
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.NameRequired"));
+      return;
+    }
+
+    final keybindingMapId = await ref
+        .read(keybindingsProvider.notifier)
+        .createKeybindingsMap(await ref.read(keybindingsProvider.future));
+
+    await ref
+        .read(settingsStorageServiceProvider.notifier)
+        .save(name.trim(), settings, keybindingMapId);
+    ref
+        .read(bannerMessageProvider.notifier)
+        .set(context.tr("SettingsScreen.SettingsRestore.SaveSuccess"));
+  }
+
+  Future<void> _importSettings(BuildContext context, WidgetRef ref) async {
+    final importedJson = ref.read(importedSettingsJsonProvider);
+    if (importedJson == null) {
+      return;
+    }
+
+    final name =
+        (importedJson['name'] as String?)?.trim() ??
+        await _showNameBottomSheet(
+          context,
+          titleText: context.tr(
+            "SettingsScreen.SettingsRestore.NameSheet.Title",
+          ),
+          contentText: context.tr(
+            "SettingsScreen.SettingsRestore.NameSheet.Content",
+          ),
+          hintText: context.tr(
+            "SettingsScreen.SettingsRestore.SaveDialog.HintText",
+          ),
+          cancelText: context.tr(
+            "SettingsScreen.SettingsRestore.SaveDialog.Cancel",
+          ),
+          saveText: context.tr(
+            "SettingsScreen.SettingsRestore.SaveDialog.Save",
+          ),
+        );
+
+    if (name.trim().isEmpty) {
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.NameRequired"));
+      return;
+    }
+
+    try {
+      final importedSettings = SettingsState.fromJson(importedJson['settings']);
+      final keybindings = KeybindingMap.fromJson(importedJson['keybindings']);
+
+      final keybindingMapId = await ref
+          .read(keybindingsProvider.notifier)
+          .createKeybindingsMap(keybindings);
+
+      await ref
+          .read(settingsStorageServiceProvider.notifier)
+          .save(name.trim(), importedSettings, keybindingMapId);
+
+      ref.read(importedSettingsJsonProvider.notifier).setValue(null);
+
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.ImportSuccess"));
+    } catch (e) {
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.ImportFailed"));
+      ref.read(talkerProvider).error('Settings import failed', e);
+    }
   }
 
   Future<String> _showNameBottomSheet(
@@ -509,6 +208,186 @@ class SettingsRestoreSetingsScreen extends ConsumerWidget {
       ),
     );
     return value ?? '';
+  }
+}
+
+class _SavedSettingsTile extends ConsumerWidget {
+  final SettingsDisplayData entry;
+
+  const _SavedSettingsTile({required this.entry});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      title: Text(entry.title),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(entry.createdAt.toString()),
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () => _showDeletionConfirmDialog(context, ref),
+          ),
+          IconButton(
+            icon: Icon(Icons.more_horiz),
+            onPressed: () => _showOptionsDialog(context, ref),
+          ),
+        ],
+      ),
+      onLongPress: () => _showOptionsDialog(context, ref),
+      onTap: () => _restore(context, ref),
+    );
+  }
+
+  Future<void> _restore(BuildContext context, WidgetRef ref) async {
+    try {
+      await ref
+          .read(settingsStorageServiceProvider.notifier)
+          .loadSettings(entry.id);
+
+      ref.invalidate(keybindingsProvider);
+
+      ref
+          .read(talkerProvider)
+          .debug(
+            'Loaded keybindingsMapId: ${(await ref.read(settingsProvider.future)).keybindingsMapId}',
+          );
+
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.RestoreSuccess"));
+    } catch (e) {
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.RestoreFailed"));
+      ref.read(talkerProvider).error('Settings restore failed', e);
+    }
+  }
+
+  void _showOptionsDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("SettingsScreen.SettingsRestore.OptionsDialog.Title"),
+        ),
+        content: Column(
+          children: [
+            ListTile(
+              title: Text(
+                context.tr(
+                  "SettingsScreen.SettingsRestore.OptionsDialog.Export",
+                ),
+              ),
+              onTap: () => _export(context, ref),
+            ),
+            ListTile(
+              title: Text(
+                context.tr(
+                  "SettingsScreen.SettingsRestore.OptionsDialog.Delete",
+                ),
+              ),
+              onTap: () => _showDeletionConfirmDialog(
+                context,
+                ref,
+                cb: () => context.pop(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _export(BuildContext context, WidgetRef ref) async {
+    final settings = await ref
+        .read(settingsStorageServiceProvider.notifier)
+        .getSettings(entry.id);
+
+    try {
+      final exportedString = jsonEncode({
+        'schemaVersion': kSettingsSchemaVersion,
+        'name': await ref
+            .read(settingsStorageServiceProvider.notifier)
+            .getName(entry.id),
+        'settings': settings.toJson(),
+        'keybindings':
+            (await ref
+                    .read(keybindingsProvider.notifier)
+                    .getKeybindings(settings.keybindingsMapId))
+                .toJson(),
+      });
+      await FilePicker.saveFile(
+        fileName: "settings.json",
+        dialogTitle: context.tr(
+          "SettingsScreen.SettingsRestore.OptionsDialog.FilePickerTitle",
+        ),
+        allowedExtensions: ["json"],
+        type: FileType.custom,
+        bytes: Utf8Encoder().convert(exportedString),
+      );
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.ExportSuccess"));
+      context.pop();
+    } catch (e) {
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.ExportFailed"));
+      context.pop();
+
+      ref.read(talkerProvider).error('Settings export failed', e);
+    }
+  }
+
+  void _showDeletionConfirmDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    Function()? cb,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Title"),
+        ),
+        content: SingleChildScrollView(
+          child: Text(
+            context.tr(
+              "SettingsScreen.SettingsRestore.DeleteDialog.Content",
+              args: [entry.title],
+            ),
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => context.pop(),
+            child: Text(
+              context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Cancel"),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              ref
+                  .read(settingsStorageServiceProvider.notifier)
+                  .deleteSettings(entry.id);
+              context.pop();
+              if (cb != null) {
+                cb();
+              }
+              ref
+                  .read(bannerMessageProvider.notifier)
+                  .set(
+                    context.tr("SettingsScreen.SettingsRestore.DeleteSuccess"),
+                  );
+            },
+            child: Text(
+              context.tr("SettingsScreen.SettingsRestore.DeleteDialog.Confirm"),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -602,19 +481,11 @@ class _NameBottomSheetState extends State<_NameBottomSheet> {
   }
 }
 
-class _ImportSettingsDialog extends ConsumerStatefulWidget {
-  final SettingsState value;
-
-  const _ImportSettingsDialog({required this.value});
+class _ImportSettingsDialog extends ConsumerWidget {
+  const _ImportSettingsDialog();
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ImportSettingsDialogState();
-}
-
-class _ImportSettingsDialogState extends ConsumerState<_ImportSettingsDialog> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: Text(
         context.tr("SettingsScreen.SettingsRestore.ImportSettings.Title"),
@@ -640,65 +511,61 @@ class _ImportSettingsDialogState extends ConsumerState<_ImportSettingsDialog> {
           ),
         ),
         ElevatedButton(
-          onPressed: () async {
-            final resultFile = await FilePicker.pickFiles(
-              type: FileType.custom,
-              allowedExtensions: ['json'],
-            );
-
-            if (resultFile != null) {
-              final file = resultFile.files.first;
-
-              try {
-                final fileContent = await File(file.path!).readAsString();
-                final jsonContent = jsonDecode(fileContent);
-
-                if (jsonContent['schemaVersion'] != kSettingsSchemaVersion) {
-                  ref
-                      .read(bannerMessageProvider.notifier)
-                      .set(
-                        context.tr(
-                          "SettingsScreen.SettingsRestore.ImportSettings.InvalidVersion",
-                        ),
-                      );
-                  context.pop();
-                  return;
-                }
-
-                if (jsonContent['settings'] == null) {
-                  ref
-                      .read(bannerMessageProvider.notifier)
-                      .set(
-                        context.tr(
-                          "SettingsScreen.SettingsRestore.ImportFailed",
-                        ),
-                      );
-                  context.pop();
-                  return;
-                }
-
-                ref
-                    .read(importedSettingsJsonProvider.notifier)
-                    .setValue(jsonContent);
-
-                context.pop();
-              } catch (e) {
-                ref
-                    .read(bannerMessageProvider.notifier)
-                    .set(
-                      context.tr("SettingsScreen.SettingsRestore.ImportFailed"),
-                    );
-                context.pop();
-
-                ref.read(talkerProvider).error('Settings import failed', e);
-              }
-            }
-          },
+          onPressed: () => _pickAndStage(context, ref),
           child: Text(
             context.tr("SettingsScreen.SettingsRestore.ImportSettings.Import"),
           ),
         ),
       ],
     );
+  }
+
+  Future<void> _pickAndStage(BuildContext context, WidgetRef ref) async {
+    final resultFile = await FilePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+    );
+
+    if (resultFile == null) {
+      return;
+    }
+
+    final file = resultFile.files.first;
+
+    try {
+      final fileContent = await File(file.path!).readAsString();
+      final jsonContent = jsonDecode(fileContent);
+
+      if (jsonContent['schemaVersion'] != kSettingsSchemaVersion) {
+        ref
+            .read(bannerMessageProvider.notifier)
+            .set(
+              context.tr(
+                "SettingsScreen.SettingsRestore.ImportSettings.InvalidVersion",
+              ),
+            );
+        context.pop();
+        return;
+      }
+
+      if (jsonContent['settings'] == null) {
+        ref
+            .read(bannerMessageProvider.notifier)
+            .set(context.tr("SettingsScreen.SettingsRestore.ImportFailed"));
+        context.pop();
+        return;
+      }
+
+      ref.read(importedSettingsJsonProvider.notifier).setValue(jsonContent);
+
+      context.pop();
+    } catch (e) {
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set(context.tr("SettingsScreen.SettingsRestore.ImportFailed"));
+      context.pop();
+
+      ref.read(talkerProvider).error('Settings import failed', e);
+    }
   }
 }

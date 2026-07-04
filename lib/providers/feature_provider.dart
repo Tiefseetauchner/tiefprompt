@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 
@@ -10,7 +9,7 @@ part 'feature_provider.g.dart';
 class Features extends _$Features {
   @override
   AppFeatures build() {
-    return AppFeatures([], FeatureKind.unverifiedBuild);
+    throw UnimplementedError('build must be implemented in subclasses');
   }
 
   Future<bool> bootstrap() {
@@ -30,6 +29,12 @@ class Features extends _$Features {
   Widget getPurchaseScreen(DisabledFeatureScreenRouterExtra? extra) {
     throw UnimplementedError(
       'getPurchaseScreen must be implemented in subclasses',
+    );
+  }
+
+  Widget Function(BuildContext) getFeaturePopup() {
+    throw UnimplementedError(
+      'getFeaturePopup must be implemented in subclasses',
     );
   }
 }

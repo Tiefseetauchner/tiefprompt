@@ -229,6 +229,8 @@ class _KeybindingAppSettingState
       widget.bindings,
     );
 
+    final keybindingNotifier = ref.read(keybindingsProvider.notifier);
+
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
@@ -245,12 +247,13 @@ class _KeybindingAppSettingState
                     title: Text(_getBindingDisplay(b)),
                     trailing: IconButton(
                       onPressed: () {
+                        keybindingNotifier.removeBinding(
+                          widget.bindingAction,
+                          b,
+                        );
                         setState(() {
                           dialogBindings.remove(b);
                         });
-                        ref
-                            .read(keybindingsProvider.notifier)
-                            .removeBinding(widget.bindingAction, b);
                       },
                       icon: Icon(Icons.delete),
                     ),
@@ -270,12 +273,13 @@ class _KeybindingAppSettingState
                     )) {
                       return;
                     }
+                    keybindingNotifier.addBinding(
+                      widget.bindingAction,
+                      newBinding,
+                    );
                     setState(() {
                       dialogBindings.add(newBinding);
                     });
-                    ref
-                        .read(keybindingsProvider.notifier)
-                        .addBinding(widget.bindingAction, newBinding);
                   },
                 ),
               ],
@@ -322,7 +326,7 @@ class _KeybindingAppSettingState
 
             final hardwareKeyboard = HardwareKeyboard.instance;
             final newBinding = Keybinding(
-              key.keyId,
+              keyId: key.keyId,
               ctrl: hardwareKeyboard.isControlPressed,
               shift: hardwareKeyboard.isShiftPressed,
               alt: hardwareKeyboard.isAltPressed,
@@ -620,9 +624,8 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
   }
 }
 
-class DialogAppSetting<TValue> extends AppSetting {
+class DialogAppSetting extends AppSetting {
   final Widget? dialogContent;
-  final TValue value;
   final Function()? callback;
   final Future<void> Function(BuildContext context, WidgetRef ref)? onTap;
 
@@ -632,7 +635,6 @@ class DialogAppSetting<TValue> extends AppSetting {
     required super.displayText,
     super.enabled,
     this.dialogContent,
-    required this.value,
     this.callback,
     this.onTap,
   });

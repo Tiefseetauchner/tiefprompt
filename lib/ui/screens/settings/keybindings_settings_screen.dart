@@ -1,13 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
+import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
-import 'package:tiefprompt/providers/settings_provider.dart';
-import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 import 'package:tiefprompt/ui/widgets/app_settings.dart';
 
 class KeybindingsSettingsScreen extends ConsumerWidget {
@@ -17,8 +15,10 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final keybindings = ref.watch(keybindingsProvider);
 
-    return switch (keybindings) {
-      AsyncData(:final value) => SafeScaffold(
+    return AsyncSettingsBuilder(
+      state: keybindings,
+      screenTitle: context.tr("SettingsScreen.KeybindingsSettings.Title"),
+      builder: (ref, value) => SafeScaffold(
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),
@@ -48,17 +48,6 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
           ],
         ),
       ),
-      AsyncLoading() => SafeScaffold(
-        appBar: AppBar(
-          title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
-        ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ??
-              Color.fromARGB(255, 77, 103, 214),
-        ),
-      ),
-      _ => const ResetSettingsScreen(),
-    };
+    );
   }
 }

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/core/utilities.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +18,6 @@ import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/changelog_modal.dart';
 import 'package:tiefprompt/ui/widgets/wave_divider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -119,7 +119,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         );
         _scriptTitleController.value = TextEditingValue(text: next.title ?? "");
       }
-      Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
     });
   }
 
@@ -259,7 +258,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       IconButton(
                         icon: Icon(Icons.code),
-                        onPressed: () => _launchUrl(kRepoUrl),
+                        onPressed: () => launchUrlFromString(kRepoUrl),
                         tooltip: context.tr("HomeScreen.IconButton_SourceCode"),
                       ),
                       FutureBuilder(
@@ -287,8 +286,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       ),
                                     ),
                                     ElevatedButton(
-                                      onPressed: () =>
-                                          _launchUrl(kPrivacyPolicyUrl),
+                                      onPressed: () => launchUrlFromString(
+                                        kPrivacyPolicyUrl,
+                                      ),
                                       child: Text(
                                         context.tr(
                                           "AboutDialog.ElevatedButton_Privacy",
@@ -316,13 +316,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _updateEphemeralScript() {
     final script = ref.read(scriptProvider);
     ref.read(scriptServiceProvider.notifier).saveEphemeral(script);
-  }
-
-  Future<void> _launchUrl(String uri) async {
-    final Uri url = Uri.parse(uri);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
   }
 
   void _showDiscardConfirmDialog(Function() confirmAction) {
@@ -411,7 +404,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 class _BuildVersionNote extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appFeatures = ref.watch(featuresProvider);
+    final (:featureKind, :featureName) = ref.watch(
+      featuresProvider.select(
+        (f) => (featureKind: f.featureKind, featureName: f.featureName),
+      ),
+    );
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -421,86 +419,24 @@ class _BuildVersionNote extends ConsumerWidget {
               context: context,
               builder: (dialogContext) {
                 return AlertDialog(
-                  title: Text(
-                    switch (appFeatures.featureKind) {
-                      FeatureKind.fossVersion => context.tr(
-                        "HomeScreen.FossVersion",
-                      ),
-                      FeatureKind.freeVersion => context.tr(
-                        "HomeScreen.FreeVersion",
-                      ),
-                      FeatureKind.paidVersion => context.tr(
-                        "HomeScreen.PaidVersion",
-                      ),
-                      FeatureKind.unverifiedBuild => context.tr(
-                        "HomeScreen.UnverifiedBuild",
-                      ),
-                    },
-                    style: TextStyle(
-                      color:
-                          appFeatures.featureKind == FeatureKind.unverifiedBuild
-                          ? Colors.red
-                          : null,
-                    ),
-                  ),
                   content: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        Text(switch (appFeatures.featureKind) {
-                          FeatureKind.fossVersion => context.tr(
-                            "HomeScreen.FossVersion_Explanation",
-                          ),
-                          FeatureKind.freeVersion => context.tr(
-                            "HomeScreen.FreeVersion_Explanation",
-                          ),
-                          FeatureKind.paidVersion => context.tr(
-                            "HomeScreen.PaidVersion_Explanation",
-                          ),
-                          FeatureKind.unverifiedBuild => context.tr(
-                            "HomeScreen.UnverifiedBuild_Explanation",
-                          ),
-                        }),
-                        if (appFeatures.featureKind == FeatureKind.freeVersion)
-                          ElevatedButton(
-                            onPressed: () => context.push("/disabledfeature"),
-                            child: Text("Buy the Pro Version"),
-                          ),
-                        ElevatedButton(
-                          onPressed: () => _launchUrl(kRepoUrl),
-                          child: Text(kRepoUrl),
-                        ),
-                      ],
-                    ),
+                    child: ref
+                        .read(featuresProvider.notifier)
+                        .getFeaturePopup()(dialogContext),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => dialogContext.pop(),
-                      child: Text(context.tr("HomeScreen.Understood")),
+                      child: Text(dialogContext.tr("HomeScreen.Understood")),
                     ),
                   ],
                 );
               },
             );
           },
-          child: Text(switch (appFeatures.featureKind) {
-            FeatureKind.fossVersion => context.tr("HomeScreen.FossVersion"),
-            FeatureKind.freeVersion => context.tr("HomeScreen.FreeVersion"),
-            FeatureKind.paidVersion => context.tr("HomeScreen.PaidVersion"),
-            FeatureKind.unverifiedBuild => context.tr(
-              "HomeScreen.UnverifiedBuild",
-            ),
-          }),
+          child: Text(context.tr(featureName)),
         ),
       ],
     );
-  }
-
-  Future<void> _launchUrl(String uri) async {
-    final Uri url = Uri.parse(uri);
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
   }
 }
