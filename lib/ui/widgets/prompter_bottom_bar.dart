@@ -30,11 +30,7 @@ final displaySettingsVisibleProvider = NotifierProvider<_BoolToggle, bool>(
 class PrompterBottomBar extends ConsumerWidget {
   const PrompterBottomBar({super.key});
 
-  List<Widget> _getWidgetButtons(
-    BuildContext context,
-    WidgetRef ref,
-    PrompterState prompterState,
-  ) {
+  List<Widget> _getWidgetButtons(BuildContext context, WidgetRef ref) {
     return [
       _ButtonGroup(
         leadingWidth: 50,
@@ -44,7 +40,7 @@ class PrompterBottomBar extends ConsumerWidget {
             tooltip: context.tr("PrompterScreen.IconButton_Save"),
             onPressed: () => ref
                 .read(settingsProvider.notifier)
-                .applySettingsFromPrompter(prompterState),
+                .applySettingsFromPrompter(ref.read(prompterProvider)),
           ),
         ],
       ),
@@ -78,7 +74,9 @@ class PrompterBottomBar extends ConsumerWidget {
               "PrompterScreen.IconButton_TogglePlayPause",
             ),
             icon: Icon(
-              prompterState.isPlaying ? Icons.pause : Icons.play_arrow,
+              ref.watch(prompterProvider).isPlaying
+                  ? Icons.pause
+                  : Icons.play_arrow,
             ),
             tooltip: context.tr("PrompterScreen.IconButton_TogglePlayPause"),
             onPressed: () =>
@@ -121,7 +119,11 @@ class PrompterBottomBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prompterState = ref.watch(prompterProvider);
+    final (:speed, :fontSize) = ref.watch(
+      prompterProvider.select(
+        (p) => (speed: p.config.scrollSpeed, fontSize: p.config.fontSize),
+      ),
+    );
     final fontSettingsVisible = ref.watch(fontSettingsVisibleProvider);
     final displaySettingsVisible = ref.watch(displaySettingsVisibleProvider);
 
@@ -154,11 +156,7 @@ class PrompterBottomBar extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: _getWidgetButtons(
-                          context,
-                          ref,
-                          prompterState,
-                        ),
+                        children: _getWidgetButtons(context, ref),
                       ),
                     ),
                   ),
@@ -169,7 +167,7 @@ class PrompterBottomBar extends ConsumerWidget {
                         Text(
                           context.tr(
                             "PrompterScreen.speed",
-                            args: [prompterState.speed.toStringAsFixed(1)],
+                            args: [speed.toStringAsFixed(1)],
                           ),
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onSurface,
@@ -178,7 +176,7 @@ class PrompterBottomBar extends ConsumerWidget {
                         Text(
                           context.tr(
                             "PrompterScreen.fontsize",
-                            args: [prompterState.fontSize.toStringAsFixed(1)],
+                            args: [fontSize.toStringAsFixed(1)],
                           ),
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onSurface,
@@ -226,7 +224,11 @@ class _ButtonGroup extends StatelessWidget {
 class _FontSettingsDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prompter = ref.watch(prompterProvider);
+    final (:fontSize, :fontFamily) = ref.watch(
+      prompterProvider.select(
+        (p) => (fontSize: p.config.fontSize, fontFamily: p.config.fontFamily),
+      ),
+    );
     final themes = ref.watch(themesProvider);
 
     return switch (themes) {
@@ -257,7 +259,7 @@ class _FontSettingsDialog extends ConsumerWidget {
                         Text(
                           context.tr(
                             "PrompterScreen.SimpleDialog_TextFormat.fontsize",
-                            args: [prompter.fontSize.toStringAsFixed(1)],
+                            args: [fontSize.toStringAsFixed(1)],
                           ),
                         ),
                         IconButton(
@@ -335,7 +337,7 @@ class _FontSettingsDialog extends ConsumerWidget {
                     child: Row(
                       children: [
                         DropdownButton(
-                          value: prompter.fontFamily,
+                          value: fontFamily,
                           items: kAvailableFonts
                               .map(
                                 (font) => DropdownMenuItem(
@@ -374,7 +376,7 @@ class _FontSettingsDialog extends ConsumerWidget {
 class _DisplaySettingsDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prompter = ref.watch(prompterProvider);
+    final prompterConfig = ref.watch(prompterProvider.select((p) => p.config));
     final themes = ref.watch(themesProvider);
 
     return switch (themes) {
@@ -405,7 +407,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               "SettingsScreen.BooleanAppSetting_DefaultFlipX",
                             ),
                             icon: Icon(Icons.flip),
-                            isSelected: prompter.mirroredX,
+                            isSelected: prompterConfig.mirroredX,
                             tooltip: context.tr(
                               "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FlipX",
                             ),
@@ -422,7 +424,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               quarterTurns: 1,
                               child: Icon(Icons.flip),
                             ),
-                            isSelected: prompter.mirroredY,
+                            isSelected: prompterConfig.mirroredY,
                             tooltip: context.tr(
                               "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FlipY",
                             ),
@@ -439,12 +441,12 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               "M",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: prompter.markdownEnabled
+                                color: prompterConfig.markdownEnabled
                                     ? Theme.of(context).colorScheme.primary
                                     : IconTheme.of(context).color,
                               ),
                             ),
-                            isSelected: prompter.markdownEnabled,
+                            isSelected: prompterConfig.markdownEnabled,
                             tooltip: context.tr(
                               "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_Markdown",
                             ),
@@ -461,8 +463,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               "C",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: prompter.markdownEnabled
-                                    ? (prompter.showCurrentChapter
+                                color: prompterConfig.markdownEnabled
+                                    ? (prompterConfig.showCurrentChapter
                                           ? Theme.of(
                                               context,
                                             ).colorScheme.primary
@@ -470,11 +472,11 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                                     : Theme.of(context).disabledColor,
                               ),
                             ),
-                            isSelected: prompter.showCurrentChapter,
+                            isSelected: prompterConfig.showCurrentChapter,
                             tooltip: context.tr(
                               "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_ShowCurrentChapter",
                             ),
-                            onPressed: prompter.markdownEnabled
+                            onPressed: prompterConfig.markdownEnabled
                                 ? () => ref
                                       .read(prompterProvider.notifier)
                                       .toggleCurrentChapterEnabled()
@@ -493,7 +495,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               icon: Icon(
                                 Icons.indeterminate_check_box_outlined,
                               ),
-                              isSelected: prompter.displayReadingIndicatorBoxes,
+                              isSelected:
+                                  prompterConfig.displayReadingIndicatorBoxes,
                               tooltip: context.tr(
                                 "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_ReadingIndicatorBoxes",
                               ),
@@ -502,11 +505,11 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                                   .toggleDisplayReadingIndicatorBoxes(),
                             ),
                             Slider(
-                              value: prompter.readingIndicatorBoxesHeight,
+                              value: prompterConfig.readingIndicatorBoxesHeight,
                               min: 0.0,
                               max: 100.0,
                               divisions: 20,
-                              label: prompter.readingIndicatorBoxesHeight
+                              label: prompterConfig.readingIndicatorBoxesHeight
                                   .toStringAsFixed(2),
                               onChanged: (value) => ref
                                   .read(prompterProvider.notifier)
@@ -524,7 +527,8 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           children: [
                             IconButton(
                               icon: Icon(Icons.margin),
-                              isSelected: prompter.displayVerticalMarginBoxes,
+                              isSelected:
+                                  prompterConfig.displayVerticalMarginBoxes,
                               tooltip: context.tr(
                                 "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_VerticalMarginBoxes",
                               ),
@@ -533,11 +537,11 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                                   .toggleDisplayVerticalMarginBoxes(),
                             ),
                             Slider(
-                              value: prompter.verticalMarginBoxesHeight,
+                              value: prompterConfig.verticalMarginBoxesHeight,
                               min: 0.0,
                               max: 100.0,
                               divisions: 20,
-                              label: prompter.verticalMarginBoxesHeight
+                              label: prompterConfig.verticalMarginBoxesHeight
                                   .toStringAsFixed(2),
                               onChanged: (value) => ref
                                   .read(prompterProvider.notifier)
@@ -546,7 +550,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      if (prompter.displayVerticalMarginBoxes)
+                      if (prompterConfig.displayVerticalMarginBoxes)
                         _FeatureGate(
                           feature: Feature.verticalMarginFade,
                           displayText: context.tr(
@@ -559,18 +563,20 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                                 tooltip: context.tr(
                                   "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_FadeEnabled",
                                 ),
-                                isSelected:
-                                    prompter.verticalMarginBoxesFadeEnabled,
+                                isSelected: prompterConfig
+                                    .verticalMarginBoxesFadeEnabled,
                                 onPressed: () => ref
                                     .read(prompterProvider.notifier)
                                     .toggleVerticalMarginBoxesFadeEnabled(),
                               ),
                               Slider(
-                                value: prompter.verticalMarginBoxesFadeLength,
+                                value: prompterConfig
+                                    .verticalMarginBoxesFadeLength,
                                 min: 0.0,
                                 max: 100,
                                 divisions: 20,
-                                label: prompter.verticalMarginBoxesFadeLength
+                                label: prompterConfig
+                                    .verticalMarginBoxesFadeLength
                                     .toStringAsFixed(2),
                                 onChanged: (value) => ref
                                     .read(prompterProvider.notifier)
@@ -592,11 +598,13 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               ),
                             ),
                             Slider(
-                              value: prompter.sideMargin,
+                              value: prompterConfig.sideMargin,
                               min: 0,
                               max: 100,
                               divisions: 100,
-                              label: prompter.sideMargin.toStringAsFixed(2),
+                              label: prompterConfig.sideMargin.toStringAsFixed(
+                                2,
+                              ),
                               onChanged: (value) => ref
                                   .read(prompterProvider.notifier)
                                   .setSideMargin(value),
@@ -617,13 +625,12 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               ),
                             ),
                             Slider(
-                              value: prompter.countdownDuration,
+                              value: prompterConfig.countdownDuration,
                               min: 0,
                               max: 60,
                               divisions: 60,
-                              label: prompter.countdownDuration.toStringAsFixed(
-                                0,
-                              ),
+                              label: prompterConfig.countdownDuration
+                                  .toStringAsFixed(0),
                               onChanged: (value) => ref
                                   .read(prompterProvider.notifier)
                                   .setCountdownDuration(value),
@@ -642,14 +649,14 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               onPressed: () => ref
                                   .read(prompterProvider.notifier)
                                   .toggleShowControlButtons(),
-                              isSelected: prompter.showControlButtons,
+                              isSelected: prompterConfig.showControlButtons,
                               icon: Icon(Icons.apps_outlined),
                               tooltip: context.tr(
                                 "SettingsScreen.BooleanAppSetting_ControlButtons",
                               ),
                             ),
                             DropdownButton(
-                              value: prompter.controlButtonsPosition,
+                              value: prompterConfig.controlButtonsPosition,
                               items: ControlButtonsPosition.values
                                   .map(
                                     (v) => DropdownMenuItem(

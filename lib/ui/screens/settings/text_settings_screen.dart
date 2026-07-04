@@ -17,95 +17,102 @@ class TextSettingsScreen extends ConsumerWidget {
     return AsyncSettingsBuilder(
       state: settings,
       screenTitle: context.tr("SettingsScreen.TextSettings"),
-      builder: (ref, value) => SafeScaffold(
-        appBar: AppBar(title: Text(context.tr("SettingsScreen.TextSettings"))),
-        body: ListView(
-          children: [
-            NumberAppSetting(
-              feature: Feature.fontSize,
-              value: value.fontSize,
-              displayText: context.tr(
-                "SettingsScreen.NumberAppSetting_DefaultFontSize",
-              ),
-              onValueChanged: (updatedValue) =>
-                  ref.read(settingsProvider.notifier).setFontSize(updatedValue),
-              min: kPrompterMinFontSize,
-              max: kPrompterMaxFontSize,
-              unit: context.tr(
-                "SettingsScreen.NumberAppSetting_DefaultFontSize_Unit",
-              ),
-            ),
-            DropdownAppSetting<TextAlign>(
-              feature: Feature.textAlignment,
-              value: value.alignment,
-              displayText: context.tr(
-                "SettingsScreen.DropdownAppSetting_DefaultTextAlignment",
-              ),
-              onValueChanged: (updatedValue) => ref
-                  .read(settingsProvider.notifier)
-                  .setAlignment(updatedValue),
-              values: [
-                (
-                  context.tr(
-                    "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Left",
-                  ),
-                  TextAlign.left,
+      builder: (ref, value) {
+        final prompterConfig = value.config;
+
+        return SafeScaffold(
+          appBar: AppBar(
+            title: Text(context.tr("SettingsScreen.TextSettings")),
+          ),
+          body: ListView(
+            children: [
+              NumberAppSetting(
+                feature: Feature.fontSize,
+                value: prompterConfig.fontSize,
+                displayText: context.tr(
+                  "SettingsScreen.NumberAppSetting_DefaultFontSize",
                 ),
-                (
-                  context.tr(
-                    "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Center",
-                  ),
-                  TextAlign.center,
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setFontSize(updatedValue),
+                min: kPrompterMinFontSize,
+                max: kPrompterMaxFontSize,
+                unit: context.tr(
+                  "SettingsScreen.NumberAppSetting_DefaultFontSize_Unit",
                 ),
-                (
-                  context.tr(
-                    "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Right",
-                  ),
-                  TextAlign.right,
+              ),
+              DropdownAppSetting<TextAlign>(
+                feature: Feature.textAlignment,
+                value: prompterConfig.alignment,
+                displayText: context.tr(
+                  "SettingsScreen.DropdownAppSetting_DefaultTextAlignment",
                 ),
-                (
-                  context.tr(
-                    "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Justified",
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setAlignment(updatedValue),
+                values: [
+                  (
+                    context.tr(
+                      "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Left",
+                    ),
+                    TextAlign.left,
                   ),
-                  TextAlign.justify,
+                  (
+                    context.tr(
+                      "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Center",
+                    ),
+                    TextAlign.center,
+                  ),
+                  (
+                    context.tr(
+                      "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Right",
+                    ),
+                    TextAlign.right,
+                  ),
+                  (
+                    context.tr(
+                      "SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Justified",
+                    ),
+                    TextAlign.justify,
+                  ),
+                ],
+              ),
+              DropdownAppSetting<String>(
+                feature: Feature.fontFamily,
+                value: prompterConfig.fontFamily,
+                displayText: context.tr(
+                  "SettingsScreen.DropdownAppSetting_DefaultFontFamily",
                 ),
-              ],
-            ),
-            DropdownAppSetting<String>(
-              feature: Feature.fontFamily,
-              value: value.fontFamily,
-              displayText: context.tr(
-                "SettingsScreen.DropdownAppSetting_DefaultFontFamily",
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setFontFamily(updatedValue),
+                values: kAvailableFonts.map((e) => (e, e)).toList(),
               ),
-              onValueChanged: (updatedValue) => ref
-                  .read(settingsProvider.notifier)
-                  .setFontFamily(updatedValue),
-              values: kAvailableFonts.map((e) => (e, e)).toList(),
-            ),
-            BooleanAppSetting(
-              feature: Feature.markdown,
-              displayText: context.tr(
-                "SettingsScreen.BooleanAppSetting_Markdown",
+              BooleanAppSetting(
+                feature: Feature.markdown,
+                displayText: context.tr(
+                  "SettingsScreen.BooleanAppSetting_Markdown",
+                ),
+                value: prompterConfig.markdownEnabled,
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setMarkdownEnabled(updatedValue),
               ),
-              value: value.markdownEnabled,
-              onValueChanged: (updatedValue) => ref
-                  .read(settingsProvider.notifier)
-                  .setMarkdownEnabled(updatedValue),
-            ),
-            BooleanAppSetting(
-              feature: Feature.currentChapter,
-              enabled: value.markdownEnabled,
-              value: value.showCurrentChapter,
-              displayText: context.tr(
-                "SettingsScreen.BooleanAppSetting_ShowCurrentChapter",
+              BooleanAppSetting(
+                feature: Feature.currentChapter,
+                enabled: prompterConfig.markdownEnabled,
+                value: prompterConfig.showCurrentChapter,
+                displayText: context.tr(
+                  "SettingsScreen.BooleanAppSetting_ShowCurrentChapter",
+                ),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setShowCurrentChapter(updatedValue),
               ),
-              onValueChanged: (updatedValue) => ref
-                  .read(settingsProvider.notifier)
-                  .setShowCurrentChapter(updatedValue),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

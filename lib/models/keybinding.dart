@@ -1,7 +1,9 @@
-import 'dart:convert';
-
-import 'package:drift/drift.dart';
+import 'package:drift/drift.dart' hide JsonKey;
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tiefprompt/models/keybinding.drift.dart';
+
+part 'keybinding.freezed.dart';
+part 'keybinding.g.dart';
 
 enum KeybindingAction {
   playPause,
@@ -26,23 +28,23 @@ final Map<String, KeybindingAction> _actionByName = {
   for (final action in KeybindingAction.values) action.name: action,
 };
 
-class Keybinding {
-  final int keyId;
-  final bool ctrl;
-  final bool shift;
-  final bool alt;
-  final bool meta;
+@freezed
+abstract class Keybinding with _$Keybinding {
+  const Keybinding._();
+
+  factory Keybinding({
+    required int keyId,
+    @Default(false) bool ctrl,
+    @Default(false) bool shift,
+    @Default(false) bool alt,
+    @Default(false) bool meta,
+  }) = _Keybinding;
+
+  factory Keybinding.fromJson(Map<String, dynamic> json) =>
+      _$KeybindingFromJson(json);
 
   int get specificity =>
       (ctrl ? 1 : 0) + (shift ? 1 : 0) + (alt ? 1 : 0) + (meta ? 1 : 0);
-
-  Keybinding(
-    this.keyId, {
-    this.ctrl = false,
-    this.shift = false,
-    this.alt = false,
-    this.meta = false,
-  });
 }
 
 class KeybindingMappingModel extends Table {
@@ -68,21 +70,22 @@ class KeybindingMapModel extends Table {
   IntColumn get id => integer().autoIncrement()();
 }
 
-class KeybindingMap {
-  final List<(KeybindingAction, Keybinding)> keybindings;
-
-  const KeybindingMap(this.keybindings);
+@freezed
+abstract class KeybindingMap with _$KeybindingMap {
+  factory KeybindingMap({
+    required List<(KeybindingAction, Keybinding)> keybindings,
+  }) = _KeybindingMap;
 
   factory KeybindingMap.fromBindings(
     List<KeybindingMappingModelData> bindings,
   ) {
     return KeybindingMap(
-      bindings
+      keybindings: bindings
           .map(
             (b) => (
               _actionByName[b.actionName]!,
               Keybinding(
-                b.keyId,
+                keyId: b.keyId,
                 ctrl: b.ctrl,
                 shift: b.shift,
                 alt: b.alt,
@@ -94,41 +97,6 @@ class KeybindingMap {
     );
   }
 
-  factory KeybindingMap.fromJson(List<dynamic> jsonList) {
-    final bindings = <(KeybindingAction, Keybinding)>[];
-
-    for (final entry in jsonList) {
-      final KeybindingAction? action = _actionByName[entry['actionName']];
-      if (action == null) {
-        continue;
-      }
-
-      bindings.add((
-        action,
-        Keybinding(
-          entry['keyId'],
-          ctrl: entry['ctrl'],
-          shift: entry['shift'],
-          alt: entry['alt'],
-          meta: entry['meta'],
-        ),
-      ));
-    }
-
-    return KeybindingMap(bindings);
-  }
-
-  String toJson() => jsonEncode(toJsonMap());
-
-  dynamic toJsonMap() => [
-    for (final entry in keybindings)
-      {
-        'actionName': entry.$1.name,
-        'keyId': entry.$2.keyId,
-        'ctrl': entry.$2.ctrl,
-        'shift': entry.$2.shift,
-        'alt': entry.$2.alt,
-        'meta': entry.$2.meta,
-      },
-  ];
+  factory KeybindingMap.fromJson(Map<String, dynamic> json) =>
+      _$KeybindingMapFromJson(json);
 }

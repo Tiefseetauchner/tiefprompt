@@ -52,6 +52,7 @@ dependencies:
   talker_riverpod_logger: ^5.1.17
   flutter_spinkit: ^5.2.2
   pub_semver: ^2.2.0
+  json_annotation: ^4.12.0
   # in_app_purchase: ^3.3.0
   # in_app_purchase_android: ^0.5.1
 
@@ -71,6 +72,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.3
   drift_dev: ^2.34.0
   msix: ^3.16.12
+  json_serializable: ^6.14.0
+
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true

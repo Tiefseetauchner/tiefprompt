@@ -130,8 +130,10 @@ class Keybindings extends _$Keybindings {
     )).keybindingsMapId;
 
     state = state.whenData(
-      (s) => KeybindingMap(
-        s.keybindings..removeWhere((b) => b.$1 == action && b.$2 == keybinding),
+      (s) => s.copyWith(
+        keybindings: s.keybindings
+            .where((b) => b.$1 != action && b.$2 != keybinding)
+            .toList(),
       ),
     );
 
@@ -156,7 +158,7 @@ class Keybindings extends _$Keybindings {
     )).keybindingsMapId;
 
     state = state.whenData(
-      (s) => KeybindingMap(s.keybindings..add((action, keybinding))),
+      (s) => s.copyWith(keybindings: [...s.keybindings, (action, keybinding)]),
     );
 
     await _databaseManagers.keybindingMappingModel.create(

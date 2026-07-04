@@ -140,8 +140,8 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
     final (:markdownEnabled, :showCurrentChapter) = ref.read(
       prompterProvider.select(
         (s) => (
-          markdownEnabled: s.markdownEnabled,
-          showCurrentChapter: s.showCurrentChapter,
+          markdownEnabled: s.config.markdownEnabled,
+          showCurrentChapter: s.config.showCurrentChapter,
         ),
       ),
     );
@@ -199,7 +199,9 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   @override
   Widget build(BuildContext context) {
     ref.listen(
-      prompterProvider.select((s) => (isPlaying: s.isPlaying, speed: s.speed)),
+      prompterProvider.select(
+        (p) => (isPlaying: p.isPlaying, speed: p.config.scrollSpeed),
+      ),
       (previous, next) {
         if (next.isPlaying) {
           _startScrolling(next.speed);
@@ -222,12 +224,12 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       :alignment,
     ) = ref.watch(
       prompterProvider.select(
-        (s) => (
-          mirroredX: s.mirroredX,
-          mirroredY: s.mirroredY,
-          markdownEnabled: s.markdownEnabled,
-          showCurrentChapter: s.showCurrentChapter,
-          alignment: s.alignment,
+        (p) => (
+          mirroredX: p.config.mirroredX,
+          mirroredY: p.config.mirroredY,
+          markdownEnabled: p.config.markdownEnabled,
+          showCurrentChapter: p.config.showCurrentChapter,
+          alignment: p.config.alignment,
         ),
       ),
     );

@@ -85,7 +85,11 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
       });
     });
 
-    final prompter = ref.watch(prompterProvider);
+    final (:prompterConfig, :displayCountdown) = ref.watch(
+      prompterProvider.select(
+        (p) => (prompterConfig: p.config, displayCountdown: p.displayCountdown),
+      ),
+    );
 
     return KeyboardListener(
       onKeyEvent: (keyEvent) {
@@ -111,27 +115,27 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                   controller: _scrollableTextController,
                   text: script.text,
                   style: TextStyle(
-                    fontSize: prompter.fontSize,
-                    fontFamily: prompter.fontFamily,
+                    fontSize: prompterConfig.fontSize,
+                    fontFamily: prompterConfig.fontFamily,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                   sideMargin:
                       (MediaQuery.of(context).size.width / 2) *
-                      (prompter.sideMargin / 100),
+                      (prompterConfig.sideMargin / 100),
                 ),
               ),
             ),
-            if (prompter.displayVerticalMarginBoxes)
+            if (prompterConfig.displayVerticalMarginBoxes)
               VerticalMargin(
-                heightRatio: prompter.verticalMarginBoxesHeight,
+                heightRatio: prompterConfig.verticalMarginBoxesHeight,
                 color: Theme.of(context).canvasColor,
-                fade: prompter.verticalMarginBoxesFadeEnabled,
+                fade: prompterConfig.verticalMarginBoxesFadeEnabled,
                 // NOTE: fadeLength should be normalized to [0, 1]
-                fadeLength: prompter.verticalMarginBoxesFadeLength / 100,
+                fadeLength: prompterConfig.verticalMarginBoxesFadeLength / 100,
               ),
-            if (prompter.displayReadingIndicatorBoxes)
+            if (prompterConfig.displayReadingIndicatorBoxes)
               VerticalMargin(
-                heightRatio: prompter.readingIndicatorBoxesHeight,
+                heightRatio: prompterConfig.readingIndicatorBoxesHeight,
                 color: Theme.of(context).colorScheme.onSurface.withAlpha(60),
               ),
             CurrentChapterBanner(
@@ -140,16 +144,18 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                   : EdgeInsets.all(0),
             ),
             if ((!ref.watch(controlsVisibleProvider) ||
-                    (prompter.controlButtonsPosition ==
+                    (prompterConfig.controlButtonsPosition ==
                             ControlButtonsPosition.left ||
-                        prompter.controlButtonsPosition ==
+                        prompterConfig.controlButtonsPosition ==
                             ControlButtonsPosition.right)) &&
-                prompter.showControlButtons)
+                prompterConfig.showControlButtons)
               PrompterControlButtonsOverlay(),
             if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
             if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
-            if (prompter.displayCountdown && prompter.countdownDuration > 0)
-              CountdownTimer(duration: prompter.countdownDuration.toInt()),
+            if (displayCountdown && prompterConfig.countdownDuration > 0)
+              CountdownTimer(
+                duration: prompterConfig.countdownDuration.toInt(),
+              ),
           ],
         ),
       ),

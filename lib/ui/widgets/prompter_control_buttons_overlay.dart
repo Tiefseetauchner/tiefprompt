@@ -10,12 +10,14 @@ class PrompterControlButtonsOverlay extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prompter = ref.watch(prompterProvider);
+    final controlButtonsPosition = ref.watch(
+      prompterProvider.select((p) => p.config.controlButtonsPosition),
+    );
 
     return SafeArea(
       child: Container(
         alignment: ControlButtonsPositionResolver.getAlignment(
-          prompter.controlButtonsPosition,
+          controlButtonsPosition,
         ),
         padding: EdgeInsets.all(kControlButtonMargin),
         child: Container(
@@ -47,7 +49,11 @@ class _ControlButtons extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    switch (ref.watch(prompterProvider).controlButtonsPosition) {
+    final controlButtonsPosition = ref.watch(
+      prompterProvider.select((p) => p.config.controlButtonsPosition),
+    );
+
+    switch (controlButtonsPosition) {
       case ControlButtonsPosition.left:
       case ControlButtonsPosition.right:
         return Column(

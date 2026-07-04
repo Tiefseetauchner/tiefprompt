@@ -310,12 +310,12 @@ class _SavedSettingsTile extends ConsumerWidget {
         'name': await ref
             .read(settingsStorageServiceProvider.notifier)
             .getName(entry.id),
-        'settings': SettingsState.toJson(settings),
+        'settings': settings.toJson(),
         'keybindings':
             (await ref
                     .read(keybindingsProvider.notifier)
                     .getKeybindings(settings.keybindingsMapId))
-                .toJsonMap(),
+                .toJson(),
       });
       await FilePicker.saveFile(
         fileName: "settings.json",

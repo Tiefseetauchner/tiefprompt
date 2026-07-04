@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/models/settings_preset_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
@@ -64,49 +64,10 @@ class SettingsStorageService extends _$SettingsStorageService {
       .getSingle();
 
   SettingsState _mapToState(SettingsPresetModelData settings) {
-    return SettingsState(
-      scrollSpeed: settings.scrollSpeed,
-      mirroredX: settings.mirroredX,
-      mirroredY: settings.mirroredY,
-      fontSize: settings.fontSize,
-      sideMargin: settings.sideMargin,
-      fontFamily: settings.fontFamily,
-      alignment: _getAlignment(settings.alignment),
-      displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
-      readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
-      displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
-      verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
-      verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
-      verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
-      countdownDuration: settings.countdownDuration,
-      themeMode: _getThemeMode(settings.themeMode),
-      appPrimaryColor: _getColor(settings.appPrimaryColor),
-      prompterBackgroundColor: _getColor(settings.prompterBackgroundColor),
-      prompterTextColor: _getColor(settings.prompterTextColor),
-      markdownEnabled: settings.markdownEnabled,
-      showControlButtons: settings.showControlButtons,
-      controlButtonsPosition: ControlButtonsPosition.values.singleWhere(
-        (e) => e.name == settings.controlButtonsPosition,
-      ),
-      keybindingsMapId: settings.keybindings,
-    );
+    return SettingsState.fromJson(
+      jsonDecode(settings.data),
+    ).copyWith(keybindingsMapId: settings.keybindings);
   }
-
-  TextAlign _getAlignment(String? alignment) {
-    return TextAlign.values
-            .where((element) => element.name == alignment)
-            .singleOrNull ??
-        TextAlign.left;
-  }
-
-  ThemeMode _getThemeMode(String? themeMode) {
-    return ThemeMode.values
-            .where((element) => element.name == themeMode)
-            .singleOrNull ??
-        ThemeMode.system;
-  }
-
-  Color _getColor(int color) => Color(color);
 
   Future<void> save(
     String name,
@@ -117,28 +78,8 @@ class SettingsStorageService extends _$SettingsStorageService {
     await _databaseManagers.settingsPresetModel.create(
       (s) => s(
         name: name,
-        scrollSpeed: settings.scrollSpeed,
-        mirroredX: settings.mirroredX,
-        mirroredY: settings.mirroredY,
-        fontSize: settings.fontSize,
-        sideMargin: settings.sideMargin,
-        fontFamily: settings.fontFamily,
-        alignment: settings.alignment.name,
-        displayReadingIndicatorBoxes: settings.displayReadingIndicatorBoxes,
-        readingIndicatorBoxesHeight: settings.readingIndicatorBoxesHeight,
-        displayVerticalMarginBoxes: settings.displayVerticalMarginBoxes,
-        verticalMarginBoxesHeight: settings.verticalMarginBoxesHeight,
-        verticalMarginBoxesFadeEnabled: settings.verticalMarginBoxesFadeEnabled,
-        verticalMarginBoxesFadeLength: settings.verticalMarginBoxesFadeLength,
-        countdownDuration: settings.countdownDuration,
-        themeMode: settings.themeMode.name,
-        appPrimaryColor: settings.appPrimaryColor.toARGB32(),
-        prompterBackgroundColor: settings.prompterBackgroundColor.toARGB32(),
-        prompterTextColor: settings.prompterTextColor.toARGB32(),
-        markdownEnabled: settings.markdownEnabled,
-        showControlButtons: settings.showControlButtons,
-        controlButtonsPosition: settings.controlButtonsPosition.name,
         createdAt: DateTime.now(),
+        data: jsonEncode(settings.toJson()),
         keybindings: keybindingMapId,
       ),
     );
