@@ -26,7 +26,7 @@ class AppDatabase extends $AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
@@ -102,7 +102,20 @@ class AppDatabase extends $AppDatabase {
             ),
           );
         },
+        from5To6: (m, schema) async {
+          for (final table in const ['script_model', 'settings_preset_model']) {
+            await _flipCreatedAtToText(m, table);
+          }
+        },
       ),
     );
   }
+}
+
+Future<void> _flipCreatedAtToText(Migrator m, String table) async {
+  await m.database.customStatement(
+    "UPDATE $table SET created_at = "
+    "strftime('%Y-%m-%dT%H:%M:%S.000Z', created_at, 'unixepoch') "
+    "WHERE typeof(created_at) = 'integer'",
+  );
 }

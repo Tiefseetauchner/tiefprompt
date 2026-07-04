@@ -1255,11 +1255,122 @@ i1.GeneratedColumn<String> _column_73(String aliasedName) =>
       type: i1.DriftSqlType.string,
       $customConstraints: 'NULL',
     );
+
+final class Schema6 extends i0.VersionedSchema {
+  Schema6({required super.database}) : super(version: 6);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    scriptModel,
+    keybindingMapModel,
+    settingsPresetModel,
+    keybindingMappingModel,
+    appStateModel,
+  ];
+  late final Shape6 scriptModel = Shape6(
+    source: i0.VersionedTable(
+      entityName: 'script_model',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_36,
+        _column_37,
+        _column_38,
+        _column_39,
+        _column_40,
+        _column_41,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape1 keybindingMapModel = Shape1(
+    source: i0.VersionedTable(
+      entityName: 'keybinding_map_model',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_36],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape7 settingsPresetModel = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'settings_preset_model',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_36,
+        _column_42,
+        _column_39,
+        _column_43,
+        _column_44,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+        _column_50,
+        _column_51,
+        _column_52,
+        _column_53,
+        _column_54,
+        _column_55,
+        _column_56,
+        _column_57,
+        _column_58,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+        _column_64,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape8 keybindingMappingModel = Shape8(
+    source: i0.VersionedTable(
+      entityName: 'keybinding_mapping_model',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [
+        _column_36,
+        _column_65,
+        _column_66,
+        _column_67,
+        _column_68,
+        _column_69,
+        _column_70,
+        _column_71,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape9 appStateModel = Shape9(
+    source: i0.VersionedTable(
+      entityName: 'app_state_model',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: [],
+      columns: [_column_72, _column_73],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+}
+
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
   required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
   required Future<void> Function(i1.Migrator m, Schema5 schema) from4To5,
+  required Future<void> Function(i1.Migrator m, Schema6 schema) from5To6,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -1283,6 +1394,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from4To5(migrator, schema);
         return 5;
+      case 5:
+        final schema = Schema6(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from5To6(migrator, schema);
+        return 6;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -1294,11 +1410,13 @@ i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
   required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
   required Future<void> Function(i1.Migrator m, Schema5 schema) from4To5,
+  required Future<void> Function(i1.Migrator m, Schema6 schema) from5To6,
 }) => i0.VersionedSchema.stepByStepHelper(
   step: migrationSteps(
     from1To2: from1To2,
     from2To3: from2To3,
     from3To4: from3To4,
     from4To5: from4To5,
+    from5To6: from5To6,
   ),
 );
