@@ -107,6 +107,7 @@ class DropdownAppSetting<T> extends AppSetting {
   final T value;
   final Function(T) onValueChanged;
   final List<(String, T)> values;
+  final Widget Function(T)? valueDisplayBuilder;
 
   const DropdownAppSetting({
     super.key,
@@ -116,6 +117,7 @@ class DropdownAppSetting<T> extends AppSetting {
     required this.value,
     required this.onValueChanged,
     required this.values,
+    this.valueDisplayBuilder,
   });
 
   @override
@@ -133,7 +135,12 @@ class DropdownAppSetting<T> extends AppSetting {
           borderRadius: BorderRadius.circular(kBrandRadius),
           value: value,
           items: values.map((value) {
-            return DropdownMenuItem<T>(value: value.$2, child: Text(value.$1));
+            return DropdownMenuItem<T>(
+              value: value.$2,
+              child: valueDisplayBuilder != null
+                  ? valueDisplayBuilder!(value.$2)
+                  : Text(value.$1),
+            );
           }).toList(),
           onChanged: enabled
               ? (newValue) {

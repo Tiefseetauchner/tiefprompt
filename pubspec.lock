@@ -1169,6 +1169,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.17"
+  tief_fonts:
+    dependency: "direct main"
+    description:
+      path: "../tief_fonts"
+      relative: true
+    source: path
+    version: "0.0.1"
   tief_weave:
     dependency: "direct main"
     description:

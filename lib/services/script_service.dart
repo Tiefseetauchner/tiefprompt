@@ -30,11 +30,10 @@ class ScriptService extends _$ScriptService {
   Future<int> getScriptCount() async =>
       await _databaseManagers.scriptModel.count();
 
-  Future<Stream<List<ScriptDisplayData>>> getScripts() async =>
-      _databaseManagers.scriptModel
-          .filter((f) => f.ephemeral.equals(false))
-          .asyncMap(_mapToDisplay)
-          .watch();
+  Stream<List<ScriptDisplayData>> getScripts() => _databaseManagers.scriptModel
+      .filter((f) => f.ephemeral.equals(false))
+      .asyncMap(_mapToDisplay)
+      .watch();
 
   Future<ScriptDisplayData> _mapToDisplay(ScriptModelData script) async =>
       ScriptDisplayData(

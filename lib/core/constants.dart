@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:talker_riverpod_logger/talker_riverpod_logger.dart';
+import 'package:tiefprompt/core/fonts.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 
 const double kPrompterMinSpeed = 0.1;
@@ -45,11 +46,114 @@ const TalkerRiverpodLoggerSettings kTalkerRiverpodObserverSettings =
 
 const int kSettingsSchemaVersion = 1;
 
-const List<String> kAvailableFonts = [
-  'Roboto',
-  'RobotoMono',
-  'RobotoSlab',
-  'OpenDyslexic',
+final List<TiefPromptFontsFile> kAvailableFonts = [
+  TiefPromptFontsFile(
+    name: "Roboto",
+    isBuiltIn: true,
+    variants: [
+      TiefPromptFontsVariant(
+        weight: 400,
+        fontStyle: FontStyle.normal,
+        load: () async =>
+            await rootBundle.load("assets/fonts/Roboto-Regular.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 700,
+        fontStyle: FontStyle.normal,
+        load: () async => await rootBundle.load("assets/fonts/Roboto-Bold.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 400,
+        fontStyle: FontStyle.italic,
+        load: () async =>
+            await rootBundle.load("assets/fonts/Roboto-Italic.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 700,
+        fontStyle: FontStyle.italic,
+        load: () async =>
+            await rootBundle.load("assets/fonts/Roboto-BoldItalic.ttf"),
+      ),
+    ],
+  ),
+  TiefPromptFontsFile(
+    name: "RobotoMono",
+    isBuiltIn: true,
+    variants: [
+      TiefPromptFontsVariant(
+        weight: 400,
+        fontStyle: FontStyle.normal,
+        load: () async =>
+            await rootBundle.load("assets/fonts/RobotoMono-Regular.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 700,
+        fontStyle: FontStyle.normal,
+        load: () async =>
+            await rootBundle.load("assets/fonts/RobotoMono-Bold.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 400,
+        fontStyle: FontStyle.italic,
+        load: () async =>
+            await rootBundle.load("assets/fonts/RobotoMono-Italic.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 700,
+        fontStyle: FontStyle.italic,
+        load: () async =>
+            await rootBundle.load("assets/fonts/RobotoMono-BoldItalic.ttf"),
+      ),
+    ],
+  ),
+  TiefPromptFontsFile(
+    name: "RobotoSlab",
+    isBuiltIn: true,
+    variants: [
+      TiefPromptFontsVariant(
+        weight: 400,
+        fontStyle: FontStyle.normal,
+        load: () async =>
+            await rootBundle.load("assets/fonts/RobotoSlab-Regular.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 700,
+        fontStyle: FontStyle.normal,
+        load: () async =>
+            await rootBundle.load("assets/fonts/RobotoSlab-Bold.ttf"),
+      ),
+    ],
+  ),
+  TiefPromptFontsFile(
+    name: "OpenDyslexic",
+    isBuiltIn: true,
+    variants: [
+      TiefPromptFontsVariant(
+        weight: 400,
+        fontStyle: FontStyle.normal,
+        load: () async =>
+            await rootBundle.load("assets/fonts/OpenDyslexic-Regular.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 700,
+        fontStyle: FontStyle.normal,
+        load: () async =>
+            await rootBundle.load("assets/fonts/OpenDyslexic-Bold.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 400,
+        fontStyle: FontStyle.italic,
+        load: () async =>
+            await rootBundle.load("assets/fonts/OpenDyslexic-Italic.ttf"),
+      ),
+      TiefPromptFontsVariant(
+        weight: 700,
+        fontStyle: FontStyle.italic,
+        load: () async =>
+            await rootBundle.load("assets/fonts/OpenDyslexic-BoldItalic.ttf"),
+      ),
+    ],
+  ),
 ];
 
 const kSupportedLocales = [
@@ -96,6 +200,7 @@ enum Feature {
   showHelpRequest,
   ephemeralScript,
   currentChapter,
+  customFonts,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -127,6 +232,7 @@ const kAllFeatures = [
   Feature.showHelpRequest,
   Feature.ephemeralScript,
   Feature.currentChapter,
+  Feature.customFonts,
 ];
 
 const kFreeFeatures = [

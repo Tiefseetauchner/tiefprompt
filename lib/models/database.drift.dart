@@ -5,6 +5,7 @@ import 'package:tiefprompt/models/script_model.drift.dart' as i1;
 import 'package:tiefprompt/models/keybinding.drift.dart' as i2;
 import 'package:tiefprompt/models/settings_preset_model.drift.dart' as i3;
 import 'package:tiefprompt/models/app_state.drift.dart' as i4;
+import 'package:tiefprompt/models/custom_font_model.drift.dart' as i5;
 
 abstract class $AppDatabase extends i0.GeneratedDatabase {
   $AppDatabase(i0.QueryExecutor e) : super(e);
@@ -19,6 +20,8 @@ abstract class $AppDatabase extends i0.GeneratedDatabase {
   late final i4.$AppStateModelTable appStateModel = i4.$AppStateModelTable(
     this,
   );
+  late final i5.$CustomFontModelTable customFontModel = i5
+      .$CustomFontModelTable(this);
   @override
   Iterable<i0.TableInfo<i0.Table, Object?>> get allTables =>
       allSchemaEntities.whereType<i0.TableInfo<i0.Table, Object?>>();
@@ -29,6 +32,7 @@ abstract class $AppDatabase extends i0.GeneratedDatabase {
     settingsPresetModel,
     keybindingMappingModel,
     appStateModel,
+    customFontModel,
   ];
   @override
   i0.StreamQueryUpdateRules get streamUpdateRules =>
@@ -76,4 +80,6 @@ class $AppDatabaseManager {
       );
   i4.$$AppStateModelTableTableManager get appStateModel =>
       i4.$$AppStateModelTableTableManager(_db, _db.appStateModel);
+  i5.$$CustomFontModelTableTableManager get customFontModel =>
+      i5.$$CustomFontModelTableTableManager(_db, _db.customFontModel);
 }
