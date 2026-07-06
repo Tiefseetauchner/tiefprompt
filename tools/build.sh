@@ -542,7 +542,7 @@ unset -v RUN_DEBUG_BUILD
 unset -v DISABLE_MACOS_CODE_SIGNING
 unset -v ENABLE_MACOS_NOTARIZATION
 
-while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
+while getopts "t:f:b:k:K:p:i:P:hEvVcdsqnN" opt; do
   case $opt in
     t)
       TARGETS=$OPTARG
