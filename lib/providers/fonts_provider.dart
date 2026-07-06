@@ -36,7 +36,8 @@ class Fonts extends _$Fonts {
     registerFont(finalFont, ref.read(talkerProvider));
   }
 
-  Future<void> removeFont(TiefPromptFontsFile font) async {}
+  // NOTE: This method is not yet required but left for future expansion.
+  // Future<void> removeFont(TiefPromptFontsFile font) async {}
 
   Future<void> removeFontVariant(
     TiefPromptFontsFile font,
@@ -70,6 +71,8 @@ class Fonts extends _$Fonts {
     state = state.whenData(
       (fonts) => [...fonts.where((f) => f.name != font.name), fontWithNewName],
     );
+
+    registerFont(fontWithNewName, ref.read(talkerProvider));
   }
 
   Future<void> moveFontVariant(
