@@ -1172,10 +1172,11 @@ packages:
   tief_fonts:
     dependency: "direct main"
     description:
-      path: "../tief_fonts"
-      relative: true
-    source: path
-    version: "0.0.1"
+      name: tief_fonts
+      sha256: "058362e67fbd3dc057cff428428dd8803ab39fdafad9d262c275f0551cd71eac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   tief_weave:
     dependency: "direct main"
     description:
