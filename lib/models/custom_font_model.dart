@@ -23,21 +23,26 @@ class CustomFontModel extends Table {
 }
 
 class CustomFontModelHelpers {
-  static TiefPromptFontsFile customFontModelToFontFile(
+  static Future<TiefPromptFontsFile> variantsToFontsFile(
+    String familyName,
+    List<CustomFontModelData> variants,
+  ) async => TiefPromptFontsFile(
+    name: familyName,
+    variants: getSortedVariants(
+      variants.map(_customFontModelToFontVariant).toList(),
+    ),
+  );
+
+  static TiefPromptFontsVariant _customFontModelToFontVariant(
     CustomFontModelData font,
-  ) => TiefPromptFontsFile(
-    name: font.familyName,
-    variants: [
-      TiefPromptFontsVariant(
-        weight: font.weight,
-        fontStyle: font.isItalic ? FontStyle.italic : FontStyle.normal,
-        originalFileName: font.originalFileName,
-        isVariable: font.isVariableWeight,
-        weightRange: font.isVariableWeight
-            ? (font.weightMin!, font.weightMax!)
-            : null,
-        load: () => Future.value(ByteData.view(font.data.buffer)),
-      ),
-    ],
+  ) => TiefPromptFontsVariant(
+    weight: font.weight,
+    fontStyle: font.isItalic ? FontStyle.italic : FontStyle.normal,
+    originalFileName: font.originalFileName,
+    isVariable: font.isVariableWeight,
+    weightRange: font.isVariableWeight
+        ? (font.weightMin!, font.weightMax!)
+        : null,
+    load: () => Future.value(ByteData.view(font.data.buffer)),
   );
 }

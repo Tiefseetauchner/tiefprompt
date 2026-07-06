@@ -21,9 +21,18 @@ final class FontsProvider
         retry: null,
         name: r'fontsProvider',
         isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
+        dependencies: <ProviderOrFamily>[
+          settingsProvider,
+          appDatabaseManagerProvider,
+        ],
+        $allTransitiveDependencies: <ProviderOrFamily>[
+          FontsProvider.$allTransitiveDependencies0,
+          FontsProvider.$allTransitiveDependencies1,
+        ],
       );
+
+  static final $allTransitiveDependencies0 = settingsProvider;
+  static final $allTransitiveDependencies1 = appDatabaseManagerProvider;
 
   @override
   String debugGetCreateSourceHash() => _$fontsHash();
@@ -33,7 +42,7 @@ final class FontsProvider
   Fonts create() => Fonts();
 }
 
-String _$fontsHash() => r'7e552df3fecd2796ec288e47db176e31940a942a';
+String _$fontsHash() => r'5564b807e8ed3f44c6a5e871464f9d5bb1d08b09';
 
 abstract class _$Fonts extends $AsyncNotifier<List<TiefPromptFontsFile>> {
   FutureOr<List<TiefPromptFontsFile>> build();
