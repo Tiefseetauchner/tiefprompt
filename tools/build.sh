@@ -497,7 +497,7 @@ ${GREEN}-V          ${RESET}Make script extremely verbose (careful here!).
 ${GREEN}-k key      ${RESET}Signing identity for macOS code signing.
             (i) 3rd Party Mac Developer Application
             (i) Can be set via environment variable 'MACOS_CODE_SIGN_KEY'
-            ${RED}(!) Required if target=macos,macospkg${RESET}
+            ${RED}(!) Required if target=macos,macospkg and -N not set${RESET}
 ${GREEN}-K key      ${RESET}Signing identity for macOS installer signing.
             (i) 3rd Party Mac Developer Installer
             (i) Can be set via environment variable 'MACOS_PACKAGE_SIGN_KEY'
@@ -505,6 +505,8 @@ ${GREEN}-K key      ${RESET}Signing identity for macOS installer signing.
 ${GREEN}-p          ${RESET}Path to the Provisioning Profile for the macOS app.
             (i) Can be set via environment variable 'MACOS_PROVISIONING_PROFILE'
             ${RED}(!) Required if target=macospkg${RESET}
+${GREEN}-n          ${RESET}Enable macOS notarization for macOS packages.
+${GREEN}-N          ${RESET}Disable macOS code signing.
 ${GREEN}-i key      ${RESET}Signing identity for iOS installer signing.
             (i) Apple Distribution
             (i) Can be set via environment variable 'IOS_CODE_SIGN_KEY'
@@ -537,6 +539,7 @@ unset -v MORE_VERBOSE
 unset -v SKIP_FLUTTER_SETUP
 unset -v CONTINUE_ON_FAIL
 unset -v RUN_DEBUG_BUILD
+unset -v DISABLE_MACOS_CODE_SIGNING
 unset -v ENABLE_MACOS_NOTARIZATION
 
 while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
@@ -582,6 +585,9 @@ while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
       ;;
     n)
       ENABLE_MACOS_NOTARIZATION=YES
+      ;;
+    N)
+      DISABLE_MACOS_CODE_SIGNING=YES
       ;;
     s)
       SKIP_FLUTTER_SETUP=YES
@@ -723,7 +729,7 @@ for freedom in $FREEDOM_LIST; do
     target_results=$scratch_dir/$(basename "$target_results")
     more_verbose_echo "${CYAN}Scratch dir ready.${RESET}"
 
-    if [ "$target" = "macos" ] || [ "$target" = "macospkg" ]; then
+    if [ -z "$DISABLE_MACOS_CODE_SIGNING" ] && { [ "$target" = "macos" ] || [ "$target" = "macospkg" ]; }; then
       sign_macos "$target_results"
     fi
 
