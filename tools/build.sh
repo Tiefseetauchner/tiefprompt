@@ -1,92 +1,33 @@
 #!/bin/bash
 set -e
 
-GREEN=$'\033[0;32m'
-RED=$'\033[0;31m'
-YELLOW=$'\033[0;33m'
-CYAN=$'\033[0;36m'
-RESET=$'\033[0;0m'
-
-error_echo() {
-  echo -e "${RED}ERROR: $1$RESET"
-  if [ "$CONTINUE_ON_FAIL" ]; then
-    echo "${RED}Continuing...$RESET"
-  else
-    exit "$2"
-  fi
-}
-
-normal_echo() {
-  if [ -z "$QUIET" ]; then
-    echo -e "$1"
-  fi
-}
-
-normal_echo_stdin() {
-  program_name="$1"
-  while IFS= read -r line; do
-    normal_echo "$GREEN$program_name:$RESET $line"
-  done
-}
-
-# This has to be separated and piped to stderr.
-# > >(...) captures the stdout of 2> >(...) as well,
-# so the error log would get swallowed by the normal logging.
-normal_echo_stderr() {
-  normal_echo_stdin "$@" >&2
-}
-
-verbose_echo() {
-  if [ "$VERBOSE" ] || [ "$MORE_VERBOSE" ]; then
-    echo -e "$1"
-  fi
-}
-
-verbose_echo_stdin() {
-  program_name="$1"
-  while IFS= read -r line; do
-    verbose_echo "$GREEN$program_name:$RESET $line"
-  done
-}
-
-more_verbose_echo() {
-  if [ "$MORE_VERBOSE" ]; then
-    echo -e "$1"
-  fi
-}
-
-more_verbose_echo_stdin() {
-  program_name="$1"
-  while IFS= read -r line; do
-    more_verbose_echo "$GREEN$program_name:$RESET $line"
-  done
-}
+source tools/common.sh
 
 prepare_flutter() {
-  verbose_echo "${CYAN}Setting .flutter to be a safe git directory${RESET}"
+  verbose_echo "${CYAN}Setting .flutter to be a safe git directory${NC}"
   git config --global --add safe.directory "$(pwd)/.flutter" \
     > >(verbose_echo_stdin "git") \
-    2> >(normal_echo_stderr "${RED}git (error)")
-  verbose_echo "${CYAN}Disabling flutter analytics...${RESET}"
+    2> >(error_echo_stderr "git")
+  verbose_echo "${CYAN}Disabling flutter analytics...${NC}"
   .flutter/bin/flutter --disable-analytics \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stderr "${RED}flutter (error)")
-  verbose_echo "${CYAN}Disabling flutter cli animations...${RESET}"
+    2> >(error_echo_stderr "flutter")
+  verbose_echo "${CYAN}Disabling flutter cli animations...${NC}"
   .flutter/bin/flutter config --no-cli-animations \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stderr "${RED}flutter (error)")
-  verbose_echo "${CYAN}Checking and preparing flutter...${RESET}"
+    2> >(error_echo_stderr "flutter")
+  verbose_echo "${CYAN}Checking and preparing flutter...${NC}"
   .flutter/bin/flutter doctor \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stderr "${RED}flutter (error)")
-  verbose_echo "${CYAN}Cleaning with flutter...${RESET}"
+    2> >(error_echo_stderr "flutter")
+  verbose_echo "${CYAN}Cleaning with flutter...${NC}"
   .flutter/bin/flutter clean \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stderr "${RED}flutter (error)")
-  verbose_echo "${CYAN}Getting flutter packages...${RESET}"
+    2> >(error_echo_stderr "flutter")
+  verbose_echo "${CYAN}Getting flutter packages...${NC}"
   .flutter/bin/flutter pub get \
     > >(more_verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stderr "${RED}flutter (error)")
+    2> >(error_echo_stderr "flutter")
 }
 
 enable_iap() {
@@ -98,20 +39,20 @@ disable_iap() {
 }
 
 build_flutter() {
-  normal_echo "${GREEN}Building for target $1 and freedom $2...${RESET}"
+  normal_echo "${GREEN}Building for target $1 and freedom $2...${NC}"
   shift 2
   flutter_args=("$@")
   env "${extra_env[@]}" .flutter/bin/flutter build "${flutter_args[@]}" \
     > >(verbose_echo_stdin "flutter") \
-    2> >(normal_echo_stderr "${RED}flutter (error)")
+    2> >(error_echo_stderr "flutter")
   return $?
 }
 
 build_msix() {
-  verbose_echo "${CYAN}Creating MSIX package...${RESET}"
+  verbose_echo "${CYAN}Creating MSIX package...${NC}"
   .flutter/bin/flutter pub run msix:create --install-certificate false  \
     > >(verbose_echo_stdin "msix") \
-    2> >(normal_echo_stderr "${RED}msix (error)")
+    2> >(error_echo_stderr "msix")
   msix_status=$?
   if [ ! $msix_status -eq 0 ]; then
     error_echo "MSIX packaging failed with status code ${msix_status}." $msix_status
@@ -134,15 +75,15 @@ sign_macos() {
   xattr -rc "$app_name"
 
   if [ -n "$MACOS_PROVISIONING_PROFILE" ]; then
-    verbose_echo "${CYAN}Embedding provisioning profile...${RESET}"
+    verbose_echo "${CYAN}Embedding provisioning profile...${NC}"
     cp "$MACOS_PROVISIONING_PROFILE" "$app_name/Contents/embedded.provisionprofile" \
       > >(verbose_echo_stdin "cp provisionprofile") \
-      2> >(normal_echo_stderr "${RED}cp provisionprofile (error)")
+      2> >(error_echo_stderr "cp provisionprofile")
     # Remove quarantine from the copy — source file may have been downloaded
     xattr -d com.apple.quarantine "$app_name/Contents/embedded.provisionprofile" 2>/dev/null || true
   fi
 
-  verbose_echo "${CYAN}Fixing framework symlinks...${RESET}"
+  verbose_echo "${CYAN}Fixing framework symlinks...${NC}"
   find "$app_name/Contents/Frameworks" -maxdepth 1 -type d -name "*.framework" | while read -r framework; do
     name=$(basename "$framework" .framework)
     if [ -d "$framework/Versions/A" ]; then
@@ -162,22 +103,22 @@ sign_macos() {
     fi
   done
 
-  verbose_echo "${CYAN}Signing nested binaries...${RESET}"
+  verbose_echo "${CYAN}Signing nested binaries...${NC}"
   while IFS= read -r bin; do
-    verbose_echo "${CYAN}Signing nested binary: $bin${RESET}"
+    verbose_echo "${CYAN}Signing nested binary: $bin${NC}"
     codesign --force --verify --verbose --timestamp \
       --sign "$MACOS_CODE_SIGN_KEY" "$bin" \
       > >(verbose_echo_stdin "codesign (nested)") \
-      2> >(normal_echo_stderr "${RED}codesign (nested error)")
+      2> >(error_echo_stderr "codesign (nested error)")
   done < <(find "$app_name/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "*.so" -o -perm -111 \))
 
-  verbose_echo "${CYAN}Signing framework bundles...${RESET}"
+  verbose_echo "${CYAN}Signing framework bundles...${NC}"
   while IFS= read -r framework; do
-    verbose_echo "${CYAN}Signing framework: $framework${RESET}"
+    verbose_echo "${CYAN}Signing framework: $framework${NC}"
     codesign --force --verify --verbose --timestamp \
       --sign "$MACOS_CODE_SIGN_KEY" "$framework" \
       > >(verbose_echo_stdin "codesign (framework)") \
-      2> >(normal_echo_stderr "${RED}codesign (framework error)")
+      2> >(error_echo_stderr "codesign (framework error)")
   done < <(find "$app_name/Contents/Frameworks" -maxdepth 1 -type d -name "*.framework")
 
   if [ -n "$MACOS_PROVISIONING_PROFILE" ]; then
@@ -190,7 +131,7 @@ sign_macos() {
     # Ensure file picker access — file_picker checks for this at runtime
     /usr/libexec/PlistBuddy -c "Add :com.apple.security.files.user-selected.read-only bool true" "$entitlements_plist" 2>/dev/null || \
       /usr/libexec/PlistBuddy -c "Set :com.apple.security.files.user-selected.read-only true" "$entitlements_plist"
-    verbose_echo "${CYAN}Using entitlements from provisioning profile (sandbox enforced)${RESET}"
+    verbose_echo "${CYAN}Using entitlements from provisioning profile (sandbox enforced)${NC}"
   else
     entitlements_plist="macos/Runner/Release.entitlements"
   fi
@@ -199,7 +140,7 @@ sign_macos() {
     --entitlements "$entitlements_plist" \
     --sign "$MACOS_CODE_SIGN_KEY" "$app_name" \
     > >(verbose_echo_stdin "codesign (main app)") \
-    2> >(normal_echo_stderr "${RED}codesign (main app error)")
+    2> >(error_echo_stderr "codesign (main app error)")
   codesign_status=$?
   if [ ! $codesign_status -eq 0 ]; then
     error_echo "codesign failed with status code ${codesign_status}." $codesign_status
@@ -215,12 +156,12 @@ package_macos() {
     return 127
   fi
 
-  more_verbose_echo "${CYAN}Creating macOS pkg...${RESET}"
+  more_verbose_echo "${CYAN}Creating macOS pkg...${NC}"
   productbuild --component "$app_name" /Applications \
     --sign "$MACOS_PACKAGE_SIGN_KEY" \
     "${base_name}.pkg" \
     > >(more_verbose_echo_stdin "productbuild") \
-    2> >(normal_echo_stderr "${RED}productbuild (error)")
+    2> >(error_echo_stderr "productbuild")
 
 
   PACKAGE_MACOS_RESULT="${base_name}.pkg"
@@ -250,24 +191,24 @@ notarize_macos_pkg() {
   elif [ "$APPLE_ID" ] && [ "$APPLE_ID_PASSWORD" ]; then
     cred_args+=(--apple-id "$APPLE_ID" --password "$APPLE_ID_PASSWORD")
   else
-    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${RESET}"
+    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${NC}"
     return 0
   fi
 
-  verbose_echo "${CYAN}Submitting $pkg_path for notarization...${RESET}"
+  verbose_echo "${CYAN}Submitting $pkg_path for notarization...${NC}"
   xcrun notarytool submit "$pkg_path" "${cred_args[@]}" --wait \
     > >(verbose_echo_stdin "notarytool") \
-    2> >(normal_echo_stderr "${RED}notarytool (error)")
+    2> >(error_echo_stderr "notarytool")
   submit_status=$?
   if [ ! $submit_status -eq 0 ]; then
     error_echo "Notarization failed with status code ${submit_status}." $submit_status
     return 127
   fi
 
-  verbose_echo "${CYAN}Stapling notarization ticket...${RESET}"
+  verbose_echo "${CYAN}Stapling notarization ticket...${NC}"
   xcrun stapler staple "$pkg_path" \
     > >(verbose_echo_stdin "stapler") \
-    2> >(normal_echo_stderr "${RED}stapler (error)")
+    2> >(error_echo_stderr "stapler")
   staple_status=$?
   if [ ! $staple_status -eq 0 ]; then
     error_echo "Stapling failed with status code ${staple_status}." $staple_status
@@ -299,20 +240,20 @@ notarize_macos_app() {
   elif [ "$APPLE_ID" ] && [ "$APPLE_ID_PASSWORD" ]; then
     cred_args+=(--apple-id "$APPLE_ID" --password "$APPLE_ID_PASSWORD")
   else
-    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${RESET}"
+    verbose_echo "${YELLOW}Skipping notarization: no credentials provided (AC_API_* or APPLE_ID).${NC}"
     return 0
   fi
 
   zip_path="${app_path%.app}.notarize.zip"
-  verbose_echo "${CYAN}Zipping $app_path for notarization submission...${RESET}"
+  verbose_echo "${CYAN}Zipping $app_path for notarization submission...${NC}"
   ditto -c -k --keepParent "$app_path" "$zip_path" \
     > >(verbose_echo_stdin "ditto") \
-    2> >(normal_echo_stderr "${RED}ditto (error)")
+    2> >(error_echo_stderr "ditto")
 
-  verbose_echo "${CYAN}Submitting $app_path for notarization...${RESET}"
+  verbose_echo "${CYAN}Submitting $app_path for notarization...${NC}"
   xcrun notarytool submit "$zip_path" "${cred_args[@]}" --wait \
     > >(verbose_echo_stdin "notarytool") \
-    2> >(normal_echo_stderr "${RED}notarytool (error)")
+    2> >(error_echo_stderr "notarytool")
   submit_status=$?
   rm -f "$zip_path"
   if [ ! $submit_status -eq 0 ]; then
@@ -320,10 +261,10 @@ notarize_macos_app() {
     return 127
   fi
 
-  verbose_echo "${CYAN}Stapling notarization ticket to $app_path...${RESET}"
+  verbose_echo "${CYAN}Stapling notarization ticket to $app_path...${NC}"
   xcrun stapler staple "$app_path" \
     > >(verbose_echo_stdin "stapler") \
-    2> >(normal_echo_stderr "${RED}stapler (error)")
+    2> >(error_echo_stderr "stapler")
   staple_status=$?
   if [ ! $staple_status -eq 0 ]; then
     error_echo "App stapling failed with status code ${staple_status}." $staple_status
@@ -334,7 +275,7 @@ notarize_macos_app() {
 }
 
 add_ios_swiftsupport() {
-  more_verbose_echo "${CYAN}Adding iOS SwiftSupport Folder${RESET}"
+  more_verbose_echo "${CYAN}Adding iOS SwiftSupport Folder${NC}"
 
   app_path=$(find "$1" -name "*.app" -maxdepth 1)
 
@@ -343,17 +284,17 @@ add_ios_swiftsupport() {
     dylibs+=("$lib")
   done < <(find "$app_path/Frameworks" -type f -name "*.dylib" -print0 2>/dev/null)
   if [ ${#dylibs[@]} -eq 0 ]; then
-    more_verbose_echo "${CYAN}No Swift dylibs found, skipping SwiftSupport folder${RESET}"
+    more_verbose_echo "${CYAN}No Swift dylibs found, skipping SwiftSupport folder${NC}"
     return 0
   fi
 
   mkdir -p "$2/SwiftSupport/iphoneos" \
     > >(more_verbose_echo_stdin "mkdir") \
-    2> >(normal_echo_stderr "${RED}mkdir (error)")
+    2> >(error_echo_stderr "mkdir")
   for lib in "${dylibs[@]}"; do
     cp "$lib" "$2/SwiftSupport/iphoneos" \
       > >(more_verbose_echo_stdin "cp") \
-      2> >(normal_echo_stderr "${RED}cp (error)")
+      2> >(error_echo_stderr "cp")
   done
 }
 
@@ -373,7 +314,7 @@ sign_ios() {
 
   cp "$IOS_PROVISIONING_PROFILE" "$app_path/embedded.mobileprovision" \
     > >(verbose_echo_stdin "cp mobileprovision") \
-    2> >(normal_echo_stderr "${RED}cp mobileprovision (error)")
+    2> >(error_echo_stderr "cp mobileprovision")
 
   entitlements_plist=$1/entitlements.plist
   security cms -D -i "$IOS_PROVISIONING_PROFILE" 2>/dev/null |
@@ -385,13 +326,13 @@ sign_ios() {
     find "$app_path/Frameworks" -type d -name "*.framework" | while read -r framework; do
       codesign --force --timestamp --sign "$IOS_CODE_SIGN_KEY" --preserve-metadata=identifier,entitlements "$framework" \
         > >(verbose_echo_stdin "codesign") \
-        2> >(normal_echo_stderr "${RED}codesign (error)")
+        2> >(error_echo_stderr "codesign")
     done
   fi
 
   codesign --force --timestamp --sign "$IOS_CODE_SIGN_KEY" --entitlements "$entitlements_plist" "$app_path" \
     > >(verbose_echo_stdin "codesign") \
-    2> >(normal_echo_stderr "${RED}codesign (error)")
+    2> >(error_echo_stderr "codesign")
 }
 
 package_ios_ipa() {
@@ -401,27 +342,27 @@ package_ios_ipa() {
   ipa_name="$(basename "${app_path%.app}.ipa")"
   tmpdir=$build_dir/ipa_temp
   add_ios_swiftsupport "$target_results" "$tmpdir/" 
-  more_verbose_echo "${CYAN}Creating temp dir $tmpdir/Payload${RESET}"
+  more_verbose_echo "${CYAN}Creating temp dir $tmpdir/Payload${NC}"
   mkdir -p "$tmpdir" \
     > >(more_verbose_echo_stdin "mkdir") \
-    2> >(normal_echo_stderr "${RED}mkdir (error)")
+    2> >(error_echo_stderr "mkdir")
   mkdir -p "$tmpdir/Payload" \
     > >(more_verbose_echo_stdin "mkdir") \
-    2> >(normal_echo_stderr "${RED}mkdir (error)")
-  more_verbose_echo "${CYAN}Copying $app_path to $tmpdir/Payload${RESET}"
+    2> >(error_echo_stderr "mkdir")
+  more_verbose_echo "${CYAN}Copying $app_path to $tmpdir/Payload${NC}"
   cp -R "$app_path" "$tmpdir/Payload/" \
     > >(more_verbose_echo_stdin "cp") \
-    2> >(normal_echo_stderr "${RED}cp (error)")
-  more_verbose_echo "${CYAN}Zipping $tmpdir/ to $ipa_name${RESET}"
+    2> >(error_echo_stderr "cp")
+  more_verbose_echo "${CYAN}Zipping $tmpdir/ to $ipa_name${NC}"
   (cd "$tmpdir" && \
     zip -r "$ipa_name" . \
       > >(more_verbose_echo_stdin "zip") \
-      2> >(normal_echo_stderr "${RED}zip (error)"))
+      2> >(error_echo_stderr "zip"))
   mv "$tmpdir/$ipa_name" "$build_dir/" \
     > >(more_verbose_echo_stdin "mv") \
-    2> >(normal_echo_stderr "${RED}mv (error)")
+    2> >(error_echo_stderr "mv")
 
-  more_verbose_echo "${CYAN}Packaged $build_dir/$(basename "$ipa_name")${RESET}"
+  more_verbose_echo "${CYAN}Packaged $build_dir/$(basename "$ipa_name")${NC}"
   PACKAGE_IOSIPA_RESULT="$build_dir/$(basename "$ipa_name")"
   return 0
 }
@@ -435,17 +376,17 @@ compress_directory() {
   if command -v ditto &>/dev/null && [ ${#inputs[@]} -eq 1 ]; then
     ditto -c -k --keepParent "${inputs[0]}" "$output" \
       > >(more_verbose_echo_stdin "ditto") \
-      2> >(normal_echo_stderr "${RED}ditto (error)")
+      2> >(error_echo_stderr "ditto")
     return $?
   elif command -v 7z &>/dev/null; then
     7z a "$output" "${inputs[@]}" \
       > >(more_verbose_echo_stdin "7z") \
-      2> >(normal_echo_stderr "${RED}7z (error)")
+      2> >(error_echo_stderr "7z")
     return $?
   elif command -v zip &>/dev/null; then
     zip -r "$output" "${inputs[@]}" \
       > >(more_verbose_echo_stdin "zip") \
-      2> >(normal_echo_stderr "${RED}zip (error)")
+      2> >(error_echo_stderr "zip")
     return $?
   else
     error_echo "No suitable compression tool (ditto, 7z, or zip) found."
@@ -454,80 +395,83 @@ compress_directory() {
 }
 
 rename_release_files() {
-  verbose_echo "${CYAN}Moving release files to $BUILD_DIR$RESET"
+  verbose_echo "${CYAN}Moving release files to $BUILD_DIR$NC"
   find "$BUILD_DIR/" -mindepth 1 -maxdepth 1 -type d | while read -r dir; do
     dir_name=$(basename "$dir")
-    more_verbose_echo "${CYAN}Found directory $dir. Looking for files...${RESET}"
+    more_verbose_echo "${CYAN}Found directory $dir. Looking for files...${NC}"
     find "$dir" -maxdepth 1 -type f | while read -r file; do
       file_name=$(basename "$file")
-      more_verbose_echo "${CYAN}Found file $file. Moving to $BUILD_DIR/${dir_name}_${file_name}...${RESET}"
+      more_verbose_echo "${CYAN}Found file $file. Moving to $BUILD_DIR/${dir_name}_${file_name}...${NC}"
       mv "$file" "$BUILD_DIR/${dir_name}_${file_name}"
     done
   done
 }
 
 info() {
-  echo -e "${GREEN}Build TiefPrompt packages.${RESET}"
+  echo -e "${GREEN}Build TiefPrompt packages.${NC}"
 
   usage
 }
 
 usage() {
   cat <<EOF
-${YELLOW}usage: build.sh [options]${RESET}
+${YELLOW}usage: build.sh [options]${NC}
 
-${GREEN}-t target   ${RESET}Comma separated list of targets to build. Options:
+${GREEN}-t target   ${NC}Comma separated list of targets to build. Options:
             linux,windows,windowsmsix,androidaab,androidapk,macos,macospkg,iosipa
             (i) Can be set via environment variable 'TARGETS'
-            ${RED}(!) Required${RESET}
-${GREEN}-f freedom  ${RESET}Comma separated list of freedoms. Options:
+            ${RED}(!) Required${NC}
+${GREEN}-f freedom  ${NC}Comma separated list of freedoms. Options:
             freemium,foss
             (i) Can be set via environment variable 'FREEDOM'
-            ${RED}(!) Required${RESET}
-${GREEN}-b dir      ${RESET}Build directory to place packages in.
+            ${RED}(!) Required${NC}
+${GREEN}-b dir      ${NC}Build directory to place packages in.
             Default: /package
             (i) Unix path interpreted from current directory.
             (i) Can be set via environment variable 'BUILD_DIR'
-${GREEN}-s          ${RESET}Skip Flutter preparation.
-${GREEN}-d          ${RESET}Run debug build.
-${GREEN}-c          ${RESET}Continue on fail.
-${GREEN}-q          ${RESET}Make script quiet.
-${GREEN}-v          ${RESET}Make script verbose.
-${GREEN}-V          ${RESET}Make script extremely verbose (careful here!).
-${GREEN}-k key      ${RESET}Signing identity for macOS code signing.
+${GREEN}-s          ${NC}Skip Flutter preparation.
+${GREEN}-d          ${NC}Run debug build.
+${GREEN}-c          ${NC}Continue on fail.
+${GREEN}-k key      ${NC}Signing identity for macOS code signing.
             (i) 3rd Party Mac Developer Application
             (i) Can be set via environment variable 'MACOS_CODE_SIGN_KEY'
-            ${RED}(!) Required if target=macos,macospkg${RESET}
-${GREEN}-K key      ${RESET}Signing identity for macOS installer signing.
+            ${RED}(!) Required if target=macos,macospkg and -N not set${NC}
+${GREEN}-K key      ${NC}Signing identity for macOS installer signing.
             (i) 3rd Party Mac Developer Installer
             (i) Can be set via environment variable 'MACOS_PACKAGE_SIGN_KEY'
-            ${RED}(!) Required if target=macospkg${RESET}
-${GREEN}-p          ${RESET}Path to the Provisioning Profile for the macOS app.
+            ${RED}(!) Required if target=macospkg${NC}
+${GREEN}-p          ${NC}Path to the Provisioning Profile for the macOS app.
             (i) Can be set via environment variable 'MACOS_PROVISIONING_PROFILE'
-            ${RED}(!) Required if target=macospkg${RESET}
-${GREEN}-i key      ${RESET}Signing identity for iOS installer signing.
+            ${RED}(!) Required if target=macospkg${NC}
+${GREEN}-n          ${NC}Enable macOS notarization for macOS packages.
+${GREEN}-N          ${NC}Disable macOS code signing.
+${GREEN}-i key      ${NC}Signing identity for iOS installer signing.
             (i) Apple Distribution
             (i) Can be set via environment variable 'IOS_CODE_SIGN_KEY'
-            ${RED}(!) Required if target=iosipa${RESET}
-${GREEN}-P          ${RESET}Path to the Provisioning Profile for the iOS app.
+            ${RED}(!) Required if target=iosipa${NC}
+${GREEN}-P          ${NC}Path to the Provisioning Profile for the iOS app.
             (i) Can be set via environment variable 'IOS_PROVISIONING_PROFILE'
-            ${RED}(!) Required if target=iosipa${RESET}
-${GREEN}-h          ${RESET}Show this help.
-${GREEN}-E          ${RESET}Show this help and Environment Variables.
+            ${RED}(!) Required if target=iosipa${NC}
+EOF
+
+  help_common_params
+
+  cat <<EOF
+${GREEN}-E          ${NC}Show this help and Environment Variables.
 EOF
 }
 
 usage_env_vars() {
   cat <<EOF
-${YELLOW}Environment Variables:${RESET}
-${YELLOW}TARGETS                    ${RESET}-- -t
-${YELLOW}FREEDOM                    ${RESET}-- -f
-${YELLOW}BUILD_DIR                  ${RESET}-- -b
-${YELLOW}MACOS_CODE_SIGN_KEY        ${RESET}-- -k
-${YELLOW}MACOS_PACKAGE_SIGN_KEY     ${RESET}-- -K
-${YELLOW}MACOS_PROVISIONING_PROFILE ${RESET}-- -p
-${YELLOW}IOS_CODE_SIGN_KEY          ${RESET}-- -i
-${YELLOW}IOS_PROVISIONING_PROFILE   ${RESET}-- -P
+${YELLOW}Environment Variables:${NC}
+${YELLOW}TARGETS                    ${NC}-- -t
+${YELLOW}FREEDOM                    ${NC}-- -f
+${YELLOW}BUILD_DIR                  ${NC}-- -b
+${YELLOW}MACOS_CODE_SIGN_KEY        ${NC}-- -k
+${YELLOW}MACOS_PACKAGE_SIGN_KEY     ${NC}-- -K
+${YELLOW}MACOS_PROVISIONING_PROFILE ${NC}-- -p
+${YELLOW}IOS_CODE_SIGN_KEY          ${NC}-- -i
+${YELLOW}IOS_PROVISIONING_PROFILE   ${NC}-- -P
 EOF
 }
 BUILD_DIR="/package"
@@ -539,7 +483,12 @@ unset -v CONTINUE_ON_FAIL
 unset -v RUN_DEBUG_BUILD
 unset -v ENABLE_MACOS_NOTARIZATION
 
-while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
+while getopts "t:f:b:k:K:p:i:P:EcdsnN${COMMON_PARAMS}" opt; do
+  if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
+    parse_common_params "$opt" "$OPTARG"
+    continue
+  fi
+
   case $opt in
     t)
       TARGETS=$OPTARG
@@ -565,15 +514,6 @@ while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
     P)
       IOS_PROVISIONING_PROFILE=$OPTARG
       ;;
-    q)
-      QUIET=YES
-      ;;
-    v)
-      VERBOSE=YES
-      ;;
-    V)
-      MORE_VERBOSE=YES
-      ;;
     c)
       CONTINUE_ON_FAIL=YES
       ;;
@@ -585,10 +525,6 @@ while getopts "t:f:b:k:K:p:i:P:hEvVcdsqn" opt; do
       ;;
     s)
       SKIP_FLUTTER_SETUP=YES
-      ;;
-    h)
-      info
-      exit 0
       ;;
     E)
       info
@@ -610,7 +546,7 @@ fi
 TARGETS_LIST=$(echo "$TARGETS" | tr ',' ' ')
 FREEDOM_LIST=$(echo "$FREEDOM" | tr ',' ' ')
 
-normal_echo "${CYAN}Building Flutter applications...${RESET}"
+normal_echo "${CYAN}Building Flutter applications...${NC}"
 
 
 if [ -z "$SKIP_FLUTTER_SETUP" ]; then
@@ -623,7 +559,7 @@ fi
 
 for freedom in $FREEDOM_LIST; do
   for target in $TARGETS_LIST; do
-    verbose_echo "${YELLOW}Processing Target $target for freedom $freedom...${RESET}"
+    verbose_echo "${YELLOW}Processing Target $target for freedom $freedom...${NC}"
 
     if [ "$RUN_DEBUG_BUILD" ]; then
       configuration_upper=Debug
@@ -704,7 +640,7 @@ for freedom in $FREEDOM_LIST; do
         ;;
     esac
 
-    more_verbose_echo "${CYAN}Building with target options: '${target_options[*]}'${RESET}"
+    more_verbose_echo "${CYAN}Building with target options: '${target_options[*]}'${NC}"
 
     if [ ! "$target" = "windowsmsix" ]; then
       flutter_status=0
@@ -715,13 +651,13 @@ for freedom in $FREEDOM_LIST; do
       fi
     fi
 
-    more_verbose_echo "${CYAN}Creating scratch dir...${RESET}"
+    more_verbose_echo "${CYAN}Creating scratch dir...${NC}"
     scratch_dir=build/temp-$RANDOM
     mkdir -p "$scratch_dir"
-    more_verbose_echo "${CYAN}Moving build files to scratch dir $scratch_dir...${RESET}"
+    more_verbose_echo "${CYAN}Moving build files to scratch dir $scratch_dir...${NC}"
     cp -R "$target_results" "$scratch_dir"
     target_results=$scratch_dir/$(basename "$target_results")
-    more_verbose_echo "${CYAN}Scratch dir ready.${RESET}"
+    more_verbose_echo "${CYAN}Scratch dir ready.${NC}"
 
     if [ "$target" = "macos" ] || [ "$target" = "macospkg" ]; then
       sign_macos "$target_results"
@@ -731,8 +667,8 @@ for freedom in $FREEDOM_LIST; do
       sign_ios "$target_results"
     fi
 
-    more_verbose_echo "${CYAN}Finished building for target $target${RESET}"
-    verbose_echo "${CYAN}Packaging Build...${RESET}"
+    more_verbose_echo "${CYAN}Finished building for target $target${NC}"
+    verbose_echo "${CYAN}Packaging Build...${NC}"
 
     if [ "$target" = "macos" ]; then
       app_path=$(get_first_app "$target_results")
@@ -742,14 +678,14 @@ for freedom in $FREEDOM_LIST; do
         continue
       fi
 
-      more_verbose_echo "${CYAN}Copying $app_path to new directory...${RESET}"
+      more_verbose_echo "${CYAN}Copying $app_path to new directory...${NC}"
       app_dir="$target_results/app_dir"
       mkdir -p "$app_dir" \
         > >(more_verbose_echo_stdin "mkdir") \
-        2> >(normal_echo_stderr "${RED}mkdir (error)")
+        2> >(error_echo_stderr "mkdir")
       cp -r "$app_path" "$app_dir" \
         > >(more_verbose_echo_stdin "cp") \
-        2> >(normal_echo_stderr "${RED}cp (error)")
+        2> >(error_echo_stderr "cp")
       target_results=$app_dir
     fi
 
@@ -790,7 +726,7 @@ for freedom in $FREEDOM_LIST; do
     if [ "$should_compress" ]; then
       # We need to change dir so the zip has the right structure
       pushd "$target_results" > /dev/null
-      verbose_echo "${CYAN}Compressing build in $target_results to $compress_path${RESET}"
+      verbose_echo "${CYAN}Compressing build in $target_results to $compress_path${NC}"
       compress_directory "$compress_path" ./*
       zip_status=$?
       # And back again
@@ -807,16 +743,16 @@ for freedom in $FREEDOM_LIST; do
       disable_iap
     fi
 
-    verbose_echo "${CYAN}Copying $target_results to $BUILD_DIR${RESET}"
+    verbose_echo "${CYAN}Copying $target_results to $BUILD_DIR${NC}"
     mkdir -p "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "mkdir") \
-      2> >(normal_echo_stderr "${RED}mkdir (error)")
+      2> >(error_echo_stderr "mkdir")
     shopt -s nullglob
     # shellcheck disable=SC2206
     files=( $target_results )
     cp -r "${files[@]}" "$BUILD_DIR/$freedom" \
       > >(verbose_echo_stdin "cp") \
-      2> >(normal_echo_stderr "${RED}cp (error)")
+      2> >(error_echo_stderr "cp")
     shopt -u nullglob
     cp_status=$?
     if [ ! $cp_status -eq 0 ]; then
@@ -828,4 +764,4 @@ for freedom in $FREEDOM_LIST; do
   done
 done
 
-normal_echo "${GREEN}All builds completed successfully. Packages are available in: $BUILD_DIR${RESET}"
+normal_echo "${GREEN}All builds completed successfully. Packages are available in: $BUILD_DIR${NC}"

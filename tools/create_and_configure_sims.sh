@@ -1,21 +1,38 @@
 #!/bin/zsh
 
-# ANSI color codes
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+source tools/common.sh
 
-echo -e "${BLUE}Checking for required tools...${NC}"
+info() {
+  echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
+
+  usage
+}
+
+usage() {
+  cat <<EOF
+${YELLOW}usage: create_and_configure_sims.sh [options]${NC}
+
+EOF
+
+  help_common_params
+}
+
+while getopts "${COMMON_PARAMS}" opt; do
+  if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
+    parse_common_params "$opt" "$OPTARG"
+    continue
+  fi
+done
+
+normal_echo "${BLUE}Checking for required tools...${NC}"
 
 REQUIRED_TOOLS=("xcrun" "plutil")
 for tool in "${REQUIRED_TOOLS[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
-    echo -e "${RED}Error: $tool is not installed or not in PATH.${NC}"
+    error_echo "${RED}Error: $tool is not installed or not in PATH.${NC}"
     exit 1
   fi
-  echo -e "${GREEN}$tool is available.${NC}"
+  normal_echo "${GREEN}$tool is available.${NC}"
 done
 
 # Desired devices
@@ -29,7 +46,7 @@ DEVICES=(
 RUNTIME=$(xcrun simctl list runtimes | grep -E 'iOS.*com.apple.CoreSimulator.SimRuntime.iOS' | grep -v unavailable | tail -1 | sed -E 's/.*(com\.apple\.CoreSimulator\.SimRuntime\.iOS[^[:space:]]*).*/\1/')
 
 if [[ -z "$RUNTIME" ]]; then
-  echo -e "${RED}No available iOS runtime found.${NC}"
+  error_echo "${RED}No available iOS runtime found.${NC}"
   exit 1
 fi
 
@@ -38,25 +55,27 @@ for entry in "${DEVICES[@]}"; do
   DEVICE_NAME="${entry%=*}"
   CUSTOM_NAME="${entry#*=}"
 
-  echo -e "${BLUE}Checking for existing simulator: $CUSTOM_NAME ($DEVICE_NAME)...${NC}"
+  verbose_echo "${BLUE}Checking for existing simulator: $CUSTOM_NAME ($DEVICE_NAME)...${NC}"
 
   EXISTING=$(xcrun simctl list devices | grep "$CUSTOM_NAME")
 
   if [[ -n "$EXISTING" ]]; then
-    echo -e "${YELLOW}Simulator $CUSTOM_NAME already exists. Skipping.${NC}"
+    normal_echo "${YELLOW}Simulator $CUSTOM_NAME already exists. Skipping.${NC}"
     continue
   fi
 
-  echo -e "${BLUE}Creating simulator $CUSTOM_NAME using $DEVICE_NAME...${NC}"
+  verbose_echo "${BLUE}Creating simulator $CUSTOM_NAME using $DEVICE_NAME...${NC}"
 
-  xcrun simctl create "$CUSTOM_NAME" "$DEVICE_NAME" "$RUNTIME"
+  xcrun simctl create "$CUSTOM_NAME" "$DEVICE_NAME" "$RUNTIME" \
+    > >(normal_echo_stdin "simctl") \
+    2> >(error_echo_stderr "simctl (error)")
 
   if [[ $? -eq 0 ]]; then
-    echo -e "${GREEN}Simulator $CUSTOM_NAME created successfully.${NC}"
+    normal_echo "${GREEN}Simulator $CUSTOM_NAME created successfully.${NC}"
   else
-    echo -e "${RED}Failed to create simulator $CUSTOM_NAME.${NC}"
+    error_echo "${RED}Failed to create simulator $CUSTOM_NAME.${NC}"
   fi
 
 done
 
-echo -e "${GREEN}All specified simulators have been processed.${NC}"
+normal_echo "${GREEN}All specified simulators have been processed.${NC}"

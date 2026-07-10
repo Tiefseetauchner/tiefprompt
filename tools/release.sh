@@ -2,77 +2,31 @@
 
 set -euo pipefail
 
-GREEN=$'\033[0;32m'
-RED=$'\033[0;31m'
-CYAN=$'\033[0;36m'
-RESET=$'\033[0;0m'
-
-error_echo() {
-  echo -e "${RED}$1${RESET}" >&2
-  exit "${2:-1}"
-}
-
-normal_echo() {
-  echo -e "$1"
-}
-
-verbose_echo() {
-  if [ "${VERBOSE:-}" ]; then
-    echo -e "$1"
-  fi
-}
-
-verbose_echo_stdin() {
-  program_name="$1"
-  while IFS= read -r line; do
-    verbose_echo "$GREEN$program_name:$RESET $line"
-  done
-}
-
-# This has to be separated and piped to stderr.
-# > >(...) captures the stdout of 2> >(...) as well,
-# so the error log would get swallowed by the normal logging.
-normal_echo_stderr() {
-  program_name="$1"
-  while IFS= read -r line; do
-    normal_echo "$program_name:$RESET $line"
-  done >&2
-}
+source tools/common.sh
 
 ok() {
-  normal_echo "${GREEN}$1${RESET}"
+  normal_echo "${GREEN}(/) $1${NC}"
 }
 
-unset -v VERBOSE
-while getopts "vh" opt; do
-  case $opt in
-    v)
-      VERBOSE=YES
-      ;;
-    h)
-      cat <<EOF
-${YELLOW:-}usage: release.sh [-v] [-h]${RESET}
-  -v  Verbose output (flutter build log and extra detail).
-  -h  Show this help.
-EOF
-      exit 0
-      ;;
-    \?)
-      echo "Use -h for help" >&2
-      exit 1
-      ;;
-  esac
-done
+info() {
+  echo -e "${GREEN}Run release checks and prepare release${NC}"
 
-# Run from the repo root regardless of where the script was invoked.
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR/.."
+  usage
+}
+
+usage() {
+  cat <<EOF
+${YELLOW}usage: release.sh [options]${NC}
+EOF
+  
+  help_common_params
+}
 
 PUBSPEC="pubspec.yaml"
 
 version_line="$(grep -E '^version:' "$PUBSPEC" | head -n1)"
 [ -n "$version_line" ] || error_echo "Could not find a 'version:' line in $PUBSPEC."
-verbose_echo "${CYAN}Parsed version line: ${version_line}${RESET}"
+verbose_echo "${CYAN}Parsed version line: ${version_line}${NC}"
 
 version_string="$(echo "${version_line#version:}" | tr -d '[:space:]')"
 version_number="${version_string%%+*}"
@@ -106,7 +60,7 @@ for dir in assets/changelogs/*/; do
     last_line="$(grep -nF -- "- assets/changelogs/" "$PUBSPEC" | tail -n1 | cut -d: -f1)"
     [ -n "$last_line" ] || error_echo "No existing 'assets/changelogs/' entries in $PUBSPEC to anchor insertion."
     indent="$(grep -F -- "- assets/changelogs/" "$PUBSPEC" | head -n1 | sed -E 's/-.*//')"
-    verbose_echo "${CYAN}Inserting '${asset_entry}' after line ${last_line} of ${PUBSPEC}${RESET}"
+    verbose_echo "${CYAN}Inserting '${asset_entry}' after line ${last_line} of ${PUBSPEC}${NC}"
     sed -i "${last_line}a\\${indent}- ${asset_entry}" "$PUBSPEC"
     ok "Registered missing asset dir in $PUBSPEC: $asset_entry"
   fi
@@ -122,15 +76,15 @@ if grep -qE '^[[:space:]]*in_app_purchase(_android)?[[:space:]]*:' "$PUBSPEC"; t
 fi
 ok "In-app purchase dependencies are commented out"
 
-normal_echo "${CYAN}Building FOSS flavor (flutter build linux --target lib/main_foss.dart)...${RESET}"
+normal_echo "${CYAN}Building FOSS flavor (flutter build linux --target lib/main_foss.dart)...${NC}"
 flutter_status=0
 flutter build linux --target lib/main_foss.dart \
   > >(verbose_echo_stdin "flutter") \
-  2> >(normal_echo_stderr "${RED}flutter (error)") || flutter_status=$?
+  2> >(error_echo_stderr "flutter (error)") || flutter_status=$?
 [ "$flutter_status" -eq 0 ] || error_echo "FOSS build failed with status code ${flutter_status}." "$flutter_status"
 ok "FOSS build succeeded"
 
-verbose_echo "${CYAN}Tagging: git tag ${tag}${RESET}"
+verbose_echo "${CYAN}Tagging: git tag ${tag}${NC}"
 git tag "$tag"
 ok "Created tag '$tag'"
 

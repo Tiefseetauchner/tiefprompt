@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source tools/common.sh
+
 REPO_DIR=$(dirname "$0")/..
 KEY_STORE=$REPO_DIR/keys/
 PACKAGE_DIR=$REPO_DIR/package/
@@ -8,13 +10,35 @@ CONTAINER_NAME="tiefprompt_build_container"
 TARGETS="androidaab,androidapk"
 FREEDOM="foss,freemium"
 
-while getopts "f:" opt; do
+info() {
+  echo -e "${GREEN}Package TiefPrompt for Android in Docker Container${NC}"
+
+  usage
+}
+
+usage() {
+  cat <<EOF
+${YELLOW}usage: package.sh [options]${NC}
+
+${GREEN}-f freedom  ${NC}Comma separated list of freedoms. Options:
+            freemium,foss
+            ${RED}(!) Required${NC}
+EOF
+  
+  help_common_params
+}
+
+while getopts "f:$COMMON_PARAMS" opt; do
   case $opt in
     f)
       FREEDOM="$OPTARG"
       ;;
-    *)
-      echo "Usage: $0 [-f <flavor>[,<flavor>,...]]" >&2
+    h)
+      info
+      exit 0
+      ;;
+    \?)
+      echo "Use -h for help"
       exit 1
       ;;
   esac
@@ -22,25 +46,20 @@ done
 
 FREEDOM_LIST=$(echo "$FREEDOM" | tr ',' ' ')
 
-# Define colors
-GREEN="\e[32m"
-RED="\e[31m"
-YELLOW="\e[33m"
-CYAN="\e[36m"
-RESET="\e[0m"
-
 # Ensure package directory exists
-echo -e "${CYAN}Creating package directory: $PACKAGE_DIR${RESET}"
+verbose_echo "${CYAN}Creating package directory: $PACKAGE_DIR${NC}"
 mkdir -p "$PACKAGE_DIR"
 rm -rf "$PACKAGE_DIR"/*
 for freedom in $FREEDOM_LIST; do
   mkdir -p "$PACKAGE_DIR/$freedom"
+  more_verbose_echo "${CYAN}Created directory for freedom: $freedom${NC}"
 done
-chmod 777 -R $PACKAGE_DIR
+more_verbose_echo "${CYAN}Changing permissions for package directory: $PACKAGE_DIR${NC}"
+chmod 777 -R "$PACKAGE_DIR"
 
 docker pull $DOCKER_IMAGE
 
-echo -e "${YELLOW}Starting build in Docker container...${RESET}"
+normal_echo "${YELLOW}Starting build in Docker container...${NC}"
 docker run --rm \
   -v "$REPO_DIR:/app" \
   -v "$PACKAGE_DIR:/package" \
@@ -51,8 +70,7 @@ docker run --rm \
   $DOCKER_IMAGE
 
 if [ $? -eq 0 ]; then
-  echo -e "${GREEN}Build completed successfully. Packages available in: $PACKAGE_DIR${RESET}"
+  normal_echo "${GREEN}Build completed successfully. Packages available in: $PACKAGE_DIR${NC}"
 else
-  echo -e "${RED}Build failed.${RESET}"
-  exit 1
+  error_echo "${RED}Build failed.${NC}"
 fi

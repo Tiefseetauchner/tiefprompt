@@ -1,11 +1,28 @@
 #!/bin/zsh
 
-# ANSI color codes
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+source tools/common.sh
+
+info() {
+  echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
+
+  usage
+}
+
+usage() {
+  cat <<EOF
+${YELLOW}usage: create_and_configure_sims.sh [options]${NC}
+
+EOF
+
+  help_common_params
+}
+
+while getopts "${COMMON_PARAMS}" opt; do
+  if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
+    parse_common_params "$opt" "$OPTARG"
+    continue
+  fi
+done
 
 # Declare arrays
 simulators=("iPhone-6-9" "iPhone-6-5" "iPad-13")
@@ -13,9 +30,10 @@ typeset -A simulator_udids
 
 # Graceful shutdown
 exitfn() {
+  error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}"
   trap - SIGINT
   stop_simulators
-  echo -e "${RED}Killing screenshot HTTP server with PID: $SERVER_PID${NC}"
+  verbose_echo "${YELLOW}Killing screenshot HTTP server with PID: $SERVER_PID${NC}"
   kill $SERVER_PID 2>/dev/null
   exit
 }
@@ -32,24 +50,26 @@ get_simulator_udids() {
 
 start_http_server() {
   if [[ $(curl -s http://localhost:3824/health) != "true" ]]; then
-    echo -e "${BLUE}Starting screenshot HTTP server for simulator: $CURRENT_SIMULATOR${NC}"
-    DEVICE_NAME="$CURRENT_SIMULATOR" .flutter/bin/dart integration_test/screenshot_server.dart &
+    verbose_echo "${BLUE}Starting screenshot HTTP server for simulator: $CURRENT_SIMULATOR${NC}"
+    DEVICE_NAME="$CURRENT_SIMULATOR" .flutter/bin/dart integration_test/screenshot_server.dart \
+      > >(verbose_echo_stdin "screenshot_server") \
+      2> >(error_echo_stderr "screenshot_server (error)") &
     SERVER_PID=$!
 
     server_started=false
     while [[ "$server_started" != "true" ]]; do
       sleep 1
       server_started=$(curl -s http://localhost:3824/health)
-      echo -e "${YELLOW}Waiting for server to start...${NC}"
+      verbose_echo "${YELLOW}Waiting for server to start...${NC}"
     done
   fi
-  echo -e "${GREEN}HTTP server started with PID: $SERVER_PID${NC}"
+  verbose_echo "${GREEN}HTTP server started with PID: $SERVER_PID${NC}"
 }
 
 stop_http_server() {
-  echo -e "${RED}Stopping screenshot HTTP server...${NC}"
+  verbose_echo "${YELLOW}Stopping screenshot HTTP server...${NC}"
   if [[ -z "$SERVER_PID" ]]; then
-    echo -e "${YELLOW}Server seems to be running from previous run. Kill it manually if needed.${NC}"
+    normal_echo "${RED}Server seems to be running from previous run. Kill it manually if needed.${NC}"
     return
   fi
   kill $SERVER_PID 2>/dev/null
@@ -58,44 +78,38 @@ stop_http_server() {
 
 start_simulator() {
   sim_udid=${simulator_udids["$1"]}
-  echo -e "${BLUE}Booting simulator $1 ($sim_udid)...${NC}"
+  verbose_echo "${BLUE}Booting simulator $1 ($sim_udid)...${NC}"
   xcrun simctl boot "$sim_udid"
 
   bootstatus=""
   while [[ "$bootstatus" != *"Booted"* ]]; do
     sleep 5
     bootstatus=$(xcrun simctl list devices | grep "$sim_udid")
-    echo -e "${YELLOW}Waiting for $1 to boot...${NC}"
+    verbose_echo "${YELLOW}Waiting for $1 to boot...${NC}"
   done
-  echo -e "${GREEN}$1 is ready.${NC}"
+  verbose_echo "${GREEN}$1 is ready.${NC}"
 }
 
 stop_simulators() {
-  echo -e "${RED}Shutting down all simulators...${NC}"
+  normal_echo "${YELLOW}Shutting down all simulators...${NC}"
   xcrun simctl shutdown all
   sleep 5
-}
-
-enable_iap() {
-  sed -i.iap_disabled 's/#  in_app_purchase/  in_app_purchase/g' pubspec.yaml
-}
-
-disable_iap() {
-  mv pubspec.yaml.iap_disabled pubspec.yaml
 }
 
 run_tests() {
   enable_iap
 
   SERVER_IP=127.0.0.1
-  echo -e "${BLUE}SERVER_IP: $SERVER_IP${NC}"
-  echo -e "${BLUE}Starting Flutter testing...${NC}"
-  .flutter/bin/flutter test integration_test/screenshot_automation_test.dart --dart-define=SERVER_IP=$SERVER_IP
+  verbose_echo "${BLUE}SERVER_IP: $SERVER_IP${NC}"
+  verbose_echo "${BLUE}Starting Flutter testing...${NC}"
+  .flutter/bin/flutter test integration_test/screenshot_automation_test.dart --dart-define=SERVER_IP=$SERVER_IP \
+    > >(verbose_echo_stdin "flutter") \
+    2> >(error_echo_stderr "flutter (error)")
 
   if [[ $? -ne 0 ]]; then
-    echo -e "${RED}Flutter tests failed.${NC}"
+    error_echo "${RED}Flutter tests failed.${NC}"
     stop_simulators
-    kill $SERVER_PID 2>/dev/null
+    stop_http_server
     trap - SIGINT
     exit 1
   fi
@@ -113,9 +127,9 @@ for simulator in "${simulators[@]}"; do
   stop_simulators
   sleep 5
   stop_http_server
-  echo -e "${GREEN}Finished tests on $CURRENT_SIMULATOR${NC}"
+  normal_echo "${GREEN}Finished tests on $CURRENT_SIMULATOR${NC}"
   echo
 done
 
-echo -e "${GREEN}All tests completed on all simulators.${NC}"
+normal_echo "${GREEN}All tests completed on all simulators.${NC}"
 trap - SIGINT
