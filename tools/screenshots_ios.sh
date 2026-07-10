@@ -1,6 +1,7 @@
 #!/bin/zsh
 
-source tools/common.sh
+SCRIPT_DIR="$(dirname "$0")"
+source "$SCRIPT_DIR/common.sh"
 
 info() {
   echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
@@ -30,12 +31,12 @@ typeset -A simulator_udids
 
 # Graceful shutdown
 exitfn() {
-  error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}"
+  error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}" "YES"
   trap - SIGINT
   stop_simulators
   verbose_echo "${YELLOW}Killing screenshot HTTP server with PID: $SERVER_PID${NC}"
   kill $SERVER_PID 2>/dev/null
-  exit
+  exit 1
 }
 
 trap "exitfn" INT
@@ -107,7 +108,7 @@ run_tests() {
     2> >(error_echo_stderr "flutter (error)")
 
   if [[ $? -ne 0 ]]; then
-    error_echo "${RED}Flutter tests failed.${NC}"
+    error_echo "${RED}Flutter tests failed.${NC}" "YES"
     stop_simulators
     stop_http_server
     trap - SIGINT

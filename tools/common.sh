@@ -50,10 +50,8 @@ normal_echo() {
 error_echo() {
   SHOULD_CONTINUE=${2:-$CONTINUE_ON_FAIL}
   echo -e "${RED}ERROR: $1$NC" >&2
-  if [ "$SHOULD_CONTINUE" = "YES" ]; then
-    echo -e "${RED}Continuing...$NC" >&2
-  else
-    exit "${2:-1}"
+  if [ ! "$SHOULD_CONTINUE" = "YES" ]; then
+    exit "${3:-1}"
   fi
 }
 
@@ -112,6 +110,9 @@ disable_iap() {
 }
 
 
-RESOLVED_REPO_DIR=$(readlink -f "$(dirname "$0")/..")
-more_verbose_echo "${CYAN}Resolved repository directory: $RESOLVED_REPO_DIR. Moving to repository root...${NC}"
+RESOLVED_REPO_DIR=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
+OLDPWD=$(pwd)
 cd "$RESOLVED_REPO_DIR"
+
+# Move back to the original directory when the script exits, regardless of success or failure.
+trap 'cd "$OLDPWD"' EXIT

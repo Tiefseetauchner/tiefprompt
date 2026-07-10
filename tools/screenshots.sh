@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source tools/common.sh
+SCRIPT_DIR="$(dirname "$0")"
+source "$SCRIPT_DIR/common.sh"
 
 info() {
   echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
@@ -25,7 +26,7 @@ while getopts "${COMMON_PARAMS}" opt; do
 done
 
 exitfn () {
-  error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}"
+  error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}" "YES"
   trap - SIGINT
   stop_emulator
   stop_http_server
@@ -89,7 +90,7 @@ run_tests() {
   .flutter/bin/flutter test integration_test/screenshot_automation_test.dart -d "emulator" --dart-define=SERVER_IP=$SERVER_IP
 
   if [ $? -ne 0 ]; then
-    error_echo "${RED}Flutter tests failed.${NC}"
+    error_echo "${RED}Flutter tests failed.${NC}" "YES"
     stop_http_server
     stop_emulator
     trap - SIGINT

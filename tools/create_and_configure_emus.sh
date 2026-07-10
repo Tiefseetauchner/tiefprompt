@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source tools/common.sh
+SCRIPT_DIR="$(dirname "$0")"
+source "$SCRIPT_DIR/common.sh"
 
 info() {
   echo -e "${GREEN}Create and Configure Emulators for Android${NC}"
@@ -29,8 +30,7 @@ normal_echo "${BLUE}Checking for required tools...${NC}"
 
 # Ensure ANDROID_HOME is set
 if [ -z "$ANDROID_HOME" ]; then
-  error_echo "Error: ANDROID_HOME is not set. Please set ANDROID_HOME to your Android SDK path."
-  exit 1
+  error_echo "ANDROID_HOME is not set. Please set ANDROID_HOME to your Android SDK path." "NO" 1
 fi
 
 # Ensure necessary tools exist
@@ -38,7 +38,7 @@ REQUIRED_TOOLS=("sdkmanager" "avdmanager" "awk" "sed")
 
 for tool in "${REQUIRED_TOOLS[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
-    error_echo "Error: $tool is not installed or not in PATH."
+    error_echo "$tool is not installed or not in PATH." "NO" 1
   fi
 done
 

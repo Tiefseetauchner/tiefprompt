@@ -1,7 +1,17 @@
 #!/bin/bash
 set -e
 
-source tools/common.sh
+SCRIPT_DIR="$(dirname "$0")"
+source "$SCRIPT_DIR/common.sh"
+
+# Graceful shutdown
+exitfn() {
+  error_echo "${RED}Caught SIGINT. Stopping build...${NC}" "YES"
+  trap - SIGINT
+  exit
+}
+
+trap "exitfn" INT
 
 prepare_flutter() {
   verbose_echo "${CYAN}Setting .flutter to be a safe git directory${NC}"
@@ -30,14 +40,6 @@ prepare_flutter() {
     2> >(error_echo_stderr "flutter")
 }
 
-enable_iap() {
-  sed -i.iap_disabled 's/# in_app_purchase/in_app_purchase/g' pubspec.yaml
-}
-
-disable_iap() {
-  mv pubspec.yaml.iap_disabled pubspec.yaml
-}
-
 build_flutter() {
   normal_echo "${GREEN}Building for target $1 and freedom $2...${NC}"
   shift 2
@@ -55,7 +57,7 @@ build_msix() {
     2> >(error_echo_stderr "msix")
   msix_status=$?
   if [ ! $msix_status -eq 0 ]; then
-    error_echo "MSIX packaging failed with status code ${msix_status}." $msix_status
+    error_echo "MSIX packaging failed with status code ${msix_status}." "$CONTINUE_ON_FAIL" $msix_status
   fi
   target_results="build/windows/x64/runner/Release/*.msix"
 }
@@ -66,7 +68,7 @@ get_first_app() {
 
 sign_macos() {
   if [ -z "$MACOS_CODE_SIGN_KEY" ]; then
-    error_echo "-k must be set if building macOS to sign the binaries." 127
+    error_echo "-k must be set if building macOS to sign the binaries." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
 
@@ -143,7 +145,7 @@ sign_macos() {
     2> >(error_echo_stderr "codesign (main app error)")
   codesign_status=$?
   if [ ! $codesign_status -eq 0 ]; then
-    error_echo "codesign failed with status code ${codesign_status}." $codesign_status
+    error_echo "codesign failed with status code ${codesign_status}." "$CONTINUE_ON_FAIL" $codesign_status
   fi
 }
 
@@ -152,7 +154,7 @@ package_macos() {
   base_name=$(dirname "$app_name")/$(basename "$app_name" .app)
 
   if [ -z "$MACOS_PACKAGE_SIGN_KEY" ]; then
-    error_echo "-K must be set if building macOS packages to sign the pkg." 127
+    error_echo "-K must be set if building macOS packages to sign the pkg." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
 
@@ -177,11 +179,11 @@ notarize_macos_pkg() {
   pkg_path="$1"
 
   if [ -z "$pkg_path" ]; then
-    error_echo "notarize_macos_pkg: package path missing." 127
+    error_echo "notarize_macos_pkg: package path missing." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
   if [ ! -f "$pkg_path" ]; then
-    error_echo "notarize_macos_pkg: $pkg_path does not exist." 127
+    error_echo "notarize_macos_pkg: $pkg_path does not exist." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
 
@@ -201,7 +203,7 @@ notarize_macos_pkg() {
     2> >(error_echo_stderr "notarytool")
   submit_status=$?
   if [ ! $submit_status -eq 0 ]; then
-    error_echo "Notarization failed with status code ${submit_status}." $submit_status
+    error_echo "Notarization failed with status code ${submit_status}." "$CONTINUE_ON_FAIL" $submit_status
     return 127
   fi
 
@@ -211,7 +213,7 @@ notarize_macos_pkg() {
     2> >(error_echo_stderr "stapler")
   staple_status=$?
   if [ ! $staple_status -eq 0 ]; then
-    error_echo "Stapling failed with status code ${staple_status}." $staple_status
+    error_echo "Stapling failed with status code ${staple_status}." "$CONTINUE_ON_FAIL" $staple_status
     return 127
   fi
 
@@ -226,11 +228,11 @@ notarize_macos_app() {
   app_path="$1"
 
   if [ -z "$app_path" ]; then
-    error_echo "notarize_macos_app: app path missing." 127
+    error_echo "notarize_macos_app: app path missing." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
   if [ ! -d "$app_path" ]; then
-    error_echo "notarize_macos_app: $app_path does not exist." 127
+    error_echo "notarize_macos_app: $app_path does not exist." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
 
@@ -257,7 +259,7 @@ notarize_macos_app() {
   submit_status=$?
   rm -f "$zip_path"
   if [ ! $submit_status -eq 0 ]; then
-    error_echo "App notarization failed with status code ${submit_status}." $submit_status
+    error_echo "App notarization failed with status code ${submit_status}." "$CONTINUE_ON_FAIL" $submit_status
     return 127
   fi
 
@@ -267,7 +269,7 @@ notarize_macos_app() {
     2> >(error_echo_stderr "stapler")
   staple_status=$?
   if [ ! $staple_status -eq 0 ]; then
-    error_echo "App stapling failed with status code ${staple_status}." $staple_status
+    error_echo "App stapling failed with status code ${staple_status}." "$CONTINUE_ON_FAIL" $staple_status
     return 127
   fi
 
@@ -301,12 +303,12 @@ add_ios_swiftsupport() {
 
 sign_ios() {
   if [ -z "$IOS_CODE_SIGN_KEY" ]; then
-    error_echo "-i must be set to sign the .app." 127
+    error_echo "-i must be set to sign the .app." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
 
   if [ -z "$IOS_PROVISIONING_PROFILE" ]; then
-    error_echo "-P must be set to embed the profile." 127
+    error_echo "-P must be set to embed the profile." "$CONTINUE_ON_FAIL" 127
     return 127
   fi
 
@@ -389,8 +391,7 @@ compress_directory() {
       2> >(error_echo_stderr "zip")
     return $?
   else
-    error_echo "No suitable compression tool (ditto, 7z, or zip) found."
-    return 127
+    error_echo "No suitable compression tool (ditto, 7z, or zip) found." "$CONTINUE_ON_FAIL" 127
   fi
 }
 
@@ -539,15 +540,13 @@ while getopts "t:f:b:k:K:p:i:P:EcdsnN${COMMON_PARAMS}" opt; do
 done
 
 if [ -z "$TARGETS" ] || [ -z "$FREEDOM" ]; then
-  error_echo "-t (targets) and -f (freedom) must be set to run this script." 1
-  exit 1
+  error_echo "-t (targets) and -f (freedom) must be set to run this script." "$CONTINUE_ON_FAIL" 1
 fi
 
 TARGETS_LIST=$(echo "$TARGETS" | tr ',' ' ')
 FREEDOM_LIST=$(echo "$FREEDOM" | tr ',' ' ')
 
 normal_echo "${CYAN}Building Flutter applications...${NC}"
-
 
 if [ -z "$SKIP_FLUTTER_SETUP" ]; then
   prepare_flutter
@@ -615,7 +614,7 @@ for freedom in $FREEDOM_LIST; do
         target_results="build/ios/$configuration_upper-iphoneos"
         ;;
       *)
-        error_echo "Target $target could not be identified. See -h for valid targets." 1
+        error_echo "Target $target could not be identified. See -h for valid targets." "$CONTINUE_ON_FAIL" 1
         continue
         ;;
     esac
@@ -635,7 +634,7 @@ for freedom in $FREEDOM_LIST; do
         target_options+=(-t lib/main_foss.dart)
         ;;
       *)
-        error_echo "Freedom option $freedom could not be identified. See -h for valid freedom options." 1
+        error_echo "Freedom option $freedom could not be identified. See -h for valid freedom options." "$CONTINUE_ON_FAIL" 1
         continue
         ;;
     esac
@@ -646,7 +645,7 @@ for freedom in $FREEDOM_LIST; do
       flutter_status=0
       build_flutter "$target" "$freedom" "${target_options[@]}" || flutter_status=$?
       if [ $flutter_status -ne 0 ]; then
-        error_echo "Flutter exited with status code ${flutter_status}." "$flutter_status"
+        error_echo "Flutter exited with status code ${flutter_status}." "$CONTINUE_ON_FAIL" "$flutter_status"
         continue
       fi
     fi
@@ -674,7 +673,7 @@ for freedom in $FREEDOM_LIST; do
       app_path=$(get_first_app "$target_results")
 
       if ! notarize_macos_app "$app_path"; then
-        error_echo "Notarizing macOS App failed" 1
+        error_echo "Notarizing macOS App failed" "$CONTINUE_ON_FAIL" 1
         continue
       fi
 
@@ -695,21 +694,21 @@ for freedom in $FREEDOM_LIST; do
 
     if [ "$target" = "macospkg" ]; then
       if ! package_macos "$target_results"; then
-        error_echo "Packaging macOS Build failed" 1
+        error_echo "Packaging macOS Build failed" "$CONTINUE_ON_FAIL" 1
         continue
       fi
 
       target_results="$PACKAGE_MACOS_RESULT"
 
       if ! notarize_macos_pkg "$target_results"; then
-        error_echo "Notarizing macOS Build failed" 1
+        error_echo "Notarizing macOS Build failed" "$CONTINUE_ON_FAIL" 1
         continue
       fi
     fi
 
     if [ "$target" = "iosipa" ]; then
       if ! package_ios_ipa "$target_results"; then
-        error_echo "Packaging iOS IPA failed" 1
+        error_echo "Packaging iOS IPA failed" "$CONTINUE_ON_FAIL" 1
         continue
       fi
       target_results="$PACKAGE_IOSIPA_RESULT"
@@ -732,7 +731,7 @@ for freedom in $FREEDOM_LIST; do
       # And back again
       popd > /dev/null
       if [ ! $zip_status -eq 0 ]; then
-        error_echo "compression failed with exited with status code ${zip_status}." $zip_status
+        error_echo "compression failed with exited with status code ${zip_status}." "$CONTINUE_ON_FAIL" $zip_status
         continue
       fi
 
@@ -756,7 +755,7 @@ for freedom in $FREEDOM_LIST; do
     shopt -u nullglob
     cp_status=$?
     if [ ! $cp_status -eq 0 ]; then
-      error_echo "cp exited with status code ${cp_status}." $cp_status
+      error_echo "cp exited with status code ${cp_status}." "$CONTINUE_ON_FAIL" $cp_status
       continue
     fi
 

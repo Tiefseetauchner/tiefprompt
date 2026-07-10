@@ -1,6 +1,7 @@
 #!/bin/zsh
 
-source tools/common.sh
+SCRIPT_DIR="$(dirname "$0")"
+source "$SCRIPT_DIR/common.sh"
 
 info() {
   echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
@@ -29,8 +30,7 @@ normal_echo "${BLUE}Checking for required tools...${NC}"
 REQUIRED_TOOLS=("xcrun" "plutil")
 for tool in "${REQUIRED_TOOLS[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
-    error_echo "${RED}Error: $tool is not installed or not in PATH.${NC}"
-    exit 1
+    error_echo "${RED}$tool is not installed or not in PATH.${NC}" "NO" 1
   fi
   normal_echo "${GREEN}$tool is available.${NC}"
 done
@@ -46,8 +46,7 @@ DEVICES=(
 RUNTIME=$(xcrun simctl list runtimes | grep -E 'iOS.*com.apple.CoreSimulator.SimRuntime.iOS' | grep -v unavailable | tail -1 | sed -E 's/.*(com\.apple\.CoreSimulator\.SimRuntime\.iOS[^[:space:]]*).*/\1/')
 
 if [[ -z "$RUNTIME" ]]; then
-  error_echo "${RED}No available iOS runtime found.${NC}"
-  exit 1
+  error_echo "${RED}No available iOS runtime found.${NC}" "NO" 1
 fi
 
 # Create simulators
@@ -73,7 +72,7 @@ for entry in "${DEVICES[@]}"; do
   if [[ $? -eq 0 ]]; then
     normal_echo "${GREEN}Simulator $CUSTOM_NAME created successfully.${NC}"
   else
-    error_echo "${RED}Failed to create simulator $CUSTOM_NAME.${NC}"
+    error_echo "${RED}Failed to create simulator $CUSTOM_NAME.${NC}" "NO" 1
   fi
 
 done
