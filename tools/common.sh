@@ -96,6 +96,12 @@ more_verbose_echo_stdin() {
 }
 
 enable_iap() {
+  if [ -f pubspec.yaml.iap_disabled ]; then
+    normal_echo "pubspec.yaml.iap_disabled backup already exists. Cannot enable in-app purchase."
+    normal_echo "To disable in-app purchase, run tools/common.sh disable_iap first."
+    error_echo "Aborting enable_iap." "NO" 1
+  fi
+
   more_verbose_echo "${CYAN}Enabling in-app purchase in pubspec.yaml...${NC}"
   sed -i.iap_disabled 's/  # in_app_purchase/  in_app_purchase/g' pubspec.yaml
   more_verbose_echo "${CYAN}Getting dependencies after enabling in-app purchase...${NC}"
@@ -103,6 +109,10 @@ enable_iap() {
 }
 
 disable_iap() {
+  if [ ! -f pubspec.yaml.iap_disabled ]; then
+    error_echo "pubspec.yaml.iap_disabled backup not found. Cannot disable in-app purchase." "NO" 1
+  fi
+
   more_verbose_echo "${CYAN}Disabling in-app purchase in pubspec.yaml...${NC}"
   mv pubspec.yaml.iap_disabled pubspec.yaml
   more_verbose_echo "${CYAN}Getting dependencies after disabling in-app purchase...${NC}"

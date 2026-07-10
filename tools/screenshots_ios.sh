@@ -4,14 +4,14 @@ SCRIPT_DIR="$(dirname "$0")"
 source "$SCRIPT_DIR/common.sh"
 
 info() {
-  echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
+  echo -e "${GREEN}Run Screenshot Tests for iOS Simulators${NC}"
 
   usage
 }
 
 usage() {
   cat <<EOF
-${YELLOW}usage: create_and_configure_sims.sh [options]${NC}
+${YELLOW}usage: screenshots_ios.sh [options]${NC}
 
 EOF
 
@@ -34,8 +34,8 @@ exitfn() {
   error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}" "YES"
   trap - SIGINT
   stop_simulators
-  verbose_echo "${YELLOW}Killing screenshot HTTP server with PID: $SERVER_PID${NC}"
-  kill $SERVER_PID 2>/dev/null
+  stop_http_server
+  disable_iap
   exit 1
 }
 
@@ -64,6 +64,12 @@ start_http_server() {
       verbose_echo "${YELLOW}Waiting for server to start...${NC}"
     done
   fi
+
+  if [[ $SERVER_PID == '' ]]; then
+    normal_echo "${YELLOW}Server seems to be running from previous run. This could be intended. If not, kill it manually.${NC}"
+    return
+  fi
+
   verbose_echo "${GREEN}HTTP server started with PID: $SERVER_PID${NC}"
 }
 

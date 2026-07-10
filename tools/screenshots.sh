@@ -4,14 +4,14 @@ SCRIPT_DIR="$(dirname "$0")"
 source "$SCRIPT_DIR/common.sh"
 
 info() {
-  echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
+  echo -e "${GREEN}Run Screenshot Tests for Android Emulators${NC}"
 
   usage
 }
 
 usage() {
   cat <<EOF
-${YELLOW}usage: create_and_configure_sims.sh [options]${NC}
+${YELLOW}usage: screenshots.sh [options]${NC}
 
 EOF
 
@@ -26,7 +26,7 @@ while getopts "${COMMON_PARAMS}" opt; do
 done
 
 exitfn () {
-  error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}" "YES"
+  error_echo "${RED}Caught SIGINT. Shutting down emulators and stopping server...${NC}" "YES"
   trap - SIGINT
   stop_emulator
   stop_http_server
@@ -60,6 +60,16 @@ start_http_server() {
   fi
 
   verbose_echo "${GREEN}HTTP server started with PID: $SERVER_PID${NC}"
+}
+
+stop_http_server() {
+  verbose_echo "${YELLOW}Stopping screenshot HTTP server...${NC}"
+  if [[ -z "$SERVER_PID" ]]; then
+    normal_echo "${RED}Server seems to be running from previous run. Kill it manually if needed.${NC}"
+    return
+  fi
+  kill $SERVER_PID 2>/dev/null
+  unset SERVER_PID
 }
 
 start_emulator() {
