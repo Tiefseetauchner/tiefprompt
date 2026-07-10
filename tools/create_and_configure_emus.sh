@@ -26,7 +26,7 @@ while getopts "${COMMON_PARAMS}" opt; do
 done
 
 # Ensure required tools are installed
-normal_echo "${BLUE}Checking for required tools...${NC}"
+verbose_echo "${BLUE}Checking for required tools...${NC}"
 
 # Ensure ANDROID_HOME is set
 if [ -z "$ANDROID_HOME" ]; then
@@ -47,7 +47,7 @@ normal_echo "${GREEN}All required tools are installed.${NC}"
 # Ensure required system image is installed
 SYSTEM_IMAGE="system-images;android-36;default;x86_64"
 
-normal_echo "${BLUE}Checking if required system image is installed...${NC}"
+verbose_echo "${BLUE}Checking if required system image is installed...${NC}"
 if ! sdkmanager --list | grep -q "$SYSTEM_IMAGE"; then
   normal_echo "${YELLOW}System image not found. Installing now...${NC}"
   sdkmanager --install "$SYSTEM_IMAGE"

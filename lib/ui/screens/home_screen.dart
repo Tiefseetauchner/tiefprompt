@@ -39,6 +39,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _scriptTitleController = TextEditingController();
     _scriptChangeDebouncer = Debouncer(delay: Duration(milliseconds: 500));
 
+    final script = ref.read(scriptProvider);
+    _scriptTextController.text = script.text;
+    _scriptTitleController.text = script.title ?? "";
+
     LicenseRegistry.addLicense(() async* {
       final openDyslexicLicense = await rootBundle.loadString(
         'assets/licenses/openDyslexicLicense.txt',

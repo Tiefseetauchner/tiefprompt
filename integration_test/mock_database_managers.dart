@@ -26,6 +26,7 @@ Future<AppDatabase> createSeededDatabase() async {
             "Today we'll cover the key features of this full-frame mirrorless camera, "
             "including its dual native ISO, weather sealing, and impressive video capabilities.",
         createdAt: DateTime(2025, 01, 07, 16, 10),
+        ephemeral: Value(true),
       ),
       ScriptModelCompanion.insert(
         title: "Blender Animation Basics",

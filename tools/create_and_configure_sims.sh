@@ -25,14 +25,14 @@ while getopts "${COMMON_PARAMS}" opt; do
   fi
 done
 
-normal_echo "${BLUE}Checking for required tools...${NC}"
+verbose_echo "${BLUE}Checking for required tools...${NC}"
 
 REQUIRED_TOOLS=("xcrun" "plutil")
 for tool in "${REQUIRED_TOOLS[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
     error_echo "${RED}$tool is not installed or not in PATH.${NC}" "NO" 1
   fi
-  normal_echo "${GREEN}$tool is available.${NC}"
+  verbose_echo "${GREEN}$tool is available.${NC}"
 done
 
 # Desired devices
@@ -66,7 +66,7 @@ for entry in "${DEVICES[@]}"; do
   verbose_echo "${BLUE}Creating simulator $CUSTOM_NAME using $DEVICE_NAME...${NC}"
 
   xcrun simctl create "$CUSTOM_NAME" "$DEVICE_NAME" "$RUNTIME" \
-    > >(normal_echo_stdin "simctl") \
+    > >(verbose_echo_stdin "simctl") \
     2> >(error_echo_stderr "simctl (error)")
 
   if [[ $? -eq 0 ]]; then

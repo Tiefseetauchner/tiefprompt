@@ -1,17 +1,12 @@
 #!/bin/bash
-set -e
 
 SCRIPT_DIR="$(dirname "$0")"
 source "$SCRIPT_DIR/common.sh"
 
-# Graceful shutdown
-exitfn() {
-  error_echo "${RED}Caught SIGINT. Stopping build...${NC}" "YES"
-  trap - SIGINT
-  exit
+script_intfn() {
+  normal_echo "${RED}Stopping Build...${NC}"
+  disable_iap
 }
-
-trap "exitfn" INT
 
 prepare_flutter() {
   verbose_echo "${CYAN}Setting .flutter to be a safe git directory${NC}"

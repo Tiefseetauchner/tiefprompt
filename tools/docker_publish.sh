@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
-
 SCRIPT_DIR="$(dirname "$0")"
 source "$SCRIPT_DIR/common.sh"
 
