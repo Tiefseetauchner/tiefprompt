@@ -4,14 +4,14 @@ SCRIPT_DIR="$(dirname "$0")"
 source "$SCRIPT_DIR/../common.sh"
 
 info() {
-  echo -e "${GREEN}Create and Configure Simulators for iOS${NC}"
+  echo -e "${GREEN}Run Screenshot Tests for Android Emulators${NC}"
 
   usage
 }
 
 usage() {
   cat <<EOF
-${YELLOW}usage: create_and_configure_sims.sh [options]${NC}
+${YELLOW}usage: screenshots.sh [options]${NC}
 
 EOF
 
@@ -26,7 +26,7 @@ while getopts "${COMMON_PARAMS}" opt; do
 done
 
 exitfn () {
-  error_echo "${RED}Caught SIGINT. Shutting down simulators and stopping server...${NC}" "YES"
+  error_echo "${RED}Caught SIGINT. Shutting down emulators and stopping server...${NC}" "YES"
   trap - SIGINT
   stop_emulator
   stop_http_server
@@ -36,7 +36,7 @@ exitfn () {
 
 trap "exitfn" INT
 
-declare -a emulators=("7intablet" "10intablet" "16by9phone")
+declare -a emulators=("7intablet")
 
 start_http_server() {
   if [[ $(curl -s http://localhost:3824/health) != "true" ]]; then
@@ -60,6 +60,16 @@ start_http_server() {
   fi
 
   verbose_echo "${GREEN}HTTP server started with PID: $SERVER_PID${NC}"
+}
+
+stop_http_server() {
+  verbose_echo "${YELLOW}Stopping screenshot HTTP server...${NC}"
+  if [[ -z "$SERVER_PID" ]]; then
+    normal_echo "${RED}Server seems to be running from previous run. Kill it manually if needed.${NC}"
+    return
+  fi
+  kill $SERVER_PID 2>/dev/null
+  unset SERVER_PID
 }
 
 start_emulator() {
@@ -87,7 +97,7 @@ run_tests() {
   verbose_echo "${BLUE}SERVER_IP: $SERVER_IP${NC}"
 
   verbose_echo "${BLUE}Starting Flutter testing...${NC}"
-  .flutter/bin/flutter test integration_test/screenshot_automation_test.dart -d "emulator" --dart-define=SERVER_IP=$SERVER_IP
+  .flutter/bin/flutter test integration_test/marketing/ -d "emulator" --dart-define=SERVER_IP=$SERVER_IP
 
   if [ $? -ne 0 ]; then
     error_echo "${RED}Flutter tests failed.${NC}" "YES"
