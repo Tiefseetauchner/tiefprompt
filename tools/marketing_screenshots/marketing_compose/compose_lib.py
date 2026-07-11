@@ -24,6 +24,8 @@ class TitlebarSkin:
     font_path: Path = REPO_ROOT / "fonts" / "Exo-VariableFont_wght.ttf"
     font_size: int = 20
     corner_radius: int = 20
+    noise_sigma: float = 14
+    noise_opacity: float = 0.05
 
 
 DEFAULT_SKIN = TitlebarSkin()
@@ -70,6 +72,22 @@ def _draw_close_x(draw: ImageDraw.ImageDraw, cx: int, cy: int, r: float, color) 
 _ICON_DRAWERS = (_draw_chevron_down, _draw_chevron_up, _draw_close_x)
 
 
+def _titlebar_noise(width: int, skin: TitlebarSkin) -> Image.Image:
+    """A subtle grain layer shaped like the titlebar's rounded-top strip."""
+    grain = Image.effect_noise((width, skin.height), skin.noise_sigma).convert("L")
+    alpha = grain.point(lambda v: int(abs(v - 128) / 128 * 255 * skin.noise_opacity))
+    mask = Image.new("L", (width, skin.height), 0)
+    ImageDraw.Draw(mask).rounded_rectangle(
+        (0, 0, width - 1, skin.height - 1),
+        radius=skin.corner_radius,
+        fill=255,
+        corners=(True, True, False, False),
+    )
+    layer = Image.new("RGBA", (width, skin.height), (0, 0, 0, 0))
+    layer.paste(grain.convert("RGB"), (0, 0), Image.composite(alpha, Image.new("L", mask.size, 0), mask))
+    return layer
+
+
 def draw_titlebar(image: Image.Image, title: str, skin: TitlebarSkin = DEFAULT_SKIN) -> Image.Image:
     """Returns a new image with a titlebar strip added above `image`."""
     result = Image.new("RGBA", (image.width, image.height + skin.height), (0, 0, 0, 0))
@@ -80,6 +98,7 @@ def draw_titlebar(image: Image.Image, title: str, skin: TitlebarSkin = DEFAULT_S
         fill=skin.background + (255,),
         corners=(True, True, False, False),
     )
+    result.alpha_composite(_titlebar_noise(image.width, skin))
 
     # As Exo is a variable font, we need to set the weight explicitly
     font = ImageFont.truetype(str(skin.font_path), skin.font_size)
