@@ -13,7 +13,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-
+SCREENSHOT_SUPERSAMPLE = 2
 
 @dataclass(frozen=True)
 class TitlebarSkin:
@@ -25,7 +25,7 @@ class TitlebarSkin:
     font_size: int = 20
     corner_radius: int = 20
     noise_sigma: float = 14
-    noise_opacity: float = 0.05
+    noise_opacity: float = 0.15
 
 
 DEFAULT_SKIN = TitlebarSkin()
@@ -168,6 +168,11 @@ class CollageSpec:
 
 def render_window(spec: WindowSpec, input_dir: Path) -> Image.Image:
     image = Image.open(input_dir / spec.input).convert("RGBA")
+    if SCREENSHOT_SUPERSAMPLE != 1:
+        image = image.resize(
+            (image.width // SCREENSHOT_SUPERSAMPLE, image.height // SCREENSHOT_SUPERSAMPLE),
+            Image.Resampling.LANCZOS,
+        )
     if spec.crop is not None:
         image = image.crop(spec.crop)
     windowed = draw_titlebar(image, spec.title, spec.skin)
@@ -185,5 +190,5 @@ def compose_collage(spec: CollageSpec, input_dir: Path, output_dir: Path) -> Pat
 
     output_path = output_dir / spec.output
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    canvas.save(output_path)
+    canvas.save(output_path, quality=90, method=6, optimize=True)
     return output_path

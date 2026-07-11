@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
+import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/themed_app.dart';
+import 'package:tief_test_harness/tief_test_harness.dart';
 
 import 'fake_providers/features_fake_free.dart';
 import 'mock_database_managers.dart';
@@ -20,8 +22,6 @@ class _MockSettings extends Settings {
   @override
   Future<SettingsState> build() async => _state;
 }
-
-typedef ProviderScopeBuilder = Future<Widget> Function(Widget child);
 
 class MockApp extends StatelessWidget {
   final Widget child;
@@ -39,21 +39,6 @@ class MockApp extends StatelessWidget {
     SettingsState? settings,
   }) : settings = settings ?? SettingsState();
 
-  Future<Widget> _defaultProviderScopeBuilder(Widget child) async {
-    final db = await createSeededDatabase();
-
-    return ProviderScope(
-      overrides: [
-        appDatabaseManagerProvider.overrideWith(
-          () => MockAppDatabaseManager(db),
-        ),
-        featuresProvider.overrideWith(() => FeaturesFakeFree()),
-        settingsProvider.overrideWith(() => _MockSettings(settings)),
-      ],
-      child: child,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final supportedLocales = kSupportedLocales.map((l10n) => l10n.$2).toList();
@@ -70,16 +55,28 @@ class MockApp extends StatelessWidget {
       ),
     );
 
-    final scopedApp = (providerScopeBuilder ?? _defaultProviderScopeBuilder)
-        .call(app);
+    final db = createSeededDatabase();
+    final combinedFuture = Future.wait([
+      db,
+      providerScopeBuilder?.call(app) ?? Future<Widget>.value(app),
+    ]);
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return FutureBuilder(
-      future: scopedApp,
+      future: combinedFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox.shrink();
-        return snapshot.data!;
+        return ProviderScope(
+          overrides: [
+            appDatabaseManagerProvider.overrideWith(
+              () => MockAppDatabaseManager(snapshot.data![0] as AppDatabase),
+            ),
+            featuresProvider.overrideWith(() => FeaturesFakeFree()),
+            settingsProvider.overrideWith(() => _MockSettings(settings)),
+          ],
+          child: snapshot.data![1] as Widget,
+        );
       },
     );
   }

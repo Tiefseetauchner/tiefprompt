@@ -22,7 +22,7 @@ EOF
 }
 
 COMPOSE_DIR="tools/marketing_screenshots/marketing_compose"
-SCREENSHOTS_DIR="screenshots/Marketing"
+SCREENSHOTS_DIR="screenshots/marketing"
 
 while getopts "r:i:o:${COMMON_PARAMS}" opt; do
   if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then

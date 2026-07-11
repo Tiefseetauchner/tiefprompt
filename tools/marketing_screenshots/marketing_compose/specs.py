@@ -22,72 +22,50 @@ POS_HERO_BACK_RIGHT = Position(1400, 200)
 POS_HERO_MIDDLE_CENTER = Position(700, 500)
 POS_HERO_FRONT_CENTER = Position(250, 1600)
 
-HOME_SCREEN_COLLAGES: list[CollageSpec] = [
+HERO_SCREEN_COLLAGES: list[CollageSpec] = [
     CollageSpec(
         output="Hero.webp",
         windows=[
             WindowSpec(
-                input="select_script_screen_light_foss.png",
+                input="select_script_screen/foss.png",
                 title="TiefPrompt",
                 position=POS_HERO_BACK_LEFT,
             ),
             WindowSpec(
-                input="home_screen_dark_foss_pink.png",
+                input="home_screen/dark_pink_primary.png",
                 title="TiefPrompt",
                 position=POS_HERO_BACK_RIGHT,
             ),
             WindowSpec(
-                input="home_screen_light_foss_prefilled.png",
+                input="home_screen/prefilled.png",
                 title="TiefPrompt",
                 position=POS_HERO_MIDDLE_CENTER,
             ),
             WindowSpec(
-                input="prompter_screen_light_foss_prefilled.png",
+                input="prompter_screen/configured_script.png",
                 title="TiefPrompt",
                 position=POS_HERO_FRONT_CENTER,
             ),
         ],
     ),
+]
+
+HOME_SCREEN_COLLAGES: list[CollageSpec] = [
     CollageSpec(
-        output="ChangeLanguage.webp",
+        output="SettingsScreens.webp",
         windows=[
             WindowSpec(
-                input="home_screen_light_foss_settings_highlighted.png",
+                input="home_screen/foss.png",
                 title="TiefPrompt",
                 position=POS_TOP_LEFT,
             ),
             WindowSpec(
-                input="main_settings_screen_light_default_language_highlighted.png",
+                input="main_settings_screen/light_theme.png",
                 title="TiefPrompt",
-                position=POS_TOP_RIGHT,
+                position=POS_TOP_CENTER,
             ),
         ],
     ),
-    CollageSpec(
-        output="ChangeTheme.webp",
-        windows=[
-            WindowSpec(
-                input="home_screen_light_foss_settings_highlighted.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-            WindowSpec(
-                input="main_settings_screen_light_theme_highlighted.png",
-                title="TiefPrompt",
-                position=POS_TOP_RIGHT,
-            ),
-            WindowSpec(
-                input="home_screen_dark_foss.png",
-                title="TiefPrompt",
-                position=POS_MIDDLE_LEFT,
-            ),
-            WindowSpec(
-                input="main_settings_screen_dark_theme_highlighted.png",
-                title="TiefPrompt",
-                position=POS_MIDDLE_RIGHT,
-            ),
-        ],
-    )
 ]
 
-ALL_COLLAGES: list[CollageSpec] = HOME_SCREEN_COLLAGES
+ALL_COLLAGES: list[CollageSpec] = HERO_SCREEN_COLLAGES + HOME_SCREEN_COLLAGES

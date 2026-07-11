@@ -1,4 +1,5 @@
 import argparse
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 from compose_lib import compose_collage
@@ -32,9 +33,13 @@ def main() -> None:
     if args.only:
         collages = [c for c in collages if args.only in c.output]
 
-    for spec in collages:
-        output_path = compose_collage(spec, args.input_dir, args.output_dir)
-        print(f"wrote {output_path}")
+    with ProcessPoolExecutor() as executor:
+        futures = [
+            executor.submit(compose_collage, spec, args.input_dir, args.output_dir)
+            for spec in collages
+        ]
+        for future in futures:
+            print(f"wrote {future.result()}")
 
 
 if __name__ == "__main__":

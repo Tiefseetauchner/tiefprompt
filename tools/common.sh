@@ -125,7 +125,7 @@ disable_iap() {
 start_screenshot_server() {
   if [[ $(curl -s http://localhost:3824/health) != "true" ]]; then
     verbose_echo "${BLUE}Starting screenshot HTTP server for emulator: $CURRENT_EMULATOR${NC}"
-    EMULATOR_NAME="$CURRENT_EMULATOR" .flutter/bin/dart integration_test/screenshot_server.dart \
+    EMULATOR_NAME="$CURRENT_EMULATOR" .flutter/bin/dart run tief_screen:screenshot_server \
       > >(verbose_echo_stdin "screenshot_server") \
       2> >(error_echo_stderr "screenshot_server (error)") &
     SERVER_PID=$!
@@ -252,7 +252,7 @@ exitfn() {
   trap - EXIT
   trap - INT
 
-  exit
+  exit ${1:-0}
 }
 
 intfn() {
@@ -262,9 +262,9 @@ intfn() {
     script_intfn
   fi
 
-  exitfn
+  exitfn -1
 }
 
-trap "exitfn" EXIT
+trap "exitfn" 0 EXIT
 trap "intfn" INT
 

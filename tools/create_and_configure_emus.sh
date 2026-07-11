@@ -84,8 +84,8 @@ DEVICES=(
   "7intablet 1024 600 7"
   "10intablet 2560 1600 10"
   "16by9phone 1080 1920 5.5"
-  "MarketingTablet 1080 1150 7"
-  "MarketingWideTablet 1920 1080 7"
+  "MarketingTablet 1350 2300 7"
+  "MarketingWideTablet 3840 1750 7"
 )
 
 if [ "$FORCE_RECREATE" == "YES" ]; then
@@ -94,7 +94,9 @@ if [ "$FORCE_RECREATE" == "YES" ]; then
     read -r name width height diagonal <<< "$device"
     if avdmanager list avd | grep -q "$name"; then
       normal_echo "${YELLOW}Deleting existing AVD: $name${NC}"
-      avdmanager delete avd -n "$name"
+      avdmanager delete avd -n "$name" \
+        > >(normal_echo_stdin "avdmanager") \
+        2> >(error_echo_stderr "avdmanager")
     fi
   done
 fi
@@ -114,7 +116,7 @@ for device in "${DEVICES[@]}"; do
   else
     avdmanager create avd -n "$name" -k "$SYSTEM_IMAGE" --device "Nexus 5" --force \
       > >(normal_echo_stdin "avdmanager") \
-      2> >(error_echo_stderr "avdmanager (error)")
+      2> >(error_echo_stderr "avdmanager")
     verbose_echo "${GREEN}AVD $name created.${NC}"
   fi
 
