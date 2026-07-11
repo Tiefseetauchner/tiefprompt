@@ -5,11 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_freemium.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/themed_app.dart';
 
+import 'fake_providers/features_fake_free.dart';
 import 'mock_database_managers.dart';
 
 class _MockSettings extends Settings {
@@ -47,7 +47,7 @@ class MockApp extends StatelessWidget {
         appDatabaseManagerProvider.overrideWith(
           () => MockAppDatabaseManager(db),
         ),
-        featuresProvider.overrideWith(() => FeaturesFreemium()),
+        featuresProvider.overrideWith(() => FeaturesFakeFree()),
         settingsProvider.overrideWith(() => _MockSettings(settings)),
       ],
       child: child,

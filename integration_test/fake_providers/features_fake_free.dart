@@ -3,7 +3,7 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/providers/app_features.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_freemium.dart';
+import 'package:tiefprompt/ui/widgets/feature_version_popup_content.dart';
 
 class FeaturesFakeFree extends Features {
   @override

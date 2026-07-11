@@ -62,6 +62,11 @@ while getopts "mMdcp${COMMON_PARAMS}" opt; do
       echo "Use -h for help"
       exit 1
       ;;
+    *)
+      error_echo "Unknown option: -$opt" "NO" 1
+      usage
+      exit 1
+      ;;
   esac
 done
 

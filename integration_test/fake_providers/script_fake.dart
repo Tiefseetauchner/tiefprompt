@@ -3,8 +3,9 @@ import 'package:tiefprompt/providers/script_provider.dart';
 class ScriptFake extends Script {
   final String name;
   final String content;
+  final double? scrollPosition;
 
-  ScriptFake(this.name, this.content);
+  ScriptFake({required this.name, required this.content, this.scrollPosition});
 
   @override
   ScriptState build() => ScriptState(
@@ -12,7 +13,7 @@ class ScriptFake extends Script {
     text: content,
     title: name,
     isSaved: true,
-    scrollPosition: null,
+    scrollPosition: scrollPosition,
     ephemeral: false,
   );
 }

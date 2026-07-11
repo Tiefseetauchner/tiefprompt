@@ -6,7 +6,53 @@ import 'package:flutter/services.dart';
 import 'package:integration_test/integration_test.dart';
 import 'screenshots_provider.dart';
 import 'package:riverpod/riverpod.dart';
-import '../../mock_app.dart';
+import '../mock_app.dart';
+import '../marketing/constants.dart';
+
+Future<void> highlightWidget(WidgetTester tester, Finder finder) async {
+  final rect = tester.getRect(finder);
+
+  Overlay.of(tester.element(finder)).insert(
+    OverlayEntry(
+      builder: (context) => Positioned.fromRect(
+        rect: rect,
+        child: CustomPaint(painter: _HighlightBorderPainter()),
+      ),
+    ),
+  );
+}
+
+class _HighlightBorderPainter extends CustomPainter {
+  static const _borderWidth = 3.0;
+  static const _borderRadius = Radius.circular(8);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rrect = RRect.fromRectAndRadius(
+      Offset.zero & size,
+      _borderRadius,
+    ).deflate(_borderWidth / 2);
+
+    canvas.drawRRect(
+      rrect.shift(Offset(_borderWidth / 2, _borderWidth)),
+      Paint()
+        ..color = Colors.black.withAlpha(100)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = _borderWidth
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2),
+    );
+    canvas.drawRRect(
+      rrect,
+      Paint()
+        ..color = kMarketingHighlightColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = _borderWidth,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _HighlightBorderPainter oldDelegate) => false;
+}
 
 Future<void> generateScreenshot(
   WidgetTester tester,
@@ -20,8 +66,6 @@ Future<void> generateScreenshot(
   await binding.convertFlutterSurfaceToImage();
   await tester.pumpAndSettle();
 
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  await tester.pumpAndSettle();
   final screenshotBytes = await binding.takeScreenshot("screenshot");
   var screenshotName = '$platformName/${screenName}_$caseName';
 
@@ -38,14 +82,16 @@ Future<void> uploadScreenshots(ProviderContainer ref) async {
   try {
     await Future.wait(
       screenshots.map((screenshot) async {
+        final screenshotName = screenshot.$1;
+        final screenshotBytes = screenshot.$2;
         final request = await client.post(
           serverIp,
           3824,
-          "screenshots/${screenshot.$1}.png",
+          "screenshots/$screenshotName.png",
         );
         request
-          ..contentLength = screenshot.$2.length
-          ..add(screenshot.$2);
+          ..contentLength = screenshotBytes.length
+          ..add(screenshotBytes);
 
         final response = await request.close();
         await response.drain();
@@ -72,6 +118,7 @@ void runScenario(
   required IntegrationTestWidgetsFlutterBinding binding,
   required ProviderContainer ref,
   ProviderScopeBuilder? providerScopeBuilder,
+  Future<void> Function(WidgetTester tester)? widgetHighlighter,
 }) {
   testWidgets("Take screenshot of $scenarioName", (WidgetTester tester) async {
     final app = MockApp(
@@ -83,8 +130,10 @@ void runScenario(
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    // We have to wait for the providers to be initialized before taking the screenshot
-    await Future.delayed(Duration(seconds: 2));
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    await tester.pumpAndSettle();
+
+    if (widgetHighlighter != null) await widgetHighlighter(tester);
 
     await generateScreenshot(tester, binding, ref, screenName, caseName);
   });

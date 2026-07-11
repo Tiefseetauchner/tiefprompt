@@ -22,6 +22,14 @@ while getopts "${COMMON_PARAMS}" opt; do
     parse_common_params "$opt" "$OPTARG"
     continue
   fi
+
+  case "$opt" in
+    \?)
+      error_echo "Unknown option: -$opt" "NO" 1
+      usage
+      exit 1
+      ;;
+  esac
 done
 
 enable_iap

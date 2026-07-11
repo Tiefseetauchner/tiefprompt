@@ -13,16 +13,30 @@ usage() {
   cat <<EOF
 ${YELLOW}usage: create_and_configure_emus.sh [options]${NC}
 
+${GREEN}-f          ${NC}Force recreate existing emulators if they already exist.
 EOF
 
   help_common_params
 }
 
-while getopts "${COMMON_PARAMS}" opt; do
+unset -v FORCE_RECREATE
+
+while getopts "f${COMMON_PARAMS}" opt; do
   if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
     parse_common_params "$opt" "$OPTARG"
     continue
   fi
+
+  case "$opt" in
+    f)
+      FORCE_RECREATE="YES"
+      ;;
+    *)
+      error_echo "Unknown option: -$opt" "NO" 1
+      usage
+      exit 1
+      ;;
+  esac
 done
 
 # Ensure required tools are installed
@@ -70,7 +84,20 @@ DEVICES=(
   "7intablet 1024 600 7"
   "10intablet 2560 1600 10"
   "16by9phone 1080 1920 5.5"
+  "MarketingTablet 1080 1150 7"
+  "MarketingWideTablet 1920 1080 7"
 )
+
+if [ "$FORCE_RECREATE" == "YES" ]; then
+  normal_echo "${YELLOW}Force recreate is enabled. Existing AVDs will be deleted.${NC}"
+  for device in "${DEVICES[@]}"; do
+    read -r name width height diagonal <<< "$device"
+    if avdmanager list avd | grep -q "$name"; then
+      normal_echo "${YELLOW}Deleting existing AVD: $name${NC}"
+      avdmanager delete avd -n "$name"
+    fi
+  done
+fi
 
 # Create each AVD
 for device in "${DEVICES[@]}"; do

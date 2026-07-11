@@ -1,8 +1,8 @@
 import 'dart:io';
 
 void main() async {
-  final server = await HttpServer.bind(InternetAddress.anyIPv4, 3824);
-  print('Screenshot server running on http://0.0.0.0:3824');
+  final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 3824);
+  print('Screenshot server running on http://127.0.0.1:3824');
 
   await for (HttpRequest request in server) {
     print('Request: ${request.method} ${request.uri}');
@@ -14,12 +14,10 @@ void main() async {
         ..write('true')
         ..close();
     } else if (request.method == 'POST' &&
-        request.uri.path.startsWith('/screenshots/')) {
-      final pathSegmentCount = request.uri.pathSegments.length;
-      final fileName = request.uri.pathSegments[pathSegmentCount - 1];
-      final platform = request.uri.pathSegments[pathSegmentCount - 2];
-      final locale = request.uri.pathSegments[pathSegmentCount - 3];
-      final file = File('screenshots/$locale/$platform/$fileName');
+        request.uri.path.startsWith('/screenshots/') &&
+        !request.uri.pathSegments.contains('..')) {
+      final screenshotPath = request.uri.pathSegments.join('/');
+      final file = File(screenshotPath);
 
       await file.create(recursive: true);
       await file.writeAsBytes(
@@ -31,10 +29,10 @@ void main() async {
 
       request.response
         ..statusCode = HttpStatus.ok
-        ..write('Screenshot saved as $fileName')
+        ..write('Screenshot saved as $screenshotPath')
         ..close();
 
-      print('Saved: screenshots/$fileName');
+      print('Saved: $screenshotPath');
     } else {
       request.response
         ..statusCode = HttpStatus.notFound
