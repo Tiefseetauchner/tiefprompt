@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_foss.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/home_screen.dart';
@@ -27,10 +26,7 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
   harness.addScenario(
     Scenario(
       name: "Foss",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
+      providerScopeBuilder: (child) async => ProviderScope(child: child),
     ),
   );
 
@@ -56,20 +52,6 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
 
   harness.addScenario(
     Scenario(
-      name: "Settings Highlighted",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
-      testCallback: (tester, binding) => WidgetHighlighter(
-        tester,
-        defaultHighlightColor: kMarketingHighlightColor,
-      ).highlightWidget(find.byTooltip("Settings")),
-    ),
-  );
-
-  harness.addScenario(
-    Scenario(
       name: "Prefilled",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
@@ -79,7 +61,6 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
               content: kMarketingScriptContent,
             ),
           ),
-          featuresProvider.overrideWith(() => FeaturesFoss()),
         ],
         child: child,
       ),
@@ -97,7 +78,7 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
               content: kMarketingScriptContent,
             ),
           ),
-          featuresProvider.overrideWith(() => FeaturesFoss()),
+
           settingsProvider.overrideWith(
             () => SettingsFake(SettingsState(themeMode: ThemeMode.dark)),
           ),
@@ -112,7 +93,6 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
       name: "Dark Pink Primary",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
           settingsProvider.overrideWith(
             () => SettingsFake(
               SettingsState(
@@ -124,6 +104,155 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
         ],
         child: child,
       ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Teal Primary",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          settingsProvider.overrideWith(
+            () => SettingsFake(
+              SettingsState(appPrimaryColor: kMarketingTealPrimaryColor),
+            ),
+          ),
+        ],
+        child: child,
+      ),
+    ),
+  );
+
+  return harness;
+}
+
+@RegisterHarness('MarketingTablet')
+Future<ScenarioHarness> buildHomeScreenWithHighlightsHarness() async {
+  final harness = prepareScreenshotHarness(
+    "Home Screen Highlights",
+    screenshotManager: ScreenshotManager(serverPort: 3824),
+    appContent: const HomeScreen(),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Settings",
+      providerScopeBuilder: (child) async => ProviderScope(child: child),
+      testCallback: (tester, binding) async => await WidgetHighlighter(
+        tester,
+        defaultHighlightColor: kMarketingHighlightColor,
+      ).highlightWidget(find.byTooltip("Settings")),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Title Box",
+      testCallback: (tester, binding) async {
+        final titleBoxFinder = find.byKey(const Key("HomeScreen.TitleField"));
+
+        await tester.tap(titleBoxFinder);
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(titleBoxFinder);
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Content Box",
+      testCallback: (tester, binding) async {
+        final contentBoxFinder = find.byKey(const Key("HomeScreen.TextField"));
+
+        await tester.tap(contentBoxFinder);
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(contentBoxFinder);
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Start Button",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          scriptProvider.overrideWith(
+            () => ScriptFake(
+              name: kMarketingScriptName,
+              content: kMarketingScriptContent,
+            ),
+          ),
+        ],
+        child: child,
+      ),
+      testCallback: (tester, binding) async {
+        final startButtonFinder = find.byKey(
+          const Key("HomeScreen.ElevatedButton_Start"),
+        );
+
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(startButtonFinder);
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Primary Buttons",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          scriptProvider.overrideWith(
+            () => ScriptFake(
+              name: kMarketingScriptName,
+              content: kMarketingScriptContent,
+            ),
+          ),
+        ],
+        child: child,
+      ),
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidgets([
+          find.byKey(const Key("HomeScreen.ElevatedButton_Start")),
+          find.byKey(const Key("HomeScreen.ElevatedButton_Select")),
+          find.byKey(const Key("HomeScreen.ElevatedButton_Save")),
+        ], padding: 4);
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Variant Highlight",
+      providerScopeBuilder: (child) async => ProviderScope(child: child),
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.byKey(const Key("HomeScreen.ElevatedButton_FeaturePopup")),
+          ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Variant Popup",
+      providerScopeBuilder: (child) async => ProviderScope(child: child),
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(const Key("HomeScreen.ElevatedButton_FeaturePopup")),
+        );
+        await tester.pumpAndSettle();
+      },
     ),
   );
 

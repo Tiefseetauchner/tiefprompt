@@ -17,3 +17,11 @@ I'll start off with the most obvious thing --- the displays are all great. Brigh
 
 const Color kMarketingHighlightColor = Color.fromARGB(255, 255, 122, 89);
 const Color kMarketingPinkPrimaryColor = Color.fromARGB(255, 255, 45, 149);
+const Color kMarketingTealPrimaryColor = Color.fromARGB(255, 187, 255, 0);
+const Color kMarketingPrompterBackgroundColor = Color.fromARGB(
+  255,
+  20,
+  24,
+  38,
+);
+const Color kMarketingPrompterTextColor = Color.fromARGB(255, 255, 214, 92);

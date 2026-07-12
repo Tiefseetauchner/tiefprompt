@@ -1,20 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tiefprompt/models/database.dart';
-import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/feature_provider_foss.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 
-import '../../mock_database_managers.dart';
 import '../harness_preparation.dart';
 
 @RegisterHarness('MarketingTablet')
 Future<ScenarioHarness> buildSelectScriptScreenHarness() async {
-  AppDatabase db = await createSeededDatabase();
-
   final harness = prepareScreenshotHarness(
     "Select Script Screen",
     screenshotManager: ScreenshotManager(serverPort: 3824),
@@ -25,12 +20,7 @@ Future<ScenarioHarness> buildSelectScriptScreenHarness() async {
     Scenario(
       name: "Foss",
       providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
-          appDatabaseManagerProvider.overrideWith(
-            () => MockAppDatabaseManager(db),
-          ),
-        ],
+        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
         child: child,
       ),
     ),

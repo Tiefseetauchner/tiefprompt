@@ -93,7 +93,9 @@ class OpenFileScreen extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         subtitle: Text(
-                          script.createdAt.toString(),
+                          DateFormat.yMd().add_jm().format(
+                            script.createdAt.toLocal(),
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                         onTap: () async {

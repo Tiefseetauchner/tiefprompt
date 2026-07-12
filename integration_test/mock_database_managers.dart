@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/models/app_state.drift.dart';
 import 'package:tiefprompt/models/database.dart';
+import 'package:tiefprompt/models/keybinding.drift.dart';
 import 'package:tiefprompt/models/script_model.drift.dart';
+import 'package:tiefprompt/models/settings_preset_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
+import 'package:tiefprompt/providers/settings_provider.dart';
 
 Future<AppDatabase> createSeededDatabase() async {
   final db = AppDatabase(NativeDatabase.memory());
@@ -59,6 +66,82 @@ Future<AppDatabase> createSeededDatabase() async {
             "Key light on the left, fill light on the right at half intensity, "
             "and a rim light behind to separate me from the background.",
         createdAt: DateTime(2024, 03, 05, 7, 50),
+      ),
+    ]);
+  });
+
+  await db
+      .into(db.keybindingMapModel)
+      .insert(KeybindingMapModelCompanion.insert(id: const Value(0)));
+
+  await db.batch((batch) {
+    batch.insertAll(
+      db.keybindingMappingModel,
+      kDefaultKeybindings.keybindings
+          .map(
+            (binding) => KeybindingMappingModelCompanion.insert(
+              mapId: 0,
+              actionName: binding.$1.name,
+              keyId: binding.$2.keyId,
+              ctrl: binding.$2.ctrl,
+              shift: binding.$2.shift,
+              alt: binding.$2.alt,
+              meta: binding.$2.meta,
+            ),
+          )
+          .toList(),
+    );
+  });
+
+  await db.batch((batch) {
+    batch.insertAll(db.settingsPresetModel, [
+      SettingsPresetModelCompanion.insert(
+        name: "Interview Setup",
+        createdAt: DateTime(2025, 02, 18, 10, 5),
+        data: jsonEncode(SettingsState().toJson()),
+        keybindings: 0,
+      ),
+      SettingsPresetModelCompanion.insert(
+        name: "Fast Scroll",
+        createdAt: DateTime(2025, 01, 30, 21, 40),
+        data: jsonEncode(SettingsState().toJson()),
+        keybindings: 0,
+      ),
+      SettingsPresetModelCompanion.insert(
+        name: "Conference Talk",
+        createdAt: DateTime(2024, 12, 11, 8, 20),
+        data: jsonEncode(SettingsState().toJson()),
+        keybindings: 0,
+      ),
+      SettingsPresetModelCompanion.insert(
+        name: "Johannes Camera",
+        createdAt: DateTime(2024, 10, 27, 17, 15),
+        data: jsonEncode(SettingsState().toJson()),
+        keybindings: 0,
+      ),
+      SettingsPresetModelCompanion.insert(
+        name: "Johannes Lecture",
+        createdAt: DateTime(2024, 9, 5, 14, 0),
+        data: jsonEncode(SettingsState().toJson()),
+        keybindings: 0,
+      ),
+      SettingsPresetModelCompanion.insert(
+        name: "Peter",
+        createdAt: DateTime(2024, 8, 14, 13, 50),
+        data: jsonEncode(SettingsState().toJson()),
+        keybindings: 0,
+      ),
+      SettingsPresetModelCompanion.insert(
+        name: "Lena",
+        createdAt: DateTime(2024, 5, 2, 19, 5),
+        data: jsonEncode(SettingsState().toJson()),
+        keybindings: 0,
+      ),
+      SettingsPresetModelCompanion.insert(
+        name: "Nachtmodus",
+        createdAt: DateTime(2024, 2, 19, 22, 30),
+        data: jsonEncode(SettingsState(themeMode: ThemeMode.dark).toJson()),
+        keybindings: 0,
       ),
     ]);
   });
