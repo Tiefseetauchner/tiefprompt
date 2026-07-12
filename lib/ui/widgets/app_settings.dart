@@ -267,6 +267,7 @@ class _KeybindingAppSettingState
                   ),
                 ),
                 ListTile(
+                  key: const Key("KeybindingAppSetting.ListTile_AddBinding"),
                   title: Text(
                     context.tr("SettingsScreen.KeybindingsSettings.AddBinding"),
                   ),

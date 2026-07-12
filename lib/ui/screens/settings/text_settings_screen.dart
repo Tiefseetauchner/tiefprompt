@@ -37,6 +37,7 @@ class TextSettingsScreen extends ConsumerWidget {
           body: ListView(
             children: [
               NumberAppSetting(
+                key: const Key("TextSettingsScreen.NumberAppSetting_FontSize"),
                 feature: Feature.fontSize,
                 value: prompterConfig.fontSize,
                 displayText: context.tr(
@@ -52,6 +53,9 @@ class TextSettingsScreen extends ConsumerWidget {
                 ),
               ),
               DropdownAppSetting<TextAlign>(
+                key: const Key(
+                  "TextSettingsScreen.DropdownAppSetting_TextAlignment",
+                ),
                 feature: Feature.textAlignment,
                 value: prompterConfig.alignment,
                 displayText: context.tr(
@@ -88,6 +92,9 @@ class TextSettingsScreen extends ConsumerWidget {
                 ],
               ),
               DropdownAppSetting<String>(
+                key: const Key(
+                  "TextSettingsScreen.DropdownAppSetting_FontFamily",
+                ),
                 feature: Feature.fontFamily,
                 value: prompterConfig.fontFamily,
                 displayText: context.tr(
@@ -108,6 +115,7 @@ class TextSettingsScreen extends ConsumerWidget {
                 value: "/settings/text/fonts",
               ),
               BooleanAppSetting(
+                key: const Key("TextSettingsScreen.BooleanAppSetting_Markdown"),
                 feature: Feature.markdown,
                 displayText: context.tr(
                   "SettingsScreen.BooleanAppSetting_Markdown",
@@ -118,6 +126,9 @@ class TextSettingsScreen extends ConsumerWidget {
                     .setMarkdownEnabled(updatedValue),
               ),
               BooleanAppSetting(
+                key: const Key(
+                  "TextSettingsScreen.BooleanAppSetting_ShowCurrentChapter",
+                ),
                 feature: Feature.currentChapter,
                 enabled: prompterConfig.markdownEnabled,
                 value: prompterConfig.showCurrentChapter,

@@ -28,6 +28,7 @@ class OpenFileScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton(
+                    key: const Key("OpenFileScreen.ElevatedButton_Select"),
                     onPressed: () async {
                       final result = await FilePicker.pickFile(
                         type: FileType.custom,
@@ -87,7 +88,9 @@ class OpenFileScreen extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       subtitle: Text(
-                        script.createdAt.toString(),
+                        DateFormat.yMd().add_jm().format(
+                          script.createdAt.toLocal(),
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                       onTap: () async {

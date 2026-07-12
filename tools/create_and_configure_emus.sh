@@ -1,19 +1,50 @@
 #!/bin/bash
 
-# ANSI color codes
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+SCRIPT_DIR="$(dirname "$0")"
+source "$SCRIPT_DIR/common.sh"
+
+info() {
+  echo -e "${GREEN}Create and Configure Emulators for Android${NC}"
+
+  usage
+}
+
+usage() {
+  cat <<EOF
+${YELLOW}usage: create_and_configure_emus.sh [options]${NC}
+
+${GREEN}-f          ${NC}Force recreate existing emulators if they already exist.
+EOF
+
+  help_common_params
+}
+
+unset -v FORCE_RECREATE
+
+while getopts "f${COMMON_PARAMS}" opt; do
+  if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
+    parse_common_params "$opt" "$OPTARG"
+    continue
+  fi
+
+  case "$opt" in
+    f)
+      FORCE_RECREATE="YES"
+      ;;
+    *)
+      error_echo "Unknown option: -$opt" "NO" 1
+      usage
+      exit 1
+      ;;
+  esac
+done
 
 # Ensure required tools are installed
-echo -e "${BLUE}Checking for required tools...${NC}"
+verbose_echo "${BLUE}Checking for required tools...${NC}"
 
 # Ensure ANDROID_HOME is set
 if [ -z "$ANDROID_HOME" ]; then
-  echo -e "${RED}Error: ANDROID_HOME is not set. Please set ANDROID_HOME to your Android SDK path.${NC}"
-  exit 1
+  error_echo "ANDROID_HOME is not set. Please set ANDROID_HOME to your Android SDK path." "NO" 1
 fi
 
 # Ensure necessary tools exist
@@ -21,23 +52,22 @@ REQUIRED_TOOLS=("sdkmanager" "avdmanager" "awk" "sed")
 
 for tool in "${REQUIRED_TOOLS[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
-    echo -e "${RED}Error: $tool is not installed or not in PATH.${NC}"
-    exit 1
+    error_echo "$tool is not installed or not in PATH." "NO" 1
   fi
 done
 
-echo -e "${GREEN}All required tools are installed.${NC}"
+normal_echo "${GREEN}All required tools are installed.${NC}"
 
 # Ensure required system image is installed
 SYSTEM_IMAGE="system-images;android-36;default;x86_64"
 
-echo -e "${BLUE}Checking if required system image is installed...${NC}"
+verbose_echo "${BLUE}Checking if required system image is installed...${NC}"
 if ! sdkmanager --list | grep -q "$SYSTEM_IMAGE"; then
-  echo -e "${YELLOW}System image not found. Installing now...${NC}"
+  normal_echo "${YELLOW}System image not found. Installing now...${NC}"
   sdkmanager --install "$SYSTEM_IMAGE"
 fi
 
-echo -e "${GREEN}System image is ready.${NC}"
+normal_echo "${GREEN}System image is ready.${NC}"
 
 # Function to calculate density
 calculate_density() {
@@ -54,30 +84,47 @@ DEVICES=(
   "7intablet 1024 600 7"
   "10intablet 2560 1600 10"
   "16by9phone 1080 1920 5.5"
+  "MarketingTablet 1350 2300 7"
+  "MarketingWideTablet 3840 1750 7"
 )
+
+if [ "$FORCE_RECREATE" == "YES" ]; then
+  normal_echo "${YELLOW}Force recreate is enabled. Existing AVDs will be deleted.${NC}"
+  for device in "${DEVICES[@]}"; do
+    read -r name width height diagonal <<< "$device"
+    if avdmanager list avd | grep -q "$name"; then
+      normal_echo "${YELLOW}Deleting existing AVD: $name${NC}"
+      avdmanager delete avd -n "$name" \
+        > >(normal_echo_stdin "avdmanager") \
+        2> >(error_echo_stderr "avdmanager")
+    fi
+  done
+fi
 
 # Create each AVD
 for device in "${DEVICES[@]}"; do
   read -r name width height diagonal <<< "$device"
   density=$(calculate_density "$width" "$height" "$diagonal")
 
-  echo -e "${BLUE}Creating AVD: $name${NC}"
-  echo -e "  ${YELLOW}Resolution:${NC} ${width}x${height}"
-  echo -e "  ${YELLOW}Density:${NC} ${density} dpi"
+  verbose_echo "${BLUE}Creating AVD: $name${NC}"
+  verbose_echo "  ${YELLOW}Resolution:${NC} ${width}x${height}"
+  verbose_echo "  ${YELLOW}Density:${NC} ${density} dpi"
 
   # Check if AVD already exists
   if avdmanager list avd | grep -q "$name"; then
-    echo -e "${YELLOW}AVD $name already exists. Skipping creation.${NC}"
+    normal_echo "${YELLOW}AVD $name already exists. Skipping creation.${NC}"
   else
-    avdmanager create avd -n "$name" -k "$SYSTEM_IMAGE" --device "Nexus 5" --force
-    echo -e "${GREEN}AVD $name created.${NC}"
+    avdmanager create avd -n "$name" -k "$SYSTEM_IMAGE" --device "Nexus 5" --force \
+      > >(normal_echo_stdin "avdmanager") \
+      2> >(error_echo_stderr "avdmanager")
+    verbose_echo "${GREEN}AVD $name created.${NC}"
   fi
 
   # Modify config.ini with correct resolution and density
   CONFIG_FILE="$HOME/.android/avd/$name.avd/config.ini"
 
   if [ -f "$CONFIG_FILE" ]; then
-    echo -e "${BLUE}Updating AVD configuration...${NC}"
+    verbose_echo "${BLUE}Updating AVD configuration...${NC}"
 
     # Remove existing keys if they exist, handling whitespace variations
     sed -i '/^hw\.lcd\.height[[:space:]]*=/d' "$CONFIG_FILE"
@@ -92,7 +139,7 @@ for device in "${DEVICES[@]}"; do
     echo "hw.lcd.density=$density"
   } >> "$CONFIG_FILE"
 
-  echo -e "${GREEN}AVD $name configured successfully.${NC}"
+  normal_echo "${GREEN}AVD $name configured successfully.${NC}"
 done
 
-echo -e "${GREEN}All AVDs have been created and configured.${NC}"
+normal_echo "${GREEN}All AVDs have been created and configured.${NC}"

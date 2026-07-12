@@ -39,6 +39,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _scriptTitleController = TextEditingController();
     _scriptChangeDebouncer = Debouncer(delay: Duration(milliseconds: 500));
 
+    final script = ref.read(scriptProvider);
+    _scriptTextController.text = script.text;
+    _scriptTitleController.text = script.title ?? "";
+
     LicenseRegistry.addLicense(() async* {
       final openDyslexicLicense = await rootBundle.loadString(
         'assets/licenses/openDyslexicLicense.txt',
@@ -151,6 +155,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   TextField(
+                    key: const Key("HomeScreen.TitleField"),
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -172,6 +177,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   TextField(
+                    key: const Key("HomeScreen.TextField"),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -197,6 +203,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     direction: Axis.horizontal,
                     children: [
                       ElevatedButton(
+                        key: const Key("HomeScreen.ElevatedButton_Start"),
                         onPressed: () {
                           ref.invalidate(prompterProvider);
                           context.push('/teleprompter');
@@ -206,6 +213,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                       ElevatedButton(
+                        key: const Key("HomeScreen.ElevatedButton_Select"),
                         onPressed: () {
                           if (ref.read(scriptProvider).isSaved) {
                             context.push('/open_file');
@@ -220,6 +228,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                       ElevatedButton(
+                        key: const Key("HomeScreen.ElevatedButton_Save"),
                         onPressed: () async {
                           if (ref.read(scriptProvider).ephemeral) {
                             _saveCurrentScript();
@@ -252,11 +261,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
+                        key: const Key("HomeScreen.IconButton_Settings"),
                         icon: Icon(Icons.settings),
                         onPressed: () => context.push("/settings"),
                         tooltip: context.tr("HomeScreen.IconButton_Settings"),
                       ),
                       IconButton(
+                        key: const Key("HomeScreen.IconButton_SourceCode"),
                         icon: Icon(Icons.code),
                         onPressed: () => launchUrlFromString(kRepoUrl),
                         tooltip: context.tr("HomeScreen.IconButton_SourceCode"),
@@ -264,6 +275,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       FutureBuilder(
                         future: packageInfo,
                         builder: (buildContext, packageInfo) => IconButton(
+                          key: const Key("HomeScreen.IconButton_About"),
                           icon: Icon(Icons.info),
                           tooltip: context.tr("HomeScreen.IconButton_About"),
                           onPressed: () => showAboutDialog(
@@ -414,6 +426,7 @@ class _BuildVersionNote extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
+          key: const Key("HomeScreen.ElevatedButton_FeaturePopup"),
           onPressed: () {
             showDialog(
               context: context,
