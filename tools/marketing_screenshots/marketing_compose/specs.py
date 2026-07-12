@@ -119,6 +119,51 @@ HOME_SCREEN_COLLAGES: list[CollageSpec] = [
         ],
     ),
     CollageSpec(
+        output="VariantFoss.webp",
+        windows=[
+            WindowSpec(
+                input="home_screen/foss.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="home_screen/foss_popup.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="VariantFree.webp",
+        windows=[
+            WindowSpec(
+                input="home_screen/freemium_free.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="home_screen/freemium_free_popup.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="VariantPro.webp",
+        windows=[
+            WindowSpec(
+                input="home_screen/freemium_pro.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="home_screen/freemium_pro_popup.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
         output="StartButton.webp",
         windows=[
             WindowSpec(
@@ -686,6 +731,94 @@ DISPLAY_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
             ),
         ],
     ),
+    CollageSpec(
+        output="LockedFeature.webp",
+        windows=[
+            WindowSpec(
+                input="display_settings_screen/locked_feature_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="buy_pro_screen/reading_indicator_boxes.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    )
+]
+
+SELECT_SCRIPT_SCREEN_COLLAGES: list[CollageSpec] = [
+    CollageSpec(
+        output="SavedScriptsScreen.webp",
+        windows=[
+            WindowSpec(
+                input="home_screen_highlights/select_script_button.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="select_script_screen/foss.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="SaveScript.webp",
+        windows=[
+            WindowSpec(
+                input="home_screen_highlights/save_button.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="home_screen_highlights/save_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="LoadScript.webp",
+        windows=[
+            WindowSpec(
+                input="select_script_screen/load_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="home_screen/loaded_script.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="DeleteScript.webp",
+        windows=[
+            WindowSpec(
+                input="select_script_screen/delete_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="select_script_screen/delete_complete.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="ImportScript.webp",
+        windows=[
+            WindowSpec(
+                input="select_script_screen/import_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
 ]
 
 PROMPTER_SCREEN_COLLAGES: list[CollageSpec] = [
@@ -732,5 +865,6 @@ ALL_COLLAGES: list[CollageSpec] = (
         "keybindings_settings_screen", KEYBINDINGS_SETTINGS_SCREEN_COLLAGES
     )
     + _in_folder("saved_settings_screen", SAVED_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("select_script_screen", SELECT_SCRIPT_SCREEN_COLLAGES)
     + _in_folder("prompter_screen", PROMPTER_SCREEN_COLLAGES)
 )

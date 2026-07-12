@@ -13,15 +13,18 @@ usage() {
   cat <<EOF
 ${YELLOW}usage: screenshots.sh [options]${NC}
 
-${GREEN}-e          ${NC}Comma-separated list of emulator names to run tests on.
+${GREEN}-e          ${NC}Comma-separated list of fixtures to run tests on.
+            Supported fixtures: ${YELLOW}MarketingTablet, MarketingWideTablet, MarketingTabletFreemium${NC}
+${GREEN}-t          ${NC}Comma-separated list of harness names to run tests on.
 EOF
 
   help_common_params
 }
 
-unset -v EMULATOR_NAMES
+unset -v REQUESTED_FIXTURES_NAMES
+unset -v HARNESS_NAMES
 
-while getopts "e:${COMMON_PARAMS}" opt; do
+while getopts "e:t:${COMMON_PARAMS}" opt; do
   if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
     parse_common_params "$opt" "$OPTARG"
     continue
@@ -29,7 +32,10 @@ while getopts "e:${COMMON_PARAMS}" opt; do
 
   case "$opt" in
     e)
-      EMULATOR_NAMES="$(echo "$OPTARG" | tr ',' ' ')"
+      REQUESTED_FIXTURES_NAMES="$(echo "$OPTARG" | tr ',' ' ')"
+      ;;
+    t)
+      HARNESS_NAMES="$OPTARG"
       ;;
     \?)
       error_echo "Unknown option: -$opt" "NO" 1
@@ -51,25 +57,34 @@ script_intfn() {
 # emulator is registered into a single main(), so `flutter test` only has
 # to build and install the app once per emulator instead of once per screen.
 EMULATOR_TEST_FILES=(
-  "MarketingTablet integration_test/marketing/marketing_tablet_test.dart"
-  "MarketingWideTablet integration_test/marketing/marketing_wide_tablet_test.dart"
+  "MarketingTablet MarketingTablet integration_test/marketing/marketing_tablet_test.dart foss"
+  "MarketingWideTablet MarketingWideTablet integration_test/marketing/marketing_wide_tablet_test.dart foss"
+  "MarketingTabletFreemium MarketingTablet integration_test/marketing/marketing_tablet_freemium_test.dart freemium"
 )
 
 start_screenshot_server
 
 for ENTRY in "${EMULATOR_TEST_FILES[@]}"; do
-  read -r CURRENT_EMULATOR TEST_FILE <<< "$ENTRY"
+  read -r FIXTURE_NAME CURRENT_EMULATOR TEST_FILE VARIANT <<< "$ENTRY"
 
-  if [[ -n "$EMULATOR_NAMES" ]] && [[ ! " $EMULATOR_NAMES " == *" $CURRENT_EMULATOR "* ]]; then
+  if [[ -n "$REQUESTED_FIXTURES_NAMES" ]] && [[ ! " $REQUESTED_FIXTURES_NAMES " == *" $FIXTURE_NAME "* ]]; then
     continue
   fi
 
+  if [[ "$VARIANT" == "freemium" ]]; then
+    enable_iap
+  fi
+
   start_emulator "$CURRENT_EMULATOR"
-  normal_echo "${GREEN}Running marketing scenarios on emulator: $CURRENT_EMULATOR${NC}"
-  run_tests "$TEST_FILE" "emulator"
+  normal_echo "${GREEN}Running marketing scenarios of fixture $FIXTURE_NAME on emulator: $CURRENT_EMULATOR${NC}"
+  run_tests "$TEST_FILE" "emulator" "$HARNESS_NAMES"
   stop_emulator
   sleep 5
   normal_echo "${GREEN}Finished tests on $CURRENT_EMULATOR${NC}"
+
+  if [[ "$VARIANT" == "freemium" ]]; then
+    disable_iap
+  fi
 done
 
 normal_echo "${GREEN}All tests completed on all emulators.${NC}"

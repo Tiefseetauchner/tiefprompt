@@ -13,18 +13,24 @@ usage() {
   cat <<EOF
 ${YELLOW}usage: screenshots.sh [options]${NC}
 
+${GREEN}-t          ${NC}Comma-separated list of harness names to run tests on.
 EOF
 
   help_common_params
 }
 
-while getopts "${COMMON_PARAMS}" opt; do
+unset -v HARNESS_NAMES
+
+while getopts "t:${COMMON_PARAMS}" opt; do
   if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
     parse_common_params "$opt" "$OPTARG"
     continue
   fi
-  
+
   case "$opt" in
+    t)
+      HARNESS_NAMES="$OPTARG"
+      ;;
     \?)
       error_echo "Unknown option: -$opt" "NO" 1
       usage
@@ -50,7 +56,7 @@ start_screenshot_server
 for emulator in "${emulators[@]}"; do
   CURRENT_EMULATOR="$emulator"
   start_emulator "$CURRENT_EMULATOR"
-  run_tests integration_test/screenshot_automation_test.dart emulator
+  run_tests integration_test/screenshot_automation_test.dart emulator "$HARNESS_NAMES"
   stop_emulator
   sleep 5
   normal_echo "${GREEN}Finished tests on $CURRENT_EMULATOR${NC}"

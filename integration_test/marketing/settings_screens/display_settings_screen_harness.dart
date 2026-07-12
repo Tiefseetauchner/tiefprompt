@@ -9,8 +9,9 @@ import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 
+import '../../fake_providers/features_fake_free.dart';
 import '../../fake_providers/settings_fake.dart';
-import '../constants.dart';
+import '../../constants.dart';
 import '../harness_preparation.dart';
 
 @RegisterHarness('Marketing Tablet', name: "Display Settings Screen")
@@ -284,6 +285,28 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
           ),
         );
         await tester.pumpAndSettle();
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Locked Feature Highlight",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [featuresProvider.overrideWith(() => FeaturesFakeFree())],
+        child: child,
+      ),
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_ReadingIndicators",
+            ),
+          ),
+        );
       },
     ),
   );

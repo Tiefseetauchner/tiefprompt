@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 
 import '../mock_app.dart';
-import 'marketing_wide_tablet_test.th.dart';
+import 'marketing_tablet_freemium_test.th.dart';
 
-@GenerateHarnessRegistry('Marketing Wide Tablet')
+@GenerateHarnessRegistry('Marketing Tablet Freemium')
 Future<void> main() async {
-  final harnessRegistry = MarketingWideTabletHarnessRegistry();
+  final harnessRegistry = MarketingTabletFreemiumHarnessRegistry();
 
   final harnessesFilter = const String.fromEnvironment("HARNESSES");
   if (harnessesFilter.isNotEmpty) {

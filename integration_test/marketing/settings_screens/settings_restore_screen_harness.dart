@@ -11,7 +11,7 @@ import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 import '../harness_preparation.dart';
 
 @RegisterHarness('Marketing Tablet', name: "Settings Restore Screen")

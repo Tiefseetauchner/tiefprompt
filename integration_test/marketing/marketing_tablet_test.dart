@@ -8,7 +8,8 @@ import 'marketing_tablet_test.th.dart';
 Future<void> main() async {
   final harnessRegistry = MarketingTabletHarnessRegistry();
 
-  final harnessesFilter = String.fromEnvironment("HARNESSES");
+  final harnessesFilter = const String.fromEnvironment("HARNESSES");
+
   if (harnessesFilter.isNotEmpty) {
     final harnessNames = harnessesFilter.split(",");
     harnessRegistry.onlyNamed(harnessNames.toSet());

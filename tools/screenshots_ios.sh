@@ -13,18 +13,24 @@ usage() {
   cat <<EOF
 ${YELLOW}usage: screenshots_ios.sh [options]${NC}
 
+${GREEN}-t          ${NC}Comma-separated list of harness names to run tests on.
 EOF
 
   help_common_params
 }
 
-while getopts "${COMMON_PARAMS}" opt; do
+unset -v HARNESS_NAMES
+
+while getopts "t:${COMMON_PARAMS}" opt; do
   if [[ "$COMMON_PARAMS" == *"$opt"* ]]; then
     parse_common_params "$opt" "$OPTARG"
     continue
   fi
-  
+
   case "$opt" in
+    t)
+      HARNESS_NAMES="$OPTARG"
+      ;;
     \?)
       error_echo "Unknown option: -$opt" "NO" 1
       usage
@@ -49,7 +55,7 @@ for simulator in "${simulators[@]}"; do
   CURRENT_SIMULATOR="$simulator"
   start_screenshot_server
   start_simulator "$CURRENT_SIMULATOR"
-  run_tests integration_test/screenshot_automation_test.dart simulator
+  run_tests integration_test/screenshot_automation_test.dart simulator "$HARNESS_NAMES"
   stop_simulators
   sleep 5
   stop_screenshot_server

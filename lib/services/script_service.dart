@@ -52,7 +52,7 @@ class ScriptService extends _$ScriptService {
     ref
         .read(talkerProvider)
         .info('Script saved: id=${script.id}, title="${script.title}"');
-    return await _databaseManagers.scriptModel
+    await _databaseManagers.scriptModel
         .filter((f) => f.id.equals(script.id))
         .update(
           (s) => s(
@@ -63,6 +63,7 @@ class ScriptService extends _$ScriptService {
             createdAt: Value(DateTime.now()),
           ),
         );
+    return script.id!;
   }
 
   Future<int> saveAsNew(ScriptState script) async {

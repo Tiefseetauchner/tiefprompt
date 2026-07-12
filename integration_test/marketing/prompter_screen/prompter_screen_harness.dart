@@ -13,14 +13,14 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 
 import '../../fake_providers/script_fake.dart';
 import '../../fake_providers/settings_fake.dart';
-import '../constants.dart';
+import '../../constants.dart';
 import '../harness_preparation.dart';
 
 @RegisterHarness('Marketing Wide Tablet', name: "Prompter Screen")
 Future<ScenarioHarness> buildPrompterScreenHarness() async {
   final harness = prepareScreenshotHarness(
     screenshotManager: ScreenshotManager(serverPort: 3824),
-    appContent: PrompterThemeScope(child: PrompterScreen()),
+    appContent: const PrompterThemeScope(child: PrompterScreen()),
   );
 
   harness.addScenario(

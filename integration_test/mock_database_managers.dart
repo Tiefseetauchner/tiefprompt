@@ -13,6 +13,8 @@ import 'package:tiefprompt/models/settings_preset_model.drift.dart';
 import 'package:tiefprompt/providers/database_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 
+import 'constants.dart';
+
 Future<AppDatabase> createSeededDatabase() async {
   final db = AppDatabase(NativeDatabase.memory());
   final packageInfo = await PackageInfo.fromPlatform();
@@ -66,6 +68,11 @@ Future<AppDatabase> createSeededDatabase() async {
             "Key light on the left, fill light on the right at half intensity, "
             "and a rim light behind to separate me from the background.",
         createdAt: DateTime(2024, 03, 05, 7, 50),
+      ),
+      ScriptModelCompanion.insert(
+        title: kMarketingScriptName,
+        scriptText: kMarketingScriptContent,
+        createdAt: DateTime(2026, 07, 12, 14, 20),
       ),
     ]);
   });
