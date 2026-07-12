@@ -52,6 +52,12 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     );
     WakelockPlus.enable();
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollableTextController.scrollController.hasClients) {
         final storedScrollOffset = ref.read(scriptProvider).scrollPosition;
@@ -72,12 +78,6 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
   Widget build(BuildContext context) {
     final script = ref.watch(scriptProvider);
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-
     ref.listen(settingsProvider, (previous, next) async {
       next.whenData((data) {
         ref.read(prompterProvider.notifier).applySettings(data);
@@ -85,12 +85,6 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     });
 
     final prompter = ref.watch(prompterProvider);
-
-    if (prompter.isPlaying) {
-      WakelockPlus.enable();
-    } else {
-      WakelockPlus.disable();
-    }
 
     return KeyboardListener(
       onKeyEvent: (keyEvent) {
