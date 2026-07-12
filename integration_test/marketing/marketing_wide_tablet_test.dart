@@ -4,9 +4,18 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 import '../mock_app.dart';
 import 'marketing_wide_tablet_test.th.dart';
 
-@GenerateHarnessRegistry('MarketingWideTablet')
+@GenerateHarnessRegistry('Marketing Wide Tablet')
 Future<void> main() async {
-  final harnesses = await Future.wait(harnessBuilders.map((build) => build()));
+  final harnessRegistry = MarketingWideTabletHarnessRegistry();
+
+  final harnessesFilter = String.fromEnvironment("HARNESSES");
+  if (harnessesFilter.isNotEmpty) {
+    final harnessNames = harnessesFilter.split(",");
+    harnessRegistry.onlyNamed(harnessNames.toSet());
+  }
+
+  final harnesses = await harnessRegistry.build();
+
   final harnessRunner = HarnessRunner(
     harnesses: harnesses,
     appBuilder: MockApp.new,

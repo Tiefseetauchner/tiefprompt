@@ -13,10 +13,9 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 import '../constants.dart';
 import '../harness_preparation.dart';
 
-@RegisterHarness('MarketingTablet')
+@RegisterHarness('Marketing Tablet', name: "Keybindings Settings Screen")
 Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
   final harness = prepareScreenshotHarness(
-    "Keybindings Settings Screen",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const KeybindingsSettingsScreen(),
   );

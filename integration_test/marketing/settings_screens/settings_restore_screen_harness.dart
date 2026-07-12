@@ -14,10 +14,9 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 import '../constants.dart';
 import '../harness_preparation.dart';
 
-@RegisterHarness('MarketingTablet')
+@RegisterHarness('Marketing Tablet', name: "Settings Restore Screen")
 Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   final harness = prepareScreenshotHarness(
-    "Settings Restore Screen",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const SettingsRestoreScreen(),
   );
@@ -254,16 +253,17 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
         overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
         child: child,
       ),
-      testCallback: (tester, binding) => WidgetHighlighter(
-        tester,
-        defaultHighlightColor: kMarketingHighlightColor,
-      ).highlightWidget(
-        find.descendant(
-          of: find.widgetWithText(ListTile, "Peter"),
-          matching: find.byIcon(Icons.delete),
-        ),
-        padding: 8,
-      ),
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.descendant(
+              of: find.widgetWithText(ListTile, "Peter"),
+              matching: find.byIcon(Icons.delete),
+            ),
+            padding: 8,
+          ),
     ),
   );
 

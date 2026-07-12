@@ -16,10 +16,9 @@ import '../../fake_providers/settings_fake.dart';
 import '../constants.dart';
 import '../harness_preparation.dart';
 
-@RegisterHarness('MarketingWideTablet')
+@RegisterHarness('Marketing Wide Tablet', name: "Prompter Screen")
 Future<ScenarioHarness> buildPrompterScreenHarness() async {
   final harness = prepareScreenshotHarness(
-    "Prompter Screen",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: PrompterThemeScope(child: PrompterScreen()),
   );
@@ -174,10 +173,9 @@ Future<ScenarioHarness> buildPrompterScreenHarness() async {
   return harness;
 }
 
-@RegisterHarness('MarketingTablet')
+@RegisterHarness('Marketing Tablet', name: "Prompter Screen Narrow")
 Future<ScenarioHarness> buildPrompterScreenNarrowHarness() async {
   final harness = prepareScreenshotHarness(
-    "Prompter Screen Narrow",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: PrompterThemeScope(child: PrompterScreen()),
   );

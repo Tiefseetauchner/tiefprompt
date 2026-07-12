@@ -13,10 +13,9 @@ import '../../fake_providers/settings_fake.dart';
 import '../constants.dart';
 import '../harness_preparation.dart';
 
-@RegisterHarness('MarketingTablet')
+@RegisterHarness('Marketing Tablet', name: "Display Settings Screen")
 Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   final harness = prepareScreenshotHarness(
-    "Display Settings Screen",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const DisplaySettingsScreen(),
   );

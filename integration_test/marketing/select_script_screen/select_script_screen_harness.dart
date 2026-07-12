@@ -8,10 +8,9 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 
 import '../harness_preparation.dart';
 
-@RegisterHarness('MarketingTablet')
+@RegisterHarness('Marketing Tablet', name: "Select Script Screen")
 Future<ScenarioHarness> buildSelectScriptScreenHarness() async {
   final harness = prepareScreenshotHarness(
-    "Select Script Screen",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: OpenFileScreen(),
   );

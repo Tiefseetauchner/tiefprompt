@@ -15,10 +15,9 @@ import '../../fake_providers/settings_fake.dart';
 import '../constants.dart';
 import '../harness_preparation.dart';
 
-@RegisterHarness('MarketingTablet')
+@RegisterHarness('Marketing Tablet', name: "Home Screen")
 Future<ScenarioHarness> buildHomeScreenHarness() async {
   final harness = prepareScreenshotHarness(
-    "Home Screen",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const HomeScreen(),
   );
@@ -126,10 +125,9 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
   return harness;
 }
 
-@RegisterHarness('MarketingTablet')
+@RegisterHarness('Marketing Tablet', name: "Home Screen Highlights")
 Future<ScenarioHarness> buildHomeScreenWithHighlightsHarness() async {
   final harness = prepareScreenshotHarness(
-    "Home Screen Highlights",
     screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const HomeScreen(),
   );
