@@ -193,6 +193,40 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
   return harness;
 }
 
+@RegisterHarness('Marketing Wide Tablet', name: "Home Screen Wide")
+Future<ScenarioHarness> buildHomeScreenWideHarness() async {
+  final harness = prepareScreenshotHarness(
+    screenshotManager: ScreenshotManager(serverPort: 3824),
+    appContent: const HomeScreen(),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Foss",
+      providerScopeBuilder: (child) async => ProviderScope(child: child),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Prefilled",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          scriptProvider.overrideWith(
+            () => ScriptFake(
+              name: kMarketingScriptName,
+              content: kMarketingScriptContent,
+            ),
+          ),
+        ],
+        child: child,
+      ),
+    ),
+  );
+
+  return harness;
+}
+
 @RegisterHarness('Marketing Tablet', name: "Home Screen Highlights")
 Future<ScenarioHarness> buildHomeScreenWithHighlightsHarness() async {
   final harness = prepareScreenshotHarness(
@@ -340,7 +374,7 @@ Future<ScenarioHarness> buildHomeScreenWithHighlightsHarness() async {
           find.byKey(const Key("HomeScreen.ElevatedButton_Start")),
           find.byKey(const Key("HomeScreen.ElevatedButton_Select")),
           find.byKey(const Key("HomeScreen.ElevatedButton_Save")),
-        ], padding: 4);
+        ], padding: 8);
       },
     ),
   );

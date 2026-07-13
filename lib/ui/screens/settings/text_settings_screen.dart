@@ -108,6 +108,7 @@ class TextSettingsScreen extends ConsumerWidget {
                     Text(value, style: TextStyle(fontFamily: value)),
               ),
               LinkAppSetting(
+                key: const Key("TextSettingsScreen.LinkAppSetting_CustomFonts"),
                 feature: Feature.customFonts,
                 displayText: context.tr(
                   "SettingsScreen.LinkAppSetting_CustomFonts",

@@ -1,13 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:tief_test_harness/tief_test_harness.dart';
-import 'prompter_screen/prompter_screen_harness.dart' as h0;
+import 'home_screen/home_screen_harness.dart' as h0;
+import 'settings_screens/keybindings_settings_screen_harness.dart' as h1;
+import 'prompter_screen/prompter_screen_harness.dart' as h2;
+import 'select_script_screen/select_script_screen_harness.dart' as h3;
+import 'settings_screens/settings_restore_screen_harness.dart' as h4;
 
 enum MarketingWideTabletHarness {
-  prompterScreen;
+  homeScreenWide,
+  keybindingsSettingsScreen,
+  prompterScreen,
+  selectScriptScreenWide,
+  settingsRestoreScreen;
 
   String get harnessName => switch (this) {
+    MarketingWideTabletHarness.homeScreenWide => 'Home Screen Wide',
+    MarketingWideTabletHarness.keybindingsSettingsScreen => 'Keybindings Settings Screen',
     MarketingWideTabletHarness.prompterScreen => 'Prompter Screen',
+    MarketingWideTabletHarness.selectScriptScreenWide => 'Select Script Screen Wide',
+    MarketingWideTabletHarness.settingsRestoreScreen => 'Settings Restore Screen',
   };
 
   static MarketingWideTabletHarness fromHarnessName(String name) =>
@@ -28,7 +40,11 @@ class MarketingWideTabletHarnessRegistry {
   final Set<MarketingWideTabletHarness>? _selected;
 
   static const Map<MarketingWideTabletHarness, Future<ScenarioHarness> Function()> _builders = {
-    MarketingWideTabletHarness.prompterScreen: h0.buildPrompterScreenHarness,
+    MarketingWideTabletHarness.homeScreenWide: h0.buildHomeScreenWideHarness,
+    MarketingWideTabletHarness.keybindingsSettingsScreen: h1.buildKeybindingsSettingsWideHarness,
+    MarketingWideTabletHarness.prompterScreen: h2.buildPrompterScreenHarness,
+    MarketingWideTabletHarness.selectScriptScreenWide: h3.buildSelectScriptScreenWideHarness,
+    MarketingWideTabletHarness.settingsRestoreScreen: h4.buildSettingsRestoreWideHarness,
   };
 
   /// Restricts a subsequent [build] to just [harnesses].

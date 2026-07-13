@@ -2,8 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_foss.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
@@ -15,28 +13,13 @@ import '../harness_preparation.dart';
 
 @RegisterHarness('Marketing Tablet', name: "Main Settings Screen")
 Future<ScenarioHarness> buildSettingsHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
-    appContent: SettingsScreen(),
-  );
+  final harness = prepareScreenshotHarness(appContent: SettingsScreen());
 
-  harness.addScenario(
-    Scenario(
-      name: "Light Theme",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
-    ),
-  );
+  harness.addScenario(Scenario(name: "Light Theme"));
 
   harness.addScenario(
     Scenario(
       name: "Default Language Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -52,10 +35,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Change Language",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -84,10 +63,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "German",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         final context = tester.element(find.byType(SettingsScreen));
         await context.setLocale(const Locale("de", "DE"));
@@ -99,10 +74,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Change Theme",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -133,7 +104,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
       name: "Dark Theme Open",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
           settingsProvider.overrideWith(
             () => SettingsFake(SettingsState(themeMode: ThemeMode.dark)),
           ),
@@ -157,10 +127,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "App Theme Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -176,7 +142,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
       name: "App Theme Highlight Dark",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
           settingsProvider.overrideWith(
             () => SettingsFake(SettingsState(themeMode: ThemeMode.dark)),
           ),
@@ -196,10 +161,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Display Settings Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -213,10 +174,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Text Settings Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) => WidgetHighlighter(
         tester,
         defaultHighlightColor: kMarketingHighlightColor,
@@ -227,10 +184,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Keybindings Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -244,10 +197,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Save And Restore Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -261,10 +210,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Primary Color Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -282,7 +227,6 @@ Future<ScenarioHarness> buildSettingsHarness() async {
       name: "Primary Color Picker",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
           settingsProvider.overrideWith(
             () => SettingsFake(
               SettingsState(appPrimaryColor: kMarketingTealPrimaryColor),

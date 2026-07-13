@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
-import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_foss.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/settings_storage_service.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
@@ -17,37 +15,16 @@ import '../harness_preparation.dart';
 @RegisterHarness('Marketing Tablet', name: "Settings Restore Screen")
 Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const SettingsRestoreScreen(),
   );
 
-  harness.addScenario(
-    Scenario(
-      name: "Light Theme",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
-    ),
-  );
+  harness.addScenario(Scenario(name: "Light Theme"));
 
-  harness.addScenario(
-    Scenario(
-      name: "Saved Settings",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
-    ),
-  );
+  harness.addScenario(Scenario(name: "Saved Settings"));
 
   harness.addScenario(
     Scenario(
       name: "Save Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -63,10 +40,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Save Dialog",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.byKey(const Key("SettingsRestoreScreen.DialogAppSetting_Save")),
@@ -82,10 +55,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Save Complete",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         final context = tester.element(find.byType(SettingsRestoreScreen));
         final container = ProviderScope.containerOf(context);
@@ -104,10 +73,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Export Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -125,10 +90,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Export Dialog Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -153,10 +114,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Import Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -172,10 +129,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Import Dialog Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.byKey(
@@ -197,10 +150,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Import Complete",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         final context = tester.element(find.byType(SettingsRestoreScreen));
         final container = ProviderScope.containerOf(context);
@@ -219,10 +168,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Restore Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await WidgetHighlighter(
           tester,
@@ -235,10 +180,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Restore Success",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(find.widgetWithText(ListTile, "Nachtmodus"));
         await tester.pumpAndSettle();
@@ -249,10 +190,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Delete Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -270,10 +207,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Delete Dialog Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -300,10 +233,6 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   harness.addScenario(
     Scenario(
       name: "Delete Complete",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -324,6 +253,17 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
       },
     ),
   );
+
+  return harness;
+}
+
+@RegisterHarness('Marketing Wide Tablet', name: "Settings Restore Screen")
+Future<ScenarioHarness> buildSettingsRestoreWideHarness() async {
+  final harness = prepareScreenshotHarness(
+    appContent: const SettingsRestoreScreen(),
+  );
+
+  harness.addScenario(Scenario(name: "Saved Settings"));
 
   return harness;
 }

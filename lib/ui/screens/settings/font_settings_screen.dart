@@ -51,6 +51,7 @@ class FontSettingsScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final font = fontsList[index];
                     return ExpansionTile(
+                      key: ValueKey(font.name),
                       title: Text(
                         font.name,
                         style: TextStyle(fontFamily: font.name),

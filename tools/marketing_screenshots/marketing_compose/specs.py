@@ -7,7 +7,7 @@ integration_test/marketing/ adds a new runScenario call per screenshot.
 
 import dataclasses
 
-from compose_lib import CollageSpec, Position, WindowSpec
+from compose_lib import CollageSpec, Position, SplitImage, WindowSpec
 
 
 def _in_folder(folder: str, collages: list[CollageSpec]) -> list[CollageSpec]:
@@ -374,6 +374,104 @@ TEXT_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
                 input="text_settings_screen/show_current_chapter_highlight.png",
                 title="TiefPrompt",
                 position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+]
+
+CUSTOM_FONT_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
+    CollageSpec(
+        output="CustomFonts.webp",
+        windows=[
+            WindowSpec(
+                input="text_settings_screen/custom_fonts_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="font_settings_screen/foss.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="RenameFontFamily.webp",
+        windows=[
+            WindowSpec(
+                input="font_settings_screen/rename_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="font_settings_screen/rename_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="MoveFontVariant.webp",
+        windows=[
+            WindowSpec(
+                input="font_settings_screen/family_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="font_settings_screen/move_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_CENTER,
+            ),
+            WindowSpec(
+                input="font_settings_screen/move_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="RemoveFontVariantFamilyRemains.webp",
+        windows=[
+            WindowSpec(
+                input="font_settings_screen/remove_variant_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="font_settings_screen/remove_variant_complete.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="RemoveFontVariantFamilyRemoved.webp",
+        windows=[
+            WindowSpec(
+                input="font_settings_screen/remove_last_variant_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="font_settings_screen/remove_last_variant_complete.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="EditFontVariant.webp",
+        windows=[
+            WindowSpec(
+                input="font_settings_screen/edit_variant_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="font_settings_screen/edit_variant_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
             ),
         ],
     ),
@@ -854,17 +952,185 @@ PROMPTER_SCREEN_COLLAGES: list[CollageSpec] = [
     ),
 ]
 
+HOME_CAROUSEL_COLLAGES: list[CollageSpec] = [
+    CollageSpec(
+        output="Home.webp",
+        windows=[
+            WindowSpec(
+                input="home_screen_wide/foss.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="DistractionFreeReading.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/configured_script_no_chrome.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="Personalize.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/configured_script_format_overlay.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+]
+
+FEATURE_SHOWCASE_COLLAGES: list[CollageSpec] = [
+    CollageSpec(
+        output="Fonts.webp",
+        windows=[
+            WindowSpec(
+                input=SplitImage(
+                    inputs=[
+                        "prompter_screen/robotoslab_font.png",
+                        "prompter_screen/roboto_font.png",
+                        "prompter_screen/open_dyslexic_font.png",
+                    ],
+                    angle_deg=20,
+                ),
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="MirrorModes.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/mirrored_no_chrome.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="ReadingIndicators.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/reading_indicators_no_chrome.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="Margins.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/margins_no_chrome.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="Theming.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/custom_colors_no_chrome.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="SavedScripts.webp",
+        windows=[
+            WindowSpec(
+                input=SplitImage(
+                    inputs=[
+                        "select_script_screen_wide/foss.png",
+                        "home_screen_wide/prefilled.png"
+                    ],
+                    angle_deg=20,
+                ),
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="Markdown.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/markdown_no_chrome.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="CountdownTimer.webp",
+        windows=[
+            WindowSpec(
+                input="prompter_screen/countdown_timer_no_chrome.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="SettingsStorage.webp",
+        windows=[
+            WindowSpec(
+                input="settings_restore_screen_wide/saved_settings.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ]
+    ),
+    CollageSpec(
+        output="Keybindings.webp",
+        windows=[
+            WindowSpec(
+                input="keybindings_settings_screen_wide/foss.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="Typography.webp",
+        windows=[
+            WindowSpec(
+                input=SplitImage(
+                    inputs=[
+                        "prompter_screen/crazy_typography_roboto.png",
+                        "prompter_screen/crazy_typography_open_dyslexic.png",
+                        "prompter_screen/crazy_typography_robotomono.png",
+                    ],
+                    angle_deg=20,
+                ),
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    
+]
+
 ALL_COLLAGES: list[CollageSpec] = (
-    _in_folder("hero", HERO_SCREEN_COLLAGES)
-    + _in_folder("home_screen", HOME_SCREEN_COLLAGES)
-    + _in_folder("main_settings_screen", MAIN_SETTINGS_SCREEN_COLLAGES)
-    + _in_folder("settings_subscreens", SETTINGS_SUBSCREENS_COLLAGES)
-    + _in_folder("text_settings_screen", TEXT_SETTINGS_SCREEN_COLLAGES)
-    + _in_folder("display_settings_screen", DISPLAY_SETTINGS_SCREEN_COLLAGES)
-    + _in_folder(
-        "keybindings_settings_screen", KEYBINDINGS_SETTINGS_SCREEN_COLLAGES
-    )
-    + _in_folder("saved_settings_screen", SAVED_SETTINGS_SCREEN_COLLAGES)
-    + _in_folder("select_script_screen", SELECT_SCRIPT_SCREEN_COLLAGES)
-    + _in_folder("prompter_screen", PROMPTER_SCREEN_COLLAGES)
+    _in_folder("docs/hero", HERO_SCREEN_COLLAGES)
+    + _in_folder("web", HOME_CAROUSEL_COLLAGES)
+    + _in_folder("web/features", FEATURE_SHOWCASE_COLLAGES)
+    + _in_folder("docs/home_screen", HOME_SCREEN_COLLAGES)
+    + _in_folder("docs/main_settings_screen", MAIN_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("docs/settings_subscreens", SETTINGS_SUBSCREENS_COLLAGES)
+    + _in_folder("docs/text_settings_screen", TEXT_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("docs/display_settings_screen", DISPLAY_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("docs/keybindings_settings_screen", KEYBINDINGS_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("docs/saved_settings_screen", SAVED_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("docs/select_script_screen", SELECT_SCRIPT_SCREEN_COLLAGES)
+    + _in_folder("docs/prompter_screen", PROMPTER_SCREEN_COLLAGES)
+    + _in_folder("docs/font_settings_screen", CUSTOM_FONT_SETTINGS_SCREEN_COLLAGES)
 )

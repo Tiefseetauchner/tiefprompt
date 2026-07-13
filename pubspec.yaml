@@ -69,10 +69,8 @@ dev_dependencies:
   riverpod_generator: ^4.0.4
   riverpod: ^3.3.2
   build_runner: ^2.5.4
-  tief_test_harness:
-    path: ../tief_test_harness
-  tief_screen:
-    path: ../tief_screen
+  tief_test_harness: ^0.1.0
+  tief_screen: ^0.1.0
   # custom_lint and riverpod_lint dropped temporarily: not yet compatible with
   # analyzer ^12.0.0 required by riverpod_generator 4.x
   flutter_launcher_icons: ^0.14.3

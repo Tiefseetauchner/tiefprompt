@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_foss.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/settings/text_settings_screen.dart';
@@ -16,27 +14,14 @@ import '../harness_preparation.dart';
 @RegisterHarness('Marketing Tablet', name: "Text Settings Screen")
 Future<ScenarioHarness> buildTextSettingsHarness() async {
   final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const TextSettingsScreen(),
   );
 
-  harness.addScenario(
-    Scenario(
-      name: "Light Theme",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
-    ),
-  );
+  harness.addScenario(Scenario(name: "Light Theme"));
 
   harness.addScenario(
     Scenario(
       name: "Default Font Size Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -52,10 +37,6 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Default Font Size Dialog",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.byKey(const Key("TextSettingsScreen.NumberAppSetting_FontSize")),
@@ -68,10 +49,6 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Text Alignment Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -87,10 +64,6 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Text Alignment Open",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -108,10 +81,6 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Font Family Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -127,10 +96,6 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Font Family Open",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -147,11 +112,22 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
 
   harness.addScenario(
     Scenario(
+      name: "Custom Fonts Highlight",
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.byKey(
+              const Key("TextSettingsScreen.LinkAppSetting_CustomFonts"),
+            ),
+          ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
       name: "Enable Markdown Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -169,7 +145,6 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
       name: "Show Current Chapter Highlight",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
           settingsProvider.overrideWith(
             () => SettingsFake(
               SettingsState(

@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiefprompt/models/keybinding.dart';
-import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_foss.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/ui/screens/settings/keybindings_settings_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
@@ -16,27 +14,14 @@ import '../harness_preparation.dart';
 @RegisterHarness('Marketing Tablet', name: "Keybindings Settings Screen")
 Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
   final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const KeybindingsSettingsScreen(),
   );
 
-  harness.addScenario(
-    Scenario(
-      name: "Light Theme",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
-    ),
-  );
+  harness.addScenario(Scenario(name: "Light Theme"));
 
   harness.addScenario(
     Scenario(
       name: "Play Pause Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -54,10 +39,6 @@ Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Play Pause Dialog",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.byKey(
@@ -74,10 +55,6 @@ Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Add Binding Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.byKey(
@@ -101,10 +78,6 @@ Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Add Binding Dialog",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.byKey(
@@ -126,10 +99,6 @@ Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Custom Binding Dialog",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         final container = ProviderScope.containerOf(
           tester.element(find.byType(KeybindingsSettingsScreen)),
@@ -159,6 +128,17 @@ Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
       },
     ),
   );
+
+  return harness;
+}
+
+@RegisterHarness('Marketing Wide Tablet', name: "Keybindings Settings Screen")
+Future<ScenarioHarness> buildKeybindingsSettingsWideHarness() async {
+  final harness = prepareScreenshotHarness(
+    appContent: const KeybindingsSettingsScreen(),
+  );
+
+  harness.addScenario(Scenario(name: "Foss"));
 
   return harness;
 }

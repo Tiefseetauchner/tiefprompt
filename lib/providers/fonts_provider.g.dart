@@ -42,7 +42,7 @@ final class FontsProvider
   Fonts create() => Fonts();
 }
 
-String _$fontsHash() => r'5564b807e8ed3f44c6a5e871464f9d5bb1d08b09';
+String _$fontsHash() => r'e41abba0e894938767b2c2fe45112a6d411c1449';
 
 abstract class _$Fonts extends $AsyncNotifier<List<TiefPromptFontsFile>> {
   FutureOr<List<TiefPromptFontsFile>> build();

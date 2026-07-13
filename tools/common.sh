@@ -177,7 +177,12 @@ start_emulator() {
 
 stop_emulator() {
   verbose_echo "${YELLOW}Stopping all emulators...${NC}"
-  adb emu kill -as
+
+  for EMULATOR in $(adb devices | grep emulator | cut -f1); do
+    verbose_echo "${YELLOW}Stopping emulator: $EMULATOR${NC}"
+    adb -s $EMULATOR emu kill
+  done
+  
   sleep 5
 }
 
@@ -271,6 +276,10 @@ intfn() {
   exitfn -1
 }
 
+# Trap successful exit
 trap "exitfn" 0 EXIT
+# Trap SIGINT (Ctrl+C)
 trap "intfn" INT
+# Trap unsucessful exit
+trap "exitfn -1" ERR
 

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 
 import '../mock_app.dart';
+import '../screenshot_manager_provider.dart';
 import 'marketing_tablet_freemium_test.th.dart';
 
 @GenerateHarnessRegistry('Marketing Tablet Freemium')
@@ -21,9 +22,15 @@ Future<void> main() async {
     appBuilder: MockApp.new,
   );
 
+  final serverIp = const String.fromEnvironment("SERVER_IP");
   await harnessRunner.run(
     setUp: (binding, ref) async {
       await EasyLocalization.ensureInitialized();
+      ref
+          .read(screenshotManagerStateProvider.notifier)
+          .initialize(serverIp, 3824);
     },
+    tearDown: (binding, ref) async =>
+        ref.read(screenshotManagerStateProvider)!.dispose(),
   );
 }

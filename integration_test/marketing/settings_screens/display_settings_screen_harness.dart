@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
-import 'package:tiefprompt/providers/feature_provider_foss.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
@@ -17,19 +16,10 @@ import '../harness_preparation.dart';
 @RegisterHarness('Marketing Tablet', name: "Display Settings Screen")
 Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: const DisplaySettingsScreen(),
   );
 
-  harness.addScenario(
-    Scenario(
-      name: "Light Theme",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
-    ),
-  );
+  harness.addScenario(Scenario(name: "Light Theme"));
 
   harness.addScenario(
     _highlightScenario(
@@ -48,10 +38,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Flip Highlight",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) =>
           WidgetHighlighter(
             tester,
@@ -63,7 +49,7 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
             find.byKey(
               const Key("DisplaySettingsScreen.BooleanAppSetting_FlipY"),
             ),
-          ], padding: 4),
+          ], padding: 8),
     ),
   );
 
@@ -86,10 +72,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   harness.addScenario(
     Scenario(
       name: "Control Buttons Position Open",
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         await tester.tap(
           find.descendant(
@@ -228,7 +210,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
       name: "Prompter Background Color Dialog",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
           settingsProvider.overrideWith(
             () => SettingsFake(
               SettingsState(
@@ -266,7 +247,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
       name: "Prompter Text Color Dialog",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          featuresProvider.overrideWith(() => FeaturesFoss()),
           settingsProvider.overrideWith(
             () => SettingsFake(
               SettingsState(prompterTextColor: kMarketingPrompterTextColor),
@@ -325,10 +305,6 @@ Scenario _highlightScenario(
   bool scrollToBottom = false,
 }) => Scenario(
   name: name,
-  providerScopeBuilder: (child) async => ProviderScope(
-    overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-    child: child,
-  ),
   testCallback: (tester, binding) async {
     if (scrollToBottom) await _scrollToBottom(tester);
 
@@ -342,10 +318,6 @@ Scenario _highlightScenario(
 Scenario _tapScenario(String name, Key key, {bool scrollToBottom = false}) =>
     Scenario(
       name: name,
-      providerScopeBuilder: (child) async => ProviderScope(
-        overrides: [featuresProvider.overrideWith(() => FeaturesFoss())],
-        child: child,
-      ),
       testCallback: (tester, binding) async {
         if (scrollToBottom) await _scrollToBottom(tester);
 

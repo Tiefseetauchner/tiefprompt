@@ -25,10 +25,7 @@ Future<ScenarioHarness> buildSelectScriptScreenHarness() async {
         await WidgetHighlighter(
           tester,
           defaultHighlightColor: kMarketingHighlightColor,
-        ).highlightWidget(
-          find.widgetWithText(ListTile, kMarketingScriptName),
-          padding: 4,
-        );
+        ).highlightWidget(find.widgetWithText(ListTile, kMarketingScriptName));
       },
     ),
   );
@@ -80,11 +77,22 @@ Future<ScenarioHarness> buildSelectScriptScreenHarness() async {
           defaultHighlightColor: kMarketingHighlightColor,
         ).highlightWidget(
           find.byKey(const Key("OpenFileScreen.ElevatedButton_Select")),
-          padding: 4,
         );
       },
     ),
   );
+
+  return harness;
+}
+
+@RegisterHarness("Marketing Wide Tablet", name: "Select Script Screen Wide")
+Future<ScenarioHarness> buildSelectScriptScreenWideHarness() async {
+  final harness = prepareScreenshotHarness(
+    screenshotManager: ScreenshotManager(serverPort: 3824),
+    appContent: const OpenFileScreen(),
+  );
+
+  harness.addScenario(Scenario(name: "Foss"));
 
   return harness;
 }

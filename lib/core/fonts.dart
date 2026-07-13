@@ -49,9 +49,6 @@ Future<void> registerFont(TiefPromptFontsFile file, Talker talker) async {
     fontLoader.addFont(variant.load());
     await fontLoader.load();
   }
-  talker.info(
-    "Registered font family ${file.name} with ${file.variants.length} variants.\n$variantLogs",
-  );
 }
 
 String _logVariantDetails(String fileName, TiefPromptFontsVariant variant) {
