@@ -1172,16 +1172,18 @@ packages:
   tief_screen:
     dependency: "direct dev"
     description:
-      path: "../tief_screen"
-      relative: true
-    source: path
+      name: tief_screen
+      sha256: "420d80e667bf3a93def2beffdc5feea582610ceb9b144b60051b5901211f5b21"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.1.0"
   tief_test_harness:
     dependency: "direct dev"
     description:
-      path: "../tief_test_harness"
-      relative: true
-    source: path
+      name: tief_test_harness
+      sha256: "36d861a03278dbd665ddbc7c502717d627dd054564250cd3db48504c924d7907"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.1.0"
   tief_weave:
     dependency: "direct main"
