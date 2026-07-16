@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tief_screen/tief_screen.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
@@ -10,9 +9,7 @@ import '../harness_preparation.dart';
 
 @RegisterHarness('Marketing Tablet Freemium', name: "Buy Pro Screen")
 Future<ScenarioHarness> buildBuyProScreenHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
-  );
+  final harness = prepareScreenshotHarness();
 
   harness.addScenario(
     Scenario(

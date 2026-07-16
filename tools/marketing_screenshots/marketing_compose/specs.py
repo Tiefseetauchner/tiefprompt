@@ -7,7 +7,7 @@ integration_test/marketing/ adds a new runScenario call per screenshot.
 
 import dataclasses
 
-from compose_lib import CollageSpec, Position, SplitImage, WindowSpec
+from compose_lib import CollageSpec, Position, WindowSpec
 
 
 def _in_folder(folder: str, collages: list[CollageSpec]) -> list[CollageSpec]:
@@ -964,7 +964,7 @@ HOME_CAROUSEL_COLLAGES: list[CollageSpec] = [
         ],
     ),
     CollageSpec(
-        output="DistractionFreeReading.webp",
+        output="Prompter.webp",
         windows=[
             WindowSpec(
                 input="prompter_screen/configured_script_no_chrome.png",
@@ -990,16 +990,19 @@ FEATURE_SHOWCASE_COLLAGES: list[CollageSpec] = [
         output="Fonts.webp",
         windows=[
             WindowSpec(
-                input=SplitImage(
-                    inputs=[
-                        "prompter_screen/robotoslab_font.png",
-                        "prompter_screen/roboto_font.png",
-                        "prompter_screen/open_dyslexic_font.png",
-                    ],
-                    angle_deg=20,
-                ),
+                input="prompter_screen/robotoslab_font.png",
                 title="TiefPrompt",
-                position=POS_TOP_LEFT,
+                position=Position(0, 0),
+            ),
+            WindowSpec(
+                input="prompter_screen/roboto_font.png",
+                title="TiefPrompt",
+                position=Position(400, 100),
+            ),
+            WindowSpec(
+                input="prompter_screen/open_dyslexic_font.png",
+                title="TiefPrompt",
+                position=Position(800, 200),
             ),
         ],
     ),
@@ -1047,15 +1050,14 @@ FEATURE_SHOWCASE_COLLAGES: list[CollageSpec] = [
         output="SavedScripts.webp",
         windows=[
             WindowSpec(
-                input=SplitImage(
-                    inputs=[
-                        "select_script_screen_wide/foss.png",
-                        "home_screen_wide/prefilled.png"
-                    ],
-                    angle_deg=20,
-                ),
+                input="select_script_screen_wide/foss.png",
                 title="TiefPrompt",
                 position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="home_screen_wide/prefilled.png",
+                title="TiefPrompt",
+                position=Position(800, 200),
             ),
         ],
     ),
@@ -1103,16 +1105,19 @@ FEATURE_SHOWCASE_COLLAGES: list[CollageSpec] = [
         output="Typography.webp",
         windows=[
             WindowSpec(
-                input=SplitImage(
-                    inputs=[
-                        "prompter_screen/crazy_typography_roboto.png",
-                        "prompter_screen/crazy_typography_open_dyslexic.png",
-                        "prompter_screen/crazy_typography_robotomono.png",
-                    ],
-                    angle_deg=20,
-                ),
+                input="prompter_screen/crazy_typography_roboto.png",
                 title="TiefPrompt",
-                position=POS_TOP_LEFT,
+                position=Position(0, 0),
+            ),
+            WindowSpec(
+                input="prompter_screen/crazy_typography_open_dyslexic.png",
+                title="TiefPrompt",
+                position=Position(400, 100),
+            ),
+            WindowSpec(
+                input="prompter_screen/crazy_typography_robotomono.png",
+                title="TiefPrompt",
+                position=Position(800, 200),
             ),
         ],
     ),

@@ -9,10 +9,7 @@ import '../harness_preparation.dart';
 
 @RegisterHarness('Marketing Tablet', name: "Select Script Screen")
 Future<ScenarioHarness> buildSelectScriptScreenHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
-    appContent: const OpenFileScreen(),
-  );
+  final harness = prepareScreenshotHarness(appContent: const OpenFileScreen());
 
   harness.addScenario(Scenario(name: "Foss"));
 
@@ -87,8 +84,7 @@ Future<ScenarioHarness> buildSelectScriptScreenHarness() async {
 
 @RegisterHarness("Marketing Wide Tablet", name: "Select Script Screen Wide")
 Future<ScenarioHarness> buildSelectScriptScreenWideHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
+  final harness = prepareLandscapeScreenshotHarness(
     appContent: const OpenFileScreen(),
   );
 

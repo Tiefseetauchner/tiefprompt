@@ -132,9 +132,12 @@ Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Wide Tablet', name: "Keybindings Settings Screen")
+@RegisterHarness(
+  'Marketing Wide Tablet',
+  name: "Keybindings Settings Screen Wide",
+)
 Future<ScenarioHarness> buildKeybindingsSettingsWideHarness() async {
-  final harness = prepareScreenshotHarness(
+  final harness = prepareLandscapeScreenshotHarness(
     appContent: const KeybindingsSettingsScreen(),
   );
 

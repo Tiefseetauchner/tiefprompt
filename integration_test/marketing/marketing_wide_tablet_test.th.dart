@@ -9,17 +9,17 @@ import 'settings_screens/settings_restore_screen_harness.dart' as h4;
 
 enum MarketingWideTabletHarness {
   homeScreenWide,
-  keybindingsSettingsScreen,
+  keybindingsSettingsScreenWide,
   prompterScreen,
   selectScriptScreenWide,
-  settingsRestoreScreen;
+  settingsRestoreScreenWide;
 
   String get harnessName => switch (this) {
     MarketingWideTabletHarness.homeScreenWide => 'Home Screen Wide',
-    MarketingWideTabletHarness.keybindingsSettingsScreen => 'Keybindings Settings Screen',
+    MarketingWideTabletHarness.keybindingsSettingsScreenWide => 'Keybindings Settings Screen Wide',
     MarketingWideTabletHarness.prompterScreen => 'Prompter Screen',
     MarketingWideTabletHarness.selectScriptScreenWide => 'Select Script Screen Wide',
-    MarketingWideTabletHarness.settingsRestoreScreen => 'Settings Restore Screen',
+    MarketingWideTabletHarness.settingsRestoreScreenWide => 'Settings Restore Screen Wide',
   };
 
   static MarketingWideTabletHarness fromHarnessName(String name) =>
@@ -41,10 +41,10 @@ class MarketingWideTabletHarnessRegistry {
 
   static const Map<MarketingWideTabletHarness, Future<ScenarioHarness> Function()> _builders = {
     MarketingWideTabletHarness.homeScreenWide: h0.buildHomeScreenWideHarness,
-    MarketingWideTabletHarness.keybindingsSettingsScreen: h1.buildKeybindingsSettingsWideHarness,
+    MarketingWideTabletHarness.keybindingsSettingsScreenWide: h1.buildKeybindingsSettingsWideHarness,
     MarketingWideTabletHarness.prompterScreen: h2.buildPrompterScreenHarness,
     MarketingWideTabletHarness.selectScriptScreenWide: h3.buildSelectScriptScreenWideHarness,
-    MarketingWideTabletHarness.settingsRestoreScreen: h4.buildSettingsRestoreWideHarness,
+    MarketingWideTabletHarness.settingsRestoreScreenWide: h4.buildSettingsRestoreWideHarness,
   };
 
   /// Restricts a subsequent [build] to just [harnesses].

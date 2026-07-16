@@ -17,10 +17,7 @@ import '../harness_preparation.dart';
 
 @RegisterHarness('Marketing Tablet', name: "Home Screen")
 Future<ScenarioHarness> buildHomeScreenHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
-    appContent: const HomeScreen(),
-  );
+  final harness = prepareScreenshotHarness(appContent: const HomeScreen());
 
   harness.addScenario(
     Scenario(
@@ -195,8 +192,7 @@ Future<ScenarioHarness> buildHomeScreenHarness() async {
 
 @RegisterHarness('Marketing Wide Tablet', name: "Home Screen Wide")
 Future<ScenarioHarness> buildHomeScreenWideHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
+  final harness = prepareLandscapeScreenshotHarness(
     appContent: const HomeScreen(),
   );
 
@@ -229,10 +225,7 @@ Future<ScenarioHarness> buildHomeScreenWideHarness() async {
 
 @RegisterHarness('Marketing Tablet', name: "Home Screen Highlights")
 Future<ScenarioHarness> buildHomeScreenWithHighlightsHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
-    appContent: const HomeScreen(),
-  );
+  final harness = prepareScreenshotHarness(appContent: const HomeScreen());
 
   harness.addScenario(
     Scenario(

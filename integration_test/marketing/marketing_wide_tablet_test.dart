@@ -26,6 +26,7 @@ Future<void> main() async {
   await harnessRunner.run(
     setUp: (binding, ref) async {
       await EasyLocalization.ensureInitialized();
+
       ref
           .read(screenshotManagerStateProvider.notifier)
           .initialize(serverIp, 3824);

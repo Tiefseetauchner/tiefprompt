@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker/talker.dart';
@@ -84,8 +83,6 @@ class _MockAppState extends State<MockApp> {
       createSeededDatabase(),
       widget.providerScopeBuilder?.call(app) ?? Future<Widget>.value(app),
     ]);
-
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override

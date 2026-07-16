@@ -9,7 +9,6 @@ import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_theme_scope.dart';
-import 'package:tief_screen/tief_screen.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 
 import '../../fake_providers/script_fake.dart';
@@ -51,8 +50,7 @@ SettingsFake _configuredScriptSettings({
 
 @RegisterHarness('Marketing Wide Tablet', name: "Prompter Screen")
 Future<ScenarioHarness> buildPrompterScreenHarness() async {
-  final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
+  final harness = prepareLandscapeScreenshotHarness(
     appContent: const PrompterThemeScope(child: PrompterScreen()),
   );
 
@@ -101,7 +99,20 @@ Future<ScenarioHarness> buildPrompterScreenHarness() async {
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
           scriptProvider.overrideWith(_configuredScript),
-          settingsProvider.overrideWith(_configuredScriptSettings),
+          settingsProvider.overrideWith(
+            () => SettingsFake(
+              SettingsState(
+                config: PrompterConfiguration(
+                  alignment: TextAlign.center,
+                  fontSize: 36,
+                  markdownEnabled: true,
+                  sideMargin: 30,
+                  readingIndicatorBoxesHeight: 60,
+                  displayReadingIndicatorBoxes: true,
+                ),
+              ),
+            ),
+          ),
         ],
         child: child,
       ),
@@ -385,7 +396,7 @@ Future<ScenarioHarness> buildPrompterScreenHarness() async {
               SettingsState(
                 config: PrompterConfiguration(
                   fontFamily: "Roboto",
-                  fontSize: 24,
+                  fontSize: 69,
                   sideMargin: 10,
                   alignment: TextAlign.justify,
                 ),
@@ -516,7 +527,6 @@ Future<ScenarioHarness> buildPrompterScreenHarness() async {
 @RegisterHarness('Marketing Tablet', name: "Prompter Screen Narrow")
 Future<ScenarioHarness> buildPrompterScreenNarrowHarness() async {
   final harness = prepareScreenshotHarness(
-    screenshotManager: ScreenshotManager(serverPort: 3824),
     appContent: PrompterThemeScope(child: PrompterScreen()),
   );
 

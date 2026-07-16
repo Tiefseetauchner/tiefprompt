@@ -257,9 +257,9 @@ Future<ScenarioHarness> buildSettingsRestoreHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Wide Tablet', name: "Settings Restore Screen")
+@RegisterHarness('Marketing Wide Tablet', name: "Settings Restore Screen Wide")
 Future<ScenarioHarness> buildSettingsRestoreWideHarness() async {
-  final harness = prepareScreenshotHarness(
+  final harness = prepareLandscapeScreenshotHarness(
     appContent: const SettingsRestoreScreen(),
   );
 

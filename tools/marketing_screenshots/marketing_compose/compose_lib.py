@@ -153,17 +153,8 @@ class Position:
 
 
 @dataclass(frozen=True)
-class SplitImage:
-    """Fuses several same-size screenshots into one, sliced into angled bands
-    (like a fanned deck of cards) — a WindowSpec.input alternative to a plain path.
-    """
-    inputs: list[str]
-    angle_deg: float = 0
-
-
-@dataclass(frozen=True)
 class WindowSpec:
-    input: str | SplitImage
+    input: str
     title: str
     position: Position
     crop: tuple[int, int, int, int] | None = None
@@ -185,36 +176,9 @@ def _load_image(path: str, input_dir: Path) -> Image.Image:
         )
     return image
 
-
-def render_split(spec: SplitImage, input_dir: Path) -> Image.Image:
-    """Slices each source image into an equal-width vertical band, cut at
-    `angle_deg` off true vertical, and pastes the bands side by side."""
-    images = [_load_image(path, input_dir) for path in spec.inputs]
-    width, height = images[0].size
-    band_w = width / len(images)
-    shear_px = height * math.tan(math.radians(spec.angle_deg))
-
-    canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    for i, image in enumerate(images):
-        mask = Image.new("L", (width, height), 0)
-        ImageDraw.Draw(mask).polygon(
-            [
-                (i * band_w - shear_px / 2, 0),
-                ((i + 1) * band_w - shear_px / 2, 0),
-                ((i + 1) * band_w + shear_px / 2, height),
-                (i * band_w + shear_px / 2, height),
-            ],
-            fill=255,
-        )
-        canvas.paste(image, (0, 0), mask)
-    return canvas
-
-
 def render_window(spec: WindowSpec, input_dir: Path) -> Image.Image:
     image = (
-        render_split(spec.input, input_dir)
-        if isinstance(spec.input, SplitImage)
-        else _load_image(spec.input, input_dir)
+        _load_image(spec.input, input_dir)
     )
     if spec.crop is not None:
         image = image.crop(spec.crop)
