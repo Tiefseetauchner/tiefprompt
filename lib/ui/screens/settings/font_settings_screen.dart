@@ -265,6 +265,7 @@ class FontSettingsScreen extends ConsumerWidget {
   ) async {
     final fontNames = fonts
         .where((f) => !f.isBuiltIn)
+        .where((f) => f.name != font.name)
         .map((f) => f.name)
         .toList();
 
