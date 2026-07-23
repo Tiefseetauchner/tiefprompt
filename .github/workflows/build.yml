@@ -31,7 +31,7 @@ jobs:
             libgtk-3-dev liblzma-dev \
             libstdc++-12-dev
           mkdir package/
-          ./tools/build.sh -t linux -f foss,freemium -b package/ -V
+          ./tools/build.sh -t linux -f foss,freemium -b package/ -Vd
         working-directory: app
 
   build-windows:
@@ -46,7 +46,7 @@ jobs:
           fetch-depth: 0
       - name: Compile
         run: |
-          ./tools/build.sh -t windows -f foss,freemium -b package/ -V
+          ./tools/build.sh -t windows -f foss,freemium -b package/ -Vd
         working-directory: app
         shell: bash
 
@@ -62,7 +62,7 @@ jobs:
           fetch-depth: 0
       - name: Compile
         run: |
-          ./tools/build.sh -t macos -f foss,freemium -b package/ -V
+          ./tools/build.sh -t macos -f foss,freemium -b package/ -VdN
         working-directory: app
 
   build-android:
@@ -83,7 +83,7 @@ jobs:
             ninja-build pkg-config \
             libgtk-3-dev liblzma-dev \
             libstdc++-12-dev
-          ./tools/build.sh -t android -f foss,freemium -b package/ -V
+          ./tools/build.sh -t androidapk -f foss,freemium -b package/ -Vd
         working-directory: app
 
   build-ios:
@@ -98,7 +98,7 @@ jobs:
           fetch-depth: 0
       - name: Compile
         run: |
-          ./tools/build.sh -t ios -f foss,freemium -b package/ -V
+          ./tools/build.sh -t iosipa -f foss,freemium -b package/ -Vd
         working-directory: app
 
   test:
