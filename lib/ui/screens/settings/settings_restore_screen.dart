@@ -73,11 +73,13 @@ class _SettingsRestoreView extends ConsumerWidget {
           return ListView(
             children: [
               DialogAppSetting(
+                key: const Key("SettingsRestoreScreen.DialogAppSetting_Save"),
                 feature: Feature.settingsRestore,
                 displayText: context.tr("SettingsScreen.SettingsRestore.Save"),
                 onTap: _saveSettings,
               ),
               DialogAppSetting(
+                key: const Key("SettingsRestoreScreen.DialogAppSetting_Import"),
                 feature: Feature.settingsRestore,
                 displayText: context.tr(
                   "SettingsScreen.SettingsRestore.Import",
@@ -223,7 +225,7 @@ class _SavedSettingsTile extends ConsumerWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(entry.createdAt.toString()),
+          Text(DateFormat.yMd().add_jm().format(entry.createdAt.toLocal())),
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () => _showDeletionConfirmDialog(context, ref),
@@ -274,6 +276,9 @@ class _SavedSettingsTile extends ConsumerWidget {
         content: Column(
           children: [
             ListTile(
+              key: const Key(
+                "SettingsRestoreScreen.OptionsDialog.ListTile_Export",
+              ),
               title: Text(
                 context.tr(
                   "SettingsScreen.SettingsRestore.OptionsDialog.Export",
@@ -367,6 +372,9 @@ class _SavedSettingsTile extends ConsumerWidget {
             ),
           ),
           ElevatedButton(
+            key: const Key(
+              "SettingsRestoreScreen.DeleteDialog.ElevatedButton_Confirm",
+            ),
             onPressed: () {
               ref
                   .read(settingsStorageServiceProvider.notifier)
@@ -511,6 +519,7 @@ class _ImportSettingsDialog extends ConsumerWidget {
           ),
         ),
         ElevatedButton(
+          key: const Key("ImportSettingsDialog.ElevatedButton_Import"),
           onPressed: () => _pickAndStage(context, ref),
           child: Text(
             context.tr("SettingsScreen.SettingsRestore.ImportSettings.Import"),

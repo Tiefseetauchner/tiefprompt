@@ -38,4 +38,4 @@ RUN yes | /home/flutteruser/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=
 
 USER flutteruser
 WORKDIR /app
-CMD ["bash", "-c", "./tools/build.sh -V"]
+CMD ["bash", "-c", "./tools/build.sh -t $TARGETS -f $FREEDOM ${VERBOSE:+-v} ${MORE_VERBOSE:+-V}"]

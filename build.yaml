@@ -24,3 +24,8 @@ targets:
     builders:
       drift_dev:
         enabled: false
+      tief_test_harness|harness_registry:
+        generate_for:
+          - "integration_test/marketing/*_test.dart"
+        options:
+          source_glob: "integration_test/marketing/**/*_harness.dart"

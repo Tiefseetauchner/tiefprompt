@@ -47,6 +47,7 @@ dependencies:
   package_info_plus: ^10.0.0
   flutter_colorpicker: ^1.1.0
   tief_weave: ^0.3.1
+  tief_fonts: ^0.1.0
   talker: ^5.1.17
   talker_flutter: ^5.1.17
   talker_riverpod_logger: ^5.1.17
@@ -66,7 +67,10 @@ dev_dependencies:
 
   flutter_lints: ^6.0.0
   riverpod_generator: ^4.0.4
+  riverpod: ^3.3.2
   build_runner: ^2.5.4
+  tief_test_harness: ^0.1.0
+  tief_screen: ^0.1.0
   # custom_lint and riverpod_lint dropped temporarily: not yet compatible with
   # analyzer ^12.0.0 required by riverpod_generator 4.x
   flutter_launcher_icons: ^0.14.3
@@ -126,29 +130,6 @@ flutter:
         - asset: fonts/Exo-VariableFont_wght.ttf
         - asset: fonts/Exo-Italic-VariableFont_wght.ttf
           style: italic
-    - family: Roboto
-      fonts:
-        - asset: fonts/Roboto-VariableFont_wdth,wght.ttf
-        - asset: fonts/Roboto-Italic-VariableFont_wdth,wght.ttf
-          style: italic
-    - family: RobotoMono
-      fonts:
-        - asset: fonts/RobotoMono-VariableFont_wght.ttf
-        - asset: fonts/RobotoMono-Italic-VariableFont_wght.ttf
-          style: italic
-    - family: RobotoSlab
-      fonts:
-        - asset: fonts/RobotoSlab-VariableFont_wght.ttf
-    - family: OpenDyslexic
-      fonts:
-        - asset: fonts/OpenDyslexic-Regular.otf
-        - asset: fonts/OpenDyslexic-Bold.otf
-          weight: 700
-        - asset: fonts/OpenDyslexic-Bold-Italic.otf
-          weight: 700
-          style: italic
-        - asset: fonts/OpenDyslexic-Italic.otf
-          style: italic
   assets:
     - assets/licenses/
     - assets/translations/
@@ -157,6 +138,7 @@ flutter:
     - assets/changelogs/ru/
     - assets/changelogs/zh-CN/
     - assets/changelogs/en@pirate/
+    - assets/fonts/
 
   #   - family: Schyler
   #     fonts:

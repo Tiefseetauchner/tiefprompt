@@ -399,6 +399,124 @@
         "without_rowid": false,
         "constraints": []
       }
+    },
+    {
+      "id": 5,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "custom_font_model",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "original_file_name",
+            "getter_name": "originalFileName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "family_name",
+            "getter_name": "familyName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "weight",
+            "getter_name": "weight",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "is_italic",
+            "getter_name": "isItalic",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_italic\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_italic\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "is_variable_weight",
+            "getter_name": "isVariableWeight",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"is_variable_weight\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"is_variable_weight\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "weight_min",
+            "getter_name": "weightMin",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "weight_max",
+            "getter_name": "weightMax",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "data",
+            "getter_name": "data",
+            "moor_type": "blob",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
     }
   ],
   "fixed_sql": [
@@ -444,6 +562,15 @@
         {
           "dialect": "sqlite",
           "sql": "CREATE TABLE IF NOT EXISTS \"app_state_model\" (\"help_request_shown\" INTEGER NOT NULL CHECK (\"help_request_shown\" IN (0, 1)), \"last_seen_version\" TEXT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "custom_font_model",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"custom_font_model\" (\"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"original_file_name\" TEXT NOT NULL, \"family_name\" TEXT NOT NULL, \"weight\" INTEGER NOT NULL, \"is_italic\" INTEGER NOT NULL DEFAULT 0 CHECK (\"is_italic\" IN (0, 1)), \"is_variable_weight\" INTEGER NOT NULL DEFAULT 0 CHECK (\"is_variable_weight\" IN (0, 1)), \"weight_min\" INTEGER NULL, \"weight_max\" INTEGER NULL, \"data\" BLOB NOT NULL);"
         }
       ]
     }
