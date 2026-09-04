@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  bidi: ^2.0.0
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^3.3.2
   shared_preferences: ^2.5.1
@@ -46,7 +47,7 @@ dependencies:
   easy_localization: ^3.0.7+1
   package_info_plus: ^10.0.0
   flutter_colorpicker: ^1.1.0
-  tief_weave: ^0.3.1
+  tief_weave: ^0.4.0
   talker: ^5.1.17
   talker_flutter: ^5.1.17
   talker_riverpod_logger: ^5.1.17

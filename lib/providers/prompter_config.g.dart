@@ -39,6 +39,12 @@ _PrompterConfiguration _$PrompterConfigurationFromJson(
           json['controlButtonsPosition'] as String,
         ),
   showCurrentChapter: json['showCurrentChapter'] as bool? ?? false,
+  textDirectionMode:
+      $enumDecodeNullable(
+        _$TextDirectionModeEnumMap,
+        json['textDirectionMode'],
+      ) ??
+      TextDirectionMode.auto,
 );
 
 Map<String, dynamic> _$PrompterConfigurationToJson(
@@ -64,4 +70,11 @@ Map<String, dynamic> _$PrompterConfigurationToJson(
     instance.controlButtonsPosition,
   ),
   'showCurrentChapter': instance.showCurrentChapter,
+  'textDirectionMode': _$TextDirectionModeEnumMap[instance.textDirectionMode]!,
+};
+
+const _$TextDirectionModeEnumMap = {
+  TextDirectionMode.ltr: 'ltr',
+  TextDirectionMode.rtl: 'rtl',
+  TextDirectionMode.auto: 'auto',
 };

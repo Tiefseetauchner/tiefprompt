@@ -30,5 +30,12 @@ linter:
 analyzer:
   errors:
     recursive_getters: ignore
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
+    - linux/**
   plugins:
     - custom_lint

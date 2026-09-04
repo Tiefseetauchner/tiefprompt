@@ -102,6 +102,12 @@
     "ColorAppSetting_AppPrimaryColor": "Primary Application Color",
     "ColorAppSetting_PrompterBackgroundColor": "Prompter Background Color",
     "ColorAppSetting_PrompterTextColor": "Prompter Text Color",
+    "DropdownAppSetting_DefaultTextDirectionMode": "Default Text Direction",
+    "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
+      "ltr": "Left to Right",
+      "rtl": "Right to Left",
+      "auto": "Automatic"
+    },
     "DisplaySettings": "Display Settings",
     "TextSettings": "Text Settings",
     "ListTile_Reset": "Reset settings",

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,6 +88,26 @@ class TextSettingsScreen extends ConsumerWidget {
                     .read(settingsProvider.notifier)
                     .setFontFamily(updatedValue),
                 values: kAvailableFonts.map((e) => (e, e)).toList(),
+              ),
+              DropdownAppSetting<TextDirectionMode>(
+                feature: Feature.textDirectionMode,
+                value: prompterConfig.textDirectionMode,
+                displayText: context.tr(
+                  "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+                ),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setTextDirectionMode(updatedValue),
+                values: TextDirectionMode.values
+                    .map(
+                      (e) => (
+                        context.tr(
+                          "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode_Unit.${e.toString().split('.').last}",
+                        ),
+                        e,
+                      ),
+                    )
+                    .toList(),
               ),
               BooleanAppSetting(
                 feature: Feature.markdown,

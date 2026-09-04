@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
@@ -224,9 +225,13 @@ class _ButtonGroup extends StatelessWidget {
 class _FontSettingsDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final (:fontSize, :fontFamily) = ref.watch(
+    final (:fontSize, :fontFamily, :textDirectionMode) = ref.watch(
       prompterProvider.select(
-        (p) => (fontSize: p.config.fontSize, fontFamily: p.config.fontFamily),
+        (p) => (
+          fontSize: p.config.fontSize,
+          fontFamily: p.config.fontFamily,
+          textDirectionMode: p.config.textDirectionMode,
+        ),
       ),
     );
     final themes = ref.watch(themesProvider);
@@ -349,6 +354,36 @@ class _FontSettingsDialog extends ConsumerWidget {
                           onChanged: (value) => ref
                               .read(prompterProvider.notifier)
                               .setFontFamily(value ?? 'Roboto'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _FeatureGate(
+                    feature: Feature.textDirectionMode,
+                    displayText: context.tr(
+                      "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+                    ),
+                    child: Row(
+                      children: [
+                        DropdownButton(
+                          value: textDirectionMode,
+                          items: TextDirectionMode.values
+                              .map(
+                                (mode) => DropdownMenuItem(
+                                  value: mode,
+                                  child: Text(
+                                    context.tr(
+                                      "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode_Unit.${mode.toString().split('.').last}",
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) => ref
+                              .read(prompterProvider.notifier)
+                              .setTextDirectionMode(
+                                value ?? TextDirectionMode.auto,
+                              ),
                         ),
                       ],
                     ),

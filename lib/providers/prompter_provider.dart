@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -161,6 +162,12 @@ class Prompter extends _$Prompter {
     _mutateConfig(
       (config) =>
           config.copyWith(showCurrentChapter: !config.showCurrentChapter),
+    );
+  }
+
+  void setTextDirectionMode(TextDirectionMode textDirectionMode) {
+    _mutateConfig(
+      (config) => config.copyWith(textDirectionMode: textDirectionMode),
     );
   }
 }

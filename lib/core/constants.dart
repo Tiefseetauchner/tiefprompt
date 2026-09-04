@@ -96,6 +96,7 @@ enum Feature {
   showHelpRequest,
   ephemeralScript,
   currentChapter,
+  textDirectionMode,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -127,6 +128,7 @@ const kAllFeatures = [
   Feature.showHelpRequest,
   Feature.ephemeralScript,
   Feature.currentChapter,
+  Feature.textDirectionMode,
 ];
 
 const kFreeFeatures = [
@@ -147,6 +149,7 @@ const kFreeFeatures = [
   Feature.controlButtons,
   Feature.showHelpRequest,
   Feature.ephemeralScript,
+  Feature.textDirectionMode,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";
