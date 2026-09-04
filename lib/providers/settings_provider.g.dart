@@ -80,7 +80,7 @@ final class SettingsProvider
   Settings create() => Settings();
 }
 
-String _$settingsHash() => r'76f2531e0c728d66e8c889cb9e9fc53cc74f97d2';
+String _$settingsHash() => r'2452f264c68a7a124c98c72b4e8625707818ca9c';
 
 abstract class _$Settings extends $AsyncNotifier<SettingsState> {
   FutureOr<SettingsState> build();

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/providers/current_chapter_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
+import 'package:bidi/bidi.dart' as bidi;
 
 class _UserScrolling extends Notifier<bool> {
   @override
@@ -223,6 +224,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       :markdownEnabled,
       :showCurrentChapter,
       :alignment,
+      :textDirectionMode,
     ) = ref.watch(
       prompterProvider.select(
         (p) => (
@@ -231,6 +233,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
           markdownEnabled: p.config.markdownEnabled,
           showCurrentChapter: p.config.showCurrentChapter,
           alignment: p.config.alignment,
+          textDirectionMode: p.config.textDirectionMode,
         ),
       ),
     );
@@ -275,9 +278,28 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
                   textAlign: alignment,
                   style: widget.style,
                   width: renderWidth,
+                  textDirectionMode: textDirectionMode,
                 )
               else
-                Text(widget.text, style: widget.style, textAlign: alignment),
+                textDirectionMode == TextDirectionMode.ltr
+                    ? Text(
+                        widget.text,
+                        style: widget.style,
+                        textAlign: alignment,
+                        textDirection: TextDirection.ltr,
+                      )
+                    : textDirectionMode == TextDirectionMode.rtl
+                    ? Text(
+                        widget.text,
+                        style: widget.style,
+                        textAlign: alignment,
+                        textDirection: TextDirection.rtl,
+                      )
+                    : Text(
+                        String.fromCharCodes(bidi.logicalToVisual(widget.text)),
+                        style: widget.style,
+                        textAlign: alignment,
+                      ),
               SizedBox(
                 height: mediaHeight,
                 child: Center(child: Text("The End", style: widget.style)),
