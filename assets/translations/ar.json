@@ -1,0 +1,270 @@
+{
+    "title": "TiefPrompt",
+    "empty_title": "",
+    "copyright": "",
+    "credits": "",
+    "ProFeatureDisabled": "هذه الميزة متاحة فقط في النسخة الاحترافية.",
+    "AboutDialog": {
+        "Text_PrivacyText": "",
+        "ElevatedButton_Privacy": "سياسة الخصوصية"
+    },
+    "ChangelogModal": {
+        "title": "ما الجديد",
+        "close": "إغلاق"
+    },
+    "HomeScreen": {
+        "TitleField_heading": "عنوان الإخطاطة",
+        "TitleField_hintText": "إدخال عنوان الإخطاطة",
+        "TextField_heading": "محتوى الإخطاطة (نص التلقين)",
+        "TextField_hintText": "",
+        "ElevatedButton_Start": "بدء التقلين",
+        "ElevatedButton_Select": "تحديدد إخطاطة من الجهاز",
+        "ElevatedButton_Save": "حفظ الإخطاطة",
+        "IconButton_Settings": "الإعدادت",
+        "IconButton_SourceCode": "عرض الأكواد المصدرية",
+        "IconButton_About": "حول",
+        "BottomSheet": {
+            "Text_Title": "حفظ الإخطاطة",
+            "TextField_hintText": "إدخال اسم الإخطاطة",
+            "ElevatedButton_Save": "حفظ"
+        },
+        "DiscardConfirmDialog": {
+            "Title": "استبعاد التغييرات؟",
+            "Body": "سيؤدي تحميل الإخطاطة (نص التلقين) إلى إلغاء التغييرات التي أجريتها على الإخطاطة الحالي. هل ترغب في المتابعة وإلغاء كافة التغييرات؟",
+            "Cancel": "إلغاء",
+            "Confirm": "تأكيد واستبعاد"
+        },
+        "NewOrOverrideDialog": {
+            "Title": "هل تود استبدال الإخطاطة الحالية أم حفظها كجديدة؟",
+            "NewScript": "حفظ كإخطاطة جديدة",
+            "OverrideScript": "استبدال الحالية"
+        },
+        "UnverifiedBuild": "بناء غير متحقق منه",
+        "UnverifiedBuild_Explanation": "هذا الإصدار غير مُتحقَّق منه؛ مما يعني أنه قد لا يكون مستقراً أو قد يحتوي على أخطاء برمجية. لذا، فإن استخدامه يتم على مسؤوليتك الخاصة. ولإنشاء إصدار مُتحقَّق منه، يرجى استخدام الملف `main_foss.dart` كنقطة دخول للتطبيق.",
+        "FossVersion": "مجاني ومفتوح المصدر",
+        "FossVersion_Explanation": "نحن مشروع مجاني ومفتوح المصدر؛ وهذا يعني أنه يمكنك استخدام هذا التطبيق مجانًا وإلى الأبد. جميع الميزات متاحة لك مجانًا ويمكنك استخدامها دون أي قيود. ومع ذلك، ونظرًا لأن هذا المشروع مجتمعي وقد تطلب الكثير من الجهد، فإننا ندعوك للتفكير في التبرع إذا نال التطبيق إعجابك وأردت ضمان استمرار دعمه وتطويره في المستقبل. يمكنك العثور على الروابط الحالية في مستودع الكود المصدري.",
+        "FreeVersion": "نسخة مجانية",
+        "FreeVersion_Explanation": "نحن مشروع مجاني ومفتوح المصدر. وللأسف، فإن صيانة تطبيق TiefPrompt تتطلب الكثير من الوقت - وبصراحة، المال أيضاً. فبين أعمال التطوير والتصميم وتكاليف التوزيع (مثل رسوم برنامج مطوري Apple)، أصبح المشروع يستنزف الكثير من وقتي ومواردِي المالية. ولضمان استمرارية المشروع، اعتمدتُ نموذج \"الخدمة المجانية مع ميزات مدفوعة\" (Freemium): حيث يظل التطبيق مجانياً للاستخدام، لكن بعض الميزات تقتصر على نسخة \"Pro\" المدفوعة.\n\nإذا لم تكن قادراً على الدفع أو لم ترغب في ذلك، فأنت لا تزال موضع ترحيب تام لاستخدام التطبيق أو حتى بنائه بنفسك من الكود المصدري؛ ولا حرج في ذلك أبداً.\n\nكنتُ أتمنى ألا نضطر لذلك، لكنني آمل أن تتفهموا الأمر وأن تجدوا قيمة حقيقية في هذا التطبيق.",
+        "FreeVersion_BuyPro": "شراء النسخة الاحترافية",
+        "PaidVersion": "TiefPrompt النسخة الاحترافية",
+        "PaidVersion_Explanation": "",
+        "Understood": ""
+    },
+    "SettingsScreen": {
+        "title": "الإعدادت",
+        "NumberAppSetting": {
+            "Value": "إدخال قيمة",
+            "ElevatedButton_Save": "حفظ"
+        },
+        "DropdownAppSetting_DefaultLanguage": "اللغات المبدئية",
+        "DropdownAppSetting_Theme": "ثيمة التطبيق",
+        "NumberAppSetting_DefaultScrollSpeed": "سرعة التمرير المبدئية",
+        "NumberAppSetting_DefaultScrollSpeed_Unit": "",
+        "NumberAppSetting_DefaultFontSize": "حجم الخط المبدئي",
+        "NumberAppSetting_DefaultFontSize_Unit": "بكس",
+        "DropdownAppSetting_DefaultTextAlignment": "محاذاة النص",
+        "DropdownAppSetting_DefaultTextAlignment_Unit": {
+            "Left": "اليسار",
+            "Center": "الوسط",
+            "Right": "اليمين",
+            "Justified": "ضبط"
+        },
+        "ElevatedButton_Save": "حفظ",
+        "DropdownAppSetting_DefaultFontFamily": "عائلة الخط",
+        "BooleanAppSetting_DefaultFlipX": "القلب الأفقي (س) المبدائي",
+        "BooleanAppSetting_DefaultFlipY": "القلب العمودي (ص) المبدئي",
+        "BooleanAppSetting_ReadingIndicatorBoxes": "عرض مربعات مؤشر القراءة",
+        "BooleanAppSetting_Markdown": "",
+        "BooleanAppSetting_ShowCurrentChapter": "إظهار الفصل الحالي",
+        "BooleanAppSetting_ControlButtons": "تمكين أزرار التحكم",
+        "DropdownAppSetting_ControlButtonPosition": {
+            "Label": "تمكين أزار التموضع",
+            "left": "الجانب الأيسر",
+            "top": "الجانب الأعلى",
+            "right": "الجانب الأيمن",
+            "bottom": "الجانب السلفي"
+        },
+        "ShowHelpRequest": "إظهار طلب المساعدة مجددًا",
+        "ShowChangelog": "إظهار سجل التغييرات",
+        "ViewLogs": "إظهار السجلات",
+        "NumberAppSetting_ReadingIndicatorBoxes": "",
+        "NumberAppSetting_ReadingIndicatorBoxes_Unit": "",
+        "BooleanAppSetting_VerticalMarginBoxes": "",
+        "NumberAppSetting_VerticalMarginBoxes": "",
+        "NumberAppSetting_VerticalMarginBoxes_Unit": "",
+        "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength": "",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "",
+        "NumberAppSetting_SideMargin": "",
+        "NumberAppSetting_SideMargin_Unit": "",
+        "NumberAppSetting_CountdownTimer": "",
+        "NumberAppSetting_CountdownTimer_Unit": "",
+        "ColorAppSetting_AppPrimaryColor": "",
+        "ColorAppSetting_PrompterBackgroundColor": "",
+        "ColorAppSetting_PrompterTextColor": "",
+        "DisplaySettings": "",
+        "TextSettings": "",
+        "ListTile_Reset": "",
+        "Reset_Warning": "",
+        "Abort": "",
+        "Confirm": "",
+        "RestorePurchases": "",
+        "RestorePurchases_Snackbar": "",
+        "KeybindingsSettings": {
+            "Title": "",
+            "ChangeBindings": "",
+            "AddBinding": "",
+            "CaptureBindingTitle": "",
+            "CaptureBindingHint": "",
+            "ResetBindings": "",
+            "playPause": "",
+            "scrollUpSmall": "",
+            "scrollDownSmall": "",
+            "scrollUp": "",
+            "scrollDown": "",
+            "pageUp": "",
+            "pageDown": "",
+            "jumpStart": "",
+            "jumpEnd": "",
+            "toggleControls": "",
+            "speedUp": "",
+            "speedDown": "",
+            "fontSizeUp": "",
+            "fontSizeDown": "",
+            "openSettings": "",
+            "saveSettingsFromPrompter": ""
+        },
+        "SettingsRestore": {
+            "Title": "",
+            "Save": "",
+            "Import": "",
+            "LoadError": "",
+            "NameRequired": "",
+            "SaveSuccess": "",
+            "ImportSuccess": "",
+            "ImportFailed": "",
+            "RestoreSuccess": "",
+            "RestoreFailed": "",
+            "ExportSuccess": "",
+            "ExportFailed": "",
+            "DeleteSuccess": "",
+            "NameSheet": {
+                "Title": "",
+                "Content": ""
+            },
+            "DeleteDialog": {
+                "Title": "",
+                "Content": "",
+                "Cancel": "",
+                "Confirm": ""
+            },
+            "OptionsDialog": {
+                "Title": "",
+                "Export": "",
+                "FilePickerTitle": "",
+                "Delete": ""
+            },
+            "ImportSettings": {
+                "Title": "",
+                "Content": "",
+                "Cancel": "",
+                "Import": "",
+                "InvalidVersion": ""
+            },
+            "SaveDialog": {
+                "Title": "",
+                "Content": "",
+                "HintText": "",
+                "Cancel": "",
+                "Save": ""
+            }
+        }
+    },
+    "PrompterScreen": {
+        "speed": "",
+        "fontsize": "",
+        "IconButton_Save": "",
+        "IconButton_DisplaySettings": "",
+        "IconButton_DecreaseSpeed": "",
+        "IconButton_TogglePlayPause": "",
+        "IconButton_IncreaseSpeed": "",
+        "IconButton_TextFormat": "",
+        "IconButton_Settings": "",
+        "SimpleDialog_TextFormat": {
+            "title": "",
+            "fontsize": "",
+            "IconButton_TextIncrease": "",
+            "IconButton_TextDecrease": "",
+            "IconButton_Left": "",
+            "IconButton_Center": "",
+            "IconButton_Right": "",
+            "IconButton_Justified": ""
+        },
+        "SimpleDialog_DisplaySettings": {
+            "title": "",
+            "IconButton_FlipX": "",
+            "IconButton_FlipY": "",
+            "IconButton_Markdown": "",
+            "IconButton_ReadingIndicatorBoxes": "",
+            "IconButton_VerticalMarginBoxes": "",
+            "IconButton_FadeEnabled": "",
+            "IconButton_ShowCurrentChapter": "",
+            "Slider_SideMargin": "",
+            "Slider_Countdown": ""
+        }
+    },
+    "OpenFileScreen": {
+        "title": "",
+        "if_empty": "",
+        "ElevatedButton_Select": "",
+        "ListTile_Delete": ""
+    },
+    "HelpRequestScreen": {
+        "Title": "",
+        "Abstract": "",
+        "ElaborateExplanation": "",
+        "ReadMore": "",
+        "Continue": ""
+    },
+    "BuyProScreen": {
+        "Title": "",
+        "Back": "",
+        "RestorePurchases": "",
+        "BuyPro": "",
+        "BuyRequest": {
+            "Generic": "",
+            "appLanguage": "",
+            "appTheme": "",
+            "primaryAppColor": "",
+            "textSettings": "",
+            "displaySettings": "",
+            "scrollSpeed": "",
+            "flipX": "",
+            "flipY": "",
+            "readingIndicatorBoxes": "",
+            "verticalMargins": "",
+            "verticalMarginFade": "",
+            "sideMargins": "",
+            "countdownTimer": "",
+            "prompterBackgroundColor": "",
+            "prompterTextColor": "",
+            "fontSize": "",
+            "textAlignment": "",
+            "fontFamily": "",
+            "keybindings": "",
+            "playPause": "",
+            "markdown": "",
+            "settingsRestore": "",
+            "controlButtons": "",
+            "showHelpRequest": "",
+            "ephemeralScript": "",
+            "currentChapter": "",
+            "MainBlock": ""
+        }
+    },
+    "NoPurchaseAvailable": {
+        "Title": "",
+        "Back": "",
+        "MainBody": ""
+    }
+}
