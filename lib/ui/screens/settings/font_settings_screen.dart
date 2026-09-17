@@ -188,11 +188,11 @@ class FontSettingsScreen extends ConsumerWidget {
       allowedExtensions: ['ttf', 'otf'],
     );
 
-    if (result == null || result.files.isEmpty) {
+    if (result.isEmpty) {
       return [];
     }
 
-    return result.files.nonNulls.map((file) => File(file.path!)).toList();
+    return result.nonNulls.map((file) => File(file.path!)).toList();
   }
 
   Future<TiefPromptFontsFile> _createFontFile(File fontFile) async {

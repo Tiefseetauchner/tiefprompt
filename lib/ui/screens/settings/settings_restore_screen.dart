@@ -530,7 +530,7 @@ class _ImportSettingsDialog extends ConsumerWidget {
   }
 
   Future<void> _pickAndStage(BuildContext context, WidgetRef ref) async {
-    final resultFile = await FilePicker.pickFiles(
+    final resultFile = await FilePicker.pickFile(
       type: FileType.custom,
       allowedExtensions: ['json'],
     );
@@ -539,10 +539,8 @@ class _ImportSettingsDialog extends ConsumerWidget {
       return;
     }
 
-    final file = resultFile.files.first;
-
     try {
-      final fileContent = await File(file.path!).readAsString();
+      final fileContent = await File(resultFile.path!).readAsString();
       final jsonContent = jsonDecode(fileContent);
 
       if (jsonContent['schemaVersion'] != kSettingsSchemaVersion) {

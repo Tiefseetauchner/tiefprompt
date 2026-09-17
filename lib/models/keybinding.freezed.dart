@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'keybinding.dart';
@@ -9,6 +9,7 @@ part of 'keybinding.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $KeybindingCopyWith<Keybinding> get copyWith => _$KeybindingCopyWithImpl<Keybind
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Keybinding&&(identical(other.keyId, keyId) || other.keyId == keyId)&&(identical(other.ctrl, ctrl) || other.ctrl == ctrl)&&(identical(other.shift, shift) || other.shift == shift)&&(identical(other.alt, alt) || other.alt == alt)&&(identical(other.meta, meta) || other.meta == meta));
+  final _this = this as Keybinding;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Keybinding&&(identical(other.keyId, _this.keyId) || other.keyId == _this.keyId)&&(identical(other.ctrl, _this.ctrl) || other.ctrl == _this.ctrl)&&(identical(other.shift, _this.shift) || other.shift == _this.shift)&&(identical(other.alt, _this.alt) || other.alt == _this.alt)&&(identical(other.meta, _this.meta) || other.meta == _this.meta));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,keyId,ctrl,shift,alt,meta);
+int get hashCode {
+  final _this = this as Keybinding;
+  return Object.hash(runtimeType,_this.keyId,_this.ctrl,_this.shift,_this.alt,_this.meta);
+}
 
 @override
 String toString() {
-  return 'Keybinding(keyId: $keyId, ctrl: $ctrl, shift: $shift, alt: $alt, meta: $meta)';
+  final _this = this as Keybinding;
+  return 'Keybinding(keyId: ${_this.keyId}, ctrl: ${_this.ctrl}, shift: ${_this.shift}, alt: ${_this.alt}, meta: ${_this.meta})';
 }
 
 
@@ -66,7 +72,7 @@ class _$KeybindingCopyWithImpl<$Res>
 /// Create a copy of Keybinding
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? keyId = null,Object? ctrl = null,Object? shift = null,Object? alt = null,Object? meta = null,}) {
-  return _then(_self.copyWith(
+  return _then(Keybinding(
 keyId: null == keyId ? _self.keyId : keyId // ignore: cast_nullable_to_non_nullable
 as int,ctrl: null == ctrl ? _self.ctrl : ctrl // ignore: cast_nullable_to_non_nullable
 as bool,shift: null == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Keybinding&&(identical(other.keyId, keyId) || other.keyId == keyId)&&(identical(other.ctrl, ctrl) || other.ctrl == ctrl)&&(identical(other.shift, shift) || other.shift == shift)&&(identical(other.alt, alt) || other.alt == alt)&&(identical(other.meta, meta) || other.meta == meta));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Keybinding&&(identical(other.keyId, keyId) || other.keyId == keyId)&&(identical(other.ctrl, ctrl) || other.ctrl == ctrl)&&(identical(other.shift, shift) || other.shift == shift)&&(identical(other.alt, alt) || other.alt == alt)&&(identical(other.meta, meta) || other.meta == meta));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,keyId,ctrl,shift,alt,meta);
+int get hashCode {
+    return Object.hash(runtimeType,keyId,ctrl,shift,alt,meta);
+}
 
 @override
 String toString() {
-  return 'Keybinding(keyId: $keyId, ctrl: $ctrl, shift: $shift, alt: $alt, meta: $meta)';
+    return 'Keybinding(keyId: $keyId, ctrl: $ctrl, shift: $shift, alt: $alt, meta: $meta)';
 }
 
 
@@ -290,7 +298,7 @@ as bool,
 /// @nodoc
 mixin _$KeybindingMap {
 
- List<(KeybindingAction, Keybinding)> get keybindings;
+ List<(KeybindingAction, Keybinding,)> get keybindings;
 /// Create a copy of KeybindingMap
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -303,16 +311,21 @@ $KeybindingMapCopyWith<KeybindingMap> get copyWith => _$KeybindingMapCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is KeybindingMap&&const DeepCollectionEquality().equals(other.keybindings, keybindings));
+  final _this = this as KeybindingMap;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is KeybindingMap&&const DeepCollectionEquality().equals(other.keybindings, _this.keybindings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(keybindings));
+int get hashCode {
+  final _this = this as KeybindingMap;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.keybindings));
+}
 
 @override
 String toString() {
-  return 'KeybindingMap(keybindings: $keybindings)';
+  final _this = this as KeybindingMap;
+  return 'KeybindingMap(keybindings: ${_this.keybindings})';
 }
 
 
@@ -323,7 +336,7 @@ abstract mixin class $KeybindingMapCopyWith<$Res>  {
   factory $KeybindingMapCopyWith(KeybindingMap value, $Res Function(KeybindingMap) _then) = _$KeybindingMapCopyWithImpl;
 @useResult
 $Res call({
- List<(KeybindingAction, Keybinding)> keybindings
+ List<(KeybindingAction, Keybinding,)> keybindings
 });
 
 
@@ -341,9 +354,9 @@ class _$KeybindingMapCopyWithImpl<$Res>
 /// Create a copy of KeybindingMap
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? keybindings = null,}) {
-  return _then(_self.copyWith(
+  return _then(KeybindingMap(
 keybindings: null == keybindings ? _self.keybindings : keybindings // ignore: cast_nullable_to_non_nullable
-as List<(KeybindingAction, Keybinding)>,
+as List<(KeybindingAction, Keybinding,)>,
   ));
 }
 
@@ -428,7 +441,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<(KeybindingAction, Keybinding)> keybindings)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<(KeybindingAction, Keybinding,)> keybindings)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _KeybindingMap() when $default != null:
 return $default(_that.keybindings);case _:
@@ -449,7 +462,7 @@ return $default(_that.keybindings);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<(KeybindingAction, Keybinding)> keybindings)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<(KeybindingAction, Keybinding,)> keybindings)  $default,) {final _that = this;
 switch (_that) {
 case _KeybindingMap():
 return $default(_that.keybindings);case _:
@@ -469,7 +482,7 @@ return $default(_that.keybindings);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<(KeybindingAction, Keybinding)> keybindings)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<(KeybindingAction, Keybinding,)> keybindings)?  $default,) {final _that = this;
 switch (_that) {
 case _KeybindingMap() when $default != null:
 return $default(_that.keybindings);case _:
@@ -484,11 +497,11 @@ return $default(_that.keybindings);case _:
 @JsonSerializable()
 
 class _KeybindingMap implements KeybindingMap {
-   _KeybindingMap({required final  List<(KeybindingAction, Keybinding)> keybindings}): _keybindings = keybindings;
+   _KeybindingMap({required  List<(KeybindingAction, Keybinding,)> keybindings}): _keybindings = keybindings;
   factory _KeybindingMap.fromJson(Map<String, dynamic> json) => _$KeybindingMapFromJson(json);
 
- final  List<(KeybindingAction, Keybinding)> _keybindings;
-@override List<(KeybindingAction, Keybinding)> get keybindings {
+ final  List<(KeybindingAction, Keybinding,)> _keybindings;
+@override List<(KeybindingAction, Keybinding,)> get keybindings {
   if (_keybindings is EqualUnmodifiableListView) return _keybindings;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_keybindings);
@@ -508,16 +521,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _KeybindingMap&&const DeepCollectionEquality().equals(other._keybindings, _keybindings));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _KeybindingMap&&const DeepCollectionEquality().equals(other.keybindings, _keybindings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_keybindings));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_keybindings));
+}
 
 @override
 String toString() {
-  return 'KeybindingMap(keybindings: $keybindings)';
+    return 'KeybindingMap(keybindings: $keybindings)';
 }
 
 
@@ -528,7 +543,7 @@ abstract mixin class _$KeybindingMapCopyWith<$Res> implements $KeybindingMapCopy
   factory _$KeybindingMapCopyWith(_KeybindingMap value, $Res Function(_KeybindingMap) _then) = __$KeybindingMapCopyWithImpl;
 @override @useResult
 $Res call({
- List<(KeybindingAction, Keybinding)> keybindings
+ List<(KeybindingAction, Keybinding,)> keybindings
 });
 
 
@@ -548,7 +563,7 @@ class __$KeybindingMapCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? keybindings = null,}) {
   return _then(_KeybindingMap(
 keybindings: null == keybindings ? _self._keybindings : keybindings // ignore: cast_nullable_to_non_nullable
-as List<(KeybindingAction, Keybinding)>,
+as List<(KeybindingAction, Keybinding,)>,
   ));
 }
 

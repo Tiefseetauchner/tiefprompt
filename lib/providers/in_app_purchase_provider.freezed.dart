@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'in_app_purchase_provider.dart';
@@ -9,6 +9,7 @@ part of 'in_app_purchase_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $InAppPurchaseDataStateCopyWith<InAppPurchaseDataState> get copyWith => _$InAppP
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InAppPurchaseDataState&&const DeepCollectionEquality().equals(other.products, products)&&const DeepCollectionEquality().equals(other.owned, owned));
+  final _this = this as InAppPurchaseDataState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InAppPurchaseDataState&&const DeepCollectionEquality().equals(other.products, _this.products)&&const DeepCollectionEquality().equals(other.owned, _this.owned));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(products),const DeepCollectionEquality().hash(owned));
+int get hashCode {
+  final _this = this as InAppPurchaseDataState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.products),const DeepCollectionEquality().hash(_this.owned));
+}
 
 @override
 String toString() {
-  return 'InAppPurchaseDataState(products: $products, owned: $owned)';
+  final _this = this as InAppPurchaseDataState;
+  return 'InAppPurchaseDataState(products: ${_this.products}, owned: ${_this.owned})';
 }
 
 
@@ -63,7 +69,7 @@ class _$InAppPurchaseDataStateCopyWithImpl<$Res>
 /// Create a copy of InAppPurchaseDataState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? products = null,Object? owned = null,}) {
-  return _then(_self.copyWith(
+  return _then(InAppPurchaseDataState(
 products: null == products ? _self.products : products // ignore: cast_nullable_to_non_nullable
 as List<ProductDetails>,owned: null == owned ? _self.owned : owned // ignore: cast_nullable_to_non_nullable
 as Set<String>,
@@ -207,7 +213,7 @@ return $default(_that.products,_that.owned);case _:
 
 
 class _InAppPurchaseDataState implements InAppPurchaseDataState {
-   _InAppPurchaseDataState({required final  List<ProductDetails> products, required final  Set<String> owned}): _products = products,_owned = owned;
+   _InAppPurchaseDataState({required  List<ProductDetails> products, required  Set<String> owned}): _products = products,_owned = owned;
   
 
  final  List<ProductDetails> _products;
@@ -235,16 +241,18 @@ _$InAppPurchaseDataStateCopyWith<_InAppPurchaseDataState> get copyWith => __$InA
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InAppPurchaseDataState&&const DeepCollectionEquality().equals(other._products, _products)&&const DeepCollectionEquality().equals(other._owned, _owned));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InAppPurchaseDataState&&const DeepCollectionEquality().equals(other.products, _products)&&const DeepCollectionEquality().equals(other.owned, _owned));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_products),const DeepCollectionEquality().hash(_owned));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_products),const DeepCollectionEquality().hash(_owned));
+}
 
 @override
 String toString() {
-  return 'InAppPurchaseDataState(products: $products, owned: $owned)';
+    return 'InAppPurchaseDataState(products: $products, owned: $owned)';
 }
 
 

@@ -2,7 +2,9 @@
 // ignore_for_file: type=lint
 import 'package:drift/drift.dart' as i0;
 import 'package:tiefprompt/models/custom_font_model.drift.dart' as i1;
+
 import 'dart:typed_data' as i2;
+
 import 'package:tiefprompt/models/custom_font_model.dart' as i3;
 import 'package:drift/src/runtime/query_builder/query_builder.dart' as i4;
 
@@ -264,7 +266,18 @@ class $$CustomFontModelTableTableManager
                 data: data,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), i0.BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<i1.$CustomFontModelTable, i1.CustomFontModelData>(
+                    table,
+                  ),
+                  i0.BaseReferences<
+                    i0.GeneratedDatabase,
+                    i1.$CustomFontModelTable,
+                    i1.CustomFontModelData
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),

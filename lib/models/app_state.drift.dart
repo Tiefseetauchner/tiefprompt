@@ -133,7 +133,18 @@ class $$AppStateModelTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), i0.BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<i1.$AppStateModelTable, i1.AppStateModelData>(
+                    table,
+                  ),
+                  i0.BaseReferences<
+                    i0.GeneratedDatabase,
+                    i1.$AppStateModelTable,
+                    i1.AppStateModelData
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),

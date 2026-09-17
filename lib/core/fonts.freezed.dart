@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'fonts.dart';
@@ -9,12 +9,13 @@ part of 'fonts.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TiefPromptFontsVariant {
 
- int get weight; FontStyle get fontStyle; Future<ByteData> Function() get load; String? get originalFileName; bool get isVariable; (int, int)? get weightRange;
+ int get weight; FontStyle get fontStyle; Future<ByteData> Function() get load; String? get originalFileName; bool get isVariable; (int, int,)? get weightRange;
 /// Create a copy of TiefPromptFontsVariant
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,21 @@ $TiefPromptFontsVariantCopyWith<TiefPromptFontsVariant> get copyWith => _$TiefPr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TiefPromptFontsVariant&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.fontStyle, fontStyle) || other.fontStyle == fontStyle)&&(identical(other.load, load) || other.load == load)&&(identical(other.originalFileName, originalFileName) || other.originalFileName == originalFileName)&&(identical(other.isVariable, isVariable) || other.isVariable == isVariable)&&(identical(other.weightRange, weightRange) || other.weightRange == weightRange));
+  final _this = this as TiefPromptFontsVariant;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TiefPromptFontsVariant&&(identical(other.weight, _this.weight) || other.weight == _this.weight)&&(identical(other.fontStyle, _this.fontStyle) || other.fontStyle == _this.fontStyle)&&(identical(other.load, _this.load) || other.load == _this.load)&&(identical(other.originalFileName, _this.originalFileName) || other.originalFileName == _this.originalFileName)&&(identical(other.isVariable, _this.isVariable) || other.isVariable == _this.isVariable)&&(identical(other.weightRange, _this.weightRange) || other.weightRange == _this.weightRange));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,weight,fontStyle,load,originalFileName,isVariable,weightRange);
+int get hashCode {
+  final _this = this as TiefPromptFontsVariant;
+  return Object.hash(runtimeType,_this.weight,_this.fontStyle,_this.load,_this.originalFileName,_this.isVariable,_this.weightRange);
+}
 
 @override
 String toString() {
-  return 'TiefPromptFontsVariant(weight: $weight, fontStyle: $fontStyle, load: $load, originalFileName: $originalFileName, isVariable: $isVariable, weightRange: $weightRange)';
+  final _this = this as TiefPromptFontsVariant;
+  return 'TiefPromptFontsVariant(weight: ${_this.weight}, fontStyle: ${_this.fontStyle}, load: ${_this.load}, originalFileName: ${_this.originalFileName}, isVariable: ${_this.isVariable}, weightRange: ${_this.weightRange})';
 }
 
 
@@ -45,7 +51,7 @@ abstract mixin class $TiefPromptFontsVariantCopyWith<$Res>  {
   factory $TiefPromptFontsVariantCopyWith(TiefPromptFontsVariant value, $Res Function(TiefPromptFontsVariant) _then) = _$TiefPromptFontsVariantCopyWithImpl;
 @useResult
 $Res call({
- int weight, FontStyle fontStyle, Future<ByteData> Function() load, String? originalFileName, bool isVariable, (int, int)? weightRange
+ int weight, FontStyle fontStyle, Future<ByteData> Function() load, String? originalFileName, bool isVariable, (int, int,)? weightRange
 });
 
 
@@ -63,14 +69,14 @@ class _$TiefPromptFontsVariantCopyWithImpl<$Res>
 /// Create a copy of TiefPromptFontsVariant
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? weight = null,Object? fontStyle = null,Object? load = null,Object? originalFileName = freezed,Object? isVariable = null,Object? weightRange = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(TiefPromptFontsVariant(
 weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
 as int,fontStyle: null == fontStyle ? _self.fontStyle : fontStyle // ignore: cast_nullable_to_non_nullable
 as FontStyle,load: null == load ? _self.load : load // ignore: cast_nullable_to_non_nullable
 as Future<ByteData> Function(),originalFileName: freezed == originalFileName ? _self.originalFileName : originalFileName // ignore: cast_nullable_to_non_nullable
 as String?,isVariable: null == isVariable ? _self.isVariable : isVariable // ignore: cast_nullable_to_non_nullable
 as bool,weightRange: freezed == weightRange ? _self.weightRange : weightRange // ignore: cast_nullable_to_non_nullable
-as (int, int)?,
+as (int, int,)?,
   ));
 }
 
@@ -155,7 +161,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int weight,  FontStyle fontStyle,  Future<ByteData> Function() load,  String? originalFileName,  bool isVariable,  (int, int)? weightRange)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int weight,  FontStyle fontStyle,  Future<ByteData> Function() load,  String? originalFileName,  bool isVariable,  (int, int,)? weightRange)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TiefPromptFontsVariant() when $default != null:
 return $default(_that.weight,_that.fontStyle,_that.load,_that.originalFileName,_that.isVariable,_that.weightRange);case _:
@@ -176,7 +182,7 @@ return $default(_that.weight,_that.fontStyle,_that.load,_that.originalFileName,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int weight,  FontStyle fontStyle,  Future<ByteData> Function() load,  String? originalFileName,  bool isVariable,  (int, int)? weightRange)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int weight,  FontStyle fontStyle,  Future<ByteData> Function() load,  String? originalFileName,  bool isVariable,  (int, int,)? weightRange)  $default,) {final _that = this;
 switch (_that) {
 case _TiefPromptFontsVariant():
 return $default(_that.weight,_that.fontStyle,_that.load,_that.originalFileName,_that.isVariable,_that.weightRange);case _:
@@ -196,7 +202,7 @@ return $default(_that.weight,_that.fontStyle,_that.load,_that.originalFileName,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int weight,  FontStyle fontStyle,  Future<ByteData> Function() load,  String? originalFileName,  bool isVariable,  (int, int)? weightRange)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int weight,  FontStyle fontStyle,  Future<ByteData> Function() load,  String? originalFileName,  bool isVariable,  (int, int,)? weightRange)?  $default,) {final _that = this;
 switch (_that) {
 case _TiefPromptFontsVariant() when $default != null:
 return $default(_that.weight,_that.fontStyle,_that.load,_that.originalFileName,_that.isVariable,_that.weightRange);case _:
@@ -219,7 +225,7 @@ class _TiefPromptFontsVariant implements TiefPromptFontsVariant {
 @override final  Future<ByteData> Function() load;
 @override final  String? originalFileName;
 @override@JsonKey() final  bool isVariable;
-@override@JsonKey() final  (int, int)? weightRange;
+@override@JsonKey() final  (int, int,)? weightRange;
 
 /// Create a copy of TiefPromptFontsVariant
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +237,18 @@ _$TiefPromptFontsVariantCopyWith<_TiefPromptFontsVariant> get copyWith => __$Tie
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TiefPromptFontsVariant&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.fontStyle, fontStyle) || other.fontStyle == fontStyle)&&(identical(other.load, load) || other.load == load)&&(identical(other.originalFileName, originalFileName) || other.originalFileName == originalFileName)&&(identical(other.isVariable, isVariable) || other.isVariable == isVariable)&&(identical(other.weightRange, weightRange) || other.weightRange == weightRange));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TiefPromptFontsVariant&&(identical(other.weight, weight) || other.weight == weight)&&(identical(other.fontStyle, fontStyle) || other.fontStyle == fontStyle)&&(identical(other.load, load) || other.load == load)&&(identical(other.originalFileName, originalFileName) || other.originalFileName == originalFileName)&&(identical(other.isVariable, isVariable) || other.isVariable == isVariable)&&(identical(other.weightRange, weightRange) || other.weightRange == weightRange));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,weight,fontStyle,load,originalFileName,isVariable,weightRange);
+int get hashCode {
+    return Object.hash(runtimeType,weight,fontStyle,load,originalFileName,isVariable,weightRange);
+}
 
 @override
 String toString() {
-  return 'TiefPromptFontsVariant(weight: $weight, fontStyle: $fontStyle, load: $load, originalFileName: $originalFileName, isVariable: $isVariable, weightRange: $weightRange)';
+    return 'TiefPromptFontsVariant(weight: $weight, fontStyle: $fontStyle, load: $load, originalFileName: $originalFileName, isVariable: $isVariable, weightRange: $weightRange)';
 }
 
 
@@ -251,7 +259,7 @@ abstract mixin class _$TiefPromptFontsVariantCopyWith<$Res> implements $TiefProm
   factory _$TiefPromptFontsVariantCopyWith(_TiefPromptFontsVariant value, $Res Function(_TiefPromptFontsVariant) _then) = __$TiefPromptFontsVariantCopyWithImpl;
 @override @useResult
 $Res call({
- int weight, FontStyle fontStyle, Future<ByteData> Function() load, String? originalFileName, bool isVariable, (int, int)? weightRange
+ int weight, FontStyle fontStyle, Future<ByteData> Function() load, String? originalFileName, bool isVariable, (int, int,)? weightRange
 });
 
 
@@ -276,7 +284,7 @@ as FontStyle,load: null == load ? _self.load : load // ignore: cast_nullable_to_
 as Future<ByteData> Function(),originalFileName: freezed == originalFileName ? _self.originalFileName : originalFileName // ignore: cast_nullable_to_non_nullable
 as String?,isVariable: null == isVariable ? _self.isVariable : isVariable // ignore: cast_nullable_to_non_nullable
 as bool,weightRange: freezed == weightRange ? _self.weightRange : weightRange // ignore: cast_nullable_to_non_nullable
-as (int, int)?,
+as (int, int,)?,
   ));
 }
 
@@ -297,16 +305,21 @@ $TiefPromptFontsFileCopyWith<TiefPromptFontsFile> get copyWith => _$TiefPromptFo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TiefPromptFontsFile&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.variants, variants)&&(identical(other.isBuiltIn, isBuiltIn) || other.isBuiltIn == isBuiltIn));
+  final _this = this as TiefPromptFontsFile;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TiefPromptFontsFile&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.variants, _this.variants)&&(identical(other.isBuiltIn, _this.isBuiltIn) || other.isBuiltIn == _this.isBuiltIn));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,const DeepCollectionEquality().hash(variants),isBuiltIn);
+int get hashCode {
+  final _this = this as TiefPromptFontsFile;
+  return Object.hash(runtimeType,_this.name,const DeepCollectionEquality().hash(_this.variants),_this.isBuiltIn);
+}
 
 @override
 String toString() {
-  return 'TiefPromptFontsFile(name: $name, variants: $variants, isBuiltIn: $isBuiltIn)';
+  final _this = this as TiefPromptFontsFile;
+  return 'TiefPromptFontsFile(name: ${_this.name}, variants: ${_this.variants}, isBuiltIn: ${_this.isBuiltIn})';
 }
 
 
@@ -335,7 +348,7 @@ class _$TiefPromptFontsFileCopyWithImpl<$Res>
 /// Create a copy of TiefPromptFontsFile
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? variants = null,Object? isBuiltIn = null,}) {
-  return _then(_self.copyWith(
+  return _then(TiefPromptFontsFile(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,variants: null == variants ? _self.variants : variants // ignore: cast_nullable_to_non_nullable
 as List<TiefPromptFontsVariant>,isBuiltIn: null == isBuiltIn ? _self.isBuiltIn : isBuiltIn // ignore: cast_nullable_to_non_nullable
@@ -480,7 +493,7 @@ return $default(_that.name,_that.variants,_that.isBuiltIn);case _:
 
 
 class _TiefPromptFontsFile implements TiefPromptFontsFile {
-   _TiefPromptFontsFile({required this.name, required final  List<TiefPromptFontsVariant> variants, this.isBuiltIn = false}): _variants = variants;
+   _TiefPromptFontsFile({required this.name, required  List<TiefPromptFontsVariant> variants, this.isBuiltIn = false}): _variants = variants;
   
 
 @override final  String name;
@@ -503,16 +516,18 @@ _$TiefPromptFontsFileCopyWith<_TiefPromptFontsFile> get copyWith => __$TiefPromp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TiefPromptFontsFile&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other._variants, _variants)&&(identical(other.isBuiltIn, isBuiltIn) || other.isBuiltIn == isBuiltIn));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TiefPromptFontsFile&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.variants, _variants)&&(identical(other.isBuiltIn, isBuiltIn) || other.isBuiltIn == isBuiltIn));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,const DeepCollectionEquality().hash(_variants),isBuiltIn);
+int get hashCode {
+    return Object.hash(runtimeType,name,const DeepCollectionEquality().hash(_variants),isBuiltIn);
+}
 
 @override
 String toString() {
-  return 'TiefPromptFontsFile(name: $name, variants: $variants, isBuiltIn: $isBuiltIn)';
+    return 'TiefPromptFontsFile(name: $name, variants: $variants, isBuiltIn: $isBuiltIn)';
 }
 
 
