@@ -441,8 +441,6 @@ ${GREEN}-p          ${NC}Path to the Provisioning Profile for the macOS app.
             ${RED}(!) Required if target=macospkg${NC}
 ${GREEN}-n          ${NC}Enable macOS notarization for macOS packages.
 ${GREEN}-N          ${NC}Disable macOS code signing.
-${GREEN}-n          ${NC}Enable macOS notarization for macOS packages.
-${GREEN}-N          ${NC}Disable macOS code signing.
 ${GREEN}-i key      ${NC}Signing identity for iOS installer signing.
             (i) Apple Distribution
             (i) Can be set via environment variable 'IOS_CODE_SIGN_KEY'
