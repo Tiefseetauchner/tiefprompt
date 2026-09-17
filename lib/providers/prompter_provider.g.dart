@@ -41,7 +41,7 @@ final class PrompterProvider
   }
 }
 
-String _$prompterHash() => r'9d0fb091fa3bc8ee224cbdbfb7636a317a9ce85c';
+String _$prompterHash() => r'4ca8d33b723b3e3c5254204bff855418658b251a';
 
 abstract class _$Prompter extends $Notifier<PrompterState> {
   PrompterState build();

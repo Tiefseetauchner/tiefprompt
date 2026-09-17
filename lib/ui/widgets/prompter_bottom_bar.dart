@@ -6,7 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
+import 'package:tiefprompt/core/fonts.dart';
+import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
+import 'package:tiefprompt/providers/fonts_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
@@ -230,10 +233,14 @@ class _FontSettingsDialog extends ConsumerWidget {
       ),
     );
     final themes = ref.watch(themesProvider);
+    final fonts = ref.watch(fontsProvider);
+    final combinedAsyncData = ref.watch(
+      combinedAsyncDataProvider.call([themes, fonts]),
+    );
 
-    return switch (themes) {
+    return switch (combinedAsyncData) {
       AsyncData(:final value) => Theme(
-        data: value.darkTheme,
+        data: (value.states[0] as ThemesState).darkTheme,
         child: SimpleDialog(
           title: Text(
             context.tr("PrompterScreen.SimpleDialog_TextFormat.title"),
@@ -338,11 +345,14 @@ class _FontSettingsDialog extends ConsumerWidget {
                       children: [
                         DropdownButton(
                           value: fontFamily,
-                          items: kAvailableFonts
+                          items: (value.states[1] as List<TiefPromptFontsFile>)
                               .map(
                                 (font) => DropdownMenuItem(
-                                  value: font,
-                                  child: Text(font),
+                                  value: font.name,
+                                  child: Text(
+                                    font.name,
+                                    style: TextStyle(fontFamily: font.name),
+                                  ),
                                 ),
                               )
                               .toList(),

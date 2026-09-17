@@ -2,32 +2,30 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
+import 'package:tiefprompt/providers/fonts_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/theme_provider.dart';
 import 'package:tiefprompt/ui/screens/reset_settings_screen.dart';
 
 class ThemedApp extends ConsumerWidget {
-  final Widget? home;
-  final RouterConfig<Object>? routerConfig;
+  final RouterConfig<Object> routerConfig;
   final TransitionBuilder? builder;
   final bool debugShowCheckedModeBanner;
 
   const ThemedApp({
     super.key,
-    this.home,
-    this.routerConfig,
+    required this.routerConfig,
     this.builder,
     this.debugShowCheckedModeBanner = true,
-  }) : assert(
-         (home == null) != (routerConfig == null),
-         'Provide exactly one of home or routerConfig.',
-       );
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final delegates = context.localizationDelegates;
     final supportedLocales = context.supportedLocales;
     final locale = context.locale;
+
+    ref.watch(fontsProvider);
 
     final themeMode = ref.watch(
       settingsProvider.select((s) => s.whenData((d) => d.themeMode)),
@@ -63,28 +61,13 @@ class ThemedApp extends ConsumerWidget {
     final resolvedThemeMode =
         combinedValue?.states[0] as ThemeMode? ?? ThemeMode.system;
 
-    if (routerConfig != null) {
-      return MaterialApp.router(
-        title: 'Teleprompter',
-        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-        localizationsDelegates: delegates,
-        supportedLocales: supportedLocales,
-        locale: locale,
-        routerConfig: routerConfig,
-        builder: builder,
-        theme: resolvedLightTheme,
-        darkTheme: resolvedDarkTheme,
-        themeMode: resolvedThemeMode,
-      );
-    }
-
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Teleprompter',
       debugShowCheckedModeBanner: debugShowCheckedModeBanner,
       localizationsDelegates: delegates,
       supportedLocales: supportedLocales,
       locale: locale,
-      home: home,
+      routerConfig: routerConfig,
       builder: builder,
       theme: resolvedLightTheme,
       darkTheme: resolvedDarkTheme,

@@ -5,6 +5,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/json_converters.dart';
+import 'package:tiefprompt/models/custom_font_model.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/models/app_state.dart';
 import 'package:tiefprompt/models/script_model.dart';
@@ -23,6 +24,7 @@ import 'script_model.drift.dart';
     KeybindingMapModel,
     KeybindingMappingModel,
     AppStateModel,
+    CustomFontModel,
   ],
 )
 class AppDatabase extends $AppDatabase {
@@ -65,11 +67,13 @@ class AppDatabase extends $AppDatabase {
         },
         from2To3: (m, schema) async {
           await m.createTable(schema.appStateModel);
-          await m.database.into(schema.appStateModel).insert(
-            RawValuesInsertable({
-              schema.appStateModel.helpRequestShown.name: Variable(false),
-            }),
-          );
+          await m.database
+              .into(schema.appStateModel)
+              .insert(
+                RawValuesInsertable({
+                  schema.appStateModel.helpRequestShown.name: Variable(false),
+                }),
+              );
         },
         from3To4: (m, schema) async {
           await m.addColumn(schema.scriptModel, schema.scriptModel.ephemeral);
@@ -117,6 +121,8 @@ class AppDatabase extends $AppDatabase {
           await m.alterTable(TableMigration(schema.scriptModel));
         },
         from6To7: (m, schema) async {
+          await m.createTable(schema.customFontModel);
+
           final oldRows = await m.database
               .customSelect('SELECT * FROM settings_preset_model')
               .get();
@@ -172,10 +178,7 @@ class AppDatabase extends $AppDatabase {
               ),
             );
 
-            backfill.add((
-              row.read<int>('id'),
-              jsonEncode(settings.toJson()),
-            ));
+            backfill.add((row.read<int>('id'), jsonEncode(settings.toJson())));
           }
 
           await m.alterTable(
@@ -189,13 +192,13 @@ class AppDatabase extends $AppDatabase {
           );
 
           for (final (id, data) in backfill) {
-            await (m.database.update(schema.settingsPresetModel)
-                  ..where((_) => schema.settingsPresetModel.id.equals(id)))
-                .write(
-                  RawValuesInsertable({
-                    schema.settingsPresetModel.data.name: Variable(data),
-                  }),
-                );
+            await (m.database.update(
+              schema.settingsPresetModel,
+            )..where((_) => schema.settingsPresetModel.id.equals(id))).write(
+              RawValuesInsertable({
+                schema.settingsPresetModel.data.name: Variable(data),
+              }),
+            );
           }
         },
       ),

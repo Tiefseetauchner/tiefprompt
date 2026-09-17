@@ -50,9 +50,8 @@ final class $$SettingsPresetModelTableReferences
     final manager = i3
         .$$KeybindingMapModelTableTableManager(
           $_db,
-          i4.ReadDatabaseContainer(
-            $_db,
-          ).resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
+          i4.ReadDatabaseContainer($_db)
+              .resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_keybindingsTable($_db));
@@ -97,9 +96,8 @@ class $$SettingsPresetModelTableFilterComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.keybindings,
-          referencedTable: i4.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
+          referencedTable: i4.ReadDatabaseContainer($db)
+              .resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -156,9 +154,8 @@ class $$SettingsPresetModelTableOrderingComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.keybindings,
-          referencedTable: i4.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
+          referencedTable: i4.ReadDatabaseContainer($db)
+              .resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -207,9 +204,8 @@ class $$SettingsPresetModelTableAnnotationComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.keybindings,
-          referencedTable: i4.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
+          referencedTable: i4.ReadDatabaseContainer($db)
+              .resultSet<i3.$KeybindingMapModelTable>('keybinding_map_model'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -297,7 +293,10 @@ class $$SettingsPresetModelTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    i1.$SettingsPresetModelTable,
+                    i1.SettingsPresetModelData
+                  >(table),
                   i1.$$SettingsPresetModelTableReferences(db, table, e),
                 ),
               )
@@ -323,19 +322,16 @@ class $$SettingsPresetModelTableTableManager
                     >
                   >(state) {
                     if (keybindings) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.keybindings,
-                                referencedTable: i1
-                                    .$$SettingsPresetModelTableReferences
-                                    ._keybindingsTable(db),
-                                referencedColumn: i1
-                                    .$$SettingsPresetModelTableReferences
-                                    ._keybindingsTable(db)
-                                    .id,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.keybindings,
+                        referencedTable: i1.$$SettingsPresetModelTableReferences
+                            ._keybindingsTable(db),
+                        referencedColumn: i1
+                            .$$SettingsPresetModelTableReferences
+                            ._keybindingsTable(db)
+                            .id,
+                      ) as T;
                     }
 
                     return state;

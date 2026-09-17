@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'theme_provider.dart';
@@ -9,6 +9,7 @@ part of 'theme_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ThemesStateCopyWith<ThemesState> get copyWith => _$ThemesStateCopyWithImpl<Them
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemesState&&(identical(other.darkTheme, darkTheme) || other.darkTheme == darkTheme)&&(identical(other.lightTheme, lightTheme) || other.lightTheme == lightTheme)&&(identical(other.prompterTheme, prompterTheme) || other.prompterTheme == prompterTheme));
+  final _this = this as ThemesState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemesState&&(identical(other.darkTheme, _this.darkTheme) || other.darkTheme == _this.darkTheme)&&(identical(other.lightTheme, _this.lightTheme) || other.lightTheme == _this.lightTheme)&&(identical(other.prompterTheme, _this.prompterTheme) || other.prompterTheme == _this.prompterTheme));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,darkTheme,lightTheme,prompterTheme);
+int get hashCode {
+  final _this = this as ThemesState;
+  return Object.hash(runtimeType,_this.darkTheme,_this.lightTheme,_this.prompterTheme);
+}
 
 @override
 String toString() {
-  return 'ThemesState(darkTheme: $darkTheme, lightTheme: $lightTheme, prompterTheme: $prompterTheme)';
+  final _this = this as ThemesState;
+  return 'ThemesState(darkTheme: ${_this.darkTheme}, lightTheme: ${_this.lightTheme}, prompterTheme: ${_this.prompterTheme})';
 }
 
 
@@ -63,7 +69,7 @@ class _$ThemesStateCopyWithImpl<$Res>
 /// Create a copy of ThemesState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? darkTheme = null,Object? lightTheme = null,Object? prompterTheme = null,}) {
-  return _then(_self.copyWith(
+  return _then(ThemesState(
 darkTheme: null == darkTheme ? _self.darkTheme : darkTheme // ignore: cast_nullable_to_non_nullable
 as ThemeData,lightTheme: null == lightTheme ? _self.lightTheme : lightTheme // ignore: cast_nullable_to_non_nullable
 as ThemeData,prompterTheme: null == prompterTheme ? _self.prompterTheme : prompterTheme // ignore: cast_nullable_to_non_nullable
@@ -225,16 +231,18 @@ _$ThemesStateCopyWith<_ThemesState> get copyWith => __$ThemesStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemesState&&(identical(other.darkTheme, darkTheme) || other.darkTheme == darkTheme)&&(identical(other.lightTheme, lightTheme) || other.lightTheme == lightTheme)&&(identical(other.prompterTheme, prompterTheme) || other.prompterTheme == prompterTheme));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemesState&&(identical(other.darkTheme, darkTheme) || other.darkTheme == darkTheme)&&(identical(other.lightTheme, lightTheme) || other.lightTheme == lightTheme)&&(identical(other.prompterTheme, prompterTheme) || other.prompterTheme == prompterTheme));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,darkTheme,lightTheme,prompterTheme);
+int get hashCode {
+    return Object.hash(runtimeType,darkTheme,lightTheme,prompterTheme);
+}
 
 @override
 String toString() {
-  return 'ThemesState(darkTheme: $darkTheme, lightTheme: $lightTheme, prompterTheme: $prompterTheme)';
+    return 'ThemesState(darkTheme: $darkTheme, lightTheme: $lightTheme, prompterTheme: $prompterTheme)';
 }
 
 

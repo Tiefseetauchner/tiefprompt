@@ -204,7 +204,16 @@ class $$ScriptModelTableTableManager
                 scrollPosition: scrollPosition,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), i0.BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<i1.$ScriptModelTable, i1.ScriptModelData>(table),
+                  i0.BaseReferences<
+                    i0.GeneratedDatabase,
+                    i1.$ScriptModelTable,
+                    i1.ScriptModelData
+                  >(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'app_features.dart';
@@ -9,6 +9,7 @@ part of 'app_features.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $AppFeaturesCopyWith<AppFeatures> get copyWith => _$AppFeaturesCopyWithImpl<AppF
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppFeatures&&const DeepCollectionEquality().equals(other.features, features)&&(identical(other.featureKind, featureKind) || other.featureKind == featureKind)&&(identical(other.featureName, featureName) || other.featureName == featureName));
+  final _this = this as AppFeatures;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppFeatures&&const DeepCollectionEquality().equals(other.features, _this.features)&&(identical(other.featureKind, _this.featureKind) || other.featureKind == _this.featureKind)&&(identical(other.featureName, _this.featureName) || other.featureName == _this.featureName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(features),featureKind,featureName);
+int get hashCode {
+  final _this = this as AppFeatures;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.features),_this.featureKind,_this.featureName);
+}
 
 @override
 String toString() {
-  return 'AppFeatures(features: $features, featureKind: $featureKind, featureName: $featureName)';
+  final _this = this as AppFeatures;
+  return 'AppFeatures(features: ${_this.features}, featureKind: ${_this.featureKind}, featureName: ${_this.featureName})';
 }
 
 
@@ -63,10 +69,10 @@ class _$AppFeaturesCopyWithImpl<$Res>
 /// Create a copy of AppFeatures
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? features = null,Object? featureKind = null,Object? featureName = null,}) {
-  return _then(_self.copyWith(
-features: null == features ? _self.features : features // ignore: cast_nullable_to_non_nullable
-as List<Feature>,featureKind: null == featureKind ? _self.featureKind : featureKind // ignore: cast_nullable_to_non_nullable
-as FeatureKind,featureName: null == featureName ? _self.featureName : featureName // ignore: cast_nullable_to_non_nullable
+  return _then(AppFeatures(
+null == features ? _self.features : features // ignore: cast_nullable_to_non_nullable
+as List<Feature>,null == featureKind ? _self.featureKind : featureKind // ignore: cast_nullable_to_non_nullable
+as FeatureKind,null == featureName ? _self.featureName : featureName // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -208,7 +214,7 @@ return $default(_that.features,_that.featureKind,_that.featureName);case _:
 
 
 class _AppFeatures implements AppFeatures {
-   _AppFeatures(final  List<Feature> features, this.featureKind, this.featureName): _features = features;
+   _AppFeatures( List<Feature> features, this.featureKind, this.featureName): _features = features;
   
 
  final  List<Feature> _features;
@@ -231,16 +237,18 @@ _$AppFeaturesCopyWith<_AppFeatures> get copyWith => __$AppFeaturesCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppFeatures&&const DeepCollectionEquality().equals(other._features, _features)&&(identical(other.featureKind, featureKind) || other.featureKind == featureKind)&&(identical(other.featureName, featureName) || other.featureName == featureName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppFeatures&&const DeepCollectionEquality().equals(other.features, _features)&&(identical(other.featureKind, featureKind) || other.featureKind == featureKind)&&(identical(other.featureName, featureName) || other.featureName == featureName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_features),featureKind,featureName);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_features),featureKind,featureName);
+}
 
 @override
 String toString() {
-  return 'AppFeatures(features: $features, featureKind: $featureKind, featureName: $featureName)';
+    return 'AppFeatures(features: $features, featureKind: $featureKind, featureName: $featureName)';
 }
 
 

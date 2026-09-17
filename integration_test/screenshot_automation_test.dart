@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:tief_screen/tief_screen.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
@@ -20,142 +20,96 @@ import 'mock_app.dart';
 Future<void> main() async {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  final List<(String, List<int>)> screenshots = [];
+  late ScreenshotManager screenshotManager;
 
   for (var locale in kSupportedLocales) {
-    Future<void> generateScreenshot(
-      WidgetTester tester, {
-      String? screenName,
-      String? caseName,
-    }) async {
-      String platformName = '';
-
-      if (Platform.isAndroid) {
-        await binding.convertFlutterSurfaceToImage();
-        platformName =
-            "android${MediaQuery.of(tester.element(find.byType(MaterialApp))).devicePixelRatio.toStringAsFixed(1)}";
-      } else if (Platform.isLinux) {
-        platformName = "linux";
-      } else if (Platform.isMacOS) {
-        platformName = "macos";
-      } else if (Platform.isIOS) {
-        platformName = "ios${Platform.localHostname}";
-      } else if (Platform.isWindows) {
-        platformName = "windows";
-      } else {
-        throw UnsupportedError(
-          "Unsupported platform: ${Platform.operatingSystem}",
+    group("Screenshots for ${locale.$2}", () {
+      setUpAll(() async {
+        await EasyLocalization.ensureInitialized();
+        screenshotManager = ScreenshotManager(
+          host: const String.fromEnvironment("SERVER_IP"),
+          port: 3824,
         );
-      }
+      });
 
-      await tester.pumpAndSettle();
+      testWidgets("Take screenshot of home screen", (
+        WidgetTester tester,
+      ) async {
+        await tester.pumpWidget(
+          MockApp(locale: locale.$2, child: HomeScreen()),
+        );
+        await tester.pumpAndSettle();
 
-      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-      await tester.pumpAndSettle();
+        await generateScreenshot(
+          tester,
+          screenshotManager: screenshotManager,
+          binding: binding,
+          screenName: "home_screen",
+          caseName: "default",
+        );
+      });
 
-      screenshots.add((
-        "${locale.$2.languageCode}-${locale.$2.countryCode}/$platformName/$screenName${screenName == null ? "" : "_"}$caseName${caseName == null ? "" : "_"}",
-        await binding.takeScreenshot("screenshot"),
-      ));
-    }
-
-    setUpAll(() async {
-      await EasyLocalization.ensureInitialized();
-    });
-
-    testWidgets("Take screenshot of home screen", (WidgetTester tester) async {
-      await tester.pumpWidget(MockApp(locale: locale.$2, child: HomeScreen()));
-      await tester.pumpAndSettle();
-
-      await generateScreenshot(
-        tester,
-        screenName: "home_screen",
-        caseName: "default",
-      );
-    });
-
-    testWidgets("Take screenshot of home screen in dark mode", (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        MockApp(
-          locale: locale.$2,
-          settings: SettingsState(themeMode: ThemeMode.dark),
-          child: HomeScreen(),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await generateScreenshot(
-        tester,
-        screenName: "home_screen",
-        caseName: "dark",
-      );
-    });
-
-    testWidgets("Take screenshot of settings screen", (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        MockApp(locale: locale.$2, child: DisplaySettingsScreen()),
-      );
-      await tester.pumpAndSettle();
-
-      await generateScreenshot(
-        tester,
-        screenName: "settings_screen",
-        caseName: "default",
-      );
-    });
-
-    testWidgets("Take screenshot of load script screen", (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        MockApp(locale: locale.$2, child: OpenFileScreen()),
-      );
-      await tester.pumpAndSettle();
-
-      await generateScreenshot(
-        tester,
-        screenName: "load_script",
-        caseName: "default",
-      );
-    });
-
-    testWidgets("Take screenshot of teleprompter screen with Roboto font", (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        MockApp(
-          locale: locale.$2,
-          child: const PrompterThemeScope(child: PrompterScreen()),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      final container = getProviderContainer(tester);
-      clearPrompterState(tester, container);
-      setPrompterText(tester, container);
-      setPrompterFont(tester, container, "Roboto");
-
-      await generateScreenshot(
-        tester,
-        screenName: "prompter_screen",
-        caseName: "roboto",
-      );
-    });
-
-    testWidgets(
-      "Take screenshot of teleprompter screen with OpenDyslexic font",
-      (WidgetTester tester) async {
+      testWidgets("Take screenshot of home screen in dark mode", (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MockApp(
             locale: locale.$2,
-            settings: SettingsState(
-              prompterBackgroundColor: const Color.fromARGB(255, 53, 0, 94),
-              prompterTextColor: const Color.fromARGB(255, 17, 255, 0),
-            ),
+            settings: SettingsState(themeMode: ThemeMode.dark),
+            child: HomeScreen(),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await generateScreenshot(
+          tester,
+          screenshotManager: screenshotManager,
+          binding: binding,
+          screenName: "home_screen",
+          caseName: "dark",
+        );
+      });
+
+      testWidgets("Take screenshot of settings screen", (
+        WidgetTester tester,
+      ) async {
+        await tester.pumpWidget(
+          MockApp(locale: locale.$2, child: DisplaySettingsScreen()),
+        );
+        await tester.pumpAndSettle();
+
+        await generateScreenshot(
+          tester,
+          screenshotManager: screenshotManager,
+          binding: binding,
+          screenName: "settings_screen",
+          caseName: "default",
+        );
+      });
+
+      testWidgets("Take screenshot of load script screen", (
+        WidgetTester tester,
+      ) async {
+        await tester.pumpWidget(
+          MockApp(locale: locale.$2, child: OpenFileScreen()),
+        );
+        await tester.pumpAndSettle();
+
+        await generateScreenshot(
+          tester,
+          screenshotManager: screenshotManager,
+          binding: binding,
+          screenName: "load_script",
+          caseName: "default",
+        );
+      });
+
+      testWidgets("Take screenshot of teleprompter screen with Roboto font", (
+        WidgetTester tester,
+      ) async {
+        await tester.pumpWidget(
+          MockApp(
+            locale: locale.$2,
             child: const PrompterThemeScope(child: PrompterScreen()),
           ),
         );
@@ -164,45 +118,50 @@ Future<void> main() async {
         final container = getProviderContainer(tester);
         clearPrompterState(tester, container);
         setPrompterText(tester, container);
-        setPrompterFont(tester, container, "OpenDyslexic");
+        setPrompterFont(tester, container, "Roboto");
 
         await generateScreenshot(
           tester,
+          screenshotManager: screenshotManager,
+          binding: binding,
           screenName: "prompter_screen",
-          caseName: "OpenDyslexic",
+          caseName: "roboto",
         );
-      },
-    );
+      });
 
-    tearDownAll(() async {
-      final serverIp = const String.fromEnvironment("SERVER_IP");
-      final client = HttpClient();
+      testWidgets(
+        "Take screenshot of teleprompter screen with OpenDyslexic font",
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            MockApp(
+              locale: locale.$2,
+              settings: SettingsState(
+                prompterBackgroundColor: const Color.fromARGB(255, 53, 0, 94),
+                prompterTextColor: const Color.fromARGB(255, 17, 255, 0),
+              ),
+              child: const PrompterThemeScope(child: PrompterScreen()),
+            ),
+          );
+          await tester.pumpAndSettle();
 
-      try {
-        await Future.wait(
-          screenshots.map((screenshot) async {
-            final request = await client.post(
-              serverIp,
-              3824,
-              "screenshots/${screenshot.$1}.png",
-            );
-            request
-              ..contentLength = screenshot.$2.length
-              ..add(screenshot.$2);
+          final container = getProviderContainer(tester);
+          clearPrompterState(tester, container);
+          setPrompterText(tester, container);
+          setPrompterFont(tester, container, "OpenDyslexic");
 
-            final response = await request.close();
-            await response.drain();
+          await generateScreenshot(
+            tester,
+            screenshotManager: screenshotManager,
+            binding: binding,
+            screenName: "prompter_screen",
+            caseName: "OpenDyslexic",
+          );
+        },
+      );
 
-            if (response.statusCode != 200) {
-              throw Exception(
-                "Failed to upload screenshot: ${response.statusCode}",
-              );
-            }
-          }),
-        );
-      } finally {
-        client.close();
-      }
+      tearDownAll(() async {
+        await screenshotManager.uploadScreenshots(locale.$2.languageCode);
+      });
     });
   }
 }
@@ -234,4 +193,35 @@ void setPrompterFont(
   String s,
 ) {
   container.read(prompterProvider.notifier).setFontFamily(s);
+}
+
+Future<void> generateScreenshot(
+  WidgetTester tester, {
+  required ScreenshotManager screenshotManager,
+  required IntegrationTestWidgetsFlutterBinding binding,
+  String? screenName,
+  String? caseName,
+}) async {
+  String platformName = '';
+
+  if (Platform.isAndroid) {
+    platformName =
+        "android${MediaQuery.of(tester.element(find.byType(MaterialApp))).devicePixelRatio.toStringAsFixed(1)}";
+  } else if (Platform.isLinux) {
+    platformName = "linux";
+  } else if (Platform.isMacOS) {
+    platformName = "macos";
+  } else if (Platform.isIOS) {
+    platformName = "ios${Platform.localHostname}";
+  } else if (Platform.isWindows) {
+    platformName = "windows";
+  } else {
+    throw UnsupportedError("Unsupported platform: ${Platform.operatingSystem}");
+  }
+
+  await screenshotManager.pumpAndScreenshot(
+    "$platformName/${screenName}_$caseName",
+    tester,
+    binding,
+  );
 }

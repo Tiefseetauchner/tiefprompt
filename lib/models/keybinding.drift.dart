@@ -54,9 +54,8 @@ final class $$KeybindingMappingModelTableReferences
     final manager = i1
         .$$KeybindingMapModelTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer(
-            $_db,
-          ).resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
+          i3.ReadDatabaseContainer($_db)
+              .resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
         )
         .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_mapIdTable($_db));
@@ -116,9 +115,8 @@ class $$KeybindingMappingModelTableFilterComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.mapId,
-          referencedTable: i3.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
+          referencedTable: i3.ReadDatabaseContainer($db)
+              .resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -190,9 +188,8 @@ class $$KeybindingMappingModelTableOrderingComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.mapId,
-          referencedTable: i3.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
+          referencedTable: i3.ReadDatabaseContainer($db)
+              .resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -252,9 +249,8 @@ class $$KeybindingMappingModelTableAnnotationComposer
         $composerBuilder(
           composer: this,
           getCurrentColumn: (t) => t.mapId,
-          referencedTable: i3.ReadDatabaseContainer(
-            $db,
-          ).resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
+          referencedTable: i3.ReadDatabaseContainer($db)
+              .resultSet<i1.$KeybindingMapModelTable>('keybinding_map_model'),
           getReferencedColumn: (t) => t.id,
           builder:
               (
@@ -360,7 +356,10 @@ class $$KeybindingMappingModelTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    i1.$KeybindingMappingModelTable,
+                    i1.KeybindingMappingModelData
+                  >(table),
                   i1.$$KeybindingMappingModelTableReferences(db, table, e),
                 ),
               )
@@ -386,19 +385,17 @@ class $$KeybindingMappingModelTableTableManager
                     >
                   >(state) {
                     if (mapId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.mapId,
-                                referencedTable: i1
-                                    .$$KeybindingMappingModelTableReferences
-                                    ._mapIdTable(db),
-                                referencedColumn: i1
-                                    .$$KeybindingMappingModelTableReferences
-                                    ._mapIdTable(db)
-                                    .id,
-                              )
-                              as T;
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.mapId,
+                        referencedTable: i1
+                            .$$KeybindingMappingModelTableReferences
+                            ._mapIdTable(db),
+                        referencedColumn: i1
+                            .$$KeybindingMappingModelTableReferences
+                            ._mapIdTable(db)
+                            .id,
+                      ) as T;
                     }
 
                     return state;
@@ -464,11 +461,10 @@ final class $$KeybindingMapModelTableReferences
     final manager = i1
         .$$KeybindingMappingModelTableTableManager(
           $_db,
-          i3.ReadDatabaseContainer(
-            $_db,
-          ).resultSet<i1.$KeybindingMappingModelTable>(
-            'keybinding_mapping_model',
-          ),
+          i3.ReadDatabaseContainer($_db)
+              .resultSet<i1.$KeybindingMappingModelTable>(
+                'keybinding_mapping_model',
+              ),
         )
         .filter((f) => f.mapId.id.sqlEquals($_itemColumn<int>('id')!));
 
@@ -628,16 +624,19 @@ class $$KeybindingMapModelTableTableManager
                 $db: db,
                 $table: table,
               ),
-          updateCompanionCallback:
-              ({i0.Value<int> id = const i0.Value.absent()}) =>
-                  i1.KeybindingMapModelCompanion(id: id),
-          createCompanionCallback:
-              ({i0.Value<int> id = const i0.Value.absent()}) =>
-                  i1.KeybindingMapModelCompanion.insert(id: id),
+          updateCompanionCallback: ({
+            i0.Value<int> id = const i0.Value.absent(),
+          }) => i1.KeybindingMapModelCompanion(id: id),
+          createCompanionCallback: ({
+            i0.Value<int> id = const i0.Value.absent(),
+          }) => i1.KeybindingMapModelCompanion.insert(id: id),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<
+                    i1.$KeybindingMapModelTable,
+                    i1.KeybindingMapModelData
+                  >(table),
                   i1.$$KeybindingMapModelTableReferences(db, table, e),
                 ),
               )
@@ -647,11 +646,10 @@ class $$KeybindingMapModelTableTableManager
               db: db,
               explicitlyWatchedTables: [
                 if (keybindingMappingModelRefs)
-                  i3.ReadDatabaseContainer(
-                    db,
-                  ).resultSet<i1.$KeybindingMappingModelTable>(
-                    'keybinding_mapping_model',
-                  ),
+                  i3.ReadDatabaseContainer(db)
+                      .resultSet<i1.$KeybindingMappingModelTable>(
+                        'keybinding_mapping_model',
+                      ),
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {

@@ -51,7 +51,9 @@ class _WavePainter extends CustomPainter {
     required double alpha,
     required double yOffset,
   }) {
-    final paint = Paint()..color = color.withValues(alpha: alpha);
+    final paint = Paint();
+    paint.color = color.withValues(alpha: alpha);
+    paint.maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.2);
     final path = Path()..moveTo(0, size.height);
     final baseline = size.height * yOffset;
     const step = 4.0;

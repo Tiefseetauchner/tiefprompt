@@ -13,6 +13,7 @@ class _UserScrolling extends Notifier<bool> {
 
 final _userScrollingProvider = NotifierProvider<_UserScrolling, bool>(
   _UserScrolling.new,
+  isAutoDispose: false,
 );
 
 class ScrollableTextController {
@@ -244,9 +245,13 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       onNotification: (notification) {
         if (notification is ScrollStartNotification &&
             notification.dragDetails != null) {
-          ref.read(_userScrollingProvider.notifier).setValue(true);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ref.read(_userScrollingProvider.notifier).setValue(true);
+          });
         } else if (notification is ScrollEndNotification) {
-          ref.read(_userScrollingProvider.notifier).setValue(false);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ref.read(_userScrollingProvider.notifier).setValue(false);
+          });
         }
         return false;
       },

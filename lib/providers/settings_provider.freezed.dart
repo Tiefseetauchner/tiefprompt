@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'settings_provider.dart';
@@ -9,6 +9,7 @@ part of 'settings_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.config, config) || other.config == config));
+  final _this = this as SettingsState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.appPrimaryColor, _this.appPrimaryColor) || other.appPrimaryColor == _this.appPrimaryColor)&&(identical(other.prompterBackgroundColor, _this.prompterBackgroundColor) || other.prompterBackgroundColor == _this.prompterBackgroundColor)&&(identical(other.prompterTextColor, _this.prompterTextColor) || other.prompterTextColor == _this.prompterTextColor)&&(identical(other.keybindingsMapId, _this.keybindingsMapId) || other.keybindingsMapId == _this.keybindingsMapId)&&(identical(other.config, _this.config) || other.config == _this.config));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,keybindingsMapId,config);
+int get hashCode {
+  final _this = this as SettingsState;
+  return Object.hash(runtimeType,_this.themeMode,_this.appPrimaryColor,_this.prompterBackgroundColor,_this.prompterTextColor,_this.keybindingsMapId,_this.config);
+}
 
 @override
 String toString() {
-  return 'SettingsState(themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, keybindingsMapId: $keybindingsMapId, config: $config)';
+  final _this = this as SettingsState;
+  return 'SettingsState(themeMode: ${_this.themeMode}, appPrimaryColor: ${_this.appPrimaryColor}, prompterBackgroundColor: ${_this.prompterBackgroundColor}, prompterTextColor: ${_this.prompterTextColor}, keybindingsMapId: ${_this.keybindingsMapId}, config: ${_this.config})';
 }
 
 
@@ -66,7 +72,7 @@ class _$SettingsStateCopyWithImpl<$Res>
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? appPrimaryColor = null,Object? prompterBackgroundColor = null,Object? prompterTextColor = null,Object? keybindingsMapId = null,Object? config = null,}) {
-  return _then(_self.copyWith(
+  return _then(SettingsState(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,appPrimaryColor: null == appPrimaryColor ? _self.appPrimaryColor : appPrimaryColor // ignore: cast_nullable_to_non_nullable
 as Color,prompterBackgroundColor: null == prompterBackgroundColor ? _self.prompterBackgroundColor : prompterBackgroundColor // ignore: cast_nullable_to_non_nullable
@@ -246,16 +252,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.config, config) || other.config == config));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.appPrimaryColor, appPrimaryColor) || other.appPrimaryColor == appPrimaryColor)&&(identical(other.prompterBackgroundColor, prompterBackgroundColor) || other.prompterBackgroundColor == prompterBackgroundColor)&&(identical(other.prompterTextColor, prompterTextColor) || other.prompterTextColor == prompterTextColor)&&(identical(other.keybindingsMapId, keybindingsMapId) || other.keybindingsMapId == keybindingsMapId)&&(identical(other.config, config) || other.config == config));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,keybindingsMapId,config);
+int get hashCode {
+    return Object.hash(runtimeType,themeMode,appPrimaryColor,prompterBackgroundColor,prompterTextColor,keybindingsMapId,config);
+}
 
 @override
 String toString() {
-  return 'SettingsState(themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, keybindingsMapId: $keybindingsMapId, config: $config)';
+    return 'SettingsState(themeMode: $themeMode, appPrimaryColor: $appPrimaryColor, prompterBackgroundColor: $prompterBackgroundColor, prompterTextColor: $prompterTextColor, keybindingsMapId: $keybindingsMapId, config: $config)';
 }
 
 

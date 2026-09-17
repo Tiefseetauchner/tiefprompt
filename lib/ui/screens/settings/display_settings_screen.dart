@@ -28,6 +28,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
           body: ListView(
             children: [
               NumberAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.NumberAppSetting_ScrollSpeed",
+                ),
                 feature: Feature.scrollSpeed,
                 value: prompterConfig.scrollSpeed,
                 displayText: context.tr(
@@ -44,6 +47,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               BooleanAppSetting(
+                key: const Key("DisplaySettingsScreen.BooleanAppSetting_FlipX"),
                 feature: Feature.flipX,
                 value: prompterConfig.mirroredX,
                 displayText: context.tr(
@@ -54,6 +58,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .setMirroredX(updatedValue),
               ),
               BooleanAppSetting(
+                key: const Key("DisplaySettingsScreen.BooleanAppSetting_FlipY"),
                 feature: Feature.flipY,
                 value: prompterConfig.mirroredY,
                 displayText: context.tr(
@@ -64,6 +69,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .setMirroredY(updatedValue),
               ),
               BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_ControlButtonsEnable",
+                ),
                 feature: Feature.controlButtons,
                 displayText: context.tr(
                   "SettingsScreen.BooleanAppSetting_ControlButtons",
@@ -74,6 +82,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .setShowControlButtons(updatedValue),
               ),
               DropdownAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.DropdownAppSetting_ControlButtonsPosition",
+                ),
                 feature: Feature.controlButtons,
                 displayText: context.tr(
                   "SettingsScreen.DropdownAppSetting_ControlButtonPosition.Label",
@@ -94,6 +105,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .toList(),
               ),
               BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_ReadingIndicators",
+                ),
                 feature: Feature.readingIndicatorBoxes,
                 value: prompterConfig.displayReadingIndicatorBoxes,
                 displayText: context.tr(
@@ -104,6 +118,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .setDisplayReadingIndicatorBoxes(updatedValue),
               ),
               NumberAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.NumberAppSetting_ReadingIndicatorsHeight",
+                ),
                 feature: Feature.readingIndicatorBoxes,
                 value: prompterConfig.readingIndicatorBoxesHeight,
                 displayText: context.tr(
@@ -120,6 +137,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_VerticalMarginsEnable",
+                ),
                 feature: Feature.verticalMargins,
                 value: prompterConfig.displayVerticalMarginBoxes,
                 displayText: context.tr(
@@ -130,6 +150,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .setDisplayVerticalMarginBoxes(updatedValue),
               ),
               NumberAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.NumberAppSetting_VerticalMarginsHeight",
+                ),
                 feature: Feature.verticalMargins,
                 value: prompterConfig.verticalMarginBoxesHeight,
                 displayText: context.tr(
@@ -146,6 +169,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_FadeEnable",
+                ),
                 feature: Feature.verticalMarginFade,
                 value: prompterConfig.verticalMarginBoxesFadeEnabled,
                 displayText: context.tr(
@@ -156,6 +182,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .setVerticalMarginBoxesFadeEnabled(updatedValue),
               ),
               NumberAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.NumberAppSetting_FadeLength",
+                ),
                 feature: Feature.verticalMarginFade,
                 value: prompterConfig.verticalMarginBoxesFadeLength,
                 displayText: context.tr(
@@ -172,6 +201,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               NumberAppSetting(
+                key: const Key("DisplaySettingsScreen.NumberAppSetting_SideMargin"),
                 feature: Feature.sideMargins,
                 value: prompterConfig.sideMargin,
                 displayText: context.tr(
@@ -187,6 +217,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               NumberAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.NumberAppSetting_CountdownTimer",
+                ),
                 feature: Feature.countdownTimer,
                 value: prompterConfig.countdownDuration,
                 displayText: context.tr(
@@ -203,6 +236,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               ColorAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.ColorAppSetting_PrompterBackgroundColor",
+                ),
                 feature: Feature.prompterBackgroundColor,
                 value: value.prompterBackgroundColor,
                 displayText: context.tr(
@@ -213,6 +249,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                     .setPrompterBackgroundColor(updatedValue),
               ),
               ColorAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.ColorAppSetting_PrompterTextColor",
+                ),
                 feature: Feature.prompterTextColor,
                 value: value.prompterTextColor,
                 displayText: context.tr(

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'combining_provider.dart';
@@ -9,6 +9,7 @@ part of 'combining_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $CombinedStateCopyWith<CombinedState> get copyWith => _$CombinedStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CombinedState&&const DeepCollectionEquality().equals(other.states, states));
+  final _this = this as CombinedState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CombinedState&&const DeepCollectionEquality().equals(other.states, _this.states));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(states));
+int get hashCode {
+  final _this = this as CombinedState;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.states));
+}
 
 @override
 String toString() {
-  return 'CombinedState(states: $states)';
+  final _this = this as CombinedState;
+  return 'CombinedState(states: ${_this.states})';
 }
 
 
@@ -63,8 +69,8 @@ class _$CombinedStateCopyWithImpl<$Res>
 /// Create a copy of CombinedState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? states = null,}) {
-  return _then(_self.copyWith(
-states: null == states ? _self.states : states // ignore: cast_nullable_to_non_nullable
+  return _then(CombinedState(
+null == states ? _self.states : states // ignore: cast_nullable_to_non_nullable
 as List<Object>,
   ));
 }
@@ -206,7 +212,7 @@ return $default(_that.states);case _:
 
 
 class _CombinedState implements CombinedState {
-   _CombinedState(final  List<Object> states): _states = states;
+   _CombinedState( List<Object> states): _states = states;
   
 
  final  List<Object> _states;
@@ -227,16 +233,18 @@ _$CombinedStateCopyWith<_CombinedState> get copyWith => __$CombinedStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CombinedState&&const DeepCollectionEquality().equals(other._states, _states));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CombinedState&&const DeepCollectionEquality().equals(other.states, _states));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_states));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_states));
+}
 
 @override
 String toString() {
-  return 'CombinedState(states: $states)';
+    return 'CombinedState(states: $states)';
 }
 
 

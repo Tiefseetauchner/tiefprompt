@@ -9,6 +9,7 @@ import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
 import 'package:tiefprompt/ui/screens/log_viewer_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
+import 'package:tiefprompt/ui/screens/settings/font_settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/keybindings_settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_screen.dart';
@@ -53,6 +54,12 @@ class TiefPromptRouter extends _$TiefPromptRouter {
             GoRoute(
               path: 'text',
               builder: (context, state) => const TextSettingsScreen(),
+              routes: [
+                GoRoute(
+                  path: 'fonts',
+                  builder: (context, state) => const FontSettingsScreen(),
+                ),
+              ],
             ),
             GoRoute(
               path: 'keybindings',

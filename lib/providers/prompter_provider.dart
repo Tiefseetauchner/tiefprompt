@@ -66,6 +66,10 @@ class Prompter extends _$Prompter {
     }
   }
 
+  void displayCountdown() {
+    state = state.copyWith(displayCountdown: true);
+  }
+
   void toggleMirroredX() {
     _mutateConfig((config) => config.copyWith(mirroredX: !config.mirroredX));
   }

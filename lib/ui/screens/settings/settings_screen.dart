@@ -28,6 +28,9 @@ class SettingsScreen extends ConsumerWidget {
         body: ListView(
           children: [
             DropdownAppSetting<Locale>(
+              key: const Key(
+                "SettingsScreen.DropdownAppSetting_DefaultLanguage",
+              ),
               feature: Feature.appLanguage,
               value: context.locale,
               displayText: context.tr(
@@ -39,16 +42,19 @@ class SettingsScreen extends ConsumerWidget {
               values: kSupportedLocales,
             ),
             LinkAppSetting(
+              key: const Key("SettingsScreen.DisplaySettings"),
               displayText: context.tr("SettingsScreen.DisplaySettings"),
               feature: Feature.displaySettings,
               value: "/settings/display",
             ),
             LinkAppSetting(
+              key: const Key("SettingsScreen.TextSettings"),
               displayText: context.tr("SettingsScreen.TextSettings"),
               feature: Feature.textSettings,
               value: "/settings/text",
             ),
             LinkAppSetting(
+              key: const Key("SettingsScreen.KeybindingsSettings"),
               displayText: context.tr(
                 "SettingsScreen.KeybindingsSettings.Title",
               ),
@@ -56,6 +62,7 @@ class SettingsScreen extends ConsumerWidget {
               value: "/settings/keybindings",
             ),
             DropdownAppSetting<ThemeMode>(
+              key: const Key("SettingsScreen.DropdownAppSetting_Theme"),
               feature: Feature.appTheme,
               value: value.themeMode,
               displayText: context.tr(
@@ -74,6 +81,7 @@ class SettingsScreen extends ConsumerWidget {
                   .toList(),
             ),
             ColorAppSetting(
+              key: const Key("SettingsScreen.ColorAppSetting_AppPrimaryColor"),
               feature: Feature.primaryAppColor,
               value: value.appPrimaryColor,
               displayText: context.tr(
@@ -84,6 +92,7 @@ class SettingsScreen extends ConsumerWidget {
                   .setAppPrimaryColor(updatedValue),
             ),
             LinkAppSetting(
+              key: const Key("SettingsScreen.SettingsRestore"),
               displayText: context.tr("SettingsScreen.SettingsRestore.Title"),
               feature: Feature.settingsRestore,
               value: "/settings/settingsrestore",
@@ -91,6 +100,7 @@ class SettingsScreen extends ConsumerWidget {
             if (featureKind == FeatureKind.freeVersion ||
                 featureKind == FeatureKind.paidVersion)
               ListTile(
+                key: const Key("SettingsScreen.RestorePurchases"),
                 title: Text(context.tr("SettingsScreen.RestorePurchases")),
                 leading: Icon(Icons.restore),
                 onTap: () {
@@ -105,20 +115,24 @@ class SettingsScreen extends ConsumerWidget {
                 },
               ),
             LinkAppSetting(
+              key: const Key("SettingsScreen.ShowHelpRequest"),
               displayText: context.tr("SettingsScreen.ShowHelpRequest"),
               feature: Feature.showHelpRequest,
               value: "/helprequest",
             ),
             ListTile(
+              key: const Key("SettingsScreen.ShowChangelog"),
               title: Text(context.tr("SettingsScreen.ShowChangelog")),
               onTap: () => showChangelogModal(context),
             ),
             ListTile(
+              key: const Key("SettingsScreen.ViewLogs"),
               leading: const Icon(Icons.bug_report_outlined),
               title: Text(context.tr("SettingsScreen.ViewLogs")),
               onTap: () => context.push('/settings/logs'),
             ),
             ListTile(
+              key: const Key("SettingsScreen.ListTile_Reset"),
               hoverColor: const Color.fromARGB(255, 255, 175, 169),
               title: Text(context.tr("SettingsScreen.ListTile_Reset")),
               onTap: () {

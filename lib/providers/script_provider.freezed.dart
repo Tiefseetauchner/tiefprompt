@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'script_provider.dart';
@@ -9,6 +9,7 @@ part of 'script_provider.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ScriptStateCopyWith<ScriptState> get copyWith => _$ScriptStateCopyWithImpl<Scri
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScriptState&&(identical(other.id, id) || other.id == id)&&(identical(other.text, text) || other.text == text)&&(identical(other.title, title) || other.title == title)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.scrollPosition, scrollPosition) || other.scrollPosition == scrollPosition)&&(identical(other.ephemeral, ephemeral) || other.ephemeral == ephemeral));
+  final _this = this as ScriptState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScriptState&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.text, _this.text) || other.text == _this.text)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.isSaved, _this.isSaved) || other.isSaved == _this.isSaved)&&(identical(other.scrollPosition, _this.scrollPosition) || other.scrollPosition == _this.scrollPosition)&&(identical(other.ephemeral, _this.ephemeral) || other.ephemeral == _this.ephemeral));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,text,title,isSaved,scrollPosition,ephemeral);
+int get hashCode {
+  final _this = this as ScriptState;
+  return Object.hash(runtimeType,_this.id,_this.text,_this.title,_this.isSaved,_this.scrollPosition,_this.ephemeral);
+}
 
 @override
 String toString() {
-  return 'ScriptState(id: $id, text: $text, title: $title, isSaved: $isSaved, scrollPosition: $scrollPosition, ephemeral: $ephemeral)';
+  final _this = this as ScriptState;
+  return 'ScriptState(id: ${_this.id}, text: ${_this.text}, title: ${_this.title}, isSaved: ${_this.isSaved}, scrollPosition: ${_this.scrollPosition}, ephemeral: ${_this.ephemeral})';
 }
 
 
@@ -63,7 +69,7 @@ class _$ScriptStateCopyWithImpl<$Res>
 /// Create a copy of ScriptState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? text = null,Object? title = freezed,Object? isSaved = null,Object? scrollPosition = freezed,Object? ephemeral = null,}) {
-  return _then(_self.copyWith(
+  return _then(ScriptState(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -231,16 +237,18 @@ _$ScriptStateCopyWith<_ScriptState> get copyWith => __$ScriptStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScriptState&&(identical(other.id, id) || other.id == id)&&(identical(other.text, text) || other.text == text)&&(identical(other.title, title) || other.title == title)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.scrollPosition, scrollPosition) || other.scrollPosition == scrollPosition)&&(identical(other.ephemeral, ephemeral) || other.ephemeral == ephemeral));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScriptState&&(identical(other.id, id) || other.id == id)&&(identical(other.text, text) || other.text == text)&&(identical(other.title, title) || other.title == title)&&(identical(other.isSaved, isSaved) || other.isSaved == isSaved)&&(identical(other.scrollPosition, scrollPosition) || other.scrollPosition == scrollPosition)&&(identical(other.ephemeral, ephemeral) || other.ephemeral == ephemeral));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,text,title,isSaved,scrollPosition,ephemeral);
+int get hashCode {
+    return Object.hash(runtimeType,id,text,title,isSaved,scrollPosition,ephemeral);
+}
 
 @override
 String toString() {
-  return 'ScriptState(id: $id, text: $text, title: $title, isSaved: $isSaved, scrollPosition: $scrollPosition, ephemeral: $ephemeral)';
+    return 'ScriptState(id: $id, text: $text, title: $title, isSaved: $isSaved, scrollPosition: $scrollPosition, ephemeral: $ephemeral)';
 }
 
 

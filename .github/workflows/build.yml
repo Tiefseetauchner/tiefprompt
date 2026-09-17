@@ -125,3 +125,4 @@ jobs:
             libgtk-3-dev liblzma-dev \
             libstdc++-12-dev
           .flutter/bin/flutter test
+        working-directory: app

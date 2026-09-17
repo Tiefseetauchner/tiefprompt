@@ -16,110 +16,106 @@ class OpenFileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scriptService = ref.watch(scriptServiceProvider.notifier);
 
-    return FutureBuilder(
-      future: scriptService.getScripts(),
-      builder: (buildContext, streamSnapshot) => StreamBuilder(
-        stream: streamSnapshot.data,
-        builder: (context, snapshot) => SafeScaffold(
-          appBar: AppBar(title: Text(context.tr("OpenFileScreen.title"))),
-          body: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final result = await FilePicker.pickFiles(
-                          type: FileType.custom,
-                          allowedExtensions: ['txt', 'md'],
+    return StreamBuilder(
+      stream: ref.watch(scriptServiceProvider.notifier).getScripts(),
+      builder: (context, snapshot) => SafeScaffold(
+        appBar: AppBar(title: Text(context.tr("OpenFileScreen.title"))),
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    key: const Key("OpenFileScreen.ElevatedButton_Select"),
+                    onPressed: () async {
+                      final result = await FilePicker.pickFile(
+                        type: FileType.custom,
+                        allowedExtensions: ['txt', 'md'],
+                      );
+                      if (result != null) {
+                        final fileContent = await File(
+                          result.path!,
+                        ).readAsString();
+
+                        final newScriptId = await scriptService.saveAsNew(
+                          ScriptState(
+                            id: null,
+                            text: fileContent,
+                            title: result.name,
+                            isSaved: true,
+                            scrollPosition: null,
+                            ephemeral: false,
+                          ),
                         );
-                        if (result != null) {
-                          final file = result.files.first;
+                        final newScript = await scriptService.loadScript(
+                          newScriptId,
+                        );
+                        ref.read(scriptProvider.notifier).loadScript(newScript);
 
-                          final fileContent = await File(
-                            file.path!,
-                          ).readAsString();
-
-                          final newScriptId = await scriptService.saveAsNew(
-                            ScriptState(
-                              id: null,
-                              text: fileContent,
-                              title: file.name,
-                              isSaved: true,
-                              scrollPosition: null,
-                              ephemeral: false,
-                            ),
-                          );
-                          final newScript = await scriptService.loadScript(
-                            newScriptId,
-                          );
-                          ref
-                              .read(scriptProvider.notifier)
-                              .loadScript(newScript);
-
-                          context.pop();
-                        }
-                      },
-                      child: Text(
-                        context.tr("OpenFileScreen.ElevatedButton_Select"),
-                      ),
+                        context.pop();
+                      }
+                    },
+                    child: Text(
+                      context.tr("OpenFileScreen.ElevatedButton_Select"),
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+            if (snapshot.data == null || snapshot.data!.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 0.0,
+                  horizontal: 16.0,
+                ),
+                child: Text(
+                  context.tr("OpenFileScreen.if_empty"),
+                  style: TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              if (snapshot.data == null || snapshot.data!.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 0.0,
-                    horizontal: 16.0,
-                  ),
-                  child: Text(
-                    context.tr("OpenFileScreen.if_empty"),
-                    style: TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              if (snapshot.data != null && snapshot.data!.isNotEmpty)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data?.length ?? 0,
-                    itemBuilder: (itemContext, index) {
-                      final script = snapshot.data![index];
-                      return ListTile(
-                        title: Text(
-                          script.title,
-                          overflow: TextOverflow.ellipsis,
+            if (snapshot.data != null && snapshot.data!.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data?.length ?? 0,
+                  itemBuilder: (itemContext, index) {
+                    final script = snapshot.data![index];
+                    return ListTile(
+                      title: Text(
+                        script.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        DateFormat.yMd().add_jm().format(
+                          script.createdAt.toLocal(),
                         ),
-                        subtitle: Text(
-                          script.createdAt.toString(),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        onTap: () async {
-                          final loadedScript = await scriptService.loadScript(
-                            script.id,
-                          );
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      onTap: () async {
+                        final loadedScript = await scriptService.loadScript(
+                          script.id,
+                        );
 
-                          ref
-                              .read(scriptProvider.notifier)
-                              .loadScript(loadedScript);
+                        ref
+                            .read(scriptProvider.notifier)
+                            .loadScript(loadedScript);
 
-                          context.pop();
+                        context.pop();
+                      },
+                      trailing: IconButton(
+                        tooltip: context.tr("OpenFileScreen.ListTile_Delete"),
+                        onPressed: () {
+                          scriptService.deleteScript(script.id);
                         },
-                        trailing: IconButton(
-                          tooltip: context.tr("OpenFileScreen.ListTile_Delete"),
-                          onPressed: () {
-                            scriptService.deleteScript(script.id);
-                          },
-                          icon: Icon(Icons.delete),
-                        ),
-                      );
-                    },
-                  ),
+                        icon: Icon(Icons.delete),
+                      ),
+                    );
+                  },
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );

@@ -71,6 +71,7 @@
     },
     "ElevatedButton_Save": "Save",
     "DropdownAppSetting_DefaultFontFamily": "Font Family",
+    "LinkAppSetting_CustomFonts": "Manage Custom Fonts",
     "BooleanAppSetting_DefaultFlipX": "Default Flip X",
     "BooleanAppSetting_DefaultFlipY": "Default Flip Y",
     "BooleanAppSetting_ReadingIndicatorBoxes": "Display Reading Indicator Boxes",
@@ -177,6 +178,40 @@
         "HintText": "Enter profile name",
         "Cancel": "Cancel",
         "Save": "Save"
+      }
+    },
+    "FontSettings": {
+      "Title": "Font Settings",
+      "AddFont": "Add Font",
+      "BuiltIn": "Built-in",
+      "Custom": "Custom",
+      "EditFamilyTooltip": {
+        "BuiltIn": "Built-in fonts cannot be renamed",
+        "Custom": "Rename font"
+      },
+      "EditVariantTooltip": {
+        "BuiltIn": "Built-in font variants cannot be edited",
+        "Custom": "Edit variant"
+      },
+      "MoveVariantTooltip": {
+        "BuiltIn": "Built-in font variants cannot be moved",
+        "Custom": "Move variant to another font"
+      },
+      "DeleteVariantTooltip": {
+        "BuiltIn": "Built-in font variants cannot be deleted",
+        "Custom": "Delete variant"
+      },
+      "MoveFontDialog": {
+        "Title": "Move Variant to Font"
+      },
+      "EditFontDialog": {
+        "Title": "Edit Font",
+        "SetFontFamilyName": "Font Family Name",
+        "Cancel": "Cancel",
+        "Save": "Save",
+        "Warning": "Changing these values may cause this variant to no longer match the font file it was loaded from. This is irreversible.",
+        "SetFontVariantWeight": "Weight",
+        "SetFontItalics": "Italic"
       }
     }
   },
