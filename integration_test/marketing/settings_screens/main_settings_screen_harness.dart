@@ -250,9 +250,12 @@ Future<ScenarioHarness> buildSettingsHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Phone', name: "Store Settings")
+@RegisterHarness('Marketing Metadata', name: "Store Settings")
 Future<ScenarioHarness> buildMainSettingsScreenPhoneHarness() async {
-  final harness = prepareScreenshotHarness(appContent: const SettingsScreen());
+  final harness = prepareScreenshotHarness(
+    appContent: const SettingsScreen(),
+    device: getDeviceInfo(),
+  );
 
   for (final locale in kSupportedLocales) {
     harness.addScenario(

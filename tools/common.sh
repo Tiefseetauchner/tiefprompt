@@ -199,14 +199,18 @@ run_tests() {
 
   verbose_echo "${BLUE}SERVER_IP: $SERVER_IP${NC}"
 
-  HARNESSES_DEFINE=()
+  DART_DEFINES=()
   if [ -n "$3" ]; then
     verbose_echo "${BLUE}HARNESSES: $3${NC}"
-    HARNESSES_DEFINE=(--dart-define=HARNESSES="$3")
+    DART_DEFINES+=(--dart-define=HARNESSES="$3")
   fi
 
+  DEVICENAME="$4"
+  DART_DEFINES+=(--dart-define=DEVICE="$DEVICENAME")
+
   verbose_echo "${BLUE}Starting Flutter testing...${NC}"
-  .flutter/bin/flutter test "$1" -d "$2" --dart-define=SERVER_IP=$SERVER_IP "${HARNESSES_DEFINE[@]}" --fail-fast \
+  more_verbose_echo "${BLUE}Running Flutter tests with DART_DEFINES: ${DART_DEFINES[*]}${NC}"
+  .flutter/bin/flutter test "$1" -d "$2" --dart-define=SERVER_IP=$SERVER_IP "${DART_DEFINES[@]}" --fail-fast \
     > >(verbose_echo_stdin "flutter") \
     2> >(error_echo_stderr "flutter" >&2)
 

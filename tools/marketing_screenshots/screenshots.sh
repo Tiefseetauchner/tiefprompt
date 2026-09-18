@@ -60,13 +60,15 @@ EMULATOR_TEST_FILES=(
   "MarketingTablet MarketingTablet integration_test/marketing/marketing_tablet_test.dart foss"
   "MarketingWideTablet MarketingWideTablet integration_test/marketing/marketing_wide_tablet_test.dart foss"
   "MarketingTabletFreemium MarketingTablet integration_test/marketing/marketing_tablet_freemium_test.dart freemium"
-  "MarketingPhone MarketingPhone integration_test/marketing/phone_test.dart foss"
+  "MarketingPhone MarketingPhone integration_test/marketing/phone_test.dart foss phone"
+  "MarketingSevenInch MarketingSevenInch integration_test/marketing/phone_test.dart foss sevenInchTablet"
+  "MarketingTenInch MarketingTenInch integration_test/marketing/phone_test.dart foss tenInchTablet"
 )
 
 start_screenshot_server
 
 for ENTRY in "${EMULATOR_TEST_FILES[@]}"; do
-  read -r FIXTURE_NAME CURRENT_EMULATOR TEST_FILE VARIANT <<< "$ENTRY"
+  read -r FIXTURE_NAME CURRENT_EMULATOR TEST_FILE VARIANT DEVICENAME <<< "$ENTRY"
 
   if [[ -n "$REQUESTED_FIXTURES_NAMES" ]] && [[ ! " $REQUESTED_FIXTURES_NAMES " == *" $FIXTURE_NAME "* ]]; then
     continue
@@ -78,7 +80,7 @@ for ENTRY in "${EMULATOR_TEST_FILES[@]}"; do
 
   start_emulator "$CURRENT_EMULATOR"
   normal_echo "${GREEN}Running marketing scenarios of fixture $FIXTURE_NAME on emulator: $CURRENT_EMULATOR${NC}"
-  run_tests "$TEST_FILE" "emulator" "$HARNESS_NAMES"
+  run_tests "$TEST_FILE" "emulator" "$HARNESS_NAMES" "$DEVICENAME"
   stop_emulator
   sleep 5
   normal_echo "${GREEN}Finished tests on $CURRENT_EMULATOR${NC}"

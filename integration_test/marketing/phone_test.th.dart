@@ -6,50 +6,50 @@ import 'prompter_screen/prompter_screen_harness.dart' as h1;
 import 'select_script_screen/select_script_screen_harness.dart' as h2;
 import 'settings_screens/main_settings_screen_harness.dart' as h3;
 
-enum MarketingPhoneHarness {
+enum MarketingMetadataHarness {
   storeHome,
   storePrompter,
   storeSelectScript,
   storeSettings;
 
   String get harnessName => switch (this) {
-    MarketingPhoneHarness.storeHome => 'Store Home',
-    MarketingPhoneHarness.storePrompter => 'Store Prompter',
-    MarketingPhoneHarness.storeSelectScript => 'Store Select Script',
-    MarketingPhoneHarness.storeSettings => 'Store Settings',
+    MarketingMetadataHarness.storeHome => 'Store Home',
+    MarketingMetadataHarness.storePrompter => 'Store Prompter',
+    MarketingMetadataHarness.storeSelectScript => 'Store Select Script',
+    MarketingMetadataHarness.storeSettings => 'Store Settings',
   };
 
-  static MarketingPhoneHarness fromHarnessName(String name) =>
+  static MarketingMetadataHarness fromHarnessName(String name) =>
       values.firstWhere(
         (harness) => harness.harnessName == name,
         orElse: () => throw ArgumentError.value(
           name,
           'name',
-          'No MarketingPhoneHarness with this harness name.',
+          'No MarketingMetadataHarness with this harness name.',
         ),
       );
 }
 
-class MarketingPhoneHarnessRegistry {
-  const MarketingPhoneHarnessRegistry() : this._(null);
-  const MarketingPhoneHarnessRegistry._(this._selected);
+class MarketingMetadataHarnessRegistry {
+  const MarketingMetadataHarnessRegistry() : this._(null);
+  const MarketingMetadataHarnessRegistry._(this._selected);
 
-  final Set<MarketingPhoneHarness>? _selected;
+  final Set<MarketingMetadataHarness>? _selected;
 
-  static const Map<MarketingPhoneHarness, Future<ScenarioHarness> Function()> _builders = {
-    MarketingPhoneHarness.storeHome: h0.buildHomeScreenPhoneHarness,
-    MarketingPhoneHarness.storePrompter: h1.buildPrompterScreenPhoneHarness,
-    MarketingPhoneHarness.storeSelectScript: h2.buildSelectScriptScreenScreenPhoneHarness,
-    MarketingPhoneHarness.storeSettings: h3.buildMainSettingsScreenPhoneHarness,
+  static const Map<MarketingMetadataHarness, Future<ScenarioHarness> Function()> _builders = {
+    MarketingMetadataHarness.storeHome: h0.buildHomeScreenPhoneHarness,
+    MarketingMetadataHarness.storePrompter: h1.buildPrompterScreenPhoneHarness,
+    MarketingMetadataHarness.storeSelectScript: h2.buildSelectScriptScreenScreenPhoneHarness,
+    MarketingMetadataHarness.storeSettings: h3.buildMainSettingsScreenPhoneHarness,
   };
 
   /// Restricts a subsequent [build] to just [harnesses].
-  MarketingPhoneHarnessRegistry only(Set<MarketingPhoneHarness> harnesses) =>
-      MarketingPhoneHarnessRegistry._(harnesses);
+  MarketingMetadataHarnessRegistry only(Set<MarketingMetadataHarness> harnesses) =>
+      MarketingMetadataHarnessRegistry._(harnesses);
 
   /// Restricts a subsequent [build] to just the harnesses named [names].
-  MarketingPhoneHarnessRegistry onlyNamed(Set<String> names) =>
-      only(names.map(MarketingPhoneHarness.fromHarnessName).toSet());
+  MarketingMetadataHarnessRegistry onlyNamed(Set<String> names) =>
+      only(names.map(MarketingMetadataHarness.fromHarnessName).toSet());
 
   /// Calls every selected builder and awaits the results, keyed by harness name.
   Future<Map<String, ScenarioHarness>> build() async {

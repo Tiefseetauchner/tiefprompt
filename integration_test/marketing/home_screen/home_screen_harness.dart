@@ -417,9 +417,12 @@ Future<ScenarioHarness> buildHomeScreenWithHighlightsHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Phone', name: "Store Home")
+@RegisterHarness('Marketing Metadata', name: "Store Home")
 Future<ScenarioHarness> buildHomeScreenPhoneHarness() async {
-  final harness = prepareScreenshotHarness(appContent: const HomeScreen());
+  final harness = prepareScreenshotHarness(
+    appContent: const HomeScreen(),
+    device: getDeviceInfo(),
+  );
 
   for (final locale in kSupportedLocales) {
     harness.addScenario(

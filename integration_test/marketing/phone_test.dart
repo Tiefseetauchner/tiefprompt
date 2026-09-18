@@ -5,9 +5,9 @@ import '../mock_app.dart';
 import '../screenshot_manager_provider.dart';
 import 'phone_test.th.dart';
 
-@GenerateHarnessRegistry('Marketing Phone')
+@GenerateHarnessRegistry('Marketing Metadata')
 Future<void> main() async {
-  final harnessRegistry = MarketingPhoneHarnessRegistry();
+  final harnessRegistry = MarketingMetadataHarnessRegistry();
 
   final harnessesFilter = const String.fromEnvironment("HARNESSES");
   if (harnessesFilter.isNotEmpty) {

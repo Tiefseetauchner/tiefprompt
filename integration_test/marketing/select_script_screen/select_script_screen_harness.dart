@@ -94,9 +94,12 @@ Future<ScenarioHarness> buildSelectScriptScreenWideHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Phone', name: "Store Select Script")
+@RegisterHarness('Marketing Metadata', name: "Store Select Script")
 Future<ScenarioHarness> buildSelectScriptScreenScreenPhoneHarness() async {
-  final harness = prepareScreenshotHarness(appContent: const OpenFileScreen());
+  final harness = prepareScreenshotHarness(
+    appContent: const OpenFileScreen(),
+    device: getDeviceInfo(),
+  );
 
   for (final locale in kSupportedLocales) {
     harness.addScenario(

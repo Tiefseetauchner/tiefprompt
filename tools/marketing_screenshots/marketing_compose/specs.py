@@ -1124,350 +1124,50 @@ FEATURE_SHOWCASE_COLLAGES: list[CollageSpec] = [
     
 ]
 
-METADATA_EN_PHONE_SCREENSHOTS: list[CollageSpec] = [
-    CollageSpec(
-        output="home_screen_dark.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/en-us_home_screen_dark_prefilled.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="home_screen_default.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/en-us_home_screen_light.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="load_script.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_select_script/en-us_select_script.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="settings_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_settings/en-us_settings.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/en-us_prompter.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen_color.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/en-us_custom_colors.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    )
+METADATA_SCREENSHOTS: list[tuple[str, str, str]] = [
+    ("home_screen_dark.png", "home", "home_screen_dark_prefilled"),
+    ("home_screen_default.png", "home", "home_screen_light"),
+    ("load_script.png", "select_script", "select_script"),
+    ("settings_screen.png", "settings", "settings"),
+    ("prompter_screen.png", "prompter", "prompter"),
+    ("prompter_screen_color.png", "prompter", "custom_colors"),
 ]
 
-METADATA_DE_PHONE_SCREENSHOTS: list[CollageSpec] = [
-    CollageSpec(
-        output="home_screen_dark.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/de-de_home_screen_dark_prefilled.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="home_screen_default.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/de-de_home_screen_light.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="load_script.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_select_script/de-de_select_script.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="settings_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_settings/de-de_settings.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/de-de_prompter.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen_color.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/de-de_custom_colors.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    )
-]
 
-METADATA_EN_PIRATE_PHONE_SCREENSHOTS: list[CollageSpec] = [
-    CollageSpec(
-        output="home_screen_dark.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/en-pirate_home_screen_dark_prefilled.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="home_screen_default.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/en-pirate_home_screen_light.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="load_script.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_select_script/en-pirate_select_script.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="settings_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_settings/en-pirate_settings.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/en-pirate_prompter.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen_color.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/en-pirate_custom_colors.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    )
-]
+def _get_metadata_screenshots(language: str, device: str) -> list[CollageSpec]:
+    return [
+        CollageSpec(
+            output=output,
+            windows=[
+                WindowSpec(
+                    chrome=ANDROID_CHROME,
+                    input=f"store_{folder}/{device}/{language.lower()}_{name}.png",
+                    title="TiefPrompt",
+                    position=POS_TOP_LEFT,
+                ),
+            ],
+        )
+        for output, folder, name in METADATA_SCREENSHOTS
+    ]
 
-METADATA_ZH_PHONE_SCREENSHOTS: list[CollageSpec] = [
-    CollageSpec(
-        output="home_screen_dark.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/zh-cn_home_screen_dark_prefilled.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="home_screen_default.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/zh-cn_home_screen_light.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="load_script.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_select_script/zh-cn_select_script.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="settings_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_settings/zh-cn_settings.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/zh-cn_prompter.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen_color.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/zh-cn_custom_colors.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    )
-]
+METADATA_EN_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-US", "phone")
+METADATA_DE_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("de-DE", "phone")
+METADATA_EN_PIRATE_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-pirate", "phone")
+METADATA_ZH_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("zh-CN", "phone")
+METADATA_RU_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("ru", "phone")
 
-METADATA_RU_PHONE_SCREENSHOTS: list[CollageSpec] = [
-    CollageSpec(
-        output="home_screen_dark.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/ru_home_screen_dark_prefilled.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="home_screen_default.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_home/ru_home_screen_light.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="load_script.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_select_script/ru_select_script.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="settings_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_settings/ru_settings.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/ru_prompter.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    ),
-    CollageSpec(
-        output="prompter_screen_color.png",
-        windows=[
-            WindowSpec(
-                chrome=ANDROID_CHROME,
-                input="store_prompter/ru_custom_colors.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-        ],
-    )
-]
+METADATA_EN_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-US", "seveninchtablet")
+METADATA_DE_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("de-DE", "seveninchtablet")
+METADATA_EN_PIRATE_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-pirate", "seveninchtablet")
+METADATA_ZH_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("zh-CN", "seveninchtablet")
+METADATA_RU_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("ru", "seveninchtablet")
+
+METADATA_EN_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-US", "teninchtablet")
+METADATA_DE_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("de-DE", "teninchtablet")
+METADATA_EN_PIRATE_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-pirate", "teninchtablet")
+METADATA_ZH_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("zh-CN", "teninchtablet")
+METADATA_RU_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("ru", "teninchtablet")
+
 
 ALL_COLLAGES: list[CollageSpec] = (
     _in_folder("docs/hero", HERO_SCREEN_COLLAGES)
@@ -1484,8 +1184,18 @@ ALL_COLLAGES: list[CollageSpec] = (
     + _in_folder("docs/prompter_screen", PROMPTER_SCREEN_COLLAGES)
     + _in_folder("docs/font_settings_screen", CUSTOM_FONT_SETTINGS_SCREEN_COLLAGES)
     + _in_folder("metadata/en-US/images/phoneScreenshots", METADATA_EN_PHONE_SCREENSHOTS)
-    + _in_folder("metadata/en-pirate/images/phoneScreenshots", METADATA_EN_PIRATE_PHONE_SCREENSHOTS)
-    + _in_folder("metadata/de-DE/images/phoneScreenshots", METADATA_DE_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/en@pirate/images/phoneScreenshots", METADATA_EN_PIRATE_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/de/images/phoneScreenshots", METADATA_DE_PHONE_SCREENSHOTS)
     + _in_folder("metadata/zh-CN/images/phoneScreenshots", METADATA_ZH_PHONE_SCREENSHOTS)
-    + _in_folder("metadata/ru/images/phoneScreenshots", METADATA_RU_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/ru-RU/images/phoneScreenshots", METADATA_RU_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/en-US/images/sevenInchScreenshots", METADATA_EN_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/en@pirate/images/sevenInchScreenshots", METADATA_EN_PIRATE_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/de/images/sevenInchScreenshots", METADATA_DE_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/zh-CN/images/sevenInchScreenshots", METADATA_ZH_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/ru-RU/images/sevenInchScreenshots", METADATA_RU_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/en-US/images/tenInchScreenshots", METADATA_EN_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/en@pirate/images/tenInchScreenshots", METADATA_EN_PIRATE_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/de/images/tenInchScreenshots", METADATA_DE_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/zh-CN/images/tenInchScreenshots", METADATA_ZH_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/ru-RU/images/tenInchScreenshots", METADATA_RU_TENINCH_SCREENSHOTS)
 )

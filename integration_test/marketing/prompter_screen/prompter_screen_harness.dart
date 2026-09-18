@@ -552,10 +552,11 @@ Future<ScenarioHarness> buildPrompterScreenNarrowHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Phone', name: "Store Prompter")
+@RegisterHarness('Marketing Metadata', name: "Store Prompter")
 Future<ScenarioHarness> buildPrompterScreenPhoneHarness() async {
   final harness = prepareScreenshotHarness(
     appContent: const PrompterThemeScope(child: PrompterScreen()),
+    device: getDeviceInfo(),
   );
 
   for (final locale in kSupportedLocales) {
