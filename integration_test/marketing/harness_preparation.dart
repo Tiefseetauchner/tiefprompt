@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,7 +8,7 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 
 import '../screenshot_manager_provider.dart';
 
-ScenarioHarness prepareScreenshotHarness({Widget? appContent}) {
+ScenarioHarness prepareScreenshotHarness({Widget? appContent, Device? device}) {
   final harness = ScenarioHarness(
     appContent: appContent ?? const SizedBox.shrink(),
     beforeAll: harnessBeforeAll,
@@ -15,13 +16,16 @@ ScenarioHarness prepareScreenshotHarness({Widget? appContent}) {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     },
     afterEach: harnessAfterEach,
-    afterAll: harnessAfterAll,
+    afterAll: harnessAfterAll(device),
   );
 
   return harness;
 }
 
-ScenarioHarness prepareLandscapeScreenshotHarness({Widget? appContent}) {
+ScenarioHarness prepareLandscapeScreenshotHarness({
+  Widget? appContent,
+  Device? device,
+}) {
   final harness = ScenarioHarness(
     appContent: appContent ?? const SizedBox.shrink(),
     beforeAll: harnessBeforeAll,
@@ -32,7 +36,7 @@ ScenarioHarness prepareLandscapeScreenshotHarness({Widget? appContent}) {
       ]);
     },
     afterEach: harnessAfterEach,
-    afterAll: harnessAfterAll,
+    afterAll: harnessAfterAll(device),
   );
 
   return harness;
@@ -58,13 +62,46 @@ Future<void> harnessAfterEach(
       .pumpAndScreenshot(scenarioName, tester, binding);
 }
 
-Future<void> harnessAfterAll(
+Future<void> Function(
   IntegrationTestWidgetsFlutterBinding binding,
   ProviderContainer ref,
   String harnessName,
-) async {
-  await ref
-      .read(screenshotManagerStateProvider)!
-      .uploadScreenshots("Marketing/$harnessName");
-  ref.read(screenshotManagerStateProvider)!.clear();
+)
+harnessAfterAll(Device? device) {
+  return (binding, ref, harnessName) async {
+    await ref
+        .read(screenshotManagerStateProvider)!
+        .uploadScreenshots("Marketing/$harnessName/${device?.name}/");
+    ref.read(screenshotManagerStateProvider)!.clear();
+  };
+}
+
+Future<Null> Function(
+  WidgetTester tester,
+  IntegrationTestWidgetsFlutterBinding binding,
+)
+getLocaleSetter<T extends Widget>(Locale locale) {
+  return (
+    WidgetTester tester,
+    IntegrationTestWidgetsFlutterBinding binding,
+  ) async {
+    final context = tester.element(find.byType(T));
+    await context.setLocale(locale);
+  };
+}
+
+enum Device { phone, sevenInchTablet, tenInchTablet }
+
+Device getDeviceInfo() {
+  final envDevice = const String.fromEnvironment("DEVICE");
+
+  if (envDevice == "sevenInchTablet") {
+    return Device.sevenInchTablet;
+  } else if (envDevice == "tenInchTablet") {
+    return Device.tenInchTablet;
+  } else if (envDevice == "phone") {
+    return Device.phone;
+  } else {
+    throw Exception("Unknown device: $envDevice");
+  }
 }

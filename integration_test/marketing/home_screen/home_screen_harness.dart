@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
@@ -412,6 +413,47 @@ Future<ScenarioHarness> buildHomeScreenWithHighlightsHarness() async {
       },
     ),
   );
+
+  return harness;
+}
+
+@RegisterHarness('Marketing Metadata', name: "Store Home")
+Future<ScenarioHarness> buildHomeScreenPhoneHarness() async {
+  final harness = prepareScreenshotHarness(
+    appContent: const HomeScreen(),
+    device: getDeviceInfo(),
+  );
+
+  for (final locale in kSupportedLocales) {
+    harness.addScenario(
+      Scenario(
+        name: "${locale.$2.toLanguageTag()} Home Screen Dark Prefilled",
+        testCallback: getLocaleSetter<HomeScreen>(locale.$2),
+        providerScopeBuilder: (child) async => ProviderScope(
+          overrides: [
+            scriptProvider.overrideWith(
+              () => ScriptFake(
+                name: kMarketingScriptName,
+                content: kMarketingScriptContent,
+              ),
+            ),
+
+            settingsProvider.overrideWith(
+              () => SettingsFake(SettingsState(themeMode: ThemeMode.dark)),
+            ),
+          ],
+          child: child,
+        ),
+      ),
+    );
+
+    harness.addScenario(
+      Scenario(
+        name: "${locale.$2.toLanguageTag()} Home Screen Light",
+        testCallback: getLocaleSetter<HomeScreen>(locale.$2),
+      ),
+    );
+  }
 
   return harness;
 }

@@ -86,6 +86,9 @@ DEVICES=(
   "16by9phone 1080 1920 5.5"
   "MarketingTablet 1350 2300 7"
   "MarketingWideTablet 3840 1750 7"
+  "MarketingPhone 1080 1920 6"
+  "MarketingSevenInch 1024 600 7"
+  "MarketingTenInch 2560 1600 10"
 )
 
 if [ "$FORCE_RECREATE" == "YES" ]; then

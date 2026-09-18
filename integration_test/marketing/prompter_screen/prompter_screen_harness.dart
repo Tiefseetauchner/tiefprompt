@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -547,6 +548,64 @@ Future<ScenarioHarness> buildPrompterScreenNarrowHarness() async {
       ),
     ),
   );
+
+  return harness;
+}
+
+@RegisterHarness('Marketing Metadata', name: "Store Prompter")
+Future<ScenarioHarness> buildPrompterScreenPhoneHarness() async {
+  final harness = prepareScreenshotHarness(
+    appContent: const PrompterThemeScope(child: PrompterScreen()),
+    device: getDeviceInfo(),
+  );
+
+  for (final locale in kSupportedLocales) {
+    harness.addScenario(
+      Scenario(
+        name: "${locale.$2.toLanguageTag()} Prompter",
+        testCallback: getLocaleSetter<PrompterScreen>(locale.$2),
+        providerScopeBuilder: (child) async => ProviderScope(
+          overrides: [
+            scriptProvider.overrideWith(
+              () => ScriptFake(
+                name: kMarketingScriptName,
+                content: kMarketingScriptContent,
+                scrollPosition: 1850,
+              ),
+            ),
+          ],
+          child: child,
+        ),
+      ),
+    );
+
+    harness.addScenario(
+      Scenario(
+        name: "${locale.$2.toLanguageTag()} Custom Colors",
+        testCallback: getLocaleSetter<PrompterScreen>(locale.$2),
+        providerScopeBuilder: (child) async => ProviderScope(
+          overrides: [
+            scriptProvider.overrideWith(
+              () => ScriptFake(
+                name: kMarketingScriptName,
+                content: kMarketingScriptContent,
+                scrollPosition: 1850,
+              ),
+            ),
+            settingsProvider.overrideWith(
+              () => SettingsFake(
+                SettingsState(
+                  prompterBackgroundColor: Colors.blue.shade900,
+                  prompterTextColor: Colors.yellow.shade200,
+                ),
+              ),
+            ),
+          ],
+          child: child,
+        ),
+      ),
+    );
+  }
 
   return harness;
 }

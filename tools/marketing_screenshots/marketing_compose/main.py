@@ -33,7 +33,7 @@ def main() -> None:
     if args.only:
         collages = [c for c in collages if args.only in c.output]
 
-    with ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor(32) as executor:
         futures = [
             executor.submit(compose_collage, spec, args.input_dir, args.output_dir)
             for spec in collages

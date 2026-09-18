@@ -7,7 +7,7 @@ integration_test/marketing/ adds a new runScenario call per screenshot.
 
 import dataclasses
 
-from compose_lib import CollageSpec, Position, WindowSpec
+from compose_lib import ANDROID_CHROME, CollageSpec, Position, WindowSpec
 
 
 def _in_folder(folder: str, collages: list[CollageSpec]) -> list[CollageSpec]:
@@ -1124,6 +1124,51 @@ FEATURE_SHOWCASE_COLLAGES: list[CollageSpec] = [
     
 ]
 
+METADATA_SCREENSHOTS: list[tuple[str, str, str]] = [
+    ("home_screen_dark.png", "home", "home_screen_dark_prefilled"),
+    ("home_screen_default.png", "home", "home_screen_light"),
+    ("load_script.png", "select_script", "select_script"),
+    ("settings_screen.png", "settings", "settings"),
+    ("prompter_screen.png", "prompter", "prompter"),
+    ("prompter_screen_color.png", "prompter", "custom_colors"),
+]
+
+
+def _get_metadata_screenshots(language: str, device: str) -> list[CollageSpec]:
+    return [
+        CollageSpec(
+            output=output,
+            windows=[
+                WindowSpec(
+                    chrome=ANDROID_CHROME,
+                    input=f"store_{folder}/{device}/{language.lower()}_{name}.png",
+                    title="TiefPrompt",
+                    position=POS_TOP_LEFT,
+                ),
+            ],
+        )
+        for output, folder, name in METADATA_SCREENSHOTS
+    ]
+
+METADATA_EN_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-US", "phone")
+METADATA_DE_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("de-DE", "phone")
+METADATA_EN_PIRATE_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-pirate", "phone")
+METADATA_ZH_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("zh-CN", "phone")
+METADATA_RU_PHONE_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("ru", "phone")
+
+METADATA_EN_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-US", "seveninchtablet")
+METADATA_DE_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("de-DE", "seveninchtablet")
+METADATA_EN_PIRATE_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-pirate", "seveninchtablet")
+METADATA_ZH_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("zh-CN", "seveninchtablet")
+METADATA_RU_SEVENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("ru", "seveninchtablet")
+
+METADATA_EN_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-US", "teninchtablet")
+METADATA_DE_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("de-DE", "teninchtablet")
+METADATA_EN_PIRATE_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("en-pirate", "teninchtablet")
+METADATA_ZH_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("zh-CN", "teninchtablet")
+METADATA_RU_TENINCH_SCREENSHOTS: list[CollageSpec] = _get_metadata_screenshots("ru", "teninchtablet")
+
+
 ALL_COLLAGES: list[CollageSpec] = (
     _in_folder("docs/hero", HERO_SCREEN_COLLAGES)
     + _in_folder("web", HOME_CAROUSEL_COLLAGES)
@@ -1138,4 +1183,19 @@ ALL_COLLAGES: list[CollageSpec] = (
     + _in_folder("docs/select_script_screen", SELECT_SCRIPT_SCREEN_COLLAGES)
     + _in_folder("docs/prompter_screen", PROMPTER_SCREEN_COLLAGES)
     + _in_folder("docs/font_settings_screen", CUSTOM_FONT_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("metadata/en-US/images/phoneScreenshots", METADATA_EN_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/en@pirate/images/phoneScreenshots", METADATA_EN_PIRATE_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/de/images/phoneScreenshots", METADATA_DE_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/zh-CN/images/phoneScreenshots", METADATA_ZH_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/ru-RU/images/phoneScreenshots", METADATA_RU_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/en-US/images/sevenInchScreenshots", METADATA_EN_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/en@pirate/images/sevenInchScreenshots", METADATA_EN_PIRATE_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/de/images/sevenInchScreenshots", METADATA_DE_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/zh-CN/images/sevenInchScreenshots", METADATA_ZH_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/ru-RU/images/sevenInchScreenshots", METADATA_RU_SEVENINCH_SCREENSHOTS)
+    + _in_folder("metadata/en-US/images/tenInchScreenshots", METADATA_EN_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/en@pirate/images/tenInchScreenshots", METADATA_EN_PIRATE_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/de/images/tenInchScreenshots", METADATA_DE_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/zh-CN/images/tenInchScreenshots", METADATA_ZH_TENINCH_SCREENSHOTS)
+    + _in_folder("metadata/ru-RU/images/tenInchScreenshots", METADATA_RU_TENINCH_SCREENSHOTS)
 )
