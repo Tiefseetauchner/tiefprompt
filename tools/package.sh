@@ -13,12 +13,6 @@ CONTAINER_NAME="tiefprompt_build_container"
 TARGETS="androidaab,androidapk"
 FREEDOM="foss,freemium"
 
-script_exitfn() {
-  verbose_echo "${YELLOW}Stopping Docker container with name: $CONTAINER_NAME${NC}"
-  docker stop $CONTAINER_NAME 2>/dev/null
-  exit 1
-}
-
 info() {
   echo -e "${GREEN}Package TiefPrompt for Android in Docker Container${NC}"
 
