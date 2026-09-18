@@ -149,7 +149,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                         prompterConfig.controlButtonsPosition ==
                             ControlButtonsPosition.right)) &&
                 prompterConfig.showControlButtons)
-              PrompterControlButtonsOverlay(),
+              PrompterControlButtonsOverlay(
+                scrollableTextController: _scrollableTextController,
+              ),
             if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
             if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
             if (displayCountdown && prompterConfig.countdownDuration > 0)

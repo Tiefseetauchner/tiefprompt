@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
+import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
 
 const double kPrompterControlButtonsOverlayIconSize = 45;
 
 class PrompterControlButtonsOverlay extends ConsumerWidget {
-  const PrompterControlButtonsOverlay({super.key});
+  final ScrollableTextController scrollableTextController;
+
+  const PrompterControlButtonsOverlay({
+    super.key,
+    required this.scrollableTextController,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +31,9 @@ class PrompterControlButtonsOverlay extends ConsumerWidget {
             color: Theme.of(context).colorScheme.primary.withAlpha(120),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          child: _ControlButtons(),
+          child: _ControlButtons(
+            scrollableTextController: scrollableTextController,
+          ),
         ),
       ),
     );
@@ -33,8 +41,22 @@ class PrompterControlButtonsOverlay extends ConsumerWidget {
 }
 
 class _ControlButtons extends ConsumerWidget {
+  final ScrollableTextController scrollableTextController;
+
+  const _ControlButtons({required this.scrollableTextController});
+
   List<Widget> _getButtons(WidgetRef ref) {
     return [
+      IconButton(
+        iconSize: kPrompterControlButtonsOverlayIconSize,
+        onPressed: () => scrollableTextController.jumpTo(0),
+        icon: Icon(Icons.keyboard_double_arrow_up_rounded),
+      ),
+      IconButton(
+        iconSize: kPrompterControlButtonsOverlayIconSize,
+        onPressed: () => scrollableTextController.jumpRelative(-75),
+        icon: Icon(Icons.keyboard_arrow_up_rounded),
+      ),
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
         onPressed: () => ref.read(prompterProvider.notifier).togglePlayPause(),
@@ -43,6 +65,18 @@ class _ControlButtons extends ConsumerWidget {
               ? Icons.pause_rounded
               : Icons.play_arrow_rounded,
         ),
+      ),
+      IconButton(
+        iconSize: kPrompterControlButtonsOverlayIconSize,
+        onPressed: () => scrollableTextController.jumpRelative(75),
+        icon: Icon(Icons.keyboard_arrow_down_rounded),
+      ),
+      IconButton(
+        iconSize: kPrompterControlButtonsOverlayIconSize,
+        onPressed: () => scrollableTextController.jumpTo(
+          scrollableTextController.scrollController.position.maxScrollExtent,
+        ),
+        icon: Icon(Icons.keyboard_double_arrow_down_rounded),
       ),
     ];
   }

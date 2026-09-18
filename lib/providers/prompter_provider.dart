@@ -38,6 +38,8 @@ class Prompter extends _$Prompter {
     state = state.copyWith(config: update(state.config));
   }
 
+  void scrollUp() {}
+
   void setSpeed(double speed) {
     _mutateConfig((config) => config.copyWith(scrollSpeed: speed));
   }
