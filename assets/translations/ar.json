@@ -1,7 +1,7 @@
 {
     "title": "TiefPrompt",
     "empty_title": "",
-    "copyright": "",
+    "copyright": "حقوق الطبع والنشر © 2025 لينا تاوخر\nجميع الحقوق محفوظة.\n\nيخضع هذا المشروع لترخيص MIT. راجع ملف LICENSE للاطلاع على التفاصيل.\n",
     "credits": "",
     "ProFeatureDisabled": "هذه الميزة متاحة فقط في النسخة الاحترافية.",
     "AboutDialog": {
@@ -16,7 +16,7 @@
         "TitleField_heading": "عنوان الإخطاطة",
         "TitleField_hintText": "إدخال عنوان الإخطاطة",
         "TextField_heading": "محتوى الإخطاطة (نص التلقين)",
-        "TextField_hintText": "",
+        "TextField_hintText": "إدخال نص التلقين",
         "ElevatedButton_Start": "بدء التقلين",
         "ElevatedButton_Select": "تحديدد إخطاطة من الجهاز",
         "ElevatedButton_Save": "حفظ الإخطاطة",
@@ -177,6 +177,41 @@
                 "HintText": "إدخال اسم",
                 "Cancel": "إلغاء",
                 "Save": "حفظ"
+            }
+        },
+        "LinkAppSetting_CustomFonts": "إدارة الخطوط المخصصة",
+        "FontSettings": {
+            "Title": "الخطوط المخصصة",
+            "AddFont": "إضافة خط",
+            "BuiltIn": "مدمج",
+            "Custom": "مخصص",
+            "EditFamilyTooltip": {
+                "BuiltIn": "لا يمكن تعديل عائلات الخطوط المدمجة",
+                "Custom": "تعديل عائلة الخط"
+            },
+            "EditVariantTooltip": {
+                "BuiltIn": "لا يمكن تعديل أنماط الخطوط المدمجة",
+                "Custom": "تعديل نمط الخط"
+            },
+            "MoveVariantTooltip": {
+                "BuiltIn": "لا يمكن نقل أنماط الخطوط المدمجة",
+                "Custom": "نقل نمط الخط"
+            },
+            "DeleteVariantTooltip": {
+                "BuiltIn": "لا يمكن حذف أنماط الخطوط المدمجة",
+                "Custom": "حذف نمط الخط"
+            },
+            "MoveFontDialog": {
+                "Title": "نقل الخط إلى"
+            },
+            "EditFontDialog": {
+                "Title": "تعديل الخط",
+                "SetFontFamilyName": "اسم عائلة الخط",
+                "Cancel": "إلغاء",
+                "Save": "حفظ",
+                "Warning": "قد يؤدي تغيير هذا الخط إلى التأثير على المستندات التي تستخدمه بالفعل.",
+                "SetFontVariantWeight": "وزن الخط",
+                "SetFontItalics": "مائل"
             }
         }
     },
