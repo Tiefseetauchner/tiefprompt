@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -67,4 +68,18 @@ Future<void> harnessAfterAll(
       .read(screenshotManagerStateProvider)!
       .uploadScreenshots("Marketing/$harnessName");
   ref.read(screenshotManagerStateProvider)!.clear();
+}
+
+Future<Null> Function(
+  WidgetTester tester,
+  IntegrationTestWidgetsFlutterBinding binding,
+)
+getLocaleSetter<T extends Widget>(Locale locale) {
+  return (
+    WidgetTester tester,
+    IntegrationTestWidgetsFlutterBinding binding,
+  ) async {
+    final context = tester.element(find.byType(T));
+    await context.setLocale(locale);
+  };
 }

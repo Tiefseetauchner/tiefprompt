@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
@@ -89,6 +90,22 @@ Future<ScenarioHarness> buildSelectScriptScreenWideHarness() async {
   );
 
   harness.addScenario(Scenario(name: "Foss"));
+
+  return harness;
+}
+
+@RegisterHarness('Marketing Phone', name: "Store Select Script")
+Future<ScenarioHarness> buildSelectScriptScreenScreenPhoneHarness() async {
+  final harness = prepareScreenshotHarness(appContent: const OpenFileScreen());
+
+  for (final locale in kSupportedLocales) {
+    harness.addScenario(
+      Scenario(
+        name: "${locale.$2.toLanguageTag()} Select Script",
+        testCallback: getLocaleSetter<OpenFileScreen>(locale.$2),
+      ),
+    );
+  }
 
   return harness;
 }

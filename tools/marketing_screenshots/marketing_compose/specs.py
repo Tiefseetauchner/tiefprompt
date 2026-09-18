@@ -7,7 +7,7 @@ integration_test/marketing/ adds a new runScenario call per screenshot.
 
 import dataclasses
 
-from compose_lib import CollageSpec, Position, WindowSpec
+from compose_lib import ANDROID_CHROME, CollageSpec, Position, WindowSpec
 
 
 def _in_folder(folder: str, collages: list[CollageSpec]) -> list[CollageSpec]:
@@ -1124,6 +1124,351 @@ FEATURE_SHOWCASE_COLLAGES: list[CollageSpec] = [
     
 ]
 
+METADATA_EN_PHONE_SCREENSHOTS: list[CollageSpec] = [
+    CollageSpec(
+        output="home_screen_dark.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/en-us_home_screen_dark_prefilled.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="home_screen_default.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/en-us_home_screen_light.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="load_script.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_select_script/en-us_select_script.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="settings_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_settings/en-us_settings.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/en-us_prompter.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen_color.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/en-us_custom_colors.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    )
+]
+
+METADATA_DE_PHONE_SCREENSHOTS: list[CollageSpec] = [
+    CollageSpec(
+        output="home_screen_dark.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/de-de_home_screen_dark_prefilled.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="home_screen_default.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/de-de_home_screen_light.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="load_script.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_select_script/de-de_select_script.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="settings_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_settings/de-de_settings.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/de-de_prompter.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen_color.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/de-de_custom_colors.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    )
+]
+
+METADATA_EN_PIRATE_PHONE_SCREENSHOTS: list[CollageSpec] = [
+    CollageSpec(
+        output="home_screen_dark.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/en-pirate_home_screen_dark_prefilled.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="home_screen_default.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/en-pirate_home_screen_light.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="load_script.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_select_script/en-pirate_select_script.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="settings_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_settings/en-pirate_settings.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/en-pirate_prompter.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen_color.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/en-pirate_custom_colors.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    )
+]
+
+METADATA_ZH_PHONE_SCREENSHOTS: list[CollageSpec] = [
+    CollageSpec(
+        output="home_screen_dark.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/zh-cn_home_screen_dark_prefilled.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="home_screen_default.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/zh-cn_home_screen_light.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="load_script.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_select_script/zh-cn_select_script.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="settings_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_settings/zh-cn_settings.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/zh-cn_prompter.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen_color.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/zh-cn_custom_colors.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    )
+]
+
+METADATA_RU_PHONE_SCREENSHOTS: list[CollageSpec] = [
+    CollageSpec(
+        output="home_screen_dark.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/ru_home_screen_dark_prefilled.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="home_screen_default.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_home/ru_home_screen_light.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="load_script.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_select_script/ru_select_script.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="settings_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_settings/ru_settings.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/ru_prompter.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="prompter_screen_color.png",
+        windows=[
+            WindowSpec(
+                chrome=ANDROID_CHROME,
+                input="store_prompter/ru_custom_colors.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    )
+]
+
 ALL_COLLAGES: list[CollageSpec] = (
     _in_folder("docs/hero", HERO_SCREEN_COLLAGES)
     + _in_folder("web", HOME_CAROUSEL_COLLAGES)
@@ -1138,4 +1483,9 @@ ALL_COLLAGES: list[CollageSpec] = (
     + _in_folder("docs/select_script_screen", SELECT_SCRIPT_SCREEN_COLLAGES)
     + _in_folder("docs/prompter_screen", PROMPTER_SCREEN_COLLAGES)
     + _in_folder("docs/font_settings_screen", CUSTOM_FONT_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("metadata/en-US/images/phoneScreenshots", METADATA_EN_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/en-pirate/images/phoneScreenshots", METADATA_EN_PIRATE_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/de-DE/images/phoneScreenshots", METADATA_DE_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/zh-CN/images/phoneScreenshots", METADATA_ZH_PHONE_SCREENSHOTS)
+    + _in_folder("metadata/ru/images/phoneScreenshots", METADATA_RU_PHONE_SCREENSHOTS)
 )

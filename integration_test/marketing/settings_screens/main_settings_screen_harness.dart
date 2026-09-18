@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_screen.dart';
 import 'package:tief_screen/tief_screen.dart';
@@ -245,6 +246,22 @@ Future<ScenarioHarness> buildSettingsHarness() async {
       },
     ),
   );
+
+  return harness;
+}
+
+@RegisterHarness('Marketing Phone', name: "Store Settings")
+Future<ScenarioHarness> buildMainSettingsScreenPhoneHarness() async {
+  final harness = prepareScreenshotHarness(appContent: const SettingsScreen());
+
+  for (final locale in kSupportedLocales) {
+    harness.addScenario(
+      Scenario(
+        name: "${locale.$2.toLanguageTag()} Settings",
+        testCallback: getLocaleSetter<SettingsScreen>(locale.$2),
+      ),
+    );
+  }
 
   return harness;
 }

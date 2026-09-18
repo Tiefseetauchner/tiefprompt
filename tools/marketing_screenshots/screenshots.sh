@@ -60,6 +60,7 @@ EMULATOR_TEST_FILES=(
   "MarketingTablet MarketingTablet integration_test/marketing/marketing_tablet_test.dart foss"
   "MarketingWideTablet MarketingWideTablet integration_test/marketing/marketing_wide_tablet_test.dart foss"
   "MarketingTabletFreemium MarketingTablet integration_test/marketing/marketing_tablet_freemium_test.dart freemium"
+  "MarketingPhone MarketingPhone integration_test/marketing/phone_test.dart foss"
 )
 
 start_screenshot_server
