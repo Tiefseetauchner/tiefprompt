@@ -17,7 +17,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-SCREENSHOT_SUPERSAMPLE = 2
+SCREENSHOT_SUPERSAMPLE = 1
 EXO_FONT = REPO_ROOT / "fonts" / "Exo-VariableFont_wght.ttf"
 
 
