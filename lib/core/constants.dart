@@ -162,6 +162,7 @@ const kSupportedLocales = [
   ("Deutsch", Locale("de", "DE")),
   ("Pirate English", ExtendedLocale("en", "pirate")),
   ("Русский", Locale("ru")),
+  ("العربية", Locale("ar")),
 ];
 
 class ExtendedLocale extends Locale {
