@@ -11,42 +11,50 @@ class CurrentChapterBanner extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chapter = ref.watch(currentChapterProvider);
-    final (:sideMargin, :fontFamily, :alignment) = ref.watch(
-      prompterProvider.select(
-        (p) => (
-          sideMargin: p.config.sideMargin,
-          fontFamily: p.config.fontFamily,
-          alignment: p.config.alignment,
-        ),
-      ),
-    );
+    final (:mirroredX, :mirroredY, :sideMargin, :fontFamily, :alignment) = ref
+        .watch(
+          prompterProvider.select(
+            (p) => (
+              mirroredX: p.config.mirroredX,
+              mirroredY: p.config.mirroredY,
+              sideMargin: p.config.sideMargin,
+              fontFamily: p.config.fontFamily,
+              alignment: p.config.alignment,
+            ),
+          ),
+        );
 
     if (chapter == null) return const SizedBox.shrink();
 
     final onSurface = Theme.of(context).colorScheme.onSurface;
     final canvas = Theme.of(context).canvasColor;
+    final borderSide = BorderSide(color: onSurface.withAlpha(180));
 
     return Positioned(
-      top: 0,
+      top: mirroredY ? null : (offset?.top ?? 0),
+      bottom: mirroredY ? (offset?.top ?? 0) : null,
       left: 0,
       right: 0,
       child: Container(
-        padding: offset,
-        child: Container(
-          decoration: BoxDecoration(
-            color: canvas.withAlpha(120),
-            border: Border(bottom: BorderSide(color: onSurface.withAlpha(180))),
+        decoration: BoxDecoration(
+          color: canvas.withAlpha(120),
+          border: Border(
+            bottom: mirroredY ? BorderSide.none : borderSide,
+            top: mirroredY ? borderSide : BorderSide.none,
           ),
-          child: SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal:
-                    16 +
-                    (MediaQuery.of(context).size.width / 2) *
-                        (sideMargin / 100),
-                vertical: 8,
-              ),
+        ),
+        child: SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal:
+                  16 +
+                  (MediaQuery.of(context).size.width / 2) * (sideMargin / 100),
+              vertical: 8,
+            ),
+            child: Transform.flip(
+              flipX: mirroredX,
+              flipY: mirroredY,
               child: Text(
                 chapter,
                 style: TextStyle(
