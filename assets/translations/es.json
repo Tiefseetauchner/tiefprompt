@@ -1,0 +1,305 @@
+{
+    "title": "TiefPrompt",
+    "empty_title": "Guion sin título",
+    "copyright": "Derechos de autor © 2025 Lena Tauchner\nTodos los derechos reservados.\n\nEste proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para obtener más información.\n",
+    "credits": "Gracias a los siguientes colaboradores por proporcionar traducciones para el software.\n•Chino: @TaoEngine\n•Ruso: @Xapitonov\n•Árabe: @shadigaafar",
+    "ProFeatureDisabled": "Esta función solo está disponible en la versión Pro.",
+    "AboutDialog": {
+        "Text_PrivacyText": "Esta aplicación no recopila datos personales. Que yo sepa, no se comparten datos con terceros. Lea más sobre nuestra política de privacidad.",
+        "ElevatedButton_Privacy": "Política de privacidad"
+    },
+    "ChangelogModal": {
+        "title": "Qué hay de nuevo",
+        "close": ""
+    },
+    "HomeScreen": {
+        "TitleField_heading": "Título del guion",
+        "TitleField_hintText": "Introduce el título del guion",
+        "TextField_heading": "Contenido del guion",
+        "TextField_hintText": "Ingrese el contenido del guion",
+        "ElevatedButton_Start": "Iniciar teleprónter",
+        "ElevatedButton_Select": "Seleccionar guion del dispositivo",
+        "ElevatedButton_Save": "Guardar guion",
+        "IconButton_Settings": "Ajustes",
+        "IconButton_SourceCode": "Ver código fuente",
+        "IconButton_About": "Acerca de",
+        "BottomSheet": {
+            "Text_Title": "Guardar guion",
+            "TextField_hintText": "Ingrese el nombre del guion",
+            "ElevatedButton_Save": "Guardar"
+        },
+        "DiscardConfirmDialog": {
+            "Title": "¿Descartar cambios?",
+            "Body": "Cargar un script descartará los cambios realizados en el script actual. ¿Desea continuar y descartar todos los cambios?",
+            "Cancel": "Cancelar",
+            "Confirm": "Confirmar y descartar"
+        },
+        "NewOrOverrideDialog": {
+            "Title": "¿Sobrescribir el guion actual o guardar como nuevo?",
+            "NewScript": "Guardar como nuevo guion",
+            "OverrideScript": "Anular actual"
+        },
+        "UnverifiedBuild": "Compilación no verificada",
+        "UnverifiedBuild_Explanation": "Esta compilación no está verificada. Esto significa que podría no ser estable o contener errores. Úsala bajo tu propia responsabilidad. Para generar una versión verificada, utiliza el archivo `main_foss.dart` como punto de entrada.",
+        "FossVersion": "Libre y de código abierto",
+        "FossVersion_Explanation": "Somos un proyecto de código abierto y gratuito. Esto significa que puedes utilizar esta aplicación gratis, para siempre. Todas sus funciones son gratuitas y puedes usarlas sin restricciones. Sin embargo, se trata de un proyecto comunitario que ha requerido mucho trabajo; por ello, si te gusta la aplicación y quieres que siga recibiendo soporte en el futuro, te invitamos a considerar hacer una donación. Encontrarás los enlaces actuales en el repositorio de código fuente.",
+        "FreeVersion": "Versión gratuita",
+        "FreeVersion_Explanation": "Somos un proyecto de código abierto y gratuito. Lamentablemente, mantener Tiefprompt requiere mucho tiempo y, francamente, dinero. Entre el desarrollo, el diseño y los costes de distribución (como las tasas de desarrollador de Apple), el proyecto se ha convertido en una inversión considerable de tiempo y recursos para mí. Para garantizar la sostenibilidad, he optado por un modelo *freemium*: la aplicación es gratuita, pero algunas funciones solo están disponibles en la versión Pro.\n\nSi no puedes o no quieres pagar, eres totalmente bienvenido a usar la aplicación o a compilarla tú mismo a partir del código fuente; no hay ningún problema.\n\nOjalá no fuera necesario, pero espero que lo entiendas y sigas encontrando un valor real en esta aplicación.",
+        "FreeVersion_BuyPro": "Comprar Pro",
+        "PaidVersion": "TiefPrompt Pro",
+        "PaidVersion_Explanation": "¡Gracias por comprar TiefPrompt Pro! Tu apoyo significa muchísimo para mí. No solo estás desbloqueando funciones adicionales, sino que también estás ayudando a que este proyecto siga vivo, reciba mantenimiento y, ojalá, mejore con el tiempo. Esta aplicación es fruto de la pasión, y tu contribución ayuda a cubrir los gastos de alojamiento, desarrollo, dispositivos de prueba y... muchísimo café.\n\nDe verdad, gracias por hacerlo posible.",
+        "Understood": "Comprendido"
+    },
+    "SettingsScreen": {
+        "title": "Ajustes",
+        "NumberAppSetting": {
+            "Value": "Ingrese el valor",
+            "ElevatedButton_Save": "Guardar"
+        },
+        "DropdownAppSetting_DefaultLanguage": "Idioma predeterminado",
+        "DropdownAppSetting_Theme": "Tema de la aplicación",
+        "NumberAppSetting_DefaultScrollSpeed": "Velocidad de desplazamiento predeterminada",
+        "NumberAppSetting_DefaultScrollSpeed_Unit": "lineas/seg",
+        "NumberAppSetting_DefaultFontSize": "Tamaño de fuente predeterminado",
+        "NumberAppSetting_DefaultFontSize_Unit": "px",
+        "DropdownAppSetting_DefaultTextAlignment": "Alineación del texto",
+        "DropdownAppSetting_DefaultTextAlignment_Unit": {
+            "Left": "Izquierda",
+            "Center": "Centro",
+            "Right": "Derecha",
+            "Justified": "Justificado"
+        },
+        "ElevatedButton_Save": "Guardar",
+        "DropdownAppSetting_DefaultFontFamily": "Familia tipográfica",
+        "LinkAppSetting_CustomFonts": "Administrar fuentes personalizadas",
+        "BooleanAppSetting_DefaultFlipX": "Voltear horizontalmente por defecto",
+        "BooleanAppSetting_DefaultFlipY": "Invertir eje Y por defecto",
+        "BooleanAppSetting_ReadingIndicatorBoxes": "Mostrar cuadros indicadores de lectura",
+        "BooleanAppSetting_Markdown": "Habilitar Markdown",
+        "BooleanAppSetting_ShowCurrentChapter": "Mostrar capítulo actual",
+        "BooleanAppSetting_ControlButtons": "Habilitar botones de control",
+        "DropdownAppSetting_ControlButtonPosition": {
+            "Label": "Posición de los botones de control",
+            "left": "Lado izquierdo",
+            "top": "Parte superior",
+            "right": "Lado derecho",
+            "bottom": "Parte inferior"
+        },
+        "ShowHelpRequest": "Volver a mostrar la solicitud de ayuda",
+        "ShowChangelog": "Mostrar registro de cambios",
+        "ViewLogs": "Ver registros",
+        "NumberAppSetting_ReadingIndicatorBoxes": "Altura de las casillas indicadoras de lectura",
+        "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+        "BooleanAppSetting_VerticalMarginBoxes": "Habilitar márgenes verticales",
+        "NumberAppSetting_VerticalMarginBoxes": "Altura del margen vertical",
+        "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
+        "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "Habilitar desvanecimiento para el margen vertical",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength": "Longitud del degradado",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "%",
+        "NumberAppSetting_SideMargin": "Margen lateral",
+        "NumberAppSetting_SideMargin_Unit": "%",
+        "NumberAppSetting_CountdownTimer": "Temporizador de cuenta regresiva",
+        "NumberAppSetting_CountdownTimer_Unit": "seg",
+        "ColorAppSetting_AppPrimaryColor": "Color principal de la aplicación",
+        "ColorAppSetting_PrompterBackgroundColor": "Color de fondo del teleprónter",
+        "ColorAppSetting_PrompterTextColor": "Color del texto del teleprónter",
+        "DisplaySettings": "Configuración de pantalla",
+        "TextSettings": "Configuración del texto",
+        "ListTile_Reset": "Restablecer configuración",
+        "Reset_Warning": "¡Estás a punto de restablecer todos los ajustes de forma irreversible!",
+        "Abort": "Abortar",
+        "Confirm": "Confirmar",
+        "RestorePurchases": "Restaurar compras",
+        "RestorePurchases_Snackbar": "Las compras fueron restauradas.",
+        "KeybindingsSettings": {
+            "Title": "Configuración de asignación de teclas",
+            "ChangeBindings": "Cambiar fijaciones",
+            "AddBinding": "Añadir fijaciones",
+            "CaptureBindingTitle": "Presiona una combinación de teclas",
+            "CaptureBindingHint": "Mantén presionada la tecla Ctrl, Alt, Shift o Meta y pulsa una tecla.",
+            "ResetBindings": "Restablecer todas las asignaciones a los valores predeterminados",
+            "playPause": "Reproducir/Pausar",
+            "scrollUpSmall": "Pequeño desplazamiento hacia arriba",
+            "scrollDownSmall": "Pequeño desplazamiento hacia abajo",
+            "scrollUp": "Desplazarse hacia arriba",
+            "scrollDown": "Desplazarse hacia abajo",
+            "pageUp": "Desplazarse hacia arriba una página",
+            "pageDown": "Desplazarse hacia abajo una página",
+            "jumpStart": "Volver arriba",
+            "jumpEnd": "Ir al final",
+            "toggleControls": "Alternar controles",
+            "speedUp": "Aumentar la velocidad",
+            "speedDown": "Reducir la velocidad",
+            "fontSizeUp": "",
+            "fontSizeDown": "",
+            "openSettings": "",
+            "saveSettingsFromPrompter": ""
+        },
+        "SettingsRestore": {
+            "Title": "",
+            "Save": "",
+            "Import": "",
+            "LoadError": "",
+            "NameRequired": "",
+            "SaveSuccess": "",
+            "ImportSuccess": "",
+            "ImportFailed": "",
+            "RestoreSuccess": "",
+            "RestoreFailed": "",
+            "ExportSuccess": "",
+            "ExportFailed": "",
+            "DeleteSuccess": "",
+            "NameSheet": {
+                "Title": "",
+                "Content": ""
+            },
+            "DeleteDialog": {
+                "Title": "",
+                "Content": "",
+                "Cancel": "",
+                "Confirm": ""
+            },
+            "OptionsDialog": {
+                "Title": "",
+                "Export": "",
+                "FilePickerTitle": "",
+                "Delete": ""
+            },
+            "ImportSettings": {
+                "Title": "",
+                "Content": "",
+                "Cancel": "",
+                "Import": "",
+                "InvalidVersion": ""
+            },
+            "SaveDialog": {
+                "Title": "",
+                "Content": "",
+                "HintText": "",
+                "Cancel": "",
+                "Save": ""
+            }
+        },
+        "FontSettings": {
+            "Title": "",
+            "AddFont": "",
+            "BuiltIn": "",
+            "Custom": "",
+            "EditFamilyTooltip": {
+                "BuiltIn": "",
+                "Custom": ""
+            },
+            "EditVariantTooltip": {
+                "BuiltIn": "",
+                "Custom": ""
+            },
+            "MoveVariantTooltip": {
+                "BuiltIn": "",
+                "Custom": ""
+            },
+            "DeleteVariantTooltip": {
+                "BuiltIn": "",
+                "Custom": ""
+            },
+            "MoveFontDialog": {
+                "Title": ""
+            },
+            "EditFontDialog": {
+                "Title": "",
+                "SetFontFamilyName": "",
+                "Cancel": "",
+                "Save": "",
+                "Warning": "",
+                "SetFontVariantWeight": "",
+                "SetFontItalics": ""
+            }
+        }
+    },
+    "PrompterScreen": {
+        "speed": "",
+        "fontsize": "",
+        "IconButton_Save": "",
+        "IconButton_DisplaySettings": "",
+        "IconButton_DecreaseSpeed": "",
+        "IconButton_TogglePlayPause": "",
+        "IconButton_IncreaseSpeed": "",
+        "IconButton_TextFormat": "",
+        "IconButton_Settings": "",
+        "SimpleDialog_TextFormat": {
+            "title": "",
+            "fontsize": "",
+            "IconButton_TextIncrease": "",
+            "IconButton_TextDecrease": "",
+            "IconButton_Left": "",
+            "IconButton_Center": "",
+            "IconButton_Right": "",
+            "IconButton_Justified": ""
+        },
+        "SimpleDialog_DisplaySettings": {
+            "title": "",
+            "IconButton_FlipX": "",
+            "IconButton_FlipY": "",
+            "IconButton_Markdown": "",
+            "IconButton_ReadingIndicatorBoxes": "",
+            "IconButton_VerticalMarginBoxes": "",
+            "IconButton_FadeEnabled": "",
+            "IconButton_ShowCurrentChapter": "",
+            "Slider_SideMargin": "",
+            "Slider_Countdown": ""
+        }
+    },
+    "OpenFileScreen": {
+        "title": "",
+        "if_empty": "",
+        "ElevatedButton_Select": "",
+        "ListTile_Delete": ""
+    },
+    "HelpRequestScreen": {
+        "Title": "",
+        "Abstract": "",
+        "ElaborateExplanation": "",
+        "ReadMore": "",
+        "Continue": ""
+    },
+    "BuyProScreen": {
+        "Title": "",
+        "Back": "",
+        "RestorePurchases": "",
+        "BuyPro": "",
+        "BuyRequest": {
+            "Generic": "",
+            "appLanguage": "",
+            "appTheme": "",
+            "primaryAppColor": "",
+            "textSettings": "",
+            "displaySettings": "",
+            "scrollSpeed": "",
+            "flipX": "",
+            "flipY": "",
+            "readingIndicatorBoxes": "",
+            "verticalMargins": "",
+            "verticalMarginFade": "",
+            "sideMargins": "",
+            "countdownTimer": "",
+            "prompterBackgroundColor": "",
+            "prompterTextColor": "",
+            "fontSize": "",
+            "textAlignment": "",
+            "fontFamily": "",
+            "keybindings": "",
+            "playPause": "",
+            "markdown": "",
+            "settingsRestore": "",
+            "controlButtons": "",
+            "showHelpRequest": "",
+            "ephemeralScript": "",
+            "currentChapter": "",
+            "MainBlock": ""
+        }
+    },
+    "NoPurchaseAvailable": {
+        "Title": "",
+        "Back": "",
+        "MainBody": ""
+    }
+}
