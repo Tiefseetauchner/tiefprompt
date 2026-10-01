@@ -71,7 +71,7 @@ harnessAfterAll(Device? device) {
   return (binding, ref, harnessName) async {
     await ref
         .read(screenshotManagerStateProvider)!
-        .uploadScreenshots("Marketing/$harnessName/${device?.name}/");
+        .uploadScreenshots("Marketing/$harnessName/${device?.name ?? ""}/");
     ref.read(screenshotManagerStateProvider)!.clear();
   };
 }
