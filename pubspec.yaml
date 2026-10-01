@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  bidi: ^2.0.0
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^3.4.3
   shared_preferences: ^2.5.1

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tiefprompt/core/fonts.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/fonts_provider.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -114,6 +115,26 @@ class TextSettingsScreen extends ConsumerWidget {
                   "SettingsScreen.LinkAppSetting_CustomFonts",
                 ),
                 value: "/settings/text/fonts",
+              ),
+              DropdownAppSetting<TextDirectionMode>(
+                feature: Feature.textDirectionMode,
+                value: prompterConfig.textDirectionMode,
+                displayText: context.tr(
+                  "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+                ),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setTextDirectionMode(updatedValue),
+                values: TextDirectionMode.values
+                    .map(
+                      (e) => (
+                        context.tr(
+                          "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode_Unit.${e.toString().split('.').last}",
+                        ),
+                        e,
+                      ),
+                    )
+                    .toList(),
               ),
               BooleanAppSetting(
                 key: const Key("TextSettingsScreen.BooleanAppSetting_Markdown"),

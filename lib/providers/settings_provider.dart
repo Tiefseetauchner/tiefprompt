@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/json_converters.dart';
@@ -56,6 +57,7 @@ abstract class ISettings {
   Future<void> setControlButtonsPosition(ControlButtonsPosition position);
   Future<void> setKeybindings(int mapId);
   Future<void> setShowCurrentChapter(bool value);
+  Future<void> setTextDirectionMode(TextDirectionMode textDirectionMode);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -173,6 +175,10 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setShowCurrentChapter(bool value) =>
       _mutateConfig((c) => c.copyWith(showCurrentChapter: value));
+
+  @override
+  Future<void> setTextDirectionMode(TextDirectionMode textDirectionMode) =>
+      _mutateConfig((c) => c.copyWith(textDirectionMode: textDirectionMode));
 
   @override
   Future<void> setThemeMode(ThemeMode themeMode) =>

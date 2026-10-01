@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/json_converters.dart';
@@ -32,6 +33,7 @@ abstract class PrompterConfiguration with _$PrompterConfiguration {
     @Default(ControlButtonsPosition.left)
     ControlButtonsPosition controlButtonsPosition,
     @Default(false) bool showCurrentChapter,
+    @Default(TextDirectionMode.auto) TextDirectionMode textDirectionMode,
   }) = _PrompterConfiguration;
 
   factory PrompterConfiguration.fromJson(Map<String, dynamic> json) =>
