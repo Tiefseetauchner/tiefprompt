@@ -142,6 +142,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               offset: ref.watch(controlsVisibleProvider)
                   ? EdgeInsets.fromLTRB(0, 64, 0, 0)
                   : EdgeInsets.all(0),
+              scrollableTextController: _scrollableTextController,
             ),
             if ((!ref.watch(controlsVisibleProvider) ||
                     (prompterConfig.controlButtonsPosition ==

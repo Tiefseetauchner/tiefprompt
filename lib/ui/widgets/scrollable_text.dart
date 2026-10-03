@@ -161,7 +161,17 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       }
     }
 
-    ref.read(currentChapterProvider.notifier).setValue(current);
+    if (current == null) {
+      ref.read(currentChapterProvider.notifier).clearChapter();
+      return;
+    }
+
+    ref
+        .read(currentChapterProvider.notifier)
+        .setChapter(
+          current,
+          _chapterOffsets.lastWhere((c) => c.offset <= offset).offset,
+        );
   }
 
   void _tick(Duration elapsed) {
@@ -240,7 +250,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
 
     if (!markdownEnabled || !showCurrentChapter) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(currentChapterProvider.notifier).setValue(null);
+        ref.read(currentChapterProvider.notifier).clearChapter();
       });
     }
 
