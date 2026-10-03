@@ -350,5 +350,13 @@ final KeybindingMap kDefaultKeybindings = KeybindingMap(
       // NOTE: 115 is the KeyId for 's'.
       Keybinding(keyId: 115, ctrl: true),
     ),
+    (
+      KeybindingAction.jumpChapterUp,
+      Keybinding(keyId: LogicalKeyboardKey.comma.keyId),
+    ),
+    (
+      KeybindingAction.jumpChapterDown,
+      Keybinding(keyId: LogicalKeyboardKey.period.keyId),
+    ),
   ]),
 );

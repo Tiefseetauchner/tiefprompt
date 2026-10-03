@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tief_weave/markdown.dart';
+import 'package:tiefprompt/providers/all_chapter_provider.dart';
 import 'package:tiefprompt/providers/current_chapter_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:bidi/bidi.dart' as bidi;
@@ -122,6 +123,9 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
               offset: offset + _topPadding,
             ),
     ];
+
+    ref.read(allChapterProvider.notifier).setChapters(_chapterOffsets);
+
     _updateCurrentChapter();
   }
 

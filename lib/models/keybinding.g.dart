@@ -67,6 +67,8 @@ const _$KeybindingActionEnumMap = {
   KeybindingAction.fontSizeDown: 'fontSizeDown',
   KeybindingAction.openSettings: 'openSettings',
   KeybindingAction.saveSettingsFromPrompter: 'saveSettingsFromPrompter',
+  KeybindingAction.jumpChapterUp: 'jumpChapterUp',
+  KeybindingAction.jumpChapterDown: 'jumpChapterDown',
 };
 
 $Rec _$recordConvert<$Rec>(Object? value, $Rec Function(Map) convert) =>
