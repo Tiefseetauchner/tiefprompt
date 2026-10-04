@@ -80,6 +80,42 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
 
   harness.addScenario(
     Scenario(
+      name: "Text Direction Highlight",
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.byKey(
+              const Key(
+                "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+              ),
+            ),
+          ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Text Direction Open",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.descendant(
+            of: find.byKey(
+              const Key(
+                "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+              ),
+            ),
+            matching: find.byType(DropdownButton<TextAlign>),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
       name: "Font Family Highlight",
       testCallback: (tester, binding) =>
           WidgetHighlighter(

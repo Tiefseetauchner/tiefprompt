@@ -247,6 +247,22 @@ Future<ScenarioHarness> buildSettingsHarness() async {
     ),
   );
 
+  harness.addScenario(
+    Scenario(
+      name: "Use System Colors Highlighted",
+      testCallback: (tester, binding) async {
+        WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key("SettingsScreen.BooleanAppSetting_UseSystemColors"),
+          ),
+        );
+      },
+    ),
+  );
+
   return harness;
 }
 

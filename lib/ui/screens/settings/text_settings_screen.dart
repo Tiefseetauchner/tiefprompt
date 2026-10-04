@@ -117,6 +117,9 @@ class TextSettingsScreen extends ConsumerWidget {
                 value: "/settings/text/fonts",
               ),
               DropdownAppSetting<TextDirectionMode>(
+                key: const Key(
+                  "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+                ),
                 feature: Feature.textDirectionMode,
                 value: prompterConfig.textDirectionMode,
                 displayText: context.tr(

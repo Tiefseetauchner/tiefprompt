@@ -358,6 +358,21 @@ TEXT_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
         ],
     ),
     CollageSpec(
+        output="TextDirection.webp",
+        windows=[
+            WindowSpec(
+                input="text_settings_screen/text_direction_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="text_settings_screen/text_direction_open.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
         output="EnableMarkdown.webp",
         windows=[
             WindowSpec(
