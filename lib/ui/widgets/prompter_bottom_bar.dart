@@ -684,6 +684,37 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                         ),
                       ),
                       _FeatureGate(
+                        feature: Feature.voiceActivation,
+                        displayText: context.tr(
+                          "SettingsScreen.BooleanAppSetting_VoiceActivation",
+                        ),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () => ref
+                                  .read(prompterProvider.notifier)
+                                  .toggleVoiceActivationEnabled(),
+                              isSelected: prompterConfig.voiceActivationEnabled,
+                              icon: Icon(Icons.mic_none_outlined),
+                              tooltip: context.tr(
+                                "SettingsScreen.BooleanAppSetting_VoiceActivation",
+                              ),
+                            ),
+                            Slider(
+                              value: prompterConfig.voiceActivationThreshold,
+                              min: -60,
+                              max: 0,
+                              divisions: 60,
+                              label: prompterConfig.voiceActivationThreshold
+                                  .toStringAsFixed(0),
+                              onChanged: (value) => ref
+                                  .read(prompterProvider.notifier)
+                                  .setVoiceActivationThreshold(value),
+                            ),
+                          ],
+                        ),
+                      ),
+                      _FeatureGate(
                         feature: Feature.controlButtons,
                         displayText: context.tr(
                           "SettingsScreen.BooleanAppSetting_ControlButtons",

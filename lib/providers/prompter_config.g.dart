@@ -45,6 +45,9 @@ _PrompterConfiguration _$PrompterConfigurationFromJson(
         json['textDirectionMode'],
       ) ??
       TextDirectionMode.auto,
+  voiceActivationEnabled: json['voiceActivationEnabled'] as bool? ?? false,
+  voiceActivationThreshold:
+      (json['voiceActivationThreshold'] as num?)?.toDouble() ?? -30.0,
 );
 
 Map<String, dynamic> _$PrompterConfigurationToJson(
@@ -71,6 +74,8 @@ Map<String, dynamic> _$PrompterConfigurationToJson(
   ),
   'showCurrentChapter': instance.showCurrentChapter,
   'textDirectionMode': _$TextDirectionModeEnumMap[instance.textDirectionMode]!,
+  'voiceActivationEnabled': instance.voiceActivationEnabled,
+  'voiceActivationThreshold': instance.voiceActivationThreshold,
 };
 
 const _$TextDirectionModeEnumMap = {

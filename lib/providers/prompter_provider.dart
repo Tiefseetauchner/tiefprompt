@@ -174,4 +174,18 @@ class Prompter extends _$Prompter {
       (config) => config.copyWith(textDirectionMode: textDirectionMode),
     );
   }
+
+  void toggleVoiceActivationEnabled() {
+    _mutateConfig(
+      (config) => config.copyWith(
+        voiceActivationEnabled: !config.voiceActivationEnabled,
+      ),
+    );
+  }
+
+  void setVoiceActivationThreshold(double threshold) {
+    _mutateConfig(
+      (config) => config.copyWith(voiceActivationThreshold: threshold),
+    );
+  }
 }

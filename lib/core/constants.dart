@@ -204,6 +204,7 @@ enum Feature {
   customFonts,
   textDirectionMode,
   useSystemColors,
+  voiceActivation,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -238,6 +239,7 @@ const kAllFeatures = [
   Feature.customFonts,
   Feature.textDirectionMode,
   Feature.useSystemColors,
+  Feature.voiceActivation,
 ];
 
 const kFreeFeatures = [

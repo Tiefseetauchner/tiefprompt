@@ -237,6 +237,39 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "SettingsScreen.NumberAppSetting_CountdownTimer_Unit",
                 ),
               ),
+              BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_VoiceActivation",
+                ),
+                feature: Feature.voiceActivation,
+                value: prompterConfig.voiceActivationEnabled,
+                displayText: context.tr(
+                  "SettingsScreen.BooleanAppSetting_VoiceActivation",
+                ),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setVoiceActivationEnabled(updatedValue),
+              ),
+              NumberAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.NumberAppSetting_VoiceActivationThreshold",
+                ),
+                feature: Feature.voiceActivation,
+                value: prompterConfig.voiceActivationThreshold,
+                displayText: context.tr(
+                  "SettingsScreen.NumberAppSetting_VoiceActivationThreshold",
+                ),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setVoiceActivationThreshold(updatedValue),
+                enabled: prompterConfig.voiceActivationEnabled,
+                min: -60,
+                max: 0,
+                stepSize: 1,
+                unit: context.tr(
+                  "SettingsScreen.NumberAppSetting_VoiceActivationThreshold_Unit",
+                ),
+              ),
               ColorAppSetting(
                 key: const Key(
                   "DisplaySettingsScreen.ColorAppSetting_PrompterBackgroundColor",

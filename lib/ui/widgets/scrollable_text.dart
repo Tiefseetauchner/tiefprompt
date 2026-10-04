@@ -3,9 +3,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/providers/all_chapter_provider.dart';
+import 'package:tiefprompt/providers/banner_provider.dart';
 import 'package:tiefprompt/providers/current_chapter_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:bidi/bidi.dart' as bidi;
+import 'package:tiefprompt/providers/voice_activation_provider.dart';
 
 class _UserScrolling extends Notifier<bool> {
   @override
@@ -214,24 +216,6 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      prompterProvider.select(
-        (p) => (isPlaying: p.isPlaying, speed: p.config.scrollSpeed),
-      ),
-      (previous, next) {
-        if (next.isPlaying) {
-          _startScrolling(next.speed);
-        } else {
-          _stopScrolling();
-        }
-      },
-    );
-
-    final mediaHeight = MediaQuery.of(context).size.height;
-    final mediaWidth = MediaQuery.of(context).size.width;
-    final renderWidth = mediaWidth - widget.sideMargin * 2;
-    _topPadding = mediaHeight;
-
     final (
       :mirroredX,
       :mirroredY,
@@ -239,6 +223,9 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       :showCurrentChapter,
       :alignment,
       :textDirectionMode,
+      :scrollSpeed,
+      :voiceActivationThreshold,
+      :voiceActivationEnabled,
     ) = ref.watch(
       prompterProvider.select(
         (p) => (
@@ -248,9 +235,46 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
           showCurrentChapter: p.config.showCurrentChapter,
           alignment: p.config.alignment,
           textDirectionMode: p.config.textDirectionMode,
+          scrollSpeed: p.config.scrollSpeed,
+          voiceActivationThreshold: p.config.voiceActivationThreshold,
+          voiceActivationEnabled: p.config.voiceActivationEnabled,
         ),
       ),
     );
+
+    ref.listen(prompterProvider.select((p) => p.isPlaying), (previous, next) {
+      if (next) {
+        _startScrolling(scrollSpeed);
+      } else {
+        _stopScrolling();
+      }
+    });
+
+    if (voiceActivationEnabled) {
+      ref.listen(voiceActivationProvider, (previous, next) async {
+        next.when(
+          data: (data) {
+            if (ref.read(prompterProvider).isPlaying && data > -30) {
+              _startScrolling(scrollSpeed);
+            } else {
+              _stopScrolling();
+            }
+          },
+          error: (error, stackTrace) {
+            _stopScrolling();
+            ref
+                .read(bannerMessageProvider.notifier)
+                .set("Failed to activate voice activation");
+          },
+          loading: () {},
+        );
+      });
+    }
+
+    final mediaHeight = MediaQuery.of(context).size.height;
+    final mediaWidth = MediaQuery.of(context).size.width;
+    final renderWidth = mediaWidth - widget.sideMargin * 2;
+    _topPadding = mediaHeight;
 
     if (!markdownEnabled || !showCurrentChapter) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
