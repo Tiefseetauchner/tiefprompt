@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -23,16 +22,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
-    }
-
     defaultConfig {
         applicationId = "io.github.tiefseetauchner.tiefprompt"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders += [appLabel: "TiefPrompt"]
 
         externalNativeBuild {
             cmake {
@@ -64,11 +60,11 @@ android {
         }
         profile {
             applicationIdSuffix '.profile'
-            // resValue "string", "app_name", "Tiefprompt Profile"
+            manifestPlaceholders += [appLabel: "TiefPrompt Profile"]
         }
         debug {
             applicationIdSuffix '.debug'
-            // resValue "string", "app_name", "Tiefprompt Debug"
+            manifestPlaceholders += [appLabel: "TiefPrompt Debug"]
         }
     }
 
@@ -91,6 +87,12 @@ android {
 
             output.versionCodeOverride = flutter.versionCode * 10 + abiCode
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
 
