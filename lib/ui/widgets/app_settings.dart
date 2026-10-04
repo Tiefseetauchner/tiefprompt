@@ -627,6 +627,9 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
     return ListTile(
       title: Text(widget.displayText),
       trailing: const Icon(Icons.chevron_right),
+      subtitle: widget.enabled
+          ? null
+          : Text(context.tr("SettingsScreen.ColorAppSetting_Disabled")),
       onTap: widget.enabled ? () => _showDialog(context) : null,
     );
   }

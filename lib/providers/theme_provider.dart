@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,7 +32,7 @@ class Themes extends _$Themes {
     );
 
     return ThemesState(
-      darkTheme: _shellTheme(
+      darkTheme: createCustomTheme(
         brightness: Brightness.dark,
         primary: appPrimaryColor,
         background: kBrandAbyss,
@@ -40,7 +41,7 @@ class Themes extends _$Themes {
         border: kBrandBorderDark,
         onSurface: kBrandDarkText,
       ),
-      lightTheme: _shellTheme(
+      lightTheme: createCustomTheme(
         brightness: Brightness.light,
         primary: appPrimaryColor,
         background: kBrandLightBackground,
@@ -60,7 +61,7 @@ class Themes extends _$Themes {
   }
 }
 
-ThemeData _shellTheme({
+ThemeData createCustomTheme({
   required Brightness brightness,
   required Color primary,
   required Color background,
@@ -70,6 +71,7 @@ ThemeData _shellTheme({
   required Color onSurface,
 }) {
   final onPrimary = _readableOn(primary);
+  final error = const Color(0xFFE5484D).harmonizeWith(primary);
   final scheme = ColorScheme(
     brightness: brightness,
     primary: primary,
@@ -80,8 +82,8 @@ ThemeData _shellTheme({
     onSurface: onSurface,
     surfaceContainerLowest: background,
     surfaceContainerHighest: surfaceAlt,
-    error: const Color(0xFFE5484D),
-    onError: Colors.white,
+    error: error,
+    onError: _readableOn(error),
     outline: border,
     outlineVariant: border,
   );

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,12 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
     final featureKind = ref.watch(featuresProvider).featureKind;
+
+    final supportsDynamicColors =
+        Platform.isAndroid ||
+        Platform.isMacOS ||
+        Platform.isWindows ||
+        Platform.isLinux;
 
     final title = context.tr("SettingsScreen.title");
 
@@ -90,7 +98,22 @@ class SettingsScreen extends ConsumerWidget {
               onValueChanged: (updatedValue) => ref
                   .read(settingsProvider.notifier)
                   .setAppPrimaryColor(updatedValue),
+              enabled: !value.useSystemColors,
             ),
+            if (supportsDynamicColors)
+              BooleanAppSetting(
+                key: const Key(
+                  "SettingsScreen.BooleanAppSetting_UseSystemColors",
+                ),
+                feature: Feature.useSystemColors,
+                value: value.useSystemColors,
+                displayText: context.tr(
+                  "SettingsScreen.BooleanAppSetting_UseSystemColors",
+                ),
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setUseSystemColors(updatedValue),
+              ),
             LinkAppSetting(
               key: const Key("SettingsScreen.SettingsRestore"),
               displayText: context.tr("SettingsScreen.SettingsRestore.Title"),
@@ -152,9 +175,9 @@ class SettingsScreen extends ConsumerWidget {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.error,
-                          foregroundColor: Theme.of(
-                            context,
-                          ).colorScheme.onError,
+                          foregroundColor: Theme.of(context)
+                              .colorScheme
+                              .onError,
                         ),
                         onPressed: () {
                           ref.read(settingsProvider.notifier).resetSettings();

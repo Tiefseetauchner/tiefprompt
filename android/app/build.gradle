@@ -1,9 +1,9 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
+
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
@@ -13,6 +13,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "io.github.tiefseetauchner.tiefprompt"
+
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "28.2.13676358"
 
@@ -21,16 +22,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
-    }
-
     defaultConfig {
         applicationId = "io.github.tiefseetauchner.tiefprompt"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders += [appLabel: "TiefPrompt"]
 
         externalNativeBuild {
             cmake {
@@ -60,6 +58,14 @@ android {
                 signingConfig signingConfigs.release
             }
         }
+        profile {
+            applicationIdSuffix '.profile'
+            manifestPlaceholders += [appLabel: "TiefPrompt Profile"]
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            manifestPlaceholders += [appLabel: "TiefPrompt Debug"]
+        }
     }
 
     android {
@@ -81,6 +87,12 @@ android {
 
             output.versionCodeOverride = flutter.versionCode * 10 + abiCode
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
 
