@@ -103,6 +103,8 @@
     "ColorAppSetting_AppPrimaryColor": "Primary Application Color",
     "ColorAppSetting_PrompterBackgroundColor": "Prompter Background Color",
     "ColorAppSetting_PrompterTextColor": "Prompter Text Color",
+    "ColorAppSetting_Disabled": "Can't set this color when Use System Colors is enabled",
+    "BooleanAppSetting_UseSystemColors": "Use System Colors",
     "DropdownAppSetting_DefaultTextDirectionMode": "Default Text Direction",
     "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
       "ltr": "Left to Right",

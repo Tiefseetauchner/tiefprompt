@@ -21,6 +21,7 @@ abstract class SettingsState with _$SettingsState {
   factory SettingsState({
     @ThemeModeConverter() @Default(ThemeMode.system) ThemeMode themeMode,
     @ColorConverter() @Default(kBrandTeal) Color appPrimaryColor,
+    @Default(false) bool useSystemColors,
     @ColorConverter() @Default(Colors.black) Color prompterBackgroundColor,
     @ColorConverter() @Default(Colors.white) Color prompterTextColor,
     @Default(0) int keybindingsMapId,
@@ -50,6 +51,7 @@ abstract class ISettings {
   Future<void> setVerticalMarginBoxesFadeLength(double length);
   Future<void> setThemeMode(ThemeMode themeMode);
   Future<void> setAppPrimaryColor(Color color);
+  Future<void> setUseSystemColors(bool value);
   Future<void> setPrompterBackgroundColor(Color color);
   Future<void> setPrompterTextColor(Color color);
   Future<void> setMarkdownEnabled(bool enabled);
@@ -187,6 +189,10 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setAppPrimaryColor(Color color) =>
       _mutate((s) => s.copyWith(appPrimaryColor: color));
+
+  @override
+  Future<void> setUseSystemColors(bool value) =>
+      _mutate((s) => s.copyWith(useSystemColors: value));
 
   @override
   Future<void> setPrompterBackgroundColor(Color color) =>

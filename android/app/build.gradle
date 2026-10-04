@@ -5,6 +5,7 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -13,6 +14,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "io.github.tiefseetauchner.tiefprompt"
+
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "28.2.13676358"
 
@@ -59,6 +61,14 @@ android {
             if (keystorePropertiesFile.exists()) {
                 signingConfig signingConfigs.release
             }
+        }
+        profile {
+            applicationIdSuffix '.profile'
+            // resValue "string", "app_name", "Tiefprompt Profile"
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            // resValue "string", "app_name", "Tiefprompt Debug"
         }
     }
 

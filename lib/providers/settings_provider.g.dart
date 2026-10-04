@@ -16,6 +16,7 @@ _SettingsState _$SettingsStateFromJson(Map<String, dynamic> json) =>
           : const ColorConverter().fromJson(
               (json['appPrimaryColor'] as num).toInt(),
             ),
+      useSystemColors: json['useSystemColors'] as bool? ?? false,
       prompterBackgroundColor: json['prompterBackgroundColor'] == null
           ? Colors.black
           : const ColorConverter().fromJson(
@@ -39,6 +40,7 @@ Map<String, dynamic> _$SettingsStateToJson(
 ) => <String, dynamic>{
   'themeMode': const ThemeModeConverter().toJson(instance.themeMode),
   'appPrimaryColor': const ColorConverter().toJson(instance.appPrimaryColor),
+  'useSystemColors': instance.useSystemColors,
   'prompterBackgroundColor': const ColorConverter().toJson(
     instance.prompterBackgroundColor,
   ),
@@ -80,7 +82,7 @@ final class SettingsProvider
   Settings create() => Settings();
 }
 
-String _$settingsHash() => r'2452f264c68a7a124c98c72b4e8625707818ca9c';
+String _$settingsHash() => r'1584537b2440fe39e8041a851012f609bb4744ed';
 
 abstract class _$Settings extends $AsyncNotifier<SettingsState> {
   FutureOr<SettingsState> build();
