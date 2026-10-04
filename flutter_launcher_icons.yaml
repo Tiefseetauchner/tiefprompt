@@ -1,0 +1,15 @@
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/icon_bg_round_1024x1024.png"
+  adaptive_icon_foreground: "assets/images/icon-foreground-1024x1024.png"
+  adaptive_icon_background: "#0A1822"
+  adaptive_icon_monochrome: "assets/images/icon-monochrome-1024x1024.png"
+  min_sdk_android: 21
+  windows:
+    generate: true
+  macos:
+    generate: true
+  linux:
+    generate: true

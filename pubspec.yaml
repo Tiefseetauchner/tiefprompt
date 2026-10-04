@@ -81,19 +81,6 @@ dev_dependencies:
   msix: ^3.16.12
   json_serializable: ^6.14.0
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  remove_alpha_ios: true
-  image_path: "assets/images/icon-1024x1024.png"
-  min_sdk_android: 21
-  windows:
-    generate: true
-  macos:
-    generate: true
-  linux:
-    generate: true
-
 msix_config:
   display_name: TiefPrompt
   publisher_display_name: Tiefseetauchner
