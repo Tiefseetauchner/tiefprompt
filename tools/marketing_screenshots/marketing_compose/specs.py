@@ -261,6 +261,16 @@ MAIN_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
             ),
         ],
     ),
+    CollageSpec(
+        output="PrimaryColor.webp",
+        windows=[
+            WindowSpec(
+                input="main_settings_screen/use_system_colors_highlighted.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
 ]
 
 SETTINGS_SUBSCREENS_COLLAGES: list[CollageSpec] = [
