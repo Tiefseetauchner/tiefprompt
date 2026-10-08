@@ -7,12 +7,13 @@ import 'marketing_tablet_test.th.dart';
 
 @GenerateHarnessRegistry('Marketing Tablet')
 Future<void> main() async {
-  final harnessRegistry = MarketingTabletHarnessRegistry();
+  MarketingTabletHarnessRegistry harnessRegistry =
+      MarketingTabletHarnessRegistry();
 
   final harnessesFilter = const String.fromEnvironment("HARNESSES");
   if (harnessesFilter.isNotEmpty) {
     final harnessNames = harnessesFilter.split(",");
-    harnessRegistry.onlyNamed(harnessNames.toSet());
+    harnessRegistry = harnessRegistry.onlyNamed(harnessNames.toSet());
   }
 
   final harnesses = await harnessRegistry.build();

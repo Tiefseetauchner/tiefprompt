@@ -21,9 +21,13 @@ final class VoiceActivationProvider
         retry: null,
         name: r'voiceActivationProvider',
         isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
+        dependencies: <ProviderOrFamily>[settingsProvider],
+        $allTransitiveDependencies: <ProviderOrFamily>[
+          VoiceActivationProvider.$allTransitiveDependencies0,
+        ],
       );
+
+  static final $allTransitiveDependencies0 = settingsProvider;
 
   @override
   String debugGetCreateSourceHash() => _$voiceActivationHash();
@@ -33,7 +37,7 @@ final class VoiceActivationProvider
   VoiceActivation create() => VoiceActivation();
 }
 
-String _$voiceActivationHash() => r'5fcff868d5fcdee5be13ca2399fb09d25a1b8b76';
+String _$voiceActivationHash() => r'35b8541c17761512ccd79f61150f33aa3f646dff';
 
 abstract class _$VoiceActivation extends $AsyncNotifier<double> {
   FutureOr<double> build();

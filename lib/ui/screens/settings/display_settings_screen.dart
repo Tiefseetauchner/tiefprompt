@@ -17,35 +17,16 @@ class DisplaySettingsScreen extends ConsumerWidget {
 
     return AsyncSettingsBuilder(
       state: settings,
-      screenTitle: context.tr("SettingsScreen.DisplaySettings"),
+      screenTitle: context.tr("SettingsScreen.DisplaySettings.Title"),
       builder: (ref, value) {
         final prompterConfig = value.config;
 
         return SafeScaffold(
           appBar: AppBar(
-            title: Text(context.tr("SettingsScreen.DisplaySettings")),
+            title: Text(context.tr("SettingsScreen.DisplaySettings.Title")),
           ),
           body: ListView(
             children: [
-              NumberAppSetting(
-                key: const Key(
-                  "DisplaySettingsScreen.NumberAppSetting_ScrollSpeed",
-                ),
-                feature: Feature.scrollSpeed,
-                value: prompterConfig.scrollSpeed,
-                displayText: context.tr(
-                  "SettingsScreen.NumberAppSetting_DefaultScrollSpeed",
-                ),
-                onValueChanged: (updatedValue) => ref
-                    .read(settingsProvider.notifier)
-                    .setScrollSpeed(updatedValue),
-                min: kPrompterMinSpeed,
-                max: kPrompterMaxSpeed,
-                stepSize: .1,
-                unit: context.tr(
-                  "SettingsScreen.NumberAppSetting_DefaultScrollSpeed_Unit",
-                ),
-              ),
               BooleanAppSetting(
                 key: const Key("DisplaySettingsScreen.BooleanAppSetting_FlipX"),
                 feature: Feature.flipX,
@@ -216,58 +197,6 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 max: kPrompterMaxSideMargin,
                 unit: context.tr(
                   "SettingsScreen.NumberAppSetting_SideMargin_Unit",
-                ),
-              ),
-              NumberAppSetting(
-                key: const Key(
-                  "DisplaySettingsScreen.NumberAppSetting_CountdownTimer",
-                ),
-                feature: Feature.countdownTimer,
-                value: prompterConfig.countdownDuration,
-                displayText: context.tr(
-                  "SettingsScreen.NumberAppSetting_CountdownTimer",
-                ),
-                onValueChanged: (updatedValue) => ref
-                    .read(settingsProvider.notifier)
-                    .setCountdownDuration(updatedValue),
-                min: 0,
-                max: 60,
-                stepSize: 1,
-                unit: context.tr(
-                  "SettingsScreen.NumberAppSetting_CountdownTimer_Unit",
-                ),
-              ),
-              BooleanAppSetting(
-                key: const Key(
-                  "DisplaySettingsScreen.BooleanAppSetting_VoiceActivation",
-                ),
-                feature: Feature.voiceActivation,
-                value: prompterConfig.voiceActivationEnabled,
-                displayText: context.tr(
-                  "SettingsScreen.BooleanAppSetting_VoiceActivation",
-                ),
-                onValueChanged: (updatedValue) => ref
-                    .read(settingsProvider.notifier)
-                    .setVoiceActivationEnabled(updatedValue),
-              ),
-              NumberAppSetting(
-                key: const Key(
-                  "DisplaySettingsScreen.NumberAppSetting_VoiceActivationThreshold",
-                ),
-                feature: Feature.voiceActivation,
-                value: prompterConfig.voiceActivationThreshold,
-                displayText: context.tr(
-                  "SettingsScreen.NumberAppSetting_VoiceActivationThreshold",
-                ),
-                onValueChanged: (updatedValue) => ref
-                    .read(settingsProvider.notifier)
-                    .setVoiceActivationThreshold(updatedValue),
-                enabled: prompterConfig.voiceActivationEnabled,
-                min: -60,
-                max: 0,
-                stepSize: 1,
-                unit: context.tr(
-                  "SettingsScreen.NumberAppSetting_VoiceActivationThreshold_Unit",
                 ),
               ),
               ColorAppSetting(

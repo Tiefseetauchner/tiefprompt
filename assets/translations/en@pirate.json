@@ -54,8 +54,6 @@
     },
     "DropdownAppSetting_DefaultLanguage": "'e native tongue",
     "DropdownAppSetting_Theme": "Colors for yer app",
-    "NumberAppSetting_DefaultScrollSpeed": "Yer scroll speed",
-    "NumberAppSetting_DefaultScrollSpeed_Unit": "knots",
     "NumberAppSetting_DefaultFontSize": "Yer letter size",
     "NumberAppSetting_DefaultFontSize_Unit": "thumbnails",
     "DropdownAppSetting_DefaultTextAlignment": "Yer Text riggin'",
@@ -79,8 +77,6 @@
     "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "something like that",
     "NumberAppSetting_SideMargin": "Left 'n right spacing",
     "NumberAppSetting_SideMargin_Unit": "roughly so",
-    "NumberAppSetting_CountdownTimer": "Hourglass",
-    "NumberAppSetting_CountdownTimer_Unit": "ticks",
     "ColorAppSetting_AppPrimaryColor": "Yer boats style",
     "ColorAppSetting_PrompterBackgroundColor": "Yer canvas",
     "ColorAppSetting_PrompterTextColor": "Yer words colors",
@@ -92,7 +88,7 @@
       "right": "Starboard",
       "bottom": "Hind"
     },
-    "DisplaySettings": "Show 'em",
+    "DisplaySettings": { "Title": "Show 'em" },
     "TextSettings": "Read 'em",
     "ListTile_Reset": "Scuttle ship",
     "Reset_Warning": "Yer 'bout'a scuttle all preferences!",
@@ -100,6 +96,13 @@
     "Confirm": "Aye",
     "RestorePurchases": "Regain control",
     "RestorePurchases_Snackbar": "Control 's regained!",
+    "ScrollSettings": {
+      "Title": "Sailin' Settin's",
+      "DefaultScrollSpeed": "Yer scroll speed",
+      "DefaultScrollSpeed_Unit": "knots",
+      "CountdownTimer": "Hourglass",
+      "CountdownTimer_Unit": "ticks"
+    },
     "KeybindingsSettings": {
       "Title": "Settin's for Controls",
       "ChangeBindings": "Change Control Ropes",

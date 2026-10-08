@@ -8,9 +8,10 @@ import 'home_screen/home_screen_harness.dart' as h3;
 import 'settings_screens/keybindings_settings_screen_harness.dart' as h4;
 import 'settings_screens/main_settings_screen_harness.dart' as h5;
 import 'prompter_screen/prompter_screen_harness.dart' as h6;
-import 'select_script_screen/select_script_screen_harness.dart' as h7;
-import 'settings_screens/settings_restore_screen_harness.dart' as h8;
-import 'settings_screens/text_settings_screen_harness.dart' as h9;
+import 'settings_screens/scroll_settings_screen_harness.dart' as h7;
+import 'select_script_screen/select_script_screen_harness.dart' as h8;
+import 'settings_screens/settings_restore_screen_harness.dart' as h9;
+import 'settings_screens/text_settings_screen_harness.dart' as h10;
 
 enum MarketingTabletHarness {
   displaySettingsScreen,
@@ -20,6 +21,7 @@ enum MarketingTabletHarness {
   keybindingsSettingsScreen,
   mainSettingsScreen,
   prompterScreenNarrow,
+  scrollSettingsScreen,
   selectScriptScreen,
   settingsRestoreScreen,
   textSettingsScreen;
@@ -32,6 +34,7 @@ enum MarketingTabletHarness {
     MarketingTabletHarness.keybindingsSettingsScreen => 'Keybindings Settings Screen',
     MarketingTabletHarness.mainSettingsScreen => 'Main Settings Screen',
     MarketingTabletHarness.prompterScreenNarrow => 'Prompter Screen Narrow',
+    MarketingTabletHarness.scrollSettingsScreen => 'Scroll Settings Screen',
     MarketingTabletHarness.selectScriptScreen => 'Select Script Screen',
     MarketingTabletHarness.settingsRestoreScreen => 'Settings Restore Screen',
     MarketingTabletHarness.textSettingsScreen => 'Text Settings Screen',
@@ -62,9 +65,10 @@ class MarketingTabletHarnessRegistry {
     MarketingTabletHarness.keybindingsSettingsScreen: h4.buildKeybindingsSettingsHarness,
     MarketingTabletHarness.mainSettingsScreen: h5.buildSettingsHarness,
     MarketingTabletHarness.prompterScreenNarrow: h6.buildPrompterScreenNarrowHarness,
-    MarketingTabletHarness.selectScriptScreen: h7.buildSelectScriptScreenHarness,
-    MarketingTabletHarness.settingsRestoreScreen: h8.buildSettingsRestoreHarness,
-    MarketingTabletHarness.textSettingsScreen: h9.buildTextSettingsHarness,
+    MarketingTabletHarness.scrollSettingsScreen: h7.buildScrollSettingsHarness,
+    MarketingTabletHarness.selectScriptScreen: h8.buildSelectScriptScreenHarness,
+    MarketingTabletHarness.settingsRestoreScreen: h9.buildSettingsRestoreHarness,
+    MarketingTabletHarness.textSettingsScreen: h10.buildTextSettingsHarness,
   };
 
   /// Restricts a subsequent [build] to just [harnesses].

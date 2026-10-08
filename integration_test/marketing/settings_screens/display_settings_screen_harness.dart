@@ -22,20 +22,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   harness.addScenario(Scenario(name: "Light Theme"));
 
   harness.addScenario(
-    _highlightScenario(
-      "Scroll Speed Highlight",
-      const Key("DisplaySettingsScreen.NumberAppSetting_ScrollSpeed"),
-    ),
-  );
-
-  harness.addScenario(
-    _tapScenario(
-      "Scroll Speed Dialog",
-      const Key("DisplaySettingsScreen.NumberAppSetting_ScrollSpeed"),
-    ),
-  );
-
-  harness.addScenario(
     Scenario(
       name: "Flip Highlight",
       testCallback: (tester, binding) =>
@@ -175,22 +161,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
     _tapScenario(
       "Side Margin Dialog",
       const Key("DisplaySettingsScreen.NumberAppSetting_SideMargin"),
-      scrollToBottom: true,
-    ),
-  );
-
-  harness.addScenario(
-    _highlightScenario(
-      "Countdown Timer Highlight",
-      const Key("DisplaySettingsScreen.NumberAppSetting_CountdownTimer"),
-      scrollToBottom: true,
-    ),
-  );
-
-  harness.addScenario(
-    _tapScenario(
-      "Countdown Timer Dialog",
-      const Key("DisplaySettingsScreen.NumberAppSetting_CountdownTimer"),
       scrollToBottom: true,
     ),
   );

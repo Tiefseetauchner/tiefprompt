@@ -62,6 +62,7 @@ abstract class ISettings {
   Future<void> setTextDirectionMode(TextDirectionMode textDirectionMode);
   Future<void> setVoiceActivationEnabled(bool enabled);
   Future<void> setVoiceActivationThreshold(double threshold);
+  Future<void> setVoiceActivationDevice(String deviceId);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -211,6 +212,10 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setVoiceActivationThreshold(double threshold) =>
       _mutateConfig((c) => c.copyWith(voiceActivationThreshold: threshold));
+
+  @override
+  Future<void> setVoiceActivationDevice(String deviceId) =>
+      _mutateConfig((c) => c.copyWith(voiceActivationDevice: deviceId));
 
   @override
   Future<void> setKeybindings(int mapId) =>

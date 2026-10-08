@@ -184,6 +184,16 @@ Future<ScenarioHarness> buildSettingsHarness() async {
 
   harness.addScenario(
     Scenario(
+      name: "Scroll Settings Highlight",
+      testCallback: (tester, binding) => WidgetHighlighter(
+        tester,
+        defaultHighlightColor: kMarketingHighlightColor,
+      ).highlightWidget(find.byKey(const Key("SettingsScreen.ScrollSettings"))),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
       name: "Keybindings Highlight",
       testCallback: (tester, binding) =>
           WidgetHighlighter(

@@ -660,7 +660,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                       _FeatureGate(
                         feature: Feature.countdownTimer,
                         displayText: context.tr(
-                          "SettingsScreen.NumberAppSetting_CountdownTimer",
+                          "SettingsScreen.ScrollSettings.CountdownTimer",
                         ),
                         child: Row(
                           children: [
@@ -686,7 +686,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                       _FeatureGate(
                         feature: Feature.voiceActivation,
                         displayText: context.tr(
-                          "SettingsScreen.BooleanAppSetting_VoiceActivation",
+                          "SettingsScreen.ScrollSettings.VoiceActivation",
                         ),
                         child: Row(
                           children: [
@@ -697,7 +697,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               isSelected: prompterConfig.voiceActivationEnabled,
                               icon: Icon(Icons.mic_none_outlined),
                               tooltip: context.tr(
-                                "SettingsScreen.BooleanAppSetting_VoiceActivation",
+                                "SettingsScreen.ScrollSettings.VoiceActivation",
                               ),
                             ),
                             Slider(
