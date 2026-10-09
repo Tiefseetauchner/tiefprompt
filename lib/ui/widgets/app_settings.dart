@@ -666,10 +666,7 @@ class DialogAppSetting extends AppSetting {
           ? () => onTap == null ? _showDialog(context) : onTap!(context, ref)
           : null,
       callback: callback,
-      child: ListTile(
-        title: Text(displayText),
-        enabled: enabled,
-      ),
+      child: ListTile(title: Text(displayText), enabled: enabled),
     );
   }
 

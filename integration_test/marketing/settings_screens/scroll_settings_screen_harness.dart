@@ -16,11 +16,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
     appContent: const ScrollSettingsScreen(),
   );
 
-  harness.addScenario(
-    Scenario(
-      name: "Light Theme",
-    ),
-  );
+  harness.addScenario(Scenario(name: "Light Theme"));
 
   harness.addScenario(
     Scenario(
@@ -30,7 +26,9 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
           tester,
           defaultHighlightColor: kMarketingHighlightColor,
         ).highlightWidget(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.DefaultScrollSpeed")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.DefaultScrollSpeed"),
+          ),
         );
       },
     ),
@@ -41,7 +39,9 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Scroll Speed Dialog",
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.DefaultScrollSpeed")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.DefaultScrollSpeed"),
+          ),
         );
         await tester.pumpAndSettle();
       },
@@ -81,17 +81,22 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
         overrides: [
           voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
         ],
-        child: child),
+        child: child,
+      ),
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation"))
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
         await tester.pumpAndSettle();
         await WidgetHighlighter(
           tester,
           defaultHighlightColor: kMarketingHighlightColor,
         ).highlightWidget(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
       },
     ),
@@ -104,17 +109,22 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
         overrides: [
           voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
         ],
-        child: child),
+        child: child,
+      ),
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation"))
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
         await tester.pumpAndSettle();
         await WidgetHighlighter(
           tester,
           defaultHighlightColor: kMarketingHighlightColor,
         ).highlightWidget(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivationThreshold")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivationThreshold"),
+          ),
         );
       },
     ),
@@ -127,14 +137,19 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
         overrides: [
           voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
         ],
-        child: child),
+        child: child,
+      ),
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation"))
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
         await tester.pumpAndSettle();
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivationThreshold")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivationThreshold"),
+          ),
         );
         await tester.pumpAndSettle();
       },
@@ -148,17 +163,22 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
         overrides: [
           voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
         ],
-        child: child),
+        child: child,
+      ),
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation"))
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
         await tester.pumpAndSettle();
         await WidgetHighlighter(
           tester,
           defaultHighlightColor: kMarketingHighlightColor,
         ).highlightWidget(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivationDevices")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivationDevices"),
+          ),
         );
       },
     ),
@@ -171,10 +191,13 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
         overrides: [
           voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
         ],
-        child: child),
+        child: child,
+      ),
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation"))
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
         await tester.pumpAndSettle();
         await tester.tap(
@@ -197,14 +220,19 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
         overrides: [
           voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
         ],
-        child: child),
+        child: child,
+      ),
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation"))
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
         await tester.pumpAndSettle();
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivationPreview")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivationPreview"),
+          ),
         );
         await tester.pumpAndSettle();
 
@@ -212,7 +240,9 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
           tester,
           defaultHighlightColor: kMarketingHighlightColor,
         ).highlightWidget(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivationPreview")),
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivationPreview"),
+          ),
         );
       },
     ),
@@ -225,10 +255,13 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
         overrides: [
           voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
         ],
-        child: child),
+        child: child,
+      ),
       testCallback: (tester, binding) async {
         await tester.tap(
-          find.byKey(const Key("SettingsScreen.ScrollSettings.VoiceActivation"))
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
         );
         await tester.pumpAndSettle();
       },
