@@ -306,26 +306,26 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
           _gatedKeybinding(Feature.keybindings, () {
             final currentOffset =
                 _scrollableTextController.scrollController.offset;
-            final targetChapter = ref
-                .read(allChapterProvider)
-                .lastWhere(
-                  (c) => c.offset < currentOffset,
-                  orElse: () => ref.read(allChapterProvider).first,
-                );
-            _scrollableTextController.jumpTo(targetChapter.offset);
+            final chapters = ref.read(allChapterProvider);
+            final targetChapter =
+                chapters.where((c) => c.offset < currentOffset).lastOrNull ??
+                chapters.firstOrNull;
+            if (targetChapter != null) {
+              _scrollableTextController.jumpTo(targetChapter.offset);
+            }
           });
           break;
         case KeybindingAction.jumpChapterDown:
           _gatedKeybinding(Feature.keybindings, () {
             final currentOffset =
                 _scrollableTextController.scrollController.offset;
-            final targetChapter = ref
-                .read(allChapterProvider)
-                .firstWhere(
-                  (c) => c.offset > currentOffset,
-                  orElse: () => ref.read(allChapterProvider).last,
-                );
-            _scrollableTextController.jumpTo(targetChapter.offset);
+            final chapters = ref.read(allChapterProvider);
+            final targetChapter =
+                chapters.where((c) => c.offset > currentOffset).firstOrNull ??
+                chapters.lastOrNull;
+            if (targetChapter != null) {
+              _scrollableTextController.jumpTo(targetChapter.offset);
+            }
           });
           break;
       }

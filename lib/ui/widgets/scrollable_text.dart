@@ -69,7 +69,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   MarkdownAst _ast = const MarkdownAst.empty();
   final MarkdownRendererController _markdownController =
       MarkdownRendererController();
-  List<({String title, double offset})> _chapterOffsets = [];
+  List<Chapter> _chapterOffsets = [];
   double _topPadding = 0;
 
   void _startScrolling(double speed) {
@@ -120,7 +120,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       for (var i = 0; i < blocks.length; i++)
         if (blocks[i] case final Heading heading)
           if (_markdownController.offsetOf(i) case final double offset)
-            (
+            Chapter(
               title: _inlinesToText(heading.inlines),
               offset: offset + _topPadding,
             ),
@@ -242,22 +242,29 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
       ),
     );
 
-    ref.listen(prompterProvider.select((p) => p.isPlaying), (previous, next) {
-      if (next) {
-        _startScrolling(scrollSpeed);
-      } else {
-        _stopScrolling();
-      }
-    });
+    ref.listen(
+      prompterProvider.select((p) => (p.isPlaying, p.config.scrollSpeed)),
+      (previous, next) {
+        final (isPlaying, currentScrollSpeed) = next;
+        if (isPlaying) {
+          _startScrolling(currentScrollSpeed);
+        } else {
+          _stopScrolling();
+        }
+      },
+    );
 
     if (voiceActivationEnabled) {
       ref.listen(voiceActivationProvider, (previous, next) async {
         next.when(
           data: (data) {
-            if (ref.read(prompterProvider).isPlaying && data > -30) {
-              _startScrolling(scrollSpeed);
-            } else {
+            final previousValue = previous?.whenOrNull() ?? -100.0;
+            if (data <= voiceActivationThreshold) {
               _stopScrolling();
+            } else if (ref.read(prompterProvider).isPlaying &&
+                previousValue <= voiceActivationThreshold &&
+                data > voiceActivationThreshold) {
+              _startScrolling(scrollSpeed);
             }
           },
           error: (error, stackTrace) {

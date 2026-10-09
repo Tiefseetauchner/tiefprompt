@@ -1,6 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:record/record.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/providers/banner_provider.dart';
+import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/providers/talker_provider.dart';
 
@@ -8,9 +10,12 @@ part 'voice_activation_provider.g.dart';
 
 @Riverpod(keepAlive: true, dependencies: [Settings])
 class VoiceActivation extends _$VoiceActivation {
+  AudioRecorder? _audioRecorder;
+
   @override
   Future<double> build() async {
     final logger = ref.read(talkerProvider);
+
     final (
       :voiceActivationEnabled,
       :voiceActivationThreshold,
@@ -25,11 +30,15 @@ class VoiceActivation extends _$VoiceActivation {
       ),
     );
 
-    logger.debug(
-      "Voice activation build with voiceActivationEnabled: $voiceActivationEnabled, voiceActivationThreshold: $voiceActivationThreshold, voiceActivationDevice: $voiceActivationDevice",
+    final voiceActivationEnabledFromPrompter = ref.watch(
+      prompterProvider.select((s) => s.config.voiceActivationEnabled),
     );
+    final voiceActivationEnabledEffective =
+        voiceActivationEnabled || voiceActivationEnabledFromPrompter;
 
-    if (!voiceActivationEnabled) {
+    if (!voiceActivationEnabledEffective) {
+      _audioRecorder?.dispose();
+      _audioRecorder = null;
       return -100.0;
     }
 
@@ -37,12 +46,19 @@ class VoiceActivation extends _$VoiceActivation {
       ref
           .read(bannerMessageProvider.notifier)
           .set("Audio recording permission denied");
-      return 0.0;
+      return -100.0;
     }
 
-    AudioRecorder audioRecorder = AudioRecorder();
+    _audioRecorder = AudioRecorder();
 
-    final availableDevices = await audioRecorder.listInputDevices();
+    if (_audioRecorder == null) {
+      ref
+          .read(bannerMessageProvider.notifier)
+          .set("Failed to initialize audio recorder");
+      return -100.0;
+    }
+
+    final availableDevices = await _audioRecorder!.listInputDevices();
 
     final selectedDevice =
         voiceActivationDevice == "default" ||
@@ -52,16 +68,16 @@ class VoiceActivation extends _$VoiceActivation {
         ? null
         : availableDevices.firstWhere((d) => d.id == voiceActivationDevice);
 
-    final _ = (await audioRecorder.startStream(
+    final _ = (await _audioRecorder!.startStream(
       RecordConfig(encoder: AudioEncoder.pcm16bits, device: selectedDevice),
     ));
 
-    audioRecorder.onAmplitudeChanged(Duration(milliseconds: 200)).listen((
+    _audioRecorder!.onAmplitudeChanged(Duration(milliseconds: 200)).listen((
       data,
     ) {
       state = AsyncValue.data(data.current);
     });
 
-    return 0.0;
+    return -100.0;
   }
 }

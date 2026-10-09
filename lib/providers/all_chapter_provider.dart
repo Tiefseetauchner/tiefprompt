@@ -2,14 +2,21 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'all_chapter_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+class Chapter {
+  final String title;
+  final double offset;
+
+  Chapter({required this.title, required this.offset});
+}
+
+@riverpod
 class AllChapter extends _$AllChapter {
   @override
-  List<({String title, double offset})> build() {
+  List<Chapter> build() {
     return [];
   }
 
-  void setChapters(List<({String title, double offset})> chapters) {
+  void setChapters(List<Chapter> chapters) {
     state = chapters;
   }
 }
