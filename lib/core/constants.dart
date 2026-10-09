@@ -23,6 +23,7 @@ const String kDonationUrl = "https://tiefprompt.com/donate";
 const String kNewScriptName = "New Script";
 
 const Color kBrandTeal = Color(0xFF1FB6B6);
+const Color kBrandCoral = Color(0xFFFF7A59);
 const Color kBrandAbyss = Color(0xFF0A1822);
 const Color kBrandAbyssSurface = Color(0xFF10222E);
 const Color kBrandAbyssSurfaceAlt = Color(0xFF0D1D27);

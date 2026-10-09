@@ -67,6 +67,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.DropdownAppSetting_ControlButtonsPosition",
                 ),
                 feature: Feature.controlButtons,
+                enabled: prompterConfig.showControlButtons,
                 displayText: context.tr(
                   "SettingsScreen.DropdownAppSetting_ControlButtonPosition.Label",
                 ),
@@ -103,6 +104,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.NumberAppSetting_ReadingIndicatorsHeight",
                 ),
                 feature: Feature.readingIndicatorBoxes,
+                enabled: prompterConfig.displayReadingIndicatorBoxes,
                 value: prompterConfig.readingIndicatorBoxesHeight,
                 displayText: context.tr(
                   "SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes",
@@ -135,6 +137,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.NumberAppSetting_VerticalMarginsHeight",
                 ),
                 feature: Feature.verticalMargins,
+                enabled: prompterConfig.displayVerticalMarginBoxes,
                 value: prompterConfig.verticalMarginBoxesHeight,
                 displayText: context.tr(
                   "SettingsScreen.NumberAppSetting_VerticalMarginBoxes",
@@ -167,6 +170,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.NumberAppSetting_FadeLength",
                 ),
                 feature: Feature.verticalMarginFade,
+                enabled: prompterConfig.verticalMarginBoxesFadeEnabled,
                 value: prompterConfig.verticalMarginBoxesFadeLength,
                 displayText: context.tr(
                   "SettingsScreen.NumberAppSetting_VerticalMarginBoxes_FadeLength",

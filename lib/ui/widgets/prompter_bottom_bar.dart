@@ -408,10 +408,7 @@ class _FontSettingsDialog extends ConsumerWidget {
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
-        ),
+        body: SpinKitRing(color: Theme.of(context).colorScheme.primary),
       ),
       _ => const ResetSettingsView(),
     };
@@ -764,10 +761,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
-        ),
+        body: SpinKitRing(color: Theme.of(context).colorScheme.primary),
       ),
       _ => const ResetSettingsView(),
     };

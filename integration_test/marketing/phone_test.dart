@@ -7,12 +7,13 @@ import 'phone_test.th.dart';
 
 @GenerateHarnessRegistry('Marketing Metadata')
 Future<void> main() async {
-  final harnessRegistry = MarketingMetadataHarnessRegistry();
+  MarketingMetadataHarnessRegistry harnessRegistry =
+      MarketingMetadataHarnessRegistry();
 
   final harnessesFilter = const String.fromEnvironment("HARNESSES");
   if (harnessesFilter.isNotEmpty) {
     final harnessNames = harnessesFilter.split(",");
-    harnessRegistry.onlyNamed(harnessNames.toSet());
+    harnessRegistry = harnessRegistry.onlyNamed(harnessNames.toSet());
   }
 
   final harnesses = await harnessRegistry.build();
@@ -26,6 +27,7 @@ Future<void> main() async {
   await harnessRunner.run(
     setUp: (binding, ref) async {
       await EasyLocalization.ensureInitialized();
+
       ref
           .read(screenshotManagerStateProvider.notifier)
           .initialize(serverIp, 3824);

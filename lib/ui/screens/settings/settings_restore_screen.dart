@@ -67,7 +67,9 @@ class _SettingsRestoreView extends ConsumerWidget {
           }
 
           if (!snapshot.hasData) {
-            return Center(child: SpinKitRing(color: settings.appPrimaryColor));
+            return Center(
+              child: SpinKitRing(color: Theme.of(context).colorScheme.primary),
+            );
           }
 
           return ListView(

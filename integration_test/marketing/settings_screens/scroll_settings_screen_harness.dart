@@ -79,7 +79,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Voice Activation Highlight",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-100)),
         ],
         child: child,
       ),
@@ -107,7 +107,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Voice Activation Sensitivity Highlight",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-100)),
         ],
         child: child,
       ),
@@ -135,7 +135,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Voice Activation Sensitivity Dialog",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-100)),
         ],
         child: child,
       ),
@@ -161,7 +161,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Audio Device Dropdown Highlight",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-100)),
         ],
         child: child,
       ),
@@ -189,7 +189,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Audio Device Dropdown Dialog",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-100)),
         ],
         child: child,
       ),
@@ -218,7 +218,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Preview Voice Activation Highlight",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-100)),
         ],
         child: child,
       ),
@@ -253,7 +253,7 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
       name: "Preview Voice Activation Active",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
-          voiceActivationProvider.overrideWith(() => VoiceActivationFake()),
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-22)),
         ],
         child: child,
       ),

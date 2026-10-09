@@ -171,6 +171,7 @@ class BooleanAppSetting extends AppSetting {
   Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
+      enabled: enabled,
       trailing: Switch(
         value: value,
         onChanged: enabled ? onValueChanged : null,

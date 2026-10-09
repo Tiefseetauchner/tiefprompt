@@ -87,6 +87,7 @@ getLocaleSetter<T extends Widget>(Locale locale) {
   ) async {
     final context = tester.element(find.byType(T));
     await context.setLocale(locale);
+    await tester.pumpAndSettle();
   };
 }
 

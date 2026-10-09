@@ -40,18 +40,47 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Control Buttons Enable Highlight",
-      const Key("DisplaySettingsScreen.BooleanAppSetting_ControlButtonsEnable"),
+    Scenario(
+      name: "Control Buttons Enable Highlight",
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_ControlButtonsEnable",
+            ),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Control Buttons Position Highlight",
-      const Key(
-        "DisplaySettingsScreen.DropdownAppSetting_ControlButtonsPosition",
-      ),
+    Scenario(
+      name: "Control Buttons Position Highlight",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_ControlButtonsEnable",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.DropdownAppSetting_ControlButtonsPosition",
+            ),
+          ),
+        );
+      },
     ),
   );
 
@@ -59,6 +88,15 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
     Scenario(
       name: "Control Buttons Position Open",
       testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_ControlButtonsEnable",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
         await tester.tap(
           find.descendant(
             of: find.byKey(
@@ -75,103 +113,250 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Reading Indicators Highlight",
-      const Key("DisplaySettingsScreen.BooleanAppSetting_ReadingIndicators"),
+    Scenario(
+      name: "Reading Indicators Highlight",
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_ReadingIndicators",
+            ),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Reading Indicators Height Highlight",
-      const Key(
-        "DisplaySettingsScreen.NumberAppSetting_ReadingIndicatorsHeight",
-      ),
+    Scenario(
+      name: "Reading Indicators Height Highlight",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_ReadingIndicators",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.NumberAppSetting_ReadingIndicatorsHeight",
+            ),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _tapScenario(
-      "Reading Indicators Height Dialog",
-      const Key(
-        "DisplaySettingsScreen.NumberAppSetting_ReadingIndicatorsHeight",
-      ),
+    Scenario(
+      name: "Reading Indicators Height Dialog",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_ReadingIndicators",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.NumberAppSetting_ReadingIndicatorsHeight",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Vertical Margins Enable Highlight",
-      const Key(
-        "DisplaySettingsScreen.BooleanAppSetting_VerticalMarginsEnable",
-      ),
-      scrollToBottom: true,
+    Scenario(
+      name: "Vertical Margins Enable Highlight",
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_VerticalMarginsEnable",
+            ),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Vertical Margins Height Highlight",
-      const Key("DisplaySettingsScreen.NumberAppSetting_VerticalMarginsHeight"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Vertical Margins Height Highlight",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_VerticalMarginsEnable",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.NumberAppSetting_VerticalMarginsHeight",
+            ),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _tapScenario(
-      "Vertical Margins Height Dialog",
-      const Key("DisplaySettingsScreen.NumberAppSetting_VerticalMarginsHeight"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Vertical Margins Height Dialog",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.BooleanAppSetting_VerticalMarginsEnable",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.NumberAppSetting_VerticalMarginsHeight",
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Fade Enable Highlight",
-      const Key("DisplaySettingsScreen.BooleanAppSetting_FadeEnable"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Fade Enable Highlight",
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key("DisplaySettingsScreen.BooleanAppSetting_FadeEnable"),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Fade Length Highlight",
-      const Key("DisplaySettingsScreen.NumberAppSetting_FadeLength"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Fade Length Highlight",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key("DisplaySettingsScreen.BooleanAppSetting_FadeEnable"),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key("DisplaySettingsScreen.NumberAppSetting_FadeLength"),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _tapScenario(
-      "Fade Length Dialog",
-      const Key("DisplaySettingsScreen.NumberAppSetting_FadeLength"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Fade Length Dialog",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key("DisplaySettingsScreen.BooleanAppSetting_FadeEnable"),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.byKey(
+            const Key("DisplaySettingsScreen.NumberAppSetting_FadeLength"),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Side Margin Highlight",
-      const Key("DisplaySettingsScreen.NumberAppSetting_SideMargin"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Side Margin Highlight",
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key("DisplaySettingsScreen.NumberAppSetting_SideMargin"),
+          ),
+        );
+      },
     ),
   );
 
   harness.addScenario(
-    _tapScenario(
-      "Side Margin Dialog",
-      const Key("DisplaySettingsScreen.NumberAppSetting_SideMargin"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Side Margin Dialog",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key("DisplaySettingsScreen.NumberAppSetting_SideMargin"),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
     ),
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Prompter Background Color Highlight",
-      const Key(
-        "DisplaySettingsScreen.ColorAppSetting_PrompterBackgroundColor",
-      ),
-      scrollToBottom: true,
+    Scenario(
+      name: "Prompter Background Color Highlight",
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.ColorAppSetting_PrompterBackgroundColor",
+            ),
+          ),
+        );
+      },
     ),
   );
 
@@ -191,7 +376,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
         child: child,
       ),
       testCallback: (tester, binding) async {
-        await _scrollToBottom(tester);
         await tester.tap(
           find.byKey(
             const Key(
@@ -205,10 +389,20 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
   );
 
   harness.addScenario(
-    _highlightScenario(
-      "Prompter Text Color Highlight",
-      const Key("DisplaySettingsScreen.ColorAppSetting_PrompterTextColor"),
-      scrollToBottom: true,
+    Scenario(
+      name: "Prompter Text Color Highlight",
+      testCallback: (tester, binding) async {
+        await WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key(
+              "DisplaySettingsScreen.ColorAppSetting_PrompterTextColor",
+            ),
+          ),
+        );
+      },
     ),
   );
 
@@ -226,7 +420,6 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
         child: child,
       ),
       testCallback: (tester, binding) async {
-        await _scrollToBottom(tester);
         await tester.tap(
           find.byKey(
             const Key(
@@ -263,35 +456,3 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
 
   return harness;
 }
-
-Future<void> _scrollToBottom(WidgetTester tester) async {
-  await tester.drag(find.byType(ListView), const Offset(0, -100000));
-  await tester.pumpAndSettle();
-}
-
-Scenario _highlightScenario(
-  String name,
-  Key key, {
-  bool scrollToBottom = false,
-}) => Scenario(
-  name: name,
-  testCallback: (tester, binding) async {
-    if (scrollToBottom) await _scrollToBottom(tester);
-
-    await WidgetHighlighter(
-      tester,
-      defaultHighlightColor: kMarketingHighlightColor,
-    ).highlightWidget(find.byKey(key));
-  },
-);
-
-Scenario _tapScenario(String name, Key key, {bool scrollToBottom = false}) =>
-    Scenario(
-      name: name,
-      testCallback: (tester, binding) async {
-        if (scrollToBottom) await _scrollToBottom(tester);
-
-        await tester.tap(find.byKey(key));
-        await tester.pumpAndSettle();
-      },
-    );
