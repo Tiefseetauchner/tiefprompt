@@ -928,7 +928,7 @@ SCROLL_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
             WindowSpec(
                 input="scroll_settings_screen/preview_voice_activation_active.png",
                 title="TiefPrompt",
-                position=POS_TOP_LEFT,
+                position=POS_TOP_RIGHT,
             ),
         ],
     ),
