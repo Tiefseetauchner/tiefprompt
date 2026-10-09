@@ -25,9 +25,8 @@ class AudioLevelDisplay extends ConsumerWidget {
         //       To convert to the width, we need to normalize it to a range of 0 to 1.
         //       Then we can multiply it by the maximum width (64) to get the actual width.
         //       We also need to consider that the audio level might be -infinity, so we clamp it to a minimum value.
-        final double audioLevelWidth = math.max(
-          0,
-          ((audioLevelSnapshot.data ?? -60) + 60) / 60 * 64,
+        final double audioLevelWidth = getWidthFromAudioLevel(
+          audioLevelSnapshot.data,
         );
 
         return Stack(
@@ -38,11 +37,18 @@ class AudioLevelDisplay extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  style: BorderStyle.solid,
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 2,
-                ),
+                border:
+                    (audioLevelSnapshot.data ?? -60) >=
+                        config.voiceActivationThreshold
+                    ? Border.symmetric(
+                        horizontal: BorderSide(
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                          style: BorderStyle.solid,
+                          color: Theme.of(context).colorScheme.onSurface,
+                          width: 2,
+                        ),
+                      )
+                    : null,
               ),
             ),
             Container(
@@ -66,10 +72,7 @@ class AudioLevelDisplay extends ConsumerWidget {
               ),
             ),
             Positioned(
-              left: math.max(
-                0,
-                (config.voiceActivationThreshold + 60) / 60 * 64,
-              ),
+              left: getWidthFromAudioLevel(config.voiceActivationThreshold),
               child: Container(
                 height: 24,
                 width: 2,
@@ -93,5 +96,9 @@ class AudioLevelDisplay extends ConsumerWidget {
         );
       },
     );
+  }
+
+  double getWidthFromAudioLevel(double? audioLevel) {
+    return math.max(0, ((audioLevel ?? -60) + 60) / 60 * 64);
   }
 }
