@@ -37,7 +37,7 @@ final class VoiceActivationProvider
   VoiceActivation create() => VoiceActivation();
 }
 
-String _$voiceActivationHash() => r'478e6944b422820fbc3f2b0203cd5536c5b2dd55';
+String _$voiceActivationHash() => r'9db98aba96c77c91581344f7999b69c946e11bfe';
 
 abstract class _$VoiceActivation extends $AsyncNotifier<double> {
   FutureOr<double> build();

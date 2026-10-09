@@ -56,7 +56,9 @@ class VoiceActivation extends _$VoiceActivation {
       RecordConfig(encoder: AudioEncoder.pcm16bits, device: selectedDevice),
     ));
 
-    audioRecorder.onAmplitudeChanged(Duration(milliseconds: 50)).listen((data) {
+    audioRecorder.onAmplitudeChanged(Duration(milliseconds: 200)).listen((
+      data,
+    ) {
       state = AsyncValue.data(data.current);
     });
 

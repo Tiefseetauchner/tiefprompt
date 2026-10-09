@@ -182,6 +182,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _focusNode.dispose();
     _scrollableTextController.dispose();
     _scrollableTextControllerSaveDebouncer.dispose();
+
     super.dispose();
   }
 

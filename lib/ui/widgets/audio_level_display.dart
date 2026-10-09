@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,8 +16,8 @@ class AudioLevelDisplay extends ConsumerWidget {
 
     return FutureBuilder(
       future: audioLevel,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+      builder: (context, audioLevelSnapshot) {
+        if (!audioLevelSnapshot.hasData) {
           return SizedBox.shrink();
         }
 
@@ -25,9 +25,9 @@ class AudioLevelDisplay extends ConsumerWidget {
         //       To convert to the width, we need to normalize it to a range of 0 to 1.
         //       Then we can multiply it by the maximum width (64) to get the actual width.
         //       We also need to consider that the audio level might be -infinity, so we clamp it to a minimum value.
-        final double audioLevelWidth = max(
+        final double audioLevelWidth = math.max(
           0,
-          ((snapshot.data ?? -60) + 60) / 60 * 64,
+          ((audioLevelSnapshot.data ?? -60) + 60) / 60 * 64,
         );
 
         return Stack(
@@ -66,12 +66,26 @@ class AudioLevelDisplay extends ConsumerWidget {
               ),
             ),
             Positioned(
-              left: max(0, (config.voiceActivationThreshold + 60) / 60 * 64),
+              left: math.max(
+                0,
+                (config.voiceActivationThreshold + 60) / 60 * 64,
+              ),
               child: Container(
                 height: 24,
                 width: 2,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 3,
+              top: 3,
+              child: Text(
+                "${audioLevelSnapshot.data?.round()}db",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

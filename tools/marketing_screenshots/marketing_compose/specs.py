@@ -300,7 +300,7 @@ SETTINGS_SUBSCREENS_COLLAGES: list[CollageSpec] = [
             WindowSpec(
                 input="text_settings_screen/light_theme.png",
                 title="TiefPrompt",
-                position=POS_TOP_RIGHT,
+                position=POS_TOP_CENTER,
             ),
             WindowSpec(
                 input="scroll_settings_screen/light_theme.png",
