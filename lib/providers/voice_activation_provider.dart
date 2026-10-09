@@ -42,11 +42,15 @@ class VoiceActivation extends _$VoiceActivation {
 
     AudioRecorder audioRecorder = AudioRecorder();
 
-    final selectedDevice = voiceActivationDevice == "default"
+    final availableDevices = await audioRecorder.listInputDevices();
+
+    final selectedDevice =
+        voiceActivationDevice == "default" ||
+            !availableDevices.any(
+              (device) => device.id == voiceActivationDevice,
+            )
         ? null
-        : (await audioRecorder.listInputDevices()).firstWhere(
-            (d) => d.id == voiceActivationDevice,
-          );
+        : availableDevices.firstWhere((d) => d.id == voiceActivationDevice);
 
     final _ = (await audioRecorder.startStream(
       RecordConfig(encoder: AudioEncoder.pcm16bits, device: selectedDevice),
