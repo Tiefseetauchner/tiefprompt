@@ -126,7 +126,8 @@
       "DefaultScrollSpeed": "Standard Beweggeschwindigkeit",
       "DefaultScrollSpeed_Unit": "Zeilen/Sekunde",
       "CountdownTimer": "Countdown-Timer",
-      "CountdownTimer_Unit": "Sekunden"
+      "CountdownTimer_Unit": "Sekunden",
+      "UnknownDevice": "Unbekanntes Gerät"
     },
     "BooleanAppSetting_Markdown": "Markdown aktivieren",
     "BooleanAppSetting_ShowCurrentChapter": "Aktuelles Kapitel anzeigen",

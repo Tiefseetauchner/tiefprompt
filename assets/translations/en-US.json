@@ -125,7 +125,8 @@
       "VoiceActivationThreshold": "Voice Activation Threshold",
       "VoiceActivationThreshold_Unit": "db",
       "VoiceActivationDevices": "Audio Devices for Voice Activation",
-      "VoiceActivationPreview": "Preview Voice Activation"
+      "VoiceActivationPreview": "Preview Voice Activation",
+      "UnknownDevice": "Unknown Device"
     },
     "KeybindingsSettings": {
       "Title": "Keybindings Settings",

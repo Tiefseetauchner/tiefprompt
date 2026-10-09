@@ -101,7 +101,8 @@
       "DefaultScrollSpeed": "Yer scroll speed",
       "DefaultScrollSpeed_Unit": "knots",
       "CountdownTimer": "Hourglass",
-      "CountdownTimer_Unit": "ticks"
+      "CountdownTimer_Unit": "ticks",
+      "UnknownDevice": "Flagless Ship"
     },
     "KeybindingsSettings": {
       "Title": "Settin's for Controls",

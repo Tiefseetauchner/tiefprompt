@@ -19,11 +19,18 @@ class ScrollSettingsScreen extends ConsumerStatefulWidget {
 
 class _ScrollSettingsScreenState extends ConsumerState<ScrollSettingsScreen> {
   bool voiceActivationPreviewEnabled = false;
+  late final Future<List<InputDevice>> audioDevices;
+
+  @override
+  void initState() {
+    audioDevices = AudioRecorder().listInputDevices();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
-    final audioDevices = AudioRecorder().listInputDevices();
     ref.listen(settingsProvider, (previous, next) {
       next.whenData(
         (value) => setState(() {
@@ -46,11 +53,23 @@ class _ScrollSettingsScreenState extends ConsumerState<ScrollSettingsScreen> {
             ),
           ],
           builder: (context, snapshot) {
-            final devices =
-                snapshot.data?.map(
-                  (device) => ("${device.label} (${device.id})", device.id),
-                ) ??
+            List<(String, String)> devices =
+                snapshot.data
+                    ?.map(
+                      (device) => ("${device.label} (${device.id})", device.id),
+                    )
+                    .toList() ??
                 [];
+
+            if (prompterConfig.voiceActivationDevice != "default" &&
+                !devices.any(
+                  (device) => device.$2 == prompterConfig.voiceActivationDevice,
+                )) {
+              devices.add((
+                context.tr("SettingsScreen.ScrollSettings.UnknownDevice"),
+                prompterConfig.voiceActivationDevice,
+              ));
+            }
 
             return SafeScaffold(
               appBar: AppBar(
@@ -134,18 +153,24 @@ class _ScrollSettingsScreenState extends ConsumerState<ScrollSettingsScreen> {
                       "SettingsScreen.ScrollSettings.VoiceActivationDevices",
                     ),
                     feature: Feature.voiceActivation,
+                    enabled: prompterConfig.voiceActivationEnabled,
                     value: prompterConfig.voiceActivationDevice,
                     displayText: context.tr(
                       "SettingsScreen.ScrollSettings.VoiceActivationDevices",
                     ),
                     values: [("Default", "default")]
-                        .followedBy(devices)
+                        .followedBy(
+                          devices.where((device) => device.$2 != "default"),
+                        )
                         .toList(),
                     onValueChanged: (updatedValue) => ref
                         .read(settingsProvider.notifier)
                         .setVoiceActivationDevice(updatedValue),
                   ),
                   ListTile(
+                    key: const Key(
+                      "SettingsScreen.ScrollSettings.VoiceActivationPreview",
+                    ),
                     title: Text(
                       context.tr(
                         "SettingsScreen.ScrollSettings.VoiceActivationPreview",
