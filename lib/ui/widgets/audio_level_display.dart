@@ -21,11 +21,7 @@ class AudioLevelDisplay extends ConsumerWidget {
           return SizedBox.shrink();
         }
 
-        // NOTE: audioLevel is a double from -infinity (silence) to 0 (max)
-        //       To convert to the width, we need to normalize it to a range of 0 to 1.
-        //       Then we can multiply it by the maximum width (64) to get the actual width.
-        //       We also need to consider that the audio level might be -infinity, so we clamp it to a minimum value.
-        final double audioLevelWidth = getWidthFromAudioLevel(
+        final double audioLevelWidth = _getWidthFromAudioLevel(
           audioLevelSnapshot.data,
         );
 
@@ -72,7 +68,7 @@ class AudioLevelDisplay extends ConsumerWidget {
               ),
             ),
             Positioned(
-              left: getWidthFromAudioLevel(config.voiceActivationThreshold),
+              left: _getWidthFromAudioLevel(config.voiceActivationThreshold),
               child: Container(
                 height: 24,
                 width: 2,
@@ -98,7 +94,11 @@ class AudioLevelDisplay extends ConsumerWidget {
     );
   }
 
-  double getWidthFromAudioLevel(double? audioLevel) {
+  // NOTE: audioLevel is a double from -infinity (silence) to 0 (max)
+  //       To convert to the width, we need to normalize it to a range of 0 to 1.
+  //       Then we can multiply it by the maximum width (64) to get the actual width.
+  //       We also need to consider that the audio level might be -infinity, so we clamp it to a minimum value.
+  double _getWidthFromAudioLevel(double? audioLevel) {
     return math.max(0, ((audioLevel ?? -60) + 60) / 60 * 64);
   }
 }
