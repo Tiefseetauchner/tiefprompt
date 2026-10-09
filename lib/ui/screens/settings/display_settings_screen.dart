@@ -201,7 +201,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               NumberAppSetting(
-                key: const Key("DisplaySettingsScreen.NumberAppSetting_SideMargin"),
+                key: const Key(
+                  "DisplaySettingsScreen.NumberAppSetting_SideMargin",
+                ),
                 feature: Feature.sideMargins,
                 value: prompterConfig.sideMargin,
                 displayText: context.tr(

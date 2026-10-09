@@ -2,16 +2,19 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/json_converters.dart';
 import 'package:tiefprompt/models/custom_font_model.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/models/app_state.dart';
+import 'package:tiefprompt/models/keybinding.drift.dart';
 import 'package:tiefprompt/models/script_model.dart';
 import 'package:tiefprompt/models/settings_preset_model.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+
 import "database.steps.dart";
 import 'database.drift.dart';
 import 'app_state.drift.dart';
@@ -31,7 +34,7 @@ class AppDatabase extends $AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
@@ -47,9 +50,8 @@ class AppDatabase extends $AppDatabase {
     return MigrationStrategy(
       onCreate: (m) async {
         await m.createAll();
-        await into(
-          appStateModel,
-        ).insert(AppStateModelCompanion.insert(helpRequestShown: false));
+        await into(appStateModel)
+            .insert(AppStateModelCompanion.insert(helpRequestShown: false));
         await into(scriptModel).insert(
           ScriptModelCompanion.insert(
             title: kNewScriptName,
@@ -199,6 +201,38 @@ class AppDatabase extends $AppDatabase {
                 schema.settingsPresetModel.data.name: Variable(data),
               }),
             );
+          }
+        },
+        from7To8: (m, schema) async {
+          await m.alterTable(TableMigration(schema.keybindingMappingModel));
+
+          for (final map in await m.database.select(keybindingMapModel).get()) {
+            await m.database
+                .into(keybindingMappingModel)
+                .insert(
+                  KeybindingMappingModelCompanion(
+                    actionName: Value('jumpChapterUp'),
+                    keyId: Value(LogicalKeyboardKey.comma.keyId),
+                    ctrl: const Value(false),
+                    shift: const Value(false),
+                    alt: const Value(false),
+                    meta: const Value(false),
+                    mapId: Value(map.id),
+                  ),
+                );
+            await m.database
+                .into(keybindingMappingModel)
+                .insert(
+                  KeybindingMappingModelCompanion(
+                    actionName: Value('jumpChapterDown'),
+                    keyId: Value(LogicalKeyboardKey.period.keyId),
+                    ctrl: const Value(false),
+                    shift: const Value(false),
+                    alt: const Value(false),
+                    meta: const Value(false),
+                    mapId: Value(map.id),
+                  ),
+                );
           }
         },
       ),

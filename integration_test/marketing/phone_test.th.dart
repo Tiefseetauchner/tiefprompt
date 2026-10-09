@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:tief_test_harness/tief_test_harness.dart';
+
 import 'home_screen/home_screen_harness.dart' as h0;
 import 'prompter_screen/prompter_screen_harness.dart' as h1;
 import 'select_script_screen/select_script_screen_harness.dart' as h2;
@@ -36,16 +37,20 @@ class MarketingMetadataHarnessRegistry {
 
   final Set<MarketingMetadataHarness>? _selected;
 
-  static const Map<MarketingMetadataHarness, Future<ScenarioHarness> Function()> _builders = {
+  static const Map<MarketingMetadataHarness, Future<ScenarioHarness> Function()>
+  _builders = {
     MarketingMetadataHarness.storeHome: h0.buildHomeScreenPhoneHarness,
     MarketingMetadataHarness.storePrompter: h1.buildPrompterScreenPhoneHarness,
-    MarketingMetadataHarness.storeSelectScript: h2.buildSelectScriptScreenScreenPhoneHarness,
-    MarketingMetadataHarness.storeSettings: h3.buildMainSettingsScreenPhoneHarness,
+    MarketingMetadataHarness.storeSelectScript:
+        h2.buildSelectScriptScreenScreenPhoneHarness,
+    MarketingMetadataHarness.storeSettings:
+        h3.buildMainSettingsScreenPhoneHarness,
   };
 
   /// Restricts a subsequent [build] to just [harnesses].
-  MarketingMetadataHarnessRegistry only(Set<MarketingMetadataHarness> harnesses) =>
-      MarketingMetadataHarnessRegistry._(harnesses);
+  MarketingMetadataHarnessRegistry only(
+    Set<MarketingMetadataHarness> harnesses,
+  ) => MarketingMetadataHarnessRegistry._(harnesses);
 
   /// Restricts a subsequent [build] to just the harnesses named [names].
   MarketingMetadataHarnessRegistry onlyNamed(Set<String> names) =>
@@ -58,7 +63,9 @@ class MarketingMetadataHarnessRegistry {
         : _builders.entries.where((entry) => _selected.contains(entry.key));
 
     final resolved = await Future.wait(
-      selected.map((entry) async => MapEntry(entry.key.harnessName, await entry.value())),
+      selected.map(
+        (entry) async => MapEntry(entry.key.harnessName, await entry.value()),
+      ),
     );
 
     return Map.fromEntries(resolved);

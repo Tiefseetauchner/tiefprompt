@@ -1734,8 +1734,7 @@ class KeybindingMappingModel extends Table
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
-    $customConstraints:
-        'NOT NULL CHECK (action_name IN (\'playPause\', \'scrollUpSmall\', \'scrollDownSmall\', \'scrollUp\', \'scrollDown\', \'pageUp\', \'pageDown\', \'jumpStart\', \'jumpEnd\', \'toggleControls\', \'speedUp\', \'speedDown\', \'fontSizeUp\', \'fontSizeDown\', \'openSettings\', \'saveSettingsFromPrompter\'))',
+    $customConstraints: 'NOT NULL CHECK (action_name IN (\'playPause\', \'scrollUpSmall\', \'scrollDownSmall\', \'scrollUp\', \'scrollDown\', \'pageUp\', \'pageDown\', \'jumpStart\', \'jumpEnd\', \'toggleControls\', \'speedUp\', \'speedDown\', \'fontSizeUp\', \'fontSizeDown\', \'openSettings\', \'saveSettingsFromPrompter\'))',
   );
   @override
   List<GeneratedColumn> get $columns => [

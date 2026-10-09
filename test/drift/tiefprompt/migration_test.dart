@@ -5,19 +5,21 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:drift_dev/api/migrations_native.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/models/database.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'generated/schema.dart';
 
 import 'generated/schema_v2.dart' as v2;
 import 'generated/schema_v3.dart' as v3;
 import 'generated/schema_v4.dart' as v4;
 import 'generated/schema_v5.dart' as v5;
-import 'generated/schema_v6.dart' as v6;
 import 'generated/schema_v7.dart' as v7;
+import 'generated/schema_v8.dart' as v8;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -43,40 +45,37 @@ void main() {
     }
   });
 
-  test(
-    'v4 -> v6 flips script_model created_at from int storage to text',
-    () async {
-      await verifier.testWithDataIntegrity(
-        oldVersion: 4,
-        newVersion: 6,
-        createOld: v4.DatabaseAtV4.new,
-        createNew: v6.DatabaseAtV6.new,
-        openTestedDatabase: AppDatabase.new,
-        createItems: (batch, oldDb) {
-          batch.insert(
-            oldDb.scriptModel,
-            v4.ScriptModelCompanion.insert(
-              title: 'Legacy Script',
-              scriptText: 'hi',
-              createdAt: DateTime.utc(2024, 1, 2, 3, 4, 5),
-            ),
-          );
-        },
-        validateItems: (newDb) async {
-          final scripts = await newDb.select(newDb.scriptModel).get();
-          final legacy = scripts.firstWhere((s) => s.title == 'Legacy Script');
-          expect(legacy.createdAt, '2024-01-02T03:04:05.000Z');
-        },
-      );
-    },
-  );
+  test('v4 -> v8 preserves script_model created_at as text', () async {
+    await verifier.testWithDataIntegrity(
+      oldVersion: 4,
+      newVersion: 8,
+      createOld: v4.DatabaseAtV4.new,
+      createNew: v8.DatabaseAtV8.new,
+      openTestedDatabase: AppDatabase.new,
+      createItems: (batch, oldDb) {
+        batch.insert(
+          oldDb.scriptModel,
+          v4.ScriptModelCompanion.insert(
+            title: 'Legacy Script',
+            scriptText: 'hi',
+            createdAt: DateTime.utc(2024, 1, 2, 3, 4, 5),
+          ),
+        );
+      },
+      validateItems: (newDb) async {
+        final scripts = await newDb.select(newDb.scriptModel).get();
+        final legacy = scripts.firstWhere((s) => s.title == 'Legacy Script');
+        expect(legacy.createdAt, '2024-01-02T03:04:05.000Z');
+      },
+    );
+  });
 
-  test('v2 -> v7 seeds the app state row', () async {
+  test('v2 -> v8 seeds the app state row', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 2,
-      newVersion: 7,
+      newVersion: 8,
       createOld: v2.DatabaseAtV2.new,
-      createNew: v7.DatabaseAtV7.new,
+      createNew: v8.DatabaseAtV8.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {},
       validateItems: (newDb) async {
@@ -87,12 +86,12 @@ void main() {
     );
   });
 
-  test('v3 -> v7 preserves scripts and defaults the new columns', () async {
+  test('v3 -> v8 preserves scripts and defaults the new columns', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 3,
-      newVersion: 7,
+      newVersion: 8,
       createOld: v3.DatabaseAtV3.new,
-      createNew: v7.DatabaseAtV7.new,
+      createNew: v8.DatabaseAtV8.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {
         batch.insert(
@@ -114,12 +113,12 @@ void main() {
     );
   });
 
-  test('v4 -> v7 backfills the control-button columns into the json', () async {
+  test('v4 -> v8 backfills the control-button columns into the json', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 4,
-      newVersion: 7,
+      newVersion: 8,
       createOld: v4.DatabaseAtV4.new,
-      createNew: v7.DatabaseAtV7.new,
+      createNew: v8.DatabaseAtV8.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {
         batch.insert(
@@ -168,12 +167,12 @@ void main() {
     );
   });
 
-  test('v5 -> v7 packs every preset column into the json blob', () async {
+  test('v5 -> v8 packs every preset column into the json blob', () async {
     await verifier.testWithDataIntegrity(
       oldVersion: 5,
-      newVersion: 7,
+      newVersion: 8,
       createOld: v5.DatabaseAtV5.new,
-      createNew: v7.DatabaseAtV7.new,
+      createNew: v8.DatabaseAtV8.new,
       openTestedDatabase: AppDatabase.new,
       createItems: (batch, oldDb) {
         batch.insert(
@@ -242,6 +241,41 @@ void main() {
         expect(settings.appPrimaryColor, const Color(0xFF112233));
         expect(settings.prompterBackgroundColor, const Color(0xFF010203));
         expect(settings.prompterTextColor, const Color(0xFF0A0B0C));
+      },
+    );
+  });
+  test('v7 -> v8 adds keybindings to all maps', () async {
+    await verifier.testWithDataIntegrity(
+      oldVersion: 7,
+      newVersion: 8,
+      createOld: v7.DatabaseAtV7.new,
+      createNew: v8.DatabaseAtV8.new,
+      openTestedDatabase: AppDatabase.new,
+      createItems: (batch, oldDb) {
+        batch.insert(
+          oldDb.keybindingMapModel,
+          const v7.KeybindingMapModelCompanion(id: Value(7)),
+        );
+      },
+      validateItems: (newDb) async {
+        final rows = await newDb.select(newDb.keybindingMappingModel).get();
+        expect(rows, hasLength(2));
+        final jumpChapterUp = rows.where(
+          (element) => element.actionName == 'jumpChapterUp',
+        );
+        expect(jumpChapterUp, hasLength(1));
+        expect(
+          jumpChapterUp.first.keyId,
+          equals(LogicalKeyboardKey.comma.keyId),
+        );
+        final jumpChapterDown = rows.where(
+          (element) => element.actionName == 'jumpChapterDown',
+        );
+        expect(jumpChapterDown, hasLength(1));
+        expect(
+          jumpChapterDown.first.keyId,
+          equals(LogicalKeyboardKey.period.keyId),
+        );
       },
     );
   });

@@ -125,9 +125,8 @@ class Keybindings extends _$Keybindings {
     Keybinding keybinding,
   ) async {
     ref.read(talkerProvider).info('Keybinding removed: action=${action.name}');
-    final keybindingsMapId = (await ref.read(
-      settingsProvider.future,
-    )).keybindingsMapId;
+    final keybindingsMapId = (await ref.read(settingsProvider.future))
+        .keybindingsMapId;
 
     state = state.whenData(
       (s) => s.copyWith(
@@ -153,9 +152,8 @@ class Keybindings extends _$Keybindings {
     Keybinding keybinding,
   ) async {
     ref.read(talkerProvider).info('Keybinding added: action=${action.name}');
-    final keybindingsMapId = (await ref.read(
-      settingsProvider.future,
-    )).keybindingsMapId;
+    final keybindingsMapId = (await ref.read(settingsProvider.future))
+        .keybindingsMapId;
 
     state = state.whenData(
       (s) => s.copyWith(keybindings: [...s.keybindings, (action, keybinding)]),

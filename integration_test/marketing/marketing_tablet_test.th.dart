@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:tief_test_harness/tief_test_harness.dart';
+
 import 'settings_screens/display_settings_screen_harness.dart' as h0;
 import 'settings_screens/font_settings_screen_harness.dart' as h1;
 import 'home_screen/home_screen_harness.dart' as h2;
@@ -29,7 +30,8 @@ enum MarketingTabletHarness {
     MarketingTabletHarness.fontSettingsScreen => 'Font Settings Screen',
     MarketingTabletHarness.homeScreen => 'Home Screen',
     MarketingTabletHarness.homeScreenHighlights => 'Home Screen Highlights',
-    MarketingTabletHarness.keybindingsSettingsScreen => 'Keybindings Settings Screen',
+    MarketingTabletHarness.keybindingsSettingsScreen =>
+      'Keybindings Settings Screen',
     MarketingTabletHarness.mainSettingsScreen => 'Main Settings Screen',
     MarketingTabletHarness.prompterScreenNarrow => 'Prompter Screen Narrow',
     MarketingTabletHarness.selectScriptScreen => 'Select Script Screen',
@@ -54,16 +56,23 @@ class MarketingTabletHarnessRegistry {
 
   final Set<MarketingTabletHarness>? _selected;
 
-  static const Map<MarketingTabletHarness, Future<ScenarioHarness> Function()> _builders = {
-    MarketingTabletHarness.displaySettingsScreen: h0.buildDisplaySettingsHarness,
+  static const Map<MarketingTabletHarness, Future<ScenarioHarness> Function()>
+  _builders = {
+    MarketingTabletHarness.displaySettingsScreen:
+        h0.buildDisplaySettingsHarness,
     MarketingTabletHarness.fontSettingsScreen: h1.buildFontSettingsHarness,
     MarketingTabletHarness.homeScreen: h2.buildHomeScreenHarness,
-    MarketingTabletHarness.homeScreenHighlights: h3.buildHomeScreenWithHighlightsHarness,
-    MarketingTabletHarness.keybindingsSettingsScreen: h4.buildKeybindingsSettingsHarness,
+    MarketingTabletHarness.homeScreenHighlights:
+        h3.buildHomeScreenWithHighlightsHarness,
+    MarketingTabletHarness.keybindingsSettingsScreen:
+        h4.buildKeybindingsSettingsHarness,
     MarketingTabletHarness.mainSettingsScreen: h5.buildSettingsHarness,
-    MarketingTabletHarness.prompterScreenNarrow: h6.buildPrompterScreenNarrowHarness,
-    MarketingTabletHarness.selectScriptScreen: h7.buildSelectScriptScreenHarness,
-    MarketingTabletHarness.settingsRestoreScreen: h8.buildSettingsRestoreHarness,
+    MarketingTabletHarness.prompterScreenNarrow:
+        h6.buildPrompterScreenNarrowHarness,
+    MarketingTabletHarness.selectScriptScreen:
+        h7.buildSelectScriptScreenHarness,
+    MarketingTabletHarness.settingsRestoreScreen:
+        h8.buildSettingsRestoreHarness,
     MarketingTabletHarness.textSettingsScreen: h9.buildTextSettingsHarness,
   };
 
@@ -82,7 +91,9 @@ class MarketingTabletHarnessRegistry {
         : _builders.entries.where((entry) => _selected.contains(entry.key));
 
     final resolved = await Future.wait(
-      selected.map((entry) async => MapEntry(entry.key.harnessName, await entry.value())),
+      selected.map(
+        (entry) async => MapEntry(entry.key.harnessName, await entry.value()),
+      ),
     );
 
     return Map.fromEntries(resolved);

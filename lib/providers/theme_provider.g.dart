@@ -36,7 +36,7 @@ final class ThemesProvider extends $AsyncNotifierProvider<Themes, ThemesState> {
   Themes create() => Themes();
 }
 
-String _$themesHash() => r'0d68cf156e496db88b00426880c03387234cd96a';
+String _$themesHash() => r'10d698bd63a9d67329fe4e178126c58e0206ea24';
 
 abstract class _$Themes extends $AsyncNotifier<ThemesState> {
   FutureOr<ThemesState> build();

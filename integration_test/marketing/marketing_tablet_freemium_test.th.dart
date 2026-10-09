@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:tief_test_harness/tief_test_harness.dart';
+
 import 'buy_pro_screen/buy_pro_screen_harness.dart' as h0;
 
 enum MarketingTabletFreemiumHarness {
@@ -27,13 +28,18 @@ class MarketingTabletFreemiumHarnessRegistry {
 
   final Set<MarketingTabletFreemiumHarness>? _selected;
 
-  static const Map<MarketingTabletFreemiumHarness, Future<ScenarioHarness> Function()> _builders = {
+  static const Map<
+    MarketingTabletFreemiumHarness,
+    Future<ScenarioHarness> Function()
+  >
+  _builders = {
     MarketingTabletFreemiumHarness.buyProScreen: h0.buildBuyProScreenHarness,
   };
 
   /// Restricts a subsequent [build] to just [harnesses].
-  MarketingTabletFreemiumHarnessRegistry only(Set<MarketingTabletFreemiumHarness> harnesses) =>
-      MarketingTabletFreemiumHarnessRegistry._(harnesses);
+  MarketingTabletFreemiumHarnessRegistry only(
+    Set<MarketingTabletFreemiumHarness> harnesses,
+  ) => MarketingTabletFreemiumHarnessRegistry._(harnesses);
 
   /// Restricts a subsequent [build] to just the harnesses named [names].
   MarketingTabletFreemiumHarnessRegistry onlyNamed(Set<String> names) =>
@@ -46,7 +52,9 @@ class MarketingTabletFreemiumHarnessRegistry {
         : _builders.entries.where((entry) => _selected.contains(entry.key));
 
     final resolved = await Future.wait(
-      selected.map((entry) async => MapEntry(entry.key.harnessName, await entry.value())),
+      selected.map(
+        (entry) async => MapEntry(entry.key.harnessName, await entry.value()),
+      ),
     );
 
     return Map.fromEntries(resolved);

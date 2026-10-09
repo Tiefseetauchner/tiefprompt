@@ -60,9 +60,8 @@ class _CountdownTimerState extends State<CountdownTimer> {
                 child: CircularProgressIndicator(
                   value: progress,
                   strokeWidth: 16,
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.surface.withAlpha(50),
+                  backgroundColor: Theme.of(context).colorScheme.surface
+                      .withAlpha(50),
                   valueColor: AlwaysStoppedAnimation<Color>(
                     Theme.of(context).colorScheme.primary,
                   ),
