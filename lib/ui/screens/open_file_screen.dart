@@ -35,9 +35,8 @@ class OpenFileScreen extends ConsumerWidget {
                         allowedExtensions: ['txt', 'md'],
                       );
                       if (result != null) {
-                        final fileContent = await File(
-                          result.path!,
-                        ).readAsString();
+                        final fileContent = await File(result.path!)
+                            .readAsString();
 
                         final newScriptId = await scriptService.saveAsNew(
                           ScriptState(

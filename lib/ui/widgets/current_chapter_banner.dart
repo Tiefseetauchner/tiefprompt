@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/current_chapter_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
+import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
 
 class CurrentChapterBanner extends ConsumerWidget {
   final EdgeInsets? offset;
+  final ScrollableTextController scrollableTextController;
 
-  const CurrentChapterBanner({super.key, this.offset});
+  const CurrentChapterBanner({
+    super.key,
+    this.offset,
+    required this.scrollableTextController,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,36 +41,42 @@ class CurrentChapterBanner extends ConsumerWidget {
       bottom: mirroredY ? (offset?.top ?? 0) : null,
       left: 0,
       right: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          color: canvas.withAlpha(120),
-          border: Border(
-            bottom: mirroredY ? BorderSide.none : borderSide,
-            top: mirroredY ? borderSide : BorderSide.none,
-          ),
-        ),
-        child: SafeArea(
-          bottom: false,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal:
-                  16 +
-                  (MediaQuery.of(context).size.width / 2) * (sideMargin / 100),
-              vertical: 8,
+      child: GestureDetector(
+        onTap: () {
+          scrollableTextController.jumpTo(chapter.chapterOffset);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: canvas.withAlpha(120),
+            border: Border(
+              bottom: mirroredY ? BorderSide.none : borderSide,
+              top: mirroredY ? borderSide : BorderSide.none,
             ),
-            child: Transform.flip(
-              flipX: mirroredX,
-              flipY: mirroredY,
-              child: Text(
-                chapter,
-                style: TextStyle(
-                  color: onSurface,
-                  fontFamily: fontFamily,
-                  fontWeight: FontWeight.bold,
+          ),
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal:
+                    16 +
+                    (MediaQuery.of(context).size.width / 2) *
+                        (sideMargin / 100),
+                vertical: 8,
+              ),
+              child: Transform.flip(
+                flipX: mirroredX,
+                flipY: mirroredY,
+                child: Text(
+                  chapter.chapterText,
+                  style: TextStyle(
+                    color: onSurface,
+                    fontFamily: fontFamily,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: alignment,
+                  textScaler: TextScaler.linear(2),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                textAlign: alignment,
-                textScaler: TextScaler.linear(2),
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

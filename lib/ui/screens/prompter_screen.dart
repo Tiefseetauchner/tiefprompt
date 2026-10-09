@@ -6,6 +6,7 @@ import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/debouncer.dart';
 import 'package:tiefprompt/models/keybinding.dart';
+import 'package:tiefprompt/providers/all_chapter_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -142,6 +143,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               offset: ref.watch(controlsVisibleProvider)
                   ? EdgeInsets.fromLTRB(0, 64, 0, 0)
                   : EdgeInsets.all(0),
+              scrollableTextController: _scrollableTextController,
             ),
             if ((!ref.watch(controlsVisibleProvider) ||
                     (prompterConfig.controlButtonsPosition ==
@@ -291,6 +293,32 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                 .read(settingsProvider.notifier)
                 .applySettingsFromPrompter(ref.read(prompterProvider)),
           );
+          break;
+        case KeybindingAction.jumpChapterUp:
+          _gatedKeybinding(Feature.keybindings, () {
+            final currentOffset =
+                _scrollableTextController.scrollController.offset;
+            final targetChapter = ref
+                .read(allChapterProvider)
+                .lastWhere(
+                  (c) => c.offset < currentOffset,
+                  orElse: () => ref.read(allChapterProvider).first,
+                );
+            _scrollableTextController.jumpTo(targetChapter.offset);
+          });
+          break;
+        case KeybindingAction.jumpChapterDown:
+          _gatedKeybinding(Feature.keybindings, () {
+            final currentOffset =
+                _scrollableTextController.scrollController.offset;
+            final targetChapter = ref
+                .read(allChapterProvider)
+                .firstWhere(
+                  (c) => c.offset > currentOffset,
+                  orElse: () => ref.read(allChapterProvider).last,
+                );
+            _scrollableTextController.jumpTo(targetChapter.offset);
+          });
           break;
       }
     }

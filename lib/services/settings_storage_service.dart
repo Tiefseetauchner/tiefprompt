@@ -64,9 +64,8 @@ class SettingsStorageService extends _$SettingsStorageService {
       .getSingle();
 
   SettingsState _mapToState(SettingsPresetModelData settings) {
-    return SettingsState.fromJson(
-      jsonDecode(settings.data),
-    ).copyWith(keybindingsMapId: settings.keybindings);
+    return SettingsState.fromJson(jsonDecode(settings.data))
+        .copyWith(keybindingsMapId: settings.keybindings);
   }
 
   Future<void> save(

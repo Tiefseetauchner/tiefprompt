@@ -141,7 +141,9 @@
       "fontSizeUp": "Increase Font Size",
       "fontSizeDown": "Decrease Font Size",
       "openSettings": "Open Settings",
-      "saveSettingsFromPrompter": "Save Settings from Prompter"
+      "saveSettingsFromPrompter": "Save Settings from Prompter",
+      "jumpChapterUp": "Jump to Previous Chapter",
+      "jumpChapterDown": "Jump to Next Chapter"
     },
     "SettingsRestore": {
       "Title": "Save and Restore Settings",

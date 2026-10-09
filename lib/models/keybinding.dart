@@ -22,6 +22,8 @@ enum KeybindingAction {
   fontSizeDown,
   openSettings,
   saveSettingsFromPrompter,
+  jumpChapterUp,
+  jumpChapterDown,
 }
 
 final Map<String, KeybindingAction> _actionByName = {

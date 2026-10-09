@@ -26,7 +26,9 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
           children: [
             ...KeybindingAction.values.map((b) {
               return KeybindingAppSetting(
-                key: Key("KeybindingsSettingsScreen.KeybindingAppSetting_${b.name}"),
+                key: Key(
+                  "KeybindingsSettingsScreen.KeybindingAppSetting_${b.name}",
+                ),
                 feature: Feature.keybindings,
                 displayText: context.tr(
                   "SettingsScreen.KeybindingsSettings.${b.name}",

@@ -510,9 +510,9 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                                 fontWeight: FontWeight.bold,
                                 color: prompterConfig.markdownEnabled
                                     ? (prompterConfig.showCurrentChapter
-                                          ? Theme.of(
-                                              context,
-                                            ).colorScheme.primary
+                                          ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
                                           : IconTheme.of(context).color)
                                     : Theme.of(context).disabledColor,
                               ),
