@@ -23,7 +23,6 @@ abstract class PrompterState with _$PrompterState {
 @riverpod
 class Prompter extends _$Prompter {
   Timer? _playPauseTimer;
-  late ScrollController _scrollController;
 
   @override
   PrompterState build() {
@@ -38,10 +37,6 @@ class Prompter extends _$Prompter {
     PrompterConfiguration Function(PrompterConfiguration config) update,
   ) {
     state = state.copyWith(config: update(state.config));
-  }
-
-  void initializeScrollController(ScrollController scrollController) {
-    _scrollController = scrollController;
   }
 
   void setSpeed(double speed) {
@@ -178,9 +173,5 @@ class Prompter extends _$Prompter {
     _mutateConfig(
       (config) => config.copyWith(textDirectionMode: textDirectionMode),
     );
-  }
-
-  void scrollTo(double offset) {
-    _scrollController.jumpTo(offset);
   }
 }
