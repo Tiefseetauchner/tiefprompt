@@ -4,13 +4,15 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 import 'home_screen/home_screen_harness.dart' as h0;
 import 'settings_screens/keybindings_settings_screen_harness.dart' as h1;
 import 'prompter_screen/prompter_screen_harness.dart' as h2;
-import 'select_script_screen/select_script_screen_harness.dart' as h3;
-import 'settings_screens/settings_restore_screen_harness.dart' as h4;
+import 'settings_screens/scroll_settings_screen_harness.dart' as h3;
+import 'select_script_screen/select_script_screen_harness.dart' as h4;
+import 'settings_screens/settings_restore_screen_harness.dart' as h5;
 
 enum MarketingWideTabletHarness {
   homeScreenWide,
   keybindingsSettingsScreenWide,
   prompterScreen,
+  scrollSettingsScreenWide,
   selectScriptScreenWide,
   settingsRestoreScreenWide;
 
@@ -18,6 +20,7 @@ enum MarketingWideTabletHarness {
     MarketingWideTabletHarness.homeScreenWide => 'Home Screen Wide',
     MarketingWideTabletHarness.keybindingsSettingsScreenWide => 'Keybindings Settings Screen Wide',
     MarketingWideTabletHarness.prompterScreen => 'Prompter Screen',
+    MarketingWideTabletHarness.scrollSettingsScreenWide => 'Scroll Settings Screen Wide',
     MarketingWideTabletHarness.selectScriptScreenWide => 'Select Script Screen Wide',
     MarketingWideTabletHarness.settingsRestoreScreenWide => 'Settings Restore Screen Wide',
   };
@@ -43,8 +46,9 @@ class MarketingWideTabletHarnessRegistry {
     MarketingWideTabletHarness.homeScreenWide: h0.buildHomeScreenWideHarness,
     MarketingWideTabletHarness.keybindingsSettingsScreenWide: h1.buildKeybindingsSettingsWideHarness,
     MarketingWideTabletHarness.prompterScreen: h2.buildPrompterScreenHarness,
-    MarketingWideTabletHarness.selectScriptScreenWide: h3.buildSelectScriptScreenWideHarness,
-    MarketingWideTabletHarness.settingsRestoreScreenWide: h4.buildSettingsRestoreWideHarness,
+    MarketingWideTabletHarness.scrollSettingsScreenWide: h3.buildScrollSettingsWideHarness,
+    MarketingWideTabletHarness.selectScriptScreenWide: h4.buildSelectScriptScreenWideHarness,
+    MarketingWideTabletHarness.settingsRestoreScreenWide: h5.buildSettingsRestoreWideHarness,
   };
 
   /// Restricts a subsequent [build] to just [harnesses].

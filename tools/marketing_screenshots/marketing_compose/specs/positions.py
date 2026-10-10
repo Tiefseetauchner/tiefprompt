@@ -1,0 +1,16 @@
+from compose import Position
+
+POS_TOP_LEFT = Position(0, 0)
+POS_TOP_CENTER = Position(1400, 0)
+POS_TOP_RIGHT = Position(2800, 0)
+POS_MIDDLE_LEFT = Position(0, 2000)
+POS_MIDDLE_CENTER = Position(1400, 2000)
+POS_MIDDLE_RIGHT = Position(2800, 2000)
+POS_BOTTOM_LEFT = Position(0, 2760)
+POS_BOTTOM_CENTER = Position(1400, 2760)
+POS_BOTTOM_RIGHT = Position(2800, 2760)
+
+POS_HERO_BACK_LEFT = Position(0, 200)
+POS_HERO_BACK_RIGHT = Position(1400, 200)
+POS_HERO_MIDDLE_CENTER = Position(700, 500)
+POS_HERO_FRONT_CENTER = Position(250, 1600)

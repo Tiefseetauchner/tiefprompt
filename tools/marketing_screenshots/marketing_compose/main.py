@@ -2,44 +2,47 @@ import argparse
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
-from compose_lib import compose_collage
-from specs import ALL_COLLAGES
+from compose import Output
+from specs import ALL_OUTPUTS
 
 TOOL_DIR = Path(__file__).resolve().parent
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Compose marketing window screenshots.")
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Compose marketing images from raw screenshots.")
     parser.add_argument(
         "--input-dir",
         type=Path,
         default=TOOL_DIR,
-        help="Directory containing the raw screenshots referenced by specs.py.",
+        help="Directory containing the raw screenshots referenced by the specs.",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
         default=TOOL_DIR / "composed",
-        help="Directory to write composed collages to.",
+        help="Directory to write composed images to.",
     )
     parser.add_argument(
         "--only",
         default=None,
-        help="Only render collages whose output filename contains this substring.",
+        help="Only render outputs whose path contains this substring.",
     )
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    collages = ALL_COLLAGES
-    if args.only:
-        collages = [c for c in collages if args.only in c.output]
 
+def _selected_outputs(only: str | None) -> list[Output]:
+    if only is None:
+        return ALL_OUTPUTS
+    return [output for output in ALL_OUTPUTS if only in output.path]
+
+
+def main() -> None:
+    args = _parse_args()
     with ProcessPoolExecutor(32) as executor:
         futures = [
-            executor.submit(compose_collage, spec, args.input_dir, args.output_dir)
-            for spec in collages
+            executor.submit(output.write, args.input_dir, args.output_dir)
+            for output in _selected_outputs(args.only)
         ]
-        for future in futures:
-            print(f"wrote {future.result()}")
 
 
 if __name__ == "__main__":

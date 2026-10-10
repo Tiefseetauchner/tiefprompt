@@ -3,3 +3,9 @@ name = "marketing-compose"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = ["pillow>=11"]
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]

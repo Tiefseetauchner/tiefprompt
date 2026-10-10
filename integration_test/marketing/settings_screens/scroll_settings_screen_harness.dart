@@ -270,3 +270,32 @@ Future<ScenarioHarness> buildScrollSettingsHarness() async {
 
   return harness;
 }
+
+@RegisterHarness('Marketing Wide Tablet', name: "Scroll Settings Screen Wide")
+Future<ScenarioHarness> buildScrollSettingsWideHarness() async {
+  final harness = prepareLandscapeScreenshotHarness(
+    appContent: const ScrollSettingsScreen(),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Preview Voice Activation Active",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          voiceActivationProvider.overrideWith(() => VoiceActivationFake(-22)),
+        ],
+        child: child,
+      ),
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.byKey(
+            const Key("SettingsScreen.ScrollSettings.VoiceActivation"),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
+    ),
+  );
+
+  return harness;
+}
