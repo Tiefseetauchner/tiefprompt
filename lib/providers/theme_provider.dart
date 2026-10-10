@@ -60,6 +60,7 @@ class Themes extends _$Themes {
 ThemeData _createBrandDarkTheme(Color primary) => createCustomTheme(
   brightness: Brightness.dark,
   primary: primary,
+  secondary: kBrandCoral,
   background: kBrandAbyss,
   surface: kBrandAbyssSurface,
   surfaceAlt: kBrandAbyssSurfaceAlt,
@@ -70,6 +71,7 @@ ThemeData _createBrandDarkTheme(Color primary) => createCustomTheme(
 ThemeData _createBrandLightTheme(Color primary) => createCustomTheme(
   brightness: Brightness.light,
   primary: primary,
+  secondary: kBrandCoral,
   background: kBrandLightBackground,
   surface: kBrandLightSurface,
   surfaceAlt: kBrandLightBackground,
@@ -80,6 +82,7 @@ ThemeData _createBrandLightTheme(Color primary) => createCustomTheme(
 ThemeData _createSystemTheme(ColorScheme scheme) => createCustomTheme(
   brightness: scheme.brightness,
   primary: scheme.primary,
+  secondary: scheme.secondary,
   background: scheme.surface,
   surface: scheme.surface,
   surfaceAlt: scheme.surfaceContainerHighest,
@@ -94,6 +97,7 @@ ThemeData _createPrompterTheme({
 }) => createCustomTheme(
   brightness: Brightness.dark,
   primary: primary,
+  secondary: primary,
   background: background,
   surface: background,
   surfaceAlt: background,
@@ -104,6 +108,7 @@ ThemeData _createPrompterTheme({
 ThemeData createCustomTheme({
   required Brightness brightness,
   required Color primary,
+  required Color secondary,
   required Color background,
   required Color surface,
   required Color surfaceAlt,
@@ -112,7 +117,6 @@ ThemeData createCustomTheme({
 }) {
   final onPrimary = _readableOn(primary);
   final error = const Color(0xFFE5484D).harmonizeWith(primary);
-  final secondary = kBrandCoral;
   final scheme = ColorScheme(
     brightness: brightness,
     primary: primary,
