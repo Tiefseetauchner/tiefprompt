@@ -1,0 +1,1 @@
+Diese Version führt die Möglichkeit ein, die Systemfarben in der App zu verwenden, sowie das Springen zwischen Kapiteln und die sprachaktivierte Bildlaufsteuerung.
