@@ -23,6 +23,7 @@ const String kDonationUrl = "https://tiefprompt.com/donate";
 const String kNewScriptName = "New Script";
 
 const Color kBrandTeal = Color(0xFF1FB6B6);
+const Color kBrandCoral = Color(0xFFFF7A59);
 const Color kBrandAbyss = Color(0xFF0A1822);
 const Color kBrandAbyssSurface = Color(0xFF10222E);
 const Color kBrandAbyssSurfaceAlt = Color(0xFF0D1D27);
@@ -180,6 +181,7 @@ enum Feature {
   primaryAppColor,
   textSettings,
   displaySettings,
+  scrollSettings,
   scrollSpeed,
   flipX,
   flipY,
@@ -204,6 +206,7 @@ enum Feature {
   customFonts,
   textDirectionMode,
   useSystemColors,
+  voiceActivation,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -214,6 +217,7 @@ const kAllFeatures = [
   Feature.primaryAppColor,
   Feature.textSettings,
   Feature.displaySettings,
+  Feature.scrollSettings,
   Feature.scrollSpeed,
   Feature.flipX,
   Feature.flipY,
@@ -238,6 +242,7 @@ const kAllFeatures = [
   Feature.customFonts,
   Feature.textDirectionMode,
   Feature.useSystemColors,
+  Feature.voiceActivation,
 ];
 
 const kFreeFeatures = [
@@ -246,6 +251,7 @@ const kFreeFeatures = [
   Feature.primaryAppColor,
   Feature.textSettings,
   Feature.displaySettings,
+  Feature.scrollSettings,
   Feature.scrollSpeed,
   Feature.flipX,
   Feature.flipY,

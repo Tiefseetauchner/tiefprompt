@@ -34,6 +34,9 @@ abstract class PrompterConfiguration with _$PrompterConfiguration {
     ControlButtonsPosition controlButtonsPosition,
     @Default(false) bool showCurrentChapter,
     @Default(TextDirectionMode.auto) TextDirectionMode textDirectionMode,
+    @Default(false) bool voiceActivationEnabled,
+    @Default(-30.0) double voiceActivationThreshold,
+    @Default("default") String voiceActivationDevice,
   }) = _PrompterConfiguration;
 
   factory PrompterConfiguration.fromJson(Map<String, dynamic> json) =>

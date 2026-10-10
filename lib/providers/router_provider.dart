@@ -11,6 +11,7 @@ import 'package:tiefprompt/ui/screens/log_viewer_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/font_settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/keybindings_settings_screen.dart';
+import 'package:tiefprompt/ui/screens/settings/scroll_settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_restore_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/settings_screen.dart';
 import 'package:tiefprompt/ui/screens/settings/text_settings_screen.dart';
@@ -50,6 +51,10 @@ class TiefPromptRouter extends _$TiefPromptRouter {
             GoRoute(
               path: 'display',
               builder: (context, state) => const DisplaySettingsScreen(),
+            ),
+            GoRoute(
+              path: 'scroll',
+              builder: (context, state) => const ScrollSettingsScreen(),
             ),
             GoRoute(
               path: 'text',

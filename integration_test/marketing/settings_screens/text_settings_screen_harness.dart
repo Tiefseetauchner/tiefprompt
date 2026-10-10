@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/settings/text_settings_screen.dart';
@@ -71,6 +72,42 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
               const Key("TextSettingsScreen.DropdownAppSetting_TextAlignment"),
             ),
             matching: find.byType(DropdownButton<TextAlign>),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Text Direction Highlight",
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.byKey(
+              const Key(
+                "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+              ),
+            ),
+          ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Text Direction Open",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.descendant(
+            of: find.byKey(
+              const Key(
+                "SettingsScreen.DropdownAppSetting_DefaultTextDirectionMode",
+              ),
+            ),
+            matching: find.byType(DropdownButton<TextDirectionMode>),
           ),
         );
         await tester.pumpAndSettle();

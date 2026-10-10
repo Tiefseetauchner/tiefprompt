@@ -13,8 +13,7 @@ part of 'all_chapter_provider.dart';
 final allChapterProvider = AllChapterProvider._();
 
 final class AllChapterProvider
-    extends
-        $NotifierProvider<AllChapter, List<({double offset, String title})>> {
+    extends $NotifierProvider<AllChapter, List<Chapter>> {
   AllChapterProvider._()
     : super(
         from: null,
@@ -34,37 +33,27 @@ final class AllChapterProvider
   AllChapter create() => AllChapter();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<({double offset, String title})> value) {
+  Override overrideWithValue(List<Chapter> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride:
-          $SyncValueProvider<List<({double offset, String title})>>(value),
+      providerOverride: $SyncValueProvider<List<Chapter>>(value),
     );
   }
 }
 
-String _$allChapterHash() => r'd799a6684890c229ac5c2804c1481398279bede9';
+String _$allChapterHash() => r'cdcebbeacf7b09cf24e3a28d226444225fd1733c';
 
-abstract class _$AllChapter
-    extends $Notifier<List<({double offset, String title})>> {
-  List<({double offset, String title})> build();
+abstract class _$AllChapter extends $Notifier<List<Chapter>> {
+  List<Chapter> build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref =
-        this.ref
-            as $Ref<
-              List<({double offset, String title})>,
-              List<({double offset, String title})>
-            >;
+    final ref = this.ref as $Ref<List<Chapter>, List<Chapter>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<
-                List<({double offset, String title})>,
-                List<({double offset, String title})>
-              >,
-              List<({double offset, String title})>,
+              AnyNotifier<List<Chapter>, List<Chapter>>,
+              List<Chapter>,
               Object?,
               Object?
             >;

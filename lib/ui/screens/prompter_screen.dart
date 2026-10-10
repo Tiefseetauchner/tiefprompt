@@ -12,6 +12,7 @@ import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/services/script_service.dart';
+import 'package:tiefprompt/ui/widgets/audio_level_display.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
 import 'package:tiefprompt/ui/widgets/current_chapter_banner.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
@@ -154,6 +155,12 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
               PrompterControlButtonsOverlay(),
             if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
             if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
+            if (prompterConfig.voiceActivationEnabled)
+              Positioned(
+                top: 12,
+                right: 12,
+                child: AudioLevelDisplay(config: prompterConfig),
+              ),
             if (displayCountdown && prompterConfig.countdownDuration > 0)
               CountdownTimer(
                 duration: prompterConfig.countdownDuration.toInt(),
@@ -175,6 +182,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _focusNode.dispose();
     _scrollableTextController.dispose();
     _scrollableTextControllerSaveDebouncer.dispose();
+
     super.dispose();
   }
 
@@ -298,26 +306,26 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
           _gatedKeybinding(Feature.keybindings, () {
             final currentOffset =
                 _scrollableTextController.scrollController.offset;
-            final targetChapter = ref
-                .read(allChapterProvider)
-                .lastWhere(
-                  (c) => c.offset < currentOffset,
-                  orElse: () => ref.read(allChapterProvider).first,
-                );
-            _scrollableTextController.jumpTo(targetChapter.offset);
+            final chapters = ref.read(allChapterProvider);
+            final targetChapter =
+                chapters.where((c) => c.offset < currentOffset).lastOrNull ??
+                chapters.firstOrNull;
+            if (targetChapter != null) {
+              _scrollableTextController.jumpTo(targetChapter.offset);
+            }
           });
           break;
         case KeybindingAction.jumpChapterDown:
           _gatedKeybinding(Feature.keybindings, () {
             final currentOffset =
                 _scrollableTextController.scrollController.offset;
-            final targetChapter = ref
-                .read(allChapterProvider)
-                .firstWhere(
-                  (c) => c.offset > currentOffset,
-                  orElse: () => ref.read(allChapterProvider).last,
-                );
-            _scrollableTextController.jumpTo(targetChapter.offset);
+            final chapters = ref.read(allChapterProvider);
+            final targetChapter =
+                chapters.where((c) => c.offset > currentOffset).firstOrNull ??
+                chapters.lastOrNull;
+            if (targetChapter != null) {
+              _scrollableTextController.jumpTo(targetChapter.offset);
+            }
           });
           break;
       }

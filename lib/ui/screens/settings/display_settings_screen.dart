@@ -17,35 +17,16 @@ class DisplaySettingsScreen extends ConsumerWidget {
 
     return AsyncSettingsBuilder(
       state: settings,
-      screenTitle: context.tr("SettingsScreen.DisplaySettings"),
+      screenTitle: context.tr("SettingsScreen.DisplaySettings.Title"),
       builder: (ref, value) {
         final prompterConfig = value.config;
 
         return SafeScaffold(
           appBar: AppBar(
-            title: Text(context.tr("SettingsScreen.DisplaySettings")),
+            title: Text(context.tr("SettingsScreen.DisplaySettings.Title")),
           ),
           body: ListView(
             children: [
-              NumberAppSetting(
-                key: const Key(
-                  "DisplaySettingsScreen.NumberAppSetting_ScrollSpeed",
-                ),
-                feature: Feature.scrollSpeed,
-                value: prompterConfig.scrollSpeed,
-                displayText: context.tr(
-                  "SettingsScreen.NumberAppSetting_DefaultScrollSpeed",
-                ),
-                onValueChanged: (updatedValue) => ref
-                    .read(settingsProvider.notifier)
-                    .setScrollSpeed(updatedValue),
-                min: kPrompterMinSpeed,
-                max: kPrompterMaxSpeed,
-                stepSize: .1,
-                unit: context.tr(
-                  "SettingsScreen.NumberAppSetting_DefaultScrollSpeed_Unit",
-                ),
-              ),
               BooleanAppSetting(
                 key: const Key("DisplaySettingsScreen.BooleanAppSetting_FlipX"),
                 feature: Feature.flipX,
@@ -86,6 +67,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.DropdownAppSetting_ControlButtonsPosition",
                 ),
                 feature: Feature.controlButtons,
+                enabled: prompterConfig.showControlButtons,
                 displayText: context.tr(
                   "SettingsScreen.DropdownAppSetting_ControlButtonPosition.Label",
                 ),
@@ -122,6 +104,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.NumberAppSetting_ReadingIndicatorsHeight",
                 ),
                 feature: Feature.readingIndicatorBoxes,
+                enabled: prompterConfig.displayReadingIndicatorBoxes,
                 value: prompterConfig.readingIndicatorBoxesHeight,
                 displayText: context.tr(
                   "SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes",
@@ -154,6 +137,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.NumberAppSetting_VerticalMarginsHeight",
                 ),
                 feature: Feature.verticalMargins,
+                enabled: prompterConfig.displayVerticalMarginBoxes,
                 value: prompterConfig.verticalMarginBoxesHeight,
                 displayText: context.tr(
                   "SettingsScreen.NumberAppSetting_VerticalMarginBoxes",
@@ -186,6 +170,7 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "DisplaySettingsScreen.NumberAppSetting_FadeLength",
                 ),
                 feature: Feature.verticalMarginFade,
+                enabled: prompterConfig.verticalMarginBoxesFadeEnabled,
                 value: prompterConfig.verticalMarginBoxesFadeLength,
                 displayText: context.tr(
                   "SettingsScreen.NumberAppSetting_VerticalMarginBoxes_FadeLength",
@@ -216,25 +201,6 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 max: kPrompterMaxSideMargin,
                 unit: context.tr(
                   "SettingsScreen.NumberAppSetting_SideMargin_Unit",
-                ),
-              ),
-              NumberAppSetting(
-                key: const Key(
-                  "DisplaySettingsScreen.NumberAppSetting_CountdownTimer",
-                ),
-                feature: Feature.countdownTimer,
-                value: prompterConfig.countdownDuration,
-                displayText: context.tr(
-                  "SettingsScreen.NumberAppSetting_CountdownTimer",
-                ),
-                onValueChanged: (updatedValue) => ref
-                    .read(settingsProvider.notifier)
-                    .setCountdownDuration(updatedValue),
-                min: 0,
-                max: 60,
-                stepSize: 1,
-                unit: context.tr(
-                  "SettingsScreen.NumberAppSetting_CountdownTimer_Unit",
                 ),
               ),
               ColorAppSetting(

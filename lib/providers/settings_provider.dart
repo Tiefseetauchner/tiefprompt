@@ -60,6 +60,9 @@ abstract class ISettings {
   Future<void> setKeybindings(int mapId);
   Future<void> setShowCurrentChapter(bool value);
   Future<void> setTextDirectionMode(TextDirectionMode textDirectionMode);
+  Future<void> setVoiceActivationEnabled(bool enabled);
+  Future<void> setVoiceActivationThreshold(double threshold);
+  Future<void> setVoiceActivationDevice(String deviceId);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -201,6 +204,18 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setPrompterTextColor(Color color) =>
       _mutate((s) => s.copyWith(prompterTextColor: color));
+
+  @override
+  Future<void> setVoiceActivationEnabled(bool enabled) =>
+      _mutateConfig((c) => c.copyWith(voiceActivationEnabled: enabled));
+
+  @override
+  Future<void> setVoiceActivationThreshold(double threshold) =>
+      _mutateConfig((c) => c.copyWith(voiceActivationThreshold: threshold));
+
+  @override
+  Future<void> setVoiceActivationDevice(String deviceId) =>
+      _mutateConfig((c) => c.copyWith(voiceActivationDevice: deviceId));
 
   @override
   Future<void> setKeybindings(int mapId) =>

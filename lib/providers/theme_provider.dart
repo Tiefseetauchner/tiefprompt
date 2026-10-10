@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
+import 'package:tiefprompt/services/system_colors_service.dart';
 
 part 'theme_provider.freezed.dart';
 part 'theme_provider.g.dart';
@@ -21,49 +22,93 @@ abstract class ThemesState with _$ThemesState {
 class Themes extends _$Themes {
   @override
   Future<ThemesState> build() async {
-    final appPrimaryColor = await ref.watch(
-      settingsProvider.selectAsync((s) => s.appPrimaryColor),
+    final (
+      :appPrimaryColor,
+      :useSystemColors,
+      :prompterBackgroundColor,
+      :prompterTextColor,
+    ) = await ref.watch(
+      settingsProvider.selectAsync(
+        (s) => (
+          appPrimaryColor: s.appPrimaryColor,
+          useSystemColors: s.useSystemColors,
+          prompterBackgroundColor: s.prompterBackgroundColor,
+          prompterTextColor: s.prompterTextColor,
+        ),
+      ),
     );
-    final prompterBackgroundColor = await ref.watch(
-      settingsProvider.selectAsync((s) => s.prompterBackgroundColor),
-    );
-    final prompterTextColor = await ref.watch(
-      settingsProvider.selectAsync((s) => s.prompterTextColor),
-    );
+    final systemColors = useSystemColors
+        ? await ref.watch(systemColorSchemesProvider.future)
+        : null;
 
     return ThemesState(
-      darkTheme: createCustomTheme(
-        brightness: Brightness.dark,
-        primary: appPrimaryColor,
-        background: kBrandAbyss,
-        surface: kBrandAbyssSurface,
-        surfaceAlt: kBrandAbyssSurfaceAlt,
-        border: kBrandBorderDark,
-        onSurface: kBrandDarkText,
-      ),
-      lightTheme: createCustomTheme(
-        brightness: Brightness.light,
-        primary: appPrimaryColor,
-        background: kBrandLightBackground,
-        surface: kBrandLightSurface,
-        surfaceAlt: kBrandLightBackground,
-        border: kBrandBorderLight,
-        onSurface: kBrandLightText,
-      ),
-      prompterTheme: ThemeData.from(
-        colorScheme: ColorScheme.highContrastDark(
-          primary: appPrimaryColor,
-          surface: prompterBackgroundColor,
-          onSurface: prompterTextColor,
-        ),
+      darkTheme: systemColors == null
+          ? _createBrandDarkTheme(appPrimaryColor)
+          : _createSystemTheme(systemColors.dark),
+      lightTheme: systemColors == null
+          ? _createBrandLightTheme(appPrimaryColor)
+          : _createSystemTheme(systemColors.light),
+      prompterTheme: _createPrompterTheme(
+        primary: systemColors?.dark.primary ?? appPrimaryColor,
+        background: prompterBackgroundColor,
+        text: prompterTextColor,
       ),
     );
   }
 }
 
+ThemeData _createBrandDarkTheme(Color primary) => createCustomTheme(
+  brightness: Brightness.dark,
+  primary: primary,
+  secondary: kBrandCoral,
+  background: kBrandAbyss,
+  surface: kBrandAbyssSurface,
+  surfaceAlt: kBrandAbyssSurfaceAlt,
+  border: kBrandBorderDark,
+  onSurface: kBrandDarkText,
+);
+
+ThemeData _createBrandLightTheme(Color primary) => createCustomTheme(
+  brightness: Brightness.light,
+  primary: primary,
+  secondary: kBrandCoral,
+  background: kBrandLightBackground,
+  surface: kBrandLightSurface,
+  surfaceAlt: kBrandLightBackground,
+  border: kBrandBorderLight,
+  onSurface: kBrandLightText,
+);
+
+ThemeData _createSystemTheme(ColorScheme scheme) => createCustomTheme(
+  brightness: scheme.brightness,
+  primary: scheme.primary,
+  secondary: scheme.secondary,
+  background: scheme.surface,
+  surface: scheme.surface,
+  surfaceAlt: scheme.surfaceContainerHighest,
+  border: scheme.outline,
+  onSurface: scheme.onSurface,
+);
+
+ThemeData _createPrompterTheme({
+  required Color primary,
+  required Color background,
+  required Color text,
+}) => createCustomTheme(
+  brightness: Brightness.dark,
+  primary: primary,
+  secondary: primary,
+  background: background,
+  surface: background,
+  surfaceAlt: background,
+  border: Colors.transparent,
+  onSurface: text,
+);
+
 ThemeData createCustomTheme({
   required Brightness brightness,
   required Color primary,
+  required Color secondary,
   required Color background,
   required Color surface,
   required Color surfaceAlt,
@@ -76,8 +121,8 @@ ThemeData createCustomTheme({
     brightness: brightness,
     primary: primary,
     onPrimary: onPrimary,
-    secondary: primary,
-    onSecondary: onPrimary,
+    secondary: secondary,
+    onSecondary: _readableOn(secondary),
     surface: surface,
     onSurface: onSurface,
     surfaceContainerLowest: background,
@@ -131,7 +176,7 @@ ThemeData createCustomTheme({
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: primary, width: 2),
+        borderSide: BorderSide(color: secondary, width: 2),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -170,14 +215,14 @@ ThemeData createCustomTheme({
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.disabled)) {
-          return onSurface.withValues(alpha: 0.25);
+          return secondary.withValues(alpha: 0.25);
         }
         if (states.contains(WidgetState.selected)) return primary;
-        return onSurface.withValues(alpha: 0.7);
+        return secondary.withValues(alpha: 0.7);
       }),
       trackColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.disabled)) {
-          return onSurface.withValues(alpha: 0.1);
+          return secondary.withValues(alpha: 0.1);
         }
         if (states.contains(WidgetState.selected)) {
           return primary.withValues(alpha: 0.5);
@@ -191,7 +236,7 @@ ThemeData createCustomTheme({
         if (states.contains(WidgetState.selected)) {
           return primary.withValues(alpha: 0.5);
         }
-        return onSurface.withValues(alpha: 0.3);
+        return secondary.withValues(alpha: 0.3);
       }),
     ),
     sliderTheme: SliderThemeData(
@@ -201,6 +246,7 @@ ThemeData createCustomTheme({
     ),
     progressIndicatorTheme: ProgressIndicatorThemeData(color: primary),
     listTileTheme: const ListTileThemeData(),
+    disabledColor: onSurface.withValues(alpha: 0.38),
   );
 }
 

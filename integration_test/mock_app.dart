@@ -63,6 +63,7 @@ class _MockAppState extends State<MockApp> {
       supportedLocales: supportedLocales,
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
+      useFallbackTranslations: true,
       startLocale: widget.locale,
       child: Builder(
         builder: (context) => ThemedApp(

@@ -81,9 +81,6 @@ calculate_density() {
 
 # Define device parameters
 DEVICES=(
-  "7intablet 1024 600 7"
-  "10intablet 2560 1600 10"
-  "16by9phone 1080 1920 5.5"
   "MarketingTablet 1350 2300 7"
   "MarketingWideTablet 3840 1750 7"
   "MarketingPhone 1080 1920 6"
@@ -143,6 +140,11 @@ for device in "${DEVICES[@]}"; do
   } >> "$CONFIG_FILE"
 
   normal_echo "${GREEN}AVD $name configured successfully.${NC}"
+
+  verbose_echo "${BLUE}Starting AVD $name...${NC}"
+  start_emulator "$name"
+  stop_emulator
+  normal_echo "${GREEN}AVD $name cached.${NC}"
 done
 
 normal_echo "${GREEN}All AVDs have been created and configured.${NC}"

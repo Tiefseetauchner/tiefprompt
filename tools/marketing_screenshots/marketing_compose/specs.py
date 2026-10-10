@@ -15,14 +15,14 @@ def _in_folder(folder: str, collages: list[CollageSpec]) -> list[CollageSpec]:
     return [dataclasses.replace(c, output=f"{folder}/{c.output}") for c in collages]
 
 POS_TOP_LEFT = Position(0, 0)
-POS_TOP_CENTER = Position(700, 0)
-POS_TOP_RIGHT = Position(1400, 0)
-POS_MIDDLE_LEFT = Position(0, 1000)
-POS_MIDDLE_CENTER = Position(700, 1000)
-POS_MIDDLE_RIGHT = Position(1400, 1000)
-POS_BOTTOM_LEFT = Position(0, 1380)
-POS_BOTTOM_CENTER = Position(700, 1380)
-POS_BOTTOM_RIGHT = Position(1400, 1380)
+POS_TOP_CENTER = Position(1400, 0)
+POS_TOP_RIGHT = Position(2800, 0)
+POS_MIDDLE_LEFT = Position(0, 2000)
+POS_MIDDLE_CENTER = Position(1400, 2000)
+POS_MIDDLE_RIGHT = Position(2800, 2000)
+POS_BOTTOM_LEFT = Position(0, 2760)
+POS_BOTTOM_CENTER = Position(1400, 2760)
+POS_BOTTOM_RIGHT = Position(2800, 2760)
 
 POS_HERO_BACK_LEFT = Position(0, 200)
 POS_HERO_BACK_RIGHT = Position(1400, 200)
@@ -261,6 +261,16 @@ MAIN_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
             ),
         ],
     ),
+    CollageSpec(
+        output="UseSystemColors.webp",
+        windows=[
+            WindowSpec(
+                input="main_settings_screen/use_system_colors_highlighted.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ]
+    )
 ]
 
 SETTINGS_SUBSCREENS_COLLAGES: list[CollageSpec] = [
@@ -280,7 +290,7 @@ SETTINGS_SUBSCREENS_COLLAGES: list[CollageSpec] = [
         ],
     ),
     CollageSpec(
-        output="DisplayAndTextSettings.webp",
+        output="SubSettingsScreens.webp",
         windows=[
             WindowSpec(
                 input="display_settings_screen/light_theme.png",
@@ -289,6 +299,11 @@ SETTINGS_SUBSCREENS_COLLAGES: list[CollageSpec] = [
             ),
             WindowSpec(
                 input="text_settings_screen/light_theme.png",
+                title="TiefPrompt",
+                position=POS_TOP_CENTER,
+            ),
+            WindowSpec(
+                input="scroll_settings_screen/light_theme.png",
                 title="TiefPrompt",
                 position=POS_TOP_RIGHT,
             ),
@@ -352,6 +367,21 @@ TEXT_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
             ),
             WindowSpec(
                 input="text_settings_screen/font_family_open.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="TextDirection.webp",
+        windows=[
+            WindowSpec(
+                input="text_settings_screen/text_direction_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="text_settings_screen/text_direction_open.png",
                 title="TiefPrompt",
                 position=POS_TOP_RIGHT,
             ),
@@ -635,21 +665,6 @@ KEYBINDINGS_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
 
 DISPLAY_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
     CollageSpec(
-        output="ScrollSpeed.webp",
-        windows=[
-            WindowSpec(
-                input="display_settings_screen/scroll_speed_highlight.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-            WindowSpec(
-                input="display_settings_screen/scroll_speed_dialog.png",
-                title="TiefPrompt",
-                position=POS_TOP_RIGHT,
-            ),
-        ],
-    ),
-    CollageSpec(
         output="Flip.webp",
         windows=[
             WindowSpec(
@@ -775,21 +790,6 @@ DISPLAY_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
         ],
     ),
     CollageSpec(
-        output="CountdownTimer.webp",
-        windows=[
-            WindowSpec(
-                input="display_settings_screen/countdown_timer_highlight.png",
-                title="TiefPrompt",
-                position=POS_TOP_LEFT,
-            ),
-            WindowSpec(
-                input="display_settings_screen/countdown_timer_dialog.png",
-                title="TiefPrompt",
-                position=POS_TOP_RIGHT,
-            ),
-        ],
-    ),
-    CollageSpec(
         output="PrompterBackgroundColor.webp",
         windows=[
             WindowSpec(
@@ -844,6 +844,94 @@ DISPLAY_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
             ),
         ],
     )
+]
+
+SCROLL_SETTINGS_SCREEN_COLLAGES: list[CollageSpec] = [
+    CollageSpec(
+        output="ScrollSpeed.webp",
+        windows=[
+            WindowSpec(
+                input="scroll_settings_screen/scroll_speed_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="scroll_settings_screen/scroll_speed_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="CountdownTimer.webp",
+        windows=[
+            WindowSpec(
+                input="scroll_settings_screen/countdown_timer_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="scroll_settings_screen/countdown_timer_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="VoiceActivation.webp",
+        windows=[
+            WindowSpec(
+                input="scroll_settings_screen/voice_activation_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="VoiceActivationSensitivity.webp",
+        windows=[
+            WindowSpec(
+                input="scroll_settings_screen/voice_activation_sensitivity_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="scroll_settings_screen/voice_activation_sensitivity_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="AudioDeviceDropdown.webp",
+        windows=[
+            WindowSpec(
+                input="scroll_settings_screen/audio_device_dropdown_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="scroll_settings_screen/audio_device_dropdown_dialog.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
+    CollageSpec(
+        output="PreviewVoiceActivation.webp",
+        windows=[
+            WindowSpec(
+                input="scroll_settings_screen/preview_voice_activation_highlight.png",
+                title="TiefPrompt",
+                position=POS_TOP_LEFT,
+            ),
+            WindowSpec(
+                input="scroll_settings_screen/preview_voice_activation_active.png",
+                title="TiefPrompt",
+                position=POS_TOP_RIGHT,
+            ),
+        ],
+    ),
 ]
 
 SELECT_SCRIPT_SCREEN_COLLAGES: list[CollageSpec] = [
@@ -1181,6 +1269,7 @@ ALL_COLLAGES: list[CollageSpec] = (
     + _in_folder("docs/settings_subscreens", SETTINGS_SUBSCREENS_COLLAGES)
     + _in_folder("docs/text_settings_screen", TEXT_SETTINGS_SCREEN_COLLAGES)
     + _in_folder("docs/display_settings_screen", DISPLAY_SETTINGS_SCREEN_COLLAGES)
+    + _in_folder("docs/scroll_settings_screen", SCROLL_SETTINGS_SCREEN_COLLAGES)
     + _in_folder("docs/keybindings_settings_screen", KEYBINDINGS_SETTINGS_SCREEN_COLLAGES)
     + _in_folder("docs/saved_settings_screen", SAVED_SETTINGS_SCREEN_COLLAGES)
     + _in_folder("docs/select_script_screen", SELECT_SCRIPT_SCREEN_COLLAGES)

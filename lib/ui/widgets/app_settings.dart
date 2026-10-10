@@ -124,6 +124,7 @@ class DropdownAppSetting<T> extends AppSetting {
   Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
+      enabled: enabled,
       trailing: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 200),
         child: DropdownButton<T>(
@@ -170,6 +171,7 @@ class BooleanAppSetting extends AppSetting {
   Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
+      enabled: enabled,
       trailing: Switch(
         value: value,
         onChanged: enabled ? onValueChanged : null,
@@ -194,6 +196,7 @@ class LinkAppSetting extends AppSetting {
   Widget buildSetting(BuildContext context, WidgetRef ref) {
     return ListTile(
       title: Text(displayText),
+      enabled: enabled,
       onTap: enabled ? () => context.push(value) : null,
     );
   }
@@ -223,6 +226,7 @@ class _KeybindingAppSettingState
   Widget buildSetting(BuildContext context) {
     return ListTile(
       title: Text(widget.displayText),
+      enabled: widget.enabled,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [_getBindingsDisplay(), const Icon(Icons.chevron_right)],
@@ -483,6 +487,7 @@ class _NumberAppSettingState extends StatefulAppSettingState<NumberAppSetting> {
   Widget buildSetting(BuildContext context) {
     return ListTile(
       title: Text(widget.displayText),
+      enabled: widget.enabled,
       trailing: const Icon(Icons.chevron_right),
       subtitle: Text("${widget.value.toStringAsFixed(1)} ${widget.unit}"),
       onTap: widget.enabled ? () => _showDialog(context) : null,
@@ -626,6 +631,7 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
   Widget buildSetting(BuildContext context) {
     return ListTile(
       title: Text(widget.displayText),
+      enabled: widget.enabled,
       trailing: const Icon(Icons.chevron_right),
       subtitle: widget.enabled
           ? null
@@ -661,7 +667,7 @@ class DialogAppSetting extends AppSetting {
           ? () => onTap == null ? _showDialog(context) : onTap!(context, ref)
           : null,
       callback: callback,
-      child: ListTile(title: Text(displayText)),
+      child: ListTile(title: Text(displayText), enabled: enabled),
     );
   }
 

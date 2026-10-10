@@ -51,7 +51,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             LinkAppSetting(
               key: const Key("SettingsScreen.DisplaySettings"),
-              displayText: context.tr("SettingsScreen.DisplaySettings"),
+              displayText: context.tr("SettingsScreen.DisplaySettings.Title"),
               feature: Feature.displaySettings,
               value: "/settings/display",
             ),
@@ -60,6 +60,12 @@ class SettingsScreen extends ConsumerWidget {
               displayText: context.tr("SettingsScreen.TextSettings"),
               feature: Feature.textSettings,
               value: "/settings/text",
+            ),
+            LinkAppSetting(
+              key: const Key("SettingsScreen.ScrollSettings"),
+              displayText: context.tr("SettingsScreen.ScrollSettings.Title"),
+              feature: Feature.scrollSettings,
+              value: "/settings/scroll",
             ),
             LinkAppSetting(
               key: const Key("SettingsScreen.KeybindingsSettings"),

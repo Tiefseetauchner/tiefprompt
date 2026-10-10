@@ -184,6 +184,16 @@ Future<ScenarioHarness> buildSettingsHarness() async {
 
   harness.addScenario(
     Scenario(
+      name: "Scroll Settings Highlight",
+      testCallback: (tester, binding) => WidgetHighlighter(
+        tester,
+        defaultHighlightColor: kMarketingHighlightColor,
+      ).highlightWidget(find.byKey(const Key("SettingsScreen.ScrollSettings"))),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
       name: "Keybindings Highlight",
       testCallback: (tester, binding) =>
           WidgetHighlighter(
@@ -243,6 +253,22 @@ Future<ScenarioHarness> buildSettingsHarness() async {
           ),
         );
         await tester.pumpAndSettle();
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Use System Colors Highlighted",
+      testCallback: (tester, binding) async {
+        WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key("SettingsScreen.BooleanAppSetting_UseSystemColors"),
+          ),
+        );
       },
     ),
   );

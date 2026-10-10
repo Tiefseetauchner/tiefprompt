@@ -408,10 +408,7 @@ class _FontSettingsDialog extends ConsumerWidget {
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
-        ),
+        body: SpinKitRing(color: Theme.of(context).colorScheme.primary),
       ),
       _ => const ResetSettingsView(),
     };
@@ -660,7 +657,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                       _FeatureGate(
                         feature: Feature.countdownTimer,
                         displayText: context.tr(
-                          "SettingsScreen.NumberAppSetting_CountdownTimer",
+                          "SettingsScreen.ScrollSettings.CountdownTimer",
                         ),
                         child: Row(
                           children: [
@@ -679,6 +676,37 @@ class _DisplaySettingsDialog extends ConsumerWidget {
                               onChanged: (value) => ref
                                   .read(prompterProvider.notifier)
                                   .setCountdownDuration(value),
+                            ),
+                          ],
+                        ),
+                      ),
+                      _FeatureGate(
+                        feature: Feature.voiceActivation,
+                        displayText: context.tr(
+                          "SettingsScreen.ScrollSettings.VoiceActivation",
+                        ),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () => ref
+                                  .read(prompterProvider.notifier)
+                                  .toggleVoiceActivationEnabled(),
+                              isSelected: prompterConfig.voiceActivationEnabled,
+                              icon: Icon(Icons.mic_none_outlined),
+                              tooltip: context.tr(
+                                "SettingsScreen.ScrollSettings.VoiceActivation",
+                              ),
+                            ),
+                            Slider(
+                              value: prompterConfig.voiceActivationThreshold,
+                              min: -60,
+                              max: 0,
+                              divisions: 60,
+                              label: prompterConfig.voiceActivationThreshold
+                                  .toStringAsFixed(0),
+                              onChanged: (value) => ref
+                                  .read(prompterProvider.notifier)
+                                  .setVoiceActivationThreshold(value),
                             ),
                           ],
                         ),
@@ -733,10 +761,7 @@ class _DisplaySettingsDialog extends ConsumerWidget {
         appBar: AppBar(
           title: Text(context.tr("SettingsScreen.KeybindingsSettings.Title")),
         ),
-        body: SpinKitRing(
-          color:
-              ref.read(settingsProvider).value?.appPrimaryColor ?? kBrandTeal,
-        ),
+        body: SpinKitRing(color: Theme.of(context).colorScheme.primary),
       ),
       _ => const ResetSettingsView(),
     };

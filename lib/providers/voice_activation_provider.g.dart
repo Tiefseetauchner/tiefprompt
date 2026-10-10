@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'theme_provider.dart';
+part of 'voice_activation_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,46 +9,47 @@ part of 'theme_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Themes)
-final themesProvider = ThemesProvider._();
+@ProviderFor(VoiceActivation)
+final voiceActivationProvider = VoiceActivationProvider._();
 
-final class ThemesProvider extends $AsyncNotifierProvider<Themes, ThemesState> {
-  ThemesProvider._()
+final class VoiceActivationProvider
+    extends $AsyncNotifierProvider<VoiceActivation, double> {
+  VoiceActivationProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'themesProvider',
+        name: r'voiceActivationProvider',
         isAutoDispose: false,
         dependencies: <ProviderOrFamily>[settingsProvider],
         $allTransitiveDependencies: <ProviderOrFamily>[
-          ThemesProvider.$allTransitiveDependencies0,
+          VoiceActivationProvider.$allTransitiveDependencies0,
         ],
       );
 
   static final $allTransitiveDependencies0 = settingsProvider;
 
   @override
-  String debugGetCreateSourceHash() => _$themesHash();
+  String debugGetCreateSourceHash() => _$voiceActivationHash();
 
   @$internal
   @override
-  Themes create() => Themes();
+  VoiceActivation create() => VoiceActivation();
 }
 
-String _$themesHash() => r'23d68301892bd2a9598340ebdccb62dd5904538a';
+String _$voiceActivationHash() => r'4a0220e276ce512a6f33e7a40db184d566ca69cd';
 
-abstract class _$Themes extends $AsyncNotifier<ThemesState> {
-  FutureOr<ThemesState> build();
+abstract class _$VoiceActivation extends $AsyncNotifier<double> {
+  FutureOr<double> build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<ThemesState>, ThemesState>;
+    final ref = this.ref as $Ref<AsyncValue<double>, double>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<ThemesState>, ThemesState>,
-              AsyncValue<ThemesState>,
+              AnyNotifier<AsyncValue<double>, double>,
+              AsyncValue<double>,
               Object?,
               Object?
             >;
