@@ -78,9 +78,6 @@
     "NumberAppSetting_SideMargin": "Seitenabstand",
     "NumberAppSetting_SideMargin_Unit": "%",
     "DropdownAppSetting_Theme": "Applikationsfarbe",
-    "DropdownAppSetting_Theme_light": "Hell",
-    "DropdownAppSetting_Theme_dark": "Dunkel",
-    "DropdownAppSetting_Theme_system": "System",
     "ColorAppSetting_AppPrimaryColor": "Applikationsprimärfarbe",
     "ColorAppSetting_PrompterBackgroundColor": "Prompter Hintergrundfarbe",
     "ColorAppSetting_PrompterTextColor": "Prompter Textfarbe",
@@ -92,7 +89,9 @@
       "right": "Rechte Seite",
       "bottom": "Unterseite"
     },
-    "DisplaySettings": { "Title": "Anzeigeeinstellungen" },
+    "DisplaySettings": {
+      "Title": "Anzeigeeinstellungen"
+    },
     "TextSettings": "Schrifteinstellungen",
     "ListTile_Reset": "Reset settings",
     "Reset_Warning": "Die Einstellungen werden hier komplett zurück gesetzt!",
@@ -122,7 +121,9 @@
       "fontSizeUp": "Schriftgröße erhöhen",
       "fontSizeDown": "Schriftgröße verringern",
       "openSettings": "Einstellungen öffnen",
-      "saveSettingsFromPrompter": "Einstellungen von Prompter speichern"
+      "saveSettingsFromPrompter": "Einstellungen von Prompter speichern",
+      "jumpChapterUp": "Zu vorherigem Kapitel springen",
+      "jumpChapterDown": "Zu nächstem Kapitel springen"
     },
     "ScrollSettings": {
       "Title": "Scroll-Einstellungen",
@@ -130,7 +131,12 @@
       "DefaultScrollSpeed_Unit": "Zeilen/Sekunde",
       "CountdownTimer": "Countdown-Timer",
       "CountdownTimer_Unit": "Sekunden",
-      "UnknownDevice": "Unbekanntes Gerät"
+      "UnknownDevice": "Unbekanntes Gerät",
+      "VoiceActivation": "Sprachaktivierung",
+      "VoiceActivationThreshold": "Sprachaktivierungsschwelle",
+      "VoiceActivationThreshold_Unit": "db",
+      "VoiceActivationDevices": "Audiogeräte für Sprachaktivierung",
+      "VoiceActivationPreview": "Vorschau für Sprachaktivierung"
     },
     "BooleanAppSetting_Markdown": "Markdown aktivieren",
     "BooleanAppSetting_ShowCurrentChapter": "Aktuelles Kapitel anzeigen",
@@ -216,6 +222,14 @@
         "SetFontVariantWeight": "Schriftstärke",
         "SetFontItalics": "Kursiv"
       }
+    },
+    "ColorAppSetting_Disabled": "Diese Farbe kann nicht gesetzt werden, wenn Systemfarben Verwenden aktiviert ist",
+    "BooleanAppSetting_UseSystemColors": "Systemfarben Verwenden",
+    "DropdownAppSetting_DefaultTextDirectionMode": "Schriftrichtung",
+    "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
+      "ltr": "Links zu Rechts",
+      "rtl": "Rechts zu Links",
+      "auto": "Automatisch"
     }
   },
   "PrompterScreen": {
@@ -256,6 +270,35 @@
     "if_empty": "Kein Script gespeichert. Speichere deine Scripten, um sie hier anzuzeigen.",
     "ElevatedButton_Select": "Datei öffnen",
     "ListTile_Delete": "Löschen (Für immer)"
+  },
+  "DropdownAppSetting_DefaultFontFamily": "Schriftart",
+  "BooleanAppSetting_DefaultFlipX": "Um X spiegeln",
+  "BooleanAppSetting_DefaultFlipY": "Um Y spiegeln",
+  "BooleanAppSetting_ReadingIndicatorBoxes": "Lesehilfen aktivieren",
+  "NumberAppSetting_ReadingIndicatorBoxes": "Höhe der Lesehilfen",
+  "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+  "BooleanAppSetting_VerticalMarginBoxes": "Vertikalen Abstand aktivieren",
+  "NumberAppSetting_VerticalMarginBoxes": "Höhe des vertikalen Abstands",
+  "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
+  "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",
+  "NumberAppSetting_VerticalMarginBoxes_FadeLength": "Verlauflänge",
+  "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "%",
+  "NumberAppSetting_SideMargin": "Seitenabstand",
+  "NumberAppSetting_SideMargin_Unit": "%",
+  "DropdownAppSetting_Theme": "Applikationsfarbe",
+  "DropdownAppSetting_Theme_light": "Hell",
+  "DropdownAppSetting_Theme_dark": "Dunkel",
+  "DropdownAppSetting_Theme_system": "System",
+  "ColorAppSetting_AppPrimaryColor": "Applikationsprimärfarbe",
+  "ColorAppSetting_PrompterBackgroundColor": "Prompter Hintergrundfarbe",
+  "ColorAppSetting_PrompterTextColor": "Prompter Textfarbe",
+  "BooleanAppSetting_ControlButtons": "Steuerungsknöpfe einschalten",
+  "DropdownAppSetting_ControlButtonPosition": {
+    "Label": "Position der Steuerungsknöpfe",
+    "left": "Linke Seite",
+    "top": "Oberseite",
+    "right": "Rechte Seite",
+    "bottom": "Unterseite"
   },
   "ChangelogModal": {
     "title": "Neuigkeiten",
