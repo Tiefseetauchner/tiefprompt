@@ -1,4 +1,4 @@
-Tiefprompt be crafted t’ give ye a simple ‘n’ customizable scrollin’ text voyage fer yer presentin’, recordin’ o’ moving pictures, and shoutin’ grand speeches. It comes with th’ basics ye need t’ steer yer readin’ and command th’ scroll with ease.
+TiefPrompt be crafted t’ give ye a simple ‘n’ customizable scrollin’ text voyage fer yer presentin’, recordin’ o’ moving pictures, and shoutin’ grand speeches. It comes with th’ basics ye need t’ steer yer readin’ and command th’ scroll with ease.
 
 What be aboard, but not limited to:
 * Keyboard Helm Control: Steer and command yer scrollin’ with the tappin’ of keys, like a true navigator.
