@@ -206,13 +206,14 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
         case KeybindingAction.scrollUp:
           _gatedKeybinding(
             Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(-75),
+            () =>
+                _scrollableTextController.jumpRelative(-kPrompterJumpDistance),
           );
           break;
         case KeybindingAction.scrollDown:
           _gatedKeybinding(
             Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(75),
+            () => _scrollableTextController.jumpRelative(kPrompterJumpDistance),
           );
           break;
         case KeybindingAction.scrollUpSmall:

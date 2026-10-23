@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
@@ -54,7 +55,8 @@ class _ControlButtons extends ConsumerWidget {
       ),
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
-        onPressed: () => scrollableTextController.jumpRelative(-75),
+        onPressed: () =>
+            scrollableTextController.jumpRelative(-kPrompterJumpDistance),
         icon: const Icon(Icons.replay_10_rounded),
       ),
       IconButton(
@@ -68,7 +70,8 @@ class _ControlButtons extends ConsumerWidget {
       ),
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
-        onPressed: () => scrollableTextController.jumpRelative(75),
+        onPressed: () =>
+            scrollableTextController.jumpRelative(kPrompterJumpDistance),
         icon: const Icon(Icons.forward_10_rounded),
       ),
       IconButton(

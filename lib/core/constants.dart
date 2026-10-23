@@ -37,6 +37,8 @@ const Color kBrandLightText = Color(0xFF0A1822);
 
 const double kBrandRadius = 14.0;
 
+const double kPrompterJumpDistance = 75.0;
+
 const TalkerRiverpodLoggerSettings kTalkerRiverpodObserverSettings =
     TalkerRiverpodLoggerSettings(
       printMutationStart: false,
