@@ -1,0 +1,1 @@
+This hotfix fixes an issue with detecting scrolling during teleprompter usage.
