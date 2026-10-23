@@ -9,17 +9,6 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:bidi/bidi.dart' as bidi;
 import 'package:tiefprompt/providers/voice_activation_provider.dart';
 
-class _UserScrolling extends Notifier<bool> {
-  @override
-  bool build() => false;
-  void setValue(bool v) => state = v;
-}
-
-final _userScrollingProvider = NotifierProvider<_UserScrolling, bool>(
-  _UserScrolling.new,
-  isAutoDispose: false,
-);
-
 class ScrollableTextController {
   final ScrollController scrollController;
 
@@ -64,6 +53,7 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   Ticker? _ticker;
   double _scrollSpeed = 0;
   Duration _lastElapsed = Duration.zero;
+  bool _isUserScrolling = false;
   Function? _onReachedEnd;
 
   MarkdownAst _ast = const MarkdownAst.empty();
@@ -181,17 +171,19 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
   }
 
   void _tick(Duration elapsed) {
-    final isUserScrolling = ref.read(_userScrollingProvider);
-
     final deltaSeconds =
         (elapsed - _lastElapsed).inMicroseconds /
         Duration.microsecondsPerSecond;
     _lastElapsed = elapsed;
 
+    if (_isUserScrolling) {
+      return;
+    }
+
     final calculatedScrollOffset =
         _getScrollOffsetInLinesPerSecond(_scrollSpeed) * deltaSeconds;
 
-    if (widget.controller.scrollController.hasClients && !isUserScrolling) {
+    if (widget.controller.scrollController.hasClients) {
       if (widget.controller.scrollController.position.pixels +
               calculatedScrollOffset >=
           widget.controller.scrollController.position.maxScrollExtent) {
@@ -291,15 +283,14 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
 
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
+        if (notification.depth != 0) {
+          return false;
+        }
         if (notification is ScrollStartNotification &&
             notification.dragDetails != null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ref.read(_userScrollingProvider.notifier).setValue(true);
-          });
+          setState(() => _isUserScrolling = true);
         } else if (notification is ScrollEndNotification) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ref.read(_userScrollingProvider.notifier).setValue(false);
-          });
+          setState(() => _isUserScrolling = false);
         }
         return false;
       },
