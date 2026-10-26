@@ -113,7 +113,14 @@
             "DefaultScrollSpeed": "Velocidad de desplazamiento predeterminada",
             "DefaultScrollSpeed_Unit": "lineas/seg",
             "CountdownTimer": "Temporizador de cuenta regresiva",
-            "CountdownTimer_Unit": "seg"
+            "CountdownTimer_Unit": "seg",
+            "Title": "",
+            "VoiceActivationThreshold": "",
+            "VoiceActivationDevices": "",
+            "VoiceActivation": "",
+            "VoiceActivationPreview": "",
+            "VoiceActivationThreshold_Unit": "",
+            "UnknownDevice": ""
         },
         "KeybindingsSettings": {
             "Title": "Configuración de asignación de teclas",
@@ -137,7 +144,9 @@
             "fontSizeUp": "",
             "fontSizeDown": "",
             "openSettings": "",
-            "saveSettingsFromPrompter": ""
+            "saveSettingsFromPrompter": "",
+            "jumpChapterUp": "",
+            "jumpChapterDown": ""
         },
         "SettingsRestore": {
             "Title": "",
@@ -217,7 +226,15 @@
                 "SetFontVariantWeight": "",
                 "SetFontItalics": ""
             }
-        }
+        },
+        "DropdownAppSetting_DefaultTextDirectionMode": "",
+        "ColorAppSetting_Disabled": "",
+        "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
+            "rtl": "",
+            "ltr": "",
+            "auto": ""
+        },
+        "BooleanAppSetting_UseSystemColors": ""
     },
     "PrompterScreen": {
         "speed": "",
