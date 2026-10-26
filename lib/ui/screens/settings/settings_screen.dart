@@ -88,7 +88,9 @@ class SettingsScreen extends ConsumerWidget {
               values: ThemeMode.values
                   .map(
                     (mode) => (
-                      mode.name[0].toUpperCase() + mode.name.substring(1),
+                      context.tr(
+                        "SettingsScreen.DropdownAppSetting_Theme_${mode.name}",
+                      ),
                       mode,
                     ),
                   )
