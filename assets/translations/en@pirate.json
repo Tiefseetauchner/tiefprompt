@@ -43,7 +43,8 @@
       "Title": "Push yer Changes to yer Script or Get a new Ship?",
       "NewScript": "New Ship",
       "OverrideScript": "Scuttle old Script"
-    }
+    },
+    "FreeVersion_BuyPro": "Buy Pro"
   },
   "SettingsScreen": {
     "title": "Settin's",
@@ -54,9 +55,6 @@
     },
     "DropdownAppSetting_DefaultLanguage": "'e native tongue",
     "DropdownAppSetting_Theme": "Colors for yer app",
-    "DropdownAppSetting_Theme_light": "Glaring",
-    "DropdownAppSetting_Theme_dark": "Gloomy",
-    "DropdownAppSetting_Theme_system": "As th' sea decides",
     "NumberAppSetting_DefaultFontSize": "Yer letter size",
     "NumberAppSetting_DefaultFontSize_Unit": "thumbnails",
     "DropdownAppSetting_DefaultTextAlignment": "Yer Text riggin'",
@@ -91,7 +89,9 @@
       "right": "Starboard",
       "bottom": "Hind"
     },
-    "DisplaySettings": { "Title": "Show 'em" },
+    "DisplaySettings": {
+      "Title": "Show 'em"
+    },
     "TextSettings": "Read 'em",
     "ListTile_Reset": "Scuttle ship",
     "Reset_Warning": "Yer 'bout'a scuttle all preferences!",
@@ -105,7 +105,12 @@
       "DefaultScrollSpeed_Unit": "knots",
       "CountdownTimer": "Hourglass",
       "CountdownTimer_Unit": "ticks",
-      "UnknownDevice": "Flagless Ship"
+      "UnknownDevice": "Flagless Ship",
+      "VoiceActivation": "Speech Control",
+      "VoiceActivationThreshold": "Speech Control Level",
+      "VoiceActivationThreshold_Unit": "a sailors scream",
+      "VoiceActivationDevices": "Boat used for Speech Control",
+      "VoiceActivationPreview": "Show Speech Control"
     },
     "KeybindingsSettings": {
       "Title": "Settin's for Controls",
@@ -129,7 +134,9 @@
       "fontSizeUp": "Larger font",
       "fontSizeDown": "Smaller font",
       "openSettings": "Open Settin's",
-      "saveSettingsFromPrompter": "Write 'em settings"
+      "saveSettingsFromPrompter": "Write 'em settings",
+      "jumpChapterUp": "Sail Up One Sea",
+      "jumpChapterDown": "Sail Down One Sea"
     },
     "BooleanAppSetting_Markdown": "Sail more glamorously",
     "BooleanAppSetting_ShowCurrentChapter": "Show yer current chapter",
@@ -179,7 +186,51 @@
       }
     },
     "ShowHelpRequest": "Gi'me yer beggin' 'gain",
-    "ShowChangelog": "Gi'me yer Papers Again"
+    "ShowChangelog": "Gi'me yer Papers Again",
+    "LinkAppSetting_CustomFonts": "Yer own letters",
+    "ViewLogs": "Access Log Book",
+    "ColorAppSetting_Disabled": "Yer cannot use that color when yer sailing with Ships Colors",
+    "BooleanAppSetting_UseSystemColors": "Ships Colors",
+    "DropdownAppSetting_DefaultTextDirectionMode": "Text Sailing Direction",
+    "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
+      "ltr": "Port ter Starboard",
+      "rtl": "Starboard ter Port",
+      "auto": "Magical"
+    },
+    "FontSettings": {
+      "Title": "Letters",
+      "AddFont": "Plunder new Letters",
+      "BuiltIn": "Ships Own",
+      "Custom": "Yer Bounties",
+      "EditFamilyTooltip": {
+        "BuiltIn": "Ships own letters are not changeable",
+        "Custom": "Retitle Letters"
+      },
+      "EditVariantTooltip": {
+        "BuiltIn": "Ships own variants are not hoistable",
+        "Custom": "Hoist Variant"
+      },
+      "MoveVariantTooltip": {
+        "BuiltIn": "Yer can't sail away with ships own letters",
+        "Custom": "Sail variant to different letters"
+      },
+      "DeleteVariantTooltip": {
+        "BuiltIn": "Ships own letter variants are forever",
+        "Custom": "Sink variant"
+      },
+      "MoveFontDialog": {
+        "Title": "Sail Variant to Letters"
+      },
+      "EditFontDialog": {
+        "Title": "Paint Letters",
+        "SetFontFamilyName": "Letters Name",
+        "Cancel": "Abort",
+        "Save": "Sail",
+        "Warning": "T'is here will cause the variant ter not match with the letters it was loaded from. Yer cannot undo this.",
+        "SetFontVariantWeight": "Stroke",
+        "SetFontItalics": "Cursive"
+      }
+    }
   },
   "PrompterScreen": {
     "speed": "{} knots",
@@ -210,7 +261,8 @@
       "IconButton_FadeEnabled": "Make 'em top 'n bottom spaces fade",
       "Slider_SideMargin": "Left 'n right spacing",
       "Slider_Countdown": "Yer Hourglass",
-      "IconButton_Markdown": "Turn on pretty sailin'"
+      "IconButton_Markdown": "Turn on pretty sailin'",
+      "IconButton_ShowCurrentChapter": "Paint current chapter"
     }
   },
   "OpenFileScreen": {
