@@ -112,14 +112,6 @@
       "VoiceActivationDevices": "Boat used for Speech Control",
       "VoiceActivationPreview": "Show Speech Control"
     },
-    "LineHeight": {
-      "EnableCustom": "Make Yer Own Distance",
-      "CustomValue": "Yer Distance",
-      "Title": "Yer Distance"
-    },
-    "ElapsedTime": {
-      "Title": "Count the Ticks of the Pendulum"
-    },
     "KeybindingsSettings": {
       "Title": "Settin's for Controls",
       "ChangeBindings": "Change Control Ropes",
@@ -238,7 +230,10 @@
         "SetFontVariantWeight": "Stroke",
         "SetFontItalics": "Cursive"
       }
-    }
+    },
+    "DropdownAppSetting_Theme_light": "Glaring",
+    "DropdownAppSetting_Theme_dark": "Gloomy",
+    "DropdownAppSetting_Theme_system": "As yer Seas decide"
   },
   "PrompterScreen": {
     "speed": "{} knots",
