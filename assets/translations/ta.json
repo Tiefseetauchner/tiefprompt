@@ -111,7 +111,9 @@
             "rtl": "",
             "auto": ""
         },
-        "DisplaySettings": "",
+        "DisplaySettings": {
+            "Title": ""
+        },
         "TextSettings": "",
         "ListTile_Reset": "",
         "Reset_Warning": "",
@@ -141,7 +143,9 @@
             "fontSizeUp": "",
             "fontSizeDown": "",
             "openSettings": "",
-            "saveSettingsFromPrompter": ""
+            "saveSettingsFromPrompter": "",
+            "jumpChapterUp": "",
+            "jumpChapterDown": ""
         },
         "SettingsRestore": {
             "Title": "",
@@ -221,6 +225,19 @@
                 "SetFontVariantWeight": "",
                 "SetFontItalics": ""
             }
+        },
+        "ScrollSettings": {
+            "Title": "",
+            "VoiceActivationThreshold": "",
+            "DefaultScrollSpeed": "",
+            "DefaultScrollSpeed_Unit": "",
+            "VoiceActivationDevices": "",
+            "CountdownTimer_Unit": "",
+            "CountdownTimer": "",
+            "VoiceActivation": "",
+            "VoiceActivationPreview": "",
+            "VoiceActivationThreshold_Unit": "",
+            "UnknownDevice": ""
         }
     },
     "PrompterScreen": {
