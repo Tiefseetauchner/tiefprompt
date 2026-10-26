@@ -238,7 +238,10 @@
       "ltr": "Links zu Rechts",
       "rtl": "Rechts zu Links",
       "auto": "Automatisch"
-    }
+    },
+    "DropdownAppSetting_Theme_light": "Hell",
+    "DropdownAppSetting_Theme_dark": "Dunkel",
+    "DropdownAppSetting_Theme_system": "System"
   },
   "PrompterScreen": {
     "speed": "{}x",
