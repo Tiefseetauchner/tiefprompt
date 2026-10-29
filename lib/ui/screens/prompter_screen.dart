@@ -152,7 +152,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                         prompterConfig.controlButtonsPosition ==
                             ControlButtonsPosition.right)) &&
                 prompterConfig.showControlButtons)
-              PrompterControlButtonsOverlay(),
+              PrompterControlButtonsOverlay(
+                scrollableTextController: _scrollableTextController,
+              ),
             if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
             if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
             if (prompterConfig.voiceActivationEnabled)
@@ -204,13 +206,14 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
         case KeybindingAction.scrollUp:
           _gatedKeybinding(
             Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(-75),
+            () =>
+                _scrollableTextController.jumpRelative(-kPrompterJumpDistance),
           );
           break;
         case KeybindingAction.scrollDown:
           _gatedKeybinding(
             Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(75),
+            () => _scrollableTextController.jumpRelative(kPrompterJumpDistance),
           );
           break;
         case KeybindingAction.scrollUpSmall:
