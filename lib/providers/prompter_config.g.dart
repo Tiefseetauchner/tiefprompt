@@ -49,6 +49,11 @@ _PrompterConfiguration _$PrompterConfigurationFromJson(
   voiceActivationThreshold:
       (json['voiceActivationThreshold'] as num?)?.toDouble() ?? -30.0,
   voiceActivationDevice: json['voiceActivationDevice'] as String? ?? "default",
+  prompterOrientation: json['prompterOrientation'] == null
+      ? PrompterOrientation.landscape
+      : const PrompterOrientationConverter().fromJson(
+          json['prompterOrientation'] as String,
+        ),
 );
 
 Map<String, dynamic> _$PrompterConfigurationToJson(
@@ -78,6 +83,9 @@ Map<String, dynamic> _$PrompterConfigurationToJson(
   'voiceActivationEnabled': instance.voiceActivationEnabled,
   'voiceActivationThreshold': instance.voiceActivationThreshold,
   'voiceActivationDevice': instance.voiceActivationDevice,
+  'prompterOrientation': const PrompterOrientationConverter().toJson(
+    instance.prompterOrientation,
+  ),
 };
 
 const _$TextDirectionModeEnumMap = {

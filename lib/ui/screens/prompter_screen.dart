@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/debouncer.dart';
+import 'package:tiefprompt/core/prompter_orientation.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/all_chapter_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
@@ -55,10 +56,12 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     );
     WakelockPlus.enable();
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
+    ref.read(settingsProvider).whenData((data) {
+      SystemChrome.setPreferredOrientations(
+        data.config.prompterOrientation.deviceOrientation,
+      );
+    });
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -83,6 +86,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
 
     ref.listen(settingsProvider, (previous, next) async {
       next.whenData((data) {
+        SystemChrome.setPreferredOrientations(
+          data.config.prompterOrientation.deviceOrientation,
+        );
         ref.read(prompterProvider.notifier).applySettings(data);
       });
     });

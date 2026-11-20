@@ -209,6 +209,7 @@ enum Feature {
   textDirectionMode,
   useSystemColors,
   voiceActivation,
+  prompterOrientation,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -245,6 +246,7 @@ const kAllFeatures = [
   Feature.textDirectionMode,
   Feature.useSystemColors,
   Feature.voiceActivation,
+  Feature.prompterOrientation,
 ];
 
 const kFreeFeatures = [
@@ -268,6 +270,7 @@ const kFreeFeatures = [
   Feature.ephemeralScript,
   Feature.textDirectionMode,
   Feature.useSystemColors,
+  Feature.prompterOrientation,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";
