@@ -116,7 +116,9 @@
       "landscape": "Landscape",
       "dynamic": "Dynamic"
     },
-    "DisplaySettings": { "Title": "Display Settings" },
+    "DisplaySettings": {
+      "Title": "Display Settings"
+    },
     "TextSettings": "Text Settings",
     "ListTile_Reset": "Reset settings",
     "Reset_Warning": "You're about to reset all settings irreversably!",
