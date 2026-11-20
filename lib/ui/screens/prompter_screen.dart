@@ -56,6 +56,12 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     );
     WakelockPlus.enable();
 
+    ref.read(settingsProvider).whenData((data) {
+      SystemChrome.setPreferredOrientations(
+        data.config.prompterOrientation.deviceOrientation,
+      );
+    });
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
