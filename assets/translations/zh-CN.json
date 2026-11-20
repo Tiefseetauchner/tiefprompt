@@ -19,31 +19,7 @@
             "Text_Title": "保存提词",
             "TextField_hintText": "起一个好记的提词名称",
             "ElevatedButton_Save": "保存"
-        },
-        "NewOrOverrideDialog": {
-            "NewScript": "",
-            "Title": "",
-            "OverrideScript": ""
-        },
-        "DiscardConfirmDialog": {
-            "Confirm": "",
-            "Title": "",
-            "Body": "",
-            "Cancel": ""
-        },
-        "TextField_heading": "",
-        "Understood": "",
-        "FossVersion_Explanation": "",
-        "PaidVersion": "",
-        "UnverifiedBuild": "",
-        "PaidVersion_Explanation": "",
-        "TitleField_hintText": "",
-        "FossVersion": "",
-        "UnverifiedBuild_Explanation": "",
-        "TitleField_heading": "",
-        "FreeVersion_BuyPro": "",
-        "FreeVersion_Explanation": "",
-        "FreeVersion": ""
+        }
     },
     "SettingsScreen": {
         "title": "提词器设置",
@@ -91,145 +67,8 @@
             "DefaultScrollSpeed": "默认滚动速度",
             "DefaultScrollSpeed_Unit": "行每秒",
             "CountdownTimer": "提词器启动倒计时的默认时间",
-            "CountdownTimer_Unit": "秒",
-            "Title": "",
-            "VoiceActivationThreshold": "",
-            "VoiceActivationDevices": "",
-            "VoiceActivation": "",
-            "VoiceActivationPreview": "",
-            "VoiceActivationThreshold_Unit": "",
-            "UnknownDevice": ""
-        },
-        "KeybindingsSettings": {
-            "jumpEnd": "",
-            "pageDown": "",
-            "pageUp": "",
-            "CaptureBindingTitle": "",
-            "CaptureBindingHint": "",
-            "scrollUpSmall": "",
-            "AddBinding": "",
-            "scrollDown": "",
-            "openSettings": "",
-            "playPause": "",
-            "fontSizeUp": "",
-            "saveSettingsFromPrompter": "",
-            "ChangeBindings": "",
-            "scrollUp": "",
-            "speedDown": "",
-            "jumpStart": "",
-            "toggleControls": "",
-            "speedUp": "",
-            "jumpChapterUp": "",
-            "Title": "",
-            "ResetBindings": "",
-            "jumpChapterDown": "",
-            "scrollDownSmall": "",
-            "fontSizeDown": ""
-        },
-        "SettingsRestore": {
-            "DeleteSuccess": "",
-            "DeleteDialog": {
-                "Title": "",
-                "Content": "",
-                "Confirm": "",
-                "Cancel": ""
-            },
-            "OptionsDialog": {
-                "Export": "",
-                "Delete": "",
-                "FilePickerTitle": "",
-                "Title": ""
-            },
-            "Title": "",
-            "ImportSettings": {
-                "Content": "",
-                "Cancel": "",
-                "Import": "",
-                "InvalidVersion": "",
-                "Title": ""
-            },
-            "ImportSuccess": "",
-            "NameSheet": {
-                "Title": "",
-                "Content": ""
-            },
-            "SaveSuccess": "",
-            "SaveDialog": {
-                "Save": "",
-                "Title": "",
-                "HintText": "",
-                "Content": "",
-                "Cancel": ""
-            },
-            "ExportFailed": "",
-            "Save": "",
-            "ExportSuccess": "",
-            "Import": "",
-            "LoadError": "",
-            "NameRequired": "",
-            "ImportFailed": "",
-            "RestoreSuccess": "",
-            "RestoreFailed": ""
-        },
-        "FontSettings": {
-            "EditFontDialog": {
-                "Save": "",
-                "SetFontVariantWeight": "",
-                "SetFontFamilyName": "",
-                "Cancel": "",
-                "Title": "",
-                "SetFontItalics": "",
-                "Warning": ""
-            },
-            "Custom": "",
-            "EditFamilyTooltip": {
-                "Custom": "",
-                "BuiltIn": ""
-            },
-            "AddFont": "",
-            "BuiltIn": "",
-            "DeleteVariantTooltip": {
-                "Custom": "",
-                "BuiltIn": ""
-            },
-            "MoveFontDialog": {
-                "Title": ""
-            },
-            "EditVariantTooltip": {
-                "BuiltIn": "",
-                "Custom": ""
-            },
-            "MoveVariantTooltip": {
-                "Custom": "",
-                "BuiltIn": ""
-            },
-            "Title": ""
-        },
-        "DropdownAppSetting_DefaultTextDirectionMode": "",
-        "BooleanAppSetting_ShowCurrentChapter": "",
-        "RestorePurchases_Snackbar": "",
-        "ShowHelpRequest": "",
-        "ShowChangelog": "",
-        "RestorePurchases": "",
-        "ColorAppSetting_Disabled": "",
-        "BooleanAppSetting_Markdown": "",
-        "LinkAppSetting_CustomFonts": "",
-        "DropdownAppSetting_ControlButtonPosition": {
-            "right": "",
-            "Label": "",
-            "top": "",
-            "left": "",
-            "bottom": ""
-        },
-        "ElevatedButton_Save": "",
-        "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
-            "rtl": "",
-            "ltr": "",
-            "auto": ""
-        },
-        "BooleanAppSetting_UseSystemColors": "",
-        "BooleanAppSetting_ControlButtons": "",
-        "ViewLogs": ""
+            "CountdownTimer_Unit": "秒"
+        }
     },
     "PrompterScreen": {
         "speed": "{} 倍速",
@@ -258,9 +97,7 @@
             "Slider_SideMargin": "与边缘的宽度",
             "Slider_Countdown": "提词器倒计时",
             "IconButton_VerticalMarginBoxes": "显示文字遮罩",
-            "IconButton_FadeEnabled": "为文字遮罩启用渐变",
-            "IconButton_ShowCurrentChapter": "",
-            "IconButton_Markdown": ""
+            "IconButton_FadeEnabled": "为文字遮罩启用渐变"
         },
         "IconButton_Save": "保存提词器的设置"
     },
@@ -269,58 +106,5 @@
         "if_empty": "空空如也，存点提词试试。",
         "ElevatedButton_Select": "打开作为提词的文件",
         "ListTile_Delete": "删除（谨慎点）"
-    },
-    "BuyProScreen": {
-        "BuyPro": "",
-        "BuyRequest": {
-            "fontFamily": "",
-            "countdownTimer": "",
-            "markdown": "",
-            "primaryAppColor": "",
-            "verticalMarginFade": "",
-            "settingsRestore": "",
-            "showHelpRequest": "",
-            "flipY": "",
-            "prompterTextColor": "",
-            "verticalMargins": "",
-            "appTheme": "",
-            "readingIndicatorBoxes": "",
-            "controlButtons": "",
-            "sideMargins": "",
-            "fontSize": "",
-            "appLanguage": "",
-            "keybindings": "",
-            "textSettings": "",
-            "playPause": "",
-            "currentChapter": "",
-            "textAlignment": "",
-            "scrollSpeed": "",
-            "MainBlock": "",
-            "Generic": "",
-            "ephemeralScript": "",
-            "displaySettings": "",
-            "prompterBackgroundColor": "",
-            "flipX": ""
-        },
-        "Back": "",
-        "RestorePurchases": "",
-        "Title": ""
-    },
-    "HelpRequestScreen": {
-        "Continue": "",
-        "Abstract": "",
-        "Title": "",
-        "ReadMore": "",
-        "ElaborateExplanation": ""
-    },
-    "NoPurchaseAvailable": {
-        "Title": "",
-        "Back": "",
-        "MainBody": ""
-    },
-    "ChangelogModal": {
-        "close": "",
-        "title": ""
-    },
-    "ProFeatureDisabled": ""
+    }
 }

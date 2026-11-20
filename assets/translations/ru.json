@@ -96,14 +96,7 @@
             "DefaultScrollSpeed": "Скорость прокрутки по умолчанию",
             "DefaultScrollSpeed_Unit": "стр/сек",
             "CountdownTimer": "Таймер обратного отсчёта",
-            "CountdownTimer_Unit": "сек",
-            "Title": "",
-            "VoiceActivationThreshold": "",
-            "VoiceActivationDevices": "",
-            "VoiceActivation": "",
-            "VoiceActivationPreview": "",
-            "VoiceActivationThreshold_Unit": "",
-            "UnknownDevice": ""
+            "CountdownTimer_Unit": "сек"
         },
         "KeybindingsSettings": {
             "Title": "Настройки горячих клавиш",
@@ -127,9 +120,7 @@
             "fontSizeUp": "Увеличить шрифт",
             "fontSizeDown": "Уменьшить шрифт",
             "openSettings": "Открыть настройки",
-            "saveSettingsFromPrompter": "Сохранить настройки из телесуфлёра",
-            "jumpChapterUp": "",
-            "jumpChapterDown": ""
+            "saveSettingsFromPrompter": "Сохранить настройки из телесуфлёра"
         },
         "SettingsRestore": {
             "Title": "Сохранить и восстановить настройки",
@@ -222,15 +213,7 @@
                 "SetFontVariantWeight": "Насыщенность",
                 "SetFontItalics": "Курсив"
             }
-        },
-        "DropdownAppSetting_DefaultTextDirectionMode": "",
-        "ColorAppSetting_Disabled": "",
-        "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
-            "rtl": "",
-            "ltr": "",
-            "auto": ""
-        },
-        "BooleanAppSetting_UseSystemColors": ""
+        }
     },
     "PrompterScreen": {
         "speed": "{}x",
