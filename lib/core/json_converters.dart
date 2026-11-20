@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
+import 'package:tiefprompt/core/prompter_orientation.dart';
 
 class EnumByNameConverter<T extends Enum> implements JsonConverter<T, String> {
   final List<T> values;
@@ -28,6 +29,12 @@ class ControlButtonsPositionConverter
 
 class ThemeModeConverter extends EnumByNameConverter<ThemeMode> {
   const ThemeModeConverter() : super(ThemeMode.values, ThemeMode.system);
+}
+
+class PrompterOrientationConverter
+    extends EnumByNameConverter<PrompterOrientation> {
+  const PrompterOrientationConverter()
+    : super(PrompterOrientation.values, PrompterOrientation.landscape);
 }
 
 class ColorConverter implements JsonConverter<Color, int> {

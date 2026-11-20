@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tiefprompt/core/prompter_orientation.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -80,6 +81,29 @@ class DisplaySettingsScreen extends ConsumerWidget {
                       (v) => (
                         context.tr(
                           "SettingsScreen.DropdownAppSetting_ControlButtonPosition.${v.name}",
+                        ),
+                        v,
+                      ),
+                    )
+                    .toList(),
+              ),
+              DropdownAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.DropdownAppSetting_PrompterOrientation",
+                ),
+                feature: Feature.prompterOrientation,
+                displayText: context.tr(
+                  "SettingsScreen.DropdownAppSetting_PrompterOrientation.Label",
+                ),
+                value: prompterConfig.prompterOrientation,
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setPrompterOrientation(updatedValue),
+                values: PrompterOrientation.values
+                    .map(
+                      (v) => (
+                        context.tr(
+                          "SettingsScreen.DropdownAppSetting_PrompterOrientation.${v.name}",
                         ),
                         v,
                       ),

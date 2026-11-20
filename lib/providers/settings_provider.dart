@@ -8,6 +8,7 @@ import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/json_converters.dart';
+import 'package:tiefprompt/core/prompter_orientation.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
 
@@ -63,6 +64,7 @@ abstract class ISettings {
   Future<void> setVoiceActivationEnabled(bool enabled);
   Future<void> setVoiceActivationThreshold(double threshold);
   Future<void> setVoiceActivationDevice(String deviceId);
+  Future<void> setPrompterOrientation(PrompterOrientation orientation);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -216,6 +218,10 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setVoiceActivationDevice(String deviceId) =>
       _mutateConfig((c) => c.copyWith(voiceActivationDevice: deviceId));
+
+  @override
+  Future<void> setPrompterOrientation(PrompterOrientation orientation) =>
+      _mutateConfig((c) => c.copyWith(prompterOrientation: orientation));
 
   @override
   Future<void> setKeybindings(int mapId) =>

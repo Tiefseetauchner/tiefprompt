@@ -4,6 +4,7 @@ import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/json_converters.dart';
+import 'package:tiefprompt/core/prompter_orientation.dart';
 
 part 'prompter_config.freezed.dart';
 part 'prompter_config.g.dart';
@@ -37,6 +38,9 @@ abstract class PrompterConfiguration with _$PrompterConfiguration {
     @Default(false) bool voiceActivationEnabled,
     @Default(-30.0) double voiceActivationThreshold,
     @Default("default") String voiceActivationDevice,
+    @PrompterOrientationConverter()
+    @Default(PrompterOrientation.landscape)
+    PrompterOrientation prompterOrientation,
   }) = _PrompterConfiguration;
 
   factory PrompterConfiguration.fromJson(Map<String, dynamic> json) =>
