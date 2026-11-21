@@ -54,6 +54,8 @@ _PrompterConfiguration _$PrompterConfigurationFromJson(
       : const PrompterOrientationConverter().fromJson(
           json['prompterOrientation'] as String,
         ),
+  lineHeightEnabled: json['lineHeightEnabled'] as bool? ?? false,
+  lineHeight: (json['lineHeight'] as num?)?.toDouble() ?? 1,
 );
 
 Map<String, dynamic> _$PrompterConfigurationToJson(
@@ -86,6 +88,8 @@ Map<String, dynamic> _$PrompterConfigurationToJson(
   'prompterOrientation': const PrompterOrientationConverter().toJson(
     instance.prompterOrientation,
   ),
+  'lineHeightEnabled': instance.lineHeightEnabled,
+  'lineHeight': instance.lineHeight,
 };
 
 const _$TextDirectionModeEnumMap = {

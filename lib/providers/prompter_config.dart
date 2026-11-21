@@ -41,6 +41,8 @@ abstract class PrompterConfiguration with _$PrompterConfiguration {
     @PrompterOrientationConverter()
     @Default(PrompterOrientation.landscape)
     PrompterOrientation prompterOrientation,
+    @Default(false) bool lineHeightEnabled,
+    @Default(1) double lineHeight,
   }) = _PrompterConfiguration;
 
   factory PrompterConfiguration.fromJson(Map<String, dynamic> json) =>

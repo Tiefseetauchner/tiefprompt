@@ -140,6 +140,28 @@ class TextSettingsScreen extends ConsumerWidget {
                     .toList(),
               ),
               BooleanAppSetting(
+                feature: Feature.lineHeight,
+                displayText: context.tr(
+                  "SettingsScreen.LineHeight.EnableCustom",
+                ),
+                value: prompterConfig.lineHeightEnabled,
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setLineHeightEnabled(updatedValue),
+              ),
+              NumberAppSetting(
+                feature: Feature.lineHeight,
+                displayText: context.tr(
+                  "SettingsScreen.LineHeight.CustomValue",
+                ),
+                value: prompterConfig.lineHeight,
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setLineHeight(updatedValue),
+                min: kPrompterMinLineHeight,
+                max: kPrompterMaxLineHeight,
+              ),
+              BooleanAppSetting(
                 key: const Key("TextSettingsScreen.BooleanAppSetting_Markdown"),
                 feature: Feature.markdown,
                 displayText: context.tr(

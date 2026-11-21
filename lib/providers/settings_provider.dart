@@ -65,6 +65,8 @@ abstract class ISettings {
   Future<void> setVoiceActivationThreshold(double threshold);
   Future<void> setVoiceActivationDevice(String deviceId);
   Future<void> setPrompterOrientation(PrompterOrientation orientation);
+  Future<void> setLineHeightEnabled(bool enabled);
+  Future<void> setLineHeight(double lineHeight);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -222,6 +224,14 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setPrompterOrientation(PrompterOrientation orientation) =>
       _mutateConfig((c) => c.copyWith(prompterOrientation: orientation));
+
+  @override
+  Future<void> setLineHeightEnabled(bool enabled) =>
+      _mutateConfig((c) => c.copyWith(lineHeightEnabled: enabled));
+
+  @override
+  Future<void> setLineHeight(double lineHeight) =>
+      _mutateConfig((c) => c.copyWith(lineHeight: lineHeight));
 
   @override
   Future<void> setKeybindings(int mapId) =>

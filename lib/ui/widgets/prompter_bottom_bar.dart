@@ -228,12 +228,20 @@ class _ButtonGroup extends StatelessWidget {
 class _FontSettingsDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final (:fontSize, :fontFamily, :textDirectionMode) = ref.watch(
+    final (
+      :fontSize,
+      :fontFamily,
+      :textDirectionMode,
+      :lineHeightEnabled,
+      :lineHeight,
+    ) = ref.watch(
       prompterProvider.select(
         (p) => (
           fontSize: p.config.fontSize,
           fontFamily: p.config.fontFamily,
           textDirectionMode: p.config.textDirectionMode,
+          lineHeightEnabled: p.config.lineHeightEnabled,
+          lineHeight: p.config.lineHeight,
         ),
       ),
     );
@@ -394,6 +402,38 @@ class _FontSettingsDialog extends ConsumerWidget {
                               .setTextDirectionMode(
                                 value ?? TextDirectionMode.auto,
                               ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _FeatureGate(
+                    feature: Feature.lineHeight,
+                    displayText: context.tr("SettingsScreen.LineHeight.Title"),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.format_line_spacing),
+                          isSelected: lineHeightEnabled,
+                          tooltip: context.tr(
+                            "PrompterScreen.SimpleDialog_DisplaySettings.IconButton_ReadingIndicatorBoxes",
+                          ),
+                          onPressed: () => ref
+                              .read(prompterProvider.notifier)
+                              .toggleLineHeightEnabled(),
+                        ),
+                        Slider(
+                          value: lineHeight,
+                          min: kPrompterMinLineHeight,
+                          max: kPrompterMaxLineHeight,
+                          divisions:
+                              ((kPrompterMaxLineHeight -
+                                          kPrompterMinLineHeight) /
+                                      0.1)
+                                  .floor(),
+                          label: lineHeight.toStringAsFixed(2),
+                          onChanged: (value) => ref
+                              .read(prompterProvider.notifier)
+                              .setLineHeight(value),
                         ),
                       ],
                     ),

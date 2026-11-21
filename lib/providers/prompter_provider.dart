@@ -29,19 +29,15 @@ class Prompter extends _$Prompter {
     return PrompterState();
   }
 
-  void applySettings(SettingsState settings) {
-    state = state.copyWith(config: settings.config);
-  }
+  void applySettings(SettingsState settings) =>
+      state = state.copyWith(config: settings.config);
 
   void _mutateConfig(
     PrompterConfiguration Function(PrompterConfiguration config) update,
-  ) {
-    state = state.copyWith(config: update(state.config));
-  }
+  ) => state = state.copyWith(config: update(state.config));
 
-  void setSpeed(double speed) {
-    _mutateConfig((config) => config.copyWith(scrollSpeed: speed));
-  }
+  void setSpeed(double speed) =>
+      _mutateConfig((config) => config.copyWith(scrollSpeed: speed));
 
   void increaseSpeed(double amount) =>
       _mutateConfig((config) => config.adjustScrollSpeed(amount));
@@ -67,49 +63,36 @@ class Prompter extends _$Prompter {
     }
   }
 
-  void displayCountdown() {
-    state = state.copyWith(displayCountdown: true);
-  }
+  void displayCountdown() => state = state.copyWith(displayCountdown: true);
 
-  void toggleMirroredX() {
-    _mutateConfig((config) => config.copyWith(mirroredX: !config.mirroredX));
-  }
+  void toggleMirroredX() =>
+      _mutateConfig((config) => config.copyWith(mirroredX: !config.mirroredX));
 
-  void toggleMirroredY() {
-    _mutateConfig((config) => config.copyWith(mirroredY: !config.mirroredY));
-  }
+  void toggleMirroredY() =>
+      _mutateConfig((config) => config.copyWith(mirroredY: !config.mirroredY));
 
-  void toggleDisplayReadingIndicatorBoxes() {
-    _mutateConfig(
-      (config) => config.copyWith(
-        displayReadingIndicatorBoxes: !config.displayReadingIndicatorBoxes,
-      ),
-    );
-  }
+  void toggleDisplayReadingIndicatorBoxes() => _mutateConfig(
+    (config) => config.copyWith(
+      displayReadingIndicatorBoxes: !config.displayReadingIndicatorBoxes,
+    ),
+  );
 
-  void setReadingIndicatorBoxHeight(double height) {
-    _mutateConfig(
-      (config) => config.copyWith(readingIndicatorBoxesHeight: height),
-    );
-  }
+  void setReadingIndicatorBoxHeight(double height) => _mutateConfig(
+    (config) => config.copyWith(readingIndicatorBoxesHeight: height),
+  );
 
-  void toggleDisplayVerticalMarginBoxes() {
-    _mutateConfig(
-      (config) => config.copyWith(
-        displayVerticalMarginBoxes: !config.displayVerticalMarginBoxes,
-      ),
-    );
-  }
+  void toggleDisplayVerticalMarginBoxes() => _mutateConfig(
+    (config) => config.copyWith(
+      displayVerticalMarginBoxes: !config.displayVerticalMarginBoxes,
+    ),
+  );
 
-  void setVerticalMarginBoxHeight(double height) {
-    _mutateConfig(
-      (config) => config.copyWith(verticalMarginBoxesHeight: height),
-    );
-  }
+  void setVerticalMarginBoxHeight(double height) => _mutateConfig(
+    (config) => config.copyWith(verticalMarginBoxesHeight: height),
+  );
 
-  void setSideMargin(double sideMargin) {
-    _mutateConfig((config) => config.copyWith(sideMargin: sideMargin));
-  }
+  void setSideMargin(double sideMargin) =>
+      _mutateConfig((config) => config.copyWith(sideMargin: sideMargin));
 
   void increaseFontSize(double amount) =>
       _mutateConfig((config) => config.adjustFontSize(amount));
@@ -117,75 +100,59 @@ class Prompter extends _$Prompter {
   void decreaseFontSize(double amount) =>
       _mutateConfig((config) => config.adjustFontSize(-amount));
 
-  void setFontFamily(String fontFamily) {
-    _mutateConfig((config) => config.copyWith(fontFamily: fontFamily));
-  }
+  void setFontFamily(String fontFamily) =>
+      _mutateConfig((config) => config.copyWith(fontFamily: fontFamily));
 
-  void setAlignment(TextAlign alignment) {
-    _mutateConfig((config) => config.copyWith(alignment: alignment));
-  }
+  void setAlignment(TextAlign alignment) =>
+      _mutateConfig((config) => config.copyWith(alignment: alignment));
 
-  void setCountdownDuration(double duration) {
-    _mutateConfig((config) => config.copyWith(countdownDuration: duration));
-  }
+  void setCountdownDuration(double duration) =>
+      _mutateConfig((config) => config.copyWith(countdownDuration: duration));
 
-  void toggleVerticalMarginBoxesFadeEnabled() {
-    _mutateConfig(
-      (config) => config.copyWith(
-        verticalMarginBoxesFadeEnabled: !config.verticalMarginBoxesFadeEnabled,
-      ),
-    );
-  }
+  void toggleVerticalMarginBoxesFadeEnabled() => _mutateConfig(
+    (config) => config.copyWith(
+      verticalMarginBoxesFadeEnabled: !config.verticalMarginBoxesFadeEnabled,
+    ),
+  );
 
-  void setVerticalMarginBoxesFadeLength(double fadeLength) {
-    _mutateConfig(
-      (config) => config.copyWith(verticalMarginBoxesFadeLength: fadeLength),
-    );
-  }
+  void setVerticalMarginBoxesFadeLength(double fadeLength) => _mutateConfig(
+    (config) => config.copyWith(verticalMarginBoxesFadeLength: fadeLength),
+  );
 
-  void toggleMarkdownEnabled() {
-    _mutateConfig(
-      (config) => config.copyWith(markdownEnabled: !config.markdownEnabled),
-    );
-  }
+  void toggleMarkdownEnabled() => _mutateConfig(
+    (config) => config.copyWith(markdownEnabled: !config.markdownEnabled),
+  );
 
-  void toggleShowControlButtons() {
-    _mutateConfig(
-      (config) =>
-          config.copyWith(showControlButtons: !config.showControlButtons),
-    );
-  }
+  void toggleShowControlButtons() => _mutateConfig(
+    (config) => config.copyWith(showControlButtons: !config.showControlButtons),
+  );
 
-  void setControlButtonsPosition(ControlButtonsPosition position) {
-    _mutateConfig(
-      (config) => config.copyWith(controlButtonsPosition: position),
-    );
-  }
+  void setControlButtonsPosition(ControlButtonsPosition position) =>
+      _mutateConfig(
+        (config) => config.copyWith(controlButtonsPosition: position),
+      );
 
-  void toggleCurrentChapterEnabled() {
-    _mutateConfig(
-      (config) =>
-          config.copyWith(showCurrentChapter: !config.showCurrentChapter),
-    );
-  }
+  void toggleCurrentChapterEnabled() => _mutateConfig(
+    (config) => config.copyWith(showCurrentChapter: !config.showCurrentChapter),
+  );
 
-  void setTextDirectionMode(TextDirectionMode textDirectionMode) {
-    _mutateConfig(
-      (config) => config.copyWith(textDirectionMode: textDirectionMode),
-    );
-  }
+  void setTextDirectionMode(TextDirectionMode textDirectionMode) =>
+      _mutateConfig(
+        (config) => config.copyWith(textDirectionMode: textDirectionMode),
+      );
 
-  void toggleVoiceActivationEnabled() {
-    _mutateConfig(
-      (config) => config.copyWith(
-        voiceActivationEnabled: !config.voiceActivationEnabled,
-      ),
-    );
-  }
+  void toggleVoiceActivationEnabled() => _mutateConfig(
+    (config) =>
+        config.copyWith(voiceActivationEnabled: !config.voiceActivationEnabled),
+  );
 
-  void setVoiceActivationThreshold(double threshold) {
-    _mutateConfig(
-      (config) => config.copyWith(voiceActivationThreshold: threshold),
-    );
-  }
+  void setVoiceActivationThreshold(double threshold) => _mutateConfig(
+    (config) => config.copyWith(voiceActivationThreshold: threshold),
+  );
+
+  void toggleLineHeightEnabled() =>
+      _mutateConfig((c) => c.copyWith(lineHeightEnabled: !c.lineHeightEnabled));
+
+  void setLineHeight(double value) =>
+      _mutateConfig((c) => c.copyWith(lineHeight: value));
 }

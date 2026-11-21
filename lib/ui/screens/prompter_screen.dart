@@ -126,6 +126,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                     fontSize: prompterConfig.fontSize,
                     fontFamily: prompterConfig.fontFamily,
                     color: Theme.of(context).colorScheme.onSurface,
+                    height: prompterConfig.lineHeightEnabled
+                        ? prompterConfig.lineHeight
+                        : null,
                   ),
                   sideMargin:
                       (MediaQuery.of(context).size.width / 2) *
