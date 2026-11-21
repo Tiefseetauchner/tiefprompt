@@ -228,6 +228,9 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 ),
               ),
               BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_ElapsedTime",
+                ),
                 feature: Feature.elapsedTime,
                 displayText: context.tr("SettingsScreen.ElapsedTime.Title"),
                 value: value.config.showElapsedTime,

@@ -487,6 +487,15 @@ DISPLAY_SETTINGS_SCREEN_COLLAGES: list[Output] = [
         ),
     ),
     Output(
+        "ElapsedTimeDisplay.webp",
+        Canvas(
+            [
+                Placed(desktop_window("display_settings_screen/display_elapsed_time.png"), POS_TOP_LEFT),
+                Placed(desktop_window("prompter_screen/display_elapsed_time.png"), POS_BOTTOM_LEFT),
+            ]
+        ),
+    ),
+    Output(
         "LockedFeature.webp",
         Canvas(
             [
