@@ -16,7 +16,7 @@ class ElapsedTimeDisplay extends ConsumerStatefulWidget {
 class _ElapsedTimeDisplayState extends ConsumerState<ElapsedTimeDisplay> {
   late final Timer _timer;
   late final Stopwatch _stopwatch;
-  int _elapsed = 0;
+  Duration _elapsed = Duration();
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _ElapsedTimeDisplayState extends ConsumerState<ElapsedTimeDisplay> {
   }
 
   void tick(Timer timer) {
-    setState(() => _elapsed = _stopwatch.elapsed.inSeconds);
+    setState(() => _elapsed = _stopwatch.elapsed);
   }
 
   @override
@@ -48,7 +48,34 @@ class _ElapsedTimeDisplayState extends ConsumerState<ElapsedTimeDisplay> {
       }
     });
 
-    return Text("$_elapsed${context.tr("PrompterScreen.ElapsedTime.Unit")}");
+    final hoursText = _elapsed.inHours > 0
+        ? "${_elapsed.inHours}${context.tr("PrompterScreen.ElapsedTime.UnitHours")}"
+        : "";
+
+    final minutesText = _elapsed.inMinutes > 0
+        ? "${_elapsed.inMinutes % 60}${context.tr("PrompterScreen.ElapsedTime.UnitMinutes")}"
+        : "";
+
+    final secondsText =
+        "${_elapsed.inSeconds % 60}${context.tr("PrompterScreen.ElapsedTime.UnitSeconds")}";
+
+    final theme = Theme.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.onPrimary,
+        border: BoxBorder.all(color: theme.colorScheme.primary, width: 4),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: EdgeInsets.all(4),
+      child: Text(
+        "$hoursText$minutesText$secondsText",
+        style: TextStyle(
+          color: theme.colorScheme.primary,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
   @override
