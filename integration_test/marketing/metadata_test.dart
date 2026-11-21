@@ -3,12 +3,11 @@ import 'package:tief_test_harness/tief_test_harness.dart';
 
 import '../mock_app.dart';
 import '../screenshot_manager_provider.dart';
-import 'phone_test.th.dart';
+import 'metadata_test.th.dart';
 
-@GenerateHarnessRegistry('Marketing Metadata')
+@GenerateHarnessRegistry('Metadata')
 Future<void> main() async {
-  MarketingMetadataHarnessRegistry harnessRegistry =
-      MarketingMetadataHarnessRegistry();
+  MetadataHarnessRegistry harnessRegistry = MetadataHarnessRegistry();
 
   final harnessesFilter = const String.fromEnvironment("HARNESSES");
   if (harnessesFilter.isNotEmpty) {

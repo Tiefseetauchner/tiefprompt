@@ -137,6 +137,14 @@
       "VoiceActivationPreview": "Preview Voice Activation",
       "UnknownDevice": "Unknown Device"
     },
+    "LineHeight": {
+      "EnableCustom": "Enable Custom Line Height",
+      "CustomValue": "Custom Line Height",
+      "Title": "Custom Line Height"
+    },
+    "ElapsedTime": {
+      "Title": "Display Elapsed Time"
+    },
     "KeybindingsSettings": {
       "Title": "Keybindings Settings",
       "ChangeBindings": "Change Bindings",
@@ -253,6 +261,11 @@
     "IconButton_IncreaseSpeed": "Increase Speed",
     "IconButton_TextFormat": "Font Settings",
     "IconButton_Settings": "Settings",
+    "ElapsedTime": {
+      "UnitSeconds": "s",
+      "UnitMinutes": "m",
+      "UnitHours": "h"
+    },
     "SimpleDialog_TextFormat": {
       "title": "Font Settings",
       "fontsize": "F: {}",

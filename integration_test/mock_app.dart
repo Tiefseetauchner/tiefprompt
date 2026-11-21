@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker/talker.dart';
@@ -16,6 +16,24 @@ import 'package:tiefprompt/ui/widgets/themed_app.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
 
 import 'mock_database_managers.dart';
+
+class _TolerantAssetLoader extends RootBundleAssetLoader {
+  const _TolerantAssetLoader();
+
+  @override
+  Future<Map<String, dynamic>?> load(String path, Locale locale) async {
+    if (!_isSupported(locale)) {
+      return {};
+    }
+    return super.load(path, locale);
+  }
+
+  bool _isSupported(Locale locale) => kSupportedLocales.any(
+    (supported) =>
+        supported.$2.languageCode == locale.languageCode &&
+        supported.$2.countryCode == locale.countryCode,
+  );
+}
 
 class _MockSettings extends Settings {
   _MockSettings(this._state);
@@ -65,6 +83,7 @@ class _MockAppState extends State<MockApp> {
       fallbackLocale: const Locale('en', 'US'),
       useFallbackTranslations: true,
       startLocale: widget.locale,
+      assetLoader: const _TolerantAssetLoader(),
       child: Builder(
         builder: (context) => ThemedApp(
           routerConfig: GoRouter(

@@ -112,6 +112,14 @@
       "VoiceActivationDevices": "Boat used for Speech Control",
       "VoiceActivationPreview": "Show Speech Control"
     },
+    "LineHeight": {
+      "EnableCustom": "Make Yer Own Distance",
+      "CustomValue": "Yer Distance",
+      "Title": "Yer Distance"
+    },
+    "ElapsedTime": {
+      "Title": "Count the Ticks of the Pendulum"
+    },
     "KeybindingsSettings": {
       "Title": "Settin's for Controls",
       "ChangeBindings": "Change Control Ropes",
@@ -242,6 +250,9 @@
     "IconButton_IncreaseSpeed": "Catch some wind",
     "IconButton_TextFormat": "Read 'em all",
     "IconButton_Settings": "Settin's",
+    "ElapsedTime": {
+      "Unit": "s"
+    },
     "SimpleDialog_TextFormat": {
       "title": "Read 'em all",
       "fontsize": "F: {}",

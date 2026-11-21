@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:drift_dev/api/migrations_native.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/models/database.dart';

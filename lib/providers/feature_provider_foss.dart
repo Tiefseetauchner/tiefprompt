@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';

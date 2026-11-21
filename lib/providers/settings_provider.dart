@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,6 +65,9 @@ abstract class ISettings {
   Future<void> setVoiceActivationThreshold(double threshold);
   Future<void> setVoiceActivationDevice(String deviceId);
   Future<void> setPrompterOrientation(PrompterOrientation orientation);
+  Future<void> setLineHeightEnabled(bool enabled);
+  Future<void> setLineHeight(double lineHeight);
+  Future<void> setShowElapsedTime(bool value);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -222,6 +225,18 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setPrompterOrientation(PrompterOrientation orientation) =>
       _mutateConfig((c) => c.copyWith(prompterOrientation: orientation));
+
+  @override
+  Future<void> setLineHeightEnabled(bool enabled) =>
+      _mutateConfig((c) => c.copyWith(lineHeightEnabled: enabled));
+
+  @override
+  Future<void> setLineHeight(double lineHeight) =>
+      _mutateConfig((c) => c.copyWith(lineHeight: lineHeight));
+
+  @override
+  Future<void> setShowElapsedTime(bool value) =>
+      _mutateConfig((c) => c.copyWith(showElapsedTime: value));
 
   @override
   Future<void> setKeybindings(int mapId) =>

@@ -14,6 +14,9 @@ const double kPrompterMaxFontSize = 420.0;
 const double kPrompterMinSideMargin = 0.0;
 const double kPrompterMaxSideMargin = 99.0;
 
+const double kPrompterMinLineHeight = 0.1;
+const double kPrompterMaxLineHeight = 10;
+
 const String kRepoUrl = "https://github.com/Tiefseetauchner/tiefprompt";
 const String kWeblateUrl = "https://hosted.weblate.org/projects/tiefprompt/";
 const String kPrivacyPolicyUrl = "https://tiefprompt.com/policies/privacy/en/";
@@ -210,6 +213,8 @@ enum Feature {
   useSystemColors,
   voiceActivation,
   prompterOrientation,
+  lineHeight,
+  elapsedTime,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -247,6 +252,8 @@ const kAllFeatures = [
   Feature.useSystemColors,
   Feature.voiceActivation,
   Feature.prompterOrientation,
+  Feature.lineHeight,
+  Feature.elapsedTime,
 ];
 
 const kFreeFeatures = [
@@ -271,6 +278,8 @@ const kFreeFeatures = [
   Feature.textDirectionMode,
   Feature.useSystemColors,
   Feature.prompterOrientation,
+  Feature.lineHeight,
+  Feature.elapsedTime,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";

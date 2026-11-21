@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
+import 'package:tiefprompt/core/prompter_orientation.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/settings/display_settings_screen.dart';
@@ -448,6 +449,58 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
             const Key(
               "DisplaySettingsScreen.BooleanAppSetting_ReadingIndicators",
             ),
+          ),
+        );
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Prompter Orientation Highlight",
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.byKey(
+              const Key(
+                "DisplaySettingsScreen.DropdownAppSetting_PrompterOrientation",
+              ),
+            ),
+          ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Prompter Orientation Open",
+      testCallback: (tester, binding) async {
+        await tester.tap(
+          find.descendant(
+            of: find.byKey(
+              const Key(
+                "DisplaySettingsScreen.DropdownAppSetting_PrompterOrientation",
+              ),
+            ),
+            matching: find.byType(DropdownButton<PrompterOrientation>),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Display Elapsed Time",
+      testCallback: (tester, binding) async {
+        WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key("DisplaySettingsScreen.BooleanAppSetting_ElapsedTime"),
           ),
         );
       },

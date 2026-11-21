@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:tiefprompt/providers/talker_provider.dart';
@@ -10,9 +10,6 @@ class LogViewerScreen extends ConsumerWidget {
   Widget build(context, ref) {
     final talker = ref.read(talkerProvider);
 
-    return TalkerScreen(
-      talker: talker,
-      theme: TalkerScreenTheme.fromTheme(Theme.of(context)),
-    );
+    return TalkerScreen(talker: talker);
   }
 }

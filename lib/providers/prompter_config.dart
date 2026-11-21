@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tief_weave/markdown.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -41,6 +41,9 @@ abstract class PrompterConfiguration with _$PrompterConfiguration {
     @PrompterOrientationConverter()
     @Default(PrompterOrientation.landscape)
     PrompterOrientation prompterOrientation,
+    @Default(false) bool lineHeightEnabled,
+    @Default(1) double lineHeight,
+    @Default(false) bool showElapsedTime,
   }) = _PrompterConfiguration;
 
   factory PrompterConfiguration.fromJson(Map<String, dynamic> json) =>

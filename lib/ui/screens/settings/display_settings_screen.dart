@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tiefprompt/core/prompter_orientation.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -226,6 +226,17 @@ class DisplaySettingsScreen extends ConsumerWidget {
                 unit: context.tr(
                   "SettingsScreen.NumberAppSetting_SideMargin_Unit",
                 ),
+              ),
+              BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_ElapsedTime",
+                ),
+                feature: Feature.elapsedTime,
+                displayText: context.tr("SettingsScreen.ElapsedTime.Title"),
+                value: value.config.showElapsedTime,
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setShowElapsedTime(updatedValue),
               ),
               ColorAppSetting(
                 key: const Key(

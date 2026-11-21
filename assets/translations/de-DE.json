@@ -99,6 +99,14 @@
     "Confirm": "Fortfahren",
     "RestorePurchases": "Käufe wiederherstellen",
     "RestorePurchases_Snackbar": "Käufe wurden wiederhergestellt.",
+    "LineHeight": {
+      "EnableCustom": "Benutzerdefinierten Zeilenabstand aktivieren",
+      "CustomValue": "Benutzerdefinierter Zeilenabstand",
+      "Title": "Benutzerdefinierter Zeilenabstand"
+    },
+    "ElapsedTime": {
+      "Title": "Verstrichene Zeit anzeigen"
+    },
     "KeybindingsSettings": {
       "Title": "Tastaturkürzeleinstellungen",
       "ChangeBindings": "Tastaturkürzel ändern",
@@ -242,6 +250,9 @@
     "IconButton_IncreaseSpeed": "Verschnellern",
     "IconButton_TextFormat": "Schrifteinstellungen",
     "IconButton_Settings": "Einstellungen",
+    "ElapsedTime": {
+      "Unit": "s"
+    },
     "SimpleDialog_TextFormat": {
       "title": "Schrifteinstellungen",
       "fontsize": "F: {}",

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/ui/screens/open_file_screen.dart';
@@ -94,7 +94,7 @@ Future<ScenarioHarness> buildSelectScriptScreenWideHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Metadata', name: "Store Select Script")
+@RegisterHarness('Metadata', name: "Store Select Script")
 Future<ScenarioHarness> buildSelectScriptScreenScreenPhoneHarness() async {
   final harness = prepareScreenshotHarness(
     appContent: const OpenFileScreen(),
