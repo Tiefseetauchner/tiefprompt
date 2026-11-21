@@ -23,7 +23,7 @@ class _ElapsedTimeDisplayState extends ConsumerState<ElapsedTimeDisplay> {
     super.initState();
 
     _stopwatch = Stopwatch();
-    _timer = Timer.periodic(Duration(seconds: 1), tick);
+    _timer = Timer.periodic(Duration(milliseconds: 200), tick);
   }
 
   void tick(Timer timer) {
