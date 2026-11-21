@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/disabled_feature_screen_state.dart';
 import 'package:tiefprompt/providers/app_features.dart';

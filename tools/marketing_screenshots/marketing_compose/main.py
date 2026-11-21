@@ -1,5 +1,5 @@
 import argparse
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
 from compose import Output
@@ -43,7 +43,12 @@ def main() -> None:
             executor.submit(output.write, args.input_dir, args.output_dir)
             for output in _selected_outputs(args.only)
         ]
-
+        for future in as_completed(futures):
+            if future.exception() is not None:
+                executor.shutdown(wait=False, cancel_futures=True)
+                raise future.exception()
+            else:
+                print(f"Successfully wrote {future.result()}")
 
 if __name__ == "__main__":
     main()

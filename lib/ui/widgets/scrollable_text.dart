@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tief_weave/markdown.dart';
@@ -290,7 +290,14 @@ class _ScrollableTextState extends ConsumerState<ScrollableText>
             notification.dragDetails != null) {
           setState(() => _isUserScrolling = true);
         } else if (notification is ScrollEndNotification) {
-          setState(() => _isUserScrolling = false);
+          if (SchedulerBinding.instance.schedulerPhase ==
+              SchedulerPhase.persistentCallbacks) {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              setState(() => _isUserScrolling = false);
+            });
+          } else {
+            setState(() => _isUserScrolling = false);
+          }
         }
         return false;
       },

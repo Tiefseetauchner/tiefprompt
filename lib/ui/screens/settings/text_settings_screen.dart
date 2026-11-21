@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tiefprompt/core/fonts.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/fonts_provider.dart';
@@ -140,6 +140,9 @@ class TextSettingsScreen extends ConsumerWidget {
                     .toList(),
               ),
               BooleanAppSetting(
+                key: const Key(
+                  "TextSettingsScreen.BooleanAppSetting_EnableCustomLineHeight",
+                ),
                 feature: Feature.lineHeight,
                 displayText: context.tr(
                   "SettingsScreen.LineHeight.EnableCustom",
@@ -150,6 +153,9 @@ class TextSettingsScreen extends ConsumerWidget {
                     .setLineHeightEnabled(updatedValue),
               ),
               NumberAppSetting(
+                key: const Key(
+                  "TextSettingsScreen.NumberAppSetting_CustomLineHeight",
+                ),
                 feature: Feature.lineHeight,
                 displayText: context.tr(
                   "SettingsScreen.LineHeight.CustomValue",

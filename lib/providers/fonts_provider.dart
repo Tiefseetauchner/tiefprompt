@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/fonts.dart';

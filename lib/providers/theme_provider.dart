@@ -1,5 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tiefprompt/core/constants.dart';

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -607,9 +607,15 @@ class _ColorAppSettingState extends StatefulAppSettingState<ColorAppSetting> {
       builder: (context) => AlertDialog(
         title: Text(widget.displayText, style: TextStyle(fontSize: 18)),
         content: ColorPicker(
-          enableAlpha: false,
-          hexInputBar: true,
-          pickerColor: selectedValue,
+          pickersEnabled: const <ColorPickerType, bool>{
+            ColorPickerType.both: false,
+            ColorPickerType.primary: false,
+            ColorPickerType.accent: false,
+            ColorPickerType.bw: false,
+            ColorPickerType.custom: true,
+            ColorPickerType.wheel: true,
+          },
+          color: selectedValue,
           onColorChanged: (c) => selectedValue = c,
         ),
         actions: [

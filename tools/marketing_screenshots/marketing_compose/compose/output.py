@@ -22,10 +22,11 @@ class Output:
     def write(self, screenshots_dir: Path, output_dir: Path) -> Path:
         target = output_dir / self.path
         target.parent.mkdir(parents=True, exist_ok=True)
+        
         _encodable(self.layer.render(screenshots_dir), target).save(
             target, quality=90, method=6, optimize=True
         )
-        print(f"Wrote {target}")
+
         return target
 
 

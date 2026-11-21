@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -85,10 +87,25 @@ getLocaleSetter<T extends Widget>(Locale locale) {
     WidgetTester tester,
     IntegrationTestWidgetsFlutterBinding binding,
   ) async {
+    await _pumpUntilFound(tester, find.byType(T));
     final context = tester.element(find.byType(T));
     await context.setLocale(locale);
     await tester.pumpAndSettle();
   };
+}
+
+Future<void> _pumpUntilFound(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 15),
+}) async {
+  final end = DateTime.now().add(timeout);
+  while (finder.evaluate().isEmpty) {
+    if (DateTime.now().isAfter(end)) {
+      throw TimeoutException('Timed out waiting for $finder', timeout);
+    }
+    await tester.pump(const Duration(milliseconds: 100));
+  }
 }
 
 enum Device { phone, sevenInchTablet, tenInchTablet }
