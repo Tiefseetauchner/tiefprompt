@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/combining_provider.dart';
 import 'package:tiefprompt/providers/fonts_provider.dart';
@@ -21,7 +21,10 @@ class ThemedApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final delegates = context.localizationDelegates;
+    final delegates = [
+      ...context.localizationDelegates,
+      ...GlobalMaterialLocalizations.delegates,
+    ];
     final supportedLocales = context.supportedLocales;
     final locale = context.locale;
 

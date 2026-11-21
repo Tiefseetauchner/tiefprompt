@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tief_weave/markdown.dart';
@@ -203,6 +203,49 @@ Future<ScenarioHarness> buildTextSettingsHarness() async {
               ),
             ),
           ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Enable Custom Line Height Highlight",
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.byKey(
+              const Key(
+                "TextSettingsScreen.BooleanAppSetting_EnableCustomLineHeight",
+              ),
+            ),
+          ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Custom Line Height Highlight",
+      testCallback: (tester, binding) =>
+          WidgetHighlighter(
+            tester,
+            defaultHighlightColor: kMarketingHighlightColor,
+          ).highlightWidget(
+            find.byKey(
+              const Key("TextSettingsScreen.NumberAppSetting_CustomLineHeight"),
+            ),
+          ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Custom Line Height Dialog",
+      testCallback: (tester, binding) => tester.tap(
+        find.byKey(
+          const Key("TextSettingsScreen.NumberAppSetting_CustomLineHeight"),
+        ),
+      ),
     ),
   );
 

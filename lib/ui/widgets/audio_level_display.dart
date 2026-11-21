@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
 import 'package:tiefprompt/providers/voice_activation_provider.dart';

@@ -14,9 +14,16 @@ from compose.typography import variable_font, wrap_words
 @dataclass(frozen=True)
 class Screenshot(Layer):
     path: str
+    scale: float = 1.0
 
     def render(self, screenshots_dir: Path) -> Image.Image:
-        return Image.open(screenshots_dir / self.path).convert("RGBA")
+        image = Image.open(screenshots_dir / self.path).convert("RGBA")
+        if not image:
+            raise FileNotFoundError(f"Screenshot not found: {screenshots_dir / self.path}")
+        if self.scale != 1.0:
+            new_size = (round(image.width * self.scale), round(image.height * self.scale))
+            image = image.resize(new_size, Image.LANCZOS)
+        return image
 
 
 @dataclass(frozen=True)
@@ -24,7 +31,10 @@ class Asset(Layer):
     path: str
 
     def render(self, screenshots_dir: Path) -> Image.Image:
-        return Image.open(REPO_ROOT / self.path).convert("RGBA")
+        image = Image.open(REPO_ROOT / self.path).convert("RGBA")
+        if not image:
+            raise FileNotFoundError(f"Asset not found: {REPO_ROOT / self.path}")
+        return image
 
 
 @dataclass(frozen=True)

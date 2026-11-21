@@ -655,10 +655,11 @@ class $$KeybindingMapModelTableTableManager
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (keybindingMappingModelRefs)
-                    await i0.$_getPrefetchedData<
+                    await i0.$_getPrefetchedDataByColumns<
                       i1.KeybindingMapModelData,
                       i1.$KeybindingMapModelTable,
-                      i1.KeybindingMappingModelData
+                      i1.KeybindingMappingModelData,
+                      i1.$KeybindingMappingModelTable
                     >(
                       currentTable: table,
                       referencedTable: i1.$$KeybindingMapModelTableReferences
@@ -666,8 +667,8 @@ class $$KeybindingMapModelTableTableManager
                       managerFromTypedResult: (p0) => i1
                           .$$KeybindingMapModelTableReferences(db, table, p0)
                           .keybindingMappingModelRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.mapId == item.id),
+                      currentColumn: 'id',
+                      referencedColumn: 'map_id',
                       typedResults: items,
                     ),
                 ];

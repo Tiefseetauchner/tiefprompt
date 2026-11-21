@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiefprompt/core/constants.dart';
@@ -310,6 +310,32 @@ Future<ScenarioHarness> buildPrompterScreenHarness() async {
 
   harness.addScenario(
     Scenario(
+      name: "Control Buttons No Chrome",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          scriptProvider.overrideWith(_configuredScript),
+          settingsProvider.overrideWith(
+            () => SettingsFake(
+              SettingsState(
+                config: PrompterConfiguration(
+                  showControlButtons: true,
+                  controlButtonsPosition: ControlButtonsPosition.bottom,
+                ),
+              ),
+            ),
+          ),
+        ],
+        child: child,
+      ),
+      testCallback: (tester, binding) async {
+        await tester.tap(find.byType(GestureDetector).first);
+        await tester.pumpAndSettle();
+      },
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
       name: "Reading Indicators No Chrome",
       providerScopeBuilder: (child) async => ProviderScope(
         overrides: [
@@ -522,6 +548,28 @@ Future<ScenarioHarness> buildPrompterScreenHarness() async {
     ),
   );
 
+  harness.addScenario(
+    Scenario(
+      name: "Custom Line Height",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          scriptProvider.overrideWith(_configuredScript),
+          settingsProvider.overrideWith(
+            () => SettingsFake(
+              SettingsState(
+                config: PrompterConfiguration(
+                  lineHeightEnabled: true,
+                  lineHeight: 0.8,
+                ),
+              ),
+            ),
+          ),
+        ],
+        child: child,
+      ),
+    ),
+  );
+
   return harness;
 }
 
@@ -552,7 +600,7 @@ Future<ScenarioHarness> buildPrompterScreenNarrowHarness() async {
   return harness;
 }
 
-@RegisterHarness('Marketing Metadata', name: "Store Prompter")
+@RegisterHarness('Metadata', name: "Store Prompter")
 Future<ScenarioHarness> buildPrompterScreenPhoneHarness() async {
   final harness = prepareScreenshotHarness(
     appContent: const PrompterThemeScope(child: PrompterScreen()),

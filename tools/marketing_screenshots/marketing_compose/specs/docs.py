@@ -203,6 +203,16 @@ TEXT_SETTINGS_SCREEN_COLLAGES: list[Output] = [
             ]
         ),
     ),
+    Output(
+        "CustomLineHeight.webp",
+        Canvas(
+            [
+                Placed(desktop_window("text_settings_screen/enable_custom_line_height_highlight.png"), POS_TOP_LEFT),
+                Placed(desktop_window("text_settings_screen/custom_line_height_highlight.png"), POS_TOP_CENTER),
+                Placed(desktop_window("text_settings_screen/custom_line_height_dialog.png"), POS_TOP_RIGHT),
+            ]
+        ),
+    ),
     Output("EnableMarkdown.webp", desktop_window("text_settings_screen/enable_markdown_highlight.png")),
     Output(
         "ShowCurrentChapter.webp", desktop_window("text_settings_screen/show_current_chapter_highlight.png")
@@ -468,6 +478,15 @@ DISPLAY_SETTINGS_SCREEN_COLLAGES: list[Output] = [
         ),
     ),
     Output(
+        "PrompterOrientation.webp",
+        Canvas(
+            [
+                Placed(desktop_window("display_settings_screen/prompter_orientation_highlight.png"), POS_TOP_LEFT),
+                Placed(desktop_window("display_settings_screen/prompter_orientation_open.png"), POS_TOP_RIGHT),
+            ]
+        ),
+    ),
+    Output(
         "LockedFeature.webp",
         Canvas(
             [
@@ -587,4 +606,5 @@ PROMPTER_SCREEN_COLLAGES: list[Output] = [
     Output("PrompterScreen.webp", desktop_window("prompter_screen/configured_script.png")),
     Output("PrompterScreenOverlays.webp", desktop_window("prompter_screen/overlays.png")),
     Output("MarkdownAndChapter.webp", desktop_window("prompter_screen/markdown_and_chapter.png")),
+    Output("ControlButtonsOverlay.webp", desktop_window("prompter_screen/control_buttons_no_chrome.png"))
 ]
