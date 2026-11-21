@@ -214,6 +214,7 @@ enum Feature {
   voiceActivation,
   prompterOrientation,
   lineHeight,
+  elapsedTime,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -252,6 +253,7 @@ const kAllFeatures = [
   Feature.voiceActivation,
   Feature.prompterOrientation,
   Feature.lineHeight,
+  Feature.elapsedTime,
 ];
 
 const kFreeFeatures = [
@@ -277,6 +279,7 @@ const kFreeFeatures = [
   Feature.useSystemColors,
   Feature.prompterOrientation,
   Feature.lineHeight,
+  Feature.elapsedTime,
 ];
 
 const kProId = "io.github.tiefseetauchner.tiefprompt.pro";

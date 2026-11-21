@@ -16,6 +16,7 @@ import 'package:tiefprompt/services/script_service.dart';
 import 'package:tiefprompt/ui/widgets/audio_level_display.dart';
 import 'package:tiefprompt/ui/widgets/countdown_timer.dart';
 import 'package:tiefprompt/ui/widgets/current_chapter_banner.dart';
+import 'package:tiefprompt/ui/widgets/elapsed_time_display.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_control_buttons_overlay.dart';
 import 'package:tiefprompt/ui/widgets/prompter_top_bar.dart';
@@ -172,6 +173,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                 right: 12,
                 child: AudioLevelDisplay(config: prompterConfig),
               ),
+            if (prompterConfig.showElapsedTime)
+              Positioned(top: 96, right: 12, child: ElapsedTimeDisplay()),
             if (displayCountdown && prompterConfig.countdownDuration > 0)
               CountdownTimer(
                 duration: prompterConfig.countdownDuration.toInt(),

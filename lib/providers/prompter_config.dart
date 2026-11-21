@@ -43,6 +43,7 @@ abstract class PrompterConfiguration with _$PrompterConfiguration {
     PrompterOrientation prompterOrientation,
     @Default(false) bool lineHeightEnabled,
     @Default(1) double lineHeight,
+    @Default(false) bool showElapsedTime,
   }) = _PrompterConfiguration;
 
   factory PrompterConfiguration.fromJson(Map<String, dynamic> json) =>
