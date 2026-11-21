@@ -262,7 +262,9 @@
     "IconButton_TextFormat": "Font Settings",
     "IconButton_Settings": "Settings",
     "ElapsedTime": {
-      "Unit": "s"
+      "UnitSeconds": "s",
+      "UnitMinutes": "m",
+      "UnitHours": "h"
     },
     "SimpleDialog_TextFormat": {
       "title": "Font Settings",
