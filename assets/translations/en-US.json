@@ -1,338 +1,340 @@
 {
-  "title": "TiefPrompt",
-  "empty_title": "Unnamed Script",
-  "copyright": "Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.\n",
-  "credits": "Thanks to the following contributors for providing translations for the software.\n Chinese: @TaoEngine\n Russian: @Xapitonov\n Arabic: @shadigaafar",
-  "ProFeatureDisabled": "This function is only available in the pro version.",
-  "AboutDialog": {
-    "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
-    "ElevatedButton_Privacy": "Privacy Policy"
-  },
-  "ChangelogModal": {
-    "title": "What's New",
-    "close": "Close"
-  },
-  "HomeScreen": {
-    "TitleField_heading": "Script Title",
-    "TitleField_hintText": "Enter script title",
-    "TextField_heading": "Script Content",
-    "TextField_hintText": "Enter script content",
-    "ElevatedButton_Start": "Start Teleprompter",
-    "ElevatedButton_Select": "Select Script from Device",
-    "ElevatedButton_Save": "Save Script",
-    "IconButton_Settings": "Settings",
-    "IconButton_SourceCode": "View source code",
-    "IconButton_About": "About",
-    "BottomSheet": {
-      "Text_Title": "Save Script",
-      "TextField_hintText": "Enter script name",
-      "ElevatedButton_Save": "Save"
+    "title": "TiefPrompt",
+    "empty_title": "Unnamed Script",
+    "copyright": "Copyright © 2025 Lena Tauchner\nAll rights reserved.\n\nThis project is licensed under the MIT License. See the LICENSE file for details.\n",
+    "credits": "Thanks to the following contributors for providing translations for the software.\n Chinese: @TaoEngine\n Russian: @Xapitonov\n Arabic: @shadigaafar",
+    "ProFeatureDisabled": "This function is only available in the pro version.",
+    "AboutDialog": {
+        "Text_PrivacyText": "This application does not collect any personal data. No data is shared with third parties as far as I know. Read more about our privacy policy.",
+        "ElevatedButton_Privacy": "Privacy Policy"
     },
-    "DiscardConfirmDialog": {
-      "Title": "Discard Changes?",
-      "Body": "Loading a script will discard your current scripts changes. Do you want to proceed and discard all changes?",
-      "Cancel": "Cancel",
-      "Confirm": "Confirm and Discard"
+    "ChangelogModal": {
+        "title": "What's New",
+        "close": "Close"
     },
-    "NewOrOverrideDialog": {
-      "Title": "Override Current Script or Save as New?",
-      "NewScript": "Save as New Script",
-      "OverrideScript": "Override Current"
+    "HomeScreen": {
+        "TitleField_heading": "Script Title",
+        "TitleField_hintText": "Enter script title",
+        "TextField_heading": "Script Content",
+        "TextField_hintText": "Enter script content",
+        "ElevatedButton_Start": "Start Teleprompter",
+        "ElevatedButton_Select": "Select Script from Device",
+        "ElevatedButton_Save": "Save Script",
+        "IconButton_Settings": "Settings",
+        "IconButton_SourceCode": "View source code",
+        "IconButton_About": "About",
+        "BottomSheet": {
+            "Text_Title": "Save Script",
+            "TextField_hintText": "Enter script name",
+            "ElevatedButton_Save": "Save"
+        },
+        "DiscardConfirmDialog": {
+            "Title": "Discard Changes?",
+            "Body": "Loading a script will discard your current scripts changes. Do you want to proceed and discard all changes?",
+            "Cancel": "Cancel",
+            "Confirm": "Confirm and Discard"
+        },
+        "NewOrOverrideDialog": {
+            "Title": "Override Current Script or Save as New?",
+            "NewScript": "Save as New Script",
+            "OverrideScript": "Override Current"
+        },
+        "UnverifiedBuild": "Unverified Build",
+        "UnverifiedBuild_Explanation": "This build is unverified. That means it may not be stable or could contain bugs. Use at your own risk. To build a verified version, please use the main_foss.dart file as your entry point.",
+        "FossVersion": "Free and Open Source",
+        "FossVersion_Explanation": "We are a free and open source project. This means that you can use this app for free - for ever. All features in this app are free to you and you may use them without any restrictions. However, this is a community project which took quite a lot of work. So if you like this app and would like to see it supported into the future, please consider donating. You can find current links at the Source Code Repository.",
+        "FreeVersion": "Free Version",
+        "FreeVersion_Explanation": "We are a free and open source project. Sadly, maintaining TiefPrompt takes a lot of time - and frankly, money. Between development, design, and the cost of distribution (hello, Apple Developer fees), it's become a bit of a time-and-money sink for me. To keep things sustainable, I've chosen a freemium model: the app is free to use, but some features are only available in the Pro version.\n\nIf you can't or don't want to pay, you're still totally welcome to use the app or build it yourself from source - no hard feelings.\n\nI wish it weren't necessary, but I hope you understand and still find real value in this app.",
+        "FreeVersion_BuyPro": "Buy Pro",
+        "PaidVersion": "TiefPrompt Pro",
+        "PaidVersion_Explanation": "Thank you for purchasing TiefPrompt Pro! Your support means the world. You're not just unlocking extra features - you're helping this project stay alive, maintained, and hopefully even better with time. This app is a labour of love, and your contribution helps cover hosting, development, testing devices, and way too much coffee.\n\nSeriously, thank you for making this possible.",
+        "Understood": "Understood"
     },
-    "UnverifiedBuild": "Unverified Build",
-    "UnverifiedBuild_Explanation": "This build is unverified. That means it may not be stable or could contain bugs. Use at your own risk. To build a verified version, please use the main_foss.dart file as your entry point.",
-    "FossVersion": "Free and Open Source",
-    "FossVersion_Explanation": "We are a free and open source project. This means that you can use this app for free - for ever. All features in this app are free to you and you may use them without any restrictions. However, this is a community project which took quite a lot of work. So if you like this app and would like to see it supported into the future, please consider donating. You can find current links at the Source Code Repository.",
-    "FreeVersion": "Free Version",
-    "FreeVersion_Explanation": "We are a free and open source project. Sadly, maintaining TiefPrompt takes a lot of time - and frankly, money. Between development, design, and the cost of distribution (hello, Apple Developer fees), it's become a bit of a time-and-money sink for me. To keep things sustainable, I've chosen a freemium model: the app is free to use, but some features are only available in the Pro version.\n\nIf you can't or don't want to pay, you're still totally welcome to use the app or build it yourself from source - no hard feelings.\n\nI wish it weren't necessary, but I hope you understand and still find real value in this app.",
-    "FreeVersion_BuyPro": "Buy Pro",
-    "PaidVersion": "TiefPrompt Pro",
-    "PaidVersion_Explanation": "Thank you for purchasing TiefPrompt Pro! Your support means the world. You're not just unlocking extra features - you're helping this project stay alive, maintained, and hopefully even better with time. This app is a labour of love, and your contribution helps cover hosting, development, testing devices, and way too much coffee.\n\nSeriously, thank you for making this possible.",
-    "Understood": "Understood"
-  },
-  "SettingsScreen": {
-    "title": "Settings",
-    "NumberAppSetting": {
-      "Value": "Enter Value",
-      "ElevatedButton_Save": "Save"
+    "SettingsScreen": {
+        "title": "Settings",
+        "NumberAppSetting": {
+            "Value": "Enter Value",
+            "ElevatedButton_Save": "Save"
+        },
+        "DropdownAppSetting_DefaultLanguage": "Default Language",
+        "DropdownAppSetting_Theme": "App Theme",
+        "DropdownAppSetting_Theme_light": "Light",
+        "DropdownAppSetting_Theme_dark": "Dark",
+        "DropdownAppSetting_Theme_system": "System",
+        "NumberAppSetting_DefaultFontSize": "Default Font Size",
+        "NumberAppSetting_DefaultFontSize_Unit": "px",
+        "DropdownAppSetting_DefaultTextAlignment": "Text Alignment",
+        "DropdownAppSetting_DefaultTextAlignment_Unit": {
+            "Left": "Left",
+            "Center": "Center",
+            "Right": "Right",
+            "Justified": "Justified"
+        },
+        "ElevatedButton_Save": "Save",
+        "DropdownAppSetting_DefaultFontFamily": "Font Family",
+        "LinkAppSetting_CustomFonts": "Manage Custom Fonts",
+        "BooleanAppSetting_DefaultFlipX": "Default Flip X",
+        "BooleanAppSetting_DefaultFlipY": "Default Flip Y",
+        "BooleanAppSetting_ReadingIndicatorBoxes": "Display Reading Indicator Boxes",
+        "BooleanAppSetting_Markdown": "Enable Markdown",
+        "BooleanAppSetting_ShowCurrentChapter": "Show Current Chapter",
+        "BooleanAppSetting_ControlButtons": "Enable Control Buttons",
+        "DropdownAppSetting_ControlButtonPosition": {
+            "Label": "Control Buttons Position",
+            "left": "Left Side",
+            "top": "Top Side",
+            "right": "Right Side",
+            "bottom": "Bottom Side"
+        },
+        "ShowHelpRequest": "Show Help Request Again",
+        "ShowChangelog": "Show Changelog",
+        "ViewLogs": "View Logs",
+        "NumberAppSetting_ReadingIndicatorBoxes": "Height of Reading Indicator Boxes",
+        "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+        "BooleanAppSetting_VerticalMarginBoxes": "Enable Vertical Margins",
+        "NumberAppSetting_VerticalMarginBoxes": "Height of Vertical Margin",
+        "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
+        "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "Enable Fade for Vertical Margin",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength": "Fade Length",
+        "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "%",
+        "NumberAppSetting_SideMargin": "Side Margin",
+        "NumberAppSetting_SideMargin_Unit": "%",
+        "ColorAppSetting_AppPrimaryColor": "Primary Application Color",
+        "ColorAppSetting_PrompterBackgroundColor": "Prompter Background Color",
+        "ColorAppSetting_PrompterTextColor": "Prompter Text Color",
+        "ColorAppSetting_Disabled": "Can't set this color when Use System Colors is enabled",
+        "BooleanAppSetting_UseSystemColors": "Use System Colors",
+        "DropdownAppSetting_DefaultTextDirectionMode": "Default Text Direction",
+        "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
+            "ltr": "Left to Right",
+            "rtl": "Right to Left",
+            "auto": "Automatic"
+        },
+        "DropdownAppSetting_PrompterOrientation": {
+            "Label": "Prompter Orientation",
+            "portrait": "Portrait",
+            "landscape": "Landscape",
+            "dynamic": "Dynamic"
+        },
+        "DisplaySettings": {
+            "Title": "Display Settings"
+        },
+        "TextSettings": "Text Settings",
+        "ListTile_Reset": "Reset settings",
+        "Reset_Warning": "You're about to reset all settings irreversably!",
+        "Abort": "Abort",
+        "Confirm": "Confirm",
+        "RestorePurchases": "Restore Purchases",
+        "RestorePurchases_Snackbar": "Purchases were restored.",
+        "ScrollSettings": {
+            "Title": "Scroll Settings",
+            "CountdownTimer": "Countdown Timer",
+            "CountdownTimer_Unit": "sec",
+            "DefaultScrollSpeed": "Default Scroll Speed",
+            "DefaultScrollSpeed_Unit": "lines/sec",
+            "VoiceActivation": "Voice Activation",
+            "VoiceActivationThreshold": "Voice Activation Threshold",
+            "VoiceActivationThreshold_Unit": "db",
+            "VoiceActivationDevices": "Audio Devices for Voice Activation",
+            "VoiceActivationPreview": "Preview Voice Activation",
+            "UnknownDevice": "Unknown Device"
+        },
+        "KeybindingsSettings": {
+            "Title": "Keybindings Settings",
+            "ChangeBindings": "Change Bindings",
+            "AddBinding": "Add Binding",
+            "CaptureBindingTitle": "Press a key combination",
+            "CaptureBindingHint": "Hold Ctrl, Alt, Shift, or Meta and press a key.",
+            "ResetBindings": "Reset all bindings to defaults",
+            "playPause": "Play/Pause",
+            "scrollUpSmall": "Small Scroll Up",
+            "scrollDownSmall": "Small Scroll Down",
+            "scrollUp": "Scroll Up",
+            "scrollDown": "Scroll Down",
+            "pageUp": "Scroll Up One Page",
+            "pageDown": "Scroll Down One Page",
+            "jumpStart": "Jump To Top",
+            "jumpEnd": "Jump To Bottom",
+            "toggleControls": "Toggle Controls",
+            "speedUp": "Increase Speed",
+            "speedDown": "Decrease Speed",
+            "fontSizeUp": "Increase Font Size",
+            "fontSizeDown": "Decrease Font Size",
+            "openSettings": "Open Settings",
+            "saveSettingsFromPrompter": "Save Settings from Prompter",
+            "jumpChapterUp": "Jump to Previous Chapter",
+            "jumpChapterDown": "Jump to Next Chapter"
+        },
+        "SettingsRestore": {
+            "Title": "Save and Restore Settings",
+            "Save": "Save Current Settings",
+            "Import": "Import Settings from File",
+            "LoadError": "There was a problem loading saved settings.",
+            "NameRequired": "Please enter a profile name.",
+            "SaveSuccess": "Settings profile saved.",
+            "ImportSuccess": "Settings profile imported.",
+            "ImportFailed": "Import failed. Please check the file and try again.",
+            "RestoreSuccess": "Settings restored.",
+            "RestoreFailed": "Restore failed.",
+            "ExportSuccess": "Settings profile exported.",
+            "ExportFailed": "Export failed.",
+            "DeleteSuccess": "Settings profile deleted.",
+            "NameSheet": {
+                "Title": "Name This Settings Profile",
+                "Content": "Give this imported profile a name."
+            },
+            "DeleteDialog": {
+                "Title": "Delete Settings Profile",
+                "Content": "You're about to permanently delete the stored settings {}!",
+                "Cancel": "Cancel",
+                "Confirm": "Confirm"
+            },
+            "OptionsDialog": {
+                "Title": "More Options",
+                "Export": "Export Settings Profile",
+                "FilePickerTitle": "Choose File to export Settings to",
+                "Delete": "Delete Settings Profile"
+            },
+            "ImportSettings": {
+                "Title": "Import Settings Profile",
+                "Content": "Please choose a file to import the settings profile from. Note that this will be added as a new profile and not override current settings.",
+                "Cancel": "Cancel",
+                "Import": "Choose File",
+                "InvalidVersion": "Invalid Schema Version provided. Please use a settings schema from this TiefPrompt version."
+            },
+            "SaveDialog": {
+                "Title": "Save Settings Profile",
+                "Content": "You may save these settings under a name specified by you.",
+                "HintText": "Enter profile name",
+                "Cancel": "Cancel",
+                "Save": "Save"
+            }
+        },
+        "FontSettings": {
+            "Title": "Font Settings",
+            "AddFont": "Add Font",
+            "BuiltIn": "Built-in",
+            "Custom": "Custom",
+            "EditFamilyTooltip": {
+                "BuiltIn": "Built-in fonts cannot be renamed",
+                "Custom": "Rename font"
+            },
+            "EditVariantTooltip": {
+                "BuiltIn": "Built-in font variants cannot be edited",
+                "Custom": "Edit variant"
+            },
+            "MoveVariantTooltip": {
+                "BuiltIn": "Built-in font variants cannot be moved",
+                "Custom": "Move variant to another font"
+            },
+            "DeleteVariantTooltip": {
+                "BuiltIn": "Built-in font variants cannot be deleted",
+                "Custom": "Delete variant"
+            },
+            "MoveFontDialog": {
+                "Title": "Move Variant to Font"
+            },
+            "EditFontDialog": {
+                "Title": "Edit Font",
+                "SetFontFamilyName": "Font Family Name",
+                "Cancel": "Cancel",
+                "Save": "Save",
+                "Warning": "Changing these values may cause this variant to no longer match the font file it was loaded from. This is irreversible.",
+                "SetFontVariantWeight": "Weight",
+                "SetFontItalics": "Italic"
+            }
+        }
     },
-    "DropdownAppSetting_DefaultLanguage": "Default Language",
-    "DropdownAppSetting_Theme": "App Theme",
-    "DropdownAppSetting_Theme_light": "Light",
-    "DropdownAppSetting_Theme_dark": "Dark",
-    "DropdownAppSetting_Theme_system": "System",
-    "NumberAppSetting_DefaultFontSize": "Default Font Size",
-    "NumberAppSetting_DefaultFontSize_Unit": "px",
-    "DropdownAppSetting_DefaultTextAlignment": "Text Alignment",
-    "DropdownAppSetting_DefaultTextAlignment_Unit": {
-      "Left": "Left",
-      "Center": "Center",
-      "Right": "Right",
-      "Justified": "Justified"
+    "PrompterScreen": {
+        "speed": "{}x",
+        "fontsize": "F: {}",
+        "IconButton_Save": "Save Prompter Settings",
+        "IconButton_DisplaySettings": "Display Settings",
+        "IconButton_DecreaseSpeed": "Decrease Speed",
+        "IconButton_TogglePlayPause": "Toggle Play & Pause",
+        "IconButton_IncreaseSpeed": "Increase Speed",
+        "IconButton_TextFormat": "Font Settings",
+        "IconButton_Settings": "Settings",
+        "SimpleDialog_TextFormat": {
+            "title": "Font Settings",
+            "fontsize": "F: {}",
+            "IconButton_TextIncrease": "Text Increase",
+            "IconButton_TextDecrease": "Text Decrease",
+            "IconButton_Left": "Align Left",
+            "IconButton_Center": "Align Center",
+            "IconButton_Right": "Align Right",
+            "IconButton_Justified": "Align Justified"
+        },
+        "SimpleDialog_DisplaySettings": {
+            "title": "Display Settings",
+            "IconButton_FlipX": "Flip X Axis",
+            "IconButton_FlipY": "Flip Y Axis",
+            "IconButton_Markdown": "Enable Markdown",
+            "IconButton_ReadingIndicatorBoxes": "Show Reading Indicator Boxes",
+            "IconButton_VerticalMarginBoxes": "Enable Vertical Margins",
+            "IconButton_FadeEnabled": "Enable Fade for Vertical Margins",
+            "IconButton_ShowCurrentChapter": "Show Current Chapter",
+            "Slider_SideMargin": "Side Margin",
+            "Slider_Countdown": "Countdown"
+        }
     },
-    "ElevatedButton_Save": "Save",
-    "DropdownAppSetting_DefaultFontFamily": "Font Family",
-    "LinkAppSetting_CustomFonts": "Manage Custom Fonts",
-    "BooleanAppSetting_DefaultFlipX": "Default Flip X",
-    "BooleanAppSetting_DefaultFlipY": "Default Flip Y",
-    "BooleanAppSetting_ReadingIndicatorBoxes": "Display Reading Indicator Boxes",
-    "BooleanAppSetting_Markdown": "Enable Markdown",
-    "BooleanAppSetting_ShowCurrentChapter": "Show Current Chapter",
-    "BooleanAppSetting_ControlButtons": "Enable Control Buttons",
-    "DropdownAppSetting_ControlButtonPosition": {
-      "Label": "Control Buttons Position",
-      "left": "Left Side",
-      "top": "Top Side",
-      "right": "Right Side",
-      "bottom": "Bottom Side"
+    "OpenFileScreen": {
+        "title": "Select Script",
+        "if_empty": "No scripts saved. Save your scripts to view them here.",
+        "ElevatedButton_Select": "Open file",
+        "ListTile_Delete": "Delete (Be careful)"
     },
-    "ShowHelpRequest": "Show Help Request Again",
-    "ShowChangelog": "Show Changelog",
-    "ViewLogs": "View Logs",
-    "NumberAppSetting_ReadingIndicatorBoxes": "Height of Reading Indicator Boxes",
-    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
-    "BooleanAppSetting_VerticalMarginBoxes": "Enable Vertical Margins",
-    "NumberAppSetting_VerticalMarginBoxes": "Height of Vertical Margin",
-    "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
-    "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "Enable Fade for Vertical Margin",
-    "NumberAppSetting_VerticalMarginBoxes_FadeLength": "Fade Length",
-    "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "%",
-    "NumberAppSetting_SideMargin": "Side Margin",
-    "NumberAppSetting_SideMargin_Unit": "%",
-    "ColorAppSetting_AppPrimaryColor": "Primary Application Color",
-    "ColorAppSetting_PrompterBackgroundColor": "Prompter Background Color",
-    "ColorAppSetting_PrompterTextColor": "Prompter Text Color",
-    "ColorAppSetting_Disabled": "Can't set this color when Use System Colors is enabled",
-    "BooleanAppSetting_UseSystemColors": "Use System Colors",
-    "DropdownAppSetting_DefaultTextDirectionMode": "Default Text Direction",
-    "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
-      "ltr": "Left to Right",
-      "rtl": "Right to Left",
-      "auto": "Automatic"
+    "HelpRequestScreen": {
+        "Title": "Help us!",
+        "Abstract": "TL;DR: TiefPrompt is a community created and funded project. Being FOSS means everyone can contribute - but alas, there are costs to creating and publishing an app. Aside our time, the Apple tax is real. Contributing to the project really helps. I elaborate below, but check out the GitHub if you want to help out.",
+        "ElaborateExplanation": "You reading on already means you are interested in our project, so let me catch you up. TiefPrompt is a teleprompter application without ads, tracking, or any such monetary means most apps resort to. That means we're fully reliant on the purchases of TiefPrompt Pro, as well as donations.\n\nSince the developers sink a lot of time and money into providing this app (e.g. lawyers to write a privacy policy, Apple Tax, so on), we decided on two means of getting funding - one is, obviously, the In-App Purchases on iOS and Android. If you've downloaded this app from Google Play or the Apple App Store, you'll notice that some features are indeed restricted. That is a side effect of Apple requiring developers to own an Apple product - something we had to specifically acquire for this project - and a yearly payment for the privilege of creating an app.\n\nAdditionally, this app is free. You may be wondering how that is possible, as I had just explained how totally not free this app is, but if you look at the link above, this app is, indeed, fully open-source. You're allowed to use, modify, sell, or really do whatever with this app. And it's free as in beer if you download it from F-Droid or GitHub, or simply compile it yourself.\n\nThat's why we don't only have an In-App Purchase option, but also donation links. If you're using the app how it was initially envisioned - that is, freely - we ask of you that you consider donating. No hard feelings if you don't, we know the financial realities, but it's a way to support us.\n\nAside that, making an app obviously requires time. Developing, sorting issues, planning releases - all of this, while being fun, is a strain on the devs. So if you can't or don't want to donate or pay for the app, how about you contribute to the app!\n\nHow to contribute, you ask? Well, one way is simply giving feedback. Is there a feature missing? Is the app buggy? Simply tell us, and we'll make it better!\n\nAnother way to contribute is obviously to provide code. If you're able, we'd appreciate any help on getting Issues down, making new features and fixing bugs. We're all just humans, and your support would be a big help.\n\nLastly, there's translations. We provide this app in multiple languages, but there's always another language, a translation error, or simply a small typo to fix. You can find how to help making translations of this app better in the GitHub repo, and we really do appreciate any help on that front as well.\n\nAnd now, a personal note from the creator, because you just read through my prose and you deserve it: Thank you. Thank you for considering this app, downloading it, reading this, so on. I really do appreciate you all immensly. Seeing a project actually be used is validating and it makes me happy that I'm not alone here. So, one last time: Thank you.\n\nNow to the last thing, there's links below, click them to find out more.\n\nBest, Lena",
+        "ReadMore": "Read more",
+        "Continue": "Continue to the App"
     },
-    "DropdownAppSetting_PrompterOrientation": {
-      "Label": "Prompter Orientation",
-      "portrait": "Portrait",
-      "landscape": "Landscape",
-      "dynamic": "Dynamic"
+    "BuyProScreen": {
+        "Title": "Pro Version",
+        "Back": "Back",
+        "RestorePurchases": "Restore Purchases",
+        "BuyPro": "Purchase Pro",
+        "BuyRequest": {
+            "Generic": "## Considering upgrading?\n\nThis is the free version of TiefPrompt, and every Pro feature is one tap away.",
+            "appLanguage": "## App Language\n\nChange the localization of the app.",
+            "appTheme": "## App Theme\n\nSwitch between light, dark, and custom themes to suit your studio.",
+            "primaryAppColor": "## Accent Color\n\nPersonalize the app with your own primary color.",
+            "textSettings": "## Text Settings\n\nFine-tune exactly how your script reads on screen.",
+            "displaySettings": "## Display Settings\n\nTake full control of how the prompter presents your script.",
+            "scrollSpeed": "## Scroll Speed\n\nDial in the perfect scrolling pace for your delivery.",
+            "flipX": "## Mirror Horizontally\n\nFlip the prompter for use with a beam-splitter glass.",
+            "flipY": "## Mirror Vertically\n\nFlip the prompter top-to-bottom for mirrored rigs.",
+            "readingIndicatorBoxes": "## Reading Indicators\n\nFrame the line you're reading with adjustable indicator bars so you never lose your place.",
+            "verticalMargins": "## Vertical Margins\n\nMask the top and bottom of the screen to keep your eyes on the active lines.",
+            "verticalMarginFade": "## Margin Fade\n\nFade text gently in and out at the edges for a smooth, professional look.",
+            "sideMargins": "## Side Margins\n\nNarrow the text column so your eyes travel less between lines.",
+            "countdownTimer": "## Countdown Timer\n\nGet a countdown before scrolling begins, so you're ready on cue.",
+            "prompterBackgroundColor": "## Background Color\n\nPick any prompter background color to match your set or cut glare.",
+            "prompterTextColor": "## Text Color\n\nChoose your own text color for the best readability under any lighting.",
+            "fontSize": "## Font Size\n\nSet the perfect reading size for your distance from the screen.",
+            "textAlignment": "## Text Alignment\n\nAlign your script left, center, right, or justified.",
+            "fontFamily": "## Font Family\n\nPick the typeface that's easiest for you to read.",
+            "keybindings": "## Custom Keybindings\n\nRemap every shortcut to your own keyboard or remote control.",
+            "playPause": "## Play & Pause\n\nStart and stop scrolling exactly when you need to.",
+            "markdown": "## Markdown Formatting\n\nWrite headings, bold, italics, and underlines and see them rendered live in your script.",
+            "settingsRestore": "## Save & Restore Settings\n\nSave your prompter setups as profiles and bring them back on any device.",
+            "controlButtons": "## Control Buttons\n\nOn-screen controls for simpler operation.",
+            "showHelpRequest": "## Support TiefPrompt\n\nLearn how you can help keep TiefPrompt alive and growing.",
+            "ephemeralScript": "## Quick Script\n\nStart prompting instantly without saving a script first.",
+            "currentChapter": "## Current Chapter\n\nNever loose sight of where you are - display the current chapter at the top of the screen.",
+            "customFonts": "## Custom Fonts\n\nUse your own fonts for the prompter text.",
+            "textDirectionMode": "## Text Direction Mode\n\nChoose the text direction for the prompter, either automatic, left-to-right, or right-to-left.",
+            "useSystemColors": "## Use System Colors\n\nEnable this to use the system's color scheme (Material You) for the application.",
+            "voiceActivation": "## Voice Activation\n\nEnable voice activation to only scroll when you're speaking.",
+            "prompterOrientation": "## Prompter Orientation\n\nChoose between landscape, portrait, or dynamic orientation for the prompter.",
+            "MainBlock": "Unlock this and every other Pro feature with a single one-time purchase. No subscription, yours forever.\n\nFrankly, TiefPrompt is currently, other than translations, a one person project. Your purchase funds the development, allows this app to be ad and tracking and bs free, pays for the Apple fees, *and* allows me to get *an excessive amount of camera equipment*. Thank you for reading and considering!\n\n  ~ Lena"
+        }
     },
-    "DisplaySettings": { "Title": "Display Settings" },
-    "TextSettings": "Text Settings",
-    "ListTile_Reset": "Reset settings",
-    "Reset_Warning": "You're about to reset all settings irreversably!",
-    "Abort": "Abort",
-    "Confirm": "Confirm",
-    "RestorePurchases": "Restore Purchases",
-    "RestorePurchases_Snackbar": "Purchases were restored.",
-    "ScrollSettings": {
-      "Title": "Scroll Settings",
-      "CountdownTimer": "Countdown Timer",
-      "CountdownTimer_Unit": "sec",
-      "DefaultScrollSpeed": "Default Scroll Speed",
-      "DefaultScrollSpeed_Unit": "lines/sec",
-      "VoiceActivation": "Voice Activation",
-      "VoiceActivationThreshold": "Voice Activation Threshold",
-      "VoiceActivationThreshold_Unit": "db",
-      "VoiceActivationDevices": "Audio Devices for Voice Activation",
-      "VoiceActivationPreview": "Preview Voice Activation",
-      "UnknownDevice": "Unknown Device"
-    },
-    "KeybindingsSettings": {
-      "Title": "Keybindings Settings",
-      "ChangeBindings": "Change Bindings",
-      "AddBinding": "Add Binding",
-      "CaptureBindingTitle": "Press a key combination",
-      "CaptureBindingHint": "Hold Ctrl, Alt, Shift, or Meta and press a key.",
-      "ResetBindings": "Reset all bindings to defaults",
-      "playPause": "Play/Pause",
-      "scrollUpSmall": "Small Scroll Up",
-      "scrollDownSmall": "Small Scroll Down",
-      "scrollUp": "Scroll Up",
-      "scrollDown": "Scroll Down",
-      "pageUp": "Scroll Up One Page",
-      "pageDown": "Scroll Down One Page",
-      "jumpStart": "Jump To Top",
-      "jumpEnd": "Jump To Bottom",
-      "toggleControls": "Toggle Controls",
-      "speedUp": "Increase Speed",
-      "speedDown": "Decrease Speed",
-      "fontSizeUp": "Increase Font Size",
-      "fontSizeDown": "Decrease Font Size",
-      "openSettings": "Open Settings",
-      "saveSettingsFromPrompter": "Save Settings from Prompter",
-      "jumpChapterUp": "Jump to Previous Chapter",
-      "jumpChapterDown": "Jump to Next Chapter"
-    },
-    "SettingsRestore": {
-      "Title": "Save and Restore Settings",
-      "Save": "Save Current Settings",
-      "Import": "Import Settings from File",
-      "LoadError": "There was a problem loading saved settings.",
-      "NameRequired": "Please enter a profile name.",
-      "SaveSuccess": "Settings profile saved.",
-      "ImportSuccess": "Settings profile imported.",
-      "ImportFailed": "Import failed. Please check the file and try again.",
-      "RestoreSuccess": "Settings restored.",
-      "RestoreFailed": "Restore failed.",
-      "ExportSuccess": "Settings profile exported.",
-      "ExportFailed": "Export failed.",
-      "DeleteSuccess": "Settings profile deleted.",
-      "NameSheet": {
-        "Title": "Name This Settings Profile",
-        "Content": "Give this imported profile a name."
-      },
-      "DeleteDialog": {
-        "Title": "Delete Settings Profile",
-        "Content": "You're about to permanently delete the stored settings {}!",
-        "Cancel": "Cancel",
-        "Confirm": "Confirm"
-      },
-      "OptionsDialog": {
-        "Title": "More Options",
-        "Export": "Export Settings Profile",
-        "FilePickerTitle": "Choose File to export Settings to",
-        "Delete": "Delete Settings Profile"
-      },
-      "ImportSettings": {
-        "Title": "Import Settings Profile",
-        "Content": "Please choose a file to import the settings profile from. Note that this will be added as a new profile and not override current settings.",
-        "Cancel": "Cancel",
-        "Import": "Choose File",
-        "InvalidVersion": "Invalid Schema Version provided. Please use a settings schema from this TiefPrompt version."
-      },
-      "SaveDialog": {
-        "Title": "Save Settings Profile",
-        "Content": "You may save these settings under a name specified by you.",
-        "HintText": "Enter profile name",
-        "Cancel": "Cancel",
-        "Save": "Save"
-      }
-    },
-    "FontSettings": {
-      "Title": "Font Settings",
-      "AddFont": "Add Font",
-      "BuiltIn": "Built-in",
-      "Custom": "Custom",
-      "EditFamilyTooltip": {
-        "BuiltIn": "Built-in fonts cannot be renamed",
-        "Custom": "Rename font"
-      },
-      "EditVariantTooltip": {
-        "BuiltIn": "Built-in font variants cannot be edited",
-        "Custom": "Edit variant"
-      },
-      "MoveVariantTooltip": {
-        "BuiltIn": "Built-in font variants cannot be moved",
-        "Custom": "Move variant to another font"
-      },
-      "DeleteVariantTooltip": {
-        "BuiltIn": "Built-in font variants cannot be deleted",
-        "Custom": "Delete variant"
-      },
-      "MoveFontDialog": {
-        "Title": "Move Variant to Font"
-      },
-      "EditFontDialog": {
-        "Title": "Edit Font",
-        "SetFontFamilyName": "Font Family Name",
-        "Cancel": "Cancel",
-        "Save": "Save",
-        "Warning": "Changing these values may cause this variant to no longer match the font file it was loaded from. This is irreversible.",
-        "SetFontVariantWeight": "Weight",
-        "SetFontItalics": "Italic"
-      }
+    "NoPurchaseAvailable": {
+        "Title": "There are no purchases...",
+        "Back": "Back",
+        "MainBody": "Oh hi! Apparently, you arrived at the purchases screen no one is supposed to see, and which only exists so the build is easier.\n\nWell, see you! Have a nice one!"
     }
-  },
-  "PrompterScreen": {
-    "speed": "{}x",
-    "fontsize": "F: {}",
-    "IconButton_Save": "Save Prompter Settings",
-    "IconButton_DisplaySettings": "Display Settings",
-    "IconButton_DecreaseSpeed": "Decrease Speed",
-    "IconButton_TogglePlayPause": "Toggle Play & Pause",
-    "IconButton_IncreaseSpeed": "Increase Speed",
-    "IconButton_TextFormat": "Font Settings",
-    "IconButton_Settings": "Settings",
-    "SimpleDialog_TextFormat": {
-      "title": "Font Settings",
-      "fontsize": "F: {}",
-      "IconButton_TextIncrease": "Text Increase",
-      "IconButton_TextDecrease": "Text Decrease",
-      "IconButton_Left": "Align Left",
-      "IconButton_Center": "Align Center",
-      "IconButton_Right": "Align Right",
-      "IconButton_Justified": "Align Justified"
-    },
-    "SimpleDialog_DisplaySettings": {
-      "title": "Display Settings",
-      "IconButton_FlipX": "Flip X Axis",
-      "IconButton_FlipY": "Flip Y Axis",
-      "IconButton_Markdown": "Enable Markdown",
-      "IconButton_ReadingIndicatorBoxes": "Show Reading Indicator Boxes",
-      "IconButton_VerticalMarginBoxes": "Enable Vertical Margins",
-      "IconButton_FadeEnabled": "Enable Fade for Vertical Margins",
-      "IconButton_ShowCurrentChapter": "Show Current Chapter",
-      "Slider_SideMargin": "Side Margin",
-      "Slider_Countdown": "Countdown"
-    }
-  },
-  "OpenFileScreen": {
-    "title": "Select Script",
-    "if_empty": "No scripts saved. Save your scripts to view them here.",
-    "ElevatedButton_Select": "Open file",
-    "ListTile_Delete": "Delete (Be careful)"
-  },
-  "HelpRequestScreen": {
-    "Title": "Help us!",
-    "Abstract": "TL;DR: TiefPrompt is a community created and funded project. Being FOSS means everyone can contribute - but alas, there are costs to creating and publishing an app. Aside our time, the Apple tax is real. Contributing to the project really helps. I elaborate below, but check out the GitHub if you want to help out.",
-    "ElaborateExplanation": "You reading on already means you are interested in our project, so let me catch you up. TiefPrompt is a teleprompter application without ads, tracking, or any such monetary means most apps resort to. That means we're fully reliant on the purchases of TiefPrompt Pro, as well as donations.\n\nSince the developers sink a lot of time and money into providing this app (e.g. lawyers to write a privacy policy, Apple Tax, so on), we decided on two means of getting funding - one is, obviously, the In-App Purchases on iOS and Android. If you've downloaded this app from Google Play or the Apple App Store, you'll notice that some features are indeed restricted. That is a side effect of Apple requiring developers to own an Apple product - something we had to specifically acquire for this project - and a yearly payment for the privilege of creating an app.\n\nAdditionally, this app is free. You may be wondering how that is possible, as I had just explained how totally not free this app is, but if you look at the link above, this app is, indeed, fully open-source. You're allowed to use, modify, sell, or really do whatever with this app. And it's free as in beer if you download it from F-Droid or GitHub, or simply compile it yourself.\n\nThat's why we don't only have an In-App Purchase option, but also donation links. If you're using the app how it was initially envisioned - that is, freely - we ask of you that you consider donating. No hard feelings if you don't, we know the financial realities, but it's a way to support us.\n\nAside that, making an app obviously requires time. Developing, sorting issues, planning releases - all of this, while being fun, is a strain on the devs. So if you can't or don't want to donate or pay for the app, how about you contribute to the app!\n\nHow to contribute, you ask? Well, one way is simply giving feedback. Is there a feature missing? Is the app buggy? Simply tell us, and we'll make it better!\n\nAnother way to contribute is obviously to provide code. If you're able, we'd appreciate any help on getting Issues down, making new features and fixing bugs. We're all just humans, and your support would be a big help.\n\nLastly, there's translations. We provide this app in multiple languages, but there's always another language, a translation error, or simply a small typo to fix. You can find how to help making translations of this app better in the GitHub repo, and we really do appreciate any help on that front as well.\n\nAnd now, a personal note from the creator, because you just read through my prose and you deserve it: Thank you. Thank you for considering this app, downloading it, reading this, so on. I really do appreciate you all immensly. Seeing a project actually be used is validating and it makes me happy that I'm not alone here. So, one last time: Thank you.\n\nNow to the last thing, there's links below, click them to find out more.\n\nBest, Lena",
-    "ReadMore": "Read more",
-    "Continue": "Continue to the App"
-  },
-  "BuyProScreen": {
-    "Title": "Pro Version",
-    "Back": "Back",
-    "RestorePurchases": "Restore Purchases",
-    "BuyPro": "Purchase Pro",
-    "BuyRequest": {
-      "Generic": "## Considering upgrading?\n\nThis is the free version of TiefPrompt, and every Pro feature is one tap away.",
-      "appLanguage": "## App Language\n\nChange the localization of the app.",
-      "appTheme": "## App Theme\n\nSwitch between light, dark, and custom themes to suit your studio.",
-      "primaryAppColor": "## Accent Color\n\nPersonalize the app with your own primary color.",
-      "textSettings": "## Text Settings\n\nFine-tune exactly how your script reads on screen.",
-      "displaySettings": "## Display Settings\n\nTake full control of how the prompter presents your script.",
-      "scrollSpeed": "## Scroll Speed\n\nDial in the perfect scrolling pace for your delivery.",
-      "flipX": "## Mirror Horizontally\n\nFlip the prompter for use with a beam-splitter glass.",
-      "flipY": "## Mirror Vertically\n\nFlip the prompter top-to-bottom for mirrored rigs.",
-      "readingIndicatorBoxes": "## Reading Indicators\n\nFrame the line you're reading with adjustable indicator bars so you never lose your place.",
-      "verticalMargins": "## Vertical Margins\n\nMask the top and bottom of the screen to keep your eyes on the active lines.",
-      "verticalMarginFade": "## Margin Fade\n\nFade text gently in and out at the edges for a smooth, professional look.",
-      "sideMargins": "## Side Margins\n\nNarrow the text column so your eyes travel less between lines.",
-      "countdownTimer": "## Countdown Timer\n\nGet a countdown before scrolling begins, so you're ready on cue.",
-      "prompterBackgroundColor": "## Background Color\n\nPick any prompter background color to match your set or cut glare.",
-      "prompterTextColor": "## Text Color\n\nChoose your own text color for the best readability under any lighting.",
-      "fontSize": "## Font Size\n\nSet the perfect reading size for your distance from the screen.",
-      "textAlignment": "## Text Alignment\n\nAlign your script left, center, right, or justified.",
-      "fontFamily": "## Font Family\n\nPick the typeface that's easiest for you to read.",
-      "keybindings": "## Custom Keybindings\n\nRemap every shortcut to your own keyboard or remote control.",
-      "playPause": "## Play & Pause\n\nStart and stop scrolling exactly when you need to.",
-      "markdown": "## Markdown Formatting\n\nWrite headings, bold, italics, and underlines and see them rendered live in your script.",
-      "settingsRestore": "## Save & Restore Settings\n\nSave your prompter setups as profiles and bring them back on any device.",
-      "controlButtons": "## Control Buttons\n\nOn-screen controls for simpler operation.",
-      "showHelpRequest": "## Support TiefPrompt\n\nLearn how you can help keep TiefPrompt alive and growing.",
-      "ephemeralScript": "## Quick Script\n\nStart prompting instantly without saving a script first.",
-      "currentChapter": "## Current Chapter\n\nNever loose sight of where you are - display the current chapter at the top of the screen.",
-      "customFonts": "## Custom Fonts\n\nUse your own fonts for the prompter text.",
-      "textDirectionMode": "## Text Direction Mode\n\nChoose the text direction for the prompter, either automatic, left-to-right, or right-to-left.",
-      "useSystemColors": "## Use System Colors\n\nEnable this to use the system's color scheme (Material You) for the prompter.",
-      "voiceActivation": "## Voice Activation\n\nEnable voice activation to only scroll when you're speaking.",
-      "prompterOrientation": "## Prompter Orientation\n\nChoose between landscape, portrait, or dynamic orientation for the prompter.",
-      "MainBlock": "Unlock this and every other Pro feature with a single one-time purchase. No subscription, yours forever.\n\nFrankly, TiefPrompt is currently, other than translations, a one person project. Your purchase funds the development, allows this app to be ad and tracking and bs free, pays for the Apple fees, *and* allows me to get *an excessive amount of camera equipment*. Thank you for reading and considering!\n\n  ~ Lena"
-    }
-  },
-  "NoPurchaseAvailable": {
-    "Title": "There are no purchases...",
-    "Back": "Back",
-    "MainBody": "Oh hi! Apparently, you arrived at the purchases screen no one is supposed to see, and which only exists so the build is easier.\n\nWell, see you! Have a nice one!"
-  }
 }
