@@ -238,7 +238,10 @@
         "SetFontVariantWeight": "Stroke",
         "SetFontItalics": "Cursive"
       }
-    }
+    },
+    "DropdownAppSetting_Theme_light": "Glaring",
+    "DropdownAppSetting_Theme_dark": "Gloomy",
+    "DropdownAppSetting_Theme_system": "As yer Seas decide"
   },
   "PrompterScreen": {
     "speed": "{} knots",

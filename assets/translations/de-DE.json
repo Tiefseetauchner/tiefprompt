@@ -44,6 +44,206 @@
       "NewScript": "Als neues Script speichern",
       "OverrideScript": "Altes Script überschreiben"
     },
+    "SettingsScreen": {
+      "title": "Einstellungen",
+      "ElevatedButton_Save": "Speichern",
+      "NumberAppSetting": {
+        "Value": "Wert eingeben",
+        "ElevatedButton_Save": "Speichern"
+      },
+      "DropdownAppSetting_DefaultLanguage": "Standardsprache",
+      "NumberAppSetting_DefaultFontSize": "Standard Schriftgröße",
+      "NumberAppSetting_DefaultFontSize_Unit": "px",
+      "DropdownAppSetting_DefaultTextAlignment": "Schriftausrichtung",
+      "DropdownAppSetting_DefaultTextAlignment_Unit": {
+        "Left": "Links",
+        "Center": "Mittig",
+        "Right": "Rechts",
+        "Justified": "Blocksatz"
+      },
+      "DropdownAppSetting_DefaultFontFamily": "Schriftart",
+      "BooleanAppSetting_DefaultFlipX": "Um X spiegeln",
+      "BooleanAppSetting_DefaultFlipY": "Um Y spiegeln",
+      "BooleanAppSetting_ReadingIndicatorBoxes": "Lesehilfen aktivieren",
+      "NumberAppSetting_ReadingIndicatorBoxes": "Höhe der Lesehilfen",
+      "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+      "BooleanAppSetting_VerticalMarginBoxes": "Vertikalen Abstand aktivieren",
+      "NumberAppSetting_VerticalMarginBoxes": "Höhe des vertikalen Abstands",
+      "NumberAppSetting_VerticalMarginBoxes_Unit": "%",
+      "BooleanAppSetting_VerticalMarginBoxes_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",
+      "NumberAppSetting_VerticalMarginBoxes_FadeLength": "Verlauflänge",
+      "NumberAppSetting_VerticalMarginBoxes_FadeLength_Unit": "%",
+      "NumberAppSetting_SideMargin": "Seitenabstand",
+      "NumberAppSetting_SideMargin_Unit": "%",
+      "DropdownAppSetting_Theme": "Applikationsfarbe",
+      "ColorAppSetting_AppPrimaryColor": "Applikationsprimärfarbe",
+      "ColorAppSetting_PrompterBackgroundColor": "Prompter Hintergrundfarbe",
+      "ColorAppSetting_PrompterTextColor": "Prompter Textfarbe",
+      "BooleanAppSetting_ControlButtons": "Steuerungsknöpfe einschalten",
+      "DropdownAppSetting_ControlButtonPosition": {
+        "Label": "Position der Steuerungsknöpfe",
+        "left": "Linke Seite",
+        "top": "Oberseite",
+        "right": "Rechte Seite",
+        "bottom": "Unterseite"
+      },
+      "DisplaySettings": {
+        "Title": "Anzeigeeinstellungen"
+      },
+      "TextSettings": "Schrifteinstellungen",
+      "ListTile_Reset": "Reset settings",
+      "Reset_Warning": "Die Einstellungen werden hier komplett zurück gesetzt!",
+      "Abort": "Abbrechen",
+      "Confirm": "Fortfahren",
+      "RestorePurchases": "Käufe wiederherstellen",
+      "RestorePurchases_Snackbar": "Käufe wurden wiederhergestellt.",
+      "LineHeight": {
+        "EnableCustom": "Benutzerdefinierten Zeilenabstand aktivieren",
+        "CustomValue": "Benutzerdefinierter Zeilenabstand",
+        "Title": "Benutzerdefinierter Zeilenabstand"
+      },
+      "DropdownAppSetting_PrompterOrientation": {
+        "Label": "Prompter Orientierung",
+        "portrait": "Hochformat",
+        "landscape": "Querformat",
+        "dynamic": "Dynamisch"
+      },
+      "KeybindingsSettings": {
+        "Title": "Tastaturkürzeleinstellungen",
+        "ChangeBindings": "Tastaturkürzel ändern",
+        "AddBinding": "Tastaturkürzel hinzufügen",
+        "CaptureBindingTitle": "Eine Tastenkombination drücken",
+        "CaptureBindingHint": "Halte Strg, Umschalt, Alt, und/oder Meta und drücke eine Taste",
+        "ResetBindings": "Alle Kürzel zurücksetzen",
+        "playPause": "Wiedergabe/Pause",
+        "scrollUpSmall": "Wenig hoch scrollen",
+        "scrollDownSmall": "Wenig runter scrollen",
+        "scrollUp": "Hoch scrollen",
+        "scrollDown": "Runter scrollen",
+        "pageUp": "Eine Seite nach oben",
+        "pageDown": "Eine Seite nach unten",
+        "jumpStart": "Nach Oben springen",
+        "jumpEnd": "Nach unten springen",
+        "toggleControls": "Einstellungsanzeige umschalten",
+        "speedUp": "Geschwindigkeit erhöhen",
+        "speedDown": "Geschwindigkeit verringern",
+        "fontSizeUp": "Schriftgröße erhöhen",
+        "fontSizeDown": "Schriftgröße verringern",
+        "openSettings": "Einstellungen öffnen",
+        "saveSettingsFromPrompter": "Einstellungen von Prompter speichern",
+        "jumpChapterUp": "Zu vorherigem Kapitel springen",
+        "jumpChapterDown": "Zu nächstem Kapitel springen"
+      },
+      "ScrollSettings": {
+        "Title": "Scroll-Einstellungen",
+        "DefaultScrollSpeed": "Standard Beweggeschwindigkeit",
+        "DefaultScrollSpeed_Unit": "Zeilen/Sekunde",
+        "CountdownTimer": "Countdown-Timer",
+        "CountdownTimer_Unit": "Sekunden",
+        "UnknownDevice": "Unbekanntes Gerät",
+        "VoiceActivation": "Sprachaktivierung",
+        "VoiceActivationThreshold": "Sprachaktivierungsschwelle",
+        "VoiceActivationThreshold_Unit": "db",
+        "VoiceActivationDevices": "Audiogeräte für Sprachaktivierung",
+        "VoiceActivationPreview": "Vorschau für Sprachaktivierung"
+      },
+      "BooleanAppSetting_Markdown": "Markdown aktivieren",
+      "BooleanAppSetting_ShowCurrentChapter": "Aktuelles Kapitel anzeigen",
+      "SettingsRestore": {
+        "Title": "Einstellungen Speichern und Wiederherstellen",
+        "Save": "Aktuelle Einstellungen Speichern",
+        "Import": "Einstellungen aus Datei importieren",
+        "LoadError": "Ein Problem ist während des laden gespeicherter Einstellungen aufgetreten.",
+        "NameRequired": "Bitte gib einen Einstellungsprofilnamen an.",
+        "SaveSuccess": "Einstellungsprofil gespeichert.",
+        "ImportSuccess": "Einstellungsprofil importiert.",
+        "ImportFailed": "Importieren des Einstellungsprofils ist fehlgeschlagen. Bitte überprüfe die Datei und versuche es erneut.",
+        "RestoreSuccess": "Einstellungen wiederhergestellt.",
+        "RestoreFailed": "Wiederherstellen ist fehlgeschlagen.",
+        "ExportSuccess": "Einstellungsprofil exportiert.",
+        "ExportFailed": "Exportieren ist fehlgeschlagen.",
+        "DeleteSuccess": "Einstellungsprofil gelöscht.",
+        "NameSheet": {
+          "Title": "Benenne dieses Einstellungsprofil",
+          "Content": "Gib diesem importierten Profil einen Namen."
+        },
+        "DeleteDialog": {
+          "Title": "Einstellungsprofil Löschen",
+          "Content": "Diese Aktion löscht die Einstellungen {} permanent!",
+          "Cancel": "Abbrechen",
+          "Confirm": "Weiter"
+        },
+        "OptionsDialog": {
+          "Title": "Mehr Optionen",
+          "Export": "Einstellungsprofil Exportieren",
+          "FilePickerTitle": "Wähle eine Datei, um das Einstellungsprofil zu exportieren",
+          "Delete": "Einstellungsprofil löschen"
+        },
+        "ImportSettings": {
+          "Title": "Einstellungsprofil importieren",
+          "Content": "Bitte wähle eine Datei, von der das Einstellungsprofil importiert werden soll. Die importierten Einstellungen werden nicht angewandt, sondern als neues Einstellungsprofil gespeichert.",
+          "Cancel": "Abbrechen",
+          "Import": "Datei Auswählen",
+          "InvalidVersion": "Ungültige Schemataversion. Bitte nutze ein Einstellungsprofil von dieser TiefPrompt Version."
+        },
+        "SaveDialog": {
+          "Title": "Einstellungsprofil Speichern",
+          "Content": "Du kannst die Einstellungen unter einem von dir festgelegten Namen speichern.",
+          "HintText": "Profilnamen angeben",
+          "Cancel": "Abbrechen",
+          "Save": "Speichern"
+        }
+      },
+      "ShowHelpRequest": "Förderaufruf-Bildschirm erneut aufrufen",
+      "ShowChangelog": "Änderungsliste erneut aufrufen",
+      "ViewLogs": "Logs anzeigen",
+      "LinkAppSetting_CustomFonts": "Schriftarten Verwalten",
+      "FontSettings": {
+        "Title": "Schriftarteinstellungen",
+        "AddFont": "Schriftart Hinzufügen",
+        "BuiltIn": "Eingebaut",
+        "Custom": "Benutzerdefiniert",
+        "EditFamilyTooltip": {
+          "BuiltIn": "Eingebaute Schriftarten können nicht umbenannt werden",
+          "Custom": "Schriftart umbenennen"
+        },
+        "EditVariantTooltip": {
+          "BuiltIn": "Eingebaute Schriftarten können nicht bearbeitet werden",
+          "Custom": "Variante bearbeiten"
+        },
+        "MoveVariantTooltip": {
+          "BuiltIn": "Eingebaute Schriftvarianten können nicht bewegt werden",
+          "Custom": "Variante zu anderer Schriftart bewegen"
+        },
+        "DeleteVariantTooltip": {
+          "BuiltIn": "Eingebaute Schriftvarianten können nicht gelöscht werden",
+          "Custom": "Variante löschen"
+        },
+        "MoveFontDialog": {
+          "Title": "Variante zu Schriftart bewegen"
+        },
+        "EditFontDialog": {
+          "Title": "Schriftart bearbeiten",
+          "SetFontFamilyName": "Schriftart Name",
+          "Cancel": "Abbrechen",
+          "Save": "Speichern",
+          "Warning": "Das Bearbeiten dieses Wertes könnte dazu führen, dass diese Variante nicht mehr der Schrift-Datei, von der sie geladen wurde, zugeordnet werden kann. Dies kann nicht rückgängig gemacht werden.",
+          "SetFontVariantWeight": "Schriftstärke",
+          "SetFontItalics": "Kursiv"
+        }
+      },
+      "ColorAppSetting_Disabled": "Diese Farbe kann nicht gesetzt werden, wenn Systemfarben Verwenden aktiviert ist",
+      "BooleanAppSetting_UseSystemColors": "Systemfarben Verwenden",
+      "DropdownAppSetting_DefaultTextDirectionMode": "Schriftrichtung",
+      "DropdownAppSetting_DefaultTextDirectionMode_Unit": {
+        "ltr": "Links zu Rechts",
+        "rtl": "Rechts zu Links",
+        "auto": "Automatisch"
+      },
+      "DropdownAppSetting_Theme_light": "Hell",
+      "DropdownAppSetting_Theme_dark": "Dunkel",
+      "DropdownAppSetting_Theme_system": "System"
+    },
     "FreeVersion_BuyPro": "Pro Version Kaufen"
   },
   "SettingsScreen": {
@@ -104,8 +304,11 @@
       "CustomValue": "Benutzerdefinierter Zeilenabstand",
       "Title": "Benutzerdefinierter Zeilenabstand"
     },
-    "ElapsedTime": {
-      "Title": "Verstrichene Zeit anzeigen"
+    "DropdownAppSetting_PrompterOrientation": {
+      "Label": "Prompter Orientierung",
+      "portrait": "Hochformat",
+      "landscape": "Querformat",
+      "dynamic": "Dynamisch"
     },
     "KeybindingsSettings": {
       "Title": "Tastaturkürzeleinstellungen",
@@ -238,7 +441,10 @@
       "ltr": "Links zu Rechts",
       "rtl": "Rechts zu Links",
       "auto": "Automatisch"
-    }
+    },
+    "DropdownAppSetting_Theme_light": "Hell",
+    "DropdownAppSetting_Theme_dark": "Dunkel",
+    "DropdownAppSetting_Theme_system": "System"
   },
   "PrompterScreen": {
     "speed": "{}x",
@@ -355,7 +561,12 @@
       "showHelpRequest": "## TiefPrompt unterstützen\n\nLerne, wie du TiefPrompt helfen kannst.",
       "ephemeralScript": "## Schnelles Skript\n\nFang sofort an zu arbeiten, ohne ein Skript speichern zu müssen.",
       "currentChapter": "## Aktuelles Kapitel\n\nVerliere nie wieder den Faden - zeige das letzte Kapitel oben am Bildschirm an.",
-      "MainBlock": "Entsperre diese und alle anderen Pro-Funktionen mit einem einzelnen, einmaligen Kauf. Kein Abo, deines für immer.\n\nGanz ehrlich: TiefPrompt ist, bis auf Übersetzungen, aktuell ein Einmannboot. Dein Kauf ermöglicht die Entwicklung, erlaubt der App, werbung-, tracking-, und (fein wienerisch) kreiwäh-frei zu sein, zahlt die Apple Gebühren, *und* erlaubt mir *eine exzessive Menge an Kameraequipment zu erwerben*. Danke fürs Lesen und darüber Nachdenken!\n\n  ~ Lena"
+      "MainBlock": "Entsperre diese und alle anderen Pro-Funktionen mit einem einzelnen, einmaligen Kauf. Kein Abo, deines für immer.\n\nGanz ehrlich: TiefPrompt ist, bis auf Übersetzungen, aktuell ein Einmannboot. Dein Kauf ermöglicht die Entwicklung, erlaubt der App, werbung-, tracking-, und (fein wienerisch) kreiwäh-frei zu sein, zahlt die Apple Gebühren, *und* erlaubt mir *eine exzessive Menge an Kameraequipment zu erwerben*. Danke fürs Lesen und darüber Nachdenken!\n\n  ~ Lena",
+      "customFonts": "## Schriftarten\n\nBenutze deine eigenen Schriftarten für den Prompter Text.",
+      "textDirectionMode": "## Textausrichtungsmodi\n\nWähle, in welcher Ausrichtung der Text im Prompter angezeigt wird, entweder automatisch, links-zu-rechts oder rechts-zu-links.",
+      "useSystemColors": "## Systemfarben benutzen\n\nErlaubt das Verwenden der Systemfarben (Material You) für die Applikation.",
+      "voiceActivation": "## Sprachaktivierung\n\nSchalte Sprachaktivierung ein, um nur zu scrollen während du sprichst.",
+      "prompterOrientation": "## Prompter Orientierung\n\nWähle zwischen horizontaler, vertikaler oder dynamischer Orientierung des Prompters."
     }
   },
   "NoPurchaseAvailable": {
