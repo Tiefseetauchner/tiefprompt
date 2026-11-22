@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -126,6 +126,9 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                     fontSize: prompterConfig.fontSize,
                     fontFamily: prompterConfig.fontFamily,
                     color: Theme.of(context).colorScheme.onSurface,
+                    height: prompterConfig.lineHeightEnabled
+                        ? prompterConfig.lineHeight
+                        : null,
                   ),
                   sideMargin:
                       (MediaQuery.of(context).size.width / 2) *

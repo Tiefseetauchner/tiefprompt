@@ -99,6 +99,11 @@
     "Confirm": "Fortfahren",
     "RestorePurchases": "Käufe wiederherstellen",
     "RestorePurchases_Snackbar": "Käufe wurden wiederhergestellt.",
+    "LineHeight": {
+      "EnableCustom": "Benutzerdefinierten Zeilenabstand aktivieren",
+      "CustomValue": "Benutzerdefinierter Zeilenabstand",
+      "Title": "Benutzerdefinierter Zeilenabstand"
+    },
     "KeybindingsSettings": {
       "Title": "Tastaturkürzeleinstellungen",
       "ChangeBindings": "Tastaturkürzel ändern",

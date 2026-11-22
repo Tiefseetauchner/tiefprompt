@@ -60,9 +60,9 @@ EMULATOR_TEST_FILES=(
   "MarketingTablet MarketingTablet integration_test/marketing/marketing_tablet_test.dart foss"
   "MarketingWideTablet MarketingWideTablet integration_test/marketing/marketing_wide_tablet_test.dart foss"
   "MarketingTabletFreemium MarketingTablet integration_test/marketing/marketing_tablet_freemium_test.dart freemium"
-  "MarketingPhone MarketingPhone integration_test/marketing/phone_test.dart foss phone"
-  "MarketingSevenInch MarketingSevenInch integration_test/marketing/phone_test.dart foss sevenInchTablet"
-  "MarketingTenInch MarketingTenInch integration_test/marketing/phone_test.dart foss tenInchTablet"
+  "MetadataPhone MetadataPhone integration_test/marketing/metadata_test.dart foss phone"
+  "MetadataSevenInch MetadataSevenInch integration_test/marketing/metadata_test.dart foss sevenInchTablet"
+  "MetadataTenInch MetadataTenInch integration_test/marketing/metadata_test.dart foss tenInchTablet"
 )
 
 start_screenshot_server

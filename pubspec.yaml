@@ -46,7 +46,9 @@ dependencies:
   wakelock_plus: ^1.8.0
   easy_localization: ^3.0.7+1
   package_info_plus: ^10.2.1
-  flutter_colorpicker: ^1.1.0
+  # NOTE: flutter_colorpicker is currently broken due to material_ui breaking things like there's no tomorrow.
+  # flutter_colorpicker: ^1.1.0
+  flex_color_picker: ^4.0.0
   tief_weave: ^0.4.0
   tief_fonts: ^0.1.0
   talker: ^5.1.20
@@ -55,8 +57,9 @@ dependencies:
   flutter_spinkit: ^5.2.2
   pub_semver: ^2.2.1
   json_annotation: ^4.12.0
-  dynamic_color: ^1.9.0
+  dynamic_color: ^2.1.0
   record: ^7.1.1
+  material_ui: ^1.11.1
   # in_app_purchase: ^3.3.0
   # in_app_purchase_android: ^0.5.1
 

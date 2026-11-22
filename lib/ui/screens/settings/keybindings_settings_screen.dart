@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tiefprompt/ui/widgets/safe_scaffold.dart';
 import 'package:tiefprompt/ui/widgets/async_settings_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
