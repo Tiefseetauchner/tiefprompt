@@ -1,0 +1,1 @@
+Diese Verison fügt mehrere Features hinzu, wie zum Beispiel die Möglichkeit die Prompter Orientierung zu ändern.
