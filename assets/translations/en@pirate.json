@@ -241,7 +241,13 @@
         },
         "DropdownAppSetting_Theme_light": "Glaring",
         "DropdownAppSetting_Theme_dark": "Gloomy",
-        "DropdownAppSetting_Theme_system": "As yer Seas decide"
+        "DropdownAppSetting_Theme_system": "As yer Seas decide",
+        "DropdownAppSetting_PrompterOrientation": {
+            "Label": "Heading of yer Prompter",
+            "portrait": "Upwards",
+            "landscape": "Sideways",
+            "dynamic": "Wildly turning"
+        }
     },
     "PrompterScreen": {
         "speed": "{} knots",
@@ -274,6 +280,11 @@
             "Slider_Countdown": "Yer Hourglass",
             "IconButton_Markdown": "Turn on pretty sailin'",
             "IconButton_ShowCurrentChapter": "Paint current chapter"
+        },
+        "ElapsedTime": {
+            "UnitSeconds": "tick",
+            "UnitMinutes": "wobble",
+            "UnitHours": "bobble"
         }
     },
     "OpenFileScreen": {
@@ -326,7 +337,12 @@
             "showHelpRequest": "## Support TiefPrompt\n\nLearn how you can help keep TiefPrompt alive and growing.",
             "ephemeralScript": "## Quick Script\n\nStart prompting instantly without saving a script first.",
             "currentChapter": "## Current Chapter\n\nNever loose sight of where you are - display the current chapter at the top of the screen.",
-            "MainBlock": "Get yer loot 'ere for a small ext- I mean, fee. But 't be only one! Never again, you'll not have ter pay again!\n\nYer know, TiefPrompt is yer frends heart but, not thinking of the tongue, it be a one person boat. Yer payment of the fee funds the building of t'is ship, keeps ter app free of evil sea creatures, pays for the mighty Tim Apple harbor dues, *and* it makes yer one and only me get *a mighty load of imaging technology*. Thank yer for reading and thinkin' 'bout it!\n\n  ~ Lena"
+            "MainBlock": "Get yer loot 'ere for a small ext- I mean, fee. But 't be only one! Never again, you'll not have ter pay again!\n\nYer know, TiefPrompt is yer frends heart but, not thinking of the tongue, it be a one person boat. Yer payment of the fee funds the building of t'is ship, keeps ter app free of evil sea creatures, pays for the mighty Tim Apple harbor dues, *and* it makes yer one and only me get *a mighty load of imaging technology*. Thank yer for reading and thinkin' 'bout it!\n\n  ~ Lena",
+            "customFonts": "## Yer own Letters\n\nYer can choose whatever letters yer may desire.",
+            "textDirectionMode": "## Text Sailing Direction\n\nYer can make yer text go every way you would want, starboard to port, port to starboard, or magical.",
+            "useSystemColors": "## Ships Colors\n\nYer can make the app look like yer own color scheme.",
+            "voiceActivation": "## Speech Control\n\nMake yer ship sail at the speed yer need with voice activation.",
+            "prompterOrientation": "## Yer Heading\n\nYer can change which way your prompter goes --- up, down, left, right, wherever the wind blows, you can go."
         }
     },
     "NoPurchaseAvailable": {
