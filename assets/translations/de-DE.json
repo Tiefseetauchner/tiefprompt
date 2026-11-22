@@ -244,7 +244,10 @@
         },
         "DropdownAppSetting_Theme_light": "Hell",
         "DropdownAppSetting_Theme_dark": "Dunkel",
-        "DropdownAppSetting_Theme_system": "System"
+        "DropdownAppSetting_Theme_system": "System",
+        "ElapsedTime": {
+            "Title": "Vergangene Zeit anzeigen"
+        }
     },
     "PrompterScreen": {
         "speed": "{}x",
@@ -277,6 +280,11 @@
             "IconButton_FadeEnabled": "Verlauf für vertikalen Abstand aktivieren",
             "Slider_SideMargin": "Seitenabstand",
             "Slider_Countdown": "Countdown"
+        },
+        "ElapsedTime": {
+            "UnitSeconds": "s",
+            "UnitMinutes": "m",
+            "UnitHours": "Std."
         }
     },
     "OpenFileScreen": {
