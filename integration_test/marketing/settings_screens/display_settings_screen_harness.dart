@@ -491,5 +491,21 @@ Future<ScenarioHarness> buildDisplaySettingsHarness() async {
     ),
   );
 
+  harness.addScenario(
+    Scenario(
+      name: "Display Elapsed Time",
+      testCallback: (tester, binding) async {
+        WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(
+          find.byKey(
+            const Key("DisplaySettingsScreen.BooleanAppSetting_ElapsedTime"),
+          ),
+        );
+      },
+    ),
+  );
+
   return harness;
 }

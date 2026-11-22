@@ -67,6 +67,7 @@ abstract class ISettings {
   Future<void> setPrompterOrientation(PrompterOrientation orientation);
   Future<void> setLineHeightEnabled(bool enabled);
   Future<void> setLineHeight(double lineHeight);
+  Future<void> setShowElapsedTime(bool value);
 
   Future<void> loadSettings(SettingsState newState);
 
@@ -232,6 +233,10 @@ class Settings extends _$Settings implements ISettings {
   @override
   Future<void> setLineHeight(double lineHeight) =>
       _mutateConfig((c) => c.copyWith(lineHeight: lineHeight));
+
+  @override
+  Future<void> setShowElapsedTime(bool value) =>
+      _mutateConfig((c) => c.copyWith(showElapsedTime: value));
 
   @override
   Future<void> setKeybindings(int mapId) =>

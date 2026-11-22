@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tief_screen/tief_screen.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/providers/prompter_config.dart';
@@ -8,6 +9,7 @@ import 'package:tiefprompt/providers/prompter_provider.dart';
 import 'package:tiefprompt/providers/script_provider.dart';
 import 'package:tiefprompt/providers/settings_provider.dart';
 import 'package:tiefprompt/ui/screens/prompter_screen.dart';
+import 'package:tiefprompt/ui/widgets/elapsed_time_display.dart';
 import 'package:tiefprompt/ui/widgets/prompter_bottom_bar.dart';
 import 'package:tiefprompt/ui/widgets/prompter_theme_scope.dart';
 import 'package:tief_test_harness/tief_test_harness.dart';
@@ -567,6 +569,41 @@ Future<ScenarioHarness> buildPrompterScreenHarness() async {
         ],
         child: child,
       ),
+    ),
+  );
+
+  harness.addScenario(
+    Scenario(
+      name: "Display Elapsed Time",
+      providerScopeBuilder: (child) async => ProviderScope(
+        overrides: [
+          settingsProvider.overrideWith(
+            () => SettingsFake(
+              SettingsState(
+                config: PrompterConfiguration(showElapsedTime: true),
+              ),
+            ),
+          ),
+        ],
+        child: child,
+      ),
+      testCallback: (tester, binding) async {
+        final container = ProviderScope.containerOf(
+          tester.element(find.byType(PrompterScreen)),
+        );
+
+        container.read(prompterProvider.notifier).togglePlayPause();
+
+        await tester.pumpFrames(
+          tester.widget(find.byType(MockApp)),
+          const Duration(seconds: 7),
+        );
+
+        WidgetHighlighter(
+          tester,
+          defaultHighlightColor: kMarketingHighlightColor,
+        ).highlightWidget(find.byType(ElapsedTimeDisplay), padding: 6);
+      },
     ),
   );
 

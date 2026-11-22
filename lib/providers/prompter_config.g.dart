@@ -56,6 +56,7 @@ _PrompterConfiguration _$PrompterConfigurationFromJson(
         ),
   lineHeightEnabled: json['lineHeightEnabled'] as bool? ?? false,
   lineHeight: (json['lineHeight'] as num?)?.toDouble() ?? 1,
+  showElapsedTime: json['showElapsedTime'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$PrompterConfigurationToJson(
@@ -90,6 +91,7 @@ Map<String, dynamic> _$PrompterConfigurationToJson(
   ),
   'lineHeightEnabled': instance.lineHeightEnabled,
   'lineHeight': instance.lineHeight,
+  'showElapsedTime': instance.showElapsedTime,
 };
 
 const _$TextDirectionModeEnumMap = {

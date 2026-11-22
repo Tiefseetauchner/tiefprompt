@@ -227,6 +227,17 @@ class DisplaySettingsScreen extends ConsumerWidget {
                   "SettingsScreen.NumberAppSetting_SideMargin_Unit",
                 ),
               ),
+              BooleanAppSetting(
+                key: const Key(
+                  "DisplaySettingsScreen.BooleanAppSetting_ElapsedTime",
+                ),
+                feature: Feature.elapsedTime,
+                displayText: context.tr("SettingsScreen.ElapsedTime.Title"),
+                value: value.config.showElapsedTime,
+                onValueChanged: (updatedValue) => ref
+                    .read(settingsProvider.notifier)
+                    .setShowElapsedTime(updatedValue),
+              ),
               ColorAppSetting(
                 key: const Key(
                   "DisplaySettingsScreen.ColorAppSetting_PrompterBackgroundColor",
