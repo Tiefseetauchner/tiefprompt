@@ -92,7 +92,7 @@ class Keybindings extends _$Keybindings {
     );
   }
 
-  Future<List<KeybindingAction>> actionForEvent(KeyEvent event) async {
+  Future<List<CommandAction>> actionForEvent(KeyEvent event) async {
     final keybindingMap = state.value ?? await future;
     final keyId = event.logicalKey.keyId;
     final hardwareKeyboard = HardwareKeyboard.instance;
@@ -100,7 +100,7 @@ class Keybindings extends _$Keybindings {
     final shift = hardwareKeyboard.isShiftPressed;
     final alt = hardwareKeyboard.isAltPressed;
     final meta = hardwareKeyboard.isMetaPressed;
-    final actions = <KeybindingAction>[];
+    final actions = <CommandAction>[];
 
     for (final entry in keybindingMap.keybindings) {
       final binding = entry.$2;
@@ -121,7 +121,7 @@ class Keybindings extends _$Keybindings {
   }
 
   Future<void> removeBinding(
-    KeybindingAction action,
+    CommandAction action,
     Keybinding keybinding,
   ) async {
     ref.read(talkerProvider).info('Keybinding removed: action=${action.name}');
@@ -147,10 +147,7 @@ class Keybindings extends _$Keybindings {
         .delete();
   }
 
-  Future<void> addBinding(
-    KeybindingAction action,
-    Keybinding keybinding,
-  ) async {
+  Future<void> addBinding(CommandAction action, Keybinding keybinding) async {
     ref.read(talkerProvider).info('Keybinding added: action=${action.name}');
     final keybindingsMapId = (await ref.read(settingsProvider.future))
         .keybindingsMapId;

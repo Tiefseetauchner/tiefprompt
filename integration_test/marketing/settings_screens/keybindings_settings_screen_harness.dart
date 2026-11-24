@@ -107,7 +107,7 @@ Future<ScenarioHarness> buildKeybindingsSettingsHarness() async {
         await container
             .read(keybindingsProvider.notifier)
             .addBinding(
-              KeybindingAction.playPause,
+              CommandAction.playPause,
               Keybinding(keyId: LogicalKeyboardKey.keyP.keyId, ctrl: true),
             );
         await tester.pumpAndSettle();

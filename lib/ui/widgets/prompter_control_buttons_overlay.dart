@@ -1,19 +1,14 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
+import 'package:tiefprompt/models/keybinding.dart';
+import 'package:tiefprompt/providers/commands_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
-import 'package:tiefprompt/ui/widgets/scrollable_text.dart';
 
 const double kPrompterControlButtonsOverlayIconSize = 45;
 
 class PrompterControlButtonsOverlay extends ConsumerWidget {
-  final ScrollableTextController scrollableTextController;
-
-  const PrompterControlButtonsOverlay({
-    super.key,
-    required this.scrollableTextController,
-  });
+  const PrompterControlButtonsOverlay({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,9 +27,7 @@ class PrompterControlButtonsOverlay extends ConsumerWidget {
             color: Theme.of(context).colorScheme.primary.withAlpha(120),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          child: _ControlButtons(
-            scrollableTextController: scrollableTextController,
-          ),
+          child: _ControlButtons(),
         ),
       ),
     );
@@ -42,26 +35,41 @@ class PrompterControlButtonsOverlay extends ConsumerWidget {
 }
 
 class _ControlButtons extends ConsumerWidget {
-  final ScrollableTextController scrollableTextController;
-
-  const _ControlButtons({required this.scrollableTextController});
+  const _ControlButtons();
 
   List<Widget> _getButtons(WidgetRef ref) {
     return [
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
-        onPressed: () => scrollableTextController.jumpTo(0),
+        onPressed: () => ref
+            .read(commandProvider.notifier)
+            .sendCommandToPrompter(
+              CommandEvent(
+                CommandAction.jumpStart,
+                CommandSource.controlButton,
+              ),
+            ),
         icon: const Icon(Icons.arrow_upward_rounded),
       ),
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
-        onPressed: () =>
-            scrollableTextController.jumpRelative(-kPrompterJumpDistance),
+        onPressed: () => ref
+            .read(commandProvider.notifier)
+            .sendCommandToPrompter(
+              CommandEvent(CommandAction.scrollUp, CommandSource.controlButton),
+            ),
         icon: const Icon(Icons.replay_10_rounded),
       ),
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
-        onPressed: () => ref.read(prompterProvider.notifier).togglePlayPause(),
+        onPressed: () => ref
+            .read(commandProvider.notifier)
+            .sendCommandToPrompter(
+              CommandEvent(
+                CommandAction.playPause,
+                CommandSource.controlButton,
+              ),
+            ),
         icon: Icon(
           ref.watch(prompterProvider).isPlaying
               ? Icons.pause_rounded
@@ -70,15 +78,23 @@ class _ControlButtons extends ConsumerWidget {
       ),
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
-        onPressed: () =>
-            scrollableTextController.jumpRelative(kPrompterJumpDistance),
+        onPressed: () => ref
+            .read(commandProvider.notifier)
+            .sendCommandToPrompter(
+              CommandEvent(
+                CommandAction.scrollDown,
+                CommandSource.controlButton,
+              ),
+            ),
         icon: const Icon(Icons.forward_10_rounded),
       ),
       IconButton(
         iconSize: kPrompterControlButtonsOverlayIconSize,
-        onPressed: () => scrollableTextController.jumpTo(
-          scrollableTextController.scrollController.position.maxScrollExtent,
-        ),
+        onPressed: () => ref
+            .read(commandProvider.notifier)
+            .sendCommandToPrompter(
+              CommandEvent(CommandAction.jumpEnd, CommandSource.controlButton),
+            ),
         icon: const Icon(Icons.arrow_downward_rounded),
       ),
     ];

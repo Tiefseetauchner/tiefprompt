@@ -30,7 +30,7 @@ _KeybindingMap _$KeybindingMapFromJson(Map<String, dynamic> json) =>
             (e) => _$recordConvert(
               e,
               ($jsonValue) => (
-                $enumDecode(_$KeybindingActionEnumMap, $jsonValue[r'$1']),
+                $enumDecode(_$CommandActionEnumMap, $jsonValue[r'$1']),
                 Keybinding.fromJson($jsonValue[r'$2'] as Map<String, dynamic>),
               ),
             ),
@@ -43,32 +43,32 @@ Map<String, dynamic> _$KeybindingMapToJson(_KeybindingMap instance) =>
       'keybindings': instance.keybindings
           .map(
             (e) => <String, dynamic>{
-              r'$1': _$KeybindingActionEnumMap[e.$1]!,
+              r'$1': _$CommandActionEnumMap[e.$1]!,
               r'$2': e.$2,
             },
           )
           .toList(),
     };
 
-const _$KeybindingActionEnumMap = {
-  KeybindingAction.playPause: 'playPause',
-  KeybindingAction.scrollUpSmall: 'scrollUpSmall',
-  KeybindingAction.scrollDownSmall: 'scrollDownSmall',
-  KeybindingAction.scrollUp: 'scrollUp',
-  KeybindingAction.scrollDown: 'scrollDown',
-  KeybindingAction.pageUp: 'pageUp',
-  KeybindingAction.pageDown: 'pageDown',
-  KeybindingAction.jumpStart: 'jumpStart',
-  KeybindingAction.jumpEnd: 'jumpEnd',
-  KeybindingAction.toggleControls: 'toggleControls',
-  KeybindingAction.speedUp: 'speedUp',
-  KeybindingAction.speedDown: 'speedDown',
-  KeybindingAction.fontSizeUp: 'fontSizeUp',
-  KeybindingAction.fontSizeDown: 'fontSizeDown',
-  KeybindingAction.openSettings: 'openSettings',
-  KeybindingAction.saveSettingsFromPrompter: 'saveSettingsFromPrompter',
-  KeybindingAction.jumpChapterUp: 'jumpChapterUp',
-  KeybindingAction.jumpChapterDown: 'jumpChapterDown',
+const _$CommandActionEnumMap = {
+  CommandAction.playPause: 'playPause',
+  CommandAction.scrollUpSmall: 'scrollUpSmall',
+  CommandAction.scrollDownSmall: 'scrollDownSmall',
+  CommandAction.scrollUp: 'scrollUp',
+  CommandAction.scrollDown: 'scrollDown',
+  CommandAction.pageUp: 'pageUp',
+  CommandAction.pageDown: 'pageDown',
+  CommandAction.jumpStart: 'jumpStart',
+  CommandAction.jumpEnd: 'jumpEnd',
+  CommandAction.toggleControls: 'toggleControls',
+  CommandAction.speedUp: 'speedUp',
+  CommandAction.speedDown: 'speedDown',
+  CommandAction.fontSizeUp: 'fontSizeUp',
+  CommandAction.fontSizeDown: 'fontSizeDown',
+  CommandAction.openSettings: 'openSettings',
+  CommandAction.saveSettingsFromPrompter: 'saveSettingsFromPrompter',
+  CommandAction.jumpChapterUp: 'jumpChapterUp',
+  CommandAction.jumpChapterDown: 'jumpChapterDown',
 };
 
 $Rec _$recordConvert<$Rec>(Object? value, $Rec Function(Map) convert) =>

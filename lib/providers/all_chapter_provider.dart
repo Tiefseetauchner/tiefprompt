@@ -9,7 +9,7 @@ class Chapter {
   Chapter({required this.title, required this.offset});
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AllChapter extends _$AllChapter {
   @override
   List<Chapter> build() {

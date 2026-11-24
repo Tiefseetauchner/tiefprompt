@@ -20,7 +20,7 @@ final class AllChapterProvider
         argument: null,
         retry: null,
         name: r'allChapterProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -41,7 +41,7 @@ final class AllChapterProvider
   }
 }
 
-String _$allChapterHash() => r'605b05f58d372dcca6ae076dfc61012f533b440b';
+String _$allChapterHash() => r'cdcebbeacf7b09cf24e3a28d226444225fd1733c';
 
 abstract class _$AllChapter extends $Notifier<List<Chapter>> {
   List<Chapter> build();

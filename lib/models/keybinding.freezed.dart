@@ -298,7 +298,7 @@ as bool,
 /// @nodoc
 mixin _$KeybindingMap {
 
- List<(KeybindingAction, Keybinding,)> get keybindings;
+ List<(CommandAction, Keybinding,)> get keybindings;
 /// Create a copy of KeybindingMap
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -336,7 +336,7 @@ abstract mixin class $KeybindingMapCopyWith<$Res>  {
   factory $KeybindingMapCopyWith(KeybindingMap value, $Res Function(KeybindingMap) _then) = _$KeybindingMapCopyWithImpl;
 @useResult
 $Res call({
- List<(KeybindingAction, Keybinding,)> keybindings
+ List<(CommandAction, Keybinding,)> keybindings
 });
 
 
@@ -356,7 +356,7 @@ class _$KeybindingMapCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? keybindings = null,}) {
   return _then(KeybindingMap(
 keybindings: null == keybindings ? _self.keybindings : keybindings // ignore: cast_nullable_to_non_nullable
-as List<(KeybindingAction, Keybinding,)>,
+as List<(CommandAction, Keybinding,)>,
   ));
 }
 
@@ -441,7 +441,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<(KeybindingAction, Keybinding,)> keybindings)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<(CommandAction, Keybinding,)> keybindings)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _KeybindingMap() when $default != null:
 return $default(_that.keybindings);case _:
@@ -462,7 +462,7 @@ return $default(_that.keybindings);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<(KeybindingAction, Keybinding,)> keybindings)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<(CommandAction, Keybinding,)> keybindings)  $default,) {final _that = this;
 switch (_that) {
 case _KeybindingMap():
 return $default(_that.keybindings);case _:
@@ -482,7 +482,7 @@ return $default(_that.keybindings);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<(KeybindingAction, Keybinding,)> keybindings)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<(CommandAction, Keybinding,)> keybindings)?  $default,) {final _that = this;
 switch (_that) {
 case _KeybindingMap() when $default != null:
 return $default(_that.keybindings);case _:
@@ -497,11 +497,11 @@ return $default(_that.keybindings);case _:
 @JsonSerializable()
 
 class _KeybindingMap implements KeybindingMap {
-   _KeybindingMap({required  List<(KeybindingAction, Keybinding,)> keybindings}): _keybindings = keybindings;
+   _KeybindingMap({required  List<(CommandAction, Keybinding,)> keybindings}): _keybindings = keybindings;
   factory _KeybindingMap.fromJson(Map<String, dynamic> json) => _$KeybindingMapFromJson(json);
 
- final  List<(KeybindingAction, Keybinding,)> _keybindings;
-@override List<(KeybindingAction, Keybinding,)> get keybindings {
+ final  List<(CommandAction, Keybinding,)> _keybindings;
+@override List<(CommandAction, Keybinding,)> get keybindings {
   if (_keybindings is EqualUnmodifiableListView) return _keybindings;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_keybindings);
@@ -543,7 +543,7 @@ abstract mixin class _$KeybindingMapCopyWith<$Res> implements $KeybindingMapCopy
   factory _$KeybindingMapCopyWith(_KeybindingMap value, $Res Function(_KeybindingMap) _then) = __$KeybindingMapCopyWithImpl;
 @override @useResult
 $Res call({
- List<(KeybindingAction, Keybinding,)> keybindings
+ List<(CommandAction, Keybinding,)> keybindings
 });
 
 
@@ -563,7 +563,7 @@ class __$KeybindingMapCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? keybindings = null,}) {
   return _then(_KeybindingMap(
 keybindings: null == keybindings ? _self._keybindings : keybindings // ignore: cast_nullable_to_non_nullable
-as List<(KeybindingAction, Keybinding,)>,
+as List<(CommandAction, Keybinding,)>,
   ));
 }
 
