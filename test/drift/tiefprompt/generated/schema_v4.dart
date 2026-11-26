@@ -1644,7 +1644,7 @@ class KeybindingMappingModel extends Table
     'action_name',
     aliasedName,
     false,
-    check: () => actionName.isIn(i2.KeybindingAction.values.map((e) => e.name)),
+    check: () => actionName.isIn(i2.CommandAction.values.map((e) => e.name)),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );

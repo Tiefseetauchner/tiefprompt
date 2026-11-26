@@ -1,13 +1,16 @@
+import 'dart:async';
+
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiefprompt/core/constants.dart';
 import 'package:tiefprompt/core/control_buttons.dart';
 import 'package:tiefprompt/core/debouncer.dart';
 import 'package:tiefprompt/core/prompter_orientation.dart';
 import 'package:tiefprompt/models/keybinding.dart';
 import 'package:tiefprompt/providers/all_chapter_provider.dart';
+import 'package:tiefprompt/providers/commands_provider.dart';
 import 'package:tiefprompt/providers/feature_provider.dart';
 import 'package:tiefprompt/providers/keybinding_provider.dart';
 import 'package:tiefprompt/providers/prompter_provider.dart';
@@ -46,6 +49,8 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
   final _focusNode = FocusNode();
   late final ScrollableTextController _scrollableTextController;
   late final Debouncer _scrollableTextControllerSaveDebouncer;
+  late final StreamSubscription<CommandEvent>
+  _commandProviderStreamSubscription;
 
   @override
   void initState() {
@@ -63,7 +68,16 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
       );
     });
 
+    ref.invalidate(allChapterProvider);
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+
+    _commandProviderStreamSubscription = ref
+        .read(commandProvider.notifier)
+        .stream
+        .listen((event) {
+          _executeCommand(event);
+        });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollableTextController.scrollController.hasClients) {
@@ -162,9 +176,7 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
                         prompterConfig.controlButtonsPosition ==
                             ControlButtonsPosition.right)) &&
                 prompterConfig.showControlButtons)
-              PrompterControlButtonsOverlay(
-                scrollableTextController: _scrollableTextController,
-              ),
+              PrompterControlButtonsOverlay(),
             if (ref.watch(controlsVisibleProvider)) PrompterTopBar(),
             if (ref.watch(controlsVisibleProvider)) PrompterBottomBar(),
             if (prompterConfig.voiceActivationEnabled)
@@ -196,160 +208,179 @@ class _PrompterScreenState extends ConsumerState<PrompterScreen> {
     _focusNode.dispose();
     _scrollableTextController.dispose();
     _scrollableTextControllerSaveDebouncer.dispose();
+    _commandProviderStreamSubscription.cancel();
 
     super.dispose();
   }
 
   Future<void> _runEventAction(
-    Future<List<KeybindingAction>> actionForEvent,
+    Future<List<CommandAction>> actionForEvent,
   ) async {
     if (!context.mounted) {
       throw StateError("Context not available.");
     }
 
     for (final action in await actionForEvent) {
-      switch (action) {
-        case KeybindingAction.playPause:
-          _gatedKeybinding(
-            Feature.playPause,
-            () => ref.read(prompterProvider.notifier).togglePlayPause(),
+      ref
+          .read(commandProvider.notifier)
+          .sendCommandToPrompter(
+            CommandEvent(action, CommandSource.keybinding),
           );
-          break;
-        case KeybindingAction.scrollUp:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () =>
-                _scrollableTextController.jumpRelative(-kPrompterJumpDistance),
-          );
-          break;
-        case KeybindingAction.scrollDown:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(kPrompterJumpDistance),
-          );
-          break;
-        case KeybindingAction.scrollUpSmall:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(-25),
-          );
-          break;
-        case KeybindingAction.scrollDownSmall:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(25),
-          );
-          break;
-        case KeybindingAction.pageUp:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(
-              -MediaQuery.of(context).size.height,
-            ),
-          );
-          break;
-        case KeybindingAction.pageDown:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => _scrollableTextController.jumpRelative(
-              MediaQuery.of(context).size.height,
-            ),
-          );
-          break;
-        case KeybindingAction.jumpStart:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => _scrollableTextController.jumpTo(0),
-          );
-          break;
-        case KeybindingAction.jumpEnd:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => _scrollableTextController.jumpTo(
-              _scrollableTextController
-                  .scrollController
-                  .position
-                  .maxScrollExtent,
-            ),
-          );
-          break;
-        case KeybindingAction.toggleControls:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => ref.read(controlsVisibleProvider.notifier).toggle(),
-          );
-          break;
-        case KeybindingAction.fontSizeUp:
-          _gatedKeybinding(
-            Feature.fontSize,
-            () => ref.read(prompterProvider.notifier).increaseFontSize(1),
-          );
-          break;
-        case KeybindingAction.fontSizeDown:
-          _gatedKeybinding(
-            Feature.fontSize,
-            () => ref.read(prompterProvider.notifier).decreaseFontSize(1),
-          );
-          break;
-        case KeybindingAction.speedUp:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => ref.read(prompterProvider.notifier).increaseSpeed(.1),
-          );
-          break;
-        case KeybindingAction.speedDown:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => ref.read(prompterProvider.notifier).decreaseSpeed(.1),
-          );
-          break;
-        case KeybindingAction.openSettings:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => context.push('/settings'),
-          );
-          break;
-        case KeybindingAction.saveSettingsFromPrompter:
-          _gatedKeybinding(
-            Feature.keybindings,
-            () => ref
-                .read(settingsProvider.notifier)
-                .applySettingsFromPrompter(ref.read(prompterProvider)),
-          );
-          break;
-        case KeybindingAction.jumpChapterUp:
-          _gatedKeybinding(Feature.keybindings, () {
-            final currentOffset =
-                _scrollableTextController.scrollController.offset;
-            final chapters = ref.read(allChapterProvider);
-            final targetChapter =
-                chapters.where((c) => c.offset < currentOffset).lastOrNull ??
-                chapters.firstOrNull;
-            if (targetChapter != null) {
-              _scrollableTextController.jumpTo(targetChapter.offset);
-            }
-          });
-          break;
-        case KeybindingAction.jumpChapterDown:
-          _gatedKeybinding(Feature.keybindings, () {
-            final currentOffset =
-                _scrollableTextController.scrollController.offset;
-            final chapters = ref.read(allChapterProvider);
-            final targetChapter =
-                chapters.where((c) => c.offset > currentOffset).firstOrNull ??
-                chapters.lastOrNull;
-            if (targetChapter != null) {
-              _scrollableTextController.jumpTo(targetChapter.offset);
-            }
-          });
-          break;
-      }
     }
   }
 
-  void _gatedKeybinding(Feature feature, Function() action) {
-    final isEnabled = ref.watch(
-      featuresProvider.select((s) => s.features.contains(feature)),
+  void _executeCommand(CommandEvent event) {
+    switch (event.action) {
+      case CommandAction.playPause:
+        _executeCommandCallback(
+          event.source,
+          () => ref.read(prompterProvider.notifier).togglePlayPause(),
+          feature: Feature.playPause,
+        );
+        break;
+      case CommandAction.scrollUp:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpRelative(-kPrompterJumpDistance),
+        );
+        break;
+      case CommandAction.scrollDown:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpRelative(kPrompterJumpDistance),
+        );
+        break;
+      case CommandAction.scrollUpSmall:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpRelative(-25),
+        );
+        break;
+      case CommandAction.scrollDownSmall:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpRelative(25),
+        );
+        break;
+      case CommandAction.pageUp:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpRelative(
+            -MediaQuery.of(context).size.height,
+          ),
+        );
+        break;
+      case CommandAction.pageDown:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpRelative(
+            MediaQuery.of(context).size.height,
+          ),
+        );
+        break;
+      case CommandAction.jumpStart:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpTo(0),
+        );
+        break;
+      case CommandAction.jumpEnd:
+        _executeCommandCallback(
+          event.source,
+          () => _scrollableTextController.jumpTo(
+            _scrollableTextController.scrollController.position.maxScrollExtent,
+          ),
+        );
+        break;
+      case CommandAction.toggleControls:
+        _executeCommandCallback(
+          event.source,
+          () => ref.read(controlsVisibleProvider.notifier).toggle(),
+        );
+        break;
+      case CommandAction.fontSizeUp:
+        _executeCommandCallback(
+          event.source,
+          () => ref.read(prompterProvider.notifier).increaseFontSize(1),
+          feature: Feature.fontSize,
+        );
+        break;
+      case CommandAction.fontSizeDown:
+        _executeCommandCallback(
+          event.source,
+          () => ref.read(prompterProvider.notifier).decreaseFontSize(1),
+          feature: Feature.fontSize,
+        );
+        break;
+      case CommandAction.speedUp:
+        _executeCommandCallback(
+          event.source,
+          () => ref.read(prompterProvider.notifier).increaseSpeed(.1),
+        );
+        break;
+      case CommandAction.speedDown:
+        _executeCommandCallback(
+          event.source,
+          () => ref.read(prompterProvider.notifier).decreaseSpeed(.1),
+        );
+        break;
+      case CommandAction.openSettings:
+        _executeCommandCallback(event.source, () => context.push('/settings'));
+        break;
+      case CommandAction.saveSettingsFromPrompter:
+        _executeCommandCallback(
+          event.source,
+          () => ref
+              .read(settingsProvider.notifier)
+              .applySettingsFromPrompter(ref.read(prompterProvider)),
+        );
+        break;
+      case CommandAction.jumpChapterUp:
+        _executeCommandCallback(event.source, () {
+          final currentOffset =
+              _scrollableTextController.scrollController.offset;
+          final chapters = ref.read(allChapterProvider);
+          final targetChapter =
+              chapters.where((c) => c.offset < currentOffset).lastOrNull ??
+              chapters.firstOrNull;
+          if (targetChapter != null) {
+            _scrollableTextController.jumpTo(targetChapter.offset);
+          }
+        });
+        break;
+      case CommandAction.jumpChapterDown:
+        _executeCommandCallback(event.source, () {
+          final currentOffset =
+              _scrollableTextController.scrollController.offset;
+          final chapters = ref.read(allChapterProvider);
+          final targetChapter =
+              chapters.where((c) => c.offset > currentOffset).firstOrNull ??
+              chapters.lastOrNull;
+          if (targetChapter != null) {
+            _scrollableTextController.jumpTo(targetChapter.offset);
+          }
+        });
+        break;
+    }
+  }
+
+  void _executeCommandCallback(
+    CommandSource source,
+    Function() action, {
+    Feature? feature,
+  }) {
+    final sourceFeature = switch (source) {
+      CommandSource.keybinding => Feature.keybindings,
+      CommandSource.controlButton => Feature.controlButtons,
+      CommandSource.remote => Feature.remoteControl,
+    };
+
+    final isEnabled = ref.read(
+      featuresProvider.select(
+        (s) =>
+            (feature == null || s.features.contains(feature)) &&
+            s.features.contains(sourceFeature),
+      ),
     );
 
     if (isEnabled) {

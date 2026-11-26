@@ -24,7 +24,7 @@ class KeybindingsSettingsScreen extends ConsumerWidget {
         ),
         body: ListView(
           children: [
-            ...KeybindingAction.values.map((b) {
+            ...CommandAction.values.map((b) {
               return KeybindingAppSetting(
                 key: Key(
                   "KeybindingsSettingsScreen.KeybindingAppSetting_${b.name}",

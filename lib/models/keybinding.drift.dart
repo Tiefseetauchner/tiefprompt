@@ -804,7 +804,7 @@ class $KeybindingMappingModelTable extends i2.KeybindingMappingModel
     'action_name',
     aliasedName,
     false,
-    check: () => actionName.isIn(i2.KeybindingAction.values.map((e) => e.name)),
+    check: () => actionName.isIn(i2.CommandAction.values.map((e) => e.name)),
     type: i0.DriftSqlType.string,
     requiredDuringInsert: true,
   );

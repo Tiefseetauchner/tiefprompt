@@ -5,7 +5,7 @@ import 'package:tiefprompt/models/keybinding.drift.dart';
 part 'keybinding.freezed.dart';
 part 'keybinding.g.dart';
 
-enum KeybindingAction {
+enum CommandAction {
   playPause,
   scrollUpSmall,
   scrollDownSmall,
@@ -26,8 +26,8 @@ enum KeybindingAction {
   jumpChapterDown,
 }
 
-final Map<String, KeybindingAction> _actionByName = {
-  for (final action in KeybindingAction.values) action.name: action,
+final Map<String, CommandAction> _actionByName = {
+  for (final action in CommandAction.values) action.name: action,
 };
 
 @freezed
@@ -63,9 +63,8 @@ class KeybindingMappingModel extends Table {
   BoolColumn get shift => boolean()();
   BoolColumn get alt => boolean()();
   BoolColumn get meta => boolean()();
-  TextColumn get actionName => text().check(
-    actionName.isIn(KeybindingAction.values.map((e) => e.name)),
-  )();
+  TextColumn get actionName =>
+      text().check(actionName.isIn(CommandAction.values.map((e) => e.name)))();
 }
 
 class KeybindingMapModel extends Table {
@@ -75,7 +74,7 @@ class KeybindingMapModel extends Table {
 @freezed
 abstract class KeybindingMap with _$KeybindingMap {
   factory KeybindingMap({
-    required List<(KeybindingAction, Keybinding)> keybindings,
+    required List<(CommandAction, Keybinding)> keybindings,
   }) = _KeybindingMap;
 
   factory KeybindingMap.fromBindings(

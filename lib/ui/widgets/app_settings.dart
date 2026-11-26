@@ -213,7 +213,7 @@ class KeybindingAppSetting extends StatefulAppSetting {
   });
 
   final List<Keybinding> bindings;
-  final KeybindingAction bindingAction;
+  final CommandAction bindingAction;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>

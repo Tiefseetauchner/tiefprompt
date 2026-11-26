@@ -37,7 +37,7 @@ final class KeybindingsProvider
   Keybindings create() => Keybindings();
 }
 
-String _$keybindingsHash() => r'8092cfdfc3d688453cc2d9c364983f5dee50a4de';
+String _$keybindingsHash() => r'976264ce94972859500eca9a59933f21ead989f0';
 
 abstract class _$Keybindings extends $AsyncNotifier<KeybindingMap> {
   FutureOr<KeybindingMap> build();

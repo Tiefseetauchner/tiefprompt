@@ -215,6 +215,7 @@ enum Feature {
   prompterOrientation,
   lineHeight,
   elapsedTime,
+  remoteControl,
 }
 
 enum FeatureKind { unverifiedBuild, freeVersion, paidVersion, fossVersion }
@@ -254,6 +255,7 @@ const kAllFeatures = [
   Feature.prompterOrientation,
   Feature.lineHeight,
   Feature.elapsedTime,
+  Feature.remoteControl,
 ];
 
 const kFreeFeatures = [
@@ -287,95 +289,86 @@ const kProId = "io.github.tiefseetauchner.tiefprompt.pro";
 final KeybindingMap kDefaultKeybindings = KeybindingMap(
   keybindings: List.from([
     (
-      KeybindingAction.playPause,
+      CommandAction.playPause,
       Keybinding(keyId: LogicalKeyboardKey.enter.keyId),
     ),
     (
-      KeybindingAction.playPause,
+      CommandAction.playPause,
       Keybinding(keyId: LogicalKeyboardKey.space.keyId),
     ),
 
     (
-      KeybindingAction.scrollUpSmall,
+      CommandAction.scrollUpSmall,
       Keybinding(keyId: LogicalKeyboardKey.arrowUp.keyId, shift: true),
     ),
 
     (
-      KeybindingAction.scrollDownSmall,
+      CommandAction.scrollDownSmall,
       Keybinding(keyId: LogicalKeyboardKey.arrowDown.keyId, shift: true),
     ),
     (
-      KeybindingAction.scrollUp,
+      CommandAction.scrollUp,
       Keybinding(keyId: LogicalKeyboardKey.arrowUp.keyId),
     ),
     (
-      KeybindingAction.scrollDown,
+      CommandAction.scrollDown,
       Keybinding(keyId: LogicalKeyboardKey.arrowDown.keyId),
     ),
+    (CommandAction.pageUp, Keybinding(keyId: LogicalKeyboardKey.pageUp.keyId)),
     (
-      KeybindingAction.pageUp,
-      Keybinding(keyId: LogicalKeyboardKey.pageUp.keyId),
-    ),
-    (
-      KeybindingAction.pageDown,
+      CommandAction.pageDown,
       Keybinding(keyId: LogicalKeyboardKey.pageDown.keyId),
     ),
+    (CommandAction.jumpStart, Keybinding(keyId: LogicalKeyboardKey.home.keyId)),
+    (CommandAction.jumpEnd, Keybinding(keyId: LogicalKeyboardKey.end.keyId)),
     (
-      KeybindingAction.jumpStart,
-      Keybinding(keyId: LogicalKeyboardKey.home.keyId),
-    ),
-    (KeybindingAction.jumpEnd, Keybinding(keyId: LogicalKeyboardKey.end.keyId)),
-    (
-      KeybindingAction.toggleControls,
+      CommandAction.toggleControls,
       Keybinding(keyId: LogicalKeyboardKey.tab.keyId),
     ),
+    (CommandAction.speedUp, Keybinding(keyId: LogicalKeyboardKey.equal.keyId)),
     (
-      KeybindingAction.speedUp,
-      Keybinding(keyId: LogicalKeyboardKey.equal.keyId),
-    ),
-    (
-      KeybindingAction.speedUp,
+      CommandAction.speedUp,
       Keybinding(keyId: LogicalKeyboardKey.numpadAdd.keyId),
     ),
     (
-      KeybindingAction.speedDown,
+      CommandAction.speedDown,
       Keybinding(keyId: LogicalKeyboardKey.minus.keyId),
     ),
     (
-      KeybindingAction.speedDown,
+      CommandAction.speedDown,
       Keybinding(keyId: LogicalKeyboardKey.numpadSubtract.keyId),
     ),
     (
-      KeybindingAction.fontSizeUp,
+      CommandAction.fontSizeUp,
       Keybinding(keyId: LogicalKeyboardKey.equal.keyId, ctrl: true),
     ),
     (
-      KeybindingAction.fontSizeUp,
+      CommandAction.fontSizeUp,
       Keybinding(keyId: LogicalKeyboardKey.numpadAdd.keyId, ctrl: true),
     ),
     (
-      KeybindingAction.fontSizeDown,
+      CommandAction.fontSizeDown,
       Keybinding(keyId: LogicalKeyboardKey.minus.keyId, ctrl: true),
     ),
     (
-      KeybindingAction.fontSizeDown,
+      CommandAction.fontSizeDown,
       Keybinding(keyId: LogicalKeyboardKey.numpadSubtract.keyId, ctrl: true),
     ),
     (
-      KeybindingAction.openSettings,
+      CommandAction.openSettings,
       Keybinding(keyId: LogicalKeyboardKey.comma.keyId, ctrl: true),
     ),
     (
-      KeybindingAction.saveSettingsFromPrompter,
+      CommandAction.saveSettingsFromPrompter,
       // NOTE: 115 is the KeyId for 's'.
       Keybinding(keyId: 115, ctrl: true),
     ),
     (
-      KeybindingAction.jumpChapterUp,
+      CommandAction.jumpChapterUp,
       Keybinding(keyId: LogicalKeyboardKey.comma.keyId),
     ),
     (
-      KeybindingAction.jumpChapterDown,
+      CommandAction.jumpChapterDown,
       Keybinding(keyId: LogicalKeyboardKey.period.keyId),
     ),
   ]),

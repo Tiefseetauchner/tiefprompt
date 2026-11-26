@@ -457,7 +457,7 @@ i1.GeneratedColumn<String> _column_31(String aliasedName) =>
       false,
       check: () =>
           (i0.VersionedTable.col<String>('action_name'))
-              .isIn(i2.KeybindingAction.values.map((e) => e.name)),
+              .isIn(i2.CommandAction.values.map((e) => e.name)),
       type: i1.DriftSqlType.string,
     );
 
